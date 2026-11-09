@@ -13,7 +13,8 @@ import {
   type PendingEpisode,
   type UiLocale,
 } from "@audite/domain";
-import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
+import { obraDeEpisodio, rotuloObra } from "@audite/content/obras";
+import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { ListaPorLibros } from "@/components/lista-libros";
@@ -43,11 +44,41 @@ function DemoMarca({ locale }: { locale: UiLocale }) {
   );
 }
 
-function minutosReales(episodios: Record<string, { positionSeconds: number }>): number | null {
-  const lista = Object.values(episodios);
-  if (lista.length === 0) return null;
-  const segundos = lista.reduce((suma, episodio) => suma + Math.max(0, episodio.positionSeconds || 0), 0);
-  return segundos > 0 ? segundos / 60 : null;
+const TOTAL_BIBLIA = (recuento as { total: number }).total;
+const POR_LIBRO = (recuento as { porLibro: Record<string, number> }).porLibro;
+
+function escuchado(episodio: { positionSeconds: number; completed?: boolean } | undefined): boolean {
+  if (!episodio) return false;
+  return episodio.completed === true || episodio.positionSeconds > 0;
+}
+
+function oidosDeLibro(bookId: string, episodios: Record<string, { positionSeconds: number; completed?: boolean }>): number {
+  const prefijo = `${bookId}-`;
+  return Object.entries(episodios).filter(([id, episodio]) => id.startsWith(prefijo) && escuchado(episodio)).length;
+}
+
+function oidosEnTotal(episodios: Record<string, { positionSeconds: number; completed?: boolean }>): number {
+  return Object.keys(POR_LIBRO).reduce((suma, bookId) => suma + oidosDeLibro(bookId, episodios), 0);
+}
+
+function semana(dias: readonly string[]): boolean[] {
+  const conjunto = new Set(dias);
+  const hoy = new Date();
+  return Array.from({ length: 7 }, (_, indice) => {
+    const fecha = new Date(hoy);
+    fecha.setDate(hoy.getDate() - (6 - indice));
+    const iso = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, "0")}-${String(fecha.getDate()).padStart(2, "0")}`;
+    return conjunto.has(iso);
+  });
+}
+
+function Cabecera({ locale, titulo, marca = true }: { locale: UiLocale; titulo: string; marca?: boolean }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <h1 className={marca ? "font-display text-4xl leading-none" : "text-2xl font-medium"}>{titulo}</h1>
+      <DemoMarca locale={locale} />
+    </div>
+  );
 }
 
 export function NeoToday() {
@@ -71,28 +102,50 @@ export function NeoToday() {
   const id = episode?.id ?? primero?.id ?? "gn-01";
   const obra = obraDeEpisodio(id);
   const dias = listeningDayCount(library.progress.listenedOn ?? []);
-  const minutos = minutosReales(library.progress.episodes);
-  const oidos = obrasVisibles().filter((item) => (library.progress.episodes[item.episodio]?.positionSeconds ?? 0) > 0).length;
-  const totalGenesis = obrasVisibles().length;
-  const hayEscucha = dias > 0 || minutos != null;
+  const oidos = oidosEnTotal(library.progress.episodes);
+  const oidosGenesis = oidosDeLibro("gn", library.progress.episodes);
+  const posicion = library.progress.episodes[id]?.positionSeconds ?? 0;
+  const duracion = episode?.durationSeconds ?? 0;
+  const avanceEpisodio = duracion > 0 ? Math.min(1, posicion / duracion) : 0;
 
   return (
-    <main id="contenido" className="mx-auto w-full max-w-lg px-4 pt-4 pb-44">
-      <div className="flex items-center justify-between">
-        <p className="font-display text-3xl">{tx(locale, "Hoy", "Today")}</p>
-        <DemoMarca locale={locale} />
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-sm text-muted">{tx(locale, "Buenas", "Hello")}</p>
+          <h1 className="font-display text-4xl leading-none">{tx(locale, "Hoy", "Today")}</h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <DemoMarca locale={locale} />
+          <Link href="/ajustes" aria-label={t(locale, "navSettings")} className="inline-flex size-11 items-center justify-center rounded-full border border-white/15 text-sm">
+            {locale === "en" ? "A" : "A"}
+          </Link>
+        </div>
       </div>
       <article className="neo-card relative mt-4 overflow-hidden text-[#F4ECE2]">
-        <div className="absolute inset-0 bg-[#100E0C]">
-          {obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-80" /> : null}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/75 to-[#100E0C]/25" />
+        <div className="absolute inset-0 bg-[#0C0B09]">
+          {obra ? <ObraFoto obra={obra} className="h-full w-full object-cover" /> : null}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C]/95 via-[#100E0C]/35 to-[#100E0C]/10" />
         </div>
-        <div className="relative flex min-h-64 flex-col justify-end p-5">
-          <p className="text-xs tracking-[0.16em] text-[#C9A96E] uppercase">{obra ? rotuloObra(obra, locale) : t(locale, "statusPreparing")}</p>
-          <h1 className="mt-2 text-2xl leading-tight">
+        <div className="relative flex min-h-56 flex-col justify-end p-5">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs tracking-[0.16em] text-[#C9A96E] uppercase">{obra ? rotuloObra(obra, locale) : t(locale, "statusPreparing")}</p>
+            <span className="rounded-full border border-[#C9A96E]/60 bg-[#100E0C]/70 px-3 py-1 text-xs text-[#F4ECE2]">
+              {episode ? tx(locale, "Con audio", "With audio") : t(locale, "statusPreparing")}
+            </span>
+          </div>
+          <h2 className="mt-3 text-3xl leading-tight">
             {episode ? nombreCorto(episode, locale) : rotuloEpisodio(primero ?? { id }, locale) ?? t(locale, "listenComingTitle")}
-          </h1>
-          <p className="mt-2 text-sm text-[#F4ECE2]">{episode ? episode.scriptureRangeLabel : t(locale, "statusPreparing")}</p>
+          </h2>
+          <p className="mt-2 text-sm text-[#F4ECE2]">
+            {episode ? episode.scriptureRangeLabel : t(locale, "statusPreparing")}
+            {duracion > 0 ? ` · ${Math.round(duracion / 60)} min` : ""}
+          </p>
+          {duracion > 0 ? (
+            <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/20" aria-hidden="true">
+              <div className="h-full rounded-full bg-[#E0C48A]" style={{ width: `${avanceEpisodio * 100}%` }} />
+            </div>
+          ) : null}
           <div className="mt-4 flex gap-2">
             {episode ? (
               <Link href="/ahora" onClick={() => toque(library.reduceMotion)} className="inline-flex min-h-11 items-center rounded-2xl bg-[#E0C48A] px-4 text-sm text-[#100E0C]">
@@ -107,35 +160,47 @@ export function NeoToday() {
         </div>
       </article>
       <div className="mt-3 grid grid-cols-2 gap-3">
-        <Metrica etiqueta={t(locale, "todayDays")} valor={hayEscucha ? String(dias) : "—"} nota={hayEscucha ? tx(locale, "días reales", "real days") : tx(locale, "Sin escucha", "No listening yet")} />
-        <Metrica etiqueta={tx(locale, "Minutos", "Minutes")} valor={minutos == null ? "—" : minutos < 10 ? minutos.toFixed(1) : minutos.toFixed(0)} nota={minutos == null ? tx(locale, "Sin posición", "No position") : tx(locale, "oídos", "heard")} />
-        <Metrica etiqueta={tx(locale, "La Biblia", "The Bible")} valor="—" nota={tx(locale, "Sin duración total", "No total duration")} />
-        <Metrica etiqueta="Génesis" valor={oidos > 0 ? `${oidos}/${totalGenesis}` : "—"} nota={oidos > 0 ? tx(locale, "episodios con posición", "episodes with a position") : tx(locale, "Ninguno oído", "None heard")} />
+        <Metrica etiqueta={t(locale, "todayDays")} valor={String(dias)} nota={tx(locale, "esta cuenta", "this account")} extra={<Semana dias={semana(library.progress.listenedOn ?? [])} />} />
+        <Metrica etiqueta={tx(locale, "La Biblia", "The Bible")} valor={`${oidos}/${TOTAL_BIBLIA}`} nota={tx(locale, "episodios", "episodes")} extra={<Anillo fraccion={oidos / TOTAL_BIBLIA} />} />
+        <Metrica etiqueta="Génesis" valor={`${oidosGenesis}/${POR_LIBRO.gn ?? 0}`} nota={tx(locale, "episodios", "episodes")} />
       </div>
-      <section className="neo-card mt-3 p-4">
-        <p className="text-xs tracking-[0.14em] text-muted uppercase">{tx(locale, "Serie", "Series")}</p>
-        {dias === 0 ? (
-          <p className="mt-3 text-sm text-muted">{tx(locale, "Aún no hay días de escucha.", "There are no listening days yet.")}</p>
-        ) : (
-          <div className="mt-3 flex h-10 items-end gap-1" aria-hidden="true">
-            {library.progress.listenedOn.slice(-12).map((dia) => (
-              <span key={dia} className="h-6 w-2 rounded-full bg-[#C9A96E]" title={dia} />
-            ))}
-          </div>
-        )}
-      </section>
       <p className="mt-4 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
     </main>
   );
 }
 
-function Metrica({ etiqueta, valor, nota }: { etiqueta: string; valor: string; nota: string }) {
+function Metrica({ etiqueta, valor, nota, extra }: { etiqueta: string; valor: string; nota: string; extra?: React.ReactNode }) {
   return (
-    <section className="neo-card p-4">
-      <p className="text-xs text-muted">{etiqueta}</p>
-      <p className="tabular mt-1 text-3xl text-[#C9A96E]">{valor}</p>
-      <p className="mt-1 text-xs text-muted">{nota}</p>
+    <section className="neo-card flex min-h-28 items-end justify-between gap-3 p-4">
+      <div className="min-w-0">
+        <p className="tabular text-4xl leading-none text-foreground">{valor}</p>
+        <p className="mt-2 text-sm text-foreground">{etiqueta}</p>
+        <p className="text-xs text-muted">{nota}</p>
+      </div>
+      {extra}
     </section>
+  );
+}
+
+function Anillo({ fraccion }: { fraccion: number }) {
+  const radio = 16;
+  const circunferencia = 2 * Math.PI * radio;
+  const avance = circunferencia * Math.min(1, Math.max(0, fraccion));
+  return (
+    <svg viewBox="0 0 40 40" className="size-11 shrink-0" aria-hidden="true">
+      <circle cx="20" cy="20" r={radio} fill="none" stroke="currentColor" className="text-foreground/15" strokeWidth="3" />
+      <circle cx="20" cy="20" r={radio} fill="none" stroke="#C9A96E" strokeWidth="3" strokeDasharray={`${avance} ${circunferencia}`} strokeLinecap="round" transform="rotate(-90 20 20)" />
+    </svg>
+  );
+}
+
+function Semana({ dias }: { dias: boolean[] }) {
+  return (
+    <div className="flex h-11 items-end gap-1" aria-hidden="true">
+      {dias.map((activo, indice) => (
+        <span key={indice} className={`w-1.5 rounded-full ${activo ? "h-8 bg-[#C9A96E]" : "h-2 bg-foreground/15"}`} />
+      ))}
+    </div>
   );
 }
 
@@ -143,39 +208,30 @@ export function NeoPath() {
   const library = useLibrary();
   const locale = library.settings.uiLocale;
   const books = booksOnTheWay(library.catalog.books);
-  const byBook = playableByBook(library.catalog.episodes);
-  const dias = listeningDayCount(library.progress.listenedOn ?? []);
-  const minutos = minutosReales(library.progress.episodes);
   return (
-    <main id="contenido" className="mx-auto w-full max-w-lg px-4 pt-4 pb-44">
-      <p className="font-display text-3xl">{t(locale, "navPath")}</p>
-      <DemoMarca locale={locale} />
-      <section className="neo-card mt-4 p-4">
-        <p className="text-sm text-muted">
-          {dias === 0 || minutos == null
-            ? tx(locale, "Aún no hay ritmo. El final no se puede estimar.", "There is no pace yet. The end cannot be estimated.")
-            : tx(locale, "Hay escucha, pero falta la duración del resto de la Biblia. Sin estimación.", "There is listening, but the rest of the Bible has no duration. No estimate.")}
-        </p>
-      </section>
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
+      <Cabecera locale={locale} titulo={t(locale, "navPath")} />
       {library.path.steps.length === 0 ? <p className="mt-4 text-sm text-muted">{t(locale, "pathEmpty")}</p> : null}
       <ol className="mt-4 space-y-6">
         {(["ot", "nt"] as const).map((testamento) => (
           <li key={testamento}>
             <p className="text-xs tracking-[0.16em] text-muted uppercase">{testamento === "ot" ? t(locale, "testamentOt") : t(locale, "testamentNt")}</p>
-            <ol className="mt-2 border-l border-white/15 pl-4">
+            <ol className="mt-2 border-l border-border pl-4">
               {books
                 .filter((book) => book.testament === testamento)
                 .map((book) => {
-                  const state = journeyState(book.id, library.path, library.progress, byBook);
-                  const oidos = book.id === "gn" ? obrasVisibles().filter((item) => library.progress.episodes[item.episodio]?.completed).length : 0;
+                  const state = journeyState(book.id, library.path, library.progress, playableByBook(library.catalog.episodes));
+                  const total = POR_LIBRO[book.id] ?? 0;
+                  const oidos = oidosDeLibro(book.id, library.progress.episodes);
                   return (
                     <li key={book.id} className="relative py-2">
-                      <span className={`absolute -left-[1.3rem] top-3 size-2 rounded-full ${state === "ahead" ? "bg-muted" : "bg-[#C9A96E]"}`} />
+                      <span className={`absolute -left-[1.3rem] top-4 size-2 rounded-full ${oidos > 0 || state !== "ahead" ? "bg-[#C9A96E]" : "bg-foreground/20"}`} />
                       <div className="flex items-baseline justify-between gap-3">
                         <span>{book.name[locale] || book.name.es}</span>
-                        <span className="tabular text-xs text-muted">
-                          {book.id === "gn" && oidos > 0 ? `${oidos}/22` : t(locale, state === "heard" ? "journeyHeard" : state === "ahead" ? "journeyAhead" : "journeyCurrent")}
-                        </span>
+                        <span className="tabular shrink-0 text-xs text-muted">{oidos}/{total}</span>
+                      </div>
+                      <div className="mt-1 h-1 overflow-hidden rounded-full bg-foreground/10">
+                        <div className="h-full rounded-full bg-[#C9A96E]" style={{ width: total > 0 ? `${(oidos / total) * 100}%` : "0%" }} />
                       </div>
                     </li>
                   );
@@ -195,8 +251,8 @@ export function NeoLibrary() {
   const [testamento, setTestamento] = useState<"todos" | "ot" | "nt">("todos");
   const [estado, setEstado] = useState<"todos" | "preparacion" | "revision" | "propuesto">("todos");
   return (
-    <main id="contenido" className="mx-auto w-full max-w-lg px-4 pt-4 pb-44">
-      <p className="font-display text-3xl">{t(locale, "navLibrary")}</p>
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
+      <Cabecera locale={locale} titulo={t(locale, "navLibrary")} marca={false} />
       <input
         value={consulta}
         onChange={(event) => setConsulta(event.target.value)}
@@ -243,8 +299,8 @@ export function NeoSettings() {
   const { settings, updateSettings, setRate, reduceMotion } = useLibrary();
   const locale = settings.uiLocale;
   return (
-    <main id="contenido" className="mx-auto w-full max-w-lg px-4 pt-4 pb-44">
-      <p className="font-display text-3xl">{t(locale, "settingsTitle")}</p>
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
+      <Cabecera locale={locale} titulo={t(locale, "navSettings")} marca={false} />
       <Grupo titulo={t(locale, "settingsTheme")}>
         {(["system", "light", "dark"] as const).map((theme) => (
           <Fila key={theme} label={t(locale, theme === "system" ? "settingsThemeSystem" : theme === "light" ? "settingsThemeLight" : "settingsThemeDark")} onClick={() => { toque(reduceMotion); updateSettings({ theme }); }}>
@@ -288,7 +344,7 @@ function Grupo({ titulo, children }: { titulo: string; children: React.ReactNode
   return (
     <section className="mt-5">
       <h2 className="px-1 text-xs tracking-[0.14em] text-muted uppercase">{titulo}</h2>
-      <div className="neo-card mt-2 divide-y divide-white/10">{children}</div>
+      <div className="neo-card mt-2 divide-y divide-border">{children}</div>
     </section>
   );
 }
@@ -316,8 +372,8 @@ export function NeoMembership() {
   const locale = settings.uiLocale;
   const obra = obraDeEpisodio("gn-05");
   return (
-    <main id="contenido" className="mx-auto w-full max-w-lg px-4 pt-4 pb-44">
-      <p className="font-display text-3xl">{t(locale, "membershipTitle")}</p>
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
+      <Cabecera locale={locale} titulo={t(locale, "navMembership")} marca={false} />
       <article className="neo-card relative mt-4 overflow-hidden text-[#F4ECE2]">
         <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-70" /> : null}</div>
         <div className="relative bg-gradient-to-t from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/20 p-5">

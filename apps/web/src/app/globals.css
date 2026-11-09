@@ -126,6 +126,10 @@ body {
   font-size: 0.875rem;
 }
 
+.app-clear {
+  padding-bottom: calc(14rem + env(safe-area-inset-bottom));
+}
+
 html[data-reduce-motion="true"] .neo-card,
 html[data-reduce-motion="true"] .neo-chip {
   transition: none;

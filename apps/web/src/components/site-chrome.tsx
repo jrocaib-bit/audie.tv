@@ -26,7 +26,7 @@ export function SiteHeader() {
   const locale = settings.uiLocale;
   if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
+    <header className="sticky top-0 z-40 hidden border-b border-border bg-background/85 backdrop-blur md:block">
       <a
         href="#contenido"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:bg-card focus:px-3 focus:py-2"
@@ -133,7 +133,7 @@ export function SiteFooter() {
   const locale = settings.uiLocale;
   if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
   return (
-    <footer className="border-t border-border">
+    <footer className="hidden border-t border-border md:block">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-8 text-sm text-muted">
         <p>{t(locale, "footerPilot")}</p>
         <p>{t(locale, "footerLocal")}</p>
@@ -154,7 +154,7 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
-      <div className={publicPage ? "flex-1" : "flex-1 pb-40 md:pb-28"}>{children}</div>
+      <div className={publicPage ? "flex-1" : "flex-1"}>{children}</div>
       <SiteFooter />
     </div>
   );
