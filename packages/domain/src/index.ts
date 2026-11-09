@@ -101,6 +101,17 @@ export {
 } from "./settings";
 export { citaEnCurso, clamp, formatClock, formatSpokenDuration, segundoDeCita } from "./time";
 export {
+  capituloDePrueba,
+  describirFuente,
+  estadoTiempos,
+  tiemposDeManifiesto,
+  versiculoEnTiempo,
+  type CapituloTexto,
+  type MarcaTexto,
+  type TiempoVersiculo,
+  type VersiculoTexto,
+} from "./lectura";
+export {
   ATRIBUCION_REFERENCIAS,
   entrarReferencia,
   etiquetaCita,

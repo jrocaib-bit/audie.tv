@@ -383,6 +383,10 @@ export function NeoSettings() {
           <Switch checked={settings.captions} onCheckedChange={(captions) => updateSettings({ captions })} aria-label={t(locale, "settingsCaptions")} />
         </Fila>
       </Grupo>
+      <Link href="/leer" className="neo-card mt-4 flex min-h-11 items-center justify-between px-4">
+        <span className="font-display text-lg">{tx(locale, "Lectura", "Reading")}</span>
+        <span className="text-sm text-muted">{tx(locale, "Texto de prueba", "Test text")}</span>
+      </Link>
       <Link href="/referencias" className="neo-card mt-4 flex min-h-11 items-center justify-between px-4">
         <span className="font-display text-lg">{tx(locale, "Al margen", "Margin")}</span>
         <span className="text-sm text-muted">OpenBible</span>
