@@ -9,7 +9,7 @@ export function CocheV2() {
   const episode = playableEpisodes(library.catalog)[0] ?? null;
   const tiempo = library.player.globalTime;
   return (
-    <main className="flex min-h-full flex-col bg-[#100E0C] px-4 py-6 text-[#F4ECE2]">
+    <main className="flex min-h-dvh flex-col bg-[#100E0C] px-4 py-6 text-[#F4ECE2]">
       <p className="font-display text-3xl leading-tight">{episode ? nombreCorto(episode, library.settings.uiLocale) : "Audite"}</p>
       <p className="mt-1 text-lg text-[#E0C48A]">{formatClock(tiempo)}</p>
       <div className="mt-8 grid flex-1 grid-cols-2 gap-3">

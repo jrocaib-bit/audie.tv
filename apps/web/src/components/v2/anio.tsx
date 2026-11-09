@@ -24,7 +24,7 @@ export function AnioV2() {
   ];
   const historia = historias[Math.min(paso, historias.length - 1)] ?? historias[0]!;
   return (
-    <main className="flex min-h-full flex-col bg-[#100E0C] px-4 py-6 text-[#F4ECE2]" onClick={() => setPaso((valor) => (valor + 1) % historias.length)}>
+    <main className="flex min-h-dvh flex-col bg-[#100E0C] px-4 py-6 text-[#F4ECE2]" onClick={() => setPaso((valor) => (valor + 1) % historias.length)}>
       <p className="kicker text-[#C9A96E]">{es ? "Tu año en la Biblia" : "Your year in the Bible"}</p>
       <div className="mt-3 flex gap-1">{historias.map((item, indice) => <span key={item.titulo} className={`h-0.5 flex-1 ${indice <= paso ? "bg-[#C9A96E]" : "bg-white/20"}`} />)}</div>
       <div className="mt-8 overflow-hidden rounded-3xl">

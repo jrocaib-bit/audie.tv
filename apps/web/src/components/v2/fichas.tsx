@@ -41,7 +41,7 @@ export function TarjetaCuadro({
   titulo,
   subtitulo,
   pronto,
-  color,
+  color = "#1B1815",
   prontoTexto,
 }: {
   href: string;
@@ -52,19 +52,20 @@ export function TarjetaCuadro({
   color?: string;
   prontoTexto: string;
 }) {
+  const tieneObra = Boolean(episodioId && obraDeEpisodio(episodioId));
   return (
     <Link href={href} className="w-[9.25rem] shrink-0 snap-start">
-      <span className="relative block aspect-square overflow-hidden rounded-2xl" style={color ? { background: color } : undefined}>
-        <Arte episodioId={episodioId} className="h-full w-full" />
+      <span className="relative block aspect-square overflow-hidden rounded-2xl" style={{ background: color }}>
+        {tieneObra ? <Arte episodioId={episodioId} className="h-full w-full" /> : <span className="absolute inset-x-3 bottom-3 font-display text-xl leading-none text-[#F4ECE2]">{titulo}</span>}
         {pronto ? (
-          <span className="absolute right-2 bottom-2 inline-flex items-center gap-1 rounded-full bg-[#100E0C]/80 px-2 py-1 text-[10px] tracking-wide text-[#F4ECE2] uppercase">
+          <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-full bg-[#100E0C]/80 px-2 py-1 text-[10px] tracking-wide text-[#F4ECE2] uppercase">
             <Candado />
             {prontoTexto}
           </span>
         ) : null}
       </span>
-      <span className="mt-2 block truncate text-sm">{titulo}</span>
-      {subtitulo ? <span className="block truncate text-xs text-muted">{subtitulo}</span> : null}
+      {tieneObra ? <span className="mt-2 block truncate text-sm">{titulo}</span> : null}
+      {subtitulo ? <span className="mt-1 block truncate text-xs text-muted">{subtitulo}</span> : null}
     </Link>
   );
 }

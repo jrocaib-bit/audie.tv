@@ -69,10 +69,11 @@ export function InicioV2() {
             <TarjetaCuadro
               key={tarjeta.id}
               href={tarjeta.href}
-              episodioId={obraDeEpisodio(tarjeta.episodioId ?? "") ? tarjeta.episodioId : null}
+              episodioId={tarjeta.episodioId}
               titulo={tarjeta.titulo}
               subtitulo={tarjeta.subtitulo}
-              pronto={tarjeta.episodioId ? !oibles.has(tarjeta.episodioId) && !tarjeta.href.startsWith("/tema") && !tarjeta.href.startsWith("/personaje") && !tarjeta.href.startsWith("/libro") : false}
+              color={tarjeta.id === "mix-manana" ? "#3D2B1F" : tarjeta.id === "mix-hoy" ? "#2C3348" : tarjeta.id === "mix-dormir" ? "#1E3A34" : undefined}
+              pronto={Boolean(tarjeta.episodioId) && !oibles.has(tarjeta.episodioId ?? "") && tarjeta.href.startsWith("/ahora")}
               prontoTexto={locale === "en" ? "Soon" : "Pronto"}
             />
           ))}
