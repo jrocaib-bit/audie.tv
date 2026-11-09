@@ -1,8 +1,9 @@
 "use client";
 
-import { citaEnCurso, formatClock, nombreCorto, PLAYBACK_RATES, t, type Episode, type PlaybackRate, type UiLocale } from "@audite/domain";
-import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
+import { SALTO_SEGUNDOS, citaEnCurso, formatClock, metadatosReproduccion, nombreCorto, PLAYBACK_RATES, t, type Episode, type MetadatosReproduccion, type PlaybackRate, type UiLocale } from "@audite/domain";
+import { obraDeEpisodio, obraWebp, obrasVisibles, rotuloObra } from "@audite/content/obras";
 import Link from "next/link";
+import { useEffect } from "react";
 import { ObraFoto, Placa } from "@/components/placa";
 import { formatoNumero } from "@/lib/numeros";
 
@@ -43,8 +44,39 @@ export function Reproductor({
 }) {
   const obra = obraDeEpisodio(episode?.id ?? "gn-01");
   const fraccion = duracion > 0 ? tiempo / duracion : 0;
-  const cita = preparado && episode ? citaEnCurso(episode.scriptureRangeLabel, fraccion) : null;
   const titulo = episode ? nombreCorto(episode, locale) : obra ? rotuloObra(obra, locale) : t(locale, "listenComingTitle");
+  const meta = metadatosReproduccion({
+    titulo,
+    libro: episode?.scriptureRangeLabel ?? (obra ? rotuloObra(obra, locale) : ""),
+    caratula: obra ? obraWebp(obra) : null,
+    duracion,
+    posicion: tiempo,
+    velocidad,
+  });
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !("mediaSession" in navigator)) return;
+    const sesion = navigator.mediaSession;
+    const caratula = meta.caratula ? new URL(meta.caratula, window.location.origin).href : "";
+    sesion.metadata = new MediaMetadata({
+      title: meta.titulo,
+      artist: meta.artista,
+      album: meta.libro,
+      artwork: caratula ? [{ src: caratula, sizes: "512x512", type: meta.caratula?.endsWith(".avif") ? "image/avif" : "image/webp" }] : [],
+    });
+    sesion.playbackState = sonando ? "playing" : "paused";
+    sesion.setActionHandler("play", onPlay);
+    sesion.setActionHandler("pause", onPause);
+    sesion.setActionHandler("seekbackward", () => onSeekBy(-SALTO_SEGUNDOS));
+    sesion.setActionHandler("seekforward", () => onSeekBy(SALTO_SEGUNDOS));
+    if (meta.duracion > 0) {
+      try {
+        sesion.setPositionState({ duration: meta.duracion, playbackRate: meta.velocidad, position: meta.posicion });
+      } catch {
+        /* El navegador rechaza una duración que aún no conoce. */
+      }
+    }
+  }, [meta.artista, meta.caratula, meta.duracion, meta.libro, meta.posicion, meta.titulo, meta.velocidad, onPause, onPlay, onSeekBy, sonando]);
+  const cita = preparado && episode ? citaEnCurso(episode.scriptureRangeLabel, fraccion) : null;
   const maximo = duracion > 0 ? duracion : 1;
 
   return (
@@ -66,6 +98,7 @@ export function Reproductor({
       <div className="px-4 pb-8 pt-4">
         {obra ? <p className="kicker text-acento">{rotuloObra(obra, locale)}</p> : null}
         <h1 className="font-display mt-1 max-w-xl text-[1.7rem] leading-tight">{titulo}</h1>
+        <TarjetaBloqueo meta={meta} sonando={sonando} locale={locale} />
         {cita ? <p className="font-display-regular mt-1 text-2xl">{cita}</p> : null}
         <p className="mt-1 text-sm text-muted">{preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing")}</p>
         <label className="mt-4 block">
@@ -144,6 +177,31 @@ export function Reproductor({
       </div>
       </div>
     </section>
+  );
+}
+
+export function TarjetaBloqueo({ meta, sonando, locale }: { meta: MetadatosReproduccion; sonando: boolean; locale: UiLocale }) {
+  return (
+    <figure className="mt-3 rounded-3xl bg-[#100E0C] p-4 text-[#F4ECE2]">
+      <figcaption className="kicker text-[#C9A96E]">{locale === "en" ? "Lock screen" : "Pantalla bloqueada"}</figcaption>
+      <div className="mt-3 flex items-center gap-3">
+        {meta.caratula ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={meta.caratula} alt="" className="size-16 shrink-0 rounded-2xl object-cover" />
+        ) : (
+          <span className="size-16 shrink-0 rounded-2xl bg-[#0C0B09]" />
+        )}
+        <span className="min-w-0">
+          <span className="font-display block truncate text-xl leading-tight">{meta.titulo}</span>
+          <span className="mt-1 block truncate text-sm text-[#B7AB9C]">{meta.libro}</span>
+        </span>
+      </div>
+      <div className="mt-3 flex items-center justify-center gap-3 text-sm">
+        <span className="inline-flex size-11 items-center justify-center rounded-full border border-[#F4ECE2]/30">−15</span>
+        <span className="inline-flex min-h-11 min-w-24 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]">{sonando ? (locale === "en" ? "Pause" : "Pausa") : (locale === "en" ? "Play" : "Oír")}</span>
+        <span className="inline-flex size-11 items-center justify-center rounded-full border border-[#F4ECE2]/30">+15</span>
+      </div>
+    </figure>
   );
 }
 

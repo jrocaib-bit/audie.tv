@@ -107,10 +107,15 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     const artwork = catalog.artworks[0];
     const source = artwork ? { uri: `${contentBase}${artwork.publicPath}` } : null;
     playlist.setActiveForLockScreen(true, {
-      title: episode.title,
+      title: episode.tituloCorto?.es || episode.title,
       artist: "Audite",
       albumTitle: episode.scriptureRangeLabel,
       artworkUrl: source?.uri,
+    }, {
+      showSeekBackward: true,
+      showSeekForward: true,
+      seekBackwardIntervalSeconds: 15,
+      seekForwardIntervalSeconds: 15,
     });
   }, [playlist]);
   const restored = useRef(false);

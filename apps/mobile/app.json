@@ -28,7 +28,13 @@
       "identifiersArePlaceholders": true
     },
     "plugins": [
-      "expo-audio",
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": true,
+          "enableBackgroundRecording": false
+        }
+      ],
       [
         "expo-router",
         {
