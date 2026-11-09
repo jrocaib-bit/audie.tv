@@ -58,6 +58,12 @@ export function SiteHeader() {
   );
 }
 
+export function VeloCromo() {
+  const pathname = usePathname();
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
+  return <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-52 bg-gradient-to-t from-background from-35% via-background/80 to-transparent md:hidden" />;
+}
+
 export function TabBar() {
   const pathname = usePathname();
   const { settings } = useLibrary();

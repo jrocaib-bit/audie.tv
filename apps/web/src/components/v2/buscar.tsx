@@ -1,17 +1,50 @@
 "use client";
 
 import { PERSONAJES, TEMAS, buscar, mixesDeHora } from "@audite/domain";
+import { obraWebp } from "@audite/content/obras";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
-import { TarjetaCuadro } from "@/components/v2/fichas";
+import { TarjetaCuadro, obrasPara } from "@/components/v2/fichas";
+
+const RECIENTES_VACIAS: string[] = [];
+const CLAVE_RECIENTES = "audite.busquedas.v1";
+let recientesCache: string[] = [];
+let recientesLeidas = false;
+const oyentesRecientes = new Set<() => void>();
+
+function leerRecientes(): string[] {
+  if (!recientesLeidas && typeof localStorage !== "undefined") {
+    recientesLeidas = true;
+    try {
+      const valor = JSON.parse(localStorage.getItem(CLAVE_RECIENTES) || "[]") as unknown;
+      recientesCache = Array.isArray(valor) ? valor.filter((item) => typeof item === "string").slice(0, 6) : [];
+    } catch {
+      recientesCache = [];
+    }
+  }
+  return recientesCache;
+}
+
+function recordar(consulta: string) {
+  const texto = consulta.trim();
+  if (texto.length < 2 || typeof localStorage === "undefined") return;
+  recientesCache = [texto, ...leerRecientes().filter((item) => item !== texto)].slice(0, 6);
+  localStorage.setItem(CLAVE_RECIENTES, JSON.stringify(recientesCache));
+  oyentesRecientes.forEach((oyente) => oyente());
+}
 
 const CATEGORIAS = [
-  { id: "libros", es: "Libros", en: "Books", color: "#1E3A34" },
-  { id: "temas", es: "Temas", en: "Themes", color: "#3D2B1F" },
-  { id: "personajes", es: "Personajes", en: "People", color: "#4A2C3A" },
-  { id: "momentos", es: "Momentos", en: "Moments", color: "#2C3348" },
-  { id: "idiomas", es: "Idiomas", en: "Languages", color: "#5A4632" },
+  { id: "evangelios", es: "Evangelios", en: "Gospels", color: "#2C3348", clave: "evangelio" },
+  { id: "salmos", es: "Salmos", en: "Psalms", color: "#3D2B1F", clave: "salmos" },
+  { id: "profetas", es: "Profetas", en: "Prophets", color: "#1F2A24", clave: "is-01" },
+  { id: "dormir", es: "Para dormir", en: "For sleep", color: "#1E3A34", clave: "mix-dormir" },
+  { id: "idiomas", es: "Idiomas", en: "Languages", color: "#5A4632", clave: "idiomas" },
+  { id: "caminos", es: "Caminos", en: "Paths", color: "#243044", clave: "gn-03" },
+  { id: "libros", es: "Libros", en: "Books", color: "#1E3A34", clave: "gn-01" },
+  { id: "temas", es: "Temas", en: "Themes", color: "#4A2C3A", clave: "creacion" },
+  { id: "personajes", es: "Personajes", en: "People", color: "#4A3828", clave: "abraham" },
+  { id: "momentos", es: "Momentos", en: "Moments", color: "#3A2A18", clave: "mix-hoy" },
 ] as const;
 
 export function BuscarV2() {
@@ -21,6 +54,7 @@ export function BuscarV2() {
   const es = locale === "es";
   const [consulta, setConsulta] = useState("");
   const [categoria, setCategoria] = useState<(typeof CATEGORIAS)[number]["id"] | null>(null);
+  const recientes = useSyncExternalStore((avisar) => { oyentesRecientes.add(avisar); return () => oyentesRecientes.delete(avisar); }, leerRecientes, () => RECIENTES_VACIAS);
   const resultado = useMemo(() => buscar(consulta, locale), [consulta, locale]);
   const vacio = consulta.trim().length === 0;
   const ahora = useMemo(() => new Date(), []);
@@ -29,15 +63,30 @@ export function BuscarV2() {
   return (
     <main id="contenido" className="app-clear px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{es ? "Buscar" : "Search"}</h1>
-      <input value={consulta} onChange={(event) => setConsulta(event.target.value)} placeholder={es ? "Pasaje, persona, tema" : "Passage, person, theme"} className="neo-card mt-4 min-h-12 w-full bg-transparent px-4 outline-none" aria-label={es ? "Buscar" : "Search"} />
+      <input value={consulta} onChange={(event) => setConsulta(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") recordar(consulta); }} placeholder={es ? "Pasaje, persona, tema" : "Passage, person, theme"} className="neo-card mt-4 min-h-12 w-full bg-transparent px-4 outline-none" aria-label={es ? "Buscar" : "Search"} />
       {vacio ? (
         <div className="mt-4">
-          <div className="grid grid-cols-2 gap-3">
-            {CATEGORIAS.map((item) => (
-              <button key={item.id} type="button" className="flex min-h-24 items-end rounded-2xl p-3 text-left font-display text-xl leading-none text-[#F4ECE2]" style={{ background: item.color }} onClick={() => setCategoria(item.id)}>
-                {es ? item.es : item.en}
-              </button>
-            ))}
+          {recientes.length > 0 ? (
+            <div className="estante flex gap-2 overflow-x-auto">
+              {recientes.map((item) => (
+                <button key={item} type="button" className="neo-chip shrink-0" onClick={() => setConsulta(item)}>{item}</button>
+              ))}
+            </div>
+          ) : null}
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {CATEGORIAS.map((item) => {
+              const obra = obrasPara(item.clave, 1)[0];
+              const titulo = es ? item.es : item.en;
+              return (
+                <button key={item.id} type="button" className="relative min-h-28 overflow-hidden rounded-2xl p-3 text-left" style={{ background: item.color }} onClick={() => setCategoria(item.id)}>
+                  {obra ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={obraWebp(obra)} alt="" className="pointer-events-none absolute -right-2 -bottom-3 size-[4.5rem] rotate-[18deg] rounded-md object-cover shadow-lg" />
+                  ) : null}
+                  <span className={`relative font-display leading-none whitespace-nowrap text-[#F4ECE2] ${titulo.length > 10 ? "text-lg" : "text-xl"}`}>{titulo}</span>
+                </button>
+              );
+            })}
           </div>
           {categoria ? (
             <div className="mt-5">
@@ -54,6 +103,11 @@ export function BuscarV2() {
               {categoria === "momentos" ? (
                 <ul className="mt-2">{momentos.map((mix) => <li key={mix.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={mix.href}>{mix.titulo}</Link></li>)}</ul>
               ) : null}
+              {categoria === "evangelios" ? <Link className="font-display mt-3 block text-3xl" href="/tema/evangelio">{es ? "Evangelio" : "Gospel"}</Link> : null}
+              {categoria === "salmos" ? <Link className="font-display mt-3 block text-3xl" href="/tema/salmos">{es ? "Salmos" : "Psalms"}</Link> : null}
+              {categoria === "profetas" ? <Link className="font-display mt-3 block text-3xl" href="/libro/is">{es ? "Isaías" : "Isaiah"}</Link> : null}
+              {categoria === "dormir" ? <Link className="font-display mt-3 block text-3xl" href="/libro/sal">{es ? "Salmos" : "Psalms"}</Link> : null}
+              {categoria === "caminos" ? <Link className="font-display mt-3 block text-3xl" href="/camino">{es ? "Tu camino" : "Your path"}</Link> : null}
               {categoria === "idiomas" ? (
                 <div className="mt-3 flex gap-2">
                   <button type="button" className={`neo-chip ${locale === "es" ? "bg-acento text-acento-ink" : ""}`} onClick={() => library.updateSettings({ uiLocale: "es" })}>Español</button>
@@ -68,7 +122,7 @@ export function BuscarV2() {
           {resultado.pasaje ? (
             <section>
               <h2 className="kicker text-muted">{es ? "Pasaje" : "Passage"}</h2>
-              <Link href={`/libro/${resultado.pasaje.libroId}?c=${resultado.pasaje.capitulo}&v=${resultado.pasaje.versiculo}`} className="font-display mt-2 block text-3xl leading-none">{resultado.pasaje.etiqueta.replace(resultado.pasaje.libroId, catalog.books.find((libro) => libro.id === resultado.pasaje?.libroId)?.name[locale] || resultado.pasaje.libroId)} {resultado.pasaje.capitulo}:{resultado.pasaje.versiculo}</Link>
+              <Link href={`/libro/${resultado.pasaje.libroId}?c=${resultado.pasaje.capitulo}&v=${resultado.pasaje.versiculo}`} className="font-display mt-2 block text-3xl leading-none whitespace-nowrap" onClick={() => recordar(consulta)}>{catalog.books.find((libro) => libro.id === resultado.pasaje?.libroId)?.name[locale] || resultado.pasaje.libroId} {resultado.pasaje.capitulo}:{resultado.pasaje.versiculo}</Link>
             </section>
           ) : null}
           {resultado.libros.length > 0 ? (

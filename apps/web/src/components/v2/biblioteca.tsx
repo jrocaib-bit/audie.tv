@@ -51,22 +51,22 @@ export function BibliotecaV2() {
           <button type="button" className="min-h-11 text-sm" onClick={() => setRejilla((valor) => !valor)}>{rejilla ? (es ? "Lista" : "List") : (es ? "Rejilla" : "Grid")}</button>
         </div>
       </div>
-      <div className="estante mt-4 flex gap-2 overflow-x-auto">
+      <div className="mt-4 flex flex-wrap gap-2">
         {filtros.map((item) => (
           <button key={item.id} type="button" className={`neo-chip shrink-0 ${filtro === item.id ? "bg-acento text-acento-ink" : ""}`} onClick={() => setFiltro(item.id)}>{es ? item.es : item.en}</button>
         ))}
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3">
-        <Link href="/listas" className="neo-card flex min-h-20 items-end p-3 font-display text-xl">{es ? "Mis pasajes" : "My passages"}</Link>
-        <Link href="/descargas" className="neo-card flex min-h-20 items-end p-3 font-display text-xl">{es ? "Descargas" : "Downloads"}</Link>
-        <Link href="/notas" className="neo-card flex min-h-20 items-end p-3 font-display text-xl">{es ? "Notas" : "Notes"}</Link>
-        <Link href="/camino" className="neo-card flex min-h-20 items-end p-3 font-display text-xl">{es ? "Caminos" : "Paths"}</Link>
+        <TarjetaCuadro href="/listas" episodioId="gn-04" titulo={es ? "Mis pasajes" : "My passages"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
+        <TarjetaCuadro href="/descargas" episodioId="gn-08" titulo={es ? "Descargas" : "Downloads"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
+        <TarjetaCuadro href="/notas" episodioId="gn-12" titulo={es ? "Notas" : "Notes"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
+        <TarjetaCuadro href="/camino" episodioId="gn-16" titulo={es ? "Caminos" : "Paths"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
       </div>
       {filtro === "notas" ? <p className="mt-4 text-sm">{marcadores.notas.length}</p> : null}
       {rejilla ? (
         <div className="mt-4 grid grid-cols-2 gap-3">
           {(filtro === "caminos" ? caminos.map((paso) => library.catalog.books.find((libro) => paso.episodeId.startsWith(`${libro.id}-`))).filter((libro): libro is NonNullable<typeof libro> => Boolean(libro)) : visible).map((libro) => (
-            <TarjetaCuadro key={libro.id} href={`/libro/${libro.id}`} episodioId={`${libro.id}-01`} titulo={libro.name[locale] || libro.name.es} pronto={!library.catalog.episodes.some((episodio) => episodio.bookId === libro.id)} prontoTexto={es ? "Pronto" : "Soon"} />
+            <TarjetaCuadro key={libro.id} href={`/libro/${libro.id}`} episodioId={`${libro.id}-01`} titulo={libro.name[locale] || libro.name.es} pronto={!library.catalog.episodes.some((episodio) => episodio.bookId === libro.id)} prontoTexto={es ? "Pronto" : "Soon"} lleno />
           ))}
         </div>
       ) : (

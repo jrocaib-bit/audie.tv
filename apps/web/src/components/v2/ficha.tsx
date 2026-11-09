@@ -25,11 +25,19 @@ export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "pe
       <div className="relative h-64 overflow-hidden" style={{ background: color }}>
         <Arte episodioId={`${libroId}-01`} className="h-full w-full opacity-80" />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
-        <h1 className="font-display absolute right-4 bottom-4 left-4 text-5xl leading-none">{titulo}</h1>
+        <h1 className="font-display absolute right-4 bottom-4 left-4 text-[clamp(2.1rem,10vw,3.25rem)] leading-none whitespace-nowrap">{titulo}</h1>
       </div>
       <div className="flex items-center gap-3 px-4 py-4">
-        {destino ? <Link href={`/ahora?e=${destino}`} className="inline-flex size-14 items-center justify-center rounded-full bg-acento text-lg text-acento-ink">{es ? "Oír" : "Play"}</Link> : <span className="inline-flex size-14 items-center justify-center rounded-full border border-border"><Candado /></span>}
-        {aleatorio && destino ? <Link href={`/ahora?e=${destino}&azar=1`} className="inline-flex min-h-11 items-center rounded-full border border-border px-4 text-sm">{es ? "Aleatorio" : "Shuffle"}</Link> : null}
+        {destino ? (
+          <Link href={`/ahora?e=${destino}`} aria-label={es ? "Oír" : "Play"} className="inline-flex size-14 items-center justify-center rounded-full bg-acento text-acento-ink">
+            <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
+          </Link>
+        ) : <span className="inline-flex size-14 items-center justify-center rounded-full border border-border"><Candado /></span>}
+        {aleatorio && destino ? (
+          <Link href={`/ahora?e=${destino}&azar=1`} aria-label={es ? "Aleatorio" : "Shuffle"} className="inline-flex size-11 items-center justify-center rounded-full border border-border">
+            <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.7" d="M4 7h3l4 10h3m6 0-2.5-3M4 17h3l2-5m9-5 2.5 3L20 7" /></svg>
+          </Link>
+        ) : null}
       </div>
       <ul className="px-4">
         {(episodios.length > 0 ? episodios : catalog.books.filter((item) => item.id === libroId)).slice(0, 12).map((item) => {

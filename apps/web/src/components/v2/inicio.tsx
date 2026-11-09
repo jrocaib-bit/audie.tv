@@ -1,11 +1,12 @@
 "use client";
 
-import { estantes, type FiltroInicio } from "@audite/domain";
+import { estantes, mixesDeHora, type FiltroInicio } from "@audite/domain";
+import { obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Mark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
-import { EstanteFila, TarjetaCuadro } from "@/components/v2/fichas";
+import { EstanteFila, FilaContinua, TarjetaCuadro, TarjetaDia, TarjetaMix } from "@/components/v2/fichas";
 
 function saludo(locale: "es" | "en", hora: number): string {
   if (locale === "en") return hora < 12 ? "Good morning" : hora < 20 ? "Good afternoon" : "Good evening";
@@ -29,7 +30,8 @@ export function InicioV2() {
   const nombre = (id: string) => {
     const libro = library.catalog.books.find((item) => item.id === id.split("-")[0]);
     const episodio = library.catalog.episodes.find((item) => item.id === id) ?? library.catalog.pendientes.find((item) => item.id === id);
-    return episodio?.etiqueta?.[locale] || episodio?.tituloCorto?.[locale] || libro?.name[locale] || id;
+    const obra = obrasVisibles().find((item) => item.episodio === id);
+    return episodio?.etiqueta?.[locale] || episodio?.tituloCorto?.[locale] || obra?.capitulos || libro?.name[locale] || id;
   };
   const oibles = new Set(library.catalog.episodes.map((episodio) => episodio.id));
   const filas = estantes({
@@ -43,6 +45,17 @@ export function InicioV2() {
     camino: library.path.steps.map((paso) => ({ id: paso.episodeId, titulo: nombre(paso.episodeId) })),
     libros: library.catalog.books.slice(0, 12).map((libro) => ({ id: libro.id, titulo: libro.name[locale] || libro.name.es })),
   });
+  const destacada = mixesDeHora(hora, dia, locale)[0];
+  const escuchados = Object.entries(library.progress.episodes)
+    .filter(([, episodio]) => episodio.positionSeconds > 0)
+    .map(([id]) => id);
+  const relleno = obrasVisibles().map((obra) => obra.episodio).filter((id) => !escuchados.includes(id));
+  const sigue = [...escuchados, ...relleno].slice(0, 6).map((id) => ({
+    id,
+    href: oibles.has(id) ? `/ahora?e=${id}` : `/libro/${id.split("-")[0]}`,
+    titulo: obrasVisibles().find((obra) => obra.episodio === id)?.capitulos || nombre(id),
+    episodioId: id,
+  }));
 
   return (
     <main id="contenido" className="app-clear pt-3">
@@ -62,16 +75,18 @@ export function InicioV2() {
           </button>
         ))}
       </div>
-      {filas.map((estante) => (
+      {filtro === "todo" && destacada ? <TarjetaDia href={destacada.href} titulo={destacada.titulo} subtitulo={destacada.subtitulo} clave={destacada.id} /> : null}
+      {filtro === "todo" ? <FilaContinua titulo={locale === "en" ? "Continue" : "Sigue escuchando"} tarjetas={sigue} /> : null}
+      {filas.filter((estante) => estante.id !== "sigue").map((estante) => (
         <EstanteFila key={estante.id} titulo={estante.titulo}>
-          {estante.tarjetas.map((tarjeta) => (
+          {estante.tarjetas.map((tarjeta) => estante.id === "hora" ? (
+            <TarjetaMix key={tarjeta.id} href={tarjeta.href} titulo={tarjeta.titulo} clave={tarjeta.id} />
+          ) : (
             <TarjetaCuadro
               key={tarjeta.id}
               href={tarjeta.href}
               episodioId={tarjeta.episodioId}
               titulo={tarjeta.titulo}
-              subtitulo={tarjeta.subtitulo}
-              color={tarjeta.id === "mix-manana" ? "#3D2B1F" : tarjeta.id === "mix-hoy" ? "#2C3348" : tarjeta.id === "mix-dormir" ? "#1E3A34" : undefined}
               pronto={Boolean(tarjeta.episodioId) && !oibles.has(tarjeta.episodioId ?? "") && tarjeta.href.startsWith("/ahora")}
               prontoTexto={locale === "en" ? "Soon" : "Pronto"}
             />
