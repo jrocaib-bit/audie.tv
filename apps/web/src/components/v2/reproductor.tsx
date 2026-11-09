@@ -34,23 +34,18 @@ export function ReproductorV2() {
   const lectura = capituloDePrueba(episode?.bookId ?? "gn", cap || 1, locale, undefined);
   const [sueno, setSueno] = useState<SleepMinutes | "fin" | null>(null);
   const [obraAbierta, setObraAbierta] = useState(false);
-  const [fundido, setFundido] = useState(false);
   const estado = library.player.status;
   const cola = library.path.steps.map((paso) => paso.episodeId).join("|");
   const playEpisode = library.playEpisode;
   const reducir = library.reduceMotion;
   const oibles = library.catalog.episodes.map((item) => item.id).join("|");
+  const siguiente = episode && sueno !== "fin" ? siguienteEnCola(cola.split("|").filter(Boolean), episode.id) : null;
+  const fundido = estado === "ended" && Boolean(siguiente) && oibles.split("|").includes(siguiente ?? "");
   useEffect(() => {
-    if (estado !== "ended" || !episode || sueno === "fin") return;
-    const siguiente = siguienteEnCola(cola.split("|").filter(Boolean), episode.id);
-    if (!siguiente || !oibles.split("|").includes(siguiente)) return;
-    setFundido(true);
-    const espera = window.setTimeout(() => {
-      playEpisode(siguiente, true);
-      setFundido(false);
-    }, fundidoMs(reducir));
+    if (!fundido || !siguiente) return;
+    const espera = window.setTimeout(() => playEpisode(siguiente, true), fundidoMs(reducir));
     return () => window.clearTimeout(espera);
-  }, [cola, episode, estado, oibles, playEpisode, reducir, sueno]);
+  }, [fundido, playEpisode, reducir, siguiente]);
   const fondo = COLORES[episode?.id ?? "gn-01"] ?? "#241C16";
   const oible = Boolean(episode);
 
