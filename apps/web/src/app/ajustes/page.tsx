@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SettingsScreen } from "@/components/views";
+import { NeoSettings as SettingsScreen } from "@/components/neo-app";
 
 export const metadata: Metadata = { title: "Ajustes" };
 

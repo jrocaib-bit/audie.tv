@@ -104,6 +104,33 @@ body {
   letter-spacing: -0.03em;
 }
 
+.tabular {
+  font-family: var(--audite-font-secundaria);
+  font-variant-numeric: tabular-nums;
+}
+
+.neo-card {
+  border-radius: 1.5rem;
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+.neo-chip {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
+  padding-inline: 0.9rem;
+  font-size: 0.875rem;
+}
+
+html[data-reduce-motion="true"] .neo-card,
+html[data-reduce-motion="true"] .neo-chip {
+  transition: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;

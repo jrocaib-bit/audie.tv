@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const catalogoCompleto = loadAppCatalog();
   const catalog = { ...catalogoCompleto, rangos: [], pendientes: [] };
   return (
-    <html lang="es" className="h-full" suppressHydrationWarning>
+    <html lang="es" className="h-full" data-demo={process.env.AUDITE_DEMO === "1" ? "1" : undefined} suppressHydrationWarning>
       <body className="min-h-full bg-background font-sans text-foreground antialiased">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <style>{`body{margin:0;background:#100e0c;color:#f4ece2}:root[data-theme="light"] body{background:#f3ecdf;color:#161310}`}</style>

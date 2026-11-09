@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TodayScreen } from "@/components/views";
+import { NeoToday as TodayScreen } from "@/components/neo-app";
 
 export const metadata: Metadata = { title: "Hoy" };
 

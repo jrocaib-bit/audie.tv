@@ -40,7 +40,7 @@ export function ObraFoto({
   mover?: boolean;
 }) {
   return (
-    <picture>
+    <picture className="block h-full w-full">
       <source type="image/avif" srcSet={obraAvif(obra)} />
       <img
         src={obraWebp(obra)}

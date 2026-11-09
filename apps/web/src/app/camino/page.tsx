@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PathScreen } from "@/components/views";
+import { NeoPath as PathScreen } from "@/components/neo-app";
 
 export const metadata: Metadata = { title: "Camino" };
 

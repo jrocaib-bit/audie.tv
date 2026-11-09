@@ -47,22 +47,24 @@ export function Reproductor({
   const maximo = duracion > 0 ? duracion : 1;
 
   return (
-    <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-[#0C0B09] text-[#F4ECE2]">
-      <div className="absolute inset-0">
-        {obra ? <ObraFoto obra={obra} priority mover={preparado} className="h-full w-full object-cover" /> : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#100E0C]/55 via-transparent to-[#100E0C]" />
-      </div>
+    <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-background text-foreground">
       <header className="relative z-10 flex items-center justify-between px-4 py-3">
         <Link href="/escuchar" className="inline-flex min-h-11 items-center text-sm text-[#E0C48A]">
           {t(locale, "navListen")}
         </Link>
         <p className="kicker text-[#C9A96E]">{t(locale, "nowKicker")}</p>
-        <p className="min-w-16 text-right text-sm tabular-nums text-[#F4ECE2]">{preparado ? formatClock(tiempo) : t(locale, "statusPreparing")}</p>
+        <p className="min-w-16 text-right text-sm tabular-nums">{preparado ? formatClock(tiempo) : t(locale, "statusPreparing")}</p>
       </header>
-      <div className="relative z-10 mt-auto bg-gradient-to-t from-[#100E0C] via-[#100E0C]/92 to-[#100E0C]/0 px-4 pb-5 pt-16">
+      <div className="relative z-10 mx-4 mt-2 overflow-hidden rounded-3xl border border-white/10 bg-[#0C0B09]">
+        <div className="relative h-52">
+          {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] to-transparent" />
+        </div>
+      </div>
+      <div className="relative z-10 mt-auto px-4 pb-5 pt-4">
         {obra ? <p className="kicker text-[#C9A96E]">{rotuloObra(obra, locale)}</p> : null}
         <h1 className="mt-1 max-w-xl font-serif text-3xl leading-tight">{titulo}</h1>
-        <p className="mt-1 text-sm text-[#F4ECE2]">{cita ?? (preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing"))}</p>
+        <p className="mt-1 text-sm text-muted">{cita ?? (preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing"))}</p>
         <label className="mt-4 block">
           <span className="sr-only">{t(locale, "playerSeek")}</span>
           <input
@@ -77,7 +79,7 @@ export function Reproductor({
             onChange={(event) => onSeek(Number(event.currentTarget.value))}
           />
         </label>
-        <div className="flex justify-between text-xs tabular-nums text-[#B7AB9C]">
+        <div className="flex justify-between text-xs tabular-nums text-muted">
           <span>{preparado ? formatClock(tiempo) : "0:00"}</span>
           <span>{preparado ? formatClock(duracion) : "—"}</span>
         </div>
@@ -119,10 +121,10 @@ export function Reproductor({
               {t(locale, "pathAdd")}
             </button>
           ) : null}
-          {cola.length === 0 ? <p className="mt-2 text-sm text-[#B7AB9C]">{t(locale, "pathEmpty")}</p> : null}
+          {cola.length === 0 ? <p className="mt-2 text-sm text-muted">{t(locale, "pathEmpty")}</p> : null}
           <ol className="mt-2 max-h-28 space-y-1 overflow-y-auto">
             {cola.map((paso, indice) => (
-              <li key={paso.id} className={`flex min-h-11 items-center justify-between gap-3 text-sm ${paso.actual ? "text-[#F4ECE2]" : "text-[#B7AB9C]"}`}>
+              <li key={paso.id} className={`flex min-h-11 items-center justify-between gap-3 text-sm ${paso.actual ? "text-foreground" : "text-muted"}`}>
                 <span>
                   {indice + 1}. {paso.titulo}
                 </span>
