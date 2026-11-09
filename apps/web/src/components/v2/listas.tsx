@@ -75,8 +75,8 @@ export function ListasV2({ id }: { id?: string }) {
         publicar([creada, ...actual]);
         setNombre("");
       }}>
-        <input value={nombre} onChange={(event) => setNombre(event.target.value)} placeholder={es ? "Nueva lista" : "New list"} className="neo-card min-h-12 flex-1 bg-transparent px-4 outline-none" />
-        <button type="submit" className="min-h-12 rounded-full bg-acento px-4 text-acento-ink">{es ? "Crear" : "Create"}</button>
+        <input value={nombre} onChange={(event) => setNombre(event.target.value)} placeholder={es ? "Nueva lista" : "New list"} className="neo-card min-h-12 min-w-0 flex-1 bg-transparent px-4 outline-none" />
+        <button type="submit" className="min-h-12 shrink-0 rounded-full bg-acento px-4 text-acento-ink">{es ? "Crear" : "Create"}</button>
       </form>
       <ul className="mt-4">
         {actual.map((item) => (

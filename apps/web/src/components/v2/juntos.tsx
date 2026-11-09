@@ -21,8 +21,8 @@ export function JuntosV2() {
         </button>
       </section>
       <form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); setUnida(codigoValido(codigo)); }}>
-        <input value={codigo} onChange={(event) => setCodigo(event.target.value.toUpperCase())} maxLength={6} placeholder={es ? "Código" : "Code"} className="neo-card min-h-12 flex-1 bg-transparent px-4 tracking-widest outline-none" />
-        <button type="submit" className="min-h-12 rounded-full border border-border px-4">{es ? "Unirme" : "Join"}</button>
+        <input value={codigo} onChange={(event) => setCodigo(event.target.value.toUpperCase())} maxLength={6} placeholder={es ? "Código" : "Code"} className="neo-card min-h-12 min-w-0 flex-1 bg-transparent px-4 tracking-widest outline-none" />
+        <button type="submit" className="min-h-12 shrink-0 rounded-full border border-border px-4">{es ? "Unirme" : "Join"}</button>
       </form>
       {unida || sala ? (
         <section className="neo-card mt-4 p-4">

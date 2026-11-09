@@ -30,7 +30,7 @@ export function ReproductorV2() {
   const fraccion = duracion > 0 ? tiempo / duracion : 0;
   const cita = episode ? citaEnCurso(episode.scriptureRangeLabel, fraccion) : null;
   const [cap, ver] = (cita ?? "1:1").split(":").map(Number);
-  const relacionadas = referenciasDe(refs, { libroId: episode?.bookId ?? "gn", capitulo: cap || 1, versiculo: ver || 1 }).slice(0, 4);
+  const relacionadas = referenciasDe(refs, { libroId: episode?.bookId ?? "gn", capitulo: cap || 1, versiculo: ver || 1 }).slice(0, 5);
   const lectura = capituloDePrueba(episode?.bookId ?? "gn", cap || 1, locale, undefined);
   const [sueno, setSueno] = useState<SleepMinutes | "fin" | null>(null);
   const [obraAbierta, setObraAbierta] = useState(false);
@@ -128,7 +128,7 @@ export function ReproductorV2() {
                     const segundo = segundoDeCita(episode.scriptureRangeLabel, citaDestino, duracion);
                     if (segundo != null) library.seek(segundo);
                   }}>
-                    <span className="font-display truncate text-[clamp(1.05rem,4.6vw,1.45rem)] leading-none whitespace-nowrap">{etiquetaCita(referencia.hacia, nombre)}</span>
+                    <span className="font-display min-w-0 text-[clamp(0.95rem,4.2vw,1.35rem)] leading-none whitespace-nowrap">{etiquetaCita(referencia.hacia, nombre)}</span>
                     {dentro ? null : <span className="shrink-0 text-xs text-[#B7AB9C]">{es ? "Pronto" : "Soon"}</span>}
                   </button>
                 </li>

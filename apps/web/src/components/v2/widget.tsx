@@ -14,15 +14,17 @@ export function WidgetV2() {
         <div className="flex items-center gap-3 rounded-2xl bg-[#1B1815] p-3 text-[#F4ECE2]">
           <Arte episodioId={episodio?.id ?? "gn-01"} className="size-16 rounded-xl" />
           <div className="min-w-0 flex-1">
-            <p className="font-display truncate text-xl">{episodio?.title ?? "Audite"}</p>
-            <p className="truncate text-sm text-[#B7AB9C]">{episodio?.scriptureRangeLabel}</p>
+            <p className="font-display text-lg leading-tight">{episodio?.title ?? "Audite"}</p>
+            <p className="whitespace-nowrap text-sm text-[#B7AB9C]">{episodio?.scriptureRangeLabel}</p>
           </div>
-          <span className="inline-flex size-11 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]">▶</span>
+          <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]">▶</span>
         </div>
-        <div className="mt-3 flex items-center gap-3 rounded-full bg-[#1B1815] px-3 py-2 text-sm text-[#F4ECE2]">
-          <Arte episodioId={episodio?.id ?? "gn-01"} className="size-8 rounded-full" />
-          <span className="min-w-0 flex-1 truncate">{episodio?.title ?? "Audite"}</span>
-          <span className="h-1 flex-1 overflow-hidden rounded-full bg-white/15"><span className="block h-full w-1/3 bg-[#C9A96E]" /></span>
+        <div className="mt-3 rounded-3xl bg-[#1B1815] px-3 py-3 text-sm text-[#F4ECE2]">
+          <div className="flex items-center gap-3">
+            <Arte episodioId={episodio?.id ?? "gn-01"} className="size-8 shrink-0 rounded-full" />
+            <span className="leading-tight">{episodio?.title ?? "Audite"}</span>
+          </div>
+          <span className="mt-2 block h-1 overflow-hidden rounded-full bg-white/15"><span className="block h-full w-1/3 bg-[#C9A96E]" /></span>
         </div>
       </div>
     </main>
