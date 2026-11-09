@@ -1,10 +1,10 @@
 "use client";
 
-import { PLAYBACK_RATES, SLEEP_CHOICES, capituloDePrueba, citaEnCurso, etiquetaCita, formatClock, metadatosReproduccion, nombreCorto, playableEpisodes, referenciasDe, segundoDeCita, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { PLAYBACK_RATES, SLEEP_CHOICES, capituloDePrueba, citaEnCurso, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLibrary } from "@/components/library";
 import { Placa } from "@/components/placa";
 import { formatoNumero } from "@/lib/numeros";
@@ -34,6 +34,23 @@ export function ReproductorV2() {
   const lectura = capituloDePrueba(episode?.bookId ?? "gn", cap || 1, locale, undefined);
   const [sueno, setSueno] = useState<SleepMinutes | "fin" | null>(null);
   const [obraAbierta, setObraAbierta] = useState(false);
+  const [fundido, setFundido] = useState(false);
+  const estado = library.player.status;
+  const cola = library.path.steps.map((paso) => paso.episodeId).join("|");
+  const playEpisode = library.playEpisode;
+  const reducir = library.reduceMotion;
+  const oibles = library.catalog.episodes.map((item) => item.id).join("|");
+  useEffect(() => {
+    if (estado !== "ended" || !episode || sueno === "fin") return;
+    const siguiente = siguienteEnCola(cola.split("|").filter(Boolean), episode.id);
+    if (!siguiente || !oibles.split("|").includes(siguiente)) return;
+    setFundido(true);
+    const espera = window.setTimeout(() => {
+      playEpisode(siguiente, true);
+      setFundido(false);
+    }, fundidoMs(reducir));
+    return () => window.clearTimeout(espera);
+  }, [cola, episode, estado, oibles, playEpisode, reducir, sueno]);
   const fondo = COLORES[episode?.id ?? "gn-01"] ?? "#241C16";
   const oible = Boolean(episode);
 
@@ -53,7 +70,7 @@ export function ReproductorV2() {
         <div className="overflow-hidden rounded-2xl shadow-2xl">
           {obra ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obra)} alt="" className={`aspect-square w-full object-cover ${library.reduceMotion ? "" : "obra-drift"}`} />
+            <img src={obraWebp(obra)} alt="" className={`aspect-square w-full object-cover transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"} ${library.reduceMotion ? "" : "obra-drift"}`} />
           ) : <div className="aspect-square bg-[#0C0B09]" />}
         </div>
       </div>
