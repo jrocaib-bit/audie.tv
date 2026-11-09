@@ -99,4 +99,4 @@ export {
   type ThemeChoice,
   type UiLocale,
 } from "./settings";
-export { clamp, formatClock, formatSpokenDuration } from "./time";
+export { citaEnCurso, clamp, formatClock, formatSpokenDuration } from "./time";

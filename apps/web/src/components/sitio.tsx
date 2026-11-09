@@ -60,9 +60,10 @@ export function SitioHome({ lang }: { lang: string }) {
           <div className="absolute inset-0 overflow-hidden">
             <ObraFoto obra={portada} priority mover className="h-full w-full object-cover" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#100E0C]/88 via-[#100E0C]/45 to-[#100E0C]/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-transparent to-[#100E0C]/35" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#100E0C]/80 via-[#100E0C]/35 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-transparent" />
           <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-10 pt-28 md:px-8 md:pb-14">
+            <div className="max-w-3xl bg-gradient-to-t from-[#100E0C]/90 via-[#100E0C]/75 to-transparent px-1 py-4">
             <p className="kicker text-[#C9A96E]">{rotuloObra(portada, ui)}</p>
             <h1 className="font-display mt-4 max-w-4xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{copy.homeTitle}</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#F4ECE2]">{copy.homeLede}</p>
@@ -76,6 +77,7 @@ export function SitioHome({ lang }: { lang: string }) {
             </div>
             <div className="mt-10 max-w-xl">
               <Placa obra={portada} lang={ui} />
+            </div>
             </div>
           </div>
         </section>

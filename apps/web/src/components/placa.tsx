@@ -2,17 +2,24 @@ import { obraAvif, obraWebp, rotuloObra, type ObraVisible } from "@audite/conten
 
 export function Placa({ obra, lang }: { obra: ObraVisible; lang: "es" | "en" }) {
   const otro = lang === "en" ? "es" : "en";
+  const marca = (codigo: "es" | "en") => (obra.detalle ? (codigo === "es" ? " (detalle)" : " (detail)") : "");
   return (
     <figure className="max-w-xl border-l-[3px] border-[#C9A96E] bg-[#100E0C]/85 px-4 py-3 text-[#F4ECE2]">
       <figcaption>
         <p className="kicker text-[#C9A96E]">{rotuloObra(obra, lang)}</p>
-        <p className="mt-2 font-serif text-[1.35rem] leading-tight">{obra.titulo[lang]}</p>
+        <p className="mt-2 font-serif text-[1.35rem] leading-tight">
+          {obra.titulo[lang]}
+          {marca(lang)}
+        </p>
         <p className="mt-1 text-sm text-[#F4ECE2]">
           {obra.autor[lang]} · {obra.fecha}
         </p>
         <p className="text-sm text-[#B7AB9C]">{obra.ubicacion[lang]}</p>
         <div className="my-3 h-px w-12 bg-[#C9A96E]" />
-        <p className="text-sm italic text-[#F4ECE2]">{obra.titulo[otro]}</p>
+        <p className="text-sm italic text-[#F4ECE2]">
+          {obra.titulo[otro]}
+          {marca(otro)}
+        </p>
         <p className="text-sm text-[#B7AB9C]">
           {obra.autor[otro]} · {obra.fecha} · {obra.ubicacion[otro]}
         </p>
@@ -35,7 +42,6 @@ export function ObraFoto({
   return (
     <picture>
       <source type="image/avif" srcSet={obraAvif(obra)} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={obraWebp(obra)}
         alt=""

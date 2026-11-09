@@ -55,7 +55,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             <div className="absolute inset-0 overflow-hidden">
               <ObraFoto obra={obra} priority className="h-full w-full object-cover" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/25 to-[#100E0C]/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/60 to-[#100E0C]/30" />
             <div className="relative z-10 mx-auto flex min-h-[78svh] w-full max-w-6xl flex-col justify-end px-5 pb-8 pt-28 md:px-8">
               <p className="kicker text-[#C9A96E]">{libro?.name[uiLang] || libro?.name.es}</p>
               <h1 className="font-display mt-3 max-w-4xl text-5xl leading-[0.95] md:text-7xl">{titulo ?? copy.comingSoon}</h1>

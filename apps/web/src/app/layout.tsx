@@ -22,7 +22,7 @@ const themeScript = `try{var s=JSON.parse(localStorage.getItem("audite.settings.
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const catalogoCompleto = loadAppCatalog();
-  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [], episodes: [], artworks: [], cues: [], captions: [] };
+  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [] };
   return (
     <html lang="es" className="h-full" suppressHydrationWarning>
       <body className="min-h-full bg-background font-sans text-foreground antialiased">

@@ -13,6 +13,7 @@ export type ObraVisible = {
   escena: { es: string; en: string };
   ancho: number;
   alto: number;
+  detalle?: boolean;
 };
 
 export function obrasVisibles(): ObraVisible[] {
@@ -24,11 +25,11 @@ export function obraDeEpisodio(episodio: string): ObraVisible | null {
 }
 
 export function obraWebp(obra: ObraVisible): string {
-  return `/obras/${obra.id}-960.webp`;
+  return obra.detalle ? `/obras/${obra.id}-detalle-960.webp` : `/obras/${obra.id}-960.webp`;
 }
 
 export function obraAvif(obra: ObraVisible): string {
-  return `/obras/${obra.id}-1600.avif`;
+  return obra.detalle ? `/obras/${obra.id}-detalle-1600.avif` : `/obras/${obra.id}-1600.avif`;
 }
 
 export function rotuloObra(obra: ObraVisible, lang: "es" | "en"): string {

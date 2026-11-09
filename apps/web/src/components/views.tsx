@@ -4,7 +4,6 @@ import {
   booksOnTheWay,
   episodeById,
   formatClock,
-  formatSleepRemaining,
   formatSpokenDuration,
   frameAt,
   journeyState,
@@ -15,7 +14,6 @@ import {
   rotuloEpisodio,
   playableEpisodes,
   PLAYBACK_RATES,
-  SLEEP_CHOICES,
   t,
   type DailyMinutes,
   type PendingEpisode,
@@ -26,10 +24,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { obraDeEpisodio, obrasVisibles } from "@audite/content/obras";
-import { ArtStage } from "@/components/art-stage";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { useLibrary } from "@/components/library";
 import { ObraFoto, Placa } from "@/components/placa";
+import { colaDesdeCamino, Reproductor } from "@/components/reproductor";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
@@ -73,10 +71,11 @@ export function TodayScreen() {
         {obra ? (
           <div className="absolute inset-0 overflow-hidden">
             <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-[#100E0C]/45" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/72 to-transparent" />
           </div>
         ) : null}
-        <div className="relative z-10 flex min-h-[calc(100svh-7.5rem)] flex-col justify-end px-5 pb-8 pt-8 md:px-10">
+        <div className="relative z-10 flex min-h-[calc(100svh-7.5rem)] flex-col justify-end px-5 pb-6 pt-8 md:px-10">
+          <div className="max-w-xl rounded-sm bg-[#100E0C]/82 px-4 py-5">
           <p className="kicker text-[#C9A96E]">{t(locale, "todayEyebrow")}</p>
           <h1 className="font-display mt-3 max-w-xl text-5xl leading-[0.95] md:text-6xl">{t(locale, "listenTitle")}</h1>
           <p className="mt-4 text-sm text-[#B7AB9C]">
@@ -109,7 +108,7 @@ export function TodayScreen() {
               {primero ? <p className="font-serif text-4xl leading-tight">{rotuloEpisodio(primero, locale) ?? t(locale, "comingSoon")}</p> : <h2 className="font-serif text-4xl leading-tight">{t(locale, "listenComingTitle")}</h2>}
               <p className="mt-3 text-[#B7AB9C]">{t(locale, "listenComingBody")}</p>
               <Button asChild className="mt-6" size="lg">
-                <Link href="/ahora">{t(locale, "catalogListen")}</Link>
+                <Link href={`/${locale}/catalogo/${primero?.id ?? "gn-01"}`}>{t(locale, "seeEpisode")}</Link>
               </Button>
             </div>
           ) : null}
@@ -124,9 +123,10 @@ export function TodayScreen() {
               <Placa obra={obra} lang={locale} />
             </div>
           ) : null}
-          <p className="mt-6 max-w-xl text-sm text-[#B7AB9C]">
+          <p className="mt-6 text-sm text-[#F4ECE2]">
             {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
           </p>
+          </div>
         </div>
       </section>
     </main>
@@ -136,138 +136,48 @@ export function TodayScreen() {
 export function NowPlayingScreen() {
   const library = useLibrary();
   const locale = library.settings.uiLocale;
-  const episode = playableEpisodes(library.catalog)[0];
+  const episode = playableEpisodes(library.catalog)[0] ?? null;
   const hydrated = library.hydrated;
   const loadEpisode = library.loadEpisode;
   useEffect(() => {
     if (hydrated && episode) loadEpisode(episode.id);
   }, [episode, hydrated, loadEpisode]);
-  if (!episode) {
-    const obra = obraDeEpisodio("gn-01");
-    return (
-      <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 overflow-hidden bg-[#0C0B09] text-[#F4ECE2]">
-        {obra ? (
-          <div className="absolute inset-0">
-            <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-[#100E0C]/40" />
-          </div>
-        ) : null}
-        <div className="relative z-10 flex h-full flex-col justify-between px-4 py-4">
-          <header className="flex items-center justify-between">
-            <Link href="/escuchar" className="inline-flex min-h-11 items-center text-sm text-[#E0C48A]">
-              {t(locale, "navListen")}
-            </Link>
-            <p className="kicker text-[#C9A96E]">{t(locale, "nowKicker")}</p>
-          </header>
-          <div className="pb-6">
-            <h1 className="font-display max-w-xl text-4xl">{t(locale, "listenComingTitle")}</h1>
-            <p className="mt-3 max-w-md text-[#B7AB9C]">{t(locale, "listenComingBody")}</p>
-            {obra ? (
-              <div className="mt-6 max-w-xl">
-                <Placa obra={obra} lang={locale} />
-              </div>
-            ) : null}
-          </div>
-        </div>
-      </section>
-    );
-  }
-  const active = library.player.episodeId === episode.id;
-  const time = active ? library.player.globalTime : 0;
-  const frame = frameAt(library.catalog.cues, library.catalog.captions, time, library.reduceMotion);
-  const playing = active && library.player.status === "playing";
-  const remaining = formatSleepRemaining(library.sleepRemainingMs);
-
-  return (
-    <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-[#0c0b09] text-[#f4ece2]">
-      <header className="flex items-center justify-between px-4 py-3">
-        <Link href="/escuchar" className="min-h-11 px-2 py-2 text-sm text-[#e0c48a]">
-          {t(locale, "navListen")}
-        </Link>
-        <p className="kicker text-[#b7ab9c]">{t(locale, "nowKicker")}</p>
-        <p className="min-w-16 text-right text-sm tabular-nums">{formatClock(time)}</p>
-      </header>
-      <ArtStage
-        immersive
-        frame={frame}
-        artworks={library.catalog.artworks}
-        showCaption={library.settings.captions}
-        reduceMotion={library.reduceMotion}
-        locale={locale}
-      />
-      <div className="space-y-3 border-t border-white/10 px-4 py-3">
-        <p className="text-center text-sm text-[#b7ab9c]">
-          {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <Skip label={t(locale, "skipBack30")} onClick={() => library.seekBy(-30)} text="−30" />
-          <Skip label={t(locale, "skipBack15")} onClick={() => library.seekBy(-15)} text="−15" />
-          <button
-            type="button"
-            onClick={() => (playing ? library.toggle() : library.playEpisode(episode.id, library.player.status === "ended"))}
-            className="min-h-14 min-w-28 rounded-full bg-[#e0c48a] px-6 text-[#1a140c]"
-            aria-label={playing ? t(locale, "playerPause") : t(locale, "playerPlay")}
-          >
-            {playing ? t(locale, "playerPause") : t(locale, "playerPlay")}
-          </button>
-          <Skip label={t(locale, "skipForward15")} onClick={() => library.seekBy(15)} text="+15" />
-          <Skip label={t(locale, "skipForward30")} onClick={() => library.seekBy(30)} text="+30" />
-        </div>
-        <input
-          type="range"
-          className="h-10 w-full accent-[#e0c48a]"
-          min={0}
-          max={episode.durationSeconds}
-          step={0.1}
-          value={Math.min(time, episode.durationSeconds)}
-          aria-label={t(locale, "playerSeek")}
-          aria-valuetext={formatClock(time)}
-          onPointerDown={() => library.setDragging(true)}
-          onPointerUp={() => library.setDragging(false)}
-          onChange={(event) => library.seek(Number(event.currentTarget.value))}
-        />
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-2" role="group" aria-label={t(locale, "playerSpeed")}>
-            {PLAYBACK_RATES.map((rate) => (
-              <button
-                key={rate}
-                type="button"
-                aria-pressed={library.player.rate === rate}
-                onClick={() => library.setRate(rate)}
-                className={`min-h-11 min-w-12 rounded-full px-3 text-sm tabular-nums ${library.player.rate === rate ? "bg-[#e0c48a] text-[#1a140c]" : "border border-white/20"}`}
-              >
-                {rate}×
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t(locale, "sleepLabel")}>
-            <span className="text-xs text-[#b7ab9c]">{remaining ?? t(locale, "sleepOff")}</span>
-            <button type="button" className="min-h-11 rounded-full border border-white/20 px-3 text-sm" onClick={() => library.setSleep(null)}>
-              {t(locale, "sleepOff")}
-            </button>
-            {SLEEP_CHOICES.map((minutes) => (
-              <button
-                key={minutes}
-                type="button"
-                className="min-h-11 rounded-full border border-white/20 px-3 text-sm"
-                onClick={() => library.setSleep(minutes)}
-              >
-                {minutes}
-              </button>
-            ))}
-          </div>
-        </div>
-        {library.player.status === "error" ? <p className="text-sm text-[#e7b2a8]">{t(locale, "playerError")}</p> : null}
-      </div>
-    </section>
+  const activo = Boolean(episode && library.player.episodeId === episode.id);
+  const tiempo = activo ? library.player.globalTime : 0;
+  const sonando = activo && library.player.status === "playing";
+  const enCamino = episode ? library.path.steps.some((paso) => paso.episodeId === episode.id) : false;
+  const cola = colaDesdeCamino(
+    library.path.steps.map((paso) => paso.episodeId),
+    episode?.id ?? null,
+    locale,
   );
-}
-
-function Skip({ label, text, onClick }: { label: string; text: string; onClick: () => void }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className="min-h-12 min-w-12 rounded-full border border-white/20 px-3 text-sm">
-      {text}
-    </button>
+    <Reproductor
+      locale={locale}
+      preparado={Boolean(episode)}
+      episode={episode}
+      tiempo={tiempo}
+      duracion={activo ? library.player.duration : episode?.durationSeconds ?? 0}
+      sonando={sonando}
+      velocidad={library.player.rate}
+      cola={cola}
+      enCamino={enCamino}
+      onPlay={() => {
+        if (!episode) return;
+        library.playEpisode(episode.id, library.player.status === "ended");
+      }}
+      onPause={() => library.toggle()}
+      onSeek={(segundos) => {
+        library.setDragging(true);
+        library.seek(segundos);
+        library.setDragging(false);
+      }}
+      onSeekBy={(delta) => library.seekBy(delta)}
+      onRate={(rate) => library.setRate(rate)}
+      onAdd={() => {
+        if (episode) library.addEpisode(episode.id);
+      }}
+    />
   );
 }
 

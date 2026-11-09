@@ -29,6 +29,7 @@ describe("obras con crédito", () => {
     expect(creditoDeObraVerificado({ principal: true, uso: "principal", titulo: { es: "PENDIENTE", en: "Pending" } })).toBe(false);
     expect(creditoDeObraVerificado({ principal: false, uso: "alternativa" })).toBe(false);
     expect(obraDeEpisodio("gn-01")?.id).toBe("gn-01_o5");
+    expect(obraDeEpisodio("gn-01")?.detalle).toBe(true);
     expect(obraDeEpisodio("no-existe")).toBeNull();
   });
 

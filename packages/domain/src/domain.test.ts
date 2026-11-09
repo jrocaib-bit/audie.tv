@@ -7,7 +7,7 @@ import { frameAt } from "./presentation";
 import { emptyProgress, parseProgress, recordListen, resumePosition } from "./progress";
 import { episodeDuration, rangeDiscontinuities, segmentAt, type MediaSegment } from "./segments";
 import { parseSettings } from "./settings";
-import { formatClock } from "./time";
+import { citaEnCurso, formatClock } from "./time";
 import type { CaptionCue, ImageCue } from "./catalog";
 
 const pilot: MediaSegment[] = [
@@ -271,6 +271,8 @@ describe("settings parsing", () => {
 describe("clock", () => {
   it("formats the pilot length", () => {
     expect(formatClock(498.050563)).toBe("8:18");
+    expect(citaEnCurso("Génesis 1:1–2:25", 0)).toBe("1:1");
+    expect(citaEnCurso("Génesis 1:1–2:25", 1)).toBe("2:25");
     expect(formatClock(367.516688)).toBe("6:07");
   });
 });

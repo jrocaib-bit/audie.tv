@@ -207,19 +207,56 @@ export function volcarCatalogo(catalogo: AppCatalog, destino: string): void {
   }
 }
 
+function tonoDemo(): string {
+  const candidatos = [
+    path.resolve(process.cwd(), "public/demo/demo-tono.mp3"),
+    path.resolve(process.cwd(), "apps/web/public/demo/demo-tono.mp3"),
+    path.resolve(process.cwd(), "../../apps/web/public/demo/demo-tono.mp3"),
+  ];
+  return candidatos.find((ruta) => existsSync(ruta)) ?? "";
+}
+
+function episodioDemo(ruta: string): AppCatalog["episodes"][number] {
+  const bytes = readFileSync(ruta);
+  const duracion = 48.039;
+  return {
+    id: "gn-01",
+    locale: "es",
+    bookId: "gn",
+    number: 1,
+    title: "En el principio: la creación y el hombre",
+    scriptureRangeLabel: "Génesis 1:1–2:25",
+    status: "playable",
+    durationSeconds: duracion,
+    segments: [
+      {
+        id: "gn-01-demo",
+        publicPath: "/demo/demo-tono.mp3",
+        kitPath: "apps/web/public/demo/demo-tono.mp3",
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+        startSeconds: 0,
+        durationSeconds: duracion,
+        bytes: bytes.length,
+      },
+    ],
+    summary: {
+      es: "Tono de demostración para el reproductor. No es la narración.",
+      en: "A demonstration tone for the player. It is not the narration.",
+    },
+    titulo: { es: "En el principio: la creación y el hombre", en: "In the Beginning: Creation and Humankind" },
+    tituloCorto: { es: "En el principio", en: "In the Beginning" },
+    etiqueta: { es: "Génesis 1–2", en: "Genesis 1–2" },
+  };
+}
+
 export function loadAppCatalog(): AppCatalog {
-  if (process.env.AUDITE_DEMO === "1") {
-    const demo = path.resolve(process.cwd(), "content/demo/catalogo-app.json");
-    const alterno = path.resolve(process.cwd(), "../../content/demo/catalogo-app.json");
-    const archivo = existsSync(demo) ? demo : existsSync(alterno) ? alterno : "";
-    if (!archivo) {
-      throw new Error("El catálogo de demostración no está en este repositorio público.");
-    }
-    return JSON.parse(readFileSync(archivo, "utf8")) as AppCatalog;
-  }
   const indice = indiceCatalogo as AppCatalog;
   const genesis = libroGenesis as { episodios: AppCatalog["pendientes"] };
-  return { ...indice, pendientes: genesis.episodios };
+  const base = { ...indice, pendientes: genesis.episodios };
+  if (process.env.AUDITE_DEMO !== "1") return base;
+  const tono = tonoDemo();
+  if (!tono) return base;
+  return { ...base, episodes: [episodioDemo(tono)] };
 }
 
 export function leerRangos(): AppCatalog["rangos"] {
