@@ -66,7 +66,7 @@ export function TabBar() {
   return (
     <nav
       aria-label={t(locale, "wordmark")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-white/10 bg-background/80 py-1 backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
     >
       {links.map((link) => {
         const current = active(pathname, link.href);
@@ -77,7 +77,7 @@ export function TabBar() {
             aria-current={current ? "page" : undefined}
             className={`flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
-            <span className={`h-0.5 w-4 rounded-full ${current ? "bg-[#C9A96E]" : "bg-transparent"}`} />
+            <span className={`h-0.5 w-4 rounded-full ${current ? "bg-acento" : "bg-transparent"}`} />
             {t(locale, link.key)}
           </Link>
         );
@@ -107,7 +107,7 @@ export function MiniPlayer() {
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}
           <span className="min-w-0">
-            <span className="block truncate text-sm">{visible ? nombreCorto(visible, locale) : t(locale, "statusPreparing")}</span>
+            <span className="font-display block truncate text-base leading-tight">{visible ? nombreCorto(visible, locale) : t(locale, "statusPreparing")}</span>
             {activo || visible?.scriptureRangeLabel ? (
               <span className="tabular block truncate text-xs text-muted">
                 {activo ? `${formatClock(player.globalTime)} / ${formatClock(player.duration)}` : visible?.scriptureRangeLabel}
@@ -116,7 +116,7 @@ export function MiniPlayer() {
           </span>
         </Link>
         {listo && !activo ? (
-          <Link href="/ahora" aria-label={t(locale, "playerPlay")} className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#E0C48A] text-[#100E0C]">
+          <Link href="/ahora" aria-label={t(locale, "playerPlay")} className="inline-flex size-11 items-center justify-center rounded-2xl bg-acento text-acento-ink">
             <IconoPlay />
           </Link>
         ) : (
@@ -124,7 +124,7 @@ export function MiniPlayer() {
             type="button"
             disabled={!activo}
             onClick={toggle}
-            className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#E0C48A] text-[#100E0C] disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted"
+            className="inline-flex size-11 items-center justify-center rounded-2xl bg-acento text-acento-ink disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted"
             aria-label={activo ? (playing ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
           >
             {playing ? <IconoPausa /> : <IconoPlay />}

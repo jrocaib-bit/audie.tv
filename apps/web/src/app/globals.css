@@ -47,6 +47,8 @@
   --gallery: #0c0b09;
   --danger: #7a3e32;
   --brand: #8a6432;
+  --acento: #8a6432;
+  --acento-ink: #f3ecdf;
   --noche: #100e0c;
   --crema: #f3ecdf;
   --piedra: #b7ab9c;
@@ -68,6 +70,8 @@
   --gallery: #0c0b09;
   --danger: #e7b2a8;
   --brand: #c9a96e;
+  --acento: #c9a96e;
+  --acento-ink: #100e0c;
 }
 
 @theme inline {
@@ -82,6 +86,8 @@
   --color-gallery: var(--gallery);
   --color-danger: var(--danger);
   --color-brand: var(--brand);
+  --color-acento: var(--acento);
+  --color-acento-ink: var(--acento-ink);
   --font-sans: var(--audite-font-secundaria);
   --font-serif: var(--audite-font-display);
 }
@@ -102,6 +108,20 @@ body {
   font-family: var(--audite-font-display);
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.font-display-regular {
+  font-family: var(--audite-font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.cifra {
+  font-family: var(--audite-font-display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 .tabular {
@@ -144,12 +164,15 @@ html[data-reduce-motion="true"] .neo-chip {
   background: color-mix(in srgb, var(--brand) 35%, transparent);
 }
 
-.kicker {
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--brand);
+@layer components {
+  .kicker {
+    font-family: var(--audite-font-secundaria);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--brand);
+  }
 }
 
 .audio-keep {

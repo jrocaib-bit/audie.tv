@@ -19,7 +19,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
         <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
           <Wordmark locale={ui} tono={sobreObra ? "blanco" : "auto"} className="h-8 w-auto md:h-9" />
         </Link>
-        <nav className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-sm ${sobreObra ? "text-[#F4ECE2]" : ""}`}>
+        <nav className={`flex w-full items-center justify-between text-sm sm:w-auto sm:justify-start sm:gap-x-5 ${sobreObra ? "text-[#F4ECE2]" : ""}`}>
           <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
             {copy.navHome}
           </Link>
@@ -34,7 +34,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
               key={idioma}
               href={`/${idioma}`}
               hrefLang={idioma}
-              className={`inline-flex min-h-11 items-center uppercase tracking-[0.16em] ${idioma === lang ? "text-[#C9A96E]" : sobreObra ? "text-[#B7AB9C]" : "text-muted"}`}
+              className={`inline-flex min-h-11 items-center text-xs uppercase tracking-[0.14em] ${idioma === lang ? (sobreObra ? "text-[#C9A96E]" : "text-acento") : sobreObra ? "text-[#B7AB9C]" : "text-muted"}`}
             >
               {idioma}
             </Link>
@@ -62,13 +62,13 @@ export function SitioHome({ lang }: { lang: string }) {
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#100E0C]/80 via-[#100E0C]/35 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-transparent" />
-          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-10 pt-28 md:px-8 md:pb-14">
+          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-40 pb-10 md:px-8 md:pt-28 md:pb-14">
             <div className="max-w-3xl bg-gradient-to-t from-[#100E0C]/90 via-[#100E0C]/75 to-transparent px-1 py-4">
             <p className="kicker text-[#C9A96E]">{rotuloObra(portada, ui)}</p>
             <h1 className="font-display mt-4 max-w-4xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{copy.homeTitle}</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#F4ECE2]">{copy.homeLede}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#E0C48A] px-6 text-[#100E0C]">
+              <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">
                 {copy.homeCta}
               </Link>
               <Link href={`/${lang}/membresia`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/40 px-6 text-[#F4ECE2]">

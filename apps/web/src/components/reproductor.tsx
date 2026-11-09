@@ -4,6 +4,7 @@ import { citaEnCurso, formatClock, nombreCorto, PLAYBACK_RATES, t, type Episode,
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
 import Link from "next/link";
 import { ObraFoto, Placa } from "@/components/placa";
+import { formatoNumero } from "@/lib/numeros";
 
 export type PasoCamino = { id: string; titulo: string; actual: boolean };
 
@@ -49,10 +50,10 @@ export function Reproductor({
   return (
     <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-background text-foreground">
       <header className="relative z-10 flex items-center justify-between gap-3 px-4 py-3">
-        <Link href="/escuchar" className="inline-flex min-h-11 shrink-0 items-center text-sm text-[#E0C48A]">
+        <Link href="/escuchar" className="inline-flex min-h-11 shrink-0 items-center text-sm text-acento">
           {t(locale, "navListen")}
         </Link>
-        <p className="kicker text-[#C9A96E]">{t(locale, "nowKicker")}</p>
+        <p className="kicker text-acento">{t(locale, "nowKicker")}</p>
         <p className="min-w-16 shrink-0 text-right text-sm tabular-nums">{preparado ? formatClock(tiempo) : ""}</p>
       </header>
       <div className="relative z-10 min-h-0 flex-1 overflow-y-auto">
@@ -63,9 +64,10 @@ export function Reproductor({
         </div>
       </div>
       <div className="px-4 pb-8 pt-4">
-        {obra ? <p className="kicker text-[#C9A96E]">{rotuloObra(obra, locale)}</p> : null}
-        <h1 className="mt-1 max-w-xl font-serif text-2xl leading-tight">{titulo}</h1>
-        <p className="mt-1 text-sm text-muted">{cita ?? (preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing"))}</p>
+        {obra ? <p className="kicker text-acento">{rotuloObra(obra, locale)}</p> : null}
+        <h1 className="font-display mt-1 max-w-xl text-[1.7rem] leading-tight">{titulo}</h1>
+        {cita ? <p className="font-display-regular mt-1 text-2xl">{cita}</p> : null}
+        <p className="mt-1 text-sm text-muted">{preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing")}</p>
         <label className="mt-4 block">
           <span className="sr-only">{t(locale, "playerSeek")}</span>
           <input
@@ -92,7 +94,7 @@ export function Reproductor({
             type="button"
             disabled={!preparado}
             onClick={() => (sonando ? onPause() : onPlay())}
-            className="inline-flex min-h-14 min-w-36 items-center justify-center rounded-full bg-[#E0C48A] px-6 text-[#100E0C] disabled:cursor-not-allowed disabled:bg-[#5E564C] disabled:text-[#F4ECE2]"
+            className="inline-flex min-h-14 min-w-36 items-center justify-center rounded-full bg-acento px-6 text-acento-ink disabled:cursor-not-allowed disabled:bg-[#5E564C] disabled:text-[#F4ECE2]"
             aria-label={preparado ? (sonando ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
           >
             {preparado ? (sonando ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
@@ -109,16 +111,16 @@ export function Reproductor({
               disabled={!preparado}
               aria-pressed={velocidad === rate}
               onClick={() => onRate(rate)}
-              className={`min-h-11 rounded-full px-1 text-sm tabular-nums disabled:opacity-40 ${velocidad === rate && preparado ? "bg-[#E0C48A] text-[#100E0C]" : "border border-border text-foreground"}`}
+              className={`min-h-11 rounded-full px-1 text-sm tabular-nums disabled:opacity-40 ${velocidad === rate && preparado ? "bg-acento text-acento-ink" : "border border-border text-foreground"}`}
             >
-              {rate}×
+              {formatoNumero(locale, rate)}×
             </button>
           ))}
         </div>
         <div className="mt-4 border-t border-border pt-3">
-          <p className="kicker text-[#C9A96E]">{t(locale, "navPath")}</p>
+          <p className="kicker text-acento">{t(locale, "navPath")}</p>
           {preparado && episode && !enCamino ? (
-            <button type="button" className="mt-2 inline-flex min-h-11 items-center text-sm text-[#E0C48A]" onClick={onAdd}>
+            <button type="button" className="mt-2 inline-flex min-h-11 items-center text-sm text-acento" onClick={onAdd}>
               {t(locale, "pathAdd")}
             </button>
           ) : null}

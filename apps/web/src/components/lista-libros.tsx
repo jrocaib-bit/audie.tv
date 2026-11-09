@@ -69,7 +69,7 @@ export function ListaPorLibros({
         <div>
           {(["ot", "nt"] as const).map((testamento) => filtroTestamento !== "todos" && filtroTestamento !== testamento ? null : (
             <section key={testamento} className="mb-6">
-              <p className="kicker">{testamento === "ot" ? t(locale, "testamentOt") : t(locale, "testamentNt")}</p>
+              <p className="kicker text-muted">{testamento === "ot" ? t(locale, "testamentOt") : t(locale, "testamentNt")}</p>
               <ul className={neo ? "mt-2 flex flex-wrap gap-1.5" : "mt-2 flex gap-1 overflow-x-auto pb-2 lg:block lg:overflow-visible"}>
                 {libros
                   .filter((libro) => libro.testament === testamento)
@@ -94,14 +94,14 @@ export function ListaPorLibros({
           ))}
         </div>
         <div>
-          <h2 className="font-serif text-3xl">{libros.find((libro) => libro.id === abierto)?.name[locale]}</h2>
+          <h2 className="font-display text-3xl leading-none">{libros.find((libro) => libro.id === abierto)?.name[locale]}</h2>
           <ul className="mt-4 max-h-[32rem] space-y-3 overflow-y-auto pr-1">
           {episodios.map((episodio) => (
             <li key={episodio.id} className={neo ? "flex min-h-14 items-center justify-between gap-3 border-b border-border py-2" : "border border-border bg-card px-4 py-4"}>
               {episodio.propuesta && !neo ? <p className="text-xs uppercase tracking-[0.16em] text-muted">{t(locale, "statusProposed")}</p> : null}
               {neo ? (
                 <>
-                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="block min-w-0 flex-1 truncate text-base">
+                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="font-display block min-w-0 flex-1 truncate text-lg leading-tight">
                     {rotuloEpisodio(episodio, locale) ?? t(locale, "comingSoon")}
                   </Link>
                   <p className="shrink-0 text-right text-xs text-muted">
@@ -111,7 +111,7 @@ export function ListaPorLibros({
                 </>
               ) : (
                 <>
-                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="block min-h-11 font-serif text-3xl leading-tight">
+                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="font-display block min-h-11 text-3xl leading-tight">
                     {rotuloEpisodio(episodio, locale) ?? t(locale, "comingSoon")}
                   </Link>
                   <p className="mt-1 text-sm text-muted">

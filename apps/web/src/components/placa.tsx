@@ -7,7 +7,7 @@ export function Placa({ obra, lang }: { obra: ObraVisible; lang: "es" | "en" }) 
     <figure className="max-w-xl border-l-[3px] border-[#C9A96E] bg-[#100E0C]/85 px-4 py-3 text-[#F4ECE2]">
       <figcaption>
         <p className="kicker text-[#C9A96E]">{rotuloObra(obra, lang)}</p>
-        <p className="mt-2 font-serif text-[1.35rem] leading-tight">
+        <p className="font-display mt-2 text-[1.35rem] leading-tight">
           {obra.titulo[lang]}
           {marca(lang)}
         </p>
