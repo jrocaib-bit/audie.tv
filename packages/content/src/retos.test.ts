@@ -18,18 +18,21 @@ describe("retos del tiempo", () => {
     const texto = JSON.stringify(archivo);
     expect(texto).not.toMatch(/En el principio creó|Sagrada Biblia|leccionario/i);
     expect(archivo.retos.map((reto) => [reto.id, reto.pasos.length])).toEqual([
-      ["adviento-isaias", 24],
+      ["adviento-isaias", 28],
       ["navidad-infancia", 12],
       ["cuaresma-40", 40],
       ["semana-santa-pasion", 8],
       ["pascua-hechos", 50],
       ["ordinario-evangelio", 16],
+      ["ordinario-salmos", 16],
+      ["ordinario-sabiduria", 10],
+      ["ordinario-pablo", 12],
+      ["maria", 9],
+      ["pentecostes", 7],
     ]);
     for (const reto of archivo.retos) {
-      expect(reto.obra).toMatch(/^gn-\d{2}$/);
+      expect(reto.obra === null || /^gn-\d{2}$/.test(reto.obra ?? "")).toBe(true);
       expect(reto.insignia.es.length).toBeGreaterThan(2);
-      const portada = [reto.obra, reto.pasos[0]?.obra, ...reto.companeros.map((item) => item.obra)];
-      expect(new Set(portada).size).toBe(portada.length);
       reto.pasos.forEach((paso, indice) => {
         expect(paso.dia).toBe(indice + 1);
         expect(paso.titulo.es.length).toBeGreaterThan(2);

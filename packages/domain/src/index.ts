@@ -12,6 +12,7 @@ export {
   pentecostes,
   referenciaPaso,
   solemnidades,
+  textoAvisoLiturgico,
   textoDiaLiturgico,
   tramosDelAnio,
   type ColorLiturgico,
@@ -22,6 +23,7 @@ export {
   type TiempoId,
   type TramoLiturgico,
 } from "./liturgia";
+export { pasajeDelDia, programaCsv, programaDeDia, programaEntre, retosDelDia, type FilaPrograma } from "./programa";
 export {
   PERSONAJES,
   TEMAS,

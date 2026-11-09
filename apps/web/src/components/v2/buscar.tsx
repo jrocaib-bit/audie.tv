@@ -147,6 +147,9 @@ export function BuscarV2() {
               <ul className="mt-2">{resultado.temas.map((tema) => <li key={tema.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/tema/${tema.id}`}>{tema.titulo[locale]}</Link></li>)}</ul>
             </section>
           ) : null}
+          {!resultado.pasaje && resultado.libros.length === 0 && resultado.personajes.length === 0 && resultado.temas.length === 0 ? (
+            <p className="font-display mt-10 text-3xl leading-none">{es ? "Sin resultados" : "No results"}</p>
+          ) : null}
         </div>
       )}
     </main>

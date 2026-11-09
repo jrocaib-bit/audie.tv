@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { Esqueleto } from "@/components/v2/esqueleto";
 import { RetoV2 } from "@/components/v2/reto";
 import { RETOS } from "@/lib/retos";
 
@@ -12,7 +13,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const reto = RETOS.find((item) => item.id === id);
   if (!reto) notFound();
   return (
-    <Suspense>
+    <Suspense fallback={<Esqueleto />}>
       <RetoV2 reto={reto} />
     </Suspense>
   );

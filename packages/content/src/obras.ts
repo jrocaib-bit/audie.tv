@@ -46,3 +46,24 @@ const archivo = creditos as { obras?: CreditoObra[] };
 export function idsVisiblesEnCreditos(): string[] {
   return obrasDesdeCreditos(archivo.obras ?? []);
 }
+
+export function portadasCredito(): { id: string; episodio: string }[] {
+  return (archivo.obras ?? []).flatMap((obra) => {
+    if (!creditoDeObraVerificado(obra) || !obra.id || !obra.episodio) return [];
+    return [{ id: obra.id, episodio: obra.episodio }];
+  });
+}
+
+export function portadaPara(clave: string, evitar: readonly string[] = []): string | null {
+  const lista = portadasCredito();
+  if (lista.length === 0) return null;
+  const directa = lista.find((obra) => obra.episodio === clave || obra.id === clave);
+  if (directa && !evitar.includes(directa.episodio)) return directa.episodio;
+  let indice = 0;
+  for (let i = 0; i < clave.length; i += 1) indice = (indice * 33 + clave.charCodeAt(i)) % 997;
+  for (let salto = 0; salto < lista.length; salto += 1) {
+    const obra = lista[(indice + salto) % lista.length];
+    if (obra && !evitar.includes(obra.episodio)) return obra.episodio;
+  }
+  return lista[indice % lista.length]?.episodio ?? null;
+}

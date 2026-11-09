@@ -1,6 +1,6 @@
 "use client";
 
-import { CLAVE_AVISOS, diaLiturgico, parsePlanAviso, planVacio, textoDiaLiturgico, type DiaAviso, type PlanAviso } from "@audite/domain";
+import { CLAVE_AVISOS, diaLiturgico, parsePlanAviso, planVacio, textoAvisoLiturgico, type DiaAviso, type PlanAviso } from "@audite/domain";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
 
@@ -49,7 +49,7 @@ export function AvisosPantalla() {
     () => vacio,
   );
   const [hora, setHora] = useState(`${String(actual.hora).padStart(2, "0")}:${String(actual.minuto).padStart(2, "0")}`);
-  const texto = useMemo(() => textoDiaLiturgico(diaLiturgico(new Date()), locale), [locale]);
+  const texto = useMemo(() => textoAvisoLiturgico(diaLiturgico(new Date()), locale), [locale]);
   const [horas, minutos] = hora.split(":").map((parte) => Number(parte));
   const previsto = { ...actual, hora: Number.isFinite(horas) ? horas : actual.hora, minuto: Number.isFinite(minutos) ? minutos : actual.minuto };
 

@@ -79,7 +79,7 @@ export function EstanteFila({ titulo, children }: { titulo: string; children: Re
   );
 }
 
-export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario }: { href: string; titulo: string; subtitulo?: string; clave: string; filete?: string; calendario?: string }) {
+export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario, oir }: { href: string; titulo: string; subtitulo?: string; clave: string; filete?: string; calendario?: string; oir?: string | null }) {
   const obra = obrasPara(clave, 1)[0];
   const color = filete ?? colorDeObra(obra ?? null);
   return (
@@ -89,10 +89,15 @@ export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario 
         <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5 shadow-[0_1px_0_rgba(16,14,12,0.35)]" style={{ background: color }} />
         <span className="absolute inset-x-4 bottom-4">
-          <span className="block font-display text-[clamp(1.05rem,4.4vw,1.5rem)] leading-none whitespace-nowrap text-[#F4ECE2]">{titulo}</span>
+          <span className="block font-display text-[clamp(1.15rem,4.6vw,1.65rem)] leading-tight text-[#F4ECE2]">{titulo}</span>
           {subtitulo ? <span className="mt-2 block text-sm whitespace-nowrap text-[#F4ECE2]/85">{subtitulo}</span> : null}
         </span>
       </Link>
+      {oir ? (
+        <Link href={oir} aria-label="Oír" className="absolute bottom-3 right-3 inline-flex size-11 items-center justify-center rounded-full bg-[#F4ECE2] text-[#100E0C]">
+          <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
+        </Link>
+      ) : null}
       {calendario ? (
         <Link href={calendario} aria-label="Calendario" className="absolute top-3 right-3 inline-flex size-11 items-center justify-center rounded-full bg-[#100E0C]/55 text-[#F4ECE2]">
           <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.7" d="M5 6h14v13H5zM8 4v4M16 4v4M5 10h14" /></svg>

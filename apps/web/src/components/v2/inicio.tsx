@@ -1,7 +1,8 @@
 "use client";
 
-import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, referenciaPaso, type FiltroInicio } from "@audite/domain";
+import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
 import { obrasVisibles } from "@audite/content/obras";
+import { portadaPara } from "@audite/content/obras-creditos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, useSyncExternalStore } from "react";
@@ -9,7 +10,7 @@ import { Mark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
 import { Arte, EstanteFila, FilaContinua, TarjetaCuadro, TarjetaDia, TarjetaMix } from "@/components/v2/fichas";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
-import { retosDeTiempo } from "@/lib/retos";
+import { RETOS } from "@/lib/retos";
 
 function saludo(locale: "es" | "en", hora: number): string {
   if (locale === "en") return hora < 12 ? "Good morning" : hora < 20 ? "Good afternoon" : "Good evening";
@@ -59,23 +60,19 @@ export function InicioV2() {
     titulo: obrasVisibles().find((obra) => obra.episodio === id)?.capitulos || nombre(id),
     episodioId: id,
   }));
-  const delTiempo = retosDeTiempo(liturgia.tiempo);
-  const paso = delTiempo[0]?.pasos[Math.max(0, liturgia.dia - 1) % Math.max(1, delTiempo[0]?.pasos.length ?? 1)];
+  const delTiempo = retosDelDia(liturgia, RETOS);
+  const pasaje = pasajeDelDia(liturgia, RETOS);
   const usadas = new Set(sigueIds);
-  function tomar(id: string | null | undefined): string | null {
-    if (id && !usadas.has(id)) {
-      usadas.add(id);
-      return id;
-    }
-    const libre = obrasVisibles().find((obra) => !usadas.has(obra.episodio));
-    if (!libre) return id ?? null;
-    usadas.add(libre.episodio);
-    return libre.episodio;
+  function tomar(clave: string): string | null {
+    const id = portadaPara(clave, [...usadas]);
+    if (id) usadas.add(id);
+    return id;
   }
-  const portadaDia = tomar(paso?.obra);
+  const portadaDia = tomar(pasaje?.referencia.libroId ?? liturgia.iso);
+  const oir = pasaje ? library.catalog.episodes.find((episodio) => episodio.bookId === pasaje.referencia.libroId)?.id : undefined;
   const estanteTiempo = delTiempo.flatMap((reto) => [
-    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: reto.titulo[locale], obra: tomar(reto.obra) },
-    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.href}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.obra) })),
+    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: reto.titulo[locale], obra: tomar(reto.id) },
+    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es) })),
   ]);
 
   return (
@@ -96,14 +93,15 @@ export function InicioV2() {
           </button>
         ))}
       </div>
-      {filtro === "todo" && delTiempo[0] ? (
+      {filtro === "todo" ? (
         <TarjetaDia
-          href={`/reto/${delTiempo[0].id}?cuando=${isoLocal(ahora)}`}
+          href={delTiempo[0] ? `/reto/${delTiempo[0].id}?cuando=${isoLocal(ahora)}` : `/calendario?cuando=${isoLocal(ahora)}`}
           calendario={`/calendario?cuando=${isoLocal(ahora)}`}
           titulo={liturgia.etiqueta[locale]}
-          subtitulo={paso ? `${paso.titulo[locale]} · ${referenciaPaso(paso, locale)}` : undefined}
-          clave={portadaDia ?? delTiempo[0].id}
+          subtitulo={pasaje ? `${pasaje.titulo[locale]} · ${referenciaPaso(pasaje.referencia, locale)}` : undefined}
+          clave={portadaDia ?? liturgia.iso}
           filete={COLOR_HEX[liturgia.color]}
+          oir={oir ? `/ahora?e=${oir}` : null}
         />
       ) : null}
       {filtro === "todo" && estanteTiempo.length > 0 ? (

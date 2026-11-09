@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { adviento1, bautismoDelSenor, capitulosAMedias, diaLiturgicoDeIso, fraccionReto, miercolesCeniza, pascua, pentecostes, referenciaPaso, textoDiaLiturgico, tramosDelAnio } from "./liturgia";
+import { adviento1, bautismoDelSenor, capitulosAMedias, diaLiturgicoDeIso, fraccionReto, miercolesCeniza, pascua, pentecostes, referenciaPaso, textoAvisoLiturgico, textoDiaLiturgico, tramosDelAnio } from "./liturgia";
 
 const PASCUA = ["2025-04-20", "2026-04-05", "2027-03-28", "2028-04-16", "2029-04-01", "2030-04-21"];
 const CENIZA = ["2025-03-05", "2026-02-18", "2027-02-10", "2028-03-01", "2029-02-14", "2030-03-06"];
@@ -24,9 +24,9 @@ describe("calendario litúrgico", () => {
   });
 
   it("nombre el tiempo, la semana y el color, con rosa en Gaudete y Laetare", () => {
-    expect(diaLiturgicoDeIso("2025-12-01")).toMatchObject({ tiempo: "adviento", semana: 1, color: "morado", ciclo: "A", ferial: "par", etiqueta: { es: "Adviento · Semana 1" } });
+    expect(diaLiturgicoDeIso("2025-12-02")).toMatchObject({ tiempo: "adviento", semana: 1, color: "morado", ciclo: "A", ferial: "par", etiqueta: { es: "Adviento · Semana 1" } });
     expect(diaLiturgicoDeIso("2025-12-14").color).toBe("rosa");
-    expect(diaLiturgicoDeIso("2026-02-18").etiqueta.es).toBe("Cuaresma · Ceniza");
+    expect(diaLiturgicoDeIso("2026-02-18").etiqueta.es).toBe("Miércoles de Ceniza · solemnidad");
     expect(diaLiturgicoDeIso("2026-03-01")).toMatchObject({ tiempo: "cuaresma", semana: 2, dia: 12, color: "morado" });
     expect(textoDiaLiturgico(diaLiturgicoDeIso("2026-03-01"), "es")).toBe("Día 12 de Cuaresma");
     expect(diaLiturgicoDeIso("2026-03-15").color).toBe("rosa");
@@ -42,10 +42,10 @@ describe("calendario litúrgico", () => {
 
   it("traslada la Anunciación fuera del Triduo y la Inmaculada fuera del domingo de Adviento", () => {
     expect(diaLiturgicoDeIso("2027-03-25").solemnidad).toBeNull();
-    expect(diaLiturgicoDeIso("2027-04-05").solemnidad?.es).toBe("Anunciación");
+    expect(diaLiturgicoDeIso("2027-04-05").solemnidad?.es).toBe("La Anunciación");
     expect(diaLiturgicoDeIso("2030-12-08").solemnidad).toBeNull();
-    expect(diaLiturgicoDeIso("2030-12-09").solemnidad?.es).toBe("Inmaculada");
-    expect(diaLiturgicoDeIso("2025-12-08").solemnidad?.es).toBe("Inmaculada");
+    expect(diaLiturgicoDeIso("2030-12-09").solemnidad?.es).toBe("La Inmaculada Concepción");
+    expect(diaLiturgicoDeIso("2025-12-08").solemnidad?.es).toBe("La Inmaculada Concepción");
     expect(diaLiturgicoDeIso("2025-12-08").tiempo).toBe("adviento");
   });
 
@@ -64,5 +64,30 @@ describe("calendario litúrgico", () => {
     expect(fraccionReto([1, 2, 3], 3).completo).toBe(true);
     expect(referenciaPaso({ libroId: "ex", capitulo: 3, versiculo: 1, versiculoFin: 15 }, "es", true)).toBe("Éxodo 3,1–15");
     expect(referenciaPaso({ libroId: "is", capitulo: 40, versiculo: 1, versiculoFin: 11 }, "es")).toBe("Is 40,1–11");
+  });
+
+  it("cubre 1900-2200, el santoral y el salterio", () => {
+    for (let anio = 1900; anio <= 2200; anio += 1) {
+      const fecha = pascua(anio);
+      const dia = new Date(`${fecha}T00:00:00Z`).getUTCDay();
+      const [, mes, numero] = fecha.split("-").map(Number);
+      expect(dia).toBe(0);
+      expect(mes === 3 || mes === 4).toBe(true);
+      const ordinal = (mes === 3 ? 0 : 31) + (numero ?? 0);
+      expect(ordinal).toBeGreaterThanOrEqual(22);
+      expect(ordinal).toBeLessThanOrEqual(56);
+    }
+    expect(pascua(1900)).toBe("1900-04-15");
+    expect(pascua(2000)).toBe("2000-04-23");
+    expect(pascua(2100)).toBe("2100-03-28");
+    expect(pascua(2200)).toBe("2200-04-06");
+    const martin = diaLiturgicoDeIso("2026-11-11");
+    expect(martin.celebracion?.es).toBe("San Martín de Tours");
+    expect(martin.rango).toBe("memoria");
+    expect(martin.salterio).toBeGreaterThanOrEqual(1);
+    expect(diaLiturgicoDeIso("2026-03-29").celebracion?.es).toBe("Domingo de Ramos");
+    expect(diaLiturgicoDeIso("2026-05-24").celebracion?.es).toBe("Pentecostés");
+    expect(textoAvisoLiturgico(diaLiturgicoDeIso("2025-11-30"), "es")).toBe("Hoy empieza el Adviento");
+    expect(textoAvisoLiturgico(diaLiturgicoDeIso("2026-02-18"), "es")).toBe("Miércoles de Ceniza");
   });
 });

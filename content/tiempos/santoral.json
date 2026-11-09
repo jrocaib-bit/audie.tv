@@ -1,0 +1,612 @@
+{
+  "fiestas": [
+    {
+      "id": "maria-madre",
+      "mes": 1,
+      "dia": 1,
+      "rango": "solemnidad",
+      "es": "Santa María, Madre de Dios",
+      "en": "Mary, Mother of God",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 2,
+        "versiculo": 16,
+        "versiculoFin": 21,
+        "titulo": {
+          "es": "María guardaba",
+          "en": "Mary kept"
+        }
+      }
+    },
+    {
+      "id": "epifania",
+      "mes": 1,
+      "dia": 6,
+      "rango": "solemnidad",
+      "es": "Epifanía",
+      "en": "Epiphany",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 2,
+        "versiculo": 1,
+        "versiculoFin": 12,
+        "titulo": {
+          "es": "Los magos",
+          "en": "The magi"
+        }
+      }
+    },
+    {
+      "id": "tomas-aquino",
+      "mes": 1,
+      "dia": 28,
+      "rango": "memoria",
+      "es": "Santo Tomás de Aquino",
+      "en": "Saint Thomas Aquinas",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "sab",
+        "capitulo": 7,
+        "versiculo": 7,
+        "versiculoFin": 14,
+        "titulo": {
+          "es": "Pedí y se me dio",
+          "en": "I asked"
+        }
+      }
+    },
+    {
+      "id": "presentacion",
+      "mes": 2,
+      "dia": 2,
+      "rango": "fiesta",
+      "es": "La Presentación del Señor",
+      "en": "The Presentation of the Lord",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 2,
+        "versiculo": 22,
+        "versiculoFin": 32,
+        "titulo": {
+          "es": "Simeón",
+          "en": "Simeon"
+        }
+      }
+    },
+    {
+      "id": "catedra-pedro",
+      "mes": 2,
+      "dia": 22,
+      "rango": "fiesta",
+      "es": "La Cátedra de san Pedro",
+      "en": "The Chair of Saint Peter",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 16,
+        "versiculo": 13,
+        "versiculoFin": 19,
+        "titulo": {
+          "es": "Tú eres Pedro",
+          "en": "You are Peter"
+        }
+      }
+    },
+    {
+      "id": "jose",
+      "mes": 3,
+      "dia": 19,
+      "rango": "solemnidad",
+      "es": "San José",
+      "en": "Saint Joseph",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 1,
+        "versiculo": 18,
+        "versiculoFin": 25,
+        "titulo": {
+          "es": "El sueño de José",
+          "en": "Joseph's dream"
+        }
+      }
+    },
+    {
+      "id": "anunciacion",
+      "mes": 3,
+      "dia": 25,
+      "rango": "solemnidad",
+      "es": "La Anunciación",
+      "en": "The Annunciation",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 26,
+        "versiculoFin": 38,
+        "titulo": {
+          "es": "Hágase",
+          "en": "Let it be"
+        }
+      }
+    },
+    {
+      "id": "catalina",
+      "mes": 4,
+      "dia": 29,
+      "rango": "memoria",
+      "es": "Santa Catalina de Siena",
+      "en": "Saint Catherine of Siena",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "1cor",
+        "capitulo": 1,
+        "versiculo": 22,
+        "versiculoFin": 25,
+        "titulo": {
+          "es": "Lo débil",
+          "en": "What is weak"
+        }
+      }
+    },
+    {
+      "id": "matias",
+      "mes": 5,
+      "dia": 14,
+      "rango": "fiesta",
+      "es": "San Matías",
+      "en": "Saint Matthias",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "hch",
+        "capitulo": 1,
+        "versiculo": 15,
+        "versiculoFin": 26,
+        "titulo": {
+          "es": "El lote",
+          "en": "The lot"
+        }
+      }
+    },
+    {
+      "id": "visitacion",
+      "mes": 5,
+      "dia": 31,
+      "rango": "fiesta",
+      "es": "La Visitación",
+      "en": "The Visitation",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 39,
+        "versiculoFin": 45,
+        "titulo": {
+          "es": "La visitación",
+          "en": "The visitation"
+        }
+      }
+    },
+    {
+      "id": "natividad-juan",
+      "mes": 6,
+      "dia": 24,
+      "rango": "solemnidad",
+      "es": "La Natividad de san Juan Bautista",
+      "en": "The Nativity of Saint John the Baptist",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 57,
+        "versiculoFin": 66,
+        "titulo": {
+          "es": "Juan",
+          "en": "John"
+        }
+      }
+    },
+    {
+      "id": "pedro-pablo",
+      "mes": 6,
+      "dia": 29,
+      "rango": "solemnidad",
+      "es": "San Pedro y san Pablo",
+      "en": "Saints Peter and Paul",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 16,
+        "versiculo": 13,
+        "versiculoFin": 19,
+        "titulo": {
+          "es": "Las llaves",
+          "en": "The keys"
+        }
+      }
+    },
+    {
+      "id": "santiago",
+      "mes": 7,
+      "dia": 25,
+      "rango": "solemnidad",
+      "es": "Santiago apóstol",
+      "en": "Saint James the Apostle",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 20,
+        "versiculo": 20,
+        "versiculoFin": 28,
+        "titulo": {
+          "es": "El cáliz",
+          "en": "The cup"
+        }
+      }
+    },
+    {
+      "id": "transfiguracion",
+      "mes": 8,
+      "dia": 6,
+      "rango": "fiesta",
+      "es": "La Transfiguración",
+      "en": "The Transfiguration",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mc",
+        "capitulo": 9,
+        "versiculo": 2,
+        "versiculoFin": 8,
+        "titulo": {
+          "es": "El monte",
+          "en": "The mountain"
+        }
+      }
+    },
+    {
+      "id": "lorenzo",
+      "mes": 8,
+      "dia": 10,
+      "rango": "fiesta",
+      "es": "San Lorenzo",
+      "en": "Saint Lawrence",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "jn",
+        "capitulo": 12,
+        "versiculo": 24,
+        "versiculoFin": 26,
+        "titulo": {
+          "es": "El grano",
+          "en": "The grain"
+        }
+      }
+    },
+    {
+      "id": "asuncion",
+      "mes": 8,
+      "dia": 15,
+      "rango": "solemnidad",
+      "es": "La Asunción",
+      "en": "The Assumption",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 46,
+        "versiculoFin": 55,
+        "titulo": {
+          "es": "El cántico de María",
+          "en": "Mary's song"
+        }
+      }
+    },
+    {
+      "id": "agustin",
+      "mes": 8,
+      "dia": 28,
+      "rango": "memoria",
+      "es": "San Agustín",
+      "en": "Saint Augustine",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "rom",
+        "capitulo": 13,
+        "versiculo": 11,
+        "versiculoFin": 14,
+        "titulo": {
+          "es": "La hora",
+          "en": "The hour"
+        }
+      }
+    },
+    {
+      "id": "cruz",
+      "mes": 9,
+      "dia": 14,
+      "rango": "fiesta",
+      "es": "La Exaltación de la Cruz",
+      "en": "The Exaltation of the Cross",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "jn",
+        "capitulo": 3,
+        "versiculo": 13,
+        "versiculoFin": 17,
+        "titulo": {
+          "es": "El elevado",
+          "en": "The one lifted up"
+        }
+      }
+    },
+    {
+      "id": "teresa-avila",
+      "mes": 10,
+      "dia": 15,
+      "rango": "memoria",
+      "es": "Santa Teresa de Jesús",
+      "en": "Saint Teresa of Jesus",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 10,
+        "versiculo": 38,
+        "versiculoFin": 42,
+        "titulo": {
+          "es": "La mejor parte",
+          "en": "The better part"
+        }
+      }
+    },
+    {
+      "id": "pilar",
+      "mes": 10,
+      "dia": 12,
+      "rango": "solemnidad",
+      "es": "Nuestra Señora del Pilar",
+      "en": "Our Lady of the Pillar",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 26,
+        "versiculoFin": 38,
+        "titulo": {
+          "es": "Alégrate",
+          "en": "Rejoice"
+        }
+      }
+    },
+    {
+      "id": "teresa-nino",
+      "mes": 10,
+      "dia": 1,
+      "rango": "memoria",
+      "es": "Santa Teresa del Niño Jesús",
+      "en": "Saint Thérèse of the Child Jesus",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 18,
+        "versiculo": 1,
+        "versiculoFin": 5,
+        "titulo": {
+          "es": "Como un niño",
+          "en": "Like a child"
+        }
+      }
+    },
+    {
+      "id": "francisco",
+      "mes": 10,
+      "dia": 4,
+      "rango": "memoria",
+      "es": "San Francisco de Asís",
+      "en": "Saint Francis of Assisi",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 11,
+        "versiculo": 25,
+        "versiculoFin": 30,
+        "titulo": {
+          "es": "Venid a mí",
+          "en": "Come to me"
+        }
+      }
+    },
+    {
+      "id": "todos",
+      "mes": 11,
+      "dia": 1,
+      "rango": "solemnidad",
+      "es": "Todos los Santos",
+      "en": "All Saints",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 5,
+        "versiculo": 1,
+        "versiculoFin": 12,
+        "titulo": {
+          "es": "Bienaventuranzas",
+          "en": "The beatitudes"
+        }
+      }
+    },
+    {
+      "id": "fieles",
+      "mes": 11,
+      "dia": 2,
+      "rango": "memoria",
+      "es": "Fieles difuntos",
+      "en": "All Souls",
+      "color": "morado",
+      "pasaje": {
+        "libroId": "jn",
+        "capitulo": 11,
+        "versiculo": 21,
+        "versiculoFin": 27,
+        "titulo": {
+          "es": "Yo soy la resurrección",
+          "en": "I am the resurrection"
+        }
+      }
+    },
+    {
+      "id": "martin",
+      "mes": 11,
+      "dia": 11,
+      "rango": "memoria",
+      "es": "San Martín de Tours",
+      "en": "Saint Martin of Tours",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 25,
+        "versiculo": 31,
+        "versiculoFin": 40,
+        "titulo": {
+          "es": "Tuve hambre",
+          "en": "I was hungry"
+        }
+      }
+    },
+    {
+      "id": "andres",
+      "mes": 11,
+      "dia": 30,
+      "rango": "fiesta",
+      "es": "San Andrés",
+      "en": "Saint Andrew",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 4,
+        "versiculo": 18,
+        "versiculoFin": 22,
+        "titulo": {
+          "es": "Las redes",
+          "en": "The nets"
+        }
+      }
+    },
+    {
+      "id": "francisco-javier",
+      "mes": 12,
+      "dia": 3,
+      "rango": "memoria",
+      "es": "San Francisco Javier",
+      "en": "Saint Francis Xavier",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "mc",
+        "capitulo": 16,
+        "versiculo": 15,
+        "versiculoFin": 20,
+        "titulo": {
+          "es": "Id",
+          "en": "Go"
+        }
+      }
+    },
+    {
+      "id": "inmaculada",
+      "mes": 12,
+      "dia": 8,
+      "rango": "solemnidad",
+      "es": "La Inmaculada Concepción",
+      "en": "The Immaculate Conception",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "lc",
+        "capitulo": 1,
+        "versiculo": 26,
+        "versiculoFin": 38,
+        "titulo": {
+          "es": "Llena de gracia",
+          "en": "Full of grace"
+        }
+      }
+    },
+    {
+      "id": "juan-cruz",
+      "mes": 12,
+      "dia": 14,
+      "rango": "memoria",
+      "es": "San Juan de la Cruz",
+      "en": "Saint John of the Cross",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "jn",
+        "capitulo": 1,
+        "versiculo": 1,
+        "versiculoFin": 5,
+        "titulo": {
+          "es": "La luz",
+          "en": "The light"
+        }
+      }
+    },
+    {
+      "id": "esteban",
+      "mes": 12,
+      "dia": 26,
+      "rango": "fiesta",
+      "es": "San Esteban",
+      "en": "Saint Stephen",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "hch",
+        "capitulo": 7,
+        "versiculo": 54,
+        "versiculoFin": 60,
+        "titulo": {
+          "es": "Esteban",
+          "en": "Stephen"
+        }
+      }
+    },
+    {
+      "id": "juan-apostol",
+      "mes": 12,
+      "dia": 27,
+      "rango": "fiesta",
+      "es": "San Juan apóstol",
+      "en": "Saint John the Apostle",
+      "color": "blanco",
+      "pasaje": {
+        "libroId": "jn",
+        "capitulo": 20,
+        "versiculo": 2,
+        "versiculoFin": 8,
+        "titulo": {
+          "es": "El discípulo",
+          "en": "The disciple"
+        }
+      }
+    },
+    {
+      "id": "inocentes",
+      "mes": 12,
+      "dia": 28,
+      "rango": "fiesta",
+      "es": "Los Santos Inocentes",
+      "en": "The Holy Innocents",
+      "color": "rojo",
+      "pasaje": {
+        "libroId": "mt",
+        "capitulo": 2,
+        "versiculo": 13,
+        "versiculoFin": 18,
+        "titulo": {
+          "es": "El camino de Egipto",
+          "en": "The road to Egypt"
+        }
+      }
+    }
+  ]
+}
