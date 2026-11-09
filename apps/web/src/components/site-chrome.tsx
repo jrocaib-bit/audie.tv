@@ -108,22 +108,46 @@ export function MiniPlayer() {
           )}
           <span className="min-w-0">
             <span className="block truncate text-sm">{visible ? nombreCorto(visible, locale) : t(locale, "statusPreparing")}</span>
-            <span className="tabular block text-xs text-muted">
-              {activo ? `${formatClock(player.globalTime)} / ${formatClock(player.duration)}` : visible ? visible.scriptureRangeLabel : "—"}
-            </span>
+            {activo || visible?.scriptureRangeLabel ? (
+              <span className="tabular block truncate text-xs text-muted">
+                {activo ? `${formatClock(player.globalTime)} / ${formatClock(player.duration)}` : visible?.scriptureRangeLabel}
+              </span>
+            ) : null}
           </span>
         </Link>
-        <button
-          type="button"
-          disabled={!activo}
-          onClick={toggle}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl bg-[#E0C48A] px-3 text-sm text-[#100E0C] disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted"
-          aria-label={activo ? (playing ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
-        >
-          {activo ? (playing ? t(locale, "playerPause") : t(locale, "playerPlay")) : "–"}
-        </button>
+        {listo && !activo ? (
+          <Link href="/ahora" aria-label={t(locale, "playerPlay")} className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#E0C48A] text-[#100E0C]">
+            <IconoPlay />
+          </Link>
+        ) : (
+          <button
+            type="button"
+            disabled={!activo}
+            onClick={toggle}
+            className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#E0C48A] text-[#100E0C] disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted"
+            aria-label={activo ? (playing ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
+          >
+            {playing ? <IconoPausa /> : <IconoPlay />}
+          </button>
+        )}
       </div>
     </div>
+  );
+}
+
+function IconoPlay() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5-11-6.5z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IconoPausa() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+      <path d="M6 5h4.5v14H6V5zm7.5 0H18v14h-4.5V5z" fill="currentColor" />
+    </svg>
   );
 }
 

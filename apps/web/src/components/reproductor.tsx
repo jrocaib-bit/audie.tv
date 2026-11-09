@@ -48,22 +48,23 @@ export function Reproductor({
 
   return (
     <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-background text-foreground">
-      <header className="relative z-10 flex items-center justify-between px-4 py-3">
-        <Link href="/escuchar" className="inline-flex min-h-11 items-center text-sm text-[#E0C48A]">
+      <header className="relative z-10 flex items-center justify-between gap-3 px-4 py-3">
+        <Link href="/escuchar" className="inline-flex min-h-11 shrink-0 items-center text-sm text-[#E0C48A]">
           {t(locale, "navListen")}
         </Link>
         <p className="kicker text-[#C9A96E]">{t(locale, "nowKicker")}</p>
-        <p className="min-w-16 text-right text-sm tabular-nums">{preparado ? formatClock(tiempo) : t(locale, "statusPreparing")}</p>
+        <p className="min-w-16 shrink-0 text-right text-sm tabular-nums">{preparado ? formatClock(tiempo) : ""}</p>
       </header>
-      <div className="relative z-10 mx-4 mt-2 overflow-hidden rounded-3xl border border-white/10 bg-[#0C0B09]">
+      <div className="relative z-10 min-h-0 flex-1 overflow-y-auto">
+      <div className="mx-4 mt-2 overflow-hidden rounded-3xl border border-white/10 bg-[#0C0B09]">
         <div className="relative h-52">
           {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] to-transparent" />
         </div>
       </div>
-      <div className="relative z-10 mt-auto px-4 pb-5 pt-4">
+      <div className="px-4 pb-8 pt-4">
         {obra ? <p className="kicker text-[#C9A96E]">{rotuloObra(obra, locale)}</p> : null}
-        <h1 className="mt-1 max-w-xl font-serif text-3xl leading-tight">{titulo}</h1>
+        <h1 className="mt-1 max-w-xl font-serif text-2xl leading-tight">{titulo}</h1>
         <p className="mt-1 text-sm text-muted">{cita ?? (preparado ? episode?.scriptureRangeLabel : t(locale, "statusPreparing"))}</p>
         <label className="mt-4 block">
           <span className="sr-only">{t(locale, "playerSeek")}</span>
@@ -81,7 +82,7 @@ export function Reproductor({
         </label>
         <div className="flex justify-between text-xs tabular-nums text-muted">
           <span>{preparado ? formatClock(tiempo) : "0:00"}</span>
-          <span>{preparado ? formatClock(duracion) : "—"}</span>
+          <span>{preparado ? formatClock(duracion) : "0:00"}</span>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2">
           <Control label={t(locale, "skipBack15")} disabled={!preparado} onClick={() => onSeekBy(-15)}>
@@ -100,7 +101,7 @@ export function Reproductor({
             +15
           </Control>
         </div>
-        <div className="mt-3 flex flex-wrap justify-center gap-2" role="group" aria-label={t(locale, "playerSpeed")}>
+        <div className="mt-3 grid grid-cols-5 gap-2" role="group" aria-label={t(locale, "playerSpeed")}>
           {PLAYBACK_RATES.map((rate) => (
             <button
               key={rate}
@@ -108,13 +109,13 @@ export function Reproductor({
               disabled={!preparado}
               aria-pressed={velocidad === rate}
               onClick={() => onRate(rate)}
-              className={`min-h-11 min-w-12 rounded-full px-3 text-sm tabular-nums disabled:opacity-40 ${velocidad === rate && preparado ? "bg-[#E0C48A] text-[#100E0C]" : "border border-[#F4ECE2]/25 text-[#F4ECE2]"}`}
+              className={`min-h-11 rounded-full px-1 text-sm tabular-nums disabled:opacity-40 ${velocidad === rate && preparado ? "bg-[#E0C48A] text-[#100E0C]" : "border border-border text-foreground"}`}
             >
               {rate}×
             </button>
           ))}
         </div>
-        <div className="mt-4 border-t border-[#F4ECE2]/15 pt-3">
+        <div className="mt-4 border-t border-border pt-3">
           <p className="kicker text-[#C9A96E]">{t(locale, "navPath")}</p>
           {preparado && episode && !enCamino ? (
             <button type="button" className="mt-2 inline-flex min-h-11 items-center text-sm text-[#E0C48A]" onClick={onAdd}>
@@ -139,6 +140,7 @@ export function Reproductor({
           ) : null}
         </div>
       </div>
+      </div>
     </section>
   );
 }
@@ -150,7 +152,7 @@ function Control({ label, disabled, onClick, children }: { label: string; disabl
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-[#F4ECE2]/30 px-3 text-sm text-[#F4ECE2] disabled:cursor-not-allowed disabled:opacity-40"
+      className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-border px-3 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-40"
     >
       {children}
     </button>

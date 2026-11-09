@@ -72,10 +72,22 @@ function semana(dias: readonly string[]): boolean[] {
   });
 }
 
-function Cabecera({ locale, titulo, marca = true }: { locale: UiLocale; titulo: string; marca?: boolean }) {
+function saludo(locale: UiLocale, ahora = new Date()): string {
+  const hora = ahora.getHours();
+  if (locale === "en") {
+    if (hora < 12) return "Good morning";
+    if (hora < 20) return "Good afternoon";
+    return "Good evening";
+  }
+  if (hora < 12) return "Buenos días";
+  if (hora < 20) return "Buenas tardes";
+  return "Buenas noches";
+}
+
+function Cabecera({ locale, titulo }: { locale: UiLocale; titulo: string }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <h1 className={marca ? "font-display text-4xl leading-none" : "text-2xl font-medium"}>{titulo}</h1>
+    <div className="flex items-end justify-between gap-3">
+      <h1 className="text-2xl font-medium">{titulo}</h1>
       <DemoMarca locale={locale} />
     </div>
   );
@@ -107,18 +119,18 @@ export function NeoToday() {
   const posicion = library.progress.episodes[id]?.positionSeconds ?? 0;
   const duracion = episode?.durationSeconds ?? 0;
   const avanceEpisodio = duracion > 0 ? Math.min(1, posicion / duracion) : 0;
+  const demo = useSyncExternalStore(() => () => {}, demoVisible, () => false);
+  const esTono = Boolean(episode && demo);
 
   return (
-    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <p className="text-sm text-muted">{tx(locale, "Buenas", "Hello")}</p>
-          <h1 className="font-display text-4xl leading-none">{tx(locale, "Hoy", "Today")}</h1>
-        </div>
-        <div className="flex items-center gap-2">
+    <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-3">
+      <p className="truncate text-sm text-muted">{saludo(locale)}</p>
+      <div className="mt-1 flex items-end justify-between gap-3">
+        <h1 className="font-display text-4xl leading-none">{tx(locale, "Hoy", "Today")}</h1>
+        <div className="flex shrink-0 items-center gap-2">
           <DemoMarca locale={locale} />
-          <Link href="/ajustes" aria-label={t(locale, "navSettings")} className="inline-flex size-11 items-center justify-center rounded-full border border-white/15 text-sm">
-            {locale === "en" ? "A" : "A"}
+          <Link href="/ajustes" aria-label={t(locale, "navSettings")} className="inline-flex size-11 items-center justify-center rounded-full border border-border text-sm">
+            A
           </Link>
         </div>
       </div>
@@ -127,26 +139,26 @@ export function NeoToday() {
           {obra ? <ObraFoto obra={obra} className="h-full w-full object-cover" /> : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C]/95 via-[#100E0C]/35 to-[#100E0C]/10" />
         </div>
-        <div className="relative flex min-h-56 flex-col justify-end p-5">
+        <div className="relative flex flex-col justify-end p-4">
           <div className="flex items-center justify-between gap-3">
-            <p className="text-xs tracking-[0.16em] text-[#C9A96E] uppercase">{obra ? rotuloObra(obra, locale) : t(locale, "statusPreparing")}</p>
-            <span className="rounded-full border border-[#C9A96E]/60 bg-[#100E0C]/70 px-3 py-1 text-xs text-[#F4ECE2]">
-              {episode ? tx(locale, "Con audio", "With audio") : t(locale, "statusPreparing")}
+            <p className="min-w-0 flex-1 truncate text-[11px] tracking-[0.08em] whitespace-nowrap text-[#C9A96E] uppercase">{obra ? rotuloObra(obra, locale) : t(locale, "statusPreparing")}</p>
+            <span className="shrink-0 rounded-full border border-[#C9A96E]/60 bg-[#100E0C]/70 px-3 py-1 text-xs whitespace-nowrap text-[#F4ECE2]">
+              {esTono ? "Demo" : episode ? tx(locale, "Con audio", "With audio") : t(locale, "statusPreparing")}
             </span>
           </div>
-          <h2 className="mt-3 text-3xl leading-tight">
+          <h2 className="mt-2 text-2xl leading-tight">
             {episode ? nombreCorto(episode, locale) : rotuloEpisodio(primero ?? { id }, locale) ?? t(locale, "listenComingTitle")}
           </h2>
-          <p className="mt-2 text-sm text-[#F4ECE2]">
-            {episode ? episode.scriptureRangeLabel : t(locale, "statusPreparing")}
-            {duracion > 0 ? ` · ${Math.round(duracion / 60)} min` : ""}
+          <p className="mt-2 truncate text-sm text-[#F4ECE2]">
+            {episode ? episode.scriptureRangeLabel : primero ? primero.etiqueta?.[locale] || primero.rango?.replace("-", "–") || "" : ""}
+            {esTono ? ` · ${tx(locale, "tono demo", "demo tone")}` : duracion > 0 ? ` · ${Math.max(1, Math.round(duracion / 60))} min` : ""}
           </p>
           {duracion > 0 ? (
             <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/20" aria-hidden="true">
               <div className="h-full rounded-full bg-[#E0C48A]" style={{ width: `${avanceEpisodio * 100}%` }} />
             </div>
           ) : null}
-          <div className="mt-4 flex gap-2">
+          <div className="mt-3 flex gap-2">
             {episode ? (
               <Link href="/ahora" onClick={() => toque(library.reduceMotion)} className="inline-flex min-h-11 items-center rounded-2xl bg-[#E0C48A] px-4 text-sm text-[#100E0C]">
                 {t(locale, "catalogListen")}
@@ -159,25 +171,48 @@ export function NeoToday() {
           </div>
         </div>
       </article>
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <Metrica etiqueta={t(locale, "todayDays")} valor={String(dias)} nota={tx(locale, "esta cuenta", "this account")} extra={<Semana dias={semana(library.progress.listenedOn ?? [])} />} />
-        <Metrica etiqueta={tx(locale, "La Biblia", "The Bible")} valor={`${oidos}/${TOTAL_BIBLIA}`} nota={tx(locale, "episodios", "episodes")} extra={<Anillo fraccion={oidos / TOTAL_BIBLIA} />} />
-        <Metrica etiqueta="Génesis" valor={`${oidosGenesis}/${POR_LIBRO.gn ?? 0}`} nota={tx(locale, "episodios", "episodes")} />
+      <section className="neo-card mt-3 px-4 py-3">
+        <div className="flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="tabular text-3xl leading-none">{oidos}/{TOTAL_BIBLIA}</p>
+            <p className="mt-2 truncate text-sm">{tx(locale, "Episodios", "Episodes")}</p>
+          </div>
+          <Anillo fraccion={oidos / TOTAL_BIBLIA} />
+        </div>
+        <div className="mt-3 border-t border-border pt-3">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="truncate text-sm">Génesis</p>
+            <p className="tabular shrink-0 text-sm text-muted">{oidosGenesis}/{POR_LIBRO.gn ?? 0}</p>
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-foreground/10">
+            <div className="h-full rounded-full bg-[#C9A96E]" style={{ width: `${((POR_LIBRO.gn ?? 0) > 0 ? oidosGenesis / (POR_LIBRO.gn ?? 1) : 0) * 100}%` }} />
+          </div>
+        </div>
+      </section>
+      <div className="mt-2 grid grid-cols-2 gap-3">
+        <Metrica etiqueta={tx(locale, "Días", "Days")} valor={String(dias)}>
+          <Semana dias={semana(library.progress.listenedOn ?? [])} />
+        </Metrica>
+        <Metrica etiqueta={tx(locale, "Minutos", "Minutes")} valor={minutosTexto(library.progress.episodes)} />
       </div>
       <p className="mt-4 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
     </main>
   );
 }
 
-function Metrica({ etiqueta, valor, nota, extra }: { etiqueta: string; valor: string; nota: string; extra?: React.ReactNode }) {
+function minutosTexto(episodios: Record<string, { positionSeconds: number }>): string {
+  const segundos = Object.values(episodios).reduce((suma, episodio) => suma + Math.max(0, episodio.positionSeconds || 0), 0);
+  if (segundos <= 0) return "0";
+  const minutos = segundos / 60;
+  return minutos < 10 ? minutos.toFixed(1) : minutos.toFixed(0);
+}
+
+function Metrica({ etiqueta, valor, children }: { etiqueta: string; valor: string; children?: React.ReactNode }) {
   return (
-    <section className="neo-card flex min-h-28 items-end justify-between gap-3 p-4">
-      <div className="min-w-0">
-        <p className="tabular text-4xl leading-none text-foreground">{valor}</p>
-        <p className="mt-2 text-sm text-foreground">{etiqueta}</p>
-        <p className="text-xs text-muted">{nota}</p>
-      </div>
-      {extra}
+    <section className="neo-card p-4">
+      <p className="tabular text-4xl leading-none">{valor}</p>
+      <p className="mt-2 truncate text-sm">{etiqueta}</p>
+      {children ? <div className="mt-3">{children}</div> : null}
     </section>
   );
 }
@@ -196,7 +231,7 @@ function Anillo({ fraccion }: { fraccion: number }) {
 
 function Semana({ dias }: { dias: boolean[] }) {
   return (
-    <div className="flex h-11 items-end gap-1" aria-hidden="true">
+    <div className="flex h-8 items-end gap-1" aria-hidden="true">
       {dias.map((activo, indice) => (
         <span key={indice} className={`w-1.5 rounded-full ${activo ? "h-8 bg-[#C9A96E]" : "h-2 bg-foreground/15"}`} />
       ))}
@@ -252,7 +287,7 @@ export function NeoLibrary() {
   const [estado, setEstado] = useState<"todos" | "preparacion" | "revision" | "propuesto">("todos");
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
-      <Cabecera locale={locale} titulo={t(locale, "navLibrary")} marca={false} />
+      <Cabecera locale={locale} titulo={t(locale, "navLibrary")} />
       <input
         value={consulta}
         onChange={(event) => setConsulta(event.target.value)}
@@ -260,12 +295,12 @@ export function NeoLibrary() {
         className="neo-card mt-4 min-h-12 w-full bg-transparent px-4 text-base outline-none"
         aria-label={tx(locale, "Buscar", "Search")}
       />
-      <div className="mt-3 flex gap-2 overflow-x-auto">
+      <div className="mt-3 flex flex-wrap gap-2">
         {(
           [
             ["todos", tx(locale, "Todo", "All")],
-            ["ot", t(locale, "testamentOt")],
-            ["nt", t(locale, "testamentNt")],
+            ["ot", tx(locale, "Antiguo", "Old")],
+            ["nt", tx(locale, "Nuevo", "New")],
             ["preparacion", t(locale, "statusPreparing")],
             ["revision", t(locale, "statusReview")],
             ["propuesto", t(locale, "statusProposed")],
@@ -300,7 +335,7 @@ export function NeoSettings() {
   const locale = settings.uiLocale;
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
-      <Cabecera locale={locale} titulo={t(locale, "navSettings")} marca={false} />
+      <Cabecera locale={locale} titulo={t(locale, "navSettings")} />
       <Grupo titulo={t(locale, "settingsTheme")}>
         {(["system", "light", "dark"] as const).map((theme) => (
           <Fila key={theme} label={t(locale, theme === "system" ? "settingsThemeSystem" : theme === "light" ? "settingsThemeLight" : "settingsThemeDark")} onClick={() => { toque(reduceMotion); updateSettings({ theme }); }}>
@@ -316,9 +351,9 @@ export function NeoSettings() {
         ))}
       </Grupo>
       <Grupo titulo={t(locale, "settingsSpeed")}>
-        <div className="flex flex-wrap gap-2 px-4 py-3">
+        <div className="grid grid-cols-5 gap-2 px-4 py-2">
           {([0.75, 1, 1.25, 1.5, 2] as const).map((rate) => (
-            <button key={rate} type="button" className={`neo-chip tabular ${settings.rate === rate ? "border-[#C9A96E]" : ""}`} onClick={() => setRate(rate)}>
+            <button key={rate} type="button" className={`tabular inline-flex min-h-11 items-center justify-center rounded-full border border-border px-1 text-sm ${settings.rate === rate ? "border-[#C9A96E]" : ""}`} onClick={() => setRate(rate)}>
               {rate}×
             </button>
           ))}
@@ -342,7 +377,7 @@ export function NeoSettings() {
 
 function Grupo({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
-    <section className="mt-5">
+    <section className="mt-3">
       <h2 className="px-1 text-xs tracking-[0.14em] text-muted uppercase">{titulo}</h2>
       <div className="neo-card mt-2 divide-y divide-border">{children}</div>
     </section>
@@ -350,19 +385,19 @@ function Grupo({ titulo, children }: { titulo: string; children: React.ReactNode
 }
 
 function Fila({ label, children, onClick }: { label: string; children: React.ReactNode; onClick?: () => void }) {
-  const clase = "flex min-h-14 w-full items-center justify-between gap-3 px-4 text-left";
+  const clase = "flex min-h-11 w-full items-center justify-between gap-3 px-4 text-left";
   if (onClick) {
     return (
       <button type="button" className={clase} onClick={onClick}>
-        <span>{label}</span>
-        {children}
+        <span className="min-w-0 flex-1">{label}</span>
+        <span className="shrink-0">{children}</span>
       </button>
     );
   }
   return (
     <div className={clase}>
-      <span>{label}</span>
-      {children}
+      <span className="min-w-0 flex-1">{label}</span>
+      <span className="shrink-0">{children}</span>
     </div>
   );
 }
@@ -373,7 +408,7 @@ export function NeoMembership() {
   const obra = obraDeEpisodio("gn-05");
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
-      <Cabecera locale={locale} titulo={t(locale, "navMembership")} marca={false} />
+      <Cabecera locale={locale} titulo={t(locale, "navMembership")} />
       <article className="neo-card relative mt-4 overflow-hidden text-[#F4ECE2]">
         <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-70" /> : null}</div>
         <div className="relative bg-gradient-to-t from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/20 p-5">

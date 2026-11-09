@@ -70,20 +70,20 @@ export function ListaPorLibros({
           {(["ot", "nt"] as const).map((testamento) => filtroTestamento !== "todos" && filtroTestamento !== testamento ? null : (
             <section key={testamento} className="mb-6">
               <p className="kicker">{testamento === "ot" ? t(locale, "testamentOt") : t(locale, "testamentNt")}</p>
-              <ul className={`mt-2 flex gap-1 overflow-x-auto pb-2 ${neo ? "" : "lg:block lg:overflow-visible"}`}>
+              <ul className={neo ? "mt-2 flex flex-wrap gap-1.5" : "mt-2 flex gap-1 overflow-x-auto pb-2 lg:block lg:overflow-visible"}>
                 {libros
                   .filter((libro) => libro.testament === testamento)
                   .map((libro) => {
                     const activo = libro.id === abierto;
                     return (
-                      <li key={libro.id} className="shrink-0 lg:shrink">
+                      <li key={libro.id} className={neo ? "" : "shrink-0 lg:shrink"}>
                         <button
                           type="button"
                           aria-expanded={activo}
                           onClick={() => setAbierto(libro.id)}
-                          className={`flex min-h-11 items-center gap-3 whitespace-nowrap px-2 py-2 text-left ${neo ? "neo-chip" : "border-b border-border lg:w-full lg:justify-between lg:px-0"} ${activo ? "text-foreground" : "text-muted"}`}
+                          className={`flex min-h-11 items-center gap-3 whitespace-nowrap px-2 py-2 text-left ${neo ? "neo-chip max-w-full" : "border-b border-border lg:w-full lg:justify-between lg:px-0"} ${activo ? "text-foreground" : "text-muted"}`}
                         >
-                          <span className="font-serif text-xl">{libro.name[locale] || libro.name.es}</span>
+                          <span className={neo ? "text-sm" : "font-serif text-xl"}>{libro.name[locale] || libro.name.es}</span>
                           {libro.deuterocanonico ? <span className="text-[11px] uppercase tracking-wide">{locale === "en" ? "Deuterocanon" : "Deuterocanónico"}</span> : null}
                         </button>
                       </li>
@@ -99,14 +99,28 @@ export function ListaPorLibros({
           {episodios.map((episodio) => (
             <li key={episodio.id} className={neo ? "flex min-h-14 items-center justify-between gap-3 border-b border-border py-2" : "border border-border bg-card px-4 py-4"}>
               {episodio.propuesta && !neo ? <p className="text-xs uppercase tracking-[0.16em] text-muted">{t(locale, "statusProposed")}</p> : null}
-              <Link href={`/${locale}/catalogo/${episodio.id}`} className={neo ? "block min-h-11 text-base" : "block min-h-11 font-serif text-3xl leading-tight"}>
-                {rotuloEpisodio(episodio, locale) ?? t(locale, "comingSoon")}
-              </Link>
-              <p className="mt-1 text-sm text-muted">
-                {episodio.capitulos ?? episodio.rango ?? ""}
-                {episodio.capitulos || episodio.rango ? " · " : ""}
-                {episodio.presentacion === "revision" ? t(locale, "statusReview") : t(locale, "statusPreparing")}
-              </p>
+              {neo ? (
+                <>
+                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="block min-w-0 flex-1 truncate text-base">
+                    {rotuloEpisodio(episodio, locale) ?? t(locale, "comingSoon")}
+                  </Link>
+                  <p className="shrink-0 text-right text-xs text-muted">
+                    <span className="block">{episodio.capitulos ?? episodio.rango ?? ""}</span>
+                    <span className="block">{episodio.presentacion === "revision" ? t(locale, "statusReview") : episodio.propuesta ? t(locale, "statusProposed") : t(locale, "statusPreparing")}</span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Link href={`/${locale}/catalogo/${episodio.id}`} className="block min-h-11 font-serif text-3xl leading-tight">
+                    {rotuloEpisodio(episodio, locale) ?? t(locale, "comingSoon")}
+                  </Link>
+                  <p className="mt-1 text-sm text-muted">
+                    {episodio.capitulos ?? episodio.rango ?? ""}
+                    {episodio.capitulos || episodio.rango ? " · " : ""}
+                    {episodio.presentacion === "revision" ? t(locale, "statusReview") : t(locale, "statusPreparing")}
+                  </p>
+                </>
+              )}
             </li>
           ))}
           </ul>
