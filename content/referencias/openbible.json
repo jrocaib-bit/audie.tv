@@ -1,0 +1,269 @@
+{
+  "fuente": "OpenBible.info cross references",
+  "licencia": "CC BY 4.0",
+  "url": "https://www.openbible.info/labs/cross-references/",
+  "atribucion": "Cross references from OpenBible.info, used under CC BY 4.0. https://creativecommons.org/licenses/by/4.0/",
+  "nota": "Solo pasajes de origen y destino. Sin notas de estudio de ninguna edición.",
+  "refs": [
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 2
+      },
+      "orden": 1
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "hacia": {
+        "libroId": "jn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "orden": 2
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "hacia": {
+        "libroId": "heb",
+        "capitulo": 11,
+        "versiculo": 3
+      },
+      "orden": 3
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "hacia": {
+        "libroId": "is",
+        "capitulo": 45,
+        "versiculo": 18
+      },
+      "orden": 4
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 1
+      },
+      "hacia": {
+        "libroId": "ap",
+        "capitulo": 4,
+        "versiculo": 11
+      },
+      "orden": 5
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 3
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 2
+      },
+      "orden": 1
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 3
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 4
+      },
+      "orden": 2
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 3
+      },
+      "hacia": {
+        "libroId": "jn",
+        "capitulo": 1,
+        "versiculo": 5
+      },
+      "orden": 3
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 3
+      },
+      "hacia": {
+        "libroId": "is",
+        "capitulo": 45,
+        "versiculo": 7
+      },
+      "orden": 4
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 3
+      },
+      "hacia": {
+        "libroId": "is",
+        "capitulo": 60,
+        "versiculo": 19
+      },
+      "orden": 5
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 26
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 25
+      },
+      "orden": 1
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 26
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 27
+      },
+      "orden": 2
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 26
+      },
+      "hacia": {
+        "libroId": "col",
+        "capitulo": 3,
+        "versiculo": 10
+      },
+      "orden": 3
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 26
+      },
+      "hacia": {
+        "libroId": "sal",
+        "capitulo": 8,
+        "versiculo": 4
+      },
+      "orden": 4
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 1,
+        "versiculo": 26
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 3,
+        "versiculo": 22
+      },
+      "orden": 5
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 7
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 6
+      },
+      "orden": 1
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 7
+      },
+      "hacia": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 8
+      },
+      "orden": 2
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 7
+      },
+      "hacia": {
+        "libroId": "1co",
+        "capitulo": 15,
+        "versiculo": 45
+      },
+      "orden": 3
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 7
+      },
+      "hacia": {
+        "libroId": "job",
+        "capitulo": 33,
+        "versiculo": 4
+      },
+      "orden": 4
+    },
+    {
+      "desde": {
+        "libroId": "gn",
+        "capitulo": 2,
+        "versiculo": 7
+      },
+      "hacia": {
+        "libroId": "is",
+        "capitulo": 64,
+        "versiculo": 8
+      },
+      "orden": 5
+    }
+  ]
+}

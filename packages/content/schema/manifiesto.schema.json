@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://audite.local/schema/manifiesto.json",
+  "title": "Manifiesto Audite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "actualizado", "idiomas", "libros"],
+  "properties": {
+    "version": { "const": 1 },
+    "actualizado": { "type": "string", "minLength": 1 },
+    "idiomas": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 2 }
+    },
+    "fuente_texto": { "$ref": "#/$defs/textos" },
+    "libros": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/libro" }
+    }
+  },
+  "$defs": {
+    "textos": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "properties": {
+        "es": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      }
+    },
+    "arte": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "archivo": { "type": "string", "minLength": 1 },
+        "titulo": { "$ref": "#/$defs/textos" },
+        "autor": { "type": "string", "minLength": 1 },
+        "anio": { "type": "string", "minLength": 1 },
+        "ubicacion": { "type": "string", "minLength": 1 },
+        "derechos": { "type": "string", "minLength": 1 },
+        "fuente": { "type": "string", "minLength": 1 },
+        "ancho": { "type": "integer", "minimum": 1 },
+        "alto": { "type": "integer", "minimum": 1 },
+        "inicio_s": { "type": "number", "minimum": 0 },
+        "fin_s": { "type": "number", "minimum": 0 },
+        "nota": { "type": "string", "minLength": 1 }
+      }
+    },
+    "idioma": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["estado"],
+      "properties": {
+        "estado": {
+          "enum": ["pendiente", "borrador", "listo_voz", "audio_listo", "video_listo", "bloqueado"]
+        },
+        "master": { "type": "string", "minLength": 1 },
+        "duracion_s": { "type": "number", "minimum": 0 },
+        "subtitulos": { "type": "string", "minLength": 1 },
+        "nota": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "estado": { "const": "audio_listo" } },
+            "required": ["estado"]
+          },
+          "then": { "required": ["master", "duracion_s"] }
+        },
+        {
+          "if": {
+            "properties": { "estado": { "const": "bloqueado" } },
+            "required": ["estado"]
+          },
+          "then": { "required": ["nota"] }
+        }
+      ]
+    },
+    "episodio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "orden", "idiomas"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "orden": { "type": "integer", "minimum": 1 },
+        "capitulos": { "type": "string", "minLength": 1 },
+        "propuesta": { "type": "boolean" },
+        "rango": { "type": "string", "minLength": 1 },
+        "duracion_estimada_s": { "type": "integer", "minimum": 0 },
+        "pendientes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "etiqueta": { "$ref": "#/$defs/textos" },
+        "titulo": { "$ref": "#/$defs/textos" },
+        "titulo_corto": { "$ref": "#/$defs/textos" },
+        "resumen": { "$ref": "#/$defs/textos" },
+        "arte": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/arte" }
+        },
+        "idiomas": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/idioma" }
+        }
+      }
+    },
+    "libro": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "orden", "testamento", "titulo", "episodios"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "orden": { "type": "integer", "minimum": 1 },
+        "testamento": { "enum": ["AT", "NT"] },
+        "deuterocanonico": { "type": "boolean" },
+        "capitulos_total": { "type": "integer", "minimum": 1 },
+        "titulo": { "$ref": "#/$defs/textos" },
+        "episodios": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/episodio" }
+        }
+      }
+    }
+  }
+}

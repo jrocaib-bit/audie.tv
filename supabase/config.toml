@@ -1,0 +1,7 @@
+# Proyecto de Supabase de Audite.
+# URL: https://qdjowihivtqoelurvyke.supabase.co
+# Región: eu-west-1. Quedó fijada al crear el proyecto; este fichero no la cambia.
+# Las claves no van aquí. Están descritas, vacías, en .env.example.
+# No aplicar supabase/migrations desde este repositorio hasta que se pida aparte.
+
+project_id = "qdjowihivtqoelurvyke"

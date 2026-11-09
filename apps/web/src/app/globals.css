@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Gazpacho: solo si el OTF está en la carpeta ignorada. Si no, Georgia. */
+@font-face {
+  font-family: "Gazpacho";
+  src: url("/fonts/private/Gazpacho-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gazpacho";
+  src: url("/fonts/private/Gazpacho-Heavy.otf") format("opentype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/InterVariable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/InterVariable-Italic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --background: #f3ecdf;
+  --foreground: #161310;
+  --card: #faf6ef;
+  --muted: #5e564c;
+  --border: #e4d8c8;
+  --primary: #8a6432;
+  --primary-foreground: #f3ecdf;
+  --caption: #faf6ef;
+  --gallery: #0c0b09;
+  --danger: #7a3e32;
+  --brand: #8a6432;
+  --acento: #8a6432;
+  --acento-ink: #f3ecdf;
+  --noche: #100e0c;
+  --crema: #f3ecdf;
+  --piedra: #b7ab9c;
+  --audite-font-display: "Gazpacho", Georgia, "Times New Roman", serif;
+  --audite-font-secundaria: "Inter", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --audite-font-text: var(--audite-font-secundaria);
+  --audite-font-ios-system: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --background: #100e0c;
+  --foreground: #f4ece2;
+  --card: #1b1815;
+  --muted: #b7ab9c;
+  --border: #2e2924;
+  --primary: #e0c48a;
+  --primary-foreground: #100e0c;
+  --caption: #171512;
+  --gallery: #0c0b09;
+  --danger: #e7b2a8;
+  --brand: #c9a96e;
+  --acento: #c9a96e;
+  --acento-ink: #100e0c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-caption: var(--caption);
+  --color-gallery: var(--gallery);
+  --color-danger: var(--danger);
+  --color-brand: var(--brand);
+  --color-acento: var(--acento);
+  --color-acento-ink: var(--acento-ink);
+  --font-sans: var(--audite-font-secundaria);
+  --font-serif: var(--audite-font-display);
+}
+
+html[data-text="sm"] { font-size: 16px; }
+html[data-text="md"] { font-size: 18px; }
+html[data-text="lg"] { font-size: 20px; }
+html[data-text="xl"] { font-size: 23px; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--audite-font-text);
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--audite-font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.font-display-regular {
+  font-family: var(--audite-font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.cifra {
+  font-family: var(--audite-font-display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.tabular {
+  font-family: var(--audite-font-secundaria);
+  font-variant-numeric: tabular-nums;
+}
+
+.neo-card {
+  border-radius: 1.5rem;
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--foreground) 14%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+.neo-chip {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
+  padding-inline: 0.9rem;
+  font-size: 0.875rem;
+}
+
+.app-clear {
+  padding-bottom: calc(14rem + env(safe-area-inset-bottom));
+}
+
+html[data-reduce-motion="true"] .neo-card,
+html[data-reduce-motion="true"] .neo-chip {
+  transition: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--brand) 35%, transparent);
+}
+
+@layer components {
+  .kicker {
+    font-family: var(--audite-font-secundaria);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--brand);
+  }
+}
+
+.audio-keep {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.caption-band {
+  opacity: 1;
+  background: var(--caption);
+  color: var(--foreground);
+}
+
+@keyframes audite-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes audite-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes audite-drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+
+.art-in { animation: audite-fade-in 1000ms ease both; }
+.art-out { animation: audite-fade-out 1000ms ease forwards; }
+.ken-burns { transition: transform 18s linear; }
+.obra-drift { animation: audite-drift 46s ease-in-out alternate infinite; transform-origin: center; }
+
+html[data-reduce-motion="true"] .art-in,
+html[data-reduce-motion="true"] .art-out,
+html[data-reduce-motion="true"] .ken-burns,
+html[data-reduce-motion="true"] .obra-drift {
+  animation: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-in,
+  .art-out,
+  .ken-burns,
+  .obra-drift {
+    animation: none;
+    transition: none;
+  }
+}

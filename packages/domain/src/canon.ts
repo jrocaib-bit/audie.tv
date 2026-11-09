@@ -1,0 +1,87 @@
+import type { Book } from "./catalog";
+
+const ot: Array<[string, string, string]> = [
+  ["genesis", "Génesis", "Genesis"],
+  ["exodus", "Éxodo", "Exodus"],
+  ["leviticus", "Levítico", "Leviticus"],
+  ["numbers", "Números", "Numbers"],
+  ["deuteronomy", "Deuteronomio", "Deuteronomy"],
+  ["joshua", "Josué", "Joshua"],
+  ["judges", "Jueces", "Judges"],
+  ["ruth", "Rut", "Ruth"],
+  ["samuel-1", "1 Samuel", "1 Samuel"],
+  ["samuel-2", "2 Samuel", "2 Samuel"],
+  ["kings-1", "1 Reyes", "1 Kings"],
+  ["kings-2", "2 Reyes", "2 Kings"],
+  ["chronicles-1", "1 Crónicas", "1 Chronicles"],
+  ["chronicles-2", "2 Crónicas", "2 Chronicles"],
+  ["ezra", "Esdras", "Ezra"],
+  ["nehemiah", "Nehemías", "Nehemiah"],
+  ["esther", "Ester", "Esther"],
+  ["job", "Job", "Job"],
+  ["psalms", "Salmos", "Psalms"],
+  ["proverbs", "Proverbios", "Proverbs"],
+  ["ecclesiastes", "Eclesiastés", "Ecclesiastes"],
+  ["song", "Cantar de los Cantares", "Song of Songs"],
+  ["isaiah", "Isaías", "Isaiah"],
+  ["jeremiah", "Jeremías", "Jeremiah"],
+  ["lamentations", "Lamentaciones", "Lamentations"],
+  ["ezekiel", "Ezequiel", "Ezekiel"],
+  ["daniel", "Daniel", "Daniel"],
+  ["hosea", "Oseas", "Hosea"],
+  ["joel", "Joel", "Joel"],
+  ["amos", "Amós", "Amos"],
+  ["obadiah", "Abdías", "Obadiah"],
+  ["jonah", "Jonás", "Jonah"],
+  ["micah", "Miqueas", "Micah"],
+  ["nahum", "Nahúm", "Nahum"],
+  ["habakkuk", "Habacuc", "Habakkuk"],
+  ["zephaniah", "Sofonías", "Zephaniah"],
+  ["haggai", "Ageo", "Haggai"],
+  ["zechariah", "Zacarías", "Zechariah"],
+  ["malachi", "Malaquías", "Malachi"],
+];
+
+const nt: Array<[string, string, string]> = [
+  ["matthew", "Mateo", "Matthew"],
+  ["mark", "Marcos", "Mark"],
+  ["luke", "Lucas", "Luke"],
+  ["john", "Juan", "John"],
+  ["acts", "Hechos", "Acts"],
+  ["romans", "Romanos", "Romans"],
+  ["corinthians-1", "1 Corintios", "1 Corinthians"],
+  ["corinthians-2", "2 Corintios", "2 Corinthians"],
+  ["galatians", "Gálatas", "Galatians"],
+  ["ephesians", "Efesios", "Ephesians"],
+  ["philippians", "Filipenses", "Philippians"],
+  ["colossians", "Colosenses", "Colossians"],
+  ["thessalonians-1", "1 Tesalonicenses", "1 Thessalonians"],
+  ["thessalonians-2", "2 Tesalonicenses", "2 Thessalonians"],
+  ["timothy-1", "1 Timoteo", "1 Timothy"],
+  ["timothy-2", "2 Timoteo", "2 Timothy"],
+  ["titus", "Tito", "Titus"],
+  ["philemon", "Filemón", "Philemon"],
+  ["hebrews", "Hebreos", "Hebrews"],
+  ["james", "Santiago", "James"],
+  ["peter-1", "1 Pedro", "1 Peter"],
+  ["peter-2", "2 Pedro", "2 Peter"],
+  ["john-1", "1 Juan", "1 John"],
+  ["john-2", "2 Juan", "2 John"],
+  ["john-3", "3 Juan", "3 John"],
+  ["jude", "Judas", "Jude"],
+  ["revelation", "Apocalipsis", "Revelation"],
+];
+
+function toBooks(rows: Array<[string, string, string]>, testament: Book["testament"], offset: number): Book[] {
+  return rows.map(([id, es, en], index) => ({
+    id,
+    testament,
+    order: offset + index + 1,
+    name: { es, en },
+    status: id === "genesis" ? "pilot" : "not_in_pilot",
+  }));
+}
+
+export function canonBooks(): Book[] {
+  return [...toBooks(ot, "ot", 0), ...toBooks(nt, "nt", ot.length)];
+}

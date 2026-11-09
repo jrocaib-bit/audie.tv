@@ -1,0 +1,2969 @@
+{
+  "version": 1,
+  "episodios": [
+    {
+      "id": "gn-01",
+      "bookId": "gn",
+      "orden": 1,
+      "rango": "1:1-2:25"
+    },
+    {
+      "id": "gn-02",
+      "bookId": "gn",
+      "orden": 2,
+      "rango": "3:1-5:32"
+    },
+    {
+      "id": "gn-03",
+      "bookId": "gn",
+      "orden": 3,
+      "rango": "6:1-9:29"
+    },
+    {
+      "id": "gn-04",
+      "bookId": "gn",
+      "orden": 4,
+      "rango": "10:1-12:20"
+    },
+    {
+      "id": "gn-05",
+      "bookId": "gn",
+      "orden": 5,
+      "rango": "13:1-17:27"
+    },
+    {
+      "id": "gn-06",
+      "bookId": "gn",
+      "orden": 6,
+      "rango": "18:1-21:34"
+    },
+    {
+      "id": "gn-07",
+      "bookId": "gn",
+      "orden": 7,
+      "rango": "22:1-26:35"
+    },
+    {
+      "id": "gn-08",
+      "bookId": "gn",
+      "orden": 8,
+      "rango": "27:1-32:33"
+    },
+    {
+      "id": "gn-09",
+      "bookId": "gn",
+      "orden": 9,
+      "rango": "33:1-36:43"
+    },
+    {
+      "id": "gn-10",
+      "bookId": "gn",
+      "orden": 10,
+      "rango": "37:1-50:26"
+    },
+    {
+      "id": "ex-01",
+      "bookId": "ex",
+      "orden": 1,
+      "rango": "1:1-4:31"
+    },
+    {
+      "id": "ex-02",
+      "bookId": "ex",
+      "orden": 2,
+      "rango": "5:1-8:28"
+    },
+    {
+      "id": "ex-03",
+      "bookId": "ex",
+      "orden": 3,
+      "rango": "9:1-11:10"
+    },
+    {
+      "id": "ex-04",
+      "bookId": "ex",
+      "orden": 4,
+      "rango": "12:1-14:31"
+    },
+    {
+      "id": "ex-05",
+      "bookId": "ex",
+      "orden": 5,
+      "rango": "15:1-17:16"
+    },
+    {
+      "id": "ex-06",
+      "bookId": "ex",
+      "orden": 6,
+      "rango": "18:1-21:37"
+    },
+    {
+      "id": "ex-07",
+      "bookId": "ex",
+      "orden": 7,
+      "rango": "22:1-25:40"
+    },
+    {
+      "id": "ex-08",
+      "bookId": "ex",
+      "orden": 8,
+      "rango": "26:1-28:43"
+    },
+    {
+      "id": "ex-09",
+      "bookId": "ex",
+      "orden": 9,
+      "rango": "29:1-31:18"
+    },
+    {
+      "id": "ex-10",
+      "bookId": "ex",
+      "orden": 10,
+      "rango": "32:1-34:35"
+    },
+    {
+      "id": "ex-11",
+      "bookId": "ex",
+      "orden": 11,
+      "rango": "35:1-37:29"
+    },
+    {
+      "id": "ex-12",
+      "bookId": "ex",
+      "orden": 12,
+      "rango": "38:1-40:38"
+    },
+    {
+      "id": "lv-01",
+      "bookId": "lv",
+      "orden": 1,
+      "rango": "1:1-4:35"
+    },
+    {
+      "id": "lv-02",
+      "bookId": "lv",
+      "orden": 2,
+      "rango": "5:1-7:38"
+    },
+    {
+      "id": "lv-03",
+      "bookId": "lv",
+      "orden": 3,
+      "rango": "8:1-10:20"
+    },
+    {
+      "id": "lv-04",
+      "bookId": "lv",
+      "orden": 4,
+      "rango": "11:1-13:59"
+    },
+    {
+      "id": "lv-05",
+      "bookId": "lv",
+      "orden": 5,
+      "rango": "14:1-14:57"
+    },
+    {
+      "id": "lv-06",
+      "bookId": "lv",
+      "orden": 6,
+      "rango": "15:1-16:34"
+    },
+    {
+      "id": "lv-07",
+      "bookId": "lv",
+      "orden": 7,
+      "rango": "17:1-20:27"
+    },
+    {
+      "id": "lv-08",
+      "bookId": "lv",
+      "orden": 8,
+      "rango": "21:1-23:44"
+    },
+    {
+      "id": "lv-09",
+      "bookId": "lv",
+      "orden": 9,
+      "rango": "24:1-25:55"
+    },
+    {
+      "id": "lv-10",
+      "bookId": "lv",
+      "orden": 10,
+      "rango": "26:1-27:34"
+    },
+    {
+      "id": "nm-01",
+      "bookId": "nm",
+      "orden": 1,
+      "rango": "1:1-3:51"
+    },
+    {
+      "id": "nm-02",
+      "bookId": "nm",
+      "orden": 2,
+      "rango": "4:1-6:27"
+    },
+    {
+      "id": "nm-03",
+      "bookId": "nm",
+      "orden": 3,
+      "rango": "7:1-8:26"
+    },
+    {
+      "id": "nm-04",
+      "bookId": "nm",
+      "orden": 4,
+      "rango": "9:1-11:35"
+    },
+    {
+      "id": "nm-05",
+      "bookId": "nm",
+      "orden": 5,
+      "rango": "12:1-14:45"
+    },
+    {
+      "id": "nm-06",
+      "bookId": "nm",
+      "orden": 6,
+      "rango": "15:1-17:28"
+    },
+    {
+      "id": "nm-07",
+      "bookId": "nm",
+      "orden": 7,
+      "rango": "18:1-20:29"
+    },
+    {
+      "id": "nm-08",
+      "bookId": "nm",
+      "orden": 8,
+      "rango": "21:1-23:30"
+    },
+    {
+      "id": "nm-09",
+      "bookId": "nm",
+      "orden": 9,
+      "rango": "24:1-26:65"
+    },
+    {
+      "id": "nm-10",
+      "bookId": "nm",
+      "orden": 10,
+      "rango": "27:1-29:39"
+    },
+    {
+      "id": "nm-11",
+      "bookId": "nm",
+      "orden": 11,
+      "rango": "30:1-32:42"
+    },
+    {
+      "id": "nm-12",
+      "bookId": "nm",
+      "orden": 12,
+      "rango": "33:1-36:13"
+    },
+    {
+      "id": "dt-01",
+      "bookId": "dt",
+      "orden": 1,
+      "rango": "1:1-2:37"
+    },
+    {
+      "id": "dt-02",
+      "bookId": "dt",
+      "orden": 2,
+      "rango": "3:1-4:49"
+    },
+    {
+      "id": "dt-03",
+      "bookId": "dt",
+      "orden": 3,
+      "rango": "5:1-8:20"
+    },
+    {
+      "id": "dt-04",
+      "bookId": "dt",
+      "orden": 4,
+      "rango": "9:1-11:32"
+    },
+    {
+      "id": "dt-05",
+      "bookId": "dt",
+      "orden": 5,
+      "rango": "12:1-14:29"
+    },
+    {
+      "id": "dt-06",
+      "bookId": "dt",
+      "orden": 6,
+      "rango": "15:1-18:22"
+    },
+    {
+      "id": "dt-07",
+      "bookId": "dt",
+      "orden": 7,
+      "rango": "19:1-22:29"
+    },
+    {
+      "id": "dt-08",
+      "bookId": "dt",
+      "orden": 8,
+      "rango": "23:1-26:19"
+    },
+    {
+      "id": "dt-09",
+      "bookId": "dt",
+      "orden": 9,
+      "rango": "27:1-28:69"
+    },
+    {
+      "id": "dt-10",
+      "bookId": "dt",
+      "orden": 10,
+      "rango": "29:1-31:30"
+    },
+    {
+      "id": "dt-11",
+      "bookId": "dt",
+      "orden": 11,
+      "rango": "32:1-34:12"
+    },
+    {
+      "id": "jos-01",
+      "bookId": "jos",
+      "orden": 1,
+      "rango": "1:1-4:24"
+    },
+    {
+      "id": "jos-02",
+      "bookId": "jos",
+      "orden": 2,
+      "rango": "5:1-7:26"
+    },
+    {
+      "id": "jos-03",
+      "bookId": "jos",
+      "orden": 3,
+      "rango": "8:1-9:27"
+    },
+    {
+      "id": "jos-04",
+      "bookId": "jos",
+      "orden": 4,
+      "rango": "10:1-12:24"
+    },
+    {
+      "id": "jos-05",
+      "bookId": "jos",
+      "orden": 5,
+      "rango": "13:1-16:10"
+    },
+    {
+      "id": "jos-06",
+      "bookId": "jos",
+      "orden": 6,
+      "rango": "17:1-20:9"
+    },
+    {
+      "id": "jos-07",
+      "bookId": "jos",
+      "orden": 7,
+      "rango": "21:1-22:34"
+    },
+    {
+      "id": "jos-08",
+      "bookId": "jos",
+      "orden": 8,
+      "rango": "23:1-24:33"
+    },
+    {
+      "id": "jue-01",
+      "bookId": "jue",
+      "orden": 1,
+      "rango": "1:1-2:23"
+    },
+    {
+      "id": "jue-02",
+      "bookId": "jue",
+      "orden": 2,
+      "rango": "3:1-5:31"
+    },
+    {
+      "id": "jue-03",
+      "bookId": "jue",
+      "orden": 3,
+      "rango": "6:1-7:25"
+    },
+    {
+      "id": "jue-04",
+      "bookId": "jue",
+      "orden": 4,
+      "rango": "8:1-9:57"
+    },
+    {
+      "id": "jue-05",
+      "bookId": "jue",
+      "orden": 5,
+      "rango": "10:1-13:25"
+    },
+    {
+      "id": "jue-06",
+      "bookId": "jue",
+      "orden": 6,
+      "rango": "14:1-16:31"
+    },
+    {
+      "id": "jue-07",
+      "bookId": "jue",
+      "orden": 7,
+      "rango": "17:1-19:30"
+    },
+    {
+      "id": "jue-08",
+      "bookId": "jue",
+      "orden": 8,
+      "rango": "20:1-21:25"
+    },
+    {
+      "id": "rut-01",
+      "bookId": "rut",
+      "orden": 1,
+      "rango": "1:1-4:22"
+    },
+    {
+      "id": "1sam-01",
+      "bookId": "1sam",
+      "orden": 1,
+      "rango": "1:1-3:21"
+    },
+    {
+      "id": "1sam-02",
+      "bookId": "1sam",
+      "orden": 2,
+      "rango": "4:1-7:17"
+    },
+    {
+      "id": "1sam-03",
+      "bookId": "1sam",
+      "orden": 3,
+      "rango": "8:1-10:27"
+    },
+    {
+      "id": "1sam-04",
+      "bookId": "1sam",
+      "orden": 4,
+      "rango": "11:1-13:23"
+    },
+    {
+      "id": "1sam-05",
+      "bookId": "1sam",
+      "orden": 5,
+      "rango": "14:1-15:35"
+    },
+    {
+      "id": "1sam-06",
+      "bookId": "1sam",
+      "orden": 6,
+      "rango": "16:1-17:58"
+    },
+    {
+      "id": "1sam-07",
+      "bookId": "1sam",
+      "orden": 7,
+      "rango": "18:1-20:42"
+    },
+    {
+      "id": "1sam-08",
+      "bookId": "1sam",
+      "orden": 8,
+      "rango": "21:1-24:23"
+    },
+    {
+      "id": "1sam-09",
+      "bookId": "1sam",
+      "orden": 9,
+      "rango": "25:1-27:12"
+    },
+    {
+      "id": "1sam-10",
+      "bookId": "1sam",
+      "orden": 10,
+      "rango": "28:1-31:13"
+    },
+    {
+      "id": "2sam-01",
+      "bookId": "2sam",
+      "orden": 1,
+      "rango": "1:1-2:32"
+    },
+    {
+      "id": "2sam-02",
+      "bookId": "2sam",
+      "orden": 2,
+      "rango": "3:1-5:25"
+    },
+    {
+      "id": "2sam-03",
+      "bookId": "2sam",
+      "orden": 3,
+      "rango": "6:1-9:13"
+    },
+    {
+      "id": "2sam-04",
+      "bookId": "2sam",
+      "orden": 4,
+      "rango": "10:1-12:31"
+    },
+    {
+      "id": "2sam-05",
+      "bookId": "2sam",
+      "orden": 5,
+      "rango": "13:1-14:33"
+    },
+    {
+      "id": "2sam-06",
+      "bookId": "2sam",
+      "orden": 6,
+      "rango": "15:1-17:29"
+    },
+    {
+      "id": "2sam-07",
+      "bookId": "2sam",
+      "orden": 7,
+      "rango": "18:1-19:44"
+    },
+    {
+      "id": "2sam-08",
+      "bookId": "2sam",
+      "orden": 8,
+      "rango": "20:1-21:22"
+    },
+    {
+      "id": "2sam-09",
+      "bookId": "2sam",
+      "orden": 9,
+      "rango": "22:1-24:25"
+    },
+    {
+      "id": "1re-01",
+      "bookId": "1re",
+      "orden": 1,
+      "rango": "1:1-1:53"
+    },
+    {
+      "id": "1re-02",
+      "bookId": "1re",
+      "orden": 2,
+      "rango": "2:1-2:46"
+    },
+    {
+      "id": "1re-03",
+      "bookId": "1re",
+      "orden": 3,
+      "rango": "3:1-5:32"
+    },
+    {
+      "id": "1re-04",
+      "bookId": "1re",
+      "orden": 4,
+      "rango": "6:1-7:51"
+    },
+    {
+      "id": "1re-05",
+      "bookId": "1re",
+      "orden": 5,
+      "rango": "8:1-8:66"
+    },
+    {
+      "id": "1re-06",
+      "bookId": "1re",
+      "orden": 6,
+      "rango": "9:1-11:43"
+    },
+    {
+      "id": "1re-07",
+      "bookId": "1re",
+      "orden": 7,
+      "rango": "12:1-13:34"
+    },
+    {
+      "id": "1re-08",
+      "bookId": "1re",
+      "orden": 8,
+      "rango": "14:1-16:34"
+    },
+    {
+      "id": "1re-09",
+      "bookId": "1re",
+      "orden": 9,
+      "rango": "17:1-18:46"
+    },
+    {
+      "id": "1re-10",
+      "bookId": "1re",
+      "orden": 10,
+      "rango": "19:1-20:43"
+    },
+    {
+      "id": "1re-11",
+      "bookId": "1re",
+      "orden": 11,
+      "rango": "21:1-22:54"
+    },
+    {
+      "id": "2re-01",
+      "bookId": "2re",
+      "orden": 1,
+      "rango": "1:1-3:27"
+    },
+    {
+      "id": "2re-02",
+      "bookId": "2re",
+      "orden": 2,
+      "rango": "4:1-5:27"
+    },
+    {
+      "id": "2re-03",
+      "bookId": "2re",
+      "orden": 3,
+      "rango": "6:1-8:29"
+    },
+    {
+      "id": "2re-04",
+      "bookId": "2re",
+      "orden": 4,
+      "rango": "9:1-10:36"
+    },
+    {
+      "id": "2re-05",
+      "bookId": "2re",
+      "orden": 5,
+      "rango": "11:1-13:25"
+    },
+    {
+      "id": "2re-06",
+      "bookId": "2re",
+      "orden": 6,
+      "rango": "14:1-16:20"
+    },
+    {
+      "id": "2re-07",
+      "bookId": "2re",
+      "orden": 7,
+      "rango": "17:1-18:37"
+    },
+    {
+      "id": "2re-08",
+      "bookId": "2re",
+      "orden": 8,
+      "rango": "19:1-21:26"
+    },
+    {
+      "id": "2re-09",
+      "bookId": "2re",
+      "orden": 9,
+      "rango": "22:1-23:37"
+    },
+    {
+      "id": "2re-10",
+      "bookId": "2re",
+      "orden": 10,
+      "rango": "24:1-25:30"
+    },
+    {
+      "id": "1cr-01",
+      "bookId": "1cr",
+      "orden": 1,
+      "rango": "1:1-4:43"
+    },
+    {
+      "id": "1cr-02",
+      "bookId": "1cr",
+      "orden": 2,
+      "rango": "5:1-6:66"
+    },
+    {
+      "id": "1cr-03",
+      "bookId": "1cr",
+      "orden": 3,
+      "rango": "7:1-10:14"
+    },
+    {
+      "id": "1cr-04",
+      "bookId": "1cr",
+      "orden": 4,
+      "rango": "11:1-14:17"
+    },
+    {
+      "id": "1cr-05",
+      "bookId": "1cr",
+      "orden": 5,
+      "rango": "15:1-18:17"
+    },
+    {
+      "id": "1cr-06",
+      "bookId": "1cr",
+      "orden": 6,
+      "rango": "19:1-22:19"
+    },
+    {
+      "id": "1cr-07",
+      "bookId": "1cr",
+      "orden": 7,
+      "rango": "23:1-26:32"
+    },
+    {
+      "id": "1cr-08",
+      "bookId": "1cr",
+      "orden": 8,
+      "rango": "27:1-29:30"
+    },
+    {
+      "id": "2cr-01",
+      "bookId": "2cr",
+      "orden": 1,
+      "rango": "1:1-5:14"
+    },
+    {
+      "id": "2cr-02",
+      "bookId": "2cr",
+      "orden": 2,
+      "rango": "6:1-8:18"
+    },
+    {
+      "id": "2cr-03",
+      "bookId": "2cr",
+      "orden": 3,
+      "rango": "9:1-12:16"
+    },
+    {
+      "id": "2cr-04",
+      "bookId": "2cr",
+      "orden": 4,
+      "rango": "13:1-17:19"
+    },
+    {
+      "id": "2cr-05",
+      "bookId": "2cr",
+      "orden": 5,
+      "rango": "18:1-20:37"
+    },
+    {
+      "id": "2cr-06",
+      "bookId": "2cr",
+      "orden": 6,
+      "rango": "21:1-24:27"
+    },
+    {
+      "id": "2cr-07",
+      "bookId": "2cr",
+      "orden": 7,
+      "rango": "25:1-28:27"
+    },
+    {
+      "id": "2cr-08",
+      "bookId": "2cr",
+      "orden": 8,
+      "rango": "29:1-30:27"
+    },
+    {
+      "id": "2cr-09",
+      "bookId": "2cr",
+      "orden": 9,
+      "rango": "31:1-33:25"
+    },
+    {
+      "id": "2cr-10",
+      "bookId": "2cr",
+      "orden": 10,
+      "rango": "34:1-36:23"
+    },
+    {
+      "id": "esd-01",
+      "bookId": "esd",
+      "orden": 1,
+      "rango": "1:1-4:24"
+    },
+    {
+      "id": "esd-02",
+      "bookId": "esd",
+      "orden": 2,
+      "rango": "5:1-7:28"
+    },
+    {
+      "id": "esd-03",
+      "bookId": "esd",
+      "orden": 3,
+      "rango": "8:1-10:44"
+    },
+    {
+      "id": "neh-01",
+      "bookId": "neh",
+      "orden": 1,
+      "rango": "1:1-4:17"
+    },
+    {
+      "id": "neh-02",
+      "bookId": "neh",
+      "orden": 2,
+      "rango": "5:1-7:72"
+    },
+    {
+      "id": "neh-03",
+      "bookId": "neh",
+      "orden": 3,
+      "rango": "8:1-10:40"
+    },
+    {
+      "id": "neh-04",
+      "bookId": "neh",
+      "orden": 4,
+      "rango": "11:1-13:31"
+    },
+    {
+      "id": "tob-01",
+      "bookId": "tob",
+      "orden": 1,
+      "rango": "1:1-4:21"
+    },
+    {
+      "id": "tob-02",
+      "bookId": "tob",
+      "orden": 2,
+      "rango": "5:1-9:6"
+    },
+    {
+      "id": "tob-03",
+      "bookId": "tob",
+      "orden": 3,
+      "rango": "10:1-14:15"
+    },
+    {
+      "id": "jdt-01",
+      "bookId": "jdt",
+      "orden": 1,
+      "rango": "1:1-5:24"
+    },
+    {
+      "id": "jdt-02",
+      "bookId": "jdt",
+      "orden": 2,
+      "rango": "6:1-8:36"
+    },
+    {
+      "id": "jdt-03",
+      "bookId": "jdt",
+      "orden": 3,
+      "rango": "9:1-12:20"
+    },
+    {
+      "id": "jdt-04",
+      "bookId": "jdt",
+      "orden": 4,
+      "rango": "13:1-16:25"
+    },
+    {
+      "id": "est-01",
+      "bookId": "est",
+      "orden": 1,
+      "rango": "1:1-3:15"
+    },
+    {
+      "id": "est-02",
+      "bookId": "est",
+      "orden": 2,
+      "rango": "4:1-7:10"
+    },
+    {
+      "id": "est-03",
+      "bookId": "est",
+      "orden": 3,
+      "rango": "8:1-10:3"
+    },
+    {
+      "id": "1mac-01",
+      "bookId": "1mac",
+      "orden": 1,
+      "rango": "1:1-2:70"
+    },
+    {
+      "id": "1mac-02",
+      "bookId": "1mac",
+      "orden": 2,
+      "rango": "3:1-4:61"
+    },
+    {
+      "id": "1mac-03",
+      "bookId": "1mac",
+      "orden": 3,
+      "rango": "5:1-5:68"
+    },
+    {
+      "id": "1mac-04",
+      "bookId": "1mac",
+      "orden": 4,
+      "rango": "6:1-7:50"
+    },
+    {
+      "id": "1mac-05",
+      "bookId": "1mac",
+      "orden": 5,
+      "rango": "8:1-9:73"
+    },
+    {
+      "id": "1mac-06",
+      "bookId": "1mac",
+      "orden": 6,
+      "rango": "10:1-10:89"
+    },
+    {
+      "id": "1mac-07",
+      "bookId": "1mac",
+      "orden": 7,
+      "rango": "11:1-11:74"
+    },
+    {
+      "id": "1mac-08",
+      "bookId": "1mac",
+      "orden": 8,
+      "rango": "12:1-12:53"
+    },
+    {
+      "id": "1mac-09",
+      "bookId": "1mac",
+      "orden": 9,
+      "rango": "13:1-14:49"
+    },
+    {
+      "id": "1mac-10",
+      "bookId": "1mac",
+      "orden": 10,
+      "rango": "15:1-16:24"
+    },
+    {
+      "id": "2mac-01",
+      "bookId": "2mac",
+      "orden": 1,
+      "rango": "1:1-2:32"
+    },
+    {
+      "id": "2mac-02",
+      "bookId": "2mac",
+      "orden": 2,
+      "rango": "3:1-3:40"
+    },
+    {
+      "id": "2mac-03",
+      "bookId": "2mac",
+      "orden": 3,
+      "rango": "4:1-5:27"
+    },
+    {
+      "id": "2mac-04",
+      "bookId": "2mac",
+      "orden": 4,
+      "rango": "6:1-7:42"
+    },
+    {
+      "id": "2mac-05",
+      "bookId": "2mac",
+      "orden": 5,
+      "rango": "8:1-9:29"
+    },
+    {
+      "id": "2mac-06",
+      "bookId": "2mac",
+      "orden": 6,
+      "rango": "10:1-11:38"
+    },
+    {
+      "id": "2mac-07",
+      "bookId": "2mac",
+      "orden": 7,
+      "rango": "12:1-13:26"
+    },
+    {
+      "id": "2mac-08",
+      "bookId": "2mac",
+      "orden": 8,
+      "rango": "14:1-15:39"
+    },
+    {
+      "id": "job-01",
+      "bookId": "job",
+      "orden": 1,
+      "rango": "1:1-7:21"
+    },
+    {
+      "id": "job-02",
+      "bookId": "job",
+      "orden": 2,
+      "rango": "8:1-14:22"
+    },
+    {
+      "id": "job-03",
+      "bookId": "job",
+      "orden": 3,
+      "rango": "15:1-21:34"
+    },
+    {
+      "id": "job-04",
+      "bookId": "job",
+      "orden": 4,
+      "rango": "22:1-30:31"
+    },
+    {
+      "id": "job-05",
+      "bookId": "job",
+      "orden": 5,
+      "rango": "31:1-36:33"
+    },
+    {
+      "id": "job-06",
+      "bookId": "job",
+      "orden": 6,
+      "rango": "37:1-42:17"
+    },
+    {
+      "id": "sal-001",
+      "bookId": "sal",
+      "orden": 1,
+      "rango": "1:1-1:6"
+    },
+    {
+      "id": "sal-002",
+      "bookId": "sal",
+      "orden": 2,
+      "rango": "2:1-2:12"
+    },
+    {
+      "id": "sal-003",
+      "bookId": "sal",
+      "orden": 3,
+      "rango": "3:1-3:9"
+    },
+    {
+      "id": "sal-004",
+      "bookId": "sal",
+      "orden": 4,
+      "rango": "4:1-4:9"
+    },
+    {
+      "id": "sal-005",
+      "bookId": "sal",
+      "orden": 5,
+      "rango": "5:1-5:13"
+    },
+    {
+      "id": "sal-006",
+      "bookId": "sal",
+      "orden": 6,
+      "rango": "6:1-6:11"
+    },
+    {
+      "id": "sal-007",
+      "bookId": "sal",
+      "orden": 7,
+      "rango": "7:1-7:18"
+    },
+    {
+      "id": "sal-008",
+      "bookId": "sal",
+      "orden": 8,
+      "rango": "8:1-8:10"
+    },
+    {
+      "id": "sal-009",
+      "bookId": "sal",
+      "orden": 9,
+      "rango": "9:1-9:18"
+    },
+    {
+      "id": "sal-011",
+      "bookId": "sal",
+      "orden": 10,
+      "rango": "11:1-11:7"
+    },
+    {
+      "id": "sal-012",
+      "bookId": "sal",
+      "orden": 11,
+      "rango": "12:1-12:9"
+    },
+    {
+      "id": "sal-013",
+      "bookId": "sal",
+      "orden": 12,
+      "rango": "13:1-13:6"
+    },
+    {
+      "id": "sal-014",
+      "bookId": "sal",
+      "orden": 13,
+      "rango": "14:1-14:7"
+    },
+    {
+      "id": "sal-015",
+      "bookId": "sal",
+      "orden": 14,
+      "rango": "15:1-15:5"
+    },
+    {
+      "id": "sal-016",
+      "bookId": "sal",
+      "orden": 15,
+      "rango": "16:1-16:11"
+    },
+    {
+      "id": "sal-017",
+      "bookId": "sal",
+      "orden": 16,
+      "rango": "17:1-17:15"
+    },
+    {
+      "id": "sal-018",
+      "bookId": "sal",
+      "orden": 17,
+      "rango": "18:1-18:51"
+    },
+    {
+      "id": "sal-019",
+      "bookId": "sal",
+      "orden": 18,
+      "rango": "19:1-19:15"
+    },
+    {
+      "id": "sal-020",
+      "bookId": "sal",
+      "orden": 19,
+      "rango": "20:1-20:10"
+    },
+    {
+      "id": "sal-021",
+      "bookId": "sal",
+      "orden": 20,
+      "rango": "21:1-21:14"
+    },
+    {
+      "id": "sal-022",
+      "bookId": "sal",
+      "orden": 21,
+      "rango": "22:1-22:32"
+    },
+    {
+      "id": "sal-023",
+      "bookId": "sal",
+      "orden": 22,
+      "rango": "23:1-23:6"
+    },
+    {
+      "id": "sal-024",
+      "bookId": "sal",
+      "orden": 23,
+      "rango": "24:1-24:10"
+    },
+    {
+      "id": "sal-025",
+      "bookId": "sal",
+      "orden": 24,
+      "rango": "25:1-25:22"
+    },
+    {
+      "id": "sal-026",
+      "bookId": "sal",
+      "orden": 25,
+      "rango": "26:1-26:12"
+    },
+    {
+      "id": "sal-027",
+      "bookId": "sal",
+      "orden": 26,
+      "rango": "27:1-27:14"
+    },
+    {
+      "id": "sal-028",
+      "bookId": "sal",
+      "orden": 27,
+      "rango": "28:1-28:9"
+    },
+    {
+      "id": "sal-029",
+      "bookId": "sal",
+      "orden": 28,
+      "rango": "29:1-29:11"
+    },
+    {
+      "id": "sal-030",
+      "bookId": "sal",
+      "orden": 29,
+      "rango": "30:1-30:13"
+    },
+    {
+      "id": "sal-031",
+      "bookId": "sal",
+      "orden": 30,
+      "rango": "31:1-31:25"
+    },
+    {
+      "id": "sal-032",
+      "bookId": "sal",
+      "orden": 31,
+      "rango": "32:1-32:11"
+    },
+    {
+      "id": "sal-033",
+      "bookId": "sal",
+      "orden": 32,
+      "rango": "33:1-33:22"
+    },
+    {
+      "id": "sal-034",
+      "bookId": "sal",
+      "orden": 33,
+      "rango": "34:1-34:23"
+    },
+    {
+      "id": "sal-035",
+      "bookId": "sal",
+      "orden": 34,
+      "rango": "35:1-35:28"
+    },
+    {
+      "id": "sal-036",
+      "bookId": "sal",
+      "orden": 35,
+      "rango": "36:1-36:13"
+    },
+    {
+      "id": "sal-037",
+      "bookId": "sal",
+      "orden": 36,
+      "rango": "37:1-37:40"
+    },
+    {
+      "id": "sal-038",
+      "bookId": "sal",
+      "orden": 37,
+      "rango": "38:1-38:23"
+    },
+    {
+      "id": "sal-039",
+      "bookId": "sal",
+      "orden": 38,
+      "rango": "39:1-39:14"
+    },
+    {
+      "id": "sal-040",
+      "bookId": "sal",
+      "orden": 39,
+      "rango": "40:1-40:18"
+    },
+    {
+      "id": "sal-041",
+      "bookId": "sal",
+      "orden": 40,
+      "rango": "41:1-41:14"
+    },
+    {
+      "id": "sal-042",
+      "bookId": "sal",
+      "orden": 41,
+      "rango": "42:1-42:12"
+    },
+    {
+      "id": "sal-043",
+      "bookId": "sal",
+      "orden": 42,
+      "rango": "43:1-43:5"
+    },
+    {
+      "id": "sal-044",
+      "bookId": "sal",
+      "orden": 43,
+      "rango": "44:1-44:27"
+    },
+    {
+      "id": "sal-045",
+      "bookId": "sal",
+      "orden": 44,
+      "rango": "45:1-45:18"
+    },
+    {
+      "id": "sal-046",
+      "bookId": "sal",
+      "orden": 45,
+      "rango": "46:1-46:12"
+    },
+    {
+      "id": "sal-047",
+      "bookId": "sal",
+      "orden": 46,
+      "rango": "47:1-47:10"
+    },
+    {
+      "id": "sal-048",
+      "bookId": "sal",
+      "orden": 47,
+      "rango": "48:1-48:15"
+    },
+    {
+      "id": "sal-049",
+      "bookId": "sal",
+      "orden": 48,
+      "rango": "49:1-49:21"
+    },
+    {
+      "id": "sal-050",
+      "bookId": "sal",
+      "orden": 49,
+      "rango": "50:1-50:23"
+    },
+    {
+      "id": "sal-051",
+      "bookId": "sal",
+      "orden": 50,
+      "rango": "51:1-51:21"
+    },
+    {
+      "id": "sal-052",
+      "bookId": "sal",
+      "orden": 51,
+      "rango": "52:1-52:11"
+    },
+    {
+      "id": "sal-053",
+      "bookId": "sal",
+      "orden": 52,
+      "rango": "53:1-53:7"
+    },
+    {
+      "id": "sal-054",
+      "bookId": "sal",
+      "orden": 53,
+      "rango": "54:1-54:9"
+    },
+    {
+      "id": "sal-055",
+      "bookId": "sal",
+      "orden": 54,
+      "rango": "55:1-55:24"
+    },
+    {
+      "id": "sal-056",
+      "bookId": "sal",
+      "orden": 55,
+      "rango": "56:1-56:14"
+    },
+    {
+      "id": "sal-057",
+      "bookId": "sal",
+      "orden": 56,
+      "rango": "57:1-57:12"
+    },
+    {
+      "id": "sal-058",
+      "bookId": "sal",
+      "orden": 57,
+      "rango": "58:1-58:12"
+    },
+    {
+      "id": "sal-059",
+      "bookId": "sal",
+      "orden": 58,
+      "rango": "59:1-59:18"
+    },
+    {
+      "id": "sal-060",
+      "bookId": "sal",
+      "orden": 59,
+      "rango": "60:1-60:14"
+    },
+    {
+      "id": "sal-061",
+      "bookId": "sal",
+      "orden": 60,
+      "rango": "61:1-61:9"
+    },
+    {
+      "id": "sal-062",
+      "bookId": "sal",
+      "orden": 61,
+      "rango": "62:1-62:13"
+    },
+    {
+      "id": "sal-063",
+      "bookId": "sal",
+      "orden": 62,
+      "rango": "63:1-63:12"
+    },
+    {
+      "id": "sal-064",
+      "bookId": "sal",
+      "orden": 63,
+      "rango": "64:1-64:11"
+    },
+    {
+      "id": "sal-065",
+      "bookId": "sal",
+      "orden": 64,
+      "rango": "65:1-65:14"
+    },
+    {
+      "id": "sal-066",
+      "bookId": "sal",
+      "orden": 65,
+      "rango": "66:1-66:20"
+    },
+    {
+      "id": "sal-067",
+      "bookId": "sal",
+      "orden": 66,
+      "rango": "67:1-67:8"
+    },
+    {
+      "id": "sal-068",
+      "bookId": "sal",
+      "orden": 67,
+      "rango": "68:1-68:36"
+    },
+    {
+      "id": "sal-069",
+      "bookId": "sal",
+      "orden": 68,
+      "rango": "69:1-69:37"
+    },
+    {
+      "id": "sal-070",
+      "bookId": "sal",
+      "orden": 69,
+      "rango": "70:1-70:6"
+    },
+    {
+      "id": "sal-071",
+      "bookId": "sal",
+      "orden": 70,
+      "rango": "71:1-71:24"
+    },
+    {
+      "id": "sal-072",
+      "bookId": "sal",
+      "orden": 71,
+      "rango": "72:1-72:20"
+    },
+    {
+      "id": "sal-073",
+      "bookId": "sal",
+      "orden": 72,
+      "rango": "73:1-73:28"
+    },
+    {
+      "id": "sal-074",
+      "bookId": "sal",
+      "orden": 73,
+      "rango": "74:1-74:23"
+    },
+    {
+      "id": "sal-075",
+      "bookId": "sal",
+      "orden": 74,
+      "rango": "75:1-75:11"
+    },
+    {
+      "id": "sal-076",
+      "bookId": "sal",
+      "orden": 75,
+      "rango": "76:1-76:13"
+    },
+    {
+      "id": "sal-077",
+      "bookId": "sal",
+      "orden": 76,
+      "rango": "77:1-77:21"
+    },
+    {
+      "id": "sal-078",
+      "bookId": "sal",
+      "orden": 77,
+      "rango": "78:1-78:72"
+    },
+    {
+      "id": "sal-079",
+      "bookId": "sal",
+      "orden": 78,
+      "rango": "79:1-79:13"
+    },
+    {
+      "id": "sal-080",
+      "bookId": "sal",
+      "orden": 79,
+      "rango": "80:1-80:20"
+    },
+    {
+      "id": "sal-081",
+      "bookId": "sal",
+      "orden": 80,
+      "rango": "81:1-81:17"
+    },
+    {
+      "id": "sal-082",
+      "bookId": "sal",
+      "orden": 81,
+      "rango": "82:1-82:8"
+    },
+    {
+      "id": "sal-083",
+      "bookId": "sal",
+      "orden": 82,
+      "rango": "83:1-83:19"
+    },
+    {
+      "id": "sal-084",
+      "bookId": "sal",
+      "orden": 83,
+      "rango": "84:1-84:13"
+    },
+    {
+      "id": "sal-085",
+      "bookId": "sal",
+      "orden": 84,
+      "rango": "85:1-85:14"
+    },
+    {
+      "id": "sal-086",
+      "bookId": "sal",
+      "orden": 85,
+      "rango": "86:1-86:17"
+    },
+    {
+      "id": "sal-087",
+      "bookId": "sal",
+      "orden": 86,
+      "rango": "87:1-87:7"
+    },
+    {
+      "id": "sal-088",
+      "bookId": "sal",
+      "orden": 87,
+      "rango": "88:1-88:19"
+    },
+    {
+      "id": "sal-089",
+      "bookId": "sal",
+      "orden": 88,
+      "rango": "89:1-89:53"
+    },
+    {
+      "id": "sal-090",
+      "bookId": "sal",
+      "orden": 89,
+      "rango": "90:1-90:17"
+    },
+    {
+      "id": "sal-091",
+      "bookId": "sal",
+      "orden": 90,
+      "rango": "91:1-91:16"
+    },
+    {
+      "id": "sal-092",
+      "bookId": "sal",
+      "orden": 91,
+      "rango": "92:1-92:16"
+    },
+    {
+      "id": "sal-093",
+      "bookId": "sal",
+      "orden": 92,
+      "rango": "93:1-93:5"
+    },
+    {
+      "id": "sal-094",
+      "bookId": "sal",
+      "orden": 93,
+      "rango": "94:1-94:23"
+    },
+    {
+      "id": "sal-095",
+      "bookId": "sal",
+      "orden": 94,
+      "rango": "95:1-95:11"
+    },
+    {
+      "id": "sal-096",
+      "bookId": "sal",
+      "orden": 95,
+      "rango": "96:1-96:13"
+    },
+    {
+      "id": "sal-097",
+      "bookId": "sal",
+      "orden": 96,
+      "rango": "97:1-97:12"
+    },
+    {
+      "id": "sal-098",
+      "bookId": "sal",
+      "orden": 97,
+      "rango": "98:1-98:9"
+    },
+    {
+      "id": "sal-099",
+      "bookId": "sal",
+      "orden": 98,
+      "rango": "99:1-99:9"
+    },
+    {
+      "id": "sal-100",
+      "bookId": "sal",
+      "orden": 99,
+      "rango": "100:1-100:5"
+    },
+    {
+      "id": "sal-101",
+      "bookId": "sal",
+      "orden": 100,
+      "rango": "101:1-101:8"
+    },
+    {
+      "id": "sal-102",
+      "bookId": "sal",
+      "orden": 101,
+      "rango": "102:1-102:29"
+    },
+    {
+      "id": "sal-103",
+      "bookId": "sal",
+      "orden": 102,
+      "rango": "103:1-103:22"
+    },
+    {
+      "id": "sal-104",
+      "bookId": "sal",
+      "orden": 103,
+      "rango": "104:1-104:35"
+    },
+    {
+      "id": "sal-105",
+      "bookId": "sal",
+      "orden": 104,
+      "rango": "105:1-105:45"
+    },
+    {
+      "id": "sal-106",
+      "bookId": "sal",
+      "orden": 105,
+      "rango": "106:1-106:48"
+    },
+    {
+      "id": "sal-107",
+      "bookId": "sal",
+      "orden": 106,
+      "rango": "107:1-107:43"
+    },
+    {
+      "id": "sal-108",
+      "bookId": "sal",
+      "orden": 107,
+      "rango": "108:1-108:14"
+    },
+    {
+      "id": "sal-109",
+      "bookId": "sal",
+      "orden": 108,
+      "rango": "109:1-109:31"
+    },
+    {
+      "id": "sal-110",
+      "bookId": "sal",
+      "orden": 109,
+      "rango": "110:1-110:7"
+    },
+    {
+      "id": "sal-111",
+      "bookId": "sal",
+      "orden": 110,
+      "rango": "111:1-111:10"
+    },
+    {
+      "id": "sal-112",
+      "bookId": "sal",
+      "orden": 111,
+      "rango": "112:1-112:10"
+    },
+    {
+      "id": "sal-113",
+      "bookId": "sal",
+      "orden": 112,
+      "rango": "113:1-113:9"
+    },
+    {
+      "id": "sal-114",
+      "bookId": "sal",
+      "orden": 113,
+      "rango": "114:1-114:8"
+    },
+    {
+      "id": "sal-115",
+      "bookId": "sal",
+      "orden": 114,
+      "rango": "115:1-115:18"
+    },
+    {
+      "id": "sal-116",
+      "bookId": "sal",
+      "orden": 115,
+      "rango": "116:1-116:19"
+    },
+    {
+      "id": "sal-117",
+      "bookId": "sal",
+      "orden": 116,
+      "rango": "117:1-117:2"
+    },
+    {
+      "id": "sal-118",
+      "bookId": "sal",
+      "orden": 117,
+      "rango": "118:1-118:29"
+    },
+    {
+      "id": "sal-119",
+      "bookId": "sal",
+      "orden": 118,
+      "rango": "119:1-119:176"
+    },
+    {
+      "id": "sal-120",
+      "bookId": "sal",
+      "orden": 119,
+      "rango": "120:1-120:7"
+    },
+    {
+      "id": "sal-121",
+      "bookId": "sal",
+      "orden": 120,
+      "rango": "121:1-121:8"
+    },
+    {
+      "id": "sal-122",
+      "bookId": "sal",
+      "orden": 121,
+      "rango": "122:1-122:9"
+    },
+    {
+      "id": "sal-123",
+      "bookId": "sal",
+      "orden": 122,
+      "rango": "123:1-123:4"
+    },
+    {
+      "id": "sal-124",
+      "bookId": "sal",
+      "orden": 123,
+      "rango": "124:1-124:8"
+    },
+    {
+      "id": "sal-125",
+      "bookId": "sal",
+      "orden": 124,
+      "rango": "125:1-125:5"
+    },
+    {
+      "id": "sal-126",
+      "bookId": "sal",
+      "orden": 125,
+      "rango": "126:1-126:6"
+    },
+    {
+      "id": "sal-127",
+      "bookId": "sal",
+      "orden": 126,
+      "rango": "127:1-127:5"
+    },
+    {
+      "id": "sal-128",
+      "bookId": "sal",
+      "orden": 127,
+      "rango": "128:1-128:6"
+    },
+    {
+      "id": "sal-129",
+      "bookId": "sal",
+      "orden": 128,
+      "rango": "129:1-129:8"
+    },
+    {
+      "id": "sal-130",
+      "bookId": "sal",
+      "orden": 129,
+      "rango": "130:1-130:8"
+    },
+    {
+      "id": "sal-131",
+      "bookId": "sal",
+      "orden": 130,
+      "rango": "131:1-131:3"
+    },
+    {
+      "id": "sal-132",
+      "bookId": "sal",
+      "orden": 131,
+      "rango": "132:1-132:18"
+    },
+    {
+      "id": "sal-133",
+      "bookId": "sal",
+      "orden": 132,
+      "rango": "133:1-133:3"
+    },
+    {
+      "id": "sal-134",
+      "bookId": "sal",
+      "orden": 133,
+      "rango": "134:1-134:3"
+    },
+    {
+      "id": "sal-135",
+      "bookId": "sal",
+      "orden": 134,
+      "rango": "135:1-135:21"
+    },
+    {
+      "id": "sal-136",
+      "bookId": "sal",
+      "orden": 135,
+      "rango": "136:1-136:26"
+    },
+    {
+      "id": "sal-137",
+      "bookId": "sal",
+      "orden": 136,
+      "rango": "137:1-137:9"
+    },
+    {
+      "id": "sal-138",
+      "bookId": "sal",
+      "orden": 137,
+      "rango": "138:1-138:8"
+    },
+    {
+      "id": "sal-139",
+      "bookId": "sal",
+      "orden": 138,
+      "rango": "139:1-139:24"
+    },
+    {
+      "id": "sal-140",
+      "bookId": "sal",
+      "orden": 139,
+      "rango": "140:1-140:14"
+    },
+    {
+      "id": "sal-141",
+      "bookId": "sal",
+      "orden": 140,
+      "rango": "141:1-141:10"
+    },
+    {
+      "id": "sal-142",
+      "bookId": "sal",
+      "orden": 141,
+      "rango": "142:1-142:8"
+    },
+    {
+      "id": "sal-143",
+      "bookId": "sal",
+      "orden": 142,
+      "rango": "143:1-143:12"
+    },
+    {
+      "id": "sal-144",
+      "bookId": "sal",
+      "orden": 143,
+      "rango": "144:1-144:15"
+    },
+    {
+      "id": "sal-145",
+      "bookId": "sal",
+      "orden": 144,
+      "rango": "145:1-145:21"
+    },
+    {
+      "id": "sal-146",
+      "bookId": "sal",
+      "orden": 145,
+      "rango": "146:1-146:10"
+    },
+    {
+      "id": "sal-147",
+      "bookId": "sal",
+      "orden": 146,
+      "rango": "147:1-147:20"
+    },
+    {
+      "id": "sal-148",
+      "bookId": "sal",
+      "orden": 147,
+      "rango": "148:1-148:14"
+    },
+    {
+      "id": "sal-149",
+      "bookId": "sal",
+      "orden": 148,
+      "rango": "149:1-149:9"
+    },
+    {
+      "id": "sal-150",
+      "bookId": "sal",
+      "orden": 149,
+      "rango": "150:1-150:6"
+    },
+    {
+      "id": "prov-01",
+      "bookId": "prov",
+      "orden": 1,
+      "rango": "1:1-7:27"
+    },
+    {
+      "id": "prov-02",
+      "bookId": "prov",
+      "orden": 2,
+      "rango": "8:1-13:25"
+    },
+    {
+      "id": "prov-03",
+      "bookId": "prov",
+      "orden": 3,
+      "rango": "14:1-19:29"
+    },
+    {
+      "id": "prov-04",
+      "bookId": "prov",
+      "orden": 4,
+      "rango": "20:1-25:28"
+    },
+    {
+      "id": "prov-05",
+      "bookId": "prov",
+      "orden": 5,
+      "rango": "26:1-31:31"
+    },
+    {
+      "id": "ecl-01",
+      "bookId": "ecl",
+      "orden": 1,
+      "rango": "1:1-6:12"
+    },
+    {
+      "id": "ecl-02",
+      "bookId": "ecl",
+      "orden": 2,
+      "rango": "7:1-12:14"
+    },
+    {
+      "id": "cant-01",
+      "bookId": "cant",
+      "orden": 1,
+      "rango": "1:1-8:14"
+    },
+    {
+      "id": "sab-01",
+      "bookId": "sab",
+      "orden": 1,
+      "rango": "1:1-6:25"
+    },
+    {
+      "id": "sab-02",
+      "bookId": "sab",
+      "orden": 2,
+      "rango": "7:1-11:26"
+    },
+    {
+      "id": "sab-03",
+      "bookId": "sab",
+      "orden": 3,
+      "rango": "12:1-15:19"
+    },
+    {
+      "id": "sab-04",
+      "bookId": "sab",
+      "orden": 4,
+      "rango": "16:1-19:22"
+    },
+    {
+      "id": "eclo-01",
+      "bookId": "eclo",
+      "orden": 1,
+      "rango": "1:1-5:15"
+    },
+    {
+      "id": "eclo-02",
+      "bookId": "eclo",
+      "orden": 2,
+      "rango": "6:1-10:31"
+    },
+    {
+      "id": "eclo-03",
+      "bookId": "eclo",
+      "orden": 3,
+      "rango": "11:1-15:20"
+    },
+    {
+      "id": "eclo-04",
+      "bookId": "eclo",
+      "orden": 4,
+      "rango": "16:1-19:30"
+    },
+    {
+      "id": "eclo-05",
+      "bookId": "eclo",
+      "orden": 5,
+      "rango": "20:1-23:28"
+    },
+    {
+      "id": "eclo-06",
+      "bookId": "eclo",
+      "orden": 6,
+      "rango": "24:1-28:26"
+    },
+    {
+      "id": "eclo-07",
+      "bookId": "eclo",
+      "orden": 7,
+      "rango": "29:1-33:33"
+    },
+    {
+      "id": "eclo-08",
+      "bookId": "eclo",
+      "orden": 8,
+      "rango": "34:1-38:34"
+    },
+    {
+      "id": "eclo-09",
+      "bookId": "eclo",
+      "orden": 9,
+      "rango": "39:1-42:25"
+    },
+    {
+      "id": "eclo-10",
+      "bookId": "eclo",
+      "orden": 10,
+      "rango": "43:1-46:20"
+    },
+    {
+      "id": "eclo-11",
+      "bookId": "eclo",
+      "orden": 11,
+      "rango": "47:1-51:30"
+    },
+    {
+      "id": "is-01",
+      "bookId": "is",
+      "orden": 1,
+      "rango": "1:1-5:30"
+    },
+    {
+      "id": "is-02",
+      "bookId": "is",
+      "orden": 2,
+      "rango": "6:1-10:34"
+    },
+    {
+      "id": "is-03",
+      "bookId": "is",
+      "orden": 3,
+      "rango": "11:1-17:14"
+    },
+    {
+      "id": "is-04",
+      "bookId": "is",
+      "orden": 4,
+      "rango": "18:1-24:23"
+    },
+    {
+      "id": "is-05",
+      "bookId": "is",
+      "orden": 5,
+      "rango": "25:1-29:24"
+    },
+    {
+      "id": "is-06",
+      "bookId": "is",
+      "orden": 6,
+      "rango": "30:1-34:17"
+    },
+    {
+      "id": "is-07",
+      "bookId": "is",
+      "orden": 7,
+      "rango": "35:1-39:8"
+    },
+    {
+      "id": "is-08",
+      "bookId": "is",
+      "orden": 8,
+      "rango": "40:1-43:28"
+    },
+    {
+      "id": "is-09",
+      "bookId": "is",
+      "orden": 9,
+      "rango": "44:1-48:22"
+    },
+    {
+      "id": "is-10",
+      "bookId": "is",
+      "orden": 10,
+      "rango": "49:1-54:17"
+    },
+    {
+      "id": "is-11",
+      "bookId": "is",
+      "orden": 11,
+      "rango": "55:1-60:22"
+    },
+    {
+      "id": "is-12",
+      "bookId": "is",
+      "orden": 12,
+      "rango": "61:1-66:24"
+    },
+    {
+      "id": "jer-01",
+      "bookId": "jer",
+      "orden": 1,
+      "rango": "1:1-3:25"
+    },
+    {
+      "id": "jer-02",
+      "bookId": "jer",
+      "orden": 2,
+      "rango": "4:1-6:30"
+    },
+    {
+      "id": "jer-03",
+      "bookId": "jer",
+      "orden": 3,
+      "rango": "7:1-10:25"
+    },
+    {
+      "id": "jer-04",
+      "bookId": "jer",
+      "orden": 4,
+      "rango": "11:1-14:22"
+    },
+    {
+      "id": "jer-05",
+      "bookId": "jer",
+      "orden": 5,
+      "rango": "15:1-18:23"
+    },
+    {
+      "id": "jer-06",
+      "bookId": "jer",
+      "orden": 6,
+      "rango": "19:1-22:30"
+    },
+    {
+      "id": "jer-07",
+      "bookId": "jer",
+      "orden": 7,
+      "rango": "23:1-25:38"
+    },
+    {
+      "id": "jer-08",
+      "bookId": "jer",
+      "orden": 8,
+      "rango": "26:1-28:17"
+    },
+    {
+      "id": "jer-09",
+      "bookId": "jer",
+      "orden": 9,
+      "rango": "29:1-31:40"
+    },
+    {
+      "id": "jer-10",
+      "bookId": "jer",
+      "orden": 10,
+      "rango": "32:1-33:26"
+    },
+    {
+      "id": "jer-11",
+      "bookId": "jer",
+      "orden": 11,
+      "rango": "34:1-36:32"
+    },
+    {
+      "id": "jer-12",
+      "bookId": "jer",
+      "orden": 12,
+      "rango": "37:1-40:16"
+    },
+    {
+      "id": "jer-13",
+      "bookId": "jer",
+      "orden": 13,
+      "rango": "41:1-44:30"
+    },
+    {
+      "id": "jer-14",
+      "bookId": "jer",
+      "orden": 14,
+      "rango": "45:1-48:47"
+    },
+    {
+      "id": "jer-15",
+      "bookId": "jer",
+      "orden": 15,
+      "rango": "49:1-50:46"
+    },
+    {
+      "id": "jer-16",
+      "bookId": "jer",
+      "orden": 16,
+      "rango": "51:1-52:34"
+    },
+    {
+      "id": "lam-01",
+      "bookId": "lam",
+      "orden": 1,
+      "rango": "1:1-2:22"
+    },
+    {
+      "id": "lam-02",
+      "bookId": "lam",
+      "orden": 2,
+      "rango": "3:1-5:22"
+    },
+    {
+      "id": "bar-01",
+      "bookId": "bar",
+      "orden": 1,
+      "rango": "1:1-3:38"
+    },
+    {
+      "id": "bar-02",
+      "bookId": "bar",
+      "orden": 2,
+      "rango": "4:1-6:72"
+    },
+    {
+      "id": "ez-01",
+      "bookId": "ez",
+      "orden": 1,
+      "rango": "1:1-5:17"
+    },
+    {
+      "id": "ez-02",
+      "bookId": "ez",
+      "orden": 2,
+      "rango": "6:1-10:22"
+    },
+    {
+      "id": "ez-03",
+      "bookId": "ez",
+      "orden": 3,
+      "rango": "11:1-14:23"
+    },
+    {
+      "id": "ez-04",
+      "bookId": "ez",
+      "orden": 4,
+      "rango": "15:1-17:24"
+    },
+    {
+      "id": "ez-05",
+      "bookId": "ez",
+      "orden": 5,
+      "rango": "18:1-20:44"
+    },
+    {
+      "id": "ez-06",
+      "bookId": "ez",
+      "orden": 6,
+      "rango": "21:1-23:49"
+    },
+    {
+      "id": "ez-07",
+      "bookId": "ez",
+      "orden": 7,
+      "rango": "24:1-26:21"
+    },
+    {
+      "id": "ez-08",
+      "bookId": "ez",
+      "orden": 8,
+      "rango": "27:1-30:26"
+    },
+    {
+      "id": "ez-09",
+      "bookId": "ez",
+      "orden": 9,
+      "rango": "31:1-33:33"
+    },
+    {
+      "id": "ez-10",
+      "bookId": "ez",
+      "orden": 10,
+      "rango": "34:1-36:38"
+    },
+    {
+      "id": "ez-11",
+      "bookId": "ez",
+      "orden": 11,
+      "rango": "37:1-39:29"
+    },
+    {
+      "id": "ez-12",
+      "bookId": "ez",
+      "orden": 12,
+      "rango": "40:1-42:20"
+    },
+    {
+      "id": "ez-13",
+      "bookId": "ez",
+      "orden": 13,
+      "rango": "43:1-45:25"
+    },
+    {
+      "id": "ez-14",
+      "bookId": "ez",
+      "orden": 14,
+      "rango": "46:1-48:35"
+    },
+    {
+      "id": "dn-01",
+      "bookId": "dn",
+      "orden": 1,
+      "rango": "1:1-2:49"
+    },
+    {
+      "id": "dn-02",
+      "bookId": "dn",
+      "orden": 2,
+      "rango": "3:1-3:100"
+    },
+    {
+      "id": "dn-03",
+      "bookId": "dn",
+      "orden": 3,
+      "rango": "4:1-5:30"
+    },
+    {
+      "id": "dn-04",
+      "bookId": "dn",
+      "orden": 4,
+      "rango": "6:1-8:27"
+    },
+    {
+      "id": "dn-05",
+      "bookId": "dn",
+      "orden": 5,
+      "rango": "9:1-11:45"
+    },
+    {
+      "id": "dn-06",
+      "bookId": "dn",
+      "orden": 6,
+      "rango": "12:1-14:42"
+    },
+    {
+      "id": "os-01",
+      "bookId": "os",
+      "orden": 1,
+      "rango": "1:1-7:16"
+    },
+    {
+      "id": "os-02",
+      "bookId": "os",
+      "orden": 2,
+      "rango": "8:1-14:10"
+    },
+    {
+      "id": "jl-01",
+      "bookId": "jl",
+      "orden": 1,
+      "rango": "1:1-4:21"
+    },
+    {
+      "id": "am-01",
+      "bookId": "am",
+      "orden": 1,
+      "rango": "1:1-5:27"
+    },
+    {
+      "id": "am-02",
+      "bookId": "am",
+      "orden": 2,
+      "rango": "6:1-9:15"
+    },
+    {
+      "id": "abd-01",
+      "bookId": "abd",
+      "orden": 1,
+      "rango": "1:1-1:21"
+    },
+    {
+      "id": "jon-01",
+      "bookId": "jon",
+      "orden": 1,
+      "rango": "1:1-4:11"
+    },
+    {
+      "id": "miq-01",
+      "bookId": "miq",
+      "orden": 1,
+      "rango": "1:1-7:20"
+    },
+    {
+      "id": "nah-01",
+      "bookId": "nah",
+      "orden": 1,
+      "rango": "1:1-3:19"
+    },
+    {
+      "id": "hab-01",
+      "bookId": "hab",
+      "orden": 1,
+      "rango": "1:1-3:19"
+    },
+    {
+      "id": "sof-01",
+      "bookId": "sof",
+      "orden": 1,
+      "rango": "1:1-3:20"
+    },
+    {
+      "id": "ag-01",
+      "bookId": "ag",
+      "orden": 1,
+      "rango": "1:1-2:23"
+    },
+    {
+      "id": "zac-01",
+      "bookId": "zac",
+      "orden": 1,
+      "rango": "1:1-6:15"
+    },
+    {
+      "id": "zac-02",
+      "bookId": "zac",
+      "orden": 2,
+      "rango": "7:1-10:12"
+    },
+    {
+      "id": "zac-03",
+      "bookId": "zac",
+      "orden": 3,
+      "rango": "11:1-14:21"
+    },
+    {
+      "id": "mal-01",
+      "bookId": "mal",
+      "orden": 1,
+      "rango": "1:1-3:24"
+    },
+    {
+      "id": "mt-01",
+      "bookId": "mt",
+      "orden": 1,
+      "rango": "1:1-4:25"
+    },
+    {
+      "id": "mt-02",
+      "bookId": "mt",
+      "orden": 2,
+      "rango": "5:1-7:29"
+    },
+    {
+      "id": "mt-03",
+      "bookId": "mt",
+      "orden": 3,
+      "rango": "8:1-10:42"
+    },
+    {
+      "id": "mt-04",
+      "bookId": "mt",
+      "orden": 4,
+      "rango": "11:1-12:50"
+    },
+    {
+      "id": "mt-05",
+      "bookId": "mt",
+      "orden": 5,
+      "rango": "13:1-15:39"
+    },
+    {
+      "id": "mt-06",
+      "bookId": "mt",
+      "orden": 6,
+      "rango": "16:1-18:35"
+    },
+    {
+      "id": "mt-07",
+      "bookId": "mt",
+      "orden": 7,
+      "rango": "19:1-21:46"
+    },
+    {
+      "id": "mt-08",
+      "bookId": "mt",
+      "orden": 8,
+      "rango": "22:1-24:51"
+    },
+    {
+      "id": "mt-09",
+      "bookId": "mt",
+      "orden": 9,
+      "rango": "25:1-26:75"
+    },
+    {
+      "id": "mt-10",
+      "bookId": "mt",
+      "orden": 10,
+      "rango": "27:1-28:20"
+    },
+    {
+      "id": "mc-01",
+      "bookId": "mc",
+      "orden": 1,
+      "rango": "1:1-3:35"
+    },
+    {
+      "id": "mc-02",
+      "bookId": "mc",
+      "orden": 2,
+      "rango": "4:1-5:43"
+    },
+    {
+      "id": "mc-03",
+      "bookId": "mc",
+      "orden": 3,
+      "rango": "6:1-8:38"
+    },
+    {
+      "id": "mc-04",
+      "bookId": "mc",
+      "orden": 4,
+      "rango": "9:1-10:52"
+    },
+    {
+      "id": "mc-05",
+      "bookId": "mc",
+      "orden": 5,
+      "rango": "11:1-13:37"
+    },
+    {
+      "id": "mc-06",
+      "bookId": "mc",
+      "orden": 6,
+      "rango": "14:1-16:20"
+    },
+    {
+      "id": "lc-01",
+      "bookId": "lc",
+      "orden": 1,
+      "rango": "1:1-2:52"
+    },
+    {
+      "id": "lc-02",
+      "bookId": "lc",
+      "orden": 2,
+      "rango": "3:1-4:44"
+    },
+    {
+      "id": "lc-03",
+      "bookId": "lc",
+      "orden": 3,
+      "rango": "5:1-6:49"
+    },
+    {
+      "id": "lc-04",
+      "bookId": "lc",
+      "orden": 4,
+      "rango": "7:1-8:56"
+    },
+    {
+      "id": "lc-05",
+      "bookId": "lc",
+      "orden": 5,
+      "rango": "9:1-10:42"
+    },
+    {
+      "id": "lc-06",
+      "bookId": "lc",
+      "orden": 6,
+      "rango": "11:1-12:59"
+    },
+    {
+      "id": "lc-07",
+      "bookId": "lc",
+      "orden": 7,
+      "rango": "13:1-15:32"
+    },
+    {
+      "id": "lc-08",
+      "bookId": "lc",
+      "orden": 8,
+      "rango": "16:1-18:43"
+    },
+    {
+      "id": "lc-09",
+      "bookId": "lc",
+      "orden": 9,
+      "rango": "19:1-20:47"
+    },
+    {
+      "id": "lc-10",
+      "bookId": "lc",
+      "orden": 10,
+      "rango": "21:1-22:71"
+    },
+    {
+      "id": "lc-11",
+      "bookId": "lc",
+      "orden": 11,
+      "rango": "23:1-24:53"
+    },
+    {
+      "id": "jn-01",
+      "bookId": "jn",
+      "orden": 1,
+      "rango": "1:1-3:36"
+    },
+    {
+      "id": "jn-02",
+      "bookId": "jn",
+      "orden": 2,
+      "rango": "4:1-5:47"
+    },
+    {
+      "id": "jn-03",
+      "bookId": "jn",
+      "orden": 3,
+      "rango": "6:1-7:53"
+    },
+    {
+      "id": "jn-04",
+      "bookId": "jn",
+      "orden": 4,
+      "rango": "8:1-10:42"
+    },
+    {
+      "id": "jn-05",
+      "bookId": "jn",
+      "orden": 5,
+      "rango": "11:1-12:50"
+    },
+    {
+      "id": "jn-06",
+      "bookId": "jn",
+      "orden": 6,
+      "rango": "13:1-15:27"
+    },
+    {
+      "id": "jn-07",
+      "bookId": "jn",
+      "orden": 7,
+      "rango": "16:1-18:40"
+    },
+    {
+      "id": "jn-08",
+      "bookId": "jn",
+      "orden": 8,
+      "rango": "19:1-21:25"
+    },
+    {
+      "id": "hch-01",
+      "bookId": "hch",
+      "orden": 1,
+      "rango": "1:1-3:26"
+    },
+    {
+      "id": "hch-02",
+      "bookId": "hch",
+      "orden": 2,
+      "rango": "4:1-6:15"
+    },
+    {
+      "id": "hch-03",
+      "bookId": "hch",
+      "orden": 3,
+      "rango": "7:1-8:40"
+    },
+    {
+      "id": "hch-04",
+      "bookId": "hch",
+      "orden": 4,
+      "rango": "9:1-10:48"
+    },
+    {
+      "id": "hch-05",
+      "bookId": "hch",
+      "orden": 5,
+      "rango": "11:1-13:52"
+    },
+    {
+      "id": "hch-06",
+      "bookId": "hch",
+      "orden": 6,
+      "rango": "14:1-16:40"
+    },
+    {
+      "id": "hch-07",
+      "bookId": "hch",
+      "orden": 7,
+      "rango": "17:1-19:40"
+    },
+    {
+      "id": "hch-08",
+      "bookId": "hch",
+      "orden": 8,
+      "rango": "20:1-22:30"
+    },
+    {
+      "id": "hch-09",
+      "bookId": "hch",
+      "orden": 9,
+      "rango": "23:1-25:27"
+    },
+    {
+      "id": "hch-10",
+      "bookId": "hch",
+      "orden": 10,
+      "rango": "26:1-28:31"
+    },
+    {
+      "id": "rom-01",
+      "bookId": "rom",
+      "orden": 1,
+      "rango": "1:1-4:25"
+    },
+    {
+      "id": "rom-02",
+      "bookId": "rom",
+      "orden": 2,
+      "rango": "5:1-8:39"
+    },
+    {
+      "id": "rom-03",
+      "bookId": "rom",
+      "orden": 3,
+      "rango": "9:1-12:21"
+    },
+    {
+      "id": "rom-04",
+      "bookId": "rom",
+      "orden": 4,
+      "rango": "13:1-16:27"
+    },
+    {
+      "id": "1cor-01",
+      "bookId": "1cor",
+      "orden": 1,
+      "rango": "1:1-5:13"
+    },
+    {
+      "id": "1cor-02",
+      "bookId": "1cor",
+      "orden": 2,
+      "rango": "6:1-9:27"
+    },
+    {
+      "id": "1cor-03",
+      "bookId": "1cor",
+      "orden": 3,
+      "rango": "10:1-13:13"
+    },
+    {
+      "id": "1cor-04",
+      "bookId": "1cor",
+      "orden": 4,
+      "rango": "14:1-16:24"
+    },
+    {
+      "id": "2cor-01",
+      "bookId": "2cor",
+      "orden": 1,
+      "rango": "1:1-4:18"
+    },
+    {
+      "id": "2cor-02",
+      "bookId": "2cor",
+      "orden": 2,
+      "rango": "5:1-9:15"
+    },
+    {
+      "id": "2cor-03",
+      "bookId": "2cor",
+      "orden": 3,
+      "rango": "10:1-13:13"
+    },
+    {
+      "id": "gal-01",
+      "bookId": "gal",
+      "orden": 1,
+      "rango": "1:1-3:29"
+    },
+    {
+      "id": "gal-02",
+      "bookId": "gal",
+      "orden": 2,
+      "rango": "4:1-6:18"
+    },
+    {
+      "id": "ef-01",
+      "bookId": "ef",
+      "orden": 1,
+      "rango": "1:1-3:21"
+    },
+    {
+      "id": "ef-02",
+      "bookId": "ef",
+      "orden": 2,
+      "rango": "4:1-6:24"
+    },
+    {
+      "id": "flp-01",
+      "bookId": "flp",
+      "orden": 1,
+      "rango": "1:1-4:23"
+    },
+    {
+      "id": "col-01",
+      "bookId": "col",
+      "orden": 1,
+      "rango": "1:1-4:18"
+    },
+    {
+      "id": "1tes-01",
+      "bookId": "1tes",
+      "orden": 1,
+      "rango": "1:1-5:28"
+    },
+    {
+      "id": "2tes-01",
+      "bookId": "2tes",
+      "orden": 1,
+      "rango": "1:1-3:18"
+    },
+    {
+      "id": "1tim-01",
+      "bookId": "1tim",
+      "orden": 1,
+      "rango": "1:1-6:21"
+    },
+    {
+      "id": "2tim-01",
+      "bookId": "2tim",
+      "orden": 1,
+      "rango": "1:1-4:22"
+    },
+    {
+      "id": "tit-01",
+      "bookId": "tit",
+      "orden": 1,
+      "rango": "1:1-3:15"
+    },
+    {
+      "id": "flm-01",
+      "bookId": "flm",
+      "orden": 1,
+      "rango": "1:1-1:25"
+    },
+    {
+      "id": "heb-01",
+      "bookId": "heb",
+      "orden": 1,
+      "rango": "1:1-6:20"
+    },
+    {
+      "id": "heb-02",
+      "bookId": "heb",
+      "orden": 2,
+      "rango": "7:1-10:39"
+    },
+    {
+      "id": "heb-03",
+      "bookId": "heb",
+      "orden": 3,
+      "rango": "11:1-13:25"
+    },
+    {
+      "id": "sant-01",
+      "bookId": "sant",
+      "orden": 1,
+      "rango": "1:1-5:20"
+    },
+    {
+      "id": "1pe-01",
+      "bookId": "1pe",
+      "orden": 1,
+      "rango": "1:1-5:14"
+    },
+    {
+      "id": "2pe-01",
+      "bookId": "2pe",
+      "orden": 1,
+      "rango": "1:1-3:18"
+    },
+    {
+      "id": "1jn-01",
+      "bookId": "1jn",
+      "orden": 1,
+      "rango": "1:1-5:21"
+    },
+    {
+      "id": "2jn-01",
+      "bookId": "2jn",
+      "orden": 1,
+      "rango": "1:1-1:13"
+    },
+    {
+      "id": "3jn-01",
+      "bookId": "3jn",
+      "orden": 1,
+      "rango": "1:1-1:15"
+    },
+    {
+      "id": "jds-01",
+      "bookId": "jds",
+      "orden": 1,
+      "rango": "1:1-1:25"
+    },
+    {
+      "id": "ap-01",
+      "bookId": "ap",
+      "orden": 1,
+      "rango": "1:1-4:11"
+    },
+    {
+      "id": "ap-02",
+      "bookId": "ap",
+      "orden": 2,
+      "rango": "5:1-9:21"
+    },
+    {
+      "id": "ap-03",
+      "bookId": "ap",
+      "orden": 3,
+      "rango": "10:1-14:20"
+    },
+    {
+      "id": "ap-04",
+      "bookId": "ap",
+      "orden": 4,
+      "rango": "15:1-18:24"
+    },
+    {
+      "id": "ap-05",
+      "bookId": "ap",
+      "orden": 5,
+      "rango": "19:1-22:21"
+    }
+  ]
+}

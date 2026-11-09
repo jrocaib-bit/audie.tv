@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "audite-pilot",
+  "catalogStatus": "pilot",
+  "rights": {
+    "text": {
+      "status": "confirmed_by_owner",
+      "confirmedBy": "Javier Roca",
+      "scope": {
+        "es": "Texto en español del piloto de Génesis 1–2, confirmado por Javier Roca.",
+        "en": "Spanish text of the Genesis 1–2 pilot, confirmed by Javier Roca."
+      }
+    },
+    "voice": {
+      "status": "confirmed_by_owner",
+      "confirmedBy": "Javier Roca",
+      "scope": {
+        "es": "Voz en español del piloto de Génesis 1–2, confirmada por Javier Roca.",
+        "en": "Spanish voice of the Genesis 1–2 pilot, confirmed by Javier Roca."
+      }
+    },
+    "images": {
+      "status": "reproduction_documented",
+      "legalSignoff": false,
+      "note": {
+        "es": "Las reproducciones están documentadas como PD-Art o CC0, con ficha y archivo de origen. Eso no es un dictamen jurídico, ni un aval del museo, ni una autorización para todo territorio.",
+        "en": "The reproductions are documented as PD-Art or CC0, with a source page and file. That is not a legal opinion, a museum endorsement, or permission for every territory."
+      }
+    }
+  },
+  "pilot": {
+    "episodeId": "es-genesis-01",
+    "totalDurationSeconds": 498.050563,
+    "joinSeconds": 367.516688,
+    "joinReview": "clean",
+    "timelineStatus": "draft_editorial_sequence",
+    "timelineNote": {
+      "es": "La secuencia de imágenes es una propuesta editorial. Los cortes salen de una transcripción automática y no prueban que cada cambio sea el mejor. Durante la formación de Eva, el cuadro presenta a Eva: no representa la extracción de la costilla.",
+      "en": "The image sequence is an editorial proposal. The cuts come from an automatic transcript and are not proof that every change is best. While Eve is formed, the painting presents Eve: it does not depict the taking of the rib."
+    },
+    "captionReview": {
+      "es": "Cerca de 1:52, una alarma de desajuste fue un falso positivo: las palabras sí están en la narración. El rótulo automático se corrigió solo en ese tramo.",
+      "en": "Near 1:52, a mismatch alarm was a false positive: the words are in the narration. The automatic caption was corrected only in that span."
+    }
+  },
+  "locales": [
+    {
+      "code": "es",
+      "label": {
+        "es": "Español",
+        "en": "Spanish"
+      },
+      "playback": "pilot",
+      "note": {
+        "es": "Idioma del piloto. El episodio 1 de Génesis se puede oír.",
+        "en": "Language of the pilot. Genesis episode 1 can be played."
+      }
+    },
+    {
+      "code": "en",
+      "label": {
+        "es": "Inglés",
+        "en": "English"
+      },
+      "playback": "not_attached",
+      "note": {
+        "es": "No hay audio en inglés en este kit. No se ofrece como reproducible.",
+        "en": "No English audio is in this kit. It is not offered as playable."
+      }
+    },
+    {
+      "code": "it",
+      "label": {
+        "es": "Italiano",
+        "en": "Italian"
+      },
+      "playback": "not_attached",
+      "note": {
+        "es": "No hay audio en italiano en este kit. No se ofrece como reproducible.",
+        "en": "No Italian audio is in this kit. It is not offered as playable."
+      }
+    }
+  ],
+  "canon": {
+    "order": "protestant-66-provisional",
+    "note": {
+      "es": "Orden provisional de 66 libros, para situar el camino. El canon definitivo no está cerrado en este borrador.",
+      "en": "Provisional 66-book order, so the path has a horizon. The final canon is not settled in this draft."
+    }
+  },
+  "books": [
+    {
+      "id": "genesis",
+      "testament": "ot",
+      "order": 1,
+      "name": {
+        "es": "Génesis",
+        "en": "Genesis"
+      },
+      "status": "pilot"
+    },
+    {
+      "id": "exodus",
+      "testament": "ot",
+      "order": 2,
+      "name": {
+        "es": "Éxodo",
+        "en": "Exodus"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "leviticus",
+      "testament": "ot",
+      "order": 3,
+      "name": {
+        "es": "Levítico",
+        "en": "Leviticus"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "numbers",
+      "testament": "ot",
+      "order": 4,
+      "name": {
+        "es": "Números",
+        "en": "Numbers"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "deuteronomy",
+      "testament": "ot",
+      "order": 5,
+      "name": {
+        "es": "Deuteronomio",
+        "en": "Deuteronomy"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "joshua",
+      "testament": "ot",
+      "order": 6,
+      "name": {
+        "es": "Josué",
+        "en": "Joshua"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "judges",
+      "testament": "ot",
+      "order": 7,
+      "name": {
+        "es": "Jueces",
+        "en": "Judges"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "ruth",
+      "testament": "ot",
+      "order": 8,
+      "name": {
+        "es": "Rut",
+        "en": "Ruth"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "samuel-1",
+      "testament": "ot",
+      "order": 9,
+      "name": {
+        "es": "1 Samuel",
+        "en": "1 Samuel"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "samuel-2",
+      "testament": "ot",
+      "order": 10,
+      "name": {
+        "es": "2 Samuel",
+        "en": "2 Samuel"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "kings-1",
+      "testament": "ot",
+      "order": 11,
+      "name": {
+        "es": "1 Reyes",
+        "en": "1 Kings"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "kings-2",
+      "testament": "ot",
+      "order": 12,
+      "name": {
+        "es": "2 Reyes",
+        "en": "2 Kings"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "chronicles-1",
+      "testament": "ot",
+      "order": 13,
+      "name": {
+        "es": "1 Crónicas",
+        "en": "1 Chronicles"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "chronicles-2",
+      "testament": "ot",
+      "order": 14,
+      "name": {
+        "es": "2 Crónicas",
+        "en": "2 Chronicles"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "ezra",
+      "testament": "ot",
+      "order": 15,
+      "name": {
+        "es": "Esdras",
+        "en": "Ezra"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "nehemiah",
+      "testament": "ot",
+      "order": 16,
+      "name": {
+        "es": "Nehemías",
+        "en": "Nehemiah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "esther",
+      "testament": "ot",
+      "order": 17,
+      "name": {
+        "es": "Ester",
+        "en": "Esther"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "job",
+      "testament": "ot",
+      "order": 18,
+      "name": {
+        "es": "Job",
+        "en": "Job"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "psalms",
+      "testament": "ot",
+      "order": 19,
+      "name": {
+        "es": "Salmos",
+        "en": "Psalms"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "proverbs",
+      "testament": "ot",
+      "order": 20,
+      "name": {
+        "es": "Proverbios",
+        "en": "Proverbs"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "ecclesiastes",
+      "testament": "ot",
+      "order": 21,
+      "name": {
+        "es": "Eclesiastés",
+        "en": "Ecclesiastes"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "song",
+      "testament": "ot",
+      "order": 22,
+      "name": {
+        "es": "Cantar de los Cantares",
+        "en": "Song of Songs"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "isaiah",
+      "testament": "ot",
+      "order": 23,
+      "name": {
+        "es": "Isaías",
+        "en": "Isaiah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "jeremiah",
+      "testament": "ot",
+      "order": 24,
+      "name": {
+        "es": "Jeremías",
+        "en": "Jeremiah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "lamentations",
+      "testament": "ot",
+      "order": 25,
+      "name": {
+        "es": "Lamentaciones",
+        "en": "Lamentations"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "ezekiel",
+      "testament": "ot",
+      "order": 26,
+      "name": {
+        "es": "Ezequiel",
+        "en": "Ezekiel"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "daniel",
+      "testament": "ot",
+      "order": 27,
+      "name": {
+        "es": "Daniel",
+        "en": "Daniel"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "hosea",
+      "testament": "ot",
+      "order": 28,
+      "name": {
+        "es": "Oseas",
+        "en": "Hosea"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "joel",
+      "testament": "ot",
+      "order": 29,
+      "name": {
+        "es": "Joel",
+        "en": "Joel"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "amos",
+      "testament": "ot",
+      "order": 30,
+      "name": {
+        "es": "Amós",
+        "en": "Amos"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "obadiah",
+      "testament": "ot",
+      "order": 31,
+      "name": {
+        "es": "Abdías",
+        "en": "Obadiah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "jonah",
+      "testament": "ot",
+      "order": 32,
+      "name": {
+        "es": "Jonás",
+        "en": "Jonah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "micah",
+      "testament": "ot",
+      "order": 33,
+      "name": {
+        "es": "Miqueas",
+        "en": "Micah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "nahum",
+      "testament": "ot",
+      "order": 34,
+      "name": {
+        "es": "Nahúm",
+        "en": "Nahum"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "habakkuk",
+      "testament": "ot",
+      "order": 35,
+      "name": {
+        "es": "Habacuc",
+        "en": "Habakkuk"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "zephaniah",
+      "testament": "ot",
+      "order": 36,
+      "name": {
+        "es": "Sofonías",
+        "en": "Zephaniah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "haggai",
+      "testament": "ot",
+      "order": 37,
+      "name": {
+        "es": "Ageo",
+        "en": "Haggai"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "zechariah",
+      "testament": "ot",
+      "order": 38,
+      "name": {
+        "es": "Zacarías",
+        "en": "Zechariah"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "malachi",
+      "testament": "ot",
+      "order": 39,
+      "name": {
+        "es": "Malaquías",
+        "en": "Malachi"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "matthew",
+      "testament": "nt",
+      "order": 40,
+      "name": {
+        "es": "Mateo",
+        "en": "Matthew"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "mark",
+      "testament": "nt",
+      "order": 41,
+      "name": {
+        "es": "Marcos",
+        "en": "Mark"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "luke",
+      "testament": "nt",
+      "order": 42,
+      "name": {
+        "es": "Lucas",
+        "en": "Luke"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "john",
+      "testament": "nt",
+      "order": 43,
+      "name": {
+        "es": "Juan",
+        "en": "John"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "acts",
+      "testament": "nt",
+      "order": 44,
+      "name": {
+        "es": "Hechos",
+        "en": "Acts"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "romans",
+      "testament": "nt",
+      "order": 45,
+      "name": {
+        "es": "Romanos",
+        "en": "Romans"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "corinthians-1",
+      "testament": "nt",
+      "order": 46,
+      "name": {
+        "es": "1 Corintios",
+        "en": "1 Corinthians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "corinthians-2",
+      "testament": "nt",
+      "order": 47,
+      "name": {
+        "es": "2 Corintios",
+        "en": "2 Corinthians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "galatians",
+      "testament": "nt",
+      "order": 48,
+      "name": {
+        "es": "Gálatas",
+        "en": "Galatians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "ephesians",
+      "testament": "nt",
+      "order": 49,
+      "name": {
+        "es": "Efesios",
+        "en": "Ephesians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "philippians",
+      "testament": "nt",
+      "order": 50,
+      "name": {
+        "es": "Filipenses",
+        "en": "Philippians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "colossians",
+      "testament": "nt",
+      "order": 51,
+      "name": {
+        "es": "Colosenses",
+        "en": "Colossians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "thessalonians-1",
+      "testament": "nt",
+      "order": 52,
+      "name": {
+        "es": "1 Tesalonicenses",
+        "en": "1 Thessalonians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "thessalonians-2",
+      "testament": "nt",
+      "order": 53,
+      "name": {
+        "es": "2 Tesalonicenses",
+        "en": "2 Thessalonians"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "timothy-1",
+      "testament": "nt",
+      "order": 54,
+      "name": {
+        "es": "1 Timoteo",
+        "en": "1 Timothy"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "timothy-2",
+      "testament": "nt",
+      "order": 55,
+      "name": {
+        "es": "2 Timoteo",
+        "en": "2 Timothy"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "titus",
+      "testament": "nt",
+      "order": 56,
+      "name": {
+        "es": "Tito",
+        "en": "Titus"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "philemon",
+      "testament": "nt",
+      "order": 57,
+      "name": {
+        "es": "Filemón",
+        "en": "Philemon"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "hebrews",
+      "testament": "nt",
+      "order": 58,
+      "name": {
+        "es": "Hebreos",
+        "en": "Hebrews"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "james",
+      "testament": "nt",
+      "order": 59,
+      "name": {
+        "es": "Santiago",
+        "en": "James"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "peter-1",
+      "testament": "nt",
+      "order": 60,
+      "name": {
+        "es": "1 Pedro",
+        "en": "1 Peter"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "peter-2",
+      "testament": "nt",
+      "order": 61,
+      "name": {
+        "es": "2 Pedro",
+        "en": "2 Peter"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "john-1",
+      "testament": "nt",
+      "order": 62,
+      "name": {
+        "es": "1 Juan",
+        "en": "1 John"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "john-2",
+      "testament": "nt",
+      "order": 63,
+      "name": {
+        "es": "2 Juan",
+        "en": "2 John"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "john-3",
+      "testament": "nt",
+      "order": 64,
+      "name": {
+        "es": "3 Juan",
+        "en": "3 John"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "jude",
+      "testament": "nt",
+      "order": 65,
+      "name": {
+        "es": "Judas",
+        "en": "Jude"
+      },
+      "status": "not_in_pilot"
+    },
+    {
+      "id": "revelation",
+      "testament": "nt",
+      "order": 66,
+      "name": {
+        "es": "Apocalipsis",
+        "en": "Revelation"
+      },
+      "status": "not_in_pilot"
+    }
+  ],
+  "genesisOutline": {
+    "approvedEpisodeCount": 10,
+    "incorporatedNumbers": [
+      1
+    ],
+    "note": {
+      "es": "El esquema de diez episodios de Génesis consta como aprobado. Este borrador solo incorpora el episodio 1. Los episodios 2 a 10 no traen título, texto ni audio, y no son fichas reproducibles.",
+      "en": "A ten-episode Genesis outline is recorded as approved. This draft includes only episode 1. Episodes 2–10 bring no title, text, or audio, and they are not playable records."
+    }
+  },
+  "episodes": [
+    {
+      "id": "es-genesis-01",
+      "locale": "es",
+      "bookId": "genesis",
+      "number": 1,
+      "title": "En el principio. La creación y el hombre.",
+      "scriptureRangeLabel": "Génesis 1–2",
+      "status": "playable",
+      "durationSeconds": 498.050563,
+      "segments": [
+        {
+          "id": "es-genesis-01-p1",
+          "publicPath": "/media/audio/ES_p1_original.mp3",
+          "kitPath": "content/pilot/audio/ES_p1_original.mp3",
+          "sha256": "4a7ed034d06f1d0c31a3f0fc761ea49718cbca44263483ef5eb509224ceeac86",
+          "startSeconds": 0,
+          "durationSeconds": 367.516688,
+          "bytes": 5915729
+        },
+        {
+          "id": "es-genesis-01-p2",
+          "publicPath": "/media/audio/ES_p2_original.mp3",
+          "kitPath": "content/pilot/audio/ES_p2_original.mp3",
+          "sha256": "81fe1990a195b0a7a8da674404dd8c9cd58b5ff0b7d22f2613e340663f6fc647",
+          "startSeconds": 367.516688,
+          "durationSeconds": 130.533875,
+          "bytes": 2124004
+        }
+      ],
+      "summary": {
+        "es": "Génesis 1–2 en una sola narración española. Dos archivos se oyen seguidos, con la unión en 6:07.",
+        "en": "Genesis 1–2 as one Spanish narration. Two files play in sequence, joining at 6:07."
+      }
+    }
+  ],
+  "artworks": [
+    {
+      "id": "A03_adan",
+      "workId": "A03",
+      "title": {
+        "es": "La creación de Adán",
+        "en": "The Creation of Adam"
+      },
+      "artist": {
+        "es": "Miguel Ángel",
+        "en": "Michelangelo"
+      },
+      "date": "1511",
+      "location": {
+        "es": "Capilla Sixtina, Museos Vaticanos, Ciudad del Vaticano",
+        "en": "Sistine Chapel, Vatican Museums, Vatican City"
+      },
+      "license": "PD-Art / Public Domain Mark",
+      "credit": "Miguel Ángel, La creación de Adán, 1511. Capilla Sixtina. Reproducción vía Wikimedia Commons, PD-Art.",
+      "creditRequirement": "No atribución obligatoria por declaración de dominio público; crédito editorial y trazabilidad recomendados.",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+      "sourceFile": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+      "publicPath": "/media/art/A03_adan.jpg",
+      "kitPath": "content/pilot/assets/A03_adan.jpg",
+      "sha256": "cc26d81c25052fb41f47a5565edf310c77682f9fb5f1989694b28eaba5ebb59b",
+      "bytes": 9494881,
+      "width": 4256,
+      "height": 2843,
+      "crop": null,
+      "editorialRole": "Humanidad y formación de Adán; la copia local coincide exactamente con el original de Commons.",
+      "displayable": true
+    },
+    {
+      "id": "A05_geometra",
+      "workId": "A05",
+      "title": {
+        "es": "Dios arquitecto del universo — Bible moralisée",
+        "en": "God as Architect of the Universe — Bible moralisée"
+      },
+      "artist": {
+        "es": "Anónimo",
+        "en": "Anonymous"
+      },
+      "date": "c. 1220–1230",
+      "location": {
+        "es": "Biblioteca Nacional de Austria, Viena; Cod. 2554, fol. 1v",
+        "en": "Austrian National Library, Vienna; Cod. 2554, fol. 1v"
+      },
+      "license": "PD-Art / Public Domain Mark",
+      "credit": "Anónimo, Dios arquitecto del universo, c. 1220–1230. ÖNB, Viena. Reproducción vía Wikimedia Commons, PD-Art.",
+      "creditRequirement": "No atribución obligatoria por declaración de dominio público; crédito editorial y trazabilidad recomendados.",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg",
+      "sourceFile": "https://upload.wikimedia.org/wikipedia/commons/4/4d/God_the_Geometer.jpg",
+      "publicPath": "/media/art/A05_geometra.jpg",
+      "kitPath": "content/pilot/assets/A05_geometra.jpg",
+      "sha256": "39248b56bbff982ba289d771f047164cc01a29d8ab4e02ad5aa4b0e0ee101b81",
+      "bytes": 1846579,
+      "width": 1244,
+      "height": 1705,
+      "crop": null,
+      "editorialRole": "Representación simbólica de la creación, no ilustración literal de cada día.",
+      "displayable": true
+    },
+    {
+      "id": "A06_eden_presentacion_detalle",
+      "workId": "A06",
+      "title": {
+        "es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+        "en": "The Garden of Earthly Delights Triptych — left panel (detail)"
+      },
+      "artist": {
+        "es": "El Bosco",
+        "en": "Hieronymus Bosch"
+      },
+      "date": "1490–1500",
+      "location": {
+        "es": "Museo Nacional del Prado, Madrid; P002823",
+        "en": "Museo Nacional del Prado, Madrid; P002823"
+      },
+      "license": "PD-Art / Public Domain Mark",
+      "credit": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+      "creditRequirement": "No atribución obligatoria por declaración de dominio público; acreditar fuente, ajuste de niveles previo y recortes por trazabilidad. No implica aval del museo.",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "sourceFile": "https://upload.wikimedia.org/wikipedia/commons/6/62/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "publicPath": "/media/art/A06_eden_presentacion_detalle.jpg",
+      "kitPath": "content/pilot/assets/A06_eden_presentacion_detalle.jpg",
+      "sha256": "e5c937511ecc303dfa7ca92bc357dfdf429a61a9cce18325c158cc19ccf2c1aa",
+      "bytes": 4219595,
+      "width": 3000,
+      "height": 2905,
+      "crop": {
+        "kind": "detail",
+        "pixels": [
+          100,
+          6500,
+          4540,
+          10800
+        ],
+        "sourceWidth": 19569,
+        "sourceHeight": 11035,
+        "sourceSha256": "22054e77433c09ef100de94c57c4e1612412fdcdf1a78d821ae7dda8f049d74a",
+        "transforms": "Recorte y reducción; JPEG calidad 95. Sin generación de imagen. Fuente ya incluye ajuste de niveles."
+      },
+      "editorialRole": "Edén y presentación de Eva a Adán; no mostrar centro ni infierno. No confundir presentación con instante de creación de Eva.",
+      "displayable": true
+    },
+    {
+      "id": "A06_eden_tabla_izquierda",
+      "workId": "A06",
+      "title": {
+        "es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+        "en": "The Garden of Earthly Delights Triptych — left panel (detail)"
+      },
+      "artist": {
+        "es": "El Bosco",
+        "en": "Hieronymus Bosch"
+      },
+      "date": "1490–1500",
+      "location": {
+        "es": "Museo Nacional del Prado, Madrid; P002823",
+        "en": "Museo Nacional del Prado, Madrid; P002823"
+      },
+      "license": "PD-Art / Public Domain Mark",
+      "credit": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+      "creditRequirement": "No atribución obligatoria por declaración de dominio público; acreditar fuente, ajuste de niveles previo y recortes por trazabilidad. No implica aval del museo.",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "sourceFile": "https://upload.wikimedia.org/wikipedia/commons/6/62/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "publicPath": "/media/art/A06_eden_tabla_izquierda.jpg",
+      "kitPath": "content/pilot/assets/A06_eden_tabla_izquierda.jpg",
+      "sha256": "3cfa294f2788d70123d01a6908ccd6547e4cf305e5d3b1cc223c8c0170ac885f",
+      "bytes": 2395412,
+      "width": 1452,
+      "height": 3500,
+      "crop": {
+        "kind": "detail",
+        "pixels": [
+          0,
+          0,
+          4579,
+          11035
+        ],
+        "sourceWidth": 19569,
+        "sourceHeight": 11035,
+        "sourceSha256": "22054e77433c09ef100de94c57c4e1612412fdcdf1a78d821ae7dda8f049d74a",
+        "transforms": "Recorte y reducción; JPEG calidad 95. Sin generación de imagen. Fuente ya incluye ajuste de niveles."
+      },
+      "editorialRole": "Edén y presentación de Eva a Adán; no mostrar centro ni infierno. No confundir presentación con instante de creación de Eva.",
+      "displayable": true
+    },
+    {
+      "id": "A11_animales_CC0",
+      "workId": "A11",
+      "title": {
+        "es": "La creación de los animales",
+        "en": "The Creation of the Animals"
+      },
+      "artist": {
+        "es": "Jacopo Tintoretto",
+        "en": "Jacopo Tintoretto"
+      },
+      "date": "1550–1553",
+      "dateNote": "Fecha 1550–1553 de ficha oficial Accademia; Commons indica 1551–1552.",
+      "location": {
+        "es": "Gallerie dell’Accademia, Venecia; inv. 900",
+        "en": "Gallerie dell’Accademia, Venice; inv. 900"
+      },
+      "license": "CC0 1.0 (fotografía) + PD-Art (obra)",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "credit": "Jacopo Tintoretto, La creación de los animales, 1550–1553. Gallerie dell’Accademia. Foto: Gleb Simonov, 2019, CC0 1.0, vía Wikimedia Commons.",
+      "creditRequirement": "CC0 no exige atribución; incluir fotógrafo, CC0 y enlace por buena práctica. No sugerir respaldo del fotógrafo ni del museo.",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+      "sourceFile": "https://upload.wikimedia.org/wikipedia/commons/8/87/Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+      "photographer": "Gleb Simonov",
+      "photographDate": "2019-06-30",
+      "publicPath": "/media/art/A11_animales_CC0.jpg",
+      "kitPath": "content/pilot/assets/A11_animales_CC0.jpg",
+      "sha256": "c2068abc204a10cfa4a5346c758411624bf41372fc747fa51c774494aa929b29",
+      "bytes": 9429703,
+      "width": 4299,
+      "height": 2484,
+      "crop": null,
+      "editorialRole": "Animales acuáticos, aves y animales terrestres; nueva foto 4299×2484 sustituye propuesta de miniatura 1000×579.",
+      "displayable": true
+    }
+  ],
+  "cues": [
+    {
+      "startSeconds": 0,
+      "endSeconds": 151.52,
+      "artworkId": "A05_geometra",
+      "sectionLabel": "Título, creación, luz, aguas/tierra, vegetación y lumbreras",
+      "editorialNote": "Imagen simbólica de creación. Mantener vista completa; no fingir que representa literalmente cada día."
+    },
+    {
+      "startSeconds": 151.52,
+      "endSeconds": 208.08,
+      "artworkId": "A11_animales_CC0",
+      "sectionLabel": "Aves, peces y animales terrestres",
+      "editorialNote": "Plano completo; detalle moderado sin perder contexto."
+    },
+    {
+      "startSeconds": 208.08,
+      "endSeconds": 281.64,
+      "artworkId": "A03_adan",
+      "sectionLabel": "Humanidad, varón y mujer, bendición",
+      "editorialNote": "Escena de Adán como representación artística de humanidad; no ilustración literal de cada frase."
+    },
+    {
+      "startSeconds": 281.64,
+      "endSeconds": 308.6,
+      "artworkId": "A05_geometra",
+      "sectionLabel": "Conclusión y descanso",
+      "editorialNote": "Regreso al motivo de apertura."
+    },
+    {
+      "startSeconds": 308.6,
+      "endSeconds": 345.36,
+      "artworkId": "A03_adan",
+      "sectionLabel": "Polvo y aliento de vida",
+      "editorialNote": "No pretende representar literalmente el modelado del polvo."
+    },
+    {
+      "startSeconds": 345.36,
+      "endSeconds": 418.796688,
+      "artworkId": "A06_eden_tabla_izquierda",
+      "sectionLabel": "Edén, árboles, ríos y mandato",
+      "editorialNote": "Unión de piezas dentro de este plano en 06:07.517. El cuadro no es mapa de los cuatro ríos."
+    },
+    {
+      "startSeconds": 418.796688,
+      "endSeconds": 452.476688,
+      "artworkId": "A11_animales_CC0",
+      "sectionLabel": "Soledad y nombres de los animales",
+      "editorialNote": "Volver a la obra de Tintoretto."
+    },
+    {
+      "startSeconds": 452.476688,
+      "endSeconds": 473.296688,
+      "artworkId": "A06_eden_presentacion_detalle",
+      "sectionLabel": "Letargo y formación de Eva",
+      "editorialNote": "PROPUESTA: presentación de Eva, no extracción de costilla. Si se exige literalidad, esta fila necesita otra imagen; no volver al PNG pequeño sin revisión."
+    },
+    {
+      "startSeconds": 473.296688,
+      "endSeconds": 498.050563,
+      "artworkId": "A06_eden_presentacion_detalle",
+      "sectionLabel": "Unión del hombre y la mujer; cierre",
+      "editorialNote": "Presentación como asociación artística; conservar rótulo detalle."
+    }
+  ],
+  "captions": [],
+  "referenceText": {
+    "episodeId": "es-genesis-01",
+    "status": "supplied_pilot_reference",
+    "note": {
+      "es": "El texto bíblico no se versiona en este repositorio.",
+      "en": "The biblical text is not versioned in this repository."
+    },
+    "paragraphs": [
+      "El texto de referencia del piloto no está en este repositorio público."
+    ]
+  }
+}

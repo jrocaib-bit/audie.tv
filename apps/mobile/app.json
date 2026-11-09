@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Audite",
+    "slug": "audite",
+    "scheme": "audite",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "es.audite.pilot"
+    },
+    "android": {
+      "package": "es.audite.pilot",
+      "adaptiveIcon": {
+        "backgroundColor": "#f3efe6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "identifiersArePlaceholders": true
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": true,
+          "enableBackgroundRecording": false
+        }
+      ],
+      [
+        "expo-router",
+        {
+          "root": "src/app"
+        }
+      ],
+      "expo-font",
+      "expo-notifications"
+    ]
+  }
+}

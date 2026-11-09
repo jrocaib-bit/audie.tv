@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "actualizado": "2026-11-09T10:00:00+01:00",
+  "idiomas": [
+    "es",
+    "en"
+  ],
+  "libros": [
+    {
+      "id": "gn",
+      "orden": 1,
+      "testamento": "AT",
+      "titulo": {
+        "es": "Génesis",
+        "en": "Genesis"
+      },
+      "episodios": [
+        {
+          "id": "gn-01",
+          "orden": 1,
+          "capitulos": "1–2",
+          "titulo": {
+            "es": "En el principio. La creación y el hombre."
+          },
+          "resumen": {
+            "es": "Génesis 1–2 en una sola narración española."
+          },
+          "arte": [
+            {
+              "archivo": "04_arte/gn-01/A05_geometra.jpg",
+              "titulo": {
+                "es": "Dios arquitecto del universo — Bible moralisée",
+                "en": "God as Architect of the Universe — Bible moralisée"
+              },
+              "autor": "Anónimo",
+              "anio": "c. 1220–1230",
+              "ubicacion": "Biblioteca Nacional de Austria, Viena; Cod. 2554, fol. 1v",
+              "derechos": "Anónimo, Dios arquitecto del universo, c. 1220–1230. ÖNB, Viena. Reproducción vía Wikimedia Commons, PD-Art.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg",
+              "ancho": 1244,
+              "alto": 1705,
+              "inicio_s": 0,
+              "fin_s": 151.52,
+              "nota": "Imagen simbólica de creación. Mantener vista completa; no fingir que representa literalmente cada día."
+            },
+            {
+              "archivo": "04_arte/gn-01/A11_animales_CC0.jpg",
+              "titulo": {
+                "es": "La creación de los animales",
+                "en": "The Creation of the Animals"
+              },
+              "autor": "Jacopo Tintoretto",
+              "anio": "1550–1553",
+              "ubicacion": "Gallerie dell’Accademia, Venecia; inv. 900",
+              "derechos": "Jacopo Tintoretto, La creación de los animales, 1550–1553. Gallerie dell’Accademia. Foto: Gleb Simonov, 2019, CC0 1.0, vía Wikimedia Commons.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+              "ancho": 4299,
+              "alto": 2484,
+              "inicio_s": 151.52,
+              "fin_s": 208.08,
+              "nota": "Plano completo; detalle moderado sin perder contexto."
+            },
+            {
+              "archivo": "04_arte/gn-01/A03_adan.jpg",
+              "titulo": {
+                "es": "La creación de Adán",
+                "en": "The Creation of Adam"
+              },
+              "autor": "Miguel Ángel",
+              "anio": "1511",
+              "ubicacion": "Capilla Sixtina, Museos Vaticanos, Ciudad del Vaticano",
+              "derechos": "Miguel Ángel, La creación de Adán, 1511. Capilla Sixtina. Reproducción vía Wikimedia Commons, PD-Art.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+              "ancho": 4256,
+              "alto": 2843,
+              "inicio_s": 208.08,
+              "fin_s": 281.64,
+              "nota": "Escena de Adán como representación artística de humanidad; no ilustración literal de cada frase."
+            },
+            {
+              "archivo": "04_arte/gn-01/A05_geometra.jpg",
+              "titulo": {
+                "es": "Dios arquitecto del universo — Bible moralisée",
+                "en": "God as Architect of the Universe — Bible moralisée"
+              },
+              "autor": "Anónimo",
+              "anio": "c. 1220–1230",
+              "ubicacion": "Biblioteca Nacional de Austria, Viena; Cod. 2554, fol. 1v",
+              "derechos": "Anónimo, Dios arquitecto del universo, c. 1220–1230. ÖNB, Viena. Reproducción vía Wikimedia Commons, PD-Art.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg",
+              "ancho": 1244,
+              "alto": 1705,
+              "inicio_s": 281.64,
+              "fin_s": 308.6,
+              "nota": "Regreso al motivo de apertura."
+            },
+            {
+              "archivo": "04_arte/gn-01/A03_adan.jpg",
+              "titulo": {
+                "es": "La creación de Adán",
+                "en": "The Creation of Adam"
+              },
+              "autor": "Miguel Ángel",
+              "anio": "1511",
+              "ubicacion": "Capilla Sixtina, Museos Vaticanos, Ciudad del Vaticano",
+              "derechos": "Miguel Ángel, La creación de Adán, 1511. Capilla Sixtina. Reproducción vía Wikimedia Commons, PD-Art.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+              "ancho": 4256,
+              "alto": 2843,
+              "inicio_s": 308.6,
+              "fin_s": 345.36,
+              "nota": "No pretende representar literalmente el modelado del polvo."
+            },
+            {
+              "archivo": "04_arte/gn-01/A06_eden_tabla_izquierda.jpg",
+              "titulo": {
+                "es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+                "en": "The Garden of Earthly Delights Triptych — left panel (detail)"
+              },
+              "autor": "El Bosco",
+              "anio": "1490–1500",
+              "ubicacion": "Museo Nacional del Prado, Madrid; P002823",
+              "derechos": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+              "ancho": 1452,
+              "alto": 3500,
+              "inicio_s": 345.36,
+              "fin_s": 418.796688,
+              "nota": "Unión de piezas dentro de este plano en 06:07.517. El cuadro no es mapa de los cuatro ríos."
+            },
+            {
+              "archivo": "04_arte/gn-01/A11_animales_CC0.jpg",
+              "titulo": {
+                "es": "La creación de los animales",
+                "en": "The Creation of the Animals"
+              },
+              "autor": "Jacopo Tintoretto",
+              "anio": "1550–1553",
+              "ubicacion": "Gallerie dell’Accademia, Venecia; inv. 900",
+              "derechos": "Jacopo Tintoretto, La creación de los animales, 1550–1553. Gallerie dell’Accademia. Foto: Gleb Simonov, 2019, CC0 1.0, vía Wikimedia Commons.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+              "ancho": 4299,
+              "alto": 2484,
+              "inicio_s": 418.796688,
+              "fin_s": 452.476688,
+              "nota": "Volver a la obra de Tintoretto."
+            },
+            {
+              "archivo": "04_arte/gn-01/A06_eden_presentacion_detalle.jpg",
+              "titulo": {
+                "es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+                "en": "The Garden of Earthly Delights Triptych — left panel (detail)"
+              },
+              "autor": "El Bosco",
+              "anio": "1490–1500",
+              "ubicacion": "Museo Nacional del Prado, Madrid; P002823",
+              "derechos": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+              "ancho": 3000,
+              "alto": 2905,
+              "inicio_s": 452.476688,
+              "fin_s": 473.296688,
+              "nota": "PROPUESTA: presentación de Eva, no extracción de costilla. Si se exige literalidad, esta fila necesita otra imagen."
+            },
+            {
+              "archivo": "04_arte/gn-01/A06_eden_presentacion_detalle.jpg",
+              "titulo": {
+                "es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+                "en": "The Garden of Earthly Delights Triptych — left panel (detail)"
+              },
+              "autor": "El Bosco",
+              "anio": "1490–1500",
+              "ubicacion": "Museo Nacional del Prado, Madrid; P002823",
+              "derechos": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+              "fuente": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+              "ancho": 3000,
+              "alto": 2905,
+              "inicio_s": 473.296688,
+              "fin_s": 498.050563,
+              "nota": "Presentación como asociación artística; conservar el rótulo de detalle."
+            }
+          ],
+          "idiomas": {
+            "es": {
+              "estado": "audio_listo",
+              "master": "05_audio/masters/gn-01_es_master_v1.mp3",
+              "duracion_s": 498.050612,
+              "subtitulos": "02_guiones/gn-01_es_guion_v1.vtt"
+            },
+            "en": {
+              "estado": "pendiente"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
