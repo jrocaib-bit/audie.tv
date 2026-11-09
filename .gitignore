@@ -1,49 +1,33 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Build
-.next/
-out/
-build/
-dist/
-
-# Environment
+node_modules
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# OS
+.env.*
+!.env.example
+.next
+dist
+out
+coverage
+.expo
+uploads
+*.log
 .DS_Store
-Thumbs.db
+tsconfig.tsbuildinfo
+apps/web/tsconfig.tsbuildinfo
+apps/mobile/.expo
+apps/mobile/dist
 
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# Vercel
-.vercel
-
-# Local settings (not project config)
-.claude/settings.local.json
-
-# User-specific skills (not part of the template)
-.claude/skills/customize/
-.claude/skills/release/
-
-# Local temp files
-temp/
+# Kit privado. El texto bíblico, los másteres y las imágenes grandes no se versionan.
+content/pilot/audio/*.mp3
+content/pilot/assets/*.jpg
+content/pilot/documentos/texto_ES_Drive_referencia.md
+content/pilot/documentos/transcripcion_automatica_ES.md
+content/pilot/documentos/transcripcion_automatica_ES.srt
+content/pilot/documentos/*.jpg
+content/pilot/evidencias/*.jpg
+content/demo/02_guiones/*.vtt
+content/demo/04_arte/**/*.jpg
+content/demo/05_audio/**/*.mp3
+content/demo/catalogo-app.json
+content/canon/02_guiones/
+content/canon/04_arte/
+content/canon/05_audio/
+content/canon/catalogo-app.json

@@ -1,0 +1,10 @@
+inicio_global,fin_global,inicio_seg,fin_seg,asset_id,contenido_ASR_aproximado,nota_editorial
+00:00:00.000,00:02:31.520,0,151.52,A05_geometra,"Título, creación, luz, aguas/tierra, vegetación y lumbreras",Imagen simbólica de creación. Mantener vista completa; no fingir que representa literalmente cada día.
+00:02:31.520,00:03:28.080,151.52,208.08,A11_animales_CC0,"Aves, peces y animales terrestres",Plano completo; detalle moderado sin perder contexto.
+00:03:28.080,00:04:41.640,208.08,281.64,A03_adan,"Humanidad, varón y mujer, bendición",Escena de Adán como representación artística de humanidad; no ilustración literal de cada frase.
+00:04:41.640,00:05:08.600,281.64,308.6,A05_geometra,Conclusión y descanso,Regreso al motivo de apertura.
+00:05:08.600,00:05:45.360,308.6,345.36,A03_adan,Polvo y aliento de vida,No pretende representar literalmente el modelado del polvo.
+00:05:45.360,00:06:58.797,345.36,418.796688,A06_eden_tabla_izquierda,"Edén, árboles, ríos y mandato",Unión de piezas dentro de este plano en 06:07.517. El cuadro no es mapa de los cuatro ríos.
+00:06:58.797,00:07:32.477,418.796688,452.476688,A11_animales_CC0,Soledad y nombres de los animales,Volver a la obra de Tintoretto.
+00:07:32.477,00:07:53.297,452.476688,473.296688,A06_eden_presentacion_detalle,Letargo y formación de Eva,"PROPUESTA: presentación de Eva, no extracción de costilla. Si se exige literalidad, esta fila necesita otra imagen; no volver al PNG pequeño sin revisión."
+00:07:53.297,00:08:18.051,473.296688,498.050563,A06_eden_presentacion_detalle,Unión del hombre y la mujer; cierre,Presentación como asociación artística; conservar rótulo detalle.

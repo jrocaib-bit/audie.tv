@@ -1,0 +1,200 @@
+{
+  "project": "Audite",
+  "episode": "Gn 1–2 / episodio 1",
+  "version": "kit-visual-v2",
+  "created_madrid": "2026-11-08T21:56:07.600196+01:00",
+  "scope": "Selección visual propuesta: cuatro obras, cinco archivos; no máster final.",
+  "audio_inputs": [
+    {
+      "file": "audio/ES_p1_original.mp3",
+      "sha256": "4a7ed034d06f1d0c31a3f0fc761ea49718cbca44263483ef5eb509224ceeac86",
+      "duration_seconds": 367.516688,
+      "source_box_path": "/workspace/audite-es-p1.mp3"
+    },
+    {
+      "file": "audio/ES_p2_original.mp3",
+      "sha256": "81fe1990a195b0a7a8da674404dd8c9cd58b5ff0b7d22f2613e340663f6fc647",
+      "duration_seconds": 130.533875,
+      "source_box_path": "/workspace/audite-es-p2.mp3"
+    }
+  ],
+  "timeline_seconds": 498.050563,
+  "p2_global_start_seconds": 367.516688,
+  "assets": [
+    {
+      "title_es": "La creación de Adán",
+      "title_en": "The Creation of Adam",
+      "artist_es": "Miguel Ángel",
+      "artist_en": "Michelangelo",
+      "date": "1511",
+      "location_es": "Capilla Sixtina, Museos Vaticanos, Ciudad del Vaticano",
+      "location_en": "Sistine Chapel, Vatican Museums, Vatican City",
+      "license": "PD-Art / Public Domain Mark",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+      "source_file": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+      "credit": "Miguel Ángel, La creación de Adán, 1511. Capilla Sixtina. Reproducción vía Wikimedia Commons, PD-Art.",
+      "credit_requirement": "No atribución obligatoria por declaración de dominio público; crédito editorial y trazabilidad recomendados.",
+      "role": "Humanidad y formación de Adán; la copia local coincide exactamente con el original de Commons.",
+      "asset_id": "A03_adan",
+      "work_id": "A03",
+      "file": "assets/A03_adan.jpg",
+      "dimensions": [
+        4256,
+        2843
+      ],
+      "sha256": "cc26d81c25052fb41f47a5565edf310c77682f9fb5f1989694b28eaba5ebb59b",
+      "bytes": 9494881,
+      "accessed_madrid": "2026-11-08T21:56:07.600196+01:00",
+      "evidence_status": "REPRODUCTION_EVIDENCE_DOCUMENTED",
+      "commercial_use": "Permitido según declaración PD-Art/CC0 de la reproducción; no garantía jurídica mundial ni autorización de publicación.",
+      "human_legal_signoff": false
+    },
+    {
+      "title_es": "Dios arquitecto del universo — Bible moralisée",
+      "title_en": "God as Architect of the Universe — Bible moralisée",
+      "artist_es": "Anónimo",
+      "artist_en": "Anonymous",
+      "date": "c. 1220–1230",
+      "location_es": "Biblioteca Nacional de Austria, Viena; Cod. 2554, fol. 1v",
+      "location_en": "Austrian National Library, Vienna; Cod. 2554, fol. 1v",
+      "license": "PD-Art / Public Domain Mark",
+      "source_page": "https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg",
+      "source_file": "https://upload.wikimedia.org/wikipedia/commons/4/4d/God_the_Geometer.jpg",
+      "credit": "Anónimo, Dios arquitecto del universo, c. 1220–1230. ÖNB, Viena. Reproducción vía Wikimedia Commons, PD-Art.",
+      "credit_requirement": "No atribución obligatoria por declaración de dominio público; crédito editorial y trazabilidad recomendados.",
+      "role": "Representación simbólica de la creación, no ilustración literal de cada día.",
+      "asset_id": "A05_geometra",
+      "work_id": "A05",
+      "file": "assets/A05_geometra.jpg",
+      "dimensions": [
+        1244,
+        1705
+      ],
+      "sha256": "39248b56bbff982ba289d771f047164cc01a29d8ab4e02ad5aa4b0e0ee101b81",
+      "bytes": 1846579,
+      "accessed_madrid": "2026-11-08T21:56:07.600196+01:00",
+      "evidence_status": "REPRODUCTION_EVIDENCE_DOCUMENTED",
+      "commercial_use": "Permitido según declaración PD-Art/CC0 de la reproducción; no garantía jurídica mundial ni autorización de publicación.",
+      "human_legal_signoff": false
+    },
+    {
+      "title_es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+      "title_en": "The Garden of Earthly Delights Triptych — left panel (detail)",
+      "artist_es": "El Bosco",
+      "artist_en": "Hieronymus Bosch",
+      "date": "1490–1500",
+      "location_es": "Museo Nacional del Prado, Madrid; P002823",
+      "location_en": "Museo Nacional del Prado, Madrid; P002823",
+      "license": "PD-Art / Public Domain Mark",
+      "source_page": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "source_file": "https://upload.wikimedia.org/wikipedia/commons/6/62/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "credit": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+      "credit_requirement": "No atribución obligatoria por declaración de dominio público; acreditar fuente, ajuste de niveles previo y recortes por trazabilidad. No implica aval del museo.",
+      "role": "Edén y presentación de Eva a Adán; no mostrar centro ni infierno. No confundir presentación con instante de creación de Eva.",
+      "asset_id": "A06_eden_presentacion_detalle",
+      "work_id": "A06",
+      "file": "assets/A06_eden_presentacion_detalle.jpg",
+      "dimensions": [
+        3000,
+        2905
+      ],
+      "sha256": "e5c937511ecc303dfa7ca92bc357dfdf429a61a9cce18325c158cc19ccf2c1aa",
+      "bytes": 4219595,
+      "accessed_madrid": "2026-11-08T21:56:07.600196+01:00",
+      "evidence_status": "REPRODUCTION_EVIDENCE_DOCUMENTED",
+      "commercial_use": "Permitido según declaración PD-Art/CC0 de la reproducción; no garantía jurídica mundial ni autorización de publicación.",
+      "human_legal_signoff": false,
+      "source_dimensions": [
+        19569,
+        11035
+      ],
+      "source_sha256": "22054e77433c09ef100de94c57c4e1612412fdcdf1a78d821ae7dda8f049d74a",
+      "crop_pixels": [
+        100,
+        6500,
+        4540,
+        10800
+      ],
+      "transforms": "Recorte y reducción; JPEG calidad 95. Sin generación de imagen. Fuente ya incluye ajuste de niveles."
+    },
+    {
+      "title_es": "Tríptico del Jardín de las delicias — tabla izquierda (detalle)",
+      "title_en": "The Garden of Earthly Delights Triptych — left panel (detail)",
+      "artist_es": "El Bosco",
+      "artist_en": "Hieronymus Bosch",
+      "date": "1490–1500",
+      "location_es": "Museo Nacional del Prado, Madrid; P002823",
+      "location_en": "Museo Nacional del Prado, Madrid; P002823",
+      "license": "PD-Art / Public Domain Mark",
+      "source_page": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "source_file": "https://upload.wikimedia.org/wikipedia/commons/6/62/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+      "credit": "El Bosco, Jardín de las delicias, 1490–1500, tabla izquierda (detalle). Museo del Prado. Reproducción Google Earth/Prado, ensamblaje AxelBoldt; versión retocada de Commons. Recorte Audite.",
+      "credit_requirement": "No atribución obligatoria por declaración de dominio público; acreditar fuente, ajuste de niveles previo y recortes por trazabilidad. No implica aval del museo.",
+      "role": "Edén y presentación de Eva a Adán; no mostrar centro ni infierno. No confundir presentación con instante de creación de Eva.",
+      "asset_id": "A06_eden_tabla_izquierda",
+      "work_id": "A06",
+      "file": "assets/A06_eden_tabla_izquierda.jpg",
+      "dimensions": [
+        1452,
+        3500
+      ],
+      "sha256": "3cfa294f2788d70123d01a6908ccd6547e4cf305e5d3b1cc223c8c0170ac885f",
+      "bytes": 2395412,
+      "accessed_madrid": "2026-11-08T21:56:07.600196+01:00",
+      "evidence_status": "REPRODUCTION_EVIDENCE_DOCUMENTED",
+      "commercial_use": "Permitido según declaración PD-Art/CC0 de la reproducción; no garantía jurídica mundial ni autorización de publicación.",
+      "human_legal_signoff": false,
+      "source_dimensions": [
+        19569,
+        11035
+      ],
+      "source_sha256": "22054e77433c09ef100de94c57c4e1612412fdcdf1a78d821ae7dda8f049d74a",
+      "crop_pixels": [
+        0,
+        0,
+        4579,
+        11035
+      ],
+      "transforms": "Recorte y reducción; JPEG calidad 95. Sin generación de imagen. Fuente ya incluye ajuste de niveles."
+    },
+    {
+      "title_es": "La creación de los animales",
+      "title_en": "The Creation of the Animals",
+      "artist_es": "Jacopo Tintoretto",
+      "artist_en": "Jacopo Tintoretto",
+      "date": "1550–1553",
+      "location_es": "Gallerie dell’Accademia, Venecia; inv. 900",
+      "location_en": "Gallerie dell’Accademia, Venice; inv. 900",
+      "license": "CC0 1.0 (fotografía) + PD-Art (obra)",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+      "source_file": "https://upload.wikimedia.org/wikipedia/commons/8/87/Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+      "credit": "Jacopo Tintoretto, La creación de los animales, 1550–1553. Gallerie dell’Accademia. Foto: Gleb Simonov, 2019, CC0 1.0, vía Wikimedia Commons.",
+      "credit_requirement": "CC0 no exige atribución; incluir fotógrafo, CC0 y enlace por buena práctica. No sugerir respaldo del fotógrafo ni del museo.",
+      "role": "Animales acuáticos, aves y animales terrestres; nueva foto 4299×2484 sustituye propuesta de miniatura 1000×579.",
+      "asset_id": "A11_animales_CC0",
+      "work_id": "A11",
+      "file": "assets/A11_animales_CC0.jpg",
+      "dimensions": [
+        4299,
+        2484
+      ],
+      "sha256": "c2068abc204a10cfa4a5346c758411624bf41372fc747fa51c774494aa929b29",
+      "bytes": 9429703,
+      "accessed_madrid": "2026-11-08T21:56:07.600196+01:00",
+      "evidence_status": "REPRODUCTION_EVIDENCE_DOCUMENTED",
+      "commercial_use": "Permitido según declaración PD-Art/CC0 de la reproducción; no garantía jurídica mundial ni autorización de publicación.",
+      "human_legal_signoff": false,
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photographer": "Gleb Simonov",
+      "photograph_date": "2019-06-30",
+      "date_note": "Fecha 1550–1553 de ficha oficial Accademia; Commons indica 1551–1552."
+    }
+  ],
+  "publication_blockers": [
+    "Edición y licencia del texto ES no acreditadas",
+    "Condiciones/licencia de voz Audite no documentadas",
+    "Discrepancias ASR y unión sin escucha directa",
+    "Aprobación editorial de recortes/selección y autorización específica de publicación pendientes"
+  ],
+  "general_rights_note": "Declaraciones de copyright de fuentes, no dictamen jurídico. CC0 no elimina derechos ajenos u otras restricciones. Revisar condiciones aplicables por territorio, patrimonio cultural u otros derechos cuando proceda. No afirmar permiso del museo por citar su nombre."
+}

@@ -1,155 +1,95 @@
-# AI Website Cloner Template
+# Audite
 
-<a href="https://github.com/JCodesMore/ai-website-cloner-template/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a> <a href="https://github.com/JCodesMore/ai-website-cloner-template/stargazers"><img src="https://img.shields.io/github/stars/JCodesMore/ai-website-cloner-template?style=flat" alt="Stars" /></a> <a href="https://discord.gg/hrTSX5yTpB"><img src="https://img.shields.io/discord/1400896964597383279?label=discord" alt="Discord" /></a>
+Private draft of Audite, a calm Spanish-first Bible listening app. This slice describes the Genesis 1–2 pilot and keeps a personal path and listening progress on the device. It is not the whole Bible, not a store release, and not a paid service.
 
-A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents. 
+## Repositorio público
 
-**Recommended: [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with Opus 4.6 for best results** — but works with a variety of AI coding agents.
+Audite no es software libre. Este repositorio no lleva licencia MIT ni ninguna otra licencia de uso. El fichero `apps/mobile/LICENSE` es la licencia MIT de la plantilla de Expo (650 Industries), no una licencia de Audite.
 
-Point it at a URL, run `/clone-website`, and your AI agent will inspect the site, extract design tokens and assets, write component specs, and dispatch parallel builders to reconstruct every section.
+No están en git el texto bíblico (© Conferencia Episcopal Española), los másteres de audio ni las imágenes grandes del piloto. `npm run catalog` y `npm run validate` necesitan ese kit en local; sin él se detienen. La web pública lee `content/canon`, donde todavía no hay audio reproducible.
 
-## Demo
+El proyecto de Supabase previsto es `qdjowihivtqoelurvyke` (`https://qdjowihivtqoelurvyke.supabase.co`, región `eu-west-1`). La URL está en `.env.example`. Las claves no. Ver `docs/MIGRACION.md`. No se han aplicado migraciones.
 
-[![Watch the demo](docs/design-references/comparison.png)](https://youtu.be/O669pVZ_qr0)
+## What you can do
 
-> Click the image above to watch the full demo on YouTube.
+- Describe the Spanish pilot: Genesis 1–2, 8:18, two recordings joined at 6:07.517. Those audio files are not in this public repository.
+- Open Hoy, Camino, Biblioteca, or Ajustes. The listening screen is a full-bleed gallery; a small player stays on the other screens.
+- Pause, seek (±15 and ±30 seconds), change speed, set a sleep timer, and resume in this browser.
+- Follow images and captions from the supplied timing proposal. Captions stay in their own band and do not fade with the picture.
+- Build a listening path from episodes that actually have audio. Right now that is only the pilot.
+- Read credits and license notes. The reference text itself is not in this public repository.
+- Switch light and dark appearance, text size, captions, and interface language (Spanish or English). The narration stays Spanish.
 
-## Quick Start
+## What this draft does not do
 
-1. **Clone this repository**
-   ```bash
-   git clone https://github.com/JCodesMore/ai-website-cloner-template.git my-clone
-   cd my-clone
-   ```
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-3. **Start your AI agent** — Claude Code recommended:
-   ```bash
-   claude --chrome
-   ```
-4. **Run the skill**:
-   ```
-   /clone-website <target-url1> [<target-url2> ...]
-   ```
-5. **Customize** (optional) — after the base clone is built, modify as needed
+- No account, no server, and no sync between devices. Progress stays in this browser (`localStorage`) or, in the mobile scaffold, on that device (`AsyncStorage`).
+- No price and no checkout. The membership page says the annual plan is still to come.
+- English and Italian are listed as not attached. They are not playable.
+- Genesis episodes 2–10 are an approved outline only. They have no titles, text, or audio here, and they cannot be added to a path.
+- Image files are documented as PD-Art or CC0 reproductions. That record is not a legal opinion or a museum endorsement. Text and voice for this pilot were confirmed by Javier Roca.
+- The image sequence is an editorial draft. It is not a claim that every cut is final.
+- The mobile project typechecks on this Linux machine and its web target can be opened in a browser. It has not been run on an iPhone, Android device, or emulator, and it has not been submitted to the App Store or Google Play.
 
-> Using a different agent? Open `AGENTS.md` for project instructions — most agents pick it up automatically.
-
-## Supported Platforms
-
-| Agent                                                         | Status                     |
-| ------------------------------------------------------------- | -------------------------- |
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | **Recommended** — Opus 4.6 |
-| [Codex CLI](https://github.com/openai/codex)                  | Supported                  |
-| [OpenCode](https://opencode.ai/)                              | Supported                  |
-| [GitHub Copilot](https://github.com/features/copilot)         | Supported                  |
-| [Cursor](https://cursor.com/)                                 | Supported                  |
-| [Windsurf](https://codeium.com/windsurf)                      | Supported                  |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli)     | Supported                  |
-| [Cline](https://github.com/cline/cline)                       | Supported                  |
-| [Roo Code](https://github.com/RooCodeInc/Roo-Code)            | Supported                  |
-| [Continue](https://continue.dev/)                             | Supported                  |
-| [Amazon Q](https://aws.amazon.com/q/developer/)               | Supported                  |
-| [Augment Code](https://www.augmentcode.com/)                  | Supported                  |
-| [Aider](https://aider.chat/)                                  | Supported                  |
-
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) 24+
-- An AI coding agent (see [Supported Platforms](#supported-platforms))
-
-## Tech Stack
-
-- **Next.js 16** — App Router, React 19, TypeScript strict
-- **shadcn/ui** — Radix primitives + Tailwind CSS v4
-- **Tailwind CSS v4** — oklch design tokens
-- **Lucide React** — default icons (replaced by extracted SVGs during cloning)
-
-## How It Works
-
-The `/clone-website` skill runs a multi-phase pipeline:
-
-1. **Reconnaissance** — screenshots, design token extraction, interaction sweep (scroll, click, hover, responsive)
-2. **Foundation** — updates fonts, colors, globals, downloads all assets
-3. **Component Specs** — writes detailed spec files (`docs/research/components/`) with exact computed CSS values, states, behaviors, and content
-4. **Parallel Build** — dispatches builder agents in git worktrees, one per section/component
-5. **Assembly & QA** — merges worktrees, wires up the page, runs visual diff against the original
-
-Each builder agent receives the full component specification inline — exact `getComputedStyle()` values, interaction models, multi-state content, responsive breakpoints, and asset paths. No guessing.
-
-## Use Cases
-
-- **Platform migration** — rebuild a site you own from WordPress/Webflow/Squarespace into a modern Next.js codebase
-- **Lost source code** — your site is live but the repo is gone, the developer left, or the stack is legacy. Get the code back in a modern format
-- **Learning** — deconstruct how production sites achieve specific layouts, animations, and responsive behavior by working with real code
-
-## Not Intended For
-
-- **Phishing or impersonation** — this project must not be used for deceptive purposes, impersonation, or any activity that breaks the law.
-- **Passing off someone's design as your own** — logos, brand assets, and original copy belong to their owners.
-- **Violating terms of service** — some sites explicitly prohibit scraping or reproduction. Check first.
-
-## Project Structure
-
-```
-src/
-  app/              # Next.js routes
-  components/       # React components
-    ui/             # shadcn/ui primitives
-    icons.tsx       # Extracted SVG icons
-  lib/utils.ts      # cn() utility
-  types/            # TypeScript interfaces
-  hooks/            # Custom React hooks
-public/
-  images/           # Downloaded images from target
-  videos/           # Downloaded videos from target
-  seo/              # Favicons, OG images
-docs/
-  research/         # Extraction output & component specs
-  design-references/ # Screenshots
-scripts/
-  sync-agent-rules.sh  # Regenerate agent instruction files
-  sync-skills.mjs      # Regenerate /clone-website for all platforms
-AGENTS.md           # Agent instructions (single source of truth)
-CLAUDE.md           # Claude Code config (imports AGENTS.md)
-GEMINI.md           # Gemini CLI config (imports AGENTS.md)
-```
-
-## Commands
+## Run the web draft
 
 ```bash
-npm run dev    # Start dev server
-npm run build  # Production build
-npm run lint   # ESLint check
-npm run typecheck # TypeScript check
-npm run check  # Run lint + typecheck + build
+npm install
+npm run dev
 ```
 
-### If using docker
+Open http://127.0.0.1:43123
+
+Other checks:
 
 ```bash
-docker compose up app --build # build and run the app
-docker compose up dev --build # run the app in dev mode on port 3001
+npm test
+npm run typecheck
+npm run lint
+npm run validate
+npm run build
 ```
 
-## Updating for Other Platforms
+`npm run catalog` rewrites `content/catalog/manifest.json` from the private pilot kit and then validates it. Without that kit the command stops. The writer is idempotent: the same kit produces the same file. Do not commit the biblical text it would embed.
 
-Two source-of-truth files power all platform support. Edit the source, then run the sync script:
+## Content
 
-| What                   | Source of truth                         | Sync command                       |
-| ---------------------- | --------------------------------------- | ---------------------------------- |
-| Project instructions   | `AGENTS.md`                             | `bash scripts/sync-agent-rules.sh` |
-| `/clone-website` skill | `.claude/skills/clone-website/SKILL.md` | `node scripts/sync-skills.mjs`     |
+`content/pilot` keeps the timing proposal and the asset manifest. The two Spanish MP3s, the five artwork files, the reference text, and the automatic transcript are not in this public repository. Hashes and durations are checked when those files are present locally.
 
-Each script regenerates the platform-specific copies automatically. Agents that read the source files natively need no regeneration.
+`content/catalog/manifest.json` is the older kit catalog used by validation. In this tree its captions and reference paragraphs are omitted. The listening apps and the public pages read `content/canon/01_canon/manifiesto.json`. An episode is playable only when its language state is `audio_listo` and the master file is present. In the current manifest nothing is playable yet. A text credit is shown only when `fuente_texto` names it; otherwise it stays pending. Short labels use `titulo_corto`, then `titulo`, then `etiqueta`.
 
+`AUDITE_DEMO=1` is a separate demo mode. `npm run content:fixture` writes that pilot only under `content/demo`. It is not mixed into the real catalog.
 
-## Star History
+```bash
+npm run content:fixture
+npm run content:sync -- --root=/workspace/audite
+```
 
-[![Star History Chart](https://api.star-history.com/svg?repos=JCodesMore/ai-website-cloner-template&type=Date)](https://star-history.com/#JCodesMore/ai-website-cloner-template&Date)
+`content:fixture` rebuilds the pilot manifest from the kit already in this repo. `content:sync` copies `01_canon/manifiesto.json` and the masters, subtitles, and art it names from a local content root. If that folder is missing, the script stops and leaves the fixture in place. Logo files, when they exist under `03_identidad/logos`, are copied the same way; screens keep using the placeholder mark until those files are there.
 
-## License
+The public site is `/es` and `/en` (home, catalog, membership). Membership has no price and no checkout. Adding a language means adding a translation file in `content/sitio` and registering it in `apps/web/src/sitio/i18n.ts`.
 
-MIT
+Validation fails closed when a playable file is missing, a checksum or duration does not match, text or voice confirmation is absent, an image has no license or credit, the timeline has a gap, or English or Italian is marked playable. A missing legal sign-off for images, and the draft status of the timing, are warnings.
+
+## Mobile scaffold
+
+`apps/mobile` is an Expo Router app (SDK 58) that imports `@audite/domain` and the canon catalog. Playback uses `expo-audio` and asks the web app for the master. Bundle identifiers `es.audite.pilot` are placeholders. See `docs/DEVICE_TESTING.md`. `eas.json` has development and preview profiles only; do not run `eas build` or `eas submit` from this draft.
+
+```bash
+cd apps/mobile
+npm install
+npm run typecheck
+npx expo start --web --port 43124
+```
+
+Run it with Expo Go or a development build on a machine that can open a simulator or a phone. This environment did not do that.
+
+## Next integrations, when you want them
+
+None of these need a secret for the draft to run.
+
+- Accounts and sync, if listening should follow a person across devices.
+- A real annual price and a payment provider, shown only when the price exists.
+- The remaining Genesis episodes, each with audio, rights, and a catalog entry before it can be played or added to a path.
+- Validated English and Italian masters, attached the same way as the Spanish pilot.
+- A reviewed image lock, if the draft cuts should become final.
+- Store builds, after a device pass that this Linux draft does not claim to have done.

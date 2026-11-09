@@ -1,0 +1,32 @@
+Summary:
+
+  Integrated loudness:
+    I:         -21.6 LUFS
+    Threshold: -32.2 LUFS
+
+  Loudness range:
+    LRA:         4.1 LU
+    Threshold: -42.5 LUFS
+    LRA low:   -24.7 LUFS
+    LRA high:  -20.6 LUFS
+
+  True peak:
+    Peak:       -1.8 dBFS
+[out#0/null @ 0x55a54adb9b00] video:0KiB audio:31655KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:06:07.51 bitrate=N/A speed= 312x    
+
+
+[silencedetect @ 0x7f8a30001200] silence_start: 3.115193
+[silencedetect @ 0x7f8a30001200] silence_end: 4.182449 | silence_duration: 1.067256
+[silencedetect @ 0x7f8a30001200] silence_start: 7.671859
+[silencedetect @ 0x7f8a30001200] silence_end: 8.720295 | silence_duration: 1.048435
+[silencedetect @ 0x7f8a30001200] silence_start: 72.615646
+[silencedetect @ 0x7f8a30001200] silence_end: 73.643107 | silence_duration: 1.02746
+[silencedetect @ 0x7f8a30001200] silence_start: 145.141361
+[silencedetect @ 0x7f8a30001200] silence_end: 146.159569 | silence_duration: 1.018209
+[silencedetect @ 0x7f8a30001200] silence_start: 183.413968
+[silencedetect @ 0x7f8a30001200] silence_end: 184.633832 | silence_duration: 1.219864
+[silencedetect @ 0x7f8a30001200] silence_start: 308.753333
+[silencedetect @ 0x7f8a30001200] silence_end: 309.759637 | silence_duration: 1.006304
+[silencedetect @ 0x7f8a30001200] silence_start: 342.830975
+[silencedetect @ 0x7f8a30001200] silence_end: 343.899615 | silence_duration: 1.068639

@@ -1,0 +1,21 @@
+{
+  "name": "@audite/content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./schema": "./src/schema.ts",
+    "./catalog": "./src/load-catalog.ts",
+    "./validate": "./src/validate.ts",
+    "./media": "./src/media-path.ts",
+    "./build": "./src/build-catalog.ts",
+    "./manifiesto": "./src/manifiesto.ts",
+    "./app-catalog": "./src/app-catalog.ts",
+    "./sync": "./src/sync.ts"
+  },
+  "dependencies": {
+    "@audite/domain": "0.1.0",
+    "ajv": "^8.17.1",
+    "zod": "^3.25.76"
+  }
+}

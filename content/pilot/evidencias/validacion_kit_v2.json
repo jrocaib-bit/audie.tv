@@ -1,0 +1,15 @@
+{
+  "integridad_hashes": "PASS",
+  "cuatro_obras": "PASS",
+  "timeline_continuo": "PASS",
+  "ids_referenciados": "PASS",
+  "escucha_directa": "NO_REALIZADA",
+  "render_final": "NO_REALIZADO",
+  "publicacion": "BLOQUEADA",
+  "bloqueos": [
+    "Edición y licencia del texto ES no acreditadas",
+    "Condiciones/licencia de voz Audite no documentadas",
+    "Discrepancias ASR y unión sin escucha directa",
+    "Aprobación editorial de recortes/selección y autorización específica de publicación pendientes"
+  ]
+}

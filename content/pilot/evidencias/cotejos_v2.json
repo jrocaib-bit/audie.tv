@@ -1,0 +1,122 @@
+[
+  {
+    "id": "03",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.180786+01:00",
+    "file": "reserva/03.jpg",
+    "sha256": "cc26d81c25052fb41f47a5565edf310c77682f9fb5f1989694b28eaba5ebb59b",
+    "bytes": 9494881,
+    "dimensions": [
+      4256,
+      2843
+    ],
+    "original_identical": true
+  },
+  {
+    "id": "04",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_del_sol%2C_luna_y_planetas.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Creaci%C3%B3n_del_sol%2C_luna_y_planetas.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.181726+01:00",
+    "file": "reserva/04.jpg",
+    "sha256": "d3afffa4316343db67cf560e7cfe28dac38302d39394cd2c820507077349305c",
+    "bytes": 11255396,
+    "dimensions": [
+      4255,
+      2840
+    ],
+    "original_identical": false,
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Creaci%C3%B3n_del_sol%2C_luna_y_planetas.jpg/640px-Creaci%C3%B3n_del_sol%2C_luna_y_planetas.jpg",
+    "thumbnail_error": "HTTP Error 400: Use thumbnail sizes listed on https://w.wiki/GHai"
+  },
+  {
+    "id": "06",
+    "page_url": "https://commons.wikimedia.org/wiki/File:El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.182470+01:00",
+    "file": "reserva/06.jpg",
+    "sha256": "7498f8fb5f3a678c31eb8b19c20aedde76021a54b5d646c8c518d878e28fc89d",
+    "bytes": 5700651,
+    "dimensions": [
+      2952,
+      1574
+    ],
+    "original_identical": false,
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg/1920px-El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg",
+    "thumbnail_identical": false
+  },
+  {
+    "id": "07",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Giovanni_di_Paolo_%28Giovanni_di_Paolo_di_Grazia%29_%28Italian%2C_Udine_1487%E2%80%931564_Rome%29_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Giovanni_di_Paolo_%28Giovanni_di_Paolo_di_Grazia%29_%28Italian%2C_Udine_1487%E2%80%931564_Rome%29_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.183046+01:00",
+    "file": "reserva/07.jpg",
+    "sha256": "ff1a21fbe7f586eee79b39357465a9f10bd1b6671522fad9646d28000b2fc3a5",
+    "bytes": 7924083,
+    "dimensions": [
+      3792,
+      3354
+    ],
+    "original_identical": false,
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Giovanni_di_Paolo_%28Giovanni_di_Paolo_di_Grazia%29_%28Italian%2C_Udine_1487%E2%80%931564_Rome%29_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg/640px-Giovanni_di_Paolo_%28Giovanni_di_Paolo_di_Grazia%29_%28Italian%2C_Udine_1487%E2%80%931564_Rome%29_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg",
+    "thumbnail_error": "HTTP Error 400: Use thumbnail sizes listed on https://w.wiki/GHai"
+  },
+  {
+    "id": "09",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Separation_of_the_Earth_from_the_Waters.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Separation_of_the_Earth_from_the_Waters.png",
+    "accessed_madrid": "2026-11-08T21:54:22.560864+01:00",
+    "file": "reserva/09.png",
+    "sha256": "7d44289e478f7e312efa6fb35cafc64c8f7c88773b87770d68d2e5ac3f1bea50",
+    "bytes": 1840377,
+    "dimensions": [
+      1457,
+      847
+    ],
+    "original_identical": false,
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Separation_of_the_Earth_from_the_Waters.png/640px-Separation_of_the_Earth_from_the_Waters.png",
+    "thumbnail_error": "HTTP Error 400: Use thumbnail sizes listed on https://w.wiki/GHai"
+  },
+  {
+    "id": "10",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Creation_of_Eve_%281%29.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c2/The_Creation_of_Eve_%281%29.png",
+    "accessed_madrid": "2026-11-08T21:54:22.579481+01:00",
+    "file": "reserva/10.png",
+    "sha256": "aff9d8af6361a51f38bd579cb0c7acd2535072ddd1f505c27833355a5372a321",
+    "bytes": 2392882,
+    "dimensions": [
+      1461,
+      874
+    ],
+    "original_identical": false,
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/The_Creation_of_Eve_%281%29.png/640px-The_Creation_of_Eve_%281%29.png",
+    "thumbnail_error": "HTTP Error 400: Use thumbnail sizes listed on https://w.wiki/GHai"
+  },
+  {
+    "id": "06alt",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.611787+01:00",
+    "file": "reserva/06alt.jpg",
+    "sha256": "22054e77433c09ef100de94c57c4e1612412fdcdf1a78d821ae7dda8f049d74a",
+    "bytes": 75950621,
+    "dimensions": [
+      19569,
+      11035
+    ]
+  },
+  {
+    "id": "11alt",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Jacopo_Tintoretto_%E2%80%94_Creation_of_the_Animals.jpg",
+    "accessed_madrid": "2026-11-08T21:54:22.729197+01:00",
+    "file": "reserva/11alt.jpg",
+    "sha256": "c2068abc204a10cfa4a5346c758411624bf41372fc747fa51c774494aa929b29",
+    "bytes": 9429703,
+    "dimensions": [
+      4299,
+      2484
+    ]
+  }
+]

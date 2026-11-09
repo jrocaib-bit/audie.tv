@@ -1,0 +1,56 @@
+[
+  {
+    "id": "03",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.323167+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_de_Ad%C3%A1n.jpg"
+  },
+  {
+    "id": "04",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_del_sol,_luna_y_planetas.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.324134+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:Creaci%C3%B3n_del_sol,_luna_y_planetas.jpg"
+  },
+  {
+    "id": "06",
+    "page_url": "https://commons.wikimedia.org/wiki/File:El_jard%C3%ADn_de_las_Delicias,_de_El_Bosco.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.324844+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:El_jard%C3%ADn_de_las_Delicias,_de_El_Bosco.jpg"
+  },
+  {
+    "id": "07",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Giovanni_di_Paolo_(Giovanni_di_Paolo_di_Grazia)_(Italian,_Udine_1487%E2%80%931564_Rome)_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.327995+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:Giovanni_di_Paolo_(Giovanni_di_Paolo_di_Grazia)_(Italian,_Udine_1487%E2%80%931564_Rome)_-_The_Creation_of_the_World_and_the_Expulsion_from_Paradise_-_Google_Art_Project.jpg"
+  },
+  {
+    "id": "09",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Separation_of_the_Earth_from_the_Waters.png",
+    "accessed_madrid": "2026-11-08T21:53:36.387874+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:Separation_of_the_Earth_from_the_Waters.png"
+  },
+  {
+    "id": "10",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Creation_of_Eve_(1).png",
+    "accessed_madrid": "2026-11-08T21:53:36.391124+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:The_Creation_of_Eve_(1).png"
+  },
+  {
+    "id": "06alt",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.393412+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution_2.jpg"
+  },
+  {
+    "id": "11alt",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Tintoretto,_Jacopo_-_Creation_of_the_Animals_-_1551-52.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.395143+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:Tintoretto,_Jacopo_-_Creation_of_the_Animals_-_1551-52.jpg"
+  },
+  {
+    "id": "05",
+    "page_url": "https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg",
+    "accessed_madrid": "2026-11-08T21:53:36.431417+01:00",
+    "error": "403 Client Error: Forbidden for url: https://commons.wikimedia.org/wiki/File:God_the_Geometer.jpg"
+  }
+]

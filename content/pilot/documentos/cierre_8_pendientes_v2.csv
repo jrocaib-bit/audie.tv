@@ -1,0 +1,9 @@
+id_previo,estado,evidencia_limite,decision_propuesta
+02,EXCLUIDA de selección,Foto AVIF original sin fotógrafo/licencia trazados tras búsqueda acotada. No se descargó ni se afirma una alternativa de la misma cúpula.,"A05, alternativa temática simbólica ya documentada; no sustituye original en Mac."
+03,ORIGINAL VERIFICADO,"4256×2843, identidad byte por byte con Commons; PD-Art.",A03_adan.jpg seleccionado.
+04,SUSTITUCIÓN MISMA OBRA,"Descargado original 4255×2840 de Commons, PD-Art. No se pudo acreditar la miniatura local 640 px: servidor de miniaturas devuelve 400 para ese tamaño.",reserva/04.jpg disponible en box; no incluido en selección principal.
+06,SUSTITUCIÓN MISMA OBRA,"Descargado original alternativo 19569×11035, PD-Art; recortes trazados de tabla izquierda. La miniatura local no coincidió en bytes con la del archivo homónimo.",Dos derivados A06 seleccionados. No uso del centro/infierno.
+07,SUSTITUCIÓN MISMA OBRA / RESERVA,"Descargado 3792×3354 de Commons, PD-Art; no cotejada la miniatura local (400). Biografía de archivo Commons incorrecta, no trasladada a rótulos.",Reserva por mezclar creación y expulsión de Gn 3; fuera de guion cerrado.
+09,SUSTITUCIÓN MISMA OBRA / RESERVA,"Descargado PNG 1457×847 de Commons, PD-Art; miniatura local 640 no cotejada (400).",No seleccionado: resolución limitada para 1080p; usar A05 como alternativa simbólica.
+10,SUSTITUCIÓN MISMA OBRA / RESERVA,"Descargado PNG 1461×874 de Commons, PD-Art; miniatura local 640 no cotejada (400).",No seleccionado por resolución. A06 presenta a Eva; no representa literalmente extracción de costilla.
+12,EXCLUIDA por Gn 3,Monreale fuera del piloto; foto original sigue sin trazabilidad. No se amplía búsqueda ni se descarga otra escena del pecado.,No usar ni reemplazar silenciosamente. A06 para unión final de Gn 2.
