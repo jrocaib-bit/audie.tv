@@ -92,6 +92,18 @@ export function ReproductorV2() {
   const siguiente = episode && sueno !== "fin" ? siguienteEnCola(cola.split("|").filter(Boolean), episode.id) : null;
   const fundido = estado === "ended" && Boolean(siguiente) && oibles.split("|").includes(siguiente ?? "");
   const origen = useRef(0);
+  const pedidoAplicado = useRef("");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("e");
+    const marca = `${id ?? ""}:${params.get("t") ?? ""}`;
+    if (!id || pedidoAplicado.current === marca) return;
+    if (!library.catalog.episodes.some((item) => item.id === id)) return;
+    pedidoAplicado.current = marca;
+    const crudo = params.get("t");
+    const segundo = crudo != null && crudo !== "" ? Number(crudo) : undefined;
+    playEpisode(id, segundo != null, segundo != null && Number.isFinite(segundo) ? segundo : undefined);
+  }, [library.catalog.episodes, playEpisode]);
   useEffect(() => {
     if (!fundido || !siguiente) return;
     const espera = window.setTimeout(() => playEpisode(siguiente, true), fundidoMs(reducir));

@@ -23,7 +23,7 @@ export {
   type TiempoId,
   type TramoLiturgico,
 } from "./liturgia";
-export { pasajeDelDia, programaCsv, programaDeDia, programaEntre, retosDelDia, type FilaPrograma } from "./programa";
+export { pasajeDelDia, pasoDelDia, programaCsv, programaDeDia, programaEntre, retosDelDia, type FilaPrograma } from "./programa";
 export {
   PERSONAJES,
   TEMAS,
@@ -156,6 +156,7 @@ export {
   capituloDePrueba,
   describirFuente,
   estadoTiempos,
+  inicioDelPasaje,
   tiemposDeManifiesto,
   versiculoEnTiempo,
   type CapituloTexto,

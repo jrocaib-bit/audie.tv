@@ -39,6 +39,7 @@ export type EpisodioManifiesto = {
   titulo_corto?: Textos;
   resumen?: Textos;
   arte?: ArteManifiesto[];
+  tiempos?: { capitulo: number; versiculo: number; inicio: number; fin: number }[];
   idiomas: Record<string, IdiomaManifiesto>;
 };
 

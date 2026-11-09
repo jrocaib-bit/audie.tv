@@ -1,6 +1,8 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { programaCsv, programaDeDia, programaEntre } from "./programa";
-import type { Reto } from "./liturgia";
+import { diaLiturgicoDeIso, referenciaPaso, type Reto } from "./liturgia";
+import { pasajeDelDia, pasoDelDia, programaCsv, programaDeDia, programaEntre } from "./programa";
 
 const retos: Reto[] = [{
   id: "adviento-isaias",
@@ -9,7 +11,7 @@ const retos: Reto[] = [{
   insignia: { es: "Centinela", en: "Watch" },
   obra: null,
   companeros: [],
-  pasos: [{ dia: 1, libroId: "is", capitulo: 40, versiculo: 1, versiculoFin: 11, titulo: { es: "Preparad el camino", en: "Prepare the way" }, minutos: 4, obra: null }],
+  pasos: [{ dia: 1, libroId: "is", capitulo: 40, versiculo: 1, versiculoFin: 11, titulo: { es: "Preparad el camino", en: "Prepare the way" }, minutos: 4, obra: null, episodio: "is-11" }],
 }];
 
 describe("programa editorial", () => {
@@ -21,5 +23,23 @@ describe("programa editorial", () => {
     expect(fila.referencia).toBe("Isaías 40,1–11");
     const csv = programaCsv(programaEntre("2026-02-18", "2026-02-18", retos));
     expect(csv.split("\n")[1]).toContain("Miércoles de Ceniza");
+  });
+
+  it("ancla el 23 y el 24 de diciembre y la Navidad del 6 al 10 de enero", () => {
+    const reales = JSON.parse(readFileSync(path.resolve("content/tiempos/retos.json"), "utf8")).retos as Reto[];
+    const cita = (iso: string) => {
+      const paso = pasoDelDia(diaLiturgicoDeIso(iso), reales);
+      return paso ? `${paso.titulo.es} · ${referenciaPaso(paso, "es", true)} · ${paso.episodio}` : "";
+    };
+    expect(cita("2026-12-23")).toBe("Dios con nosotros · Isaías 8,8–10 · is-03");
+    expect(cita("2028-12-23")).toBe("Dios con nosotros · Isaías 8,8–10 · is-03");
+    expect(cita("2026-12-24")).toBe("Ya llega · Isaías 62,11–12 · is-18");
+    expect(cita("2027-01-06")).toBe("La epifanía · Mateo 2,1–12 · mt-01");
+    expect(cita("2027-01-07")).toBe("El nombre · Lucas 2,21 · lc-02");
+    expect(cita("2027-01-08")).toBe("Entre los doctores · Lucas 2,41–52 · lc-02");
+    expect(cita("2027-01-09")).toBe("La luz · Juan 1,9–14 · jn-01");
+    expect(cita("2027-01-10")).toBe("El bautismo · Mateo 3,13–17 · mt-01");
+    expect(pasajeDelDia(diaLiturgicoDeIso("2026-12-23"), reales)?.titulo.es).toBe("Dios con nosotros");
+    expect(pasajeDelDia(diaLiturgicoDeIso("2027-01-06"), reales)?.titulo.es).toBe("Los magos");
   });
 });

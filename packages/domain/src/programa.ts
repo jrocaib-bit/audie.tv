@@ -1,4 +1,4 @@
-import { diaLiturgicoDeIso, referenciaPaso, type DiaLiturgico, type PasajeDia, type Reto } from "./liturgia";
+import { diaLiturgicoDeIso, referenciaPaso, type DiaLiturgico, type PasajeDia, type PasoReto, type Reto } from "./liturgia";
 
 export type FilaPrograma = {
   fecha: string;
@@ -35,12 +35,16 @@ export function retosDelDia(dia: DiaLiturgico, retos: readonly Reto[]): Reto[] {
   return [...deFiesta, ...deTiempo].filter((reto) => (vistos.has(reto.id) ? false : vistos.add(reto.id)));
 }
 
-export function pasajeDelDia(dia: DiaLiturgico, retos: readonly Reto[]): { titulo: { es: string; en: string }; referencia: PasajeDia } | null {
-  if (dia.celebracion) return { titulo: dia.celebracion.pasaje.titulo, referencia: dia.celebracion.pasaje };
+export function pasoDelDia(dia: DiaLiturgico, retos: readonly Reto[]): PasoReto | null {
   const reto = retosDelDia(dia, retos)[0];
   if (!reto || reto.pasos.length === 0) return null;
-  const indice = (Math.max(1, dia.dia) - 1) % reto.pasos.length;
-  const paso = reto.pasos[indice];
+  const ancla = dia.iso.slice(5);
+  return reto.pasos.find((paso) => paso.ancla === ancla) ?? reto.pasos[(Math.max(1, dia.dia) - 1) % reto.pasos.length] ?? null;
+}
+
+export function pasajeDelDia(dia: DiaLiturgico, retos: readonly Reto[]): { titulo: { es: string; en: string }; referencia: PasajeDia } | null {
+  if (dia.celebracion) return { titulo: dia.celebracion.pasaje.titulo, referencia: dia.celebracion.pasaje };
+  const paso = pasoDelDia(dia, retos);
   if (!paso) return null;
   return {
     titulo: paso.titulo,

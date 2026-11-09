@@ -1,6 +1,6 @@
 "use client";
 
-import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
+import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, inicioDelPasaje, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
 import { obrasVisibles } from "@audite/content/obras";
 import { portadaPara } from "@audite/content/obras-creditos";
 import Link from "next/link";
@@ -69,7 +69,12 @@ export function InicioV2() {
     return id;
   }
   const portadaDia = tomar(pasaje?.referencia.libroId ?? liturgia.iso);
-  const oir = pasaje ? library.catalog.episodes.find((episodio) => episodio.bookId === pasaje.referencia.libroId)?.id : undefined;
+  const coincidente = pasaje
+    ? RETOS.flatMap((reto) => reto.pasos).find((paso) => paso.episodio && paso.libroId === pasaje.referencia.libroId && paso.capitulo === pasaje.referencia.capitulo && paso.versiculo === pasaje.referencia.versiculo)
+    : undefined;
+  const fichaOir = coincidente?.episodio ? library.catalog.episodes.find((episodio) => episodio.id === coincidente.episodio) : undefined;
+  const segundoOir = fichaOir && coincidente ? inicioDelPasaje(fichaOir.tiempos, coincidente.capitulo, coincidente.versiculo, coincidente.versiculoFin) : null;
+  const oir = fichaOir ? `/ahora?e=${fichaOir.id}${segundoOir != null ? `&t=${segundoOir}` : ""}` : null;
   const estanteTiempo = delTiempo.flatMap((reto) => [
     { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: reto.titulo[locale], obra: tomar(reto.id) },
     ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es) })),

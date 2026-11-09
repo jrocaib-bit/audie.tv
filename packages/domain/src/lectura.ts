@@ -75,3 +75,19 @@ export function estadoTiempos(tiempos: readonly TiempoVersiculo[]): "con-tiempos
 export function versiculoEnTiempo(tiempos: readonly TiempoVersiculo[], segundo: number): TiempoVersiculo | null {
   return tiempos.find((tiempo) => segundo >= tiempo.inicio && segundo < tiempo.fin) ?? null;
 }
+
+/** Segundo de entrada del pasaje. Null si el manifiesto no trae esa marca. */
+export function inicioDelPasaje(
+  tiempos: readonly TiempoVersiculo[] | null | undefined,
+  capitulo: number,
+  versiculo: number,
+  versiculoFin = versiculo,
+): number | null {
+  if (!tiempos || tiempos.length === 0) return null;
+  const exacto = tiempos.find((tiempo) => tiempo.capitulo === capitulo && tiempo.versiculo === versiculo);
+  if (exacto) return exacto.inicio;
+  const dentro = tiempos
+    .filter((tiempo) => tiempo.capitulo === capitulo && tiempo.versiculo >= versiculo && tiempo.versiculo <= versiculoFin)
+    .sort((a, b) => a.versiculo - b.versiculo);
+  return dentro[0]?.inicio ?? null;
+}

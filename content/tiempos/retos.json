@@ -42,7 +42,8 @@
             "en": "The mountain"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "is-01"
         },
         {
           "dia": 2,
@@ -55,7 +56,8 @@
             "en": "Here I am"
           },
           "minutos": 3,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "is-02"
         },
         {
           "dia": 3,
@@ -64,11 +66,12 @@
           "versiculo": 10,
           "versiculoFin": 14,
           "titulo": {
-            "es": "El Emmanuel",
-            "en": "Emmanuel"
+            "es": "El Enmanuel",
+            "en": "Enmanuel"
           },
           "minutos": 2,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "is-02"
         },
         {
           "dia": 4,
@@ -81,7 +84,8 @@
             "en": "A child"
           },
           "minutos": 2,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "is-03"
         },
         {
           "dia": 5,
@@ -94,7 +98,8 @@
             "en": "The shoot"
           },
           "minutos": 3,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "is-04"
         },
         {
           "dia": 6,
@@ -107,7 +112,8 @@
             "en": "The song"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "is-04"
         },
         {
           "dia": 7,
@@ -120,7 +126,8 @@
             "en": "The banquet"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "is-07"
         },
         {
           "dia": 8,
@@ -133,7 +140,8 @@
             "en": "A strong city"
           },
           "minutos": 2,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "is-07"
         },
         {
           "dia": 9,
@@ -146,7 +154,8 @@
             "en": "The desert blooms"
           },
           "minutos": 3,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "is-09"
         },
         {
           "dia": 10,
@@ -159,7 +168,8 @@
             "en": "Prepare the way"
           },
           "minutos": 4,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "is-11"
         },
         {
           "dia": 11,
@@ -172,7 +182,8 @@
             "en": "Those who wait"
           },
           "minutos": 2,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "is-11"
         },
         {
           "dia": 12,
@@ -185,7 +196,8 @@
             "en": "Do not fear"
           },
           "minutos": 2,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "is-12"
         },
         {
           "dia": 13,
@@ -198,7 +210,8 @@
             "en": "The servant"
           },
           "minutos": 2,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "is-12"
         },
         {
           "dia": 14,
@@ -211,7 +224,8 @@
             "en": "I have redeemed you"
           },
           "minutos": 2,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "is-12"
         },
         {
           "dia": 15,
@@ -224,7 +238,8 @@
             "en": "A light to the nations"
           },
           "minutos": 2,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "is-14"
         },
         {
           "dia": 16,
@@ -237,7 +252,8 @@
             "en": "How beautiful"
           },
           "minutos": 2,
-          "obra": "gn-03"
+          "obra": "gn-03",
+          "episodio": "is-15"
         },
         {
           "dia": 17,
@@ -250,7 +266,8 @@
             "en": "The wounded servant"
           },
           "minutos": 4,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "is-15"
         },
         {
           "dia": 18,
@@ -263,7 +280,8 @@
             "en": "Enlarge the tent"
           },
           "minutos": 3,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "is-16"
         },
         {
           "dia": 19,
@@ -276,7 +294,8 @@
             "en": "Come to the waters"
           },
           "minutos": 4,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "is-16"
         },
         {
           "dia": 20,
@@ -289,7 +308,8 @@
             "en": "The fast"
           },
           "minutos": 2,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "is-17"
         },
         {
           "dia": 21,
@@ -302,7 +322,8 @@
             "en": "Arise"
           },
           "minutos": 2,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "is-17"
         },
         {
           "dia": 22,
@@ -315,7 +336,8 @@
             "en": "The spirit"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "is-18"
         },
         {
           "dia": 23,
@@ -328,7 +350,8 @@
             "en": "I will not keep silent"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "is-18"
         },
         {
           "dia": 24,
@@ -341,33 +364,38 @@
             "en": "Rejoice"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "is-19"
         },
         {
           "dia": 25,
           "libroId": "is",
-          "capitulo": 30,
-          "versiculo": 18,
-          "versiculoFin": 26,
+          "capitulo": 8,
+          "versiculo": 8,
+          "versiculoFin": 10,
           "titulo": {
-            "es": "En la quietud",
-            "en": "In quiet"
+            "es": "Dios con nosotros",
+            "en": "God with us"
           },
-          "minutos": 3,
-          "obra": "gn-04"
+          "minutos": 2,
+          "obra": "gn-04",
+          "ancla": "12-23",
+          "episodio": "is-03"
         },
         {
           "dia": 26,
           "libroId": "is",
-          "capitulo": 32,
-          "versiculo": 1,
-          "versiculoFin": 8,
+          "capitulo": 62,
+          "versiculo": 11,
+          "versiculoFin": 12,
           "titulo": {
-            "es": "Un rey justo",
-            "en": "A just king"
+            "es": "Ya llega",
+            "en": "He is coming"
           },
-          "minutos": 3,
-          "obra": "gn-05"
+          "minutos": 2,
+          "obra": "gn-05",
+          "ancla": "12-24",
+          "episodio": "is-18"
         },
         {
           "dia": 27,
@@ -380,7 +408,8 @@
             "en": "Jerusalem secure"
           },
           "minutos": 3,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "is-09"
         },
         {
           "dia": 28,
@@ -393,7 +422,8 @@
             "en": "Comfort"
           },
           "minutos": 2,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "is-15"
         }
       ]
     },
@@ -439,7 +469,8 @@
             "en": "Zechariah"
           },
           "minutos": 7,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "lc-01"
         },
         {
           "dia": 2,
@@ -452,7 +483,8 @@
             "en": "The annunciation"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "lc-01"
         },
         {
           "dia": 3,
@@ -465,7 +497,8 @@
             "en": "The visitation"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "lc-01"
         },
         {
           "dia": 4,
@@ -478,7 +511,8 @@
             "en": "Mary's song"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "lc-01"
         },
         {
           "dia": 5,
@@ -491,7 +525,8 @@
             "en": "John's name"
           },
           "minutos": 3,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "lc-01"
         },
         {
           "dia": 6,
@@ -504,7 +539,8 @@
             "en": "Zechariah's song"
           },
           "minutos": 4,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "lc-01"
         },
         {
           "dia": 7,
@@ -517,7 +553,8 @@
             "en": "Joseph's dream"
           },
           "minutos": 3,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "mt-01"
         },
         {
           "dia": 8,
@@ -530,7 +567,8 @@
             "en": "Bethlehem"
           },
           "minutos": 2,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "lc-02"
         },
         {
           "dia": 9,
@@ -543,7 +581,8 @@
             "en": "The shepherds"
           },
           "minutos": 4,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "lc-02"
         },
         {
           "dia": 10,
@@ -556,7 +595,8 @@
             "en": "The magi"
           },
           "minutos": 4,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "mt-01"
         },
         {
           "dia": 11,
@@ -569,7 +609,8 @@
             "en": "Simeon and Anna"
           },
           "minutos": 6,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "lc-02"
         },
         {
           "dia": 12,
@@ -582,7 +623,83 @@
             "en": "The road to Egypt"
           },
           "minutos": 4,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 13,
+          "ancla": "01-06",
+          "libroId": "mt",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "La epifanía",
+            "en": "The epiphany"
+          },
+          "minutos": 4,
+          "obra": "gn-19",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 14,
+          "ancla": "01-07",
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 21,
+          "versiculoFin": 21,
+          "titulo": {
+            "es": "El nombre",
+            "en": "The name"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 15,
+          "ancla": "01-08",
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 41,
+          "versiculoFin": 52,
+          "titulo": {
+            "es": "Entre los doctores",
+            "en": "Among the teachers"
+          },
+          "minutos": 4,
+          "obra": "gn-21",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 16,
+          "ancla": "01-09",
+          "libroId": "jn",
+          "capitulo": 1,
+          "versiculo": 9,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "La luz",
+            "en": "The light"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "jn-01"
+        },
+        {
+          "dia": 17,
+          "ancla": "01-10",
+          "libroId": "mt",
+          "capitulo": 3,
+          "versiculo": 13,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "El bautismo",
+            "en": "The baptism"
+          },
+          "minutos": 2,
+          "obra": "gn-03",
+          "episodio": "mt-01"
         }
       ]
     },
@@ -628,7 +745,8 @@
             "en": "An enslaved people"
           },
           "minutos": 2,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "ex-01"
         },
         {
           "dia": 2,
@@ -641,7 +759,8 @@
             "en": "The child of the river"
           },
           "minutos": 3,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "ex-01"
         },
         {
           "dia": 3,
@@ -654,7 +773,8 @@
             "en": "Moses flees"
           },
           "minutos": 4,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "ex-01"
         },
         {
           "dia": 4,
@@ -667,7 +787,8 @@
             "en": "The burning bush"
           },
           "minutos": 5,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "ex-01"
         },
         {
           "dia": 5,
@@ -680,7 +801,8 @@
             "en": "The staff"
           },
           "minutos": 6,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "ex-02"
         },
         {
           "dia": 6,
@@ -693,7 +815,8 @@
             "en": "Let my people go"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "ex-02"
         },
         {
           "dia": 7,
@@ -706,7 +829,8 @@
             "en": "I am the Lord"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "ex-02"
         },
         {
           "dia": 8,
@@ -719,7 +843,8 @@
             "en": "The Nile"
           },
           "minutos": 4,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "ex-03"
         },
         {
           "dia": 9,
@@ -732,7 +857,8 @@
             "en": "The meal"
           },
           "minutos": 5,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "ex-05"
         },
         {
           "dia": 10,
@@ -745,7 +871,8 @@
             "en": "The departure"
           },
           "minutos": 5,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "ex-05"
         },
         {
           "dia": 11,
@@ -758,7 +885,8 @@
             "en": "The column"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "ex-06"
         },
         {
           "dia": 12,
@@ -771,7 +899,8 @@
             "en": "The sea"
           },
           "minutos": 7,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "ex-06"
         },
         {
           "dia": 13,
@@ -784,7 +913,8 @@
             "en": "The song"
           },
           "minutos": 6,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "ex-07"
         },
         {
           "dia": 14,
@@ -797,7 +927,8 @@
             "en": "The manna"
           },
           "minutos": 6,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "ex-07"
         },
         {
           "dia": 15,
@@ -810,7 +941,8 @@
             "en": "Water from the rock"
           },
           "minutos": 2,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "ex-08"
         },
         {
           "dia": 16,
@@ -823,7 +955,8 @@
             "en": "At Sinai"
           },
           "minutos": 3,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "ex-08"
         },
         {
           "dia": 17,
@@ -836,7 +969,8 @@
             "en": "The ten words"
           },
           "minutos": 6,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "ex-09"
         },
         {
           "dia": 18,
@@ -849,7 +983,8 @@
             "en": "The blood of the covenant"
           },
           "minutos": 3,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "ex-10"
         },
         {
           "dia": 19,
@@ -862,7 +997,8 @@
             "en": "The calf"
           },
           "minutos": 5,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "ex-14"
         },
         {
           "dia": 20,
@@ -875,7 +1011,8 @@
             "en": "The name"
           },
           "minutos": 2,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "ex-15"
         },
         {
           "dia": 21,
@@ -888,7 +1025,8 @@
             "en": "The baptism"
           },
           "minutos": 2,
-          "obra": "gn-03"
+          "obra": "gn-03",
+          "episodio": "mt-01"
         },
         {
           "dia": 22,
@@ -901,7 +1039,8 @@
             "en": "Forty days"
           },
           "minutos": 4,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "mt-01"
         },
         {
           "dia": 23,
@@ -914,7 +1053,8 @@
             "en": "The beatitudes"
           },
           "minutos": 4,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "mt-02"
         },
         {
           "dia": 24,
@@ -927,7 +1067,8 @@
             "en": "Salt and light"
           },
           "minutos": 2,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "mt-02"
         },
         {
           "dia": 25,
@@ -940,7 +1081,8 @@
             "en": "The enemy"
           },
           "minutos": 4,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "mt-02"
         },
         {
           "dia": 26,
@@ -953,7 +1095,8 @@
             "en": "The prayer"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "mt-02"
         },
         {
           "dia": 27,
@@ -966,7 +1109,8 @@
             "en": "The birds"
           },
           "minutos": 3,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "mt-02"
         },
         {
           "dia": 28,
@@ -979,7 +1123,8 @@
             "en": "The house on rock"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "mt-03"
         },
         {
           "dia": 29,
@@ -992,7 +1137,8 @@
             "en": "The storm"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "mt-03"
         },
         {
           "dia": 30,
@@ -1005,7 +1151,8 @@
             "en": "The table"
           },
           "minutos": 2,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "mt-04"
         },
         {
           "dia": 31,
@@ -1018,7 +1165,8 @@
             "en": "Come to me"
           },
           "minutos": 2,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "mt-05"
         },
         {
           "dia": 32,
@@ -1031,7 +1179,8 @@
             "en": "The sower"
           },
           "minutos": 3,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "mt-06"
         },
         {
           "dia": 33,
@@ -1044,7 +1193,8 @@
             "en": "On the water"
           },
           "minutos": 4,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "mt-06"
         },
         {
           "dia": 34,
@@ -1057,7 +1207,8 @@
             "en": "You are Peter"
           },
           "minutos": 3,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "mt-07"
         },
         {
           "dia": 35,
@@ -1070,7 +1221,8 @@
             "en": "The mountain"
           },
           "minutos": 3,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "mt-07"
         },
         {
           "dia": 36,
@@ -1083,7 +1235,8 @@
             "en": "Seventy times"
           },
           "minutos": 5,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "mt-08"
         },
         {
           "dia": 37,
@@ -1096,7 +1249,8 @@
             "en": "The workers"
           },
           "minutos": 5,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "mt-09"
         },
         {
           "dia": 38,
@@ -1109,7 +1263,8 @@
             "en": "The great commandment"
           },
           "minutos": 2,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "mt-10"
         },
         {
           "dia": 39,
@@ -1122,7 +1277,8 @@
             "en": "I was hungry"
           },
           "minutos": 5,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "mt-11"
         },
         {
           "dia": 40,
@@ -1135,7 +1291,8 @@
             "en": "Gethsemane"
           },
           "minutos": 4,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "mt-12"
         }
       ]
     },
@@ -1181,7 +1338,8 @@
             "en": "The entry"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "mt-09"
         },
         {
           "dia": 2,
@@ -1194,7 +1352,8 @@
             "en": "The supper"
           },
           "minutos": 5,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "mc-07"
         },
         {
           "dia": 3,
@@ -1207,7 +1366,8 @@
             "en": "The olive grove"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "lc-14"
         },
         {
           "dia": 4,
@@ -1220,7 +1380,8 @@
             "en": "The washing"
           },
           "minutos": 5,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "jn-08"
         },
         {
           "dia": 5,
@@ -1233,7 +1394,8 @@
             "en": "Before the council"
           },
           "minutos": 4,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "mt-12"
         },
         {
           "dia": 6,
@@ -1246,7 +1408,8 @@
             "en": "The cross"
           },
           "minutos": 6,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "mc-08"
         },
         {
           "dia": 7,
@@ -1259,7 +1422,8 @@
             "en": "Into your hands"
           },
           "minutos": 5,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "lc-15"
         },
         {
           "dia": 8,
@@ -1272,7 +1436,8 @@
             "en": "It is finished"
           },
           "minutos": 3,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "jn-10"
         }
       ]
     },
@@ -1318,7 +1483,8 @@
             "en": "The waiting"
           },
           "minutos": 4,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "hch-01"
         },
         {
           "dia": 2,
@@ -1331,7 +1497,8 @@
             "en": "Matthias"
           },
           "minutos": 5,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "hch-01"
         },
         {
           "dia": 3,
@@ -1344,7 +1511,8 @@
             "en": "The wind"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "hch-01"
         },
         {
           "dia": 4,
@@ -1357,7 +1525,8 @@
             "en": "Peter stands"
           },
           "minutos": 3,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "hch-01"
         },
         {
           "dia": 5,
@@ -1370,7 +1539,8 @@
             "en": "What shall we do"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "hch-01"
         },
         {
           "dia": 6,
@@ -1383,7 +1553,8 @@
             "en": "The common house"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "hch-01"
         },
         {
           "dia": 7,
@@ -1396,7 +1567,8 @@
             "en": "In his name"
           },
           "minutos": 3,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "hch-02"
         },
         {
           "dia": 8,
@@ -1409,7 +1581,8 @@
             "en": "The stone"
           },
           "minutos": 4,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "hch-02"
         },
         {
           "dia": 9,
@@ -1422,7 +1595,8 @@
             "en": "The prayer"
           },
           "minutos": 3,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "hch-02"
         },
         {
           "dia": 10,
@@ -1435,7 +1609,8 @@
             "en": "One heart"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "hch-02"
         },
         {
           "dia": 11,
@@ -1448,7 +1623,8 @@
             "en": "The porticoes"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "hch-03"
         },
         {
           "dia": 12,
@@ -1461,7 +1637,8 @@
             "en": "We must obey"
           },
           "minutos": 5,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "hch-03"
         },
         {
           "dia": 13,
@@ -1474,7 +1651,8 @@
             "en": "The seven"
           },
           "minutos": 2,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "hch-03"
         },
         {
           "dia": 14,
@@ -1487,7 +1665,8 @@
             "en": "The face"
           },
           "minutos": 3,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "hch-03"
         },
         {
           "dia": 15,
@@ -1500,7 +1679,8 @@
             "en": "Stephen"
           },
           "minutos": 2,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "hch-04"
         },
         {
           "dia": 16,
@@ -1513,7 +1693,8 @@
             "en": "Samaria"
           },
           "minutos": 2,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "hch-05"
         },
         {
           "dia": 17,
@@ -1526,7 +1707,8 @@
             "en": "The Gaza road"
           },
           "minutos": 5,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "hch-05"
         },
         {
           "dia": 18,
@@ -1539,7 +1721,8 @@
             "en": "Saul"
           },
           "minutos": 6,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "hch-05"
         },
         {
           "dia": 19,
@@ -1552,7 +1735,8 @@
             "en": "In Jerusalem"
           },
           "minutos": 2,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "hch-05"
         },
         {
           "dia": 20,
@@ -1565,7 +1749,8 @@
             "en": "Tabitha"
           },
           "minutos": 3,
-          "obra": "gn-03"
+          "obra": "gn-03",
+          "episodio": "hch-05"
         },
         {
           "dia": 21,
@@ -1578,7 +1763,8 @@
             "en": "The vision"
           },
           "minutos": 5,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "hch-06"
         },
         {
           "dia": 22,
@@ -1591,7 +1777,8 @@
             "en": "No partiality"
           },
           "minutos": 3,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "hch-06"
         },
         {
           "dia": 23,
@@ -1604,7 +1791,8 @@
             "en": "In Cornelius's house"
           },
           "minutos": 2,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "hch-06"
         },
         {
           "dia": 24,
@@ -1617,7 +1805,8 @@
             "en": "Antioch"
           },
           "minutos": 3,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "hch-06"
         },
         {
           "dia": 25,
@@ -1630,7 +1819,8 @@
             "en": "The gate"
           },
           "minutos": 6,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "hch-07"
         },
         {
           "dia": 26,
@@ -1643,7 +1833,8 @@
             "en": "Sent"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "hch-07"
         },
         {
           "dia": 27,
@@ -1656,7 +1847,8 @@
             "en": "The address"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "hch-07"
         },
         {
           "dia": 28,
@@ -1669,7 +1861,8 @@
             "en": "They turn to the nations"
           },
           "minutos": 3,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "hch-07"
         },
         {
           "dia": 29,
@@ -1682,7 +1875,8 @@
             "en": "Lystra"
           },
           "minutos": 4,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "hch-08"
         },
         {
           "dia": 30,
@@ -1695,7 +1889,8 @@
             "en": "Grace"
           },
           "minutos": 4,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "hch-08"
         },
         {
           "dia": 31,
@@ -1708,7 +1903,8 @@
             "en": "The letter"
           },
           "minutos": 3,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "hch-08"
         },
         {
           "dia": 32,
@@ -1721,7 +1917,8 @@
             "en": "Macedonia"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "hch-09"
         },
         {
           "dia": 33,
@@ -1734,7 +1931,8 @@
             "en": "Lydia"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "hch-09"
         },
         {
           "dia": 34,
@@ -1747,7 +1945,8 @@
             "en": "The song"
           },
           "minutos": 3,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "hch-09"
         },
         {
           "dia": 35,
@@ -1760,7 +1959,8 @@
             "en": "The Areopagus"
           },
           "minutos": 4,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "hch-09"
         },
         {
           "dia": 36,
@@ -1773,7 +1973,8 @@
             "en": "Some believed"
           },
           "minutos": 2,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "hch-09"
         },
         {
           "dia": 37,
@@ -1786,7 +1987,8 @@
             "en": "Corinth"
           },
           "minutos": 4,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "hch-10"
         },
         {
           "dia": 38,
@@ -1799,7 +2001,8 @@
             "en": "Apollos"
           },
           "minutos": 2,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "hch-10"
         },
         {
           "dia": 39,
@@ -1812,7 +2015,8 @@
             "en": "Ephesus"
           },
           "minutos": 2,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "hch-10"
         },
         {
           "dia": 40,
@@ -1825,7 +2029,8 @@
             "en": "The uproar"
           },
           "minutos": 2,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "hch-10"
         },
         {
           "dia": 41,
@@ -1838,7 +2043,8 @@
             "en": "Troas"
           },
           "minutos": 2,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "hch-11"
         },
         {
           "dia": 42,
@@ -1851,7 +2057,8 @@
             "en": "The farewell"
           },
           "minutos": 4,
-          "obra": "gn-03"
+          "obra": "gn-03",
+          "episodio": "hch-11"
         },
         {
           "dia": 43,
@@ -1864,7 +2071,8 @@
             "en": "On the shore"
           },
           "minutos": 2,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "hch-11"
         },
         {
           "dia": 44,
@@ -1877,7 +2085,8 @@
             "en": "Agabus"
           },
           "minutos": 2,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "hch-11"
         },
         {
           "dia": 45,
@@ -1890,7 +2099,8 @@
             "en": "He tells the road"
           },
           "minutos": 4,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "hch-12"
         },
         {
           "dia": 46,
@@ -1903,7 +2113,8 @@
             "en": "Take courage"
           },
           "minutos": 2,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "hch-12"
         },
         {
           "dia": 47,
@@ -1916,7 +2127,8 @@
             "en": "Before Agrippa"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "hch-13"
         },
         {
           "dia": 48,
@@ -1929,7 +2141,8 @@
             "en": "The storm"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "hch-14"
         },
         {
           "dia": 49,
@@ -1942,7 +2155,8 @@
             "en": "Malta"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "hch-14"
         },
         {
           "dia": 50,
@@ -1955,7 +2169,8 @@
             "en": "Rome"
           },
           "minutos": 3,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "hch-14"
         }
       ]
     },
@@ -2001,7 +2216,8 @@
             "en": "The beginning"
           },
           "minutos": 3,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "mc-01"
         },
         {
           "dia": 2,
@@ -2014,7 +2230,8 @@
             "en": "The hour"
           },
           "minutos": 2,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "mc-01"
         },
         {
           "dia": 3,
@@ -2027,7 +2244,8 @@
             "en": "Come with me"
           },
           "minutos": 2,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "mc-01"
         },
         {
           "dia": 4,
@@ -2040,7 +2258,8 @@
             "en": "The leper"
           },
           "minutos": 2,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "mc-01"
         },
         {
           "dia": 5,
@@ -2053,7 +2272,8 @@
             "en": "Your sins"
           },
           "minutos": 4,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "mc-01"
         },
         {
           "dia": 6,
@@ -2066,7 +2286,8 @@
             "en": "Levi's table"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "mc-01"
         },
         {
           "dia": 7,
@@ -2079,7 +2300,8 @@
             "en": "The twelve"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "mc-01"
         },
         {
           "dia": 8,
@@ -2092,7 +2314,8 @@
             "en": "The sower"
           },
           "minutos": 3,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "mc-02"
         },
         {
           "dia": 9,
@@ -2105,7 +2328,8 @@
             "en": "Be still"
           },
           "minutos": 2,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "mc-02"
         },
         {
           "dia": 10,
@@ -2118,7 +2342,8 @@
             "en": "The child"
           },
           "minutos": 8,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "mc-02"
         },
         {
           "dia": 11,
@@ -2131,7 +2356,8 @@
             "en": "The loaves"
           },
           "minutos": 5,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "mc-03"
         },
         {
           "dia": 12,
@@ -2144,7 +2370,8 @@
             "en": "You are the Messiah"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "mc-04"
         },
         {
           "dia": 13,
@@ -2157,7 +2384,8 @@
             "en": "The mountain"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "mc-04"
         },
         {
           "dia": 14,
@@ -2170,7 +2398,8 @@
             "en": "The rich man"
           },
           "minutos": 2,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "mc-05"
         },
         {
           "dia": 15,
@@ -2183,7 +2412,8 @@
             "en": "Bartimaeus"
           },
           "minutos": 2,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "mc-05"
         },
         {
           "dia": 16,
@@ -2196,7 +2426,8 @@
             "en": "Dawn"
           },
           "minutos": 3,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "mc-08"
         }
       ]
     },
@@ -2242,7 +2473,8 @@
             "en": "The tree"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "sal-001"
         },
         {
           "dia": 2,
@@ -2255,7 +2487,8 @@
             "en": "What is man"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "sal-001"
         },
         {
           "dia": 3,
@@ -2268,7 +2501,8 @@
             "en": "The heavens"
           },
           "minutos": 5,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "sal-003"
         },
         {
           "dia": 4,
@@ -2281,7 +2515,8 @@
             "en": "My God"
           },
           "minutos": 4,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "sal-004"
         },
         {
           "dia": 5,
@@ -2294,7 +2529,8 @@
             "en": "The shepherd"
           },
           "minutos": 2,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "sal-004"
         },
         {
           "dia": 6,
@@ -2307,7 +2543,8 @@
             "en": "My light"
           },
           "minutos": 2,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "sal-004"
         },
         {
           "dia": 7,
@@ -2320,7 +2557,8 @@
             "en": "As a deer"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "sal-007"
         },
         {
           "dia": 8,
@@ -2333,7 +2571,8 @@
             "en": "Create in me"
           },
           "minutos": 4,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "sal-009"
         },
         {
           "dia": 9,
@@ -2346,7 +2585,8 @@
             "en": "At dawn"
           },
           "minutos": 3,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "sal-010"
         },
         {
           "dia": 10,
@@ -2359,7 +2599,8 @@
             "en": "How lovely"
           },
           "minutos": 2,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "sal-014"
         },
         {
           "dia": 11,
@@ -2372,7 +2613,8 @@
             "en": "Our years"
           },
           "minutos": 4,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "sal-015"
         },
         {
           "dia": 12,
@@ -2385,7 +2627,8 @@
             "en": "In his shade"
           },
           "minutos": 2,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "sal-015"
         },
         {
           "dia": 13,
@@ -2398,7 +2641,8 @@
             "en": "Bless"
           },
           "minutos": 5,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "sal-017"
         },
         {
           "dia": 14,
@@ -2411,7 +2655,8 @@
             "en": "The keeper"
           },
           "minutos": 3,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "sal-021"
         },
         {
           "dia": 15,
@@ -2424,7 +2669,8 @@
             "en": "Out of the depths"
           },
           "minutos": 3,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "sal-021"
         },
         {
           "dia": 16,
@@ -2437,7 +2683,8 @@
             "en": "You know me"
           },
           "minutos": 4,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "sal-022"
         }
       ]
     },
@@ -2483,7 +2730,8 @@
             "en": "The beginning"
           },
           "minutos": 2,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "prov-01"
         },
         {
           "dia": 2,
@@ -2496,7 +2744,8 @@
             "en": "Do not forget"
           },
           "minutos": 2,
-          "obra": "gn-05"
+          "obra": "gn-05",
+          "episodio": "prov-01"
         },
         {
           "dia": 3,
@@ -2509,7 +2758,8 @@
             "en": "Happy"
           },
           "minutos": 2,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "prov-01"
         },
         {
           "dia": 4,
@@ -2522,7 +2772,8 @@
             "en": "Before the mountains"
           },
           "minutos": 3,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "prov-02"
         },
         {
           "dia": 5,
@@ -2535,7 +2786,8 @@
             "en": "The house of seven pillars"
           },
           "minutos": 2,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "prov-03"
         },
         {
           "dia": 6,
@@ -2548,7 +2800,8 @@
             "en": "She who lets herself be found"
           },
           "minutos": 2,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "sab-02"
         },
         {
           "dia": 7,
@@ -2561,7 +2814,8 @@
             "en": "A breath"
           },
           "minutos": 3,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "sab-02"
         },
         {
           "dia": 8,
@@ -2574,7 +2828,8 @@
             "en": "Give me wisdom"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "sab-03"
         },
         {
           "dia": 9,
@@ -2587,7 +2842,8 @@
             "en": "Prepare yourself"
           },
           "minutos": 2,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "eclo-01"
         },
         {
           "dia": 10,
@@ -2600,7 +2856,8 @@
             "en": "Like one who ploughs"
           },
           "minutos": 3,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "eclo-02"
         }
       ]
     },
@@ -2646,7 +2903,8 @@
             "en": "Peace"
           },
           "minutos": 2,
-          "obra": "gn-15"
+          "obra": "gn-15",
+          "episodio": "rom-02"
         },
         {
           "dia": 2,
@@ -2659,7 +2917,8 @@
             "en": "Children"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "rom-03"
         },
         {
           "dia": 3,
@@ -2672,7 +2931,8 @@
             "en": "Nothing separates us"
           },
           "minutos": 3,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "rom-03"
         },
         {
           "dia": 4,
@@ -2685,7 +2945,8 @@
             "en": "A living offering"
           },
           "minutos": 2,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "rom-05"
         },
         {
           "dia": 5,
@@ -2698,7 +2959,8 @@
             "en": "Love without pretense"
           },
           "minutos": 3,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "rom-05"
         },
         {
           "dia": 6,
@@ -2711,7 +2973,8 @@
             "en": "The cross"
           },
           "minutos": 3,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "1cor-01"
         },
         {
           "dia": 7,
@@ -2724,7 +2987,8 @@
             "en": "The gifts"
           },
           "minutos": 3,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "1cor-05"
         },
         {
           "dia": 8,
@@ -2737,7 +3001,8 @@
             "en": "If I have not love"
           },
           "minutos": 2,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "1cor-05"
         },
         {
           "dia": 9,
@@ -2750,7 +3015,8 @@
             "en": "What I received"
           },
           "minutos": 2,
-          "obra": "gn-01"
+          "obra": "gn-01",
+          "episodio": "1cor-06"
         },
         {
           "dia": 10,
@@ -2763,7 +3029,8 @@
             "en": "It is no longer I"
           },
           "minutos": 2,
-          "obra": "gn-02"
+          "obra": "gn-02",
+          "episodio": "gal-01"
         },
         {
           "dia": 11,
@@ -2776,7 +3043,8 @@
             "en": "Serve one another"
           },
           "minutos": 2,
-          "obra": "gn-03"
+          "obra": "gn-03",
+          "episodio": "gal-02"
         },
         {
           "dia": 12,
@@ -2789,7 +3057,8 @@
             "en": "The fruit"
           },
           "minutos": 2,
-          "obra": "gn-04"
+          "obra": "gn-04",
+          "episodio": "gal-02"
         }
       ]
     },
@@ -2835,7 +3104,8 @@
             "en": "Rejoice"
           },
           "minutos": 4,
-          "obra": "gn-06"
+          "obra": "gn-06",
+          "episodio": "lc-01"
         },
         {
           "dia": 2,
@@ -2848,7 +3118,8 @@
             "en": "The climb"
           },
           "minutos": 2,
-          "obra": "gn-07"
+          "obra": "gn-07",
+          "episodio": "lc-01"
         },
         {
           "dia": 3,
@@ -2861,7 +3132,8 @@
             "en": "My soul proclaims"
           },
           "minutos": 3,
-          "obra": "gn-08"
+          "obra": "gn-08",
+          "episodio": "lc-01"
         },
         {
           "dia": 4,
@@ -2874,7 +3146,8 @@
             "en": "Joseph"
           },
           "minutos": 3,
-          "obra": "gn-09"
+          "obra": "gn-09",
+          "episodio": "mt-01"
         },
         {
           "dia": 5,
@@ -2887,7 +3160,8 @@
             "en": "The manger"
           },
           "minutos": 2,
-          "obra": "gn-10"
+          "obra": "gn-10",
+          "episodio": "lc-02"
         },
         {
           "dia": 6,
@@ -2900,7 +3174,8 @@
             "en": "Mary kept"
           },
           "minutos": 2,
-          "obra": "gn-11"
+          "obra": "gn-11",
+          "episodio": "lc-02"
         },
         {
           "dia": 7,
@@ -2913,7 +3188,8 @@
             "en": "A light to the nations"
           },
           "minutos": 5,
-          "obra": "gn-12"
+          "obra": "gn-12",
+          "episodio": "lc-02"
         },
         {
           "dia": 8,
@@ -2926,7 +3202,8 @@
             "en": "The jars"
           },
           "minutos": 4,
-          "obra": "gn-13"
+          "obra": "gn-13",
+          "episodio": "jn-01"
         },
         {
           "dia": 9,
@@ -2939,7 +3216,8 @@
             "en": "Here is your mother"
           },
           "minutos": 2,
-          "obra": "gn-14"
+          "obra": "gn-14",
+          "episodio": "jn-10"
         }
       ]
     },
@@ -2985,7 +3263,8 @@
             "en": "The house"
           },
           "minutos": 2,
-          "obra": "gn-16"
+          "obra": "gn-16",
+          "episodio": "hch-01"
         },
         {
           "dia": 2,
@@ -2998,7 +3277,8 @@
             "en": "The tongues"
           },
           "minutos": 3,
-          "obra": "gn-17"
+          "obra": "gn-17",
+          "episodio": "hch-01"
         },
         {
           "dia": 3,
@@ -3011,7 +3291,8 @@
             "en": "Peter"
           },
           "minutos": 3,
-          "obra": "gn-18"
+          "obra": "gn-18",
+          "episodio": "hch-01"
         },
         {
           "dia": 4,
@@ -3024,7 +3305,8 @@
             "en": "The water"
           },
           "minutos": 2,
-          "obra": "gn-19"
+          "obra": "gn-19",
+          "episodio": "hch-01"
         },
         {
           "dia": 5,
@@ -3037,7 +3319,8 @@
             "en": "He breathed"
           },
           "minutos": 2,
-          "obra": "gn-20"
+          "obra": "gn-20",
+          "episodio": "jn-11"
         },
         {
           "dia": 6,
@@ -3050,7 +3333,8 @@
             "en": "The advocate"
           },
           "minutos": 2,
-          "obra": "gn-21"
+          "obra": "gn-21",
+          "episodio": "jn-08"
         },
         {
           "dia": 7,
@@ -3063,7 +3347,8 @@
             "en": "Rivers"
           },
           "minutos": 2,
-          "obra": "gn-22"
+          "obra": "gn-22",
+          "episodio": "jn-05"
         }
       ]
     }

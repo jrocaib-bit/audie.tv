@@ -1,11 +1,13 @@
 "use client";
 
-import { COLOR_HEX, diaLiturgico, fraccionReto, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
+import { Candado } from "@/components/v2/fichas";
 import { leerRetos, marcarDia, suscribirRetos } from "@/components/v2/retos-local";
 
 const vacio = leerRetos();
@@ -15,7 +17,8 @@ function portada(id: string | null) {
 }
 
 export function RetoV2({ reto }: { reto: Reto }) {
-  const { settings } = useLibrary();
+  const library = useLibrary();
+  const { settings } = library;
   const locale = settings.uiLocale;
   const es = locale === "es";
   const cuando = useSearchParams().get("cuando");
@@ -66,8 +69,11 @@ export function RetoV2({ reto }: { reto: Reto }) {
           {reto.pasos.map((paso) => {
             const hecho = estado.hechos.includes(paso.dia);
             const mini = portada(paso.obra);
-            return (
-              <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
+            const ficha = paso.episodio ? library.catalog.episodes.find((episodio) => episodio.id === paso.episodio) : undefined;
+            const segundo = ficha ? inicioDelPasaje(ficha.tiempos, paso.capitulo, paso.versiculo, paso.versiculoFin) : null;
+            const oir = ficha ? `/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}` : null;
+            const cuerpo = (
+              <>
                 <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
                   {mini ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -78,7 +84,21 @@ export function RetoV2({ reto }: { reto: Reto }) {
                   <span className="block font-display text-lg leading-tight">{paso.titulo[locale]}</span>
                   <span className="mt-0.5 block text-sm whitespace-nowrap text-muted">{referenciaPaso(paso, locale, true)} · {paso.minutos} min</span>
                 </span>
-                <button type="button" aria-label={paso.titulo[locale]} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => marcarDia(reto.id, paso.dia, hoy)}>
+                {oir ? (
+                  <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-[#F4ECE2] text-[#100E0C]" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" className="size-5"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
+                  </span>
+                ) : (
+                  <span className="inline-flex size-11 shrink-0 items-center justify-center text-muted" aria-label={es ? "Pronto" : "Soon"}>
+                    <Candado />
+                  </span>
+                )}
+              </>
+            );
+            return (
+              <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
+                {oir ? <Link href={oir} aria-label={paso.titulo[locale]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
+                <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => marcarDia(reto.id, paso.dia, hoy)}>
                   {hecho ? "✓" : ""}
                 </button>
               </li>

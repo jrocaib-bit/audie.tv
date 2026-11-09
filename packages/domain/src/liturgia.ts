@@ -403,6 +403,9 @@ export type PasoReto = {
   titulo: { es: string; en: string };
   minutos: number;
   obra: string | null;
+  episodio: string | null;
+  /** Mes-día civil, «12-23». Si la fecha coincide, este paso es el del día. */
+  ancla?: string;
 };
 
 export type CompaneroReto = {

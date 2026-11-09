@@ -96,6 +96,20 @@
           "type": "array",
           "items": { "$ref": "#/$defs/arte" }
         },
+        "tiempos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["capitulo", "versiculo", "inicio", "fin"],
+            "properties": {
+              "capitulo": { "type": "integer", "minimum": 1 },
+              "versiculo": { "type": "integer", "minimum": 1 },
+              "inicio": { "type": "number", "minimum": 0 },
+              "fin": { "type": "number", "minimum": 0 }
+            }
+          }
+        },
         "idiomas": {
           "type": "object",
           "minProperties": 1,
