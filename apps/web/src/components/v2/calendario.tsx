@@ -1,57 +1,127 @@
 "use client";
 
-import { COLOR_HEX, diaLiturgico, textoDiaLiturgico, tramosDelAnio, type TiempoId } from "@audite/domain";
+import { COLOR_HEX, diaLiturgico, textoDiaLiturgico, tramosDelAnio, type TiempoId, type TramoLiturgico } from "@audite/domain";
+import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { fechaDeCuando, isoLocal } from "@/lib/cuando";
+import { fechaDeCuando } from "@/lib/cuando";
 import { RETOS } from "@/lib/retos";
 import { useLibrary } from "@/components/library";
 
-const ORDEN: TiempoId[] = ["adviento", "navidad", "ordinario", "cuaresma", "semana-santa", "pascua"];
+const NOMBRES: Record<TiempoId, { es: string; en: string }> = {
+  adviento: { es: "Adviento", en: "Advent" },
+  navidad: { es: "Navidad", en: "Christmas" },
+  ordinario: { es: "Tiempo ordinario", en: "Ordinary Time" },
+  cuaresma: { es: "Cuaresma", en: "Lent" },
+  "semana-santa": { es: "Semana Santa", en: "Holy Week" },
+  triduo: { es: "Triduo", en: "Triduum" },
+  pascua: { es: "Pascua", en: "Easter" },
+};
+
+const MESES = {
+  es: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+  en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+};
+
+function corta(valor: string, locale: "es" | "en"): string {
+  const [, mes, dia] = valor.split("-").map(Number);
+  return `${dia} ${MESES[locale][(mes ?? 1) - 1]}`;
+}
+
+function dias(desde: string, hasta: string): number {
+  return Math.round((Date.parse(hasta) - Date.parse(desde)) / 86400000) + 1;
+}
+
+function punto(angulo: number, radio: number): { x: number; y: number } {
+  const rad = ((angulo - 90) * Math.PI) / 180;
+  return { x: 100 + Math.cos(rad) * radio, y: 100 + Math.sin(rad) * radio };
+}
+
+function arco(desde: number, hasta: number, radio: number): string {
+  const a = punto(desde, radio);
+  const b = punto(hasta, radio);
+  const grande = hasta - desde > 180 ? 1 : 0;
+  return `M ${a.x} ${a.y} A ${radio} ${radio} 0 ${grande} 1 ${b.x} ${b.y}`;
+}
 
 export function CalendarioV2() {
   const { settings } = useLibrary();
-  const es = settings.uiLocale === "es";
+  const locale = settings.uiLocale;
+  const es = locale === "es";
   const cuando = useSearchParams().get("cuando");
   const fecha = useMemo(() => fechaDeCuando(cuando), [cuando]);
   const dia = diaLiturgico(fecha);
   const tramos = tramosDelAnio(dia.iso);
-  const total = tramos.reduce((suma, tramo) => suma + (Date.parse(tramo.fin) - Date.parse(tramo.inicio)) / 86400000 + 1, 0);
-  const transcurrido = (Date.parse(dia.iso) - Date.parse(tramos[0]?.inicio ?? dia.iso)) / 86400000;
-  const marca = Math.min(100, Math.max(0, (transcurrido / total) * 100));
-  const nombres = new Map(ORDEN.map((id) => [id, tramos.find((tramo) => tramo.tiempo === id)?.color]));
+  const total = tramos.reduce((suma, tramo) => suma + dias(tramo.inicio, tramo.fin), 0);
+  const anillos = tramos.reduce<{ cursor: number; arcos: { tramo: TramoLiturgico; d: string }[] }>((estado, tramo) => {
+    const largo = dias(tramo.inicio, tramo.fin);
+    const desde = (estado.cursor / total) * 360 + 0.8;
+    const siguiente = estado.cursor + largo;
+    const hasta = (siguiente / total) * 360 - 0.8;
+    return { cursor: siguiente, arcos: [...estado.arcos, { tramo, d: arco(desde, Math.max(desde + 0.4, hasta), 62) }] };
+  }, { cursor: 0, arcos: [] }).arcos;
+  const anguloHoy = ((dias(tramos[0]?.inicio ?? dia.iso, dia.iso) - 0.5) / total) * 360;
+  const marcaDentro = punto(anguloHoy, 76);
+  const marca = punto(anguloHoy, 90);
+  const usadas = new Set<string>();
+  function tomar(preferida: string | null): string | null {
+    if (preferida && !usadas.has(preferida)) {
+      usadas.add(preferida);
+      return preferida;
+    }
+    const libre = obrasVisibles().find((obra) => !usadas.has(obra.episodio));
+    if (!libre) return preferida;
+    usadas.add(libre.episodio);
+    return libre.episodio;
+  }
 
   return (
     <main id="contenido" className="app-clear px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{es ? "Calendario" : "Calendar"}</h1>
-      <p className="mt-3 font-display text-2xl leading-none">{dia.etiqueta[es ? "es" : "en"]}</p>
-      <p className="mt-2 text-sm text-muted">{textoDiaLiturgico(dia, es ? "es" : "en")}</p>
-      <div className="relative mt-5 h-8 overflow-hidden rounded-full">
-        <div className="flex h-full">
-          {tramos.map((tramo) => {
-            const dias = (Date.parse(tramo.fin) - Date.parse(tramo.inicio)) / 86400000 + 1;
-            return <span key={`${tramo.tiempo}-${tramo.inicio}`} style={{ width: `${(dias / total) * 100}%`, background: COLOR_HEX[tramo.color] }} />;
-          })}
-        </div>
-        <span className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#100E0C] bg-[#C9A96E]" style={{ left: `${marca}%` }} />
+      <p className="mt-3 font-display text-2xl leading-none">{dia.etiqueta[locale]}</p>
+      <p className="mt-2 text-sm text-muted">{textoDiaLiturgico(dia, locale)}</p>
+      <div className="mx-auto mt-2 w-[min(100%,14.5rem)]">
+        <svg viewBox="0 0 200 200" className="h-auto w-full" role="img" aria-label={dia.etiqueta[locale]}>
+          <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="18" />
+          {anillos.map((anillo) => (
+            <path key={`${anillo.tramo.tiempo}-${anillo.tramo.inicio}`} d={anillo.d} fill="none" stroke={COLOR_HEX[anillo.tramo.color]} strokeWidth="18" />
+          ))}
+          <line x1={marcaDentro.x} y1={marcaDentro.y} x2={marca.x} y2={marca.y} stroke="#C9A96E" strokeWidth="2" />
+          <circle cx={marca.x} cy={marca.y} r="4.5" fill="#C9A96E" />
+        </svg>
       </div>
-      <ul className="mt-6">
-        {ORDEN.map((id) => {
-          const color = nombres.get(id) ?? "verde";
-          const retos = RETOS.filter((reto) => reto.tiempo === id || (id === "semana-santa" && reto.tiempo === "semana-santa"));
-          const nombre = id === "ordinario" ? (es ? "Tiempo ordinario" : "Ordinary Time") : retos[0]?.titulo[es ? "es" : "en"].split(":")[0] ?? id;
-          const etiqueta = id === "adviento" ? (es ? "Adviento" : "Advent") : id === "navidad" ? (es ? "Navidad" : "Christmas") : id === "cuaresma" ? (es ? "Cuaresma" : "Lent") : id === "pascua" ? (es ? "Pascua" : "Easter") : id === "semana-santa" ? (es ? "Semana Santa" : "Holy Week") : nombre;
-          return (
-            <li key={id} className="border-b border-border">
-              <Link href={retos[0] ? `/reto/${retos[0].id}?cuando=${isoLocal(fecha)}` : "/calendario"} className="flex min-h-14 items-center gap-3">
-                <span className="h-8 w-1.5 rounded-full" style={{ background: COLOR_HEX[color] }} />
-                <span className="font-display text-xl">{etiqueta}</span>
-              </Link>
-            </li>
-          );
-        })}
+      <ul className="mt-2 space-y-3">
+        {tramos.map((tramo) => (
+          <TarjetaTiempo key={`${tramo.tiempo}-${tramo.inicio}`} tramo={tramo} hoy={dia.iso} locale={locale} obra={tomar(RETOS.find((reto) => reto.tiempo === tramo.tiempo)?.obra ?? null)} />
+        ))}
       </ul>
     </main>
+  );
+}
+
+function TarjetaTiempo({ tramo, hoy, locale, obra }: { tramo: TramoLiturgico; hoy: string; locale: "es" | "en"; obra: string | null }) {
+  const es = locale === "es";
+  const reto = RETOS.find((item) => item.tiempo === tramo.tiempo);
+  const portada = obrasVisibles().find((item) => item.episodio === obra);
+  const dentro = hoy >= tramo.inicio && hoy <= tramo.fin;
+  const quedan = dentro ? dias(hoy, tramo.fin) : null;
+  return (
+    <li>
+      <Link href={reto ? `/reto/${reto.id}?cuando=${hoy}` : "/calendario"} className="flex overflow-hidden rounded-2xl bg-card">
+        <span className="relative w-24 shrink-0 self-stretch bg-[#1B1815]">
+          {portada ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={obraWebp(portada)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          ) : null}
+          <span className="absolute inset-y-0 left-0 w-1.5" style={{ background: COLOR_HEX[tramo.color] }} />
+        </span>
+        <span className="flex min-w-0 flex-1 flex-col justify-center px-3 py-3">
+          <span className="font-display text-xl leading-none">{NOMBRES[tramo.tiempo][locale]}</span>
+          <span className="mt-1 text-sm whitespace-nowrap">{corta(tramo.inicio, locale)} – {corta(tramo.fin, locale)}</span>
+          <span className="text-sm leading-snug">{quedan == null ? "" : `${quedan} ${es ? "días" : "days"} · `}{reto?.titulo[locale]}</span>
+        </span>
+      </Link>
+    </li>
   );
 }

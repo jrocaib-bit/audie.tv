@@ -312,16 +312,45 @@ export type PasoReto = {
   libroId: string;
   capitulo: number;
   versiculo: number;
-  cita: string;
+  versiculoFin: number;
+  titulo: { es: string; en: string };
+  minutos: number;
   obra: string | null;
+};
+
+export type CompaneroReto = {
+  titulo: { es: string; en: string };
+  obra: string | null;
+  href: string;
 };
 
 export type Reto = {
   id: string;
   tiempo: TiempoId;
   titulo: { es: string; en: string };
+  insignia: { es: string; en: string };
+  obra: string | null;
+  companeros: CompaneroReto[];
   pasos: PasoReto[];
 };
+
+const LIBROS: Record<string, { es: string; en: string; breve: string }> = {
+  is: { es: "Isaías", en: "Isaiah", breve: "Is" },
+  ex: { es: "Éxodo", en: "Exodus", breve: "Ex" },
+  mt: { es: "Mateo", en: "Matthew", breve: "Mt" },
+  mc: { es: "Marcos", en: "Mark", breve: "Mc" },
+  lc: { es: "Lucas", en: "Luke", breve: "Lc" },
+  jn: { es: "Juan", en: "John", breve: "Jn" },
+  hch: { es: "Hechos", en: "Acts", breve: "Hch" },
+};
+
+export function referenciaPaso(paso: Pick<PasoReto, "libroId" | "capitulo" | "versiculo" | "versiculoFin">, locale: "es" | "en", completa = false): string {
+  const libro = LIBROS[paso.libroId];
+  const nombre = libro ? (completa ? libro[locale] : libro.breve) : paso.libroId;
+  const rango = paso.versiculoFin > paso.versiculo ? `${paso.versiculo}–${paso.versiculoFin}` : String(paso.versiculo);
+  const separador = locale === "en" ? ":" : ",";
+  return `${nombre} ${paso.capitulo}${separador}${rango}`;
+}
 
 export function fraccionReto(hechos: readonly number[], total: number): { hechos: number; total: number; completo: boolean } {
   const unicos = new Set(hechos.filter((dia) => dia >= 1 && dia <= total));

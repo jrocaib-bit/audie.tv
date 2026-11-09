@@ -3,11 +3,18 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 const archivo = JSON.parse(readFileSync(path.resolve("content/tiempos/retos.json"), "utf8")) as {
-  retos: { id: string; tiempo: string; titulo: { es: string }; pasos: { dia: number; libroId: string; capitulo: number; versiculo: number; cita: string; obra: string | null }[] }[];
+  retos: {
+    id: string;
+    tiempo: string;
+    obra: string | null;
+    insignia: { es: string };
+    companeros: { obra: string | null }[];
+    pasos: { dia: number; libroId: string; capitulo: number; versiculo: number; versiculoFin: number; titulo: { es: string; en: string }; minutos: number; obra: string | null }[];
+  }[];
 };
 
 describe("retos del tiempo", () => {
-  it("solo guarda referencias y un hueco de obra, sin texto bíblico", () => {
+  it("guarda títulos propios y pasajes con rango, sin texto bíblico", () => {
     const texto = JSON.stringify(archivo);
     expect(texto).not.toMatch(/En el principio creó|Sagrada Biblia|leccionario/i);
     expect(archivo.retos.map((reto) => [reto.id, reto.pasos.length])).toEqual([
@@ -19,13 +26,18 @@ describe("retos del tiempo", () => {
       ["ordinario-evangelio", 16],
     ]);
     for (const reto of archivo.retos) {
+      expect(reto.obra).toMatch(/^gn-\d{2}$/);
+      expect(reto.insignia.es.length).toBeGreaterThan(2);
+      const portada = [reto.obra, reto.pasos[0]?.obra, ...reto.companeros.map((item) => item.obra)];
+      expect(new Set(portada).size).toBe(portada.length);
       reto.pasos.forEach((paso, indice) => {
         expect(paso.dia).toBe(indice + 1);
-        expect(paso.cita).toBe(`${paso.cita.split(" ")[0]} ${paso.capitulo},${paso.versiculo}`);
-        expect(paso.libroId).toMatch(/^[a-z]+$/);
+        expect(paso.titulo.es.length).toBeGreaterThan(2);
+        expect(paso.versiculoFin).toBeGreaterThanOrEqual(paso.versiculo);
+        expect(paso.minutos).toBeGreaterThan(0);
         expect(paso.obra).toMatch(/^gn-\d{2}$/);
-        expect(Object.keys(paso).sort()).toEqual(["capitulo", "cita", "dia", "libroId", "obra", "versiculo"]);
       });
+      expect(reto.pasos.every((paso) => paso.versiculo === 1 && paso.versiculoFin === 1)).toBe(false);
     }
   });
 });

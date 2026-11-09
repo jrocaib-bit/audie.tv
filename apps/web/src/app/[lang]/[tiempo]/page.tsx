@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { COLOR_HEX, type TiempoId } from "@audite/domain";
+import { COLOR_HEX, referenciaPaso, type TiempoId } from "@audite/domain";
 import { obraDeEpisodio, obraWebp, obrasVisibles } from "@audite/content/obras";
 import { notFound } from "next/navigation";
 import { RETOS } from "@/lib/retos";
@@ -43,7 +43,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   if (!id) notFound();
   const ui = lang === "en" ? "en" : "es";
   const reto = RETOS.find((item) => item.tiempo === id);
-  const obra = obrasVisibles().find((item) => item.episodio === reto?.pasos[0]?.obra) ?? obraDeEpisodio("gn-01");
+  const obra = obrasVisibles().find((item) => item.episodio === reto?.obra) ?? obraDeEpisodio("gn-01");
+  const primero = reto?.pasos[0];
   const color = id === "adviento" || id === "cuaresma" ? COLOR_HEX.morado : id === "pascua" ? COLOR_HEX.blanco : id === "semana-santa" ? COLOR_HEX.rojo : id === "navidad" ? COLOR_HEX.blanco : COLOR_HEX.verde;
   return (
     <main className="min-h-full bg-[#100E0C] text-[#F4ECE2]">
@@ -58,7 +59,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       </div>
       <div className="mx-auto flex w-full max-w-lg flex-col gap-3 px-5 py-6">
         {reto ? <p className="font-display text-3xl leading-none">{reto.titulo[ui]}</p> : null}
-        {reto ? <p className="text-lg">{reto.pasos.length} {ui === "en" ? "days" : "días"} · {reto.pasos[0]?.cita}</p> : null}
+        {primero ? <p className="text-lg">{primero.titulo[ui]} · {referenciaPaso(primero, ui)}</p> : null}
+        {reto ? <p className="text-sm text-[#B7AB9C]">{reto.pasos.length} {ui === "en" ? "days" : "días"}</p> : null}
         <a href={`audite://tiempo/${id}`} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]">{ui === "en" ? "Open in the app" : "Abrir en la app"}</a>
       </div>
     </main>

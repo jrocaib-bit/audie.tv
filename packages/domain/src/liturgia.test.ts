@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { adviento1, bautismoDelSenor, capitulosAMedias, diaLiturgicoDeIso, fraccionReto, miercolesCeniza, pascua, pentecostes, textoDiaLiturgico, tramosDelAnio } from "./liturgia";
+import { adviento1, bautismoDelSenor, capitulosAMedias, diaLiturgicoDeIso, fraccionReto, miercolesCeniza, pascua, pentecostes, referenciaPaso, textoDiaLiturgico, tramosDelAnio } from "./liturgia";
 
 const PASCUA = ["2025-04-20", "2026-04-05", "2027-03-28", "2028-04-16", "2029-04-01", "2030-04-21"];
 const CENIZA = ["2025-03-05", "2026-02-18", "2027-02-10", "2028-03-01", "2029-02-14", "2030-03-06"];
@@ -62,5 +62,7 @@ describe("calendario litúrgico", () => {
     })).toEqual(["gn-02"]);
     expect(fraccionReto([1, 1, 2], 3)).toMatchObject({ hechos: 2, completo: false });
     expect(fraccionReto([1, 2, 3], 3).completo).toBe(true);
+    expect(referenciaPaso({ libroId: "ex", capitulo: 3, versiculo: 1, versiculoFin: 15 }, "es", true)).toBe("Éxodo 3,1–15");
+    expect(referenciaPaso({ libroId: "is", capitulo: 40, versiculo: 1, versiculoFin: 11 }, "es")).toBe("Is 40,1–11");
   });
 });

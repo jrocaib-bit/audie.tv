@@ -1,6 +1,6 @@
 "use client";
 
-import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, type FiltroInicio } from "@audite/domain";
+import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, referenciaPaso, type FiltroInicio } from "@audite/domain";
 import { obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -61,6 +61,22 @@ export function InicioV2() {
   }));
   const delTiempo = retosDeTiempo(liturgia.tiempo);
   const paso = delTiempo[0]?.pasos[Math.max(0, liturgia.dia - 1) % Math.max(1, delTiempo[0]?.pasos.length ?? 1)];
+  const usadas = new Set(sigueIds);
+  function tomar(id: string | null | undefined): string | null {
+    if (id && !usadas.has(id)) {
+      usadas.add(id);
+      return id;
+    }
+    const libre = obrasVisibles().find((obra) => !usadas.has(obra.episodio));
+    if (!libre) return id ?? null;
+    usadas.add(libre.episodio);
+    return libre.episodio;
+  }
+  const portadaDia = tomar(paso?.obra);
+  const estanteTiempo = delTiempo.flatMap((reto) => [
+    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: reto.titulo[locale], obra: tomar(reto.obra) },
+    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.href}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.obra) })),
+  ]);
 
   return (
     <main id="contenido" className="app-clear pt-3">
@@ -85,26 +101,26 @@ export function InicioV2() {
           href={`/reto/${delTiempo[0].id}?cuando=${isoLocal(ahora)}`}
           calendario={`/calendario?cuando=${isoLocal(ahora)}`}
           titulo={liturgia.etiqueta[locale]}
-          subtitulo={paso?.cita}
-          clave={paso?.obra ?? delTiempo[0].id}
+          subtitulo={paso ? `${paso.titulo[locale]} · ${referenciaPaso(paso, locale)}` : undefined}
+          clave={portadaDia ?? delTiempo[0].id}
           filete={COLOR_HEX[liturgia.color]}
         />
       ) : null}
-      {filtro === "todo" && sigue.length > 0 ? <FilaContinua titulo={locale === "en" ? "Continue" : "Sigue escuchando"} tarjetas={sigue} /> : null}
-      {filtro === "todo" && delTiempo.length > 0 ? (
-        <section className="mt-6 px-4">
-          <h2 className="font-display text-2xl leading-none">{locale === "en" ? "For this season" : "Para este tiempo"}</h2>
-          <div className="mt-3 space-y-2">
-            {delTiempo.map((reto) => (
-              <Link key={reto.id} href={`/reto/${reto.id}?cuando=${isoLocal(ahora)}`} className="flex min-h-16 items-center gap-3 overflow-hidden rounded-2xl bg-card pr-3">
-                <span className="h-16 w-1.5 shrink-0" style={{ background: COLOR_HEX[liturgia.color] }} />
-                <Arte episodioId={reto.pasos[0]?.obra ?? null} className="size-14 shrink-0" />
-                <span className="font-display text-lg leading-tight">{reto.titulo[locale]}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
+      {filtro === "todo" && estanteTiempo.length > 0 ? (
+        <EstanteFila titulo={locale === "en" ? "For this season" : "Para este tiempo"}>
+          {estanteTiempo.map((ficha) => (
+            <Link key={ficha.id} href={ficha.href} className="w-[10.5rem] shrink-0 snap-start">
+              <span className="relative block h-28 overflow-hidden rounded-2xl bg-[#1B1815]">
+                <Arte episodioId={ficha.obra} className="absolute inset-0 h-full w-full" />
+                <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-transparent" />
+                <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: COLOR_HEX[liturgia.color] }} />
+                <span className="absolute inset-x-2.5 bottom-2.5 font-display text-base leading-tight text-[#F4ECE2]">{ficha.titulo}</span>
+              </span>
+            </Link>
+          ))}
+        </EstanteFila>
       ) : null}
+      {filtro === "todo" && sigue.length > 0 ? <FilaContinua titulo={locale === "en" ? "Continue" : "Sigue escuchando"} tarjetas={sigue} /> : null}
       {filas.filter((estante) => estante.id !== "sigue").map((estante) => (
         <EstanteFila key={estante.id} titulo={estante.titulo}>
           {estante.tarjetas.map((tarjeta) => estante.id === "hora" ? (
