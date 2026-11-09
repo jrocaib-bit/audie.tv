@@ -6,5 +6,5 @@
       "@audite/domain": ["../../packages/domain/src/index.ts"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "../../packages/domain/src/**/*.ts", "../../content/catalog/manifest.json"]
+  "include": ["**/*.ts", "**/*.tsx", "../../packages/domain/src/**/*.ts", "../../content/catalog/manifest.json", "../../content/referencias/openbible.json"]
 }

@@ -99,7 +99,17 @@ export {
   type ThemeChoice,
   type UiLocale,
 } from "./settings";
-export { citaEnCurso, clamp, formatClock, formatSpokenDuration } from "./time";
+export { citaEnCurso, clamp, formatClock, formatSpokenDuration, segundoDeCita } from "./time";
+export {
+  ATRIBUCION_REFERENCIAS,
+  entrarReferencia,
+  etiquetaCita,
+  referenciasDe,
+  volverReferencia,
+  type CitaRef,
+  type MarcoEscucha,
+  type ReferenciaCruzada,
+} from "./referencias";
 export { SALTO_SEGUNDOS, metadatosReproduccion, posicionTrasSalto, type MetadatosReproduccion } from "./sesion-media";
 export {
   CLAVE_MARCADORES,

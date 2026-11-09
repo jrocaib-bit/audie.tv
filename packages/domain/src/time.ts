@@ -22,6 +22,27 @@ export function citaEnCurso(etiqueta: string, fraccion: number): string | null {
   return puntos[indice] ?? null;
 }
 
+export function segundoDeCita(etiqueta: string, cita: string, duracion: number): number | null {
+  const match = /(\d+)\s*:\s*(\d+)\s*[–-]\s*(\d+)\s*:\s*(\d+)/.exec(etiqueta);
+  const destino = /^(\d+)\s*:\s*(\d+)$/.exec(cita.trim());
+  if (!match || !destino || duracion <= 0) return null;
+  const inicioCapitulo = Number(match[1]);
+  const inicioVerso = Number(match[2]);
+  const finCapitulo = Number(match[3]);
+  const finVerso = Number(match[4]);
+  const puntos: string[] = [];
+  for (let capitulo = inicioCapitulo; capitulo <= finCapitulo; capitulo += 1) {
+    const total = VERSOS_GENESIS[capitulo - 1];
+    if (!total) return null;
+    const desde = capitulo === inicioCapitulo ? inicioVerso : 1;
+    const hasta = capitulo === finCapitulo ? Math.min(finVerso, total) : total;
+    for (let verso = desde; verso <= hasta; verso += 1) puntos.push(`${capitulo}:${verso}`);
+  }
+  const indice = puntos.indexOf(`${Number(destino[1])}:${Number(destino[2])}`);
+  if (indice < 0 || puntos.length < 2) return null;
+  return (indice / (puntos.length - 1)) * duracion;
+}
+
 export function clamp(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
   if (max < min) return min;
