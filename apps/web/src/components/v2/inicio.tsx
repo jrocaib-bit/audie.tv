@@ -1,7 +1,6 @@
 "use client";
 
 import { estantes, type FiltroInicio } from "@audite/domain";
-import { obraDeEpisodio } from "@audite/content/obras";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Mark } from "@/components/brand";

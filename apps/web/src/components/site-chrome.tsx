@@ -62,7 +62,7 @@ export function TabBar() {
   const pathname = usePathname();
   const { settings } = useLibrary();
   const locale = settings.uiLocale;
-  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || esRutaPublica(pathname)) return null;
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
   return (
     <nav
       aria-label={t(locale, "wordmark")}
@@ -92,7 +92,7 @@ export function MiniPlayer() {
   const locale = settings.uiLocale;
   const router = useRouter();
   const origen = useRef(0);
-  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || esRutaPublica(pathname)) return null;
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
   const episode = catalog.episodes.find((item) => item.id === player.episodeId);
   const listo = playableEpisodes(catalog)[0] ?? null;
   const activo = Boolean(episode && player.episodeId && player.status !== "idle");
