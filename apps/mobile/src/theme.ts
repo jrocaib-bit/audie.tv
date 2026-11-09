@@ -1,31 +1,43 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const light = {
-  bg: "#f3ecdf",
+  bg: "#F3ECDF",
   ink: "#161310",
-  muted: "#5e564c",
-  card: "#faf6ef",
-  line: "#e4d8c8",
-  accent: "#7a5428",
-  accentInk: "#fbf6ee",
-  gallery: "#0c0b09",
+  muted: "#5E564C",
+  card: "#FAF6EF",
+  line: "#E4D8C8",
+  accent: "#8A6432",
+  accentInk: "#F3ECDF",
+  gallery: "#0C0B09",
+  brand: "#8A6432",
 };
 
 export const dark = {
-  bg: "#100e0c",
-  ink: "#f4ece2",
-  muted: "#b7ab9c",
-  card: "#1b1815",
-  line: "#2e2924",
-  accent: "#e0c48a",
-  accentInk: "#1a140c",
-  gallery: "#070605",
+  bg: "#100E0C",
+  ink: "#F4ECE2",
+  muted: "#B7AB9C",
+  card: "#1B1815",
+  line: "#2E2924",
+  accent: "#E0C48A",
+  accentInk: "#100E0C",
+  gallery: "#0C0B09",
+  brand: "#C9A96E",
 };
 
+/** Nombres de los tokens de identidad v2.1. SF Pro no se incrusta. */
+export const fontTokens = {
+  display: "Gazpacho",
+  secundaria: "Inter",
+  iosSystem: '-apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif',
+} as const;
+
+const texto = Platform.OS === "ios" ? undefined : fontTokens.secundaria;
+const display = Platform.OS === "web" ? fontTokens.display : "Georgia";
+
 export const fonts = {
-  serif: "Fraunces_600SemiBold",
-  sans: "Outfit_400Regular",
-  medium: "Outfit_500Medium",
+  serif: display,
+  sans: texto,
+  medium: texto,
 };
 
 export const ui = StyleSheet.create({

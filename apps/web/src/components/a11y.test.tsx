@@ -19,12 +19,13 @@ function contraste(a: string, b: string): number {
 
 describe("accesibilidad", () => {
   it("mantiene el ocre y el oro por encima de WCAG AA", () => {
-    expect(contraste("#7a5428", "#f3ecdf")).toBeGreaterThanOrEqual(4.5);
-    expect(contraste("#fbf6ee", "#7a5428")).toBeGreaterThanOrEqual(4.5);
+    expect(contraste("#8a6432", "#f3ecdf")).toBeGreaterThanOrEqual(4.5);
+    expect(contraste("#f3ecdf", "#8a6432")).toBeGreaterThanOrEqual(4.5);
     expect(contraste("#5e564c", "#f3ecdf")).toBeGreaterThanOrEqual(4.5);
     expect(contraste("#e0c48a", "#100e0c")).toBeGreaterThanOrEqual(4.5);
-    expect(contraste("#1a140c", "#e0c48a")).toBeGreaterThanOrEqual(4.5);
+    expect(contraste("#100e0c", "#e0c48a")).toBeGreaterThanOrEqual(4.5);
     expect(contraste("#b7ab9c", "#100e0c")).toBeGreaterThanOrEqual(4.5);
+    expect(contraste("#c9a96e", "#100e0c")).toBeGreaterThanOrEqual(4.5);
   });
 
   it("no marca violaciones de axe en la lista del catálogo", async () => {

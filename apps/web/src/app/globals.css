@@ -1,16 +1,59 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Gazpacho: solo si el OTF está en la carpeta ignorada. Si no, Georgia. */
+@font-face {
+  font-family: "Gazpacho";
+  src: url("/fonts/private/Gazpacho-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gazpacho";
+  src: url("/fonts/private/Gazpacho-Heavy.otf") format("opentype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/InterVariable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/InterVariable-Italic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --background: #f3ecdf;
   --foreground: #161310;
   --card: #faf6ef;
   --muted: #5e564c;
   --border: #e4d8c8;
-  --primary: #7a5428;
-  --primary-foreground: #fbf6ee;
-  --caption: #f7f1e6;
+  --primary: #8a6432;
+  --primary-foreground: #f3ecdf;
+  --caption: #faf6ef;
   --gallery: #0c0b09;
   --danger: #7a3e32;
+  --brand: #8a6432;
+  --noche: #100e0c;
+  --crema: #f3ecdf;
+  --piedra: #b7ab9c;
+  --audite-font-display: "Gazpacho", Georgia, "Times New Roman", serif;
+  --audite-font-secundaria: "Inter", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --audite-font-text: var(--audite-font-secundaria);
+  --audite-font-ios-system: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -20,10 +63,11 @@
   --muted: #b7ab9c;
   --border: #2e2924;
   --primary: #e0c48a;
-  --primary-foreground: #1a140c;
-  --caption: #1c1916;
-  --gallery: #070605;
+  --primary-foreground: #100e0c;
+  --caption: #171512;
+  --gallery: #0c0b09;
   --danger: #e7b2a8;
+  --brand: #c9a96e;
 }
 
 @theme inline {
@@ -37,8 +81,9 @@
   --color-caption: var(--caption);
   --color-gallery: var(--gallery);
   --color-danger: var(--danger);
-  --font-sans: var(--font-outfit), "Segoe UI", sans-serif;
-  --font-serif: var(--font-newsreader), Georgia, serif;
+  --color-brand: var(--brand);
+  --font-sans: var(--audite-font-secundaria);
+  --font-serif: var(--audite-font-display);
 }
 
 html[data-text="sm"] { font-size: 16px; }
@@ -49,24 +94,14 @@ html[data-text="xl"] { font-size: 23px; }
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--audite-font-text);
   text-rendering: optimizeLegibility;
 }
 
-body::before {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-
-:root[data-theme="dark"] body::before {
-  opacity: 0.07;
-  mix-blend-mode: overlay;
+.font-display {
+  font-family: var(--audite-font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 :focus-visible {
@@ -75,14 +110,15 @@ body::before {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--primary) 28%, transparent);
+  background: color-mix(in srgb, var(--brand) 35%, transparent);
 }
 
 .kicker {
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-size: 0.72rem;
-  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--brand);
 }
 
 .audio-keep {
@@ -109,13 +145,20 @@ body::before {
   to { opacity: 0; }
 }
 
-.art-in { animation: audite-fade-in 1400ms ease both; }
-.art-out { animation: audite-fade-out 1400ms ease forwards; }
-.ken-burns { transition: transform 1.6s linear; }
+@keyframes audite-drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+
+.art-in { animation: audite-fade-in 1000ms ease both; }
+.art-out { animation: audite-fade-out 1000ms ease forwards; }
+.ken-burns { transition: transform 18s linear; }
+.obra-drift { animation: audite-drift 46s ease-in-out alternate infinite; transform-origin: center; }
 
 html[data-reduce-motion="true"] .art-in,
 html[data-reduce-motion="true"] .art-out,
-html[data-reduce-motion="true"] .ken-burns {
+html[data-reduce-motion="true"] .ken-burns,
+html[data-reduce-motion="true"] .obra-drift {
   animation: none;
   transition: none;
 }
@@ -123,7 +166,8 @@ html[data-reduce-motion="true"] .ken-burns {
 @media (prefers-reduced-motion: reduce) {
   .art-in,
   .art-out,
-  .ken-burns {
+  .ken-burns,
+  .obra-drift {
     animation: none;
     transition: none;
   }

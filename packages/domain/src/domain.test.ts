@@ -260,7 +260,7 @@ describe("presentation", () => {
 describe("settings parsing", () => {
   it("drops corrupt values", () => {
     const settings = parseSettings({ theme: "neon", textScale: "xl", rate: 8, uiLocale: "en", captions: false });
-    expect(settings.theme).toBe("system");
+    expect(settings.theme).toBe("dark");
     expect(settings.textScale).toBe("xl");
     expect(settings.rate).toBe(1);
     expect(settings.uiLocale).toBe("en");

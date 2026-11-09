@@ -10,6 +10,16 @@ No están en git el texto bíblico (© Conferencia Episcopal Española), los má
 
 El proyecto de Supabase previsto es `qdjowihivtqoelurvyke` (`https://qdjowihivtqoelurvyke.supabase.co`, región `eu-west-1`). La URL está en `.env.example`. Las claves no. Ver `docs/MIGRACION.md`. No se han aplicado migraciones.
 
+## Tipografía
+
+Tokens en `apps/web/src/app/globals.css`:
+
+- `--audite-font-display`: Gazpacho, luego Georgia. Los OTF de Gazpacho (© Santi Rey) no se versionan: la licencia para la app no está confirmada. Si existen en `apps/web/public/fonts/private/` (carpeta ignorada), la web los usa; si no, cae a Georgia.
+- `--audite-font-secundaria` y `--audite-font-text`: Inter (SIL OFL), incrustada en `apps/web/public/fonts/inter/` y en la app Android. Es el texto y la interfaz en web y Android.
+- `--audite-font-ios-system`: `-apple-system, "SF Pro Text", "SF Pro Display", system-ui`. Solo en la app iOS, como fuente del sistema. SF Pro no se incrusta ni se distribuye.
+
+Las capturas locales pueden llevar Gazpacho si los OTF privados están en esa carpeta. Un clon público se ve con Georgia + Inter.
+
 ## What you can do
 
 - Describe the Spanish pilot: Genesis 1–2, 8:18, two recordings joined at 6:07.517. Those audio files are not in this public repository.

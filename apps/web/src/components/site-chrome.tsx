@@ -133,8 +133,8 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-8 text-sm text-muted">
         <p>{t(locale, "footerPilot")}</p>
         <p>{t(locale, "footerLocal")}</p>
-        <Link href="/es" className="underline decoration-border underline-offset-4">
-          audˈte
+        <Link href="/es" className="inline-flex min-h-11 items-center" aria-label="Audite">
+          <Wordmark locale={locale} className="h-6 w-auto" />
         </Link>
         <Link href="/membresia" className="underline decoration-border underline-offset-4">
           {t(locale, "navMembership")}

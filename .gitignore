@@ -31,3 +31,7 @@ content/canon/02_guiones/
 content/canon/04_arte/
 content/canon/05_audio/
 content/canon/catalogo-app.json
+
+# Gazpacho (© Santi Rey). Licencia de app/web no confirmada: no se versiona.
+apps/web/public/fonts/private/
+apps/mobile/assets/fonts/private/

@@ -67,7 +67,7 @@ describe("artwork timing", () => {
     expect(before.captionOpacity).toBe(1);
     expect(after.captionOpacity).toBe(1);
     expect(artworkScale(0, false)).toBe(1);
-    expect(artworkScale(1, false)).toBeCloseTo(1.045);
+    expect(artworkScale(1, false)).toBeCloseTo(1.03);
     expect(artworkScale(1, true)).toBe(1);
   });
 });

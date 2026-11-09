@@ -482,7 +482,7 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
     const origin = window.location.origin;
     navigator.mediaSession.metadata = new MediaMetadata({
       title: episode.title,
-      artist: "audˈte",
+      artist: "Audite",
       album: episode.scriptureRangeLabel,
       artwork: artwork
         ? [{ src: `${origin}${artwork.publicPath}`, sizes: `${artwork.width}x${artwork.height}`, type: "image/jpeg" }]

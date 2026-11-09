@@ -11,7 +11,9 @@
     "./build": "./src/build-catalog.ts",
     "./manifiesto": "./src/manifiesto.ts",
     "./app-catalog": "./src/app-catalog.ts",
-    "./sync": "./src/sync.ts"
+    "./sync": "./src/sync.ts",
+    "./obras": "./src/obras-visibles.ts",
+    "./obras-creditos": "./src/obras.ts"
   },
   "dependencies": {
     "@audite/domain": "0.1.0",

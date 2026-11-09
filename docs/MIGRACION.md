@@ -34,3 +34,7 @@ Cuando se decida conectar la base, y no antes:
 - No activar pagos, precios ni webhooks.
 - No desplegar la web ni enviar la app a una tienda.
 - No enlazar Vercel, Stripe ni otra cuenta desde este repositorio.
+
+## Fuentes
+
+Inter (OFL) va en el repositorio. Gazpacho no: cópialo, si Javier confirma la licencia, a `apps/web/public/fonts/private/` y `apps/mobile/assets/fonts/private/`. Esas carpetas están en `.gitignore`. SF Pro no se copia nunca: en iOS se usa la del sistema (`--audite-font-ios-system`).

@@ -77,7 +77,7 @@ export function episodiosDeLibro<T extends { bookId: string; orden: number }>(ep
 /** Slow drift inside the frame. Reduced motion stays still. Never used to crop. */
 export function artworkScale(spanProgress: number, reduceMotion: boolean): number {
   if (reduceMotion) return 1;
-  return 1 + clamp(spanProgress, 0, 1) * 0.045;
+  return 1 + clamp(spanProgress, 0, 1) * 0.03;
 }
 
 export type ByteRange = { start: number; end: number };

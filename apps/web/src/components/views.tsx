@@ -25,9 +25,11 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { obraDeEpisodio, obrasVisibles } from "@audite/content/obras";
 import { ArtStage } from "@/components/art-stage";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { useLibrary } from "@/components/library";
+import { ObraFoto, Placa } from "@/components/placa";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
@@ -63,67 +65,71 @@ export function TodayScreen() {
     };
   }, [library.catalog.pendientes.length]);
   const primero = library.catalog.pendientes.find((episodio) => episodio.bookId === "gn") ?? primeroRemoto;
+  const obra = obraDeEpisodio(primero?.id ?? episode?.id ?? "gn-01");
 
   return (
-    <Page>
-      <p className="kicker">{t(locale, "todayEyebrow")}</p>
-      <h1 className="mt-3 font-serif text-5xl leading-tight md:text-6xl">{t(locale, "listenTitle")}</h1>
-      <p className="mt-4 text-sm text-muted">
-        {t(locale, "todayDays")} · {days}
-      </p>
-      {!library.hydrated ? <p className="mt-8 text-muted">{t(locale, "listenLoading")}</p> : null}
-      {library.hydrated && episode && library.daily.kind !== "path_complete" ? (
-        <section className="mt-10">
-          <p className="text-sm text-muted">{episode.scriptureRangeLabel}</p>
-          <h2 className="mt-1 font-serif text-4xl leading-tight">{episode.title}</h2>
-          <p className="mt-3 max-w-xl text-muted">{episode.summary[locale]}</p>
-          <p className="mt-4 tabular-nums">
-            {formatClock(resume)} / {formatSpokenDuration(episode.durationSeconds)}
+    <main id="contenido" className="bg-background">
+      <section className="relative min-h-[calc(100svh-7.5rem)] bg-[#0C0B09] text-[#F4ECE2]">
+        {obra ? (
+          <div className="absolute inset-0 overflow-hidden">
+            <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-[#100E0C]/45" />
+          </div>
+        ) : null}
+        <div className="relative z-10 flex min-h-[calc(100svh-7.5rem)] flex-col justify-end px-5 pb-8 pt-8 md:px-10">
+          <p className="kicker text-[#C9A96E]">{t(locale, "todayEyebrow")}</p>
+          <h1 className="font-display mt-3 max-w-xl text-5xl leading-[0.95] md:text-6xl">{t(locale, "listenTitle")}</h1>
+          <p className="mt-4 text-sm text-[#B7AB9C]">
+            {t(locale, "todayDays")} · {days}
           </p>
-          <Button
-            type="button"
-            size="lg"
-            className="mt-6"
-            onClick={() => {
-              if (!onPath) library.addEpisode(episode.id);
-              library.playEpisode(episode.id, false);
-              router.push("/ahora");
-            }}
-          >
-            {onPath && resume > 0 ? t(locale, "todayPrimary") : t(locale, "todayBegin")}
-          </Button>
-        </section>
-      ) : null}
-      {library.hydrated && !episode && library.daily.kind !== "path_complete" ? (
-        <section className="mt-10">
-          <h2 className="font-serif text-4xl leading-tight">{t(locale, "listenComingTitle")}</h2>
-          {primero ? <p className="mt-3 font-serif text-3xl">{rotuloEpisodio(primero, locale) ?? t(locale, "comingSoon")}</p> : null}
-          <p className="mt-3 max-w-xl text-muted">{t(locale, "listenComingBody")}</p>
-        </section>
-      ) : null}
-      {library.hydrated && library.daily.kind === "path_complete" ? (
-        <section className="mt-10">
-          <h2 className="font-serif text-3xl">{t(locale, "listenDoneTitle")}</h2>
-          <p className="mt-3 text-muted">{t(locale, "listenDoneBody")}</p>
-          {episode ? (
-            <Button
-              type="button"
-              className="mt-6"
-              onClick={() => {
-                library.playEpisode(episode.id, true);
-                router.push("/ahora");
-              }}
-            >
-              {t(locale, "listenRestart")}
-            </Button>
+          {!library.hydrated ? <p className="mt-6 text-[#B7AB9C]">{t(locale, "listenLoading")}</p> : null}
+          {library.hydrated && episode && library.daily.kind !== "path_complete" ? (
+            <div className="mt-6 max-w-xl">
+              <p className="text-sm text-[#B7AB9C]">{episode.scriptureRangeLabel}</p>
+              <h2 className="mt-1 font-serif text-4xl leading-tight">{episode.title}</h2>
+              <p className="mt-3 tabular-nums">
+                {formatClock(resume)} / {formatSpokenDuration(episode.durationSeconds)}
+              </p>
+              <Button
+                type="button"
+                size="lg"
+                className="mt-6"
+                onClick={() => {
+                  if (!onPath) library.addEpisode(episode.id);
+                  library.playEpisode(episode.id, false);
+                  router.push("/ahora");
+                }}
+              >
+                {onPath && resume > 0 ? t(locale, "todayPrimary") : t(locale, "todayBegin")}
+              </Button>
+            </div>
           ) : null}
-        </section>
-      ) : null}
-      <p className="mt-12 max-w-xl text-sm leading-relaxed text-muted">{t(locale, "homeLede")}</p>
-      <p className="mt-3 text-sm text-muted">
-        {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
-      </p>
-    </Page>
+          {library.hydrated && !episode && library.daily.kind !== "path_complete" ? (
+            <div className="mt-6 max-w-xl">
+              {primero ? <p className="font-serif text-4xl leading-tight">{rotuloEpisodio(primero, locale) ?? t(locale, "comingSoon")}</p> : <h2 className="font-serif text-4xl leading-tight">{t(locale, "listenComingTitle")}</h2>}
+              <p className="mt-3 text-[#B7AB9C]">{t(locale, "listenComingBody")}</p>
+              <Button asChild className="mt-6" size="lg">
+                <Link href="/ahora">{t(locale, "catalogListen")}</Link>
+              </Button>
+            </div>
+          ) : null}
+          {library.hydrated && library.daily.kind === "path_complete" ? (
+            <div className="mt-6">
+              <h2 className="font-serif text-3xl">{t(locale, "listenDoneTitle")}</h2>
+              <p className="mt-3 text-[#B7AB9C]">{t(locale, "listenDoneBody")}</p>
+            </div>
+          ) : null}
+          {obra ? (
+            <div className="mt-8 max-w-xl">
+              <Placa obra={obra} lang={locale} />
+            </div>
+          ) : null}
+          <p className="mt-6 max-w-xl text-sm text-[#B7AB9C]">
+            {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }
 
@@ -136,7 +142,36 @@ export function NowPlayingScreen() {
   useEffect(() => {
     if (hydrated && episode) loadEpisode(episode.id);
   }, [episode, hydrated, loadEpisode]);
-  if (!episode) return null;
+  if (!episode) {
+    const obra = obraDeEpisodio("gn-01");
+    return (
+      <section aria-label={t(locale, "nowKicker")} className="fixed inset-0 z-50 overflow-hidden bg-[#0C0B09] text-[#F4ECE2]">
+        {obra ? (
+          <div className="absolute inset-0">
+            <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-[#100E0C]/40" />
+          </div>
+        ) : null}
+        <div className="relative z-10 flex h-full flex-col justify-between px-4 py-4">
+          <header className="flex items-center justify-between">
+            <Link href="/escuchar" className="inline-flex min-h-11 items-center text-sm text-[#E0C48A]">
+              {t(locale, "navListen")}
+            </Link>
+            <p className="kicker text-[#C9A96E]">{t(locale, "nowKicker")}</p>
+          </header>
+          <div className="pb-6">
+            <h1 className="font-display max-w-xl text-4xl">{t(locale, "listenComingTitle")}</h1>
+            <p className="mt-3 max-w-md text-[#B7AB9C]">{t(locale, "listenComingBody")}</p>
+            {obra ? (
+              <div className="mt-6 max-w-xl">
+                <Placa obra={obra} lang={locale} />
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+    );
+  }
   const active = library.player.episodeId === episode.id;
   const time = active ? library.player.globalTime : 0;
   const frame = frameAt(library.catalog.cues, library.catalog.captions, time, library.reduceMotion);
@@ -249,6 +284,18 @@ export function PathScreen() {
       <p className="kicker">{t(locale, "navPath")}</p>
       <h1 className="mt-3 max-w-3xl font-serif text-5xl">{t(locale, "pathTitle")}</h1>
       <p className="mt-4 max-w-2xl text-muted">{t(locale, "pathIntro")}</p>
+      <ul className="mt-8 flex gap-3 overflow-x-auto pb-2">
+        {obrasVisibles().map((obra) => (
+          <li key={obra.id} className="w-36 shrink-0">
+            <Link href={`/${locale}/catalogo/${obra.episodio}`} className="block min-h-11">
+              <span className="block aspect-[3/4] overflow-hidden bg-[#0C0B09]">
+                <ObraFoto obra={obra} className="h-full w-full object-cover" />
+              </span>
+              <span className="mt-2 block text-[11px] tracking-[0.14em] text-brand uppercase">{obra.numero}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
       {episode ? (
         <Button
           type="button"

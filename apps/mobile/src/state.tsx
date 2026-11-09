@@ -106,7 +106,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     const source = artwork ? { uri: `${contentBase}${artwork.publicPath}` } : null;
     playlist.setActiveForLockScreen(true, {
       title: episode.title,
-      artist: "audˈte",
+      artist: "Audite",
       albumTitle: episode.scriptureRangeLabel,
       artworkUrl: source?.uri,
     });

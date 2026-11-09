@@ -1,10 +1,7 @@
-import { Fraunces_600SemiBold } from "@expo-google-fonts/fraunces/600SemiBold";
-import { Outfit_400Regular } from "@expo-google-fonts/outfit/400Regular";
-import { Outfit_500Medium } from "@expo-google-fonts/outfit/500Medium";
 import { useFonts } from "expo-font";
 import { t } from "@audite/domain";
 import { Stack, usePathname, useRouter } from "expo-router";
-import { Pressable, Text, View, useColorScheme } from "react-native";
+import { Platform, Pressable, Text, View, useColorScheme } from "react-native";
 import { Mark, Wordmark } from "../brand";
 import { MobileProvider, useMobileLibrary } from "../state";
 import { dark, fonts, light } from "../theme";
@@ -71,7 +68,7 @@ function Shell() {
 }
 
 export default function Layout() {
-  useFonts({ Fraunces_600SemiBold, Outfit_400Regular, Outfit_500Medium });
+  useFonts(Platform.OS === "ios" ? {} : { Inter: require("../../assets/fonts/inter/InterVariable.ttf") });
   return (
     <MobileProvider>
       <Shell />

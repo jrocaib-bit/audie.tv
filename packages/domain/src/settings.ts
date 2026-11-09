@@ -25,7 +25,7 @@ export const STORAGE_KEYS = {
 export function defaultSettings(): Settings {
   return {
     version: 1,
-    theme: "system",
+    theme: "dark",
     textScale: "md",
     reduceMotion: false,
     captions: true,

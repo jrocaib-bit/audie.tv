@@ -1,0 +1,640 @@
+[
+  {
+    "id": "gn-01_o5",
+    "episodio": "gn-01",
+    "numero": 1,
+    "capitulos": "Gn 1–2",
+    "titulo": {
+      "es": "El paraíso",
+      "en": "Paradise"
+    },
+    "autor": {
+      "es": "Herri met de Bles",
+      "en": "Herri met de Bles"
+    },
+    "fecha": "c. 1541–1550",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "El paraíso · Herri met de Bles · c. 1541–1550 · Rijksmuseum, Ámsterdam",
+      "en": "Paradise · Herri met de Bles · c. 1541–1550 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "El jardín del Edén y la creación de la mujer",
+      "en": "The Garden of Eden and the creation of woman"
+    },
+    "ancho": 960,
+    "alto": 999
+  },
+  {
+    "id": "gn-02_o1",
+    "episodio": "gn-02",
+    "numero": 2,
+    "capitulos": "Gn 3–5",
+    "titulo": {
+      "es": "La creación del mundo y la expulsión del Paraíso",
+      "en": "The Creation of the World and the Expulsion from Paradise"
+    },
+    "autor": {
+      "es": "Giovanni di Paolo",
+      "en": "Giovanni di Paolo"
+    },
+    "fecha": "1445",
+    "ubicacion": {
+      "es": "The Metropolitan Museum of Art, Nueva York",
+      "en": "The Metropolitan Museum of Art, New York"
+    },
+    "placa": {
+      "es": "La creación del mundo y la expulsión del Paraíso · Giovanni di Paolo · 1445 · The Metropolitan Museum of Art, Nueva York",
+      "en": "The Creation of the World and the Expulsion from Paradise · Giovanni di Paolo · 1445 · The Metropolitan Museum of Art, New York"
+    },
+    "escena": {
+      "es": "Expulsión del Paraíso",
+      "en": "Expulsion from Paradise"
+    },
+    "ancho": 960,
+    "alto": 854
+  },
+  {
+    "id": "gn-03_o1",
+    "episodio": "gn-03",
+    "numero": 3,
+    "capitulos": "Gn 6–9",
+    "titulo": {
+      "es": "Entrada de los animales en el arca de Noé",
+      "en": "The Entry of the Animals into Noah’s Ark"
+    },
+    "autor": {
+      "es": "Jan Brueghel el Viejo",
+      "en": "Jan Brueghel the Elder"
+    },
+    "fecha": "1613",
+    "ubicacion": {
+      "es": "J. Paul Getty Museum, Los Ángeles",
+      "en": "J. Paul Getty Museum, Los Angeles"
+    },
+    "placa": {
+      "es": "Entrada de los animales en el arca de Noé · Jan Brueghel el Viejo · 1613 · J. Paul Getty Museum, Los Ángeles",
+      "en": "The Entry of the Animals into Noah’s Ark · Jan Brueghel the Elder · 1613 · J. Paul Getty Museum, Los Angeles"
+    },
+    "escena": {
+      "es": "Entrada de los animales en el arca",
+      "en": "The animals enter the ark"
+    },
+    "ancho": 960,
+    "alto": 608
+  },
+  {
+    "id": "gn-04_o1",
+    "episodio": "gn-04",
+    "numero": 4,
+    "capitulos": "Gn 10–12",
+    "titulo": {
+      "es": "La torre de Babel",
+      "en": "The Tower of Babel"
+    },
+    "autor": {
+      "es": "Pieter Brueghel el Viejo",
+      "en": "Pieter Bruegel the Elder"
+    },
+    "fecha": "1563",
+    "ubicacion": {
+      "es": "Kunsthistorisches Museum, Viena",
+      "en": "Kunsthistorisches Museum, Vienna"
+    },
+    "placa": {
+      "es": "La torre de Babel · Pieter Brueghel el Viejo · 1563 · Kunsthistorisches Museum, Viena",
+      "en": "The Tower of Babel · Pieter Bruegel the Elder · 1563 · Kunsthistorisches Museum, Vienna"
+    },
+    "escena": {
+      "es": "La torre de Babel",
+      "en": "The Tower of Babel"
+    },
+    "ancho": 960,
+    "alto": 703
+  },
+  {
+    "id": "gn-05_o1",
+    "episodio": "gn-05",
+    "numero": 5,
+    "capitulos": "Gn 13–15",
+    "titulo": {
+      "es": "El encuentro de Abraham y Melquisedec",
+      "en": "The Meeting of Abraham and Melchizedek"
+    },
+    "autor": {
+      "es": "Pedro Pablo Rubens",
+      "en": "Peter Paul Rubens"
+    },
+    "fecha": "c. 1626",
+    "ubicacion": {
+      "es": "National Gallery of Art, Washington",
+      "en": "National Gallery of Art, Washington"
+    },
+    "placa": {
+      "es": "El encuentro de Abraham y Melquisedec · Pedro Pablo Rubens · c. 1626 · National Gallery of Art, Washington",
+      "en": "The Meeting of Abraham and Melchizedek · Peter Paul Rubens · c. 1626 · National Gallery of Art, Washington"
+    },
+    "escena": {
+      "es": "Melquisedec bendice a Abrán",
+      "en": "Melchizedek blesses Abram"
+    },
+    "ancho": 960,
+    "alto": 766
+  },
+  {
+    "id": "gn-06_o2",
+    "episodio": "gn-06",
+    "numero": 6,
+    "capitulos": "Gn 16–18",
+    "titulo": {
+      "es": "La Trinidad (Hospitalidad de Abraham)",
+      "en": "The Trinity (Hospitality of Abraham)"
+    },
+    "autor": {
+      "es": "Andréi Rubliov",
+      "en": "Andrei Rublev"
+    },
+    "fecha": "c. 1411 o 1425–1427",
+    "ubicacion": {
+      "es": "Galería Estatal Tretiakov, Moscú",
+      "en": "State Tretyakov Gallery, Moscow"
+    },
+    "placa": {
+      "es": "La Trinidad (Hospitalidad de Abraham) · Andréi Rubliov · c. 1411 o 1425–1427 · Galería Estatal Tretiakov, Moscú",
+      "en": "The Trinity (Hospitality of Abraham) · Andrei Rublev · c. 1411 o 1425–1427 · State Tretyakov Gallery, Moscow"
+    },
+    "escena": {
+      "es": "Los tres visitantes en Mambré",
+      "en": "The three visitors at Mamre"
+    },
+    "ancho": 960,
+    "alto": 1189
+  },
+  {
+    "id": "gn-07_o2",
+    "episodio": "gn-07",
+    "numero": 7,
+    "capitulos": "Gn 19–20",
+    "titulo": {
+      "es": "Lot y sus hijas (reverso)",
+      "en": "Lot and His Daughters [reverse]"
+    },
+    "autor": {
+      "es": "Alberto Durero",
+      "en": "Albrecht Dürer"
+    },
+    "fecha": "c. 1496–1499",
+    "ubicacion": {
+      "es": "National Gallery of Art, Washington",
+      "en": "National Gallery of Art, Washington"
+    },
+    "placa": {
+      "es": "Lot y sus hijas (reverso) · Alberto Durero · c. 1496–1499 · National Gallery of Art, Washington",
+      "en": "Lot and His Daughters [reverse] · Albrecht Dürer · c. 1496–1499 · National Gallery of Art, Washington"
+    },
+    "escena": {
+      "es": "Lot huye de Sodoma; la mujer de Lot mira atrás",
+      "en": "Lot flees Sodom; Lot's wife looks back"
+    },
+    "ancho": 960,
+    "alto": 1193
+  },
+  {
+    "id": "gn-08_o2",
+    "episodio": "gn-08",
+    "numero": 8,
+    "capitulos": "Gn 21–23",
+    "titulo": {
+      "es": "El sacrificio de Isaac",
+      "en": "The Sacrifice of Isaac"
+    },
+    "autor": {
+      "es": "Rembrandt",
+      "en": "Rembrandt"
+    },
+    "fecha": "1635",
+    "ubicacion": {
+      "es": "Museo del Hermitage, San Petersburgo",
+      "en": "Hermitage Museum, Saint Petersburg"
+    },
+    "placa": {
+      "es": "El sacrificio de Isaac · Rembrandt · 1635 · Museo del Hermitage, San Petersburgo",
+      "en": "The Sacrifice of Isaac · Rembrandt · 1635 · Hermitage Museum, Saint Petersburg"
+    },
+    "escena": {
+      "es": "El sacrificio de Isaac",
+      "en": "The sacrifice of Isaac"
+    },
+    "ancho": 960,
+    "alto": 1412
+  },
+  {
+    "id": "gn-09_o1",
+    "episodio": "gn-09",
+    "numero": 9,
+    "capitulos": "Gn 24",
+    "titulo": {
+      "es": "Rebeca y Eliezer",
+      "en": "Rebecca and Eliezer"
+    },
+    "autor": {
+      "es": "Claudio de Lorena",
+      "en": "Claude Lorrain"
+    },
+    "fecha": "c. 1638–1641",
+    "ubicacion": {
+      "es": "The Metropolitan Museum of Art, Nueva York",
+      "en": "The Metropolitan Museum of Art, New York"
+    },
+    "placa": {
+      "es": "Rebeca y Eliezer · Claudio de Lorena · c. 1638–1641 · The Metropolitan Museum of Art, Nueva York",
+      "en": "Rebecca and Eliezer · Claude Lorrain · c. 1638–1641 · The Metropolitan Museum of Art, New York"
+    },
+    "escena": {
+      "es": "Rebeca y Eliezer en el pozo",
+      "en": "Rebecca and Eliezer at the well"
+    },
+    "ancho": 960,
+    "alto": 665
+  },
+  {
+    "id": "gn-10_o1",
+    "episodio": "gn-10",
+    "numero": 10,
+    "capitulos": "Gn 25–26",
+    "titulo": {
+      "es": "Esaú vende su primogenitura",
+      "en": "Esau selling his Birthright"
+    },
+    "autor": {
+      "es": "Copia según Paulus Moreelse",
+      "en": "Copy after Paulus Moreelse"
+    },
+    "fecha": "1609",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "Esaú vende su primogenitura · Copia según Paulus Moreelse · 1609 · Rijksmuseum, Ámsterdam",
+      "en": "Esau selling his Birthright · Copy after Paulus Moreelse · 1609 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "Esaú vende la primogenitura por un plato de lentejas",
+      "en": "Esau sells his birthright for a dish of lentils"
+    },
+    "ancho": 960,
+    "alto": 738
+  },
+  {
+    "id": "gn-11_o4",
+    "episodio": "gn-11",
+    "numero": 11,
+    "capitulos": "Gn 27–28",
+    "titulo": {
+      "es": "El sueño de Jacob",
+      "en": "Jacob’s Dream"
+    },
+    "autor": {
+      "es": "Ary de Vois",
+      "en": "Ary de Vois"
+    },
+    "fecha": "1660–1680",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "El sueño de Jacob · Ary de Vois · 1660–1680 · Rijksmuseum, Ámsterdam",
+      "en": "Jacob’s Dream · Ary de Vois · 1660–1680 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "El sueño de Jacob",
+      "en": "Jacob’s dream"
+    },
+    "ancho": 960,
+    "alto": 720
+  },
+  {
+    "id": "gn-12_o1",
+    "episodio": "gn-12",
+    "numero": 12,
+    "capitulos": "Gn 29–30",
+    "titulo": {
+      "es": "El encuentro de Jacob y Raquel",
+      "en": "The Meeting of Jacob and Rachel"
+    },
+    "autor": {
+      "es": "Claes Moeyaert",
+      "en": "Claes Moeyaert"
+    },
+    "fecha": "1638",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "El encuentro de Jacob y Raquel · Claes Moeyaert · 1638 · Rijksmuseum, Ámsterdam",
+      "en": "The Meeting of Jacob and Rachel · Claes Moeyaert · 1638 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "Encuentro de Jacob y Raquel junto al pozo",
+      "en": "Jacob meets Rachel at the well"
+    },
+    "ancho": 960,
+    "alto": 641
+  },
+  {
+    "id": "gn-13_o1",
+    "episodio": "gn-13",
+    "numero": 13,
+    "capitulos": "Gn 31",
+    "titulo": {
+      "es": "Labán persigue a Jacob («Liber Genesis»)",
+      "en": "Laban Pursues Jacob (“Liber Genesis”)"
+    },
+    "autor": {
+      "es": "Crispijn de Passe el Viejo",
+      "en": "Crispijn de Passe the Elder"
+    },
+    "fecha": "1700–1750 (edición de Isaac Greve)",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "Labán persigue a Jacob («Liber Genesis») · Crispijn de Passe el Viejo · 1700–1750 (edición de Isaac Greve) · Rijksmuseum, Ámsterdam",
+      "en": "Laban Pursues Jacob (“Liber Genesis”) · Crispijn de Passe the Elder · 1700–1750 (edición de Isaac Greve) · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "Labán persigue a Jacob",
+      "en": "Laban pursues Jacob"
+    },
+    "ancho": 960,
+    "alto": 704
+  },
+  {
+    "id": "gn-14_o1",
+    "episodio": "gn-14",
+    "numero": 14,
+    "capitulos": "Gn 32–33",
+    "titulo": {
+      "es": "Jacob lucha con el ángel",
+      "en": "Jacob Wrestling with the Angel"
+    },
+    "autor": {
+      "es": "Rembrandt",
+      "en": "Rembrandt"
+    },
+    "fecha": "c. 1659",
+    "ubicacion": {
+      "es": "Gemäldegalerie, Staatliche Museen zu Berlin",
+      "en": "Gemäldegalerie, Staatliche Museen zu Berlin"
+    },
+    "placa": {
+      "es": "Jacob lucha con el ángel · Rembrandt · c. 1659 · Gemäldegalerie, Staatliche Museen zu Berlin",
+      "en": "Jacob Wrestling with the Angel · Rembrandt · c. 1659 · Gemäldegalerie, Staatliche Museen zu Berlin"
+    },
+    "escena": {
+      "es": "Jacob lucha con el ángel",
+      "en": "Jacob wrestles with the angel"
+    },
+    "ancho": 960,
+    "alto": 1145
+  },
+  {
+    "id": "gn-15_o2",
+    "episodio": "gn-15",
+    "numero": 15,
+    "capitulos": "Gn 34–36",
+    "titulo": {
+      "es": "Dios bendice a Jacob y le llama Israel",
+      "en": "God Blesses Jacob and Names Him Israel"
+    },
+    "autor": {
+      "es": "Pieter van der Borcht (I)",
+      "en": "Pieter van der Borcht (I)"
+    },
+    "fecha": "1582–1592",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "Dios bendice a Jacob y le llama Israel · Pieter van der Borcht (I) · 1582–1592 · Rijksmuseum, Ámsterdam",
+      "en": "God Blesses Jacob and Names Him Israel · Pieter van der Borcht (I) · 1582–1592 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "Dios bendice a Jacob en Betel y le llama Israel",
+      "en": "God blesses Jacob at Bethel and names him Israel"
+    },
+    "ancho": 960,
+    "alto": 759
+  },
+  {
+    "id": "gn-16_o2",
+    "episodio": "gn-16",
+    "numero": 16,
+    "capitulos": "Gn 37–38",
+    "titulo": {
+      "es": "José cuenta sus sueños a sus padres y hermanos",
+      "en": "Joseph Telling his Dreams to his Parents and Brothers"
+    },
+    "autor": {
+      "es": "Rembrandt",
+      "en": "Rembrandt"
+    },
+    "fecha": "1633",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "José cuenta sus sueños a sus padres y hermanos · Rembrandt · 1633 · Rijksmuseum, Ámsterdam",
+      "en": "Joseph Telling his Dreams to his Parents and Brothers · Rembrandt · 1633 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "José cuenta sus sueños",
+      "en": "Joseph tells his dreams"
+    },
+    "ancho": 960,
+    "alto": 1253
+  },
+  {
+    "id": "gn-17_o1",
+    "episodio": "gn-17",
+    "numero": 17,
+    "capitulos": "Gn 39–40",
+    "titulo": {
+      "es": "José y la mujer de Putifar",
+      "en": "Joseph and Potiphar’s Wife"
+    },
+    "autor": {
+      "es": "Guido Reni",
+      "en": "Guido Reni"
+    },
+    "fecha": "c. 1630",
+    "ubicacion": {
+      "es": "J. Paul Getty Museum, Los Ángeles",
+      "en": "J. Paul Getty Museum, Los Angeles"
+    },
+    "placa": {
+      "es": "José y la mujer de Putifar · Guido Reni · c. 1630 · J. Paul Getty Museum, Los Ángeles",
+      "en": "Joseph and Potiphar’s Wife · Guido Reni · c. 1630 · J. Paul Getty Museum, Los Angeles"
+    },
+    "escena": {
+      "es": "José y la mujer de Putifar",
+      "en": "Joseph and Potiphar’s wife"
+    },
+    "ancho": 960,
+    "alto": 713
+  },
+  {
+    "id": "gn-18_o1",
+    "episodio": "gn-18",
+    "numero": 18,
+    "capitulos": "Gn 41",
+    "titulo": {
+      "es": "José interpreta los sueños del faraón",
+      "en": "Joseph Interpreting the Dreams of Pharaoh"
+    },
+    "autor": {
+      "es": "Atribuido a Jörg Breu el Joven",
+      "en": "Attributed to Jörg Breu the Younger"
+    },
+    "fecha": "c. 1534–1547",
+    "ubicacion": {
+      "es": "The Metropolitan Museum of Art, Nueva York",
+      "en": "The Metropolitan Museum of Art, New York"
+    },
+    "placa": {
+      "es": "José interpreta los sueños del faraón · Atribuido a Jörg Breu el Joven · c. 1534–1547 · The Metropolitan Museum of Art, Nueva York",
+      "en": "Joseph Interpreting the Dreams of Pharaoh · Attributed to Jörg Breu the Younger · c. 1534–1547 · The Metropolitan Museum of Art, New York"
+    },
+    "escena": {
+      "es": "José interpreta los sueños del faraón",
+      "en": "Joseph interprets Pharaoh's dreams"
+    },
+    "ancho": 960,
+    "alto": 1128
+  },
+  {
+    "id": "gn-19_o1",
+    "episodio": "gn-19",
+    "numero": 19,
+    "capitulos": "Gn 42–43",
+    "titulo": {
+      "es": "José vendiendo grano",
+      "en": "Joseph Selling Corn"
+    },
+    "autor": {
+      "es": "Jacob Willemsz. de Wet el Viejo",
+      "en": "Jacob Willemsz de Wet the Elder"
+    },
+    "fecha": "década de 1660",
+    "ubicacion": {
+      "es": "Museo Nacional de Varsovia",
+      "en": "National Museum in Warsaw"
+    },
+    "placa": {
+      "es": "José vendiendo grano · Jacob Willemsz. de Wet el Viejo · década de 1660 · Museo Nacional de Varsovia",
+      "en": "Joseph Selling Corn · Jacob Willemsz de Wet the Elder · década de 1660 · National Museum in Warsaw"
+    },
+    "escena": {
+      "es": "José, gobernador de Egipto, vende grano; sus hermanos se postran ante él",
+      "en": "Joseph, governor of Egypt, sells grain; his brothers bow before him"
+    },
+    "ancho": 960,
+    "alto": 759
+  },
+  {
+    "id": "gn-20_o1",
+    "episodio": "gn-20",
+    "numero": 20,
+    "capitulos": "Gn 44–45",
+    "titulo": {
+      "es": "José se da a conocer a sus hermanos (frescos de la Casa Bartholdy)",
+      "en": "Joseph Reveals Himself to His Brothers (Casa Bartholdy frescoes)"
+    },
+    "autor": {
+      "es": "Peter von Cornelius",
+      "en": "Peter von Cornelius"
+    },
+    "fecha": "1816–1817",
+    "ubicacion": {
+      "es": "Alte Nationalgalerie, Staatliche Museen zu Berlin",
+      "en": "Alte Nationalgalerie, Staatliche Museen zu Berlin"
+    },
+    "placa": {
+      "es": "José se da a conocer a sus hermanos (frescos de la Casa Bartholdy) · Peter von Cornelius · 1816–1817 · Alte Nationalgalerie, Staatliche Museen zu Berlin",
+      "en": "Joseph Reveals Himself to His Brothers (Casa Bartholdy frescoes) · Peter von Cornelius · 1816–1817 · Alte Nationalgalerie, Staatliche Museen zu Berlin"
+    },
+    "escena": {
+      "es": "José se da a conocer a sus hermanos",
+      "en": "Joseph reveals himself to his brothers"
+    },
+    "ancho": 960,
+    "alto": 779
+  },
+  {
+    "id": "gn-21_o1",
+    "episodio": "gn-21",
+    "numero": 21,
+    "capitulos": "Gn 46–47",
+    "titulo": {
+      "es": "José presenta a Jacob al faraón",
+      "en": "Jacob Is Presented to Pharaoh by Joseph"
+    },
+    "autor": {
+      "es": "Christoffel van Sichem (II) / (III)",
+      "en": "Christoffel van Sichem (II) / (III)"
+    },
+    "fecha": "1645–1646 y/o 1740",
+    "ubicacion": {
+      "es": "Rijksmuseum, Ámsterdam",
+      "en": "Rijksmuseum, Amsterdam"
+    },
+    "placa": {
+      "es": "José presenta a Jacob al faraón · Christoffel van Sichem (II) / (III) · 1645–1646 y/o 1740 · Rijksmuseum, Ámsterdam",
+      "en": "Jacob Is Presented to Pharaoh by Joseph · Christoffel van Sichem (II) / (III) · 1645–1646 y/o 1740 · Rijksmuseum, Amsterdam"
+    },
+    "escena": {
+      "es": "José presenta a Jacob al faraón, que les da la tierra de Gosén",
+      "en": "Joseph presents Jacob to Pharaoh, who gives them the land of Goshen"
+    },
+    "ancho": 960,
+    "alto": 1325
+  },
+  {
+    "id": "gn-22_o1",
+    "episodio": "gn-22",
+    "numero": 22,
+    "capitulos": "Gn 48–50",
+    "titulo": {
+      "es": "Jacob bendice a los hijos de José",
+      "en": "Jacob Blessing the Sons of Joseph"
+    },
+    "autor": {
+      "es": "Rembrandt",
+      "en": "Rembrandt"
+    },
+    "fecha": "1656",
+    "ubicacion": {
+      "es": "Gemäldegalerie Alte Meister, Kassel",
+      "en": "Gemäldegalerie Alte Meister, Kassel"
+    },
+    "placa": {
+      "es": "Jacob bendice a los hijos de José · Rembrandt · 1656 · Gemäldegalerie Alte Meister, Kassel",
+      "en": "Jacob Blessing the Sons of Joseph · Rembrandt · 1656 · Gemäldegalerie Alte Meister, Kassel"
+    },
+    "escena": {
+      "es": "Jacob bendice a Efraín y Manasés",
+      "en": "Jacob blesses Ephraim and Manasseh"
+    },
+    "ancho": 960,
+    "alto": 814
+  }
+]
