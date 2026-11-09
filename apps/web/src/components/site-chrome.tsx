@@ -1,6 +1,6 @@
 "use client";
 
-import { formatClock, nombreCorto, playableEpisodes, t, type MessageKey } from "@audite/domain";
+import { formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
@@ -8,11 +8,10 @@ import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
 import { esRutaPublica } from "@/sitio/i18n";
 
-const links: Array<{ href: string; key: MessageKey }> = [
-  { href: "/escuchar", key: "navListen" },
-  { href: "/camino", key: "navPath" },
-  { href: "/biblioteca", key: "navLibrary" },
-  { href: "/ajustes", key: "navSettings" },
+const links = [
+  { href: "/escuchar", es: "Inicio", en: "Home" },
+  { href: "/buscar", es: "Buscar", en: "Search" },
+  { href: "/biblioteca", es: "Biblioteca", en: "Library" },
 ];
 
 function active(pathname: string, href: string): boolean {
@@ -48,7 +47,7 @@ export function SiteHeader() {
                 aria-current={current ? "page" : undefined}
                 className={`inline-flex min-h-11 items-center rounded-full px-3 text-sm ${current ? "bg-foreground text-background" : "text-muted"}`}
               >
-                {t(locale, link.key)}
+                {locale === "en" ? link.en : link.es}
               </Link>
             );
           })}
@@ -66,7 +65,7 @@ export function TabBar() {
   return (
     <nav
       aria-label={t(locale, "wordmark")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
     >
       {links.map((link) => {
         const current = active(pathname, link.href);
@@ -78,7 +77,7 @@ export function TabBar() {
             className={`flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
             <span className={`h-0.5 w-4 rounded-full ${current ? "bg-acento" : "bg-transparent"}`} />
-            {t(locale, link.key)}
+            {locale === "en" ? link.en : link.es}
           </Link>
         );
       })}

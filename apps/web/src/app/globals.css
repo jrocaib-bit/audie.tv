@@ -150,6 +150,12 @@ body {
   padding-bottom: calc(14rem + env(safe-area-inset-bottom));
 }
 
+.estante {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.estante::-webkit-scrollbar { display: none; }
+
 html[data-reduce-motion="true"] .neo-card,
 html[data-reduce-motion="true"] .neo-chip {
   transition: none;
