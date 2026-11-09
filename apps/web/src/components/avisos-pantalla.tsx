@@ -1,7 +1,7 @@
 "use client";
 
-import { CLAVE_AVISOS, parsePlanAviso, planVacio, proximosAvisos, textoAviso, type DiaAviso, type PlanAviso } from "@audite/domain";
-import { useSyncExternalStore, useState } from "react";
+import { CLAVE_AVISOS, diaLiturgico, parsePlanAviso, planVacio, textoDiaLiturgico, type DiaAviso, type PlanAviso } from "@audite/domain";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
 
 const vacio = planVacio();
@@ -49,10 +49,9 @@ export function AvisosPantalla() {
     () => vacio,
   );
   const [hora, setHora] = useState(`${String(actual.hora).padStart(2, "0")}:${String(actual.minuto).padStart(2, "0")}`);
-  const texto = textoAviso(locale, locale === "en" ? "Genesis" : "Génesis", 3);
+  const texto = useMemo(() => textoDiaLiturgico(diaLiturgico(new Date()), locale), [locale]);
   const [horas, minutos] = hora.split(":").map((parte) => Number(parte));
   const previsto = { ...actual, hora: Number.isFinite(horas) ? horas : actual.hora, minuto: Number.isFinite(minutos) ? minutos : actual.minuto };
-  const siguientes = proximosAvisos(previsto, new Date(), texto);
 
   function cambiar(parcial: Partial<PlanAviso>) {
     const siguiente = parsePlanAviso({ ...previsto, ...parcial });
@@ -85,13 +84,7 @@ export function AvisosPantalla() {
         </div>
       </section>
       <section className="neo-card mt-3 p-4">
-        <p className="kicker text-muted">{locale === "en" ? "Preview" : "Así sonaría"}</p>
-        <p className="font-display mt-2 text-3xl leading-tight">{texto}</p>
-        <p className="mt-2 text-sm text-muted">
-          {actual.activo && siguientes[0]
-            ? (locale === "en" ? `Next: ${new Date(siguientes[0].en).toLocaleString("en")}` : `Siguiente: ${new Date(siguientes[0].en).toLocaleString("es")}`)
-            : (locale === "en" ? "Turn them on to schedule this device." : "Actívalos para programar este dispositivo.")}
-        </p>
+        <p className="font-display text-3xl leading-tight">{texto}</p>
       </section>
     </main>
   );

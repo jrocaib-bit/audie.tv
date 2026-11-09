@@ -78,12 +78,12 @@ export function BuscarV2() {
               const obra = obrasPara(item.clave, 1)[0];
               const titulo = es ? item.es : item.en;
               return (
-                <button key={item.id} type="button" className="relative min-h-28 overflow-hidden rounded-2xl p-3 text-left" style={{ background: item.color }} onClick={() => setCategoria(item.id)}>
+                <button key={item.id} type="button" className="relative grid h-28 grid-cols-[minmax(0,1fr)_2.75rem] overflow-hidden rounded-2xl p-3 text-left" style={{ background: item.color }} onClick={() => setCategoria(item.id)}>
+                  <span className="font-display text-base leading-tight text-[#F4ECE2]">{titulo}</span>
                   {obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(obra)} alt="" className="pointer-events-none absolute -right-2 -bottom-3 size-[4.5rem] rotate-[18deg] rounded-md object-cover shadow-lg" />
+                    <img src={obraWebp(obra)} alt="" className="absolute right-3 bottom-3 size-11 rotate-[14deg] rounded-md object-cover shadow-md" />
                   ) : null}
-                  <span className={`relative font-display leading-none whitespace-nowrap text-[#F4ECE2] ${titulo.length > 10 ? "text-lg" : "text-xl"}`}>{titulo}</span>
                 </button>
               );
             })}

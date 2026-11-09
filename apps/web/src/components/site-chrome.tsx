@@ -1,12 +1,13 @@
 "use client";
 
-import { formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
+import { COLOR_HEX, diaLiturgico, formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useRef } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useRef } from "react";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
+import { fechaDeCuando } from "@/lib/cuando";
 import { esRutaPublica } from "@/sitio/i18n";
 
 const links = [
@@ -97,7 +98,9 @@ export function MiniPlayer() {
   const { catalog, player, settings, toggle } = useLibrary();
   const locale = settings.uiLocale;
   const router = useRouter();
+  const cuando = useSearchParams().get("cuando");
   const origen = useRef(0);
+  const colorDia = COLOR_HEX[diaLiturgico(useMemo(() => fechaDeCuando(cuando), [cuando])).color];
   if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
   const episode = catalog.episodes.find((item) => item.id === player.episodeId);
   const listo = playableEpisodes(catalog)[0] ?? null;
@@ -113,7 +116,7 @@ export function MiniPlayer() {
     >
       <div className="neo-card relative mx-auto flex w-full max-w-lg items-center gap-3 overflow-hidden bg-background/75 px-3 py-2 backdrop-blur-md">
         <span className="absolute inset-x-0 bottom-0 h-0.5 bg-foreground/10">
-          <span className="block h-full bg-acento transition-[width] duration-300" style={{ width: `${fraccion * 100}%` }} />
+          <span className="block h-full transition-[width] duration-300" style={{ width: `${fraccion * 100}%`, background: colorDia }} />
         </span>
         <Link href="/ahora" className="flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (

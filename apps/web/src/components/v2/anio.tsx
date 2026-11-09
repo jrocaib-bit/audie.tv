@@ -1,6 +1,6 @@
 "use client";
 
-import { resumenAnio } from "@audite/domain";
+import { diaLiturgico, resumenAnio } from "@audite/domain";
 import { useMemo, useState } from "react";
 import { useLibrary } from "@/components/library";
 import { Arte } from "@/components/v2/fichas";
@@ -16,7 +16,9 @@ export function AnioV2() {
     hoy: new Date().toISOString().slice(0, 10),
     versiculos: [],
   }), [library.progress]);
+  const liturgia = useMemo(() => diaLiturgico(new Date()), []);
   const historias = [
+    { titulo: es ? "Día" : "Day", cifra: String(liturgia.dia), detalle: es ? `de ${liturgia.nombre.es}` : `of ${liturgia.nombre.en}` },
     { titulo: es ? "Minutos" : "Minutes", cifra: String(resumen.minutos), detalle: es ? "este año" : "this year" },
     { titulo: es ? "Libros" : "Books", cifra: String(resumen.libros), detalle: "" },
     { titulo: es ? "Racha" : "Streak", cifra: String(resumen.racha), detalle: es ? "días" : "days" },

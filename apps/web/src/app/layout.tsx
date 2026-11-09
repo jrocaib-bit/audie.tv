@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { LibraryProvider } from "@/components/library";
 import { RegisterServiceWorker } from "@/components/register-sw";
+import { Suspense } from "react";
 import { AppFrame, MiniPlayer, TabBar, VeloCromo } from "@/components/site-chrome";
 import "./globals.css";
 
@@ -31,7 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LibraryProvider catalog={catalog}>
           <AppFrame>{children}</AppFrame>
           <VeloCromo />
-          <MiniPlayer />
+          <Suspense>
+            <MiniPlayer />
+          </Suspense>
           <TabBar />
           <RegisterServiceWorker />
         </LibraryProvider>

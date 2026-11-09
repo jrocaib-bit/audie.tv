@@ -79,18 +79,26 @@ export function EstanteFila({ titulo, children }: { titulo: string; children: Re
   );
 }
 
-export function TarjetaDia({ href, titulo, subtitulo, clave }: { href: string; titulo: string; subtitulo?: string; clave: string }) {
+export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario }: { href: string; titulo: string; subtitulo?: string; clave: string; filete?: string; calendario?: string }) {
   const obra = obrasPara(clave, 1)[0];
-  const color = colorDeObra(obra ?? null);
+  const color = filete ?? colorDeObra(obra ?? null);
   return (
-    <Link href={href} className="relative mx-4 mt-5 block h-44 overflow-hidden rounded-2xl" style={{ background: color }}>
-      {obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
-      <span className="absolute inset-0" style={{ background: `linear-gradient(100deg, ${color} 0%, ${color}d0 28%, transparent 68%)` }} />
-      <span className="absolute inset-y-0 left-0 flex w-[70%] flex-col justify-end p-4">
-        <span className={`font-display leading-none whitespace-nowrap text-[#F4ECE2] ${claseTitulo(titulo, true)}`}>{titulo}</span>
-        {subtitulo ? <span className="mt-2 truncate text-sm text-[#F4ECE2]/80">{subtitulo}</span> : null}
-      </span>
-    </Link>
+    <div className="relative mx-4 mt-5">
+      <Link href={href} className="relative block h-44 overflow-hidden rounded-2xl" style={{ background: color }}>
+        {obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
+        <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-transparent" />
+        <span className="absolute inset-x-0 top-0 h-1.5 shadow-[0_1px_0_rgba(16,14,12,0.35)]" style={{ background: color }} />
+        <span className="absolute inset-x-4 bottom-4">
+          <span className="block font-display text-[clamp(1.05rem,4.4vw,1.5rem)] leading-none whitespace-nowrap text-[#F4ECE2]">{titulo}</span>
+          {subtitulo ? <span className="mt-2 block text-sm whitespace-nowrap text-[#F4ECE2]/85">{subtitulo}</span> : null}
+        </span>
+      </Link>
+      {calendario ? (
+        <Link href={calendario} aria-label="Calendario" className="absolute top-3 right-3 inline-flex size-11 items-center justify-center rounded-full bg-[#100E0C]/55 text-[#F4ECE2]">
+          <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.7" d="M5 6h14v13H5zM8 4v4M16 4v4M5 10h14" /></svg>
+        </Link>
+      ) : null}
+    </div>
   );
 }
 
@@ -104,7 +112,7 @@ export function TarjetaMix({ href, titulo, clave }: { href: string; titulo: stri
           {obras.slice(0, 4).map((obra) => <Foto key={obra.id} obra={obra} />)}
         </span>
         <span className="absolute inset-0" style={{ background: `linear-gradient(180deg, transparent 36%, ${color}f2 100%)` }} />
-        <span className={`absolute inset-x-8 bottom-3 text-center font-display leading-none whitespace-nowrap text-[#F4ECE2] ${claseTitulo(titulo, true)}`}>{titulo}</span>
+        <span className="absolute inset-x-4 bottom-3 text-center font-display text-lg leading-tight text-[#F4ECE2]">{titulo}</span>
       </span>
     </Link>
   );
