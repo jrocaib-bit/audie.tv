@@ -4,7 +4,7 @@ export type TiempoId = "adviento" | "navidad" | "ordinario" | "cuaresma" | "sema
 export type ColorLiturgico = "morado" | "blanco" | "verde" | "rojo" | "rosa";
 export type CicloDominical = "A" | "B" | "C";
 export type CicloFerial = "par" | "impar";
-export type RangoCelebracion = "solemnidad" | "fiesta" | "memoria" | "tiempo";
+export type RangoCelebracion = "triduo" | "solemnidad" | "domingo" | "fiesta" | "octava" | "feria" | "memoria" | "tiempo";
 export type PasajeDia = {
   libroId: string;
   capitulo: number;
@@ -287,13 +287,56 @@ type FiestaFija = {
 };
 
 const FIESTAS = (santoralJson as { fiestas: FiestaFija[] }).fiestas;
-const RANGO_EN: Record<Exclude<RangoCelebracion, "tiempo">, string> = { solemnidad: "solemnity", fiesta: "feast", memoria: "memorial" };
+const RANGO_VISIBLE = ["solemnidad", "fiesta", "memoria"] as const;
+type RangoVisible = (typeof RANGO_VISIBLE)[number];
+const RANGO_EN: Record<RangoVisible, string> = { solemnidad: "solemnity", fiesta: "feast", memoria: "memorial" };
 
+function esRangoVisible(rango: RangoCelebracion): rango is RangoVisible {
+  return (RANGO_VISIBLE as readonly string[]).includes(rango);
+}
+
+function rotulo(es: string, en: string, rango: RangoCelebracion): { es: string; en: string } {
+  if (!esRangoVisible(rango)) return { es, en };
+  return { es: `${es} · ${rango}`, en: `${en} · ${RANGO_EN[rango]}` };
+}
+
+/** Lo que las Normas universales (n. 59) hacen ceder a otra celebración. */
 function impideFiesta(dia: DiaLiturgico): boolean {
-  if (dia.tiempo === "triduo") return true;
+  if (dia.tiempo === "triduo" || dia.tiempo === "semana-santa") return true;
   if (dia.tiempo === "pascua" && dia.dia <= 8) return true;
+  if (dia.tiempo === "cuaresma" && dia.dia === 1) return true;
   if (parse(dia.iso).getUTCDay() !== 0) return false;
-  return dia.tiempo === "adviento" || dia.tiempo === "cuaresma" || dia.tiempo === "pascua" || dia.tiempo === "semana-santa";
+  return dia.tiempo === "adviento" || dia.tiempo === "cuaresma" || dia.tiempo === "pascua";
+}
+
+function feriaPrivilegiada(dia: DiaLiturgico): boolean {
+  const fecha = parse(dia.iso);
+  const mes = fecha.getUTCMonth() + 1;
+  const numero = fecha.getUTCDate();
+  if (fecha.getUTCDay() === 0) return false;
+  if (dia.tiempo === "adviento" && mes === 12 && numero >= 17 && numero <= 24) return true;
+  if (dia.tiempo === "cuaresma" || dia.tiempo === "semana-santa") return true;
+  return false;
+}
+
+function octavaDeNavidad(dia: DiaLiturgico): boolean {
+  const mes = Number(dia.iso.slice(5, 7));
+  const numero = Number(dia.iso.slice(8, 10));
+  return dia.tiempo === "navidad" && mes === 12 && numero >= 26 && numero <= 31;
+}
+
+function rangoBase(dia: DiaLiturgico): RangoCelebracion {
+  const fecha = parse(dia.iso);
+  const mes = fecha.getUTCMonth() + 1;
+  const numero = fecha.getUTCDate();
+  if (dia.tiempo === "triduo") return "triduo";
+  if (dia.tiempo === "pascua" && dia.dia <= 8) return "solemnidad";
+  if (dia.tiempo === "cuaresma" && dia.dia === 1) return "feria";
+  if (mes === 12 && numero === 25) return "solemnidad";
+  if (fecha.getUTCDay() === 0) return "domingo";
+  if (feriaPrivilegiada(dia)) return "feria";
+  if (octavaDeNavidad(dia)) return "octava";
+  return "tiempo";
 }
 
 function fechaObservada(fiesta: FiestaFija, anio: number): string | null {
@@ -314,16 +357,36 @@ function celebrar(dia: DiaLiturgico, id: string, rango: Exclude<RangoCelebracion
     rango,
     solemnidad: rango === "solemnidad" ? { es, en } : dia.solemnidad,
     celebracion: { id, rango, es, en, pasaje },
-    etiqueta: { es: `${es} · ${rango}`, en: `${en} · ${RANGO_EN[rango]}` },
+    etiqueta: rotulo(es, en, rango),
   };
 }
 
+const TRIDUO_NOMBRE = [
+  { es: "Jueves Santo", en: "Holy Thursday" },
+  { es: "Viernes Santo", en: "Good Friday" },
+  { es: "Sábado Santo", en: "Holy Saturday" },
+];
+
+function conRango(dia: DiaLiturgico): DiaLiturgico {
+  const rango = rangoBase(dia);
+  if (dia.tiempo === "triduo") {
+    const nombre = TRIDUO_NOMBRE[dia.dia - 1] ?? TRIDUO_NOMBRE[0]!;
+    return { ...dia, rango, etiqueta: nombre };
+  }
+  if (dia.iso.slice(5) === "12-25") {
+    return celebrar(dia, "navidad", "solemnidad", "Natividad del Señor", "The Nativity of the Lord", "blanco", { libroId: "lc", capitulo: 2, versiculo: 1, versiculoFin: 14, titulo: { es: "Belén", en: "Bethlehem" } });
+  }
+  if (rango === "octava") return { ...dia, rango, etiqueta: { es: "Octava de Navidad", en: "Christmas octave" } };
+  return { ...dia, rango };
+}
+
 function conSantoral(dia: DiaLiturgico): DiaLiturgico {
+  if (dia.tiempo === "triduo") return conRango(dia);
   if (dia.tiempo === "cuaresma" && dia.dia === 1) {
-    return celebrar(dia, "ceniza", "solemnidad", "Miércoles de Ceniza", "Ash Wednesday", "morado", { libroId: "mt", capitulo: 6, versiculo: 16, versiculoFin: 18, titulo: { es: "El ayuno", en: "The fast" } }, true);
+    return celebrar(dia, "ceniza", "feria", "Miércoles de Ceniza", "Ash Wednesday", "morado", { libroId: "mt", capitulo: 6, versiculo: 16, versiculoFin: 18, titulo: { es: "El ayuno", en: "The fast" } }, true);
   }
   if (dia.tiempo === "semana-santa" && dia.dia === 1) {
-    return celebrar(dia, "ramos", "solemnidad", "Domingo de Ramos", "Palm Sunday", "rojo", { libroId: "mt", capitulo: 21, versiculo: 1, versiculoFin: 11, titulo: { es: "La entrada", en: "The entry" } });
+    return celebrar(dia, "ramos", "domingo", "Domingo de Ramos", "Palm Sunday", "rojo", { libroId: "mt", capitulo: 21, versiculo: 1, versiculoFin: 11, titulo: { es: "La entrada", en: "The entry" } });
   }
   const moviles = [dia.anio - 1, dia.anio, dia.anio + 1].flatMap((anio) => solemnidades(anio));
   const movil = moviles.find((item) => item.iso === dia.iso && item.es !== dia.nombre.es);
@@ -338,10 +401,10 @@ function conSantoral(dia: DiaLiturgico): DiaLiturgico {
     const isoFiesta = fechaObservada(fiesta, anioCivil);
     return isoFiesta === dia.iso ? [fiesta] : [];
   });
-  const orden = { solemnidad: 3, fiesta: 2, memoria: 1 };
-  observadas.sort((a, b) => orden[b.rango] - orden[a.rango]);
-  const fiesta = observadas[0];
-  if (!fiesta) return dia;
+  const orden: Record<string, number> = { solemnidad: 3, fiesta: 2, memoria: 1 };
+  observadas.sort((a, b) => (orden[b.rango] ?? 0) - (orden[a.rango] ?? 0));
+  const fiesta = observadas.find((item) => item.rango !== "memoria" || (!feriaPrivilegiada(dia) && !octavaDeNavidad(dia)));
+  if (!fiesta) return conRango(dia);
   const enCuaresmaOAdviento = dia.tiempo === "cuaresma" || dia.tiempo === "adviento";
   return celebrar(dia, fiesta.id, fiesta.rango, fiesta.es, fiesta.en, fiesta.color, fiesta.pasaje, fiesta.rango === "memoria" && enCuaresmaOAdviento);
 }
@@ -364,7 +427,7 @@ export function textoDiaLiturgico(dia: DiaLiturgico, locale: "es" | "en"): strin
 export function textoAvisoLiturgico(dia: DiaLiturgico, locale: "es" | "en"): string {
   if (dia.tiempo === "adviento" && dia.dia === 1) return locale === "en" ? "Advent begins today" : "Hoy empieza el Adviento";
   if (dia.celebracion?.id === "ceniza") return locale === "en" ? "Ash Wednesday" : "Miércoles de Ceniza";
-  if (dia.celebracion) return locale === "en" ? `${dia.celebracion.en} · ${RANGO_EN[dia.celebracion.rango]}` : `${dia.celebracion.es} · ${dia.celebracion.rango}`;
+  if (dia.celebracion) return rotulo(dia.celebracion.es, dia.celebracion.en, dia.celebracion.rango)[locale];
   if (locale === "en") return `Challenge · day ${dia.dia}`;
   return `Reto · día ${dia.dia}`;
 }
@@ -418,6 +481,7 @@ export type Reto = {
   id: string;
   tiempo: TiempoId;
   titulo: { es: string; en: string };
+  tituloCorto?: { es: string; en: string };
   insignia: { es: string; en: string };
   obra: string | null;
   companeros: CompaneroReto[];

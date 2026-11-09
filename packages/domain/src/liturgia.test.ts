@@ -26,7 +26,7 @@ describe("calendario litúrgico", () => {
   it("nombre el tiempo, la semana y el color, con rosa en Gaudete y Laetare", () => {
     expect(diaLiturgicoDeIso("2025-12-02")).toMatchObject({ tiempo: "adviento", semana: 1, color: "morado", ciclo: "A", ferial: "par", etiqueta: { es: "Adviento · Semana 1" } });
     expect(diaLiturgicoDeIso("2025-12-14").color).toBe("rosa");
-    expect(diaLiturgicoDeIso("2026-02-18").etiqueta.es).toBe("Miércoles de Ceniza · solemnidad");
+    expect(diaLiturgicoDeIso("2026-02-18").etiqueta.es).toBe("Miércoles de Ceniza");
     expect(diaLiturgicoDeIso("2026-03-01")).toMatchObject({ tiempo: "cuaresma", semana: 2, dia: 12, color: "morado" });
     expect(textoDiaLiturgico(diaLiturgicoDeIso("2026-03-01"), "es")).toBe("Día 12 de Cuaresma");
     expect(diaLiturgicoDeIso("2026-03-15").color).toBe("rosa");
@@ -89,5 +89,37 @@ describe("calendario litúrgico", () => {
     expect(diaLiturgicoDeIso("2026-05-24").celebracion?.es).toBe("Pentecostés");
     expect(textoAvisoLiturgico(diaLiturgicoDeIso("2025-11-30"), "es")).toBe("Hoy empieza el Adviento");
     expect(textoAvisoLiturgico(diaLiturgicoDeIso("2026-02-18"), "es")).toBe("Miércoles de Ceniza");
+  });
+
+  it("asigna los rangos de las Normas universales del año litúrgico", () => {
+    const domingo = (iso: string) => new Date(`${iso}T00:00:00Z`).getUTCDay() === 0;
+    expect(diaLiturgicoDeIso("2026-02-18")).toMatchObject({ rango: "feria", etiqueta: { es: "Miércoles de Ceniza" } });
+    expect(diaLiturgicoDeIso("2026-03-02").rango).toBe("feria");
+    expect(diaLiturgicoDeIso("2026-03-29")).toMatchObject({ rango: "domingo", etiqueta: { es: "Domingo de Ramos" } });
+    expect(diaLiturgicoDeIso("2026-04-02")).toMatchObject({ rango: "triduo", etiqueta: { es: "Jueves Santo" } });
+    expect(diaLiturgicoDeIso("2026-04-03")).toMatchObject({ rango: "triduo", etiqueta: { es: "Viernes Santo" } });
+    expect(diaLiturgicoDeIso("2026-04-04")).toMatchObject({ rango: "triduo", etiqueta: { es: "Sábado Santo" } });
+    expect(diaLiturgicoDeIso("2026-04-05").rango).toBe("solemnidad");
+    expect(diaLiturgicoDeIso("2026-04-06").rango).toBe("solemnidad");
+    expect(diaLiturgicoDeIso("2026-04-12")).toMatchObject({ rango: "solemnidad", etiqueta: { es: "Pascua · Semana 2" } });
+    expect(diaLiturgicoDeIso("2026-04-13").rango).toBe("tiempo");
+    expect(diaLiturgicoDeIso("2026-12-25")).toMatchObject({ rango: "solemnidad", etiqueta: { es: "Natividad del Señor · solemnidad" } });
+    expect(diaLiturgicoDeIso("2026-12-26").rango).toBe("fiesta");
+    expect(diaLiturgicoDeIso("2026-12-29")).toMatchObject({ rango: "octava", etiqueta: { es: "Octava de Navidad" } });
+    expect(diaLiturgicoDeIso("2027-01-01").rango).toBe("solemnidad");
+    expect(diaLiturgicoDeIso("2026-12-17").rango).toBe("feria");
+    expect(diaLiturgicoDeIso("2026-12-24").rango).toBe("feria");
+    expect(diaLiturgicoDeIso("2026-12-20")).toMatchObject({ rango: "domingo", etiqueta: { es: "Adviento · Semana 4" } });
+    expect(diaLiturgicoDeIso("2025-12-07").rango).toBe("domingo");
+    expect(diaLiturgicoDeIso("2026-07-12").rango).toBe("domingo");
+    const ascension = diaLiturgicoDeIso("2026-05-17");
+    const corpus = diaLiturgicoDeIso("2026-06-07");
+    expect(ascension).toMatchObject({ rango: "solemnidad", etiqueta: { es: "Ascensión · solemnidad" } });
+    expect(corpus).toMatchObject({ rango: "solemnidad", etiqueta: { es: "Corpus Christi · solemnidad" } });
+    expect(domingo(ascension.iso)).toBe(true);
+    expect(domingo(corpus.iso)).toBe(true);
+    expect(diaLiturgicoDeIso("2026-02-18").etiqueta.es.includes("solemnidad")).toBe(false);
+    expect(diaLiturgicoDeIso("2026-03-29").etiqueta.es.includes("solemnidad")).toBe(false);
+    expect(diaLiturgicoDeIso("2026-04-03").etiqueta.es.includes("solemnidad")).toBe(false);
   });
 });

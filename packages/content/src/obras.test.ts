@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { creditoDeObraVerificado, idsVisiblesEnCreditos, obraDeEpisodio, obrasVisibles, textoVerificado } from "./obras";
+import { creditoDeObraVerificado, idsVisiblesEnCreditos, obraDeEpisodio, obrasVisibles, portadaPara, textoVerificado } from "./obras";
 
 describe("obras con crédito", () => {
   it("solo muestra principales cuyo crédito está verificado", () => {
@@ -31,6 +31,15 @@ describe("obras con crédito", () => {
     expect(obraDeEpisodio("gn-01")?.id).toBe("gn-01_o5");
     expect(obraDeEpisodio("gn-01")?.detalle).toBe(true);
     expect(obraDeEpisodio("no-existe")).toBeNull();
+  });
+
+  it("rota la portada de un día a otro sin repetirla en la misma pantalla", () => {
+    const hoy = portadaPara("Marcos", [], 190);
+    const manana = portadaPara("Marcos", [], 191);
+    expect(hoy).toBeTruthy();
+    expect(manana).toBeTruthy();
+    expect(hoy).not.toBe(manana);
+    expect(portadaPara("Marcos", hoy ? [hoy] : [], 190)).not.toBe(hoy);
   });
 
   it("no arrastra el texto bíblico dentro del catálogo visible", () => {

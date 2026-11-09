@@ -434,6 +434,10 @@
         "es": "Navidad: los relatos de la infancia",
         "en": "Christmas: the infancy accounts"
       },
+      "tituloCorto": {
+        "es": "La infancia",
+        "en": "The infancy"
+      },
       "insignia": {
         "es": "Belén",
         "en": "Bethlehem"
@@ -709,6 +713,10 @@
       "titulo": {
         "es": "Cuaresma en 40 días",
         "en": "Lent in 40 days"
+      },
+      "tituloCorto": {
+        "es": "Cuaresma 40",
+        "en": "Lent 40"
       },
       "insignia": {
         "es": "Desierto",
@@ -1303,6 +1311,10 @@
         "es": "Semana Santa: la Pasión",
         "en": "Holy Week: the Passion"
       },
+      "tituloCorto": {
+        "es": "La Pasión",
+        "en": "The Passion"
+      },
       "insignia": {
         "es": "Cruz",
         "en": "Cross"
@@ -1447,6 +1459,10 @@
       "titulo": {
         "es": "50 días de Pascua: Hechos",
         "en": "50 days of Easter: Acts"
+      },
+      "tituloCorto": {
+        "es": "Pascua: Hechos",
+        "en": "Easter: Acts"
       },
       "insignia": {
         "es": "Alba",
@@ -2180,6 +2196,10 @@
       "titulo": {
         "es": "Tiempo ordinario: un evangelio entero",
         "en": "Ordinary Time: one whole Gospel"
+      },
+      "tituloCorto": {
+        "es": "Un evangelio entero",
+        "en": "A whole Gospel"
       },
       "insignia": {
         "es": "Camino",

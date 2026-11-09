@@ -54,16 +54,17 @@ export function portadasCredito(): { id: string; episodio: string }[] {
   });
 }
 
-export function portadaPara(clave: string, evitar: readonly string[] = []): string | null {
+export function portadaPara(clave: string, evitar: readonly string[] = [], giro = 0): string | null {
   const lista = portadasCredito();
   if (lista.length === 0) return null;
   const directa = lista.find((obra) => obra.episodio === clave || obra.id === clave);
-  if (directa && !evitar.includes(directa.episodio)) return directa.episodio;
-  let indice = 0;
+  if (directa && !evitar.includes(directa.episodio) && giro === 0) return directa.episodio;
+  let indice = Math.abs(giro);
   for (let i = 0; i < clave.length; i += 1) indice = (indice * 33 + clave.charCodeAt(i)) % 997;
+  const inicio = (indice + Math.abs(giro)) % lista.length;
   for (let salto = 0; salto < lista.length; salto += 1) {
-    const obra = lista[(indice + salto) % lista.length];
+    const obra = lista[(inicio + salto) % lista.length];
     if (obra && !evitar.includes(obra.episodio)) return obra.episodio;
   }
-  return lista[indice % lista.length]?.episodio ?? null;
+  return lista[inicio]?.episodio ?? null;
 }

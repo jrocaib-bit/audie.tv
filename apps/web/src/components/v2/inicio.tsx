@@ -64,7 +64,7 @@ export function InicioV2() {
   const pasaje = pasajeDelDia(liturgia, RETOS);
   const usadas = new Set(sigueIds);
   function tomar(clave: string): string | null {
-    const id = portadaPara(clave, [...usadas]);
+    const id = portadaPara(clave, [...usadas], dia);
     if (id) usadas.add(id);
     return id;
   }
@@ -76,7 +76,7 @@ export function InicioV2() {
   const segundoOir = fichaOir && coincidente ? inicioDelPasaje(fichaOir.tiempos, coincidente.capitulo, coincidente.versiculo, coincidente.versiculoFin) : null;
   const oir = fichaOir ? `/ahora?e=${fichaOir.id}${segundoOir != null ? `&t=${segundoOir}` : ""}` : null;
   const estanteTiempo = delTiempo.flatMap((reto) => [
-    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: reto.titulo[locale], obra: tomar(reto.id) },
+    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: (reto.tituloCorto ?? reto.titulo)[locale], obra: tomar(reto.id) },
     ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es) })),
   ]);
 
@@ -117,7 +117,7 @@ export function InicioV2() {
                 <Arte episodioId={ficha.obra} className="absolute inset-0 h-full w-full" />
                 <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-transparent" />
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: COLOR_HEX[liturgia.color] }} />
-                <span className="absolute inset-x-2.5 bottom-2.5 font-display text-base leading-tight text-[#F4ECE2]">{ficha.titulo}</span>
+                <span className="absolute inset-x-2.5 bottom-2.5 line-clamp-2 font-display text-base leading-tight text-[#F4ECE2]">{ficha.titulo}</span>
               </span>
             </Link>
           ))}
