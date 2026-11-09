@@ -197,7 +197,7 @@
           },
           "minutos": 2,
           "obra": "gn-21",
-          "episodio": "is-12"
+          "episodio": "is-11"
         },
         {
           "dia": 13,
@@ -699,7 +699,7 @@
           },
           "minutos": 2,
           "obra": "gn-03",
-          "episodio": "mt-01"
+          "episodio": "mt-02"
         }
       ]
     },
@@ -1026,7 +1026,7 @@
           },
           "minutos": 2,
           "obra": "gn-03",
-          "episodio": "mt-01"
+          "episodio": "mt-02"
         },
         {
           "dia": 22,
@@ -1040,7 +1040,7 @@
           },
           "minutos": 4,
           "obra": "gn-04",
-          "episodio": "mt-01"
+          "episodio": "mt-02"
         },
         {
           "dia": 23,
@@ -1096,7 +1096,7 @@
           },
           "minutos": 4,
           "obra": "gn-08",
-          "episodio": "mt-02"
+          "episodio": "mt-03"
         },
         {
           "dia": 27,
@@ -1110,7 +1110,7 @@
           },
           "minutos": 3,
           "obra": "gn-09",
-          "episodio": "mt-02"
+          "episodio": "mt-03"
         },
         {
           "dia": 28,
@@ -1138,7 +1138,7 @@
           },
           "minutos": 2,
           "obra": "gn-11",
-          "episodio": "mt-03"
+          "episodio": "mt-04"
         },
         {
           "dia": 30,

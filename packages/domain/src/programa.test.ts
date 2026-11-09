@@ -38,7 +38,7 @@ describe("programa editorial", () => {
     expect(cita("2027-01-07")).toBe("El nombre · Lucas 2,21 · lc-02");
     expect(cita("2027-01-08")).toBe("Entre los doctores · Lucas 2,41–52 · lc-02");
     expect(cita("2027-01-09")).toBe("La luz · Juan 1,9–14 · jn-01");
-    expect(cita("2027-01-10")).toBe("El bautismo · Mateo 3,13–17 · mt-01");
+    expect(cita("2027-01-10")).toBe("El bautismo · Mateo 3,13–17 · mt-02");
     expect(pasajeDelDia(diaLiturgicoDeIso("2026-12-23"), reales)?.titulo.es).toBe("Dios con nosotros");
     expect(pasajeDelDia(diaLiturgicoDeIso("2027-01-06"), reales)?.titulo.es).toBe("Los magos");
   });

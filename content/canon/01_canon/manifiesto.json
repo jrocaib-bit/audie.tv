@@ -6344,14 +6344,14 @@
         {
           "id": "is-10",
           "orden": 10,
-          "capitulos": "36-37",
-          "rango": "36:1-37:38",
+          "capitulos": "36-39",
+          "rango": "36:1-39:8",
           "etiqueta": {
-            "es": "Isaías 36–37",
-            "en": "Isaiah 36–37"
+            "es": "Isaías 36–39",
+            "en": "Isaiah 36–39"
           },
           "propuesta": true,
-          "duracion_estimada_s": 717,
+          "duracion_estimada_s": 1037,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -6362,14 +6362,14 @@
         {
           "id": "is-11",
           "orden": 11,
-          "capitulos": "38-40",
-          "rango": "38:1-40:31",
+          "capitulos": "40-41",
+          "rango": "40:1-41:29",
           "etiqueta": {
-            "es": "Isaías 38–40",
-            "en": "Isaiah 38–40"
+            "es": "Isaías 40–41",
+            "en": "Isaiah 40–41"
           },
           "propuesta": true,
-          "duracion_estimada_s": 624,
+          "duracion_estimada_s": 593,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -6380,14 +6380,14 @@
         {
           "id": "is-12",
           "orden": 12,
-          "capitulos": "41-43",
-          "rango": "41:1-43:28",
+          "capitulos": "42-43",
+          "rango": "42:1-43:28",
           "etiqueta": {
-            "es": "Isaías 41–43",
-            "en": "Isaiah 41–43"
+            "es": "Isaías 42–43",
+            "en": "Isaiah 42–43"
           },
           "propuesta": true,
-          "duracion_estimada_s": 806,
+          "duracion_estimada_s": 517,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8138,14 +8138,14 @@
         {
           "id": "mt-01",
           "orden": 1,
-          "capitulos": "1-4",
-          "rango": "1:1-4:25",
+          "capitulos": "1-2",
+          "rango": "1:1-2:23",
           "etiqueta": {
-            "es": "Mateo 1–4",
-            "en": "Matthew 1–4"
+            "es": "Mateo 1–2",
+            "en": "Matthew 1–2"
           },
           "propuesta": true,
-          "duracion_estimada_s": 801,
+          "duracion_estimada_s": 433,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8156,14 +8156,14 @@
         {
           "id": "mt-02",
           "orden": 2,
-          "capitulos": "5-6",
-          "rango": "5:1-6:34",
+          "capitulos": "3-5",
+          "rango": "3:1-5:48",
           "etiqueta": {
-            "es": "Mateo 5–6",
-            "en": "Matthew 5–6"
+            "es": "Mateo 3–5",
+            "en": "Matthew 3–5"
           },
           "propuesta": true,
-          "duracion_estimada_s": 746,
+          "duracion_estimada_s": 784,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8174,14 +8174,14 @@
         {
           "id": "mt-03",
           "orden": 3,
-          "capitulos": "7-8",
-          "rango": "7:1-8:34",
+          "capitulos": "6-7",
+          "rango": "6:1-7:29",
           "etiqueta": {
-            "es": "Mateo 7–8",
-            "en": "Matthew 7–8"
+            "es": "Mateo 6–7",
+            "en": "Matthew 6–7"
           },
           "propuesta": true,
-          "duracion_estimada_s": 533,
+          "duracion_estimada_s": 577,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8192,14 +8192,14 @@
         {
           "id": "mt-04",
           "orden": 4,
-          "capitulos": "9-10",
-          "rango": "9:1-10:42",
+          "capitulos": "8-10",
+          "rango": "8:1-10:42",
           "etiqueta": {
-            "es": "Mateo 9–10",
-            "en": "Matthew 9–10"
+            "es": "Mateo 8–10",
+            "en": "Matthew 8–10"
           },
           "propuesta": true,
-          "duracion_estimada_s": 707,
+          "duracion_estimada_s": 993,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8560,14 +8560,14 @@
         {
           "id": "lc-02",
           "orden": 2,
-          "capitulos": "2-3",
-          "rango": "2:1-3:38",
+          "capitulos": "2",
+          "rango": "2:1-2:52",
           "etiqueta": {
-            "es": "Lucas 2–3",
-            "en": "Luke 2–3"
+            "es": "Lucas 2",
+            "en": "Luke 2"
           },
           "propuesta": true,
-          "duracion_estimada_s": 721,
+          "duracion_estimada_s": 430,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8578,14 +8578,14 @@
         {
           "id": "lc-03",
           "orden": 3,
-          "capitulos": "4-5",
-          "rango": "4:1-5:39",
+          "capitulos": "3-4",
+          "rango": "3:1-4:44",
           "etiqueta": {
-            "es": "Lucas 4–5",
-            "en": "Luke 4–5"
+            "es": "Lucas 3–4",
+            "en": "Luke 3–4"
           },
           "propuesta": true,
-          "duracion_estimada_s": 780,
+          "duracion_estimada_s": 684,
           "pendientes": [],
           "idiomas": {
             "es": {
@@ -8596,14 +8596,14 @@
         {
           "id": "lc-04",
           "orden": 4,
-          "capitulos": "6",
-          "rango": "6:1-6:49",
+          "capitulos": "5-6",
+          "rango": "5:1-6:49",
           "etiqueta": {
-            "es": "Lucas 6",
-            "en": "Luke 6"
+            "es": "Lucas 5–6",
+            "en": "Luke 5–6"
           },
           "propuesta": true,
-          "duracion_estimada_s": 466,
+          "duracion_estimada_s": 854,
           "pendientes": [
             "Excepción de duración: 7:46 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
           ],
