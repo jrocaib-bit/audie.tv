@@ -23,6 +23,7 @@ import {
   resumePosition,
   sanitizePath,
   segmentAt,
+  urisDeReproduccion,
   type AppCatalog,
   type DailyPlan,
   type ListeningPath,
@@ -32,6 +33,7 @@ import {
   type SleepMinutes,
 } from "@audite/domain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { leerDescargas } from "./descargas";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 const contentBase = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
@@ -135,6 +137,16 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       if (!episode) {
         setHydrated(true);
         return;
+      }
+      const archivos = await leerDescargas();
+      const fuentes = urisDeReproduccion(
+        episode.id,
+        episode.segments.map((segment) => ({ id: segment.id, remoto: `${contentBase}${segment.publicPath}` })),
+        archivos,
+      );
+      if (fuentes.origen === "local") {
+        playlist.clear();
+        for (const uri of fuentes.uris) playlist.add({ uri });
       }
       const resume = resumePosition(nextProgress.episodes[episode.id], episode.durationSeconds);
       const resolved = segmentAt(

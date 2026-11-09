@@ -100,3 +100,24 @@ export {
   type UiLocale,
 } from "./settings";
 export { citaEnCurso, clamp, formatClock, formatSpokenDuration } from "./time";
+export {
+  CLAVE_DESCARGA_PREFERENCIA,
+  CLAVE_DESCARGAS,
+  espacioUsado,
+  idsDeAlcance,
+  parseArchivos,
+  parsePreferencia,
+  planificar,
+  puedeBajar,
+  quitarArchivo,
+  registrarArchivo,
+  textoEspacio,
+  uriDeReproduccion,
+  urisDeReproduccion,
+  type AlcanceDescarga,
+  type ArchivoLocal,
+  type EpisodioDescargable,
+  type MotivoRed,
+  type PreferenciaDescarga,
+  type Red,
+} from "./descargas";

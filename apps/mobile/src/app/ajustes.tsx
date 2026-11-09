@@ -1,4 +1,5 @@
 import { PLAYBACK_RATES, t, type DailyMinutes, type ThemeChoice, type UiLocale } from "@audite/domain";
+import { useRouter } from "expo-router";
 import { useColorScheme } from "react-native";
 import { Pressable, ScrollView, Text } from "react-native";
 import { useMobileLibrary } from "../state";
@@ -6,6 +7,7 @@ import { dark, light, ui } from "../theme";
 
 export default function SettingsScreen() {
   const library = useMobileLibrary();
+  const router = useRouter();
   const scheme = useColorScheme();
   const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
   const locale = library.settings.uiLocale;
@@ -51,6 +53,9 @@ export default function SettingsScreen() {
         <Text style={{ color: colors.ink }}>
           {t(locale, "settingsCaptions")}: {library.settings.captions ? "on" : "off"}
         </Text>
+      </Pressable>
+      <Pressable onPress={() => router.push("/descargas")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>{locale === "es" ? "Descargas" : "Downloads"}</Text>
       </Pressable>
       <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "settingsAboutBody")}</Text>
     </ScrollView>

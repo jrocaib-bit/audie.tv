@@ -41,6 +41,7 @@ function Shell() {
         <Stack.Screen name="camino" />
         <Stack.Screen name="biblioteca" />
         <Stack.Screen name="ajustes" />
+        <Stack.Screen name="descargas" />
         <Stack.Screen name="ahora" options={{ headerShown: false }} />
         <Stack.Screen name="catalogo" options={{ headerShown: false }} />
       </Stack>
