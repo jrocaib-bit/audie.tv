@@ -159,11 +159,13 @@ describe("reproducible o pendiente", () => {
     const catalogo = construirCatalogo(manifiesto, canon);
     expect(catalogo.books).toHaveLength(73);
     expect(catalogo.episodes).toEqual([]);
-    expect(catalogo.pendientes).toHaveLength(513);
-    expect(catalogo.rangos).toHaveLength(513);
+    expect(catalogo.pendientes).toHaveLength(516);
+    expect(catalogo.rangos).toHaveLength(516);
     expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "gn")).toHaveLength(22);
     expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "job")).toHaveLength(11);
-    expect(catalogo.pendientes.filter((episodio) => episodio.propuesta)).toHaveLength(126);
+    expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "jer")).toHaveLength(25);
+    expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "dn")).toHaveLength(9);
+    expect(catalogo.pendientes.filter((episodio) => episodio.propuesta)).toHaveLength(0);
     const salmos = catalogo.pendientes.filter((episodio) => episodio.bookId === "sal").map((episodio) => episodio.id);
     expect(salmos).toHaveLength(24);
     expect(salmos[0]).toBe("sal-001");

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "actualizado": "2026-11-09T22:12:24+01:00",
+  "actualizado": "2026-11-09T22:30:54+01:00",
   "idiomas": [
     "es",
     "en",
@@ -7960,7 +7960,7 @@
           "propuesta": false,
           "duracion_estimada_s": 618,
           "pendientes": [
-            "Job 35,2: puntuación en la web CEE: la pregunta que abre 35,2 («¿Crees que es justo decir…») no se cierra con «?» al final de 35,3; cotejar con la edición impresa (afecta a la entonación); revisar el versículo",
+            "Cotejo con la edición impresa (no bloquea): Job 35,3: puntuación en la web CEE: la pregunta que abre 35,2 («¿Crees que es justo decir…») no se cierra; termina sin ambigüedad al final de 35,3, tras la segunda cita; errata evidente corregida en el guion: «con no pecar?”.» → «con no pecar?”?» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
             "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
             "Música de inicio y cierre",
             "Locución de cierre (no consta)"
@@ -7976,7 +7976,7 @@
           },
           "idiomas": {
             "es": {
-              "estado": "borrador"
+              "estado": "listo_voz"
             }
           }
         },
@@ -8023,7 +8023,7 @@
           "propuesta": false,
           "duracion_estimada_s": 632,
           "pendientes": [
-            "Job 39,1: léxico dudoso en la web CEE: «¿Sabes tú cuándo paren las rebecas?»; el animal es el rebeco (en el DRAE «rebeca» es una prenda); puede ser una errata o una forma femenina elegida por la CEE; cotejar con la edición impresa; revisar el versículo",
+            "Cotejo con la edición impresa (no bloquea): Job 39,1: errata en la web CEE: «paren las rebecas»; el animal es el rebeco («rebeca» es una prenda); errata evidente corregida en el guion: «paren las rebecas» → «paren los rebecos» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
             "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
             "Música de inicio y cierre",
             "Locución de cierre (no consta)"
@@ -8039,7 +8039,7 @@
           },
           "idiomas": {
             "es": {
-              "estado": "borrador"
+              "estado": "listo_voz"
             }
           }
         }
@@ -9350,7 +9350,7 @@
           "propuesta": false,
           "duracion_estimada_s": 677,
           "pendientes": [
-            "Sab 12,12: puntuación en la web CEE: la pregunta que abre 12,12 («Pues, ¿quién puede decirte: «¿Qué has hecho?»,…») no se cierra con «?»; cotejar con la edición impresa (afecta a la entonación); revisar el versículo",
+            "Cotejo con la edición impresa (no bloquea): Sab 12,12: puntuación en la web CEE: la primera pregunta de 12,12 («Pues, ¿quién puede decirte: «¿Qué has hecho?»…») no se cierra; termina sin ambigüedad tras la cita, porque las siguientes son preguntas paralelas; errata evidente corregida en el guion: ««¿Qué has hecho?»,» → ««¿Qué has hecho?»?,» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
             "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
             "Música de inicio y cierre",
             "Locución de cierre (no consta)"
@@ -9366,7 +9366,7 @@
           },
           "idiomas": {
             "es": {
-              "estado": "borrador"
+              "estado": "listo_voz"
             }
           }
         },
@@ -10594,418 +10594,779 @@
         {
           "id": "jer-01",
           "orden": 1,
-          "capitulos": "1-3",
-          "rango": "1:1-3:25",
+          "capitulos": "1-2",
+          "rango": "1:1-2:37",
           "etiqueta": {
-            "es": "Jeremías 1–3",
-            "en": "Jeremiah 1–3"
+            "es": "Jeremías 1–2",
+            "en": "Jeremiah 1–2"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 885,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 580,
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Jer 2,5: errata en la web CEE: falta el espacio tras los dos puntos; errata evidente corregida en el guion: «Señor:¿En» → «Señor: ¿En» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Antes de formarte en el vientre"
+          },
+          "titulo_corto": {
+            "es": "Antes de formarte"
+          },
+          "resumen": {
+            "es": "El Señor llama a Jeremías, que se siente un niño, y lo constituye profeta de las naciones. Le encarga reprochar a Jerusalén que haya abandonado al Señor, fuente de agua viva, para hacerse aljibes agrietados."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-02",
           "orden": 2,
-          "capitulos": "4-5",
-          "rango": "4:1-5:31",
+          "capitulos": "3-4",
+          "rango": "3:1-4:31",
           "etiqueta": {
-            "es": "Jeremías 4–5",
-            "en": "Jeremiah 4–5"
+            "es": "Jeremías 3–4",
+            "en": "Jeremiah 3–4"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 634,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 610,
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Jer 4,2: errata en la web CEE: signo de exclamación invertido al cerrar la cita; errata evidente corregida en el guion: «Señor¡»» → «Señor!»» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Si quieres volver, Israel"
+          },
+          "titulo_corto": {
+            "es": "Si quieres volver"
+          },
+          "resumen": {
+            "es": "El Señor invita a Israel y a Judá, que le han sido infieles, a volver a él, y promete darles pastores según su corazón. Anuncia la desgracia que llega del norte, y el profeta siente dolor en sus entrañas."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-03",
           "orden": 3,
-          "capitulos": "6-7",
-          "rango": "6:1-7:34",
+          "capitulos": "5-6",
+          "rango": "5:1-6:30",
           "etiqueta": {
-            "es": "Jeremías 6–7",
-            "en": "Jeremiah 6–7"
+            "es": "Jeremías 5–6",
+            "en": "Jeremiah 5–6"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 659,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 619,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Las rutas antiguas"
+          },
+          "titulo_corto": {
+            "es": "Las rutas antiguas"
+          },
+          "resumen": {
+            "es": "No hay en Jerusalén quien obre con justicia, y el Señor anuncia una nación lejana que vendrá contra ella. Invita a preguntar por las rutas antiguas y seguir el buen camino, pero el pueblo se niega."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-04",
           "orden": 4,
-          "capitulos": "8-10",
-          "rango": "8:1-10:25",
+          "capitulos": "7-8",
+          "rango": "7:1-8:23",
           "etiqueta": {
-            "es": "Jeremías 8–10",
-            "en": "Jeremiah 8–10"
+            "es": "Jeremías 7–8",
+            "en": "Jeremiah 7–8"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 770,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 629,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Es el templo del Señor"
+          },
+          "titulo_corto": {
+            "es": "Es el templo del Señor"
+          },
+          "resumen": {
+            "es": "A la puerta del templo, Jeremías advierte que no basta repetir «Es el templo del Señor» sin enmendar la conducta, y denuncia los cultos a los ídolos. El profeta sufre por la herida de su pueblo: «¿No queda bálsamo en Galaad?»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-05",
           "orden": 5,
-          "capitulos": "11-13",
-          "rango": "11:1-13:27",
+          "capitulos": "9-10",
+          "rango": "9:1-10:25",
           "etiqueta": {
-            "es": "Jeremías 11–13",
-            "en": "Jeremiah 11–13"
+            "es": "Jeremías 9–10",
+            "en": "Jeremiah 9–10"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 754,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 510,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Dios verdadero"
+          },
+          "titulo_corto": {
+            "es": "El Dios verdadero"
+          },
+          "resumen": {
+            "es": "El profeta llora por un pueblo de lenguas mentirosas y anuncia el castigo; quien presuma, que presuma de conocer al Señor. Los ídolos de los pueblos son obra de artesanos, pero el Señor es el Dios verdadero, el Dios vivo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-06",
           "orden": 6,
-          "capitulos": "14-16",
-          "rango": "14:1-16:21",
+          "capitulos": "11-13",
+          "rango": "11:1-13:27",
           "etiqueta": {
-            "es": "Jeremías 14–16",
-            "en": "Jeremiah 14–16"
+            "es": "Jeremías 11–13",
+            "en": "Jeremiah 11–13"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 780,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 754,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Como manso cordero"
+          },
+          "titulo_corto": {
+            "es": "Como manso cordero"
+          },
+          "resumen": {
+            "es": "Jeremías recuerda a Judá la alianza rota y descubre que conspiran contra su vida; pregunta al Señor por qué prosperan los malvados. Con el cinturón de lino estropeado, el Señor anuncia que consumirá la soberbia de Judá."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-07",
           "orden": 7,
-          "capitulos": "17-19",
-          "rango": "17:1-19:15",
+          "capitulos": "14-15",
+          "rango": "14:1-15:21",
           "etiqueta": {
-            "es": "Jeremías 17–19",
-            "en": "Jeremiah 17–19"
+            "es": "Jeremías 14–15",
+            "en": "Jeremiah 14–15"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 754,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 520,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Si encontraba tus palabras"
+          },
+          "titulo_corto": {
+            "es": "Tus palabras"
+          },
+          "resumen": {
+            "es": "Durante la sequía, el profeta intercede por su pueblo, pero el Señor anuncia espada, hambre y peste. Jeremías se queja de su suerte, y el Señor le promete que estará con él para librarlo y salvarlo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-08",
           "orden": 8,
-          "capitulos": "20-22",
-          "rango": "20:1-22:30",
+          "capitulos": "16-17",
+          "rango": "16:1-17:27",
           "etiqueta": {
-            "es": "Jeremías 20–22",
-            "en": "Jeremiah 20–22"
+            "es": "Jeremías 16–17",
+            "en": "Jeremiah 16–17"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 726,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 578,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Bendito quien confía en el Señor"
+          },
+          "titulo_corto": {
+            "es": "Bendito quien confía"
+          },
+          "resumen": {
+            "es": "El Señor prohíbe al profeta casarse y tener hijos, como señal de la desgracia que llega, pero anuncia que hará volver a su pueblo del país del norte. Bendito quien confía en el Señor; el profeta le pide que lo cure y exhorta a guardar el sábado."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-09",
           "orden": 9,
-          "capitulos": "23-24",
-          "rango": "23:1-24:10",
+          "capitulos": "18-20",
+          "rango": "18:1-20:18",
           "etiqueta": {
-            "es": "Jeremías 23–24",
-            "en": "Jeremiah 23–24"
+            "es": "Jeremías 18–20",
+            "en": "Jeremiah 18–20"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 595,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 647,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Me sedujiste, Señor"
+          },
+          "titulo_corto": {
+            "es": "Me sedujiste, Señor"
+          },
+          "resumen": {
+            "es": "En el taller del alfarero, el Señor enseña que su pueblo está en sus manos como el barro, y Jeremías rompe una jarra de loza ante concejales y sacerdotes. Pasjur lo hace azotar y meter en el cepo, y el profeta confiesa: «Me sedujiste, Señor»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-10",
           "orden": 10,
-          "capitulos": "25-26",
-          "rango": "25:1-26:24",
+          "capitulos": "21-22",
+          "rango": "21:1-22:30",
           "etiqueta": {
-            "es": "Jeremías 25–26",
-            "en": "Jeremiah 25–26"
+            "es": "Jeremías 21–22",
+            "en": "Jeremiah 21–22"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 751,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 515,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Tierra, tierra, tierra"
+          },
+          "titulo_corto": {
+            "es": "Tierra, tierra, tierra"
+          },
+          "resumen": {
+            "es": "Mientras Nabucodonosor asedia Jerusalén, Sedecías manda consultar al profeta, que propone al pueblo el camino de la vida y el de la muerte. Después Jeremías se dirige a la casa real de Judá: ¡ay del que edifica sus palacios sobre la injusticia!"
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-11",
           "orden": 11,
-          "capitulos": "27-29",
-          "rango": "27:1-29:32",
+          "capitulos": "23-24",
+          "rango": "23:1-24:10",
           "etiqueta": {
-            "es": "Jeremías 27–29",
-            "en": "Jeremiah 27–29"
+            "es": "Jeremías 23–24",
+            "en": "Jeremiah 23–24"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 889,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 595,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un vástago legítimo"
+          },
+          "titulo_corto": {
+            "es": "Un vástago legítimo"
+          },
+          "resumen": {
+            "es": "¡Ay de los pastores que dispersan el rebaño! El Señor promete suscitar a David un vástago legítimo, denuncia a los falsos profetas y, con dos cestos de higos, anuncia que mirará con agrado a los desterrados de Judá."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-12",
           "orden": 12,
-          "capitulos": "30-31",
-          "rango": "30:1-31:40",
+          "capitulos": "25-26",
+          "rango": "25:1-26:24",
           "etiqueta": {
-            "es": "Jeremías 30–31",
-            "en": "Jeremiah 30–31"
+            "es": "Jeremías 25–26",
+            "en": "Jeremiah 25–26"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 692,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 751,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Setenta años"
+          },
+          "titulo_corto": {
+            "es": "Setenta años"
+          },
+          "resumen": {
+            "es": "Jeremías anuncia que las naciones servirán al rey de Babilonia durante setenta años y que todas beberán la copa del vino de la cólera. Por su discurso en el templo lo amenazan de muerte, pero los magistrados lo declaran inocente."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-13",
           "orden": 13,
-          "capitulos": "32",
-          "rango": "32:1-32:44",
+          "capitulos": "27-29",
+          "rango": "27:1-29:32",
           "etiqueta": {
-            "es": "Jeremías 32",
-            "en": "Jeremiah 32"
+            "es": "Jeremías 27–29",
+            "en": "Jeremiah 27–29"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 551,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 889,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Designios de paz"
+          },
+          "titulo_corto": {
+            "es": "Designios de paz"
+          },
+          "resumen": {
+            "es": "Con un yugo al cuello, Jeremías invita a someterse a Babilonia, y Jananías lo rompe anunciando una pronta liberación. Jeremías escribe a los deportados que busquen la prosperidad del país, porque el Señor tiene sobre ellos designios de paz."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-14",
           "orden": 14,
-          "capitulos": "33-34",
-          "rango": "33:1-34:22",
+          "capitulos": "30-31",
+          "rango": "30:1-31:40",
           "etiqueta": {
-            "es": "Jeremías 33–34",
-            "en": "Jeremiah 33–34"
+            "es": "Jeremías 30–31",
+            "en": "Jeremiah 30–31"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 650,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 692,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una alianza nueva"
+          },
+          "titulo_corto": {
+            "es": "Una alianza nueva"
+          },
+          "resumen": {
+            "es": "El Señor promete restaurar a Israel y a Judá: los ama con amor eterno y consuela a Raquel, que llora por sus hijos. Anuncia una alianza nueva y escribirá su ley en sus corazones."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-15",
           "orden": 15,
-          "capitulos": "35-36",
-          "rango": "35:1-36:32",
+          "capitulos": "32-33",
+          "rango": "32:1-33:26",
           "etiqueta": {
-            "es": "Jeremías 35–36",
-            "en": "Jeremiah 35–36"
+            "es": "Jeremías 32–33",
+            "en": "Jeremiah 32–33"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 690,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 888,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Nada me resulta imposible"
+          },
+          "titulo_corto": {
+            "es": "Nada me resulta"
+          },
+          "resumen": {
+            "es": "Durante el asedio, Jeremías, detenido en el patio de la guardia, compra a su primo un campo en Anatot como signo de que todavía se comprarán campos en el país. El Señor, para quien nada es imposible, promete restaurar a su pueblo y suscitar a David un vástago legítimo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-16",
           "orden": 16,
-          "capitulos": "37-38",
-          "rango": "37:1-38:28",
+          "capitulos": "34-35",
+          "rango": "34:1-35:19",
           "etiqueta": {
-            "es": "Jeremías 37–38",
-            "en": "Jeremiah 37–38"
+            "es": "Jeremías 34–35",
+            "en": "Jeremiah 34–35"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 597,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 575,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Los recabitas"
+          },
+          "titulo_corto": {
+            "es": "Los recabitas"
+          },
+          "resumen": {
+            "es": "Sedecías y el pueblo dan libertad a sus esclavos y después vuelven a someterlos, y el Señor anuncia el castigo. Los recabitas, fieles al mandato de su antepasado Jonadab de no beber vino, son puestos como ejemplo frente a la infidelidad de Judá."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-17",
           "orden": 17,
-          "capitulos": "39-40",
-          "rango": "39:1-40:16",
+          "capitulos": "36-37",
+          "rango": "36:1-37:21",
           "etiqueta": {
-            "es": "Jeremías 39–40",
-            "en": "Jeremiah 39–40"
+            "es": "Jeremías 36–37",
+            "en": "Jeremiah 36–37"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 501,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 669,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Toma un rollo"
+          },
+          "titulo_corto": {
+            "es": "Toma un rollo"
+          },
+          "resumen": {
+            "es": "Baruc escribe en un rollo las palabras de Jeremías y las lee en el templo, y el rey Joaquim lo quema; el profeta las dicta de nuevo. Bajo Sedecías, Jeremías es encarcelado y anuncia al rey que será entregado al rey de Babilonia."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-18",
           "orden": 18,
-          "capitulos": "41-43",
-          "rango": "41:1-43:13",
+          "capitulos": "38-39",
+          "rango": "38:1-39:18",
           "etiqueta": {
-            "es": "Jeremías 41–43",
-            "en": "Jeremiah 41–43"
+            "es": "Jeremías 38–39",
+            "en": "Jeremiah 38–39"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 665,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 571,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "En el aljibe de Malquías"
+          },
+          "titulo_corto": {
+            "es": "En el aljibe de Malquías"
+          },
+          "resumen": {
+            "es": "Los dignatarios piden la muerte de Jeremías y lo meten en un aljibe, y Ebedmélec el cusita lo saca de allí; el profeta aconseja a Sedecías que se entregue. Jerusalén cae en manos de los caldeos, y Jeremías es confiado a Godolías."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-19",
           "orden": 19,
-          "capitulos": "44-47",
-          "rango": "44:1-47:7",
+          "capitulos": "40-42",
+          "rango": "40:1-42:22",
           "etiqueta": {
-            "es": "Jeremías 44–47",
-            "en": "Jeremiah 44–47"
+            "es": "Jeremías 40–42",
+            "en": "Jeremiah 40–42"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 923,
+          "propuesta": false,
+          "duracion_estimada_s": 786,
           "pendientes": [
-            "Excepción de duración: 15:23 > 15 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "No temáis al rey de Babilonia"
+          },
+          "titulo_corto": {
+            "es": "No temáis"
+          },
+          "resumen": {
+            "es": "Jeremías se queda con Godolías, gobernador del país, a quien Ismael asesina. Los supervivientes consultan al profeta, y el Señor les dice que se queden en la tierra y no teman al rey de Babilonia."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-20",
           "orden": 20,
-          "capitulos": "48-49",
-          "rango": "48:1-49:39",
+          "capitulos": "43-45",
+          "rango": "43:1-45:5",
           "etiqueta": {
-            "es": "Jeremías 48–49",
-            "en": "Jeremiah 48–49"
+            "es": "Jeremías 43–45",
+            "en": "Jeremiah 43–45"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 900,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 718,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La Reina del Cielo"
+          },
+          "titulo_corto": {
+            "es": "La Reina del Cielo"
+          },
+          "resumen": {
+            "es": "Desobedeciendo al Señor, los supervivientes bajan a Egipto y se llevan a Jeremías, que anuncia allí la llegada de Nabucodonosor. Reprocha a los judíos de Egipto sus ofrendas a la Reina del Cielo, y promete a Baruc que salvará la vida."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-21",
           "orden": 21,
-          "capitulos": "50",
-          "rango": "50:1-50:46",
+          "capitulos": "46-48",
+          "rango": "46:1-48:47",
           "etiqueta": {
-            "es": "Jeremías 50",
-            "en": "Jeremiah 50"
+            "es": "Jeremías 46–48",
+            "en": "Jeremiah 46–48"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 522,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 817,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "No temas, Jacob, siervo mío"
+          },
+          "titulo_corto": {
+            "es": "No temas, Jacob"
+          },
+          "resumen": {
+            "es": "Comienzan los oráculos contra las naciones: Egipto, derrotado en Carquemis, y los filisteos; al pueblo de Jacob, el Señor le promete que no acabará con él. Siguen los oráculos contra Moab."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-22",
           "orden": 22,
-          "capitulos": "51",
-          "rango": "51:1-51:64",
+          "capitulos": "49",
+          "rango": "49:1-49:39",
           "etiqueta": {
-            "es": "Jeremías 51",
-            "en": "Jeremiah 51"
+            "es": "Jeremías 49",
+            "en": "Jeremiah 49"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 687,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 453,
+          "pendientes": [
+            "Excepción de duración: 7:33 < 8 min (Jer 49 entero (oráculos contra Amón, Edón, Damasco, Quedar, Jasor y Elán); Jer 48–49 daría 15:00 pero obligaría a partir 46–48 en 46–47 (6:11); Jer 49–50 daría 16:15)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El arco de Elán"
+          },
+          "titulo_corto": {
+            "es": "El arco de Elán"
+          },
+          "resumen": {
+            "es": "Oráculos contra los amonitas, Edón, Damasco, Quedar y los reinos de Jasor, y Elán."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "jer-23",
           "orden": 23,
+          "capitulos": "50",
+          "rango": "50:1-50:46",
+          "etiqueta": {
+            "es": "Jeremías 50",
+            "en": "Jeremiah 50"
+          },
+          "propuesta": false,
+          "duracion_estimada_s": 522,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Es poderoso su redentor"
+          },
+          "titulo_corto": {
+            "es": "Es poderoso su redentor"
+          },
+          "resumen": {
+            "es": "Oráculo contra Babilonia: el Señor anuncia su caída a manos de un pueblo del norte y el regreso de Israel y Judá, que irán llorando en busca del Señor. Su redentor es poderoso y defenderá su causa."
+          },
+          "idiomas": {
+            "es": {
+              "estado": "listo_voz"
+            }
+          }
+        },
+        {
+          "id": "jer-24",
+          "orden": 24,
+          "capitulos": "51",
+          "rango": "51:1-51:64",
+          "etiqueta": {
+            "es": "Jeremías 51",
+            "en": "Jeremiah 51"
+          },
+          "propuesta": false,
+          "duracion_estimada_s": 687,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Así se hundirá Babilonia"
+          },
+          "titulo_corto": {
+            "es": "Así se hundirá Babilonia"
+          },
+          "resumen": {
+            "es": "Continúa el oráculo contra Babilonia, a la que el Señor castigará por el mal hecho a Sión. Jeremías entrega el oráculo escrito a Seraías para que lo lea en Babilonia y lo arroje al Éufrates."
+          },
+          "idiomas": {
+            "es": {
+              "estado": "listo_voz"
+            }
+          }
+        },
+        {
+          "id": "jer-25",
+          "orden": 25,
           "capitulos": "52",
           "rango": "52:1-52:34",
           "etiqueta": {
             "es": "Jeremías 52",
             "en": "Jeremiah 52"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 392,
           "pendientes": [
-            "Excepción de duración: 6:32 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 6:32 < 8 min (Jer 52, apéndice histórico; unirlo a Jer 51 daría 17:58)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Las murallas de Jerusalén"
+          },
+          "titulo_corto": {
+            "es": "Murallas de Jerusalén"
+          },
+          "resumen": {
+            "es": "Apéndice histórico: Nabucodonosor asedia Jerusalén, captura a Sedecías, incendia el templo y la ciudad, y deporta al pueblo. En Babilonia, el rey Evil Merodac indulta a Joaquín, rey de Judá."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11031,12 +11392,26 @@
             "es": "Lamentaciones 1–2",
             "en": "Lamentations 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 622,
-          "pendientes": [],
+          "pendientes": [
+            "Lam 1, 2: rúbricas «(Pausa)» o letras del acróstico entre paréntesis en la web CEE (44 versículos); el guion las lee tal cual, como texto CEE; pendiente de que Javier decida si se leen («Pausa», nombres de las letras hebreas)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La ciudad populosa"
+          },
+          "titulo_corto": {
+            "es": "La ciudad populosa"
+          },
+          "resumen": {
+            "es": "Jerusalén, destruida, ha quedado como una viuda y confiesa su pecado. El Señor ha descargado su ira sobre Sión, y el poeta se consume en lágrimas por la ruina de la hija de su pueblo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         },
@@ -11049,12 +11424,28 @@
             "es": "Lamentaciones 3–5",
             "en": "Lamentations 3–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 704,
-          "pendientes": [],
+          "pendientes": [
+            "Lam 3, 4: rúbricas «(Pausa)» o letras del acróstico entre paréntesis en la web CEE (44 versículos); el guion las lee tal cual, como texto CEE; pendiente de que Javier decida si se leen («Pausa», nombres de las letras hebreas)",
+            "Cotejo con la edición impresa (no bloquea): Lam 4,3: errata en la web CEE: dos palabras unidas; errata evidente corregida en el guion: «pueblose» → «pueblo se» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Cotejo con la edición impresa (no bloquea): Lam 4,18: errata en la web CEE: dos palabras unidas; errata evidente corregida en el guion: «caminarpor» → «caminar por» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Qué grande es tu fidelidad"
+          },
+          "titulo_corto": {
+            "es": "Tu fidelidad"
+          },
+          "resumen": {
+            "es": "Un hombre que ha conocido el sufrimiento confía en que no se agota la bondad del Señor. Sigue el lamento por los horrores del asedio, y la súplica final: «Haznos volver a ti, Señor, y volveremos»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         }
@@ -11080,12 +11471,25 @@
             "es": "Baruc 1–2",
             "en": "Baruch 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 622,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Señor nuestro Dios es justo"
+          },
+          "titulo_corto": {
+            "es": "Dios es justo"
+          },
+          "resumen": {
+            "es": "Baruc lee su libro en Babilonia ante los deportados, que lo envían a Jerusalén. El pueblo confiesa que el Señor es justo y que ha pecado, y suplica su misericordia."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11098,12 +11502,25 @@
             "es": "Baruc 3–5",
             "en": "Baruch 3–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 643,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Escucha, Israel, mandatos de vida"
+          },
+          "titulo_corto": {
+            "es": "Mandatos de vida"
+          },
+          "resumen": {
+            "es": "Israel ha abandonado la fuente de la sabiduría, que es el libro de los mandatos de Dios. Jerusalén consuela a sus hijos desterrados y se le pide que se despoje del vestido de luto, porque el Santo los reúne."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11116,12 +11533,26 @@
             "es": "Baruc 6",
             "en": "Baruch 6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 718,
-          "pendientes": [],
+          "pendientes": [
+            "Bar 6,1: la web CEE no trae el encabezamiento de la Carta de Jeremías («Copia de la carta que envió Jeremías…») que figura en otras reproducciones del texto CEE; no se añade desde una copia no oficial; la Carta se lee como Baruc 6 según la web; revisar el versículo",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una persona fiel a Dios"
+          },
+          "titulo_corto": {
+            "es": "Una persona fiel a Dios"
+          },
+          "resumen": {
+            "es": "La carta advierte a los desterrados que en Babilonia verán dioses de plata, oro y madera, y les enseña que no son dioses ni hay que temerlos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         }
@@ -11147,12 +11578,25 @@
             "es": "Ezequiel 1–3",
             "en": "Ezekiel 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 692,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Cómete este volumen"
+          },
+          "titulo_corto": {
+            "es": "Cómete este volumen"
+          },
+          "resumen": {
+            "es": "Junto al río Quebar, entre los deportados, Ezequiel contempla la Gloria del Señor. Dios lo envía a un pueblo rebelde, le hace comer el volumen y lo constituye centinela de Israel."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11165,12 +11609,25 @@
             "es": "Ezequiel 4–6",
             "en": "Ezekiel 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 568,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Coge un ladrillo"
+          },
+          "titulo_corto": {
+            "es": "Coge un ladrillo"
+          },
+          "resumen": {
+            "es": "Con acciones simbólicas, el ladrillo y el pelo cortado, el profeta anuncia el asedio y la ruina de Jerusalén. Después profetiza contra los montes de Israel."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11183,12 +11640,25 @@
             "es": "Ezequiel 7–9",
             "en": "Ezekiel 7–9"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 655,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Llega el fin"
+          },
+          "titulo_corto": {
+            "es": "Llega el fin"
+          },
+          "resumen": {
+            "es": "El Señor anuncia el fin sobre la tierra de Israel. En visión, el profeta es llevado a Jerusalén, ve las acciones detestables cometidas en el templo y cómo son marcados en la frente los que se lamentan por ellas."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11201,12 +11671,26 @@
             "es": "Ezequiel 10–12",
             "en": "Ezekiel 10–12"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 804,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 805,
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Ez 10,6: errata en la web CEE: falta el espacio tras la coma; errata evidente corregida en el guion: «querubines,él» → «querubines, él» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un espíritu nuevo"
+          },
+          "titulo_corto": {
+            "es": "Un espíritu nuevo"
+          },
+          "resumen": {
+            "es": "La Gloria del Señor sale del templo sobre los querubines y se sitúa sobre el monte al oriente de la ciudad, y el Señor promete un corazón de carne y un espíritu nuevo. El profeta prepara su equipaje de desterrado como señal para un pueblo rebelde."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11219,12 +11703,25 @@
             "es": "Ezequiel 13–15",
             "en": "Ezekiel 13–15"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 649,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Noé, Daniel y Job"
+          },
+          "titulo_corto": {
+            "es": "Noé, Daniel y Job"
+          },
+          "resumen": {
+            "es": "El Señor condena a los falsos profetas que anuncian paz cuando no hay paz. Ni Noé, Daniel y Job salvarían al país culpable, que será como la madera de la vid echada al fuego."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11237,12 +11734,25 @@
             "es": "Ezequiel 16",
             "en": "Ezekiel 16"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 669,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una alianza eterna"
+          },
+          "titulo_corto": {
+            "es": "Una alianza eterna"
+          },
+          "resumen": {
+            "es": "Ezequiel narra la historia de Jerusalén como la de una niña abandonada a la que el Señor recogió y tomó por esposa, y que se prostituyó. A pesar de todo, el Señor se acordará de su alianza y establecerá con ella una alianza eterna."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11255,12 +11765,25 @@
             "es": "Ezequiel 17–18",
             "en": "Ezekiel 17–18"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 645,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El que peque, ese morirá"
+          },
+          "titulo_corto": {
+            "es": "El que peque"
+          },
+          "resumen": {
+            "es": "La parábola de las águilas y el cedro anuncia el castigo del rey infiel y la rama tierna que el Señor plantará en un monte alto. Cada uno responde de su propio pecado, y el Señor no quiere la muerte del malvado, sino que se convierta y viva."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11273,12 +11796,25 @@
             "es": "Ezequiel 19–20",
             "en": "Ezekiel 19–20"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 690,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Mis sábados como un signo"
+          },
+          "titulo_corto": {
+            "es": "Como un signo"
+          },
+          "resumen": {
+            "es": "El profeta entona una elegía por los príncipes de Israel. El Señor recorre la historia de las rebeldías de su pueblo, desde Egipto y el desierto, y promete reunirlo de entre las naciones."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11291,12 +11827,25 @@
             "es": "Ezequiel 21–22",
             "en": "Ezekiel 21–22"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 679,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Espada, espada"
+          },
+          "titulo_corto": {
+            "es": "Espada, espada"
+          },
+          "resumen": {
+            "es": "El Señor desenvaina su espada contra Jerusalén y contra los amonitas, y denuncia los crímenes de la ciudad sanguinaria. Buscó a alguien que se mantuviera en la brecha en favor del país y no lo encontró."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11309,12 +11858,25 @@
             "es": "Ezequiel 23–24",
             "en": "Ezekiel 23–24"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 736,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Ezequiel os servirá de señal"
+          },
+          "titulo_corto": {
+            "es": "Os servirá de señal"
+          },
+          "resumen": {
+            "es": "Samaría y Jerusalén son presentadas como dos hermanas infieles. Cuando muere la mujer del profeta, el Señor le prohíbe hacer duelo, como señal de lo que hará el pueblo ante la ruina del templo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11327,12 +11889,25 @@
             "es": "Ezequiel 25–27",
             "en": "Ezekiel 25–27"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 733,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Señora de los puertos"
+          },
+          "titulo_corto": {
+            "es": "Señora de los puertos"
+          },
+          "resumen": {
+            "es": "Oráculos contra los amonitas, Moab, Edón y los filisteos, y contra Tiro, que se alegró de la ruina de Jerusalén. El profeta entona una elegía por Tiro, señora de los puertos y mercado de las naciones, que se hundirá en el mar."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11345,12 +11920,25 @@
             "es": "Ezequiel 28–30",
             "en": "Ezekiel 28–30"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 793,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "En el corazón del mar"
+          },
+          "titulo_corto": {
+            "es": "En el corazón del mar"
+          },
+          "resumen": {
+            "es": "El príncipe de Tiro se cree un dios sentado en el corazón del mar y será humillado; sigue un oráculo contra Sidón. El Señor se alza contra el faraón, que dice «Mío es el Nilo», y anuncia la espada sobre Egipto."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11363,12 +11951,25 @@
             "es": "Ezequiel 31–32",
             "en": "Ezekiel 31–32"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 642,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un cedro del Líbano"
+          },
+          "titulo_corto": {
+            "es": "Un cedro del Líbano"
+          },
+          "resumen": {
+            "es": "Egipto es comparado con un cedro del Líbano de espléndido ramaje, que será derribado por su soberbia. El profeta entona una elegía sobre el faraón, que bajará al abismo con las naciones."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11381,12 +11982,25 @@
             "es": "Ezequiel 33–34",
             "en": "Ezekiel 33–34"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 754,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Yo mismo buscaré mi rebaño"
+          },
+          "titulo_corto": {
+            "es": "Buscaré mi rebaño"
+          },
+          "resumen": {
+            "es": "El Señor pone al profeta de centinela en la casa de Israel, porque no se complace en la muerte del malvado, y llega la noticia de la caída de Jerusalén. Frente a los malos pastores, el Señor mismo buscará su rebaño y le dará un único pastor, su siervo David."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11399,12 +12013,25 @@
             "es": "Ezequiel 35–37",
             "en": "Ezekiel 35–37"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 890,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Huesos secos"
+          },
+          "titulo_corto": {
+            "es": "Huesos secos"
+          },
+          "resumen": {
+            "es": "Tras el oráculo contra la montaña de Seír, el Señor promete reunir a Israel, darle un corazón nuevo e infundirle un espíritu nuevo. Los huesos secos reviven por la palabra del Señor, y Judá e Israel serán una sola nación."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11417,12 +12044,25 @@
             "es": "Ezequiel 38–39",
             "en": "Ezekiel 38–39"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 629,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "He derramado mi espíritu"
+          },
+          "titulo_corto": {
+            "es": "He derramado mi espíritu"
+          },
+          "resumen": {
+            "es": "Gog, de la tierra de Magog, atacará a Israel y será derrotado por el Señor a la vista de las naciones. El Señor restaurará a su pueblo y no volverá a ocultarle su rostro, porque ha derramado su espíritu sobre la casa de Israel."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11435,12 +12075,27 @@
             "es": "Ezequiel 40",
             "en": "Ezekiel 40"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 569,
-          "pendientes": [],
+          "pendientes": [
+            "Ez 40: numeración de versículos con saltos en la web CEE ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 42, 43, 44, 45, 46, 47, 48, 49])",
+            "Ez 40,42a: la web CEE numera 40,42a, 43a, 42b, 43b (versículos 42 y 43 entrelazados); el texto se lee con sentido en ese orden, pero no hay criterio de Javier sobre la numeración (caso análogo a 1 Re 11); revisar el versículo",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un monte muy alto"
+          },
+          "titulo_corto": {
+            "es": "Un monte muy alto"
+          },
+          "resumen": {
+            "es": "En una visión, el profeta es llevado a un monte muy alto de la tierra de Israel, donde un hombre mide los pórticos, los atrios y las salas del templo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         },
@@ -11453,12 +12108,25 @@
             "es": "Ezequiel 41–42",
             "en": "Ezekiel 41–42"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 508,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Santo de los Santos"
+          },
+          "titulo_corto": {
+            "es": "El Santo de los Santos"
+          },
+          "resumen": {
+            "es": "Continúa la medición del templo: la nave, el Santo de los Santos, las cámaras laterales y las salas de los sacerdotes, todo rodeado por un muro que separa lo sagrado de lo profano."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11471,12 +12139,25 @@
             "es": "Ezequiel 43–44",
             "en": "Ezekiel 43–44"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 694,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El sitio de mi trono"
+          },
+          "titulo_corto": {
+            "es": "El sitio de mi trono"
+          },
+          "resumen": {
+            "es": "La Gloria del Señor entra en el templo por la puerta oriental, y el Señor establece allí su trono para siempre. Se describen el altar, el pórtico que permanecerá cerrado y las normas sobre los levitas y los sacerdotes."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11489,12 +12170,26 @@
             "es": "Ezequiel 45–46",
             "en": "Ezekiel 45–46"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 639,
-          "pendientes": [],
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Ez 46,23: errata en la web CEE: punto sobrante en mitad de la oración; errata evidente corregida en el guion: «había. unos» → «había unos» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Tierra consagrada al Señor"
+          },
+          "titulo_corto": {
+            "es": "Tierra consagrada"
+          },
+          "resumen": {
+            "es": "Se reserva una porción de tierra consagrada al Señor y se fijan los deberes del príncipe, las ofrendas y las fiestas, y el culto de los sábados y la luna nueva."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11507,12 +12202,25 @@
             "es": "Ezequiel 47–48",
             "en": "Ezekiel 47–48"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 642,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Señor está allí"
+          },
+          "titulo_corto": {
+            "es": "El Señor está allí"
+          },
+          "resumen": {
+            "es": "Del umbral del templo brota un torrente que sanea el mar y da vida a cuanto toca. La tierra se reparte entre las tribus, y la ciudad se llamará «El Señor está allí»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11538,12 +12246,25 @@
             "es": "Daniel 1–2",
             "en": "Daniel 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 833,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un reino que nunca será destruido"
+          },
+          "titulo_corto": {
+            "es": "Nunca será destruido"
+          },
+          "resumen": {
+            "es": "Daniel y sus compañeros, en la corte de Babilonia, no se contaminan con los manjares de la mesa real. Daniel explica a Nabucodonosor su sueño: el Dios del cielo suscitará un reino que nunca será destruido."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11556,122 +12277,246 @@
             "es": "Daniel 3",
             "en": "Daniel 3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 886,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "En medio de las llamas"
+          },
+          "titulo_corto": {
+            "es": "En medio de las llamas"
+          },
+          "resumen": {
+            "es": "Los tres jóvenes se niegan a adorar la estatua de oro y son arrojados al horno encendido. Caminan en medio de las llamas, Azarías ora y los tres bendicen a Dios, y el rey reconoce al Dios que los ha librado."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "dn-03",
           "orden": 3,
-          "capitulos": "4-5",
-          "rango": "4:1-5:30",
+          "capitulos": "4",
+          "rango": "4:1-4:34",
           "etiqueta": {
-            "es": "Daniel 4–5",
-            "en": "Daniel 4–5"
+            "es": "Daniel 4",
+            "en": "Daniel 4"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 889,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 496,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Glorifico al Rey del cielo"
+          },
+          "titulo_corto": {
+            "es": "Glorifico al Rey"
+          },
+          "resumen": {
+            "es": "Nabucodonosor cuenta su sueño del gran árbol, que Daniel interpreta. Por su soberbia, el rey es apartado de los hombres hasta que reconoce al Altísimo y glorifica al Rey del cielo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "dn-04",
           "orden": 4,
-          "capitulos": "6-7",
-          "rango": "6:1-7:28",
+          "capitulos": "5-6",
+          "rango": "5:1-6:29",
           "etiqueta": {
-            "es": "Daniel 6–7",
-            "en": "Daniel 6–7"
+            "es": "Daniel 5–6",
+            "en": "Daniel 5–6"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 705,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 757,
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Dn 6,3: errata en la web CEE: guiones blandos invisibles (U+00AD) en lugar de rayas en el inciso; errata evidente corregida en el guion: «­uno de ellos era Daniel­,» → «—uno de ellos era Daniel—,» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Al foso de los leones"
+          },
+          "titulo_corto": {
+            "es": "Al foso de los leones"
+          },
+          "resumen": {
+            "es": "En el banquete de Baltasar, una mano escribe sobre el muro, y Daniel interpreta la sentencia; esa misma noche el rey es asesinado. Bajo Darío, Daniel es echado al foso de los leones por orar a su Dios, que envía a su ángel a salvarlo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "dn-05",
           "orden": 5,
-          "capitulos": "8-9",
-          "rango": "8:1-9:27",
+          "capitulos": "7-8",
+          "rango": "7:1-8:27",
           "etiqueta": {
-            "es": "Daniel 8–9",
-            "en": "Daniel 8–9"
+            "es": "Daniel 7–8",
+            "en": "Daniel 7–8"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 684,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 652,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una especie de hijo de hombre"
+          },
+          "titulo_corto": {
+            "es": "Hijo de hombre"
+          },
+          "resumen": {
+            "es": "Daniel ve cuatro bestias que salen del mar y una especie de hijo de hombre que recibe del anciano un reino que no acabará. En otra visión, la del carnero y el macho cabrío, Gabriel le explica su sentido."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "dn-06",
           "orden": 6,
-          "capitulos": "10-11",
-          "rango": "10:1-11:45",
+          "capitulos": "9-10",
+          "rango": "9:1-10:21",
           "etiqueta": {
-            "es": "Daniel 10–11",
-            "en": "Daniel 10–11"
+            "es": "Daniel 9–10",
+            "en": "Daniel 9–10"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 746,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 608,
+          "pendientes": [
+            "Dn 10,19: la web CEE inserta dentro de 10,19 un fragmento de 7,23: «Después me dijo: «La —No temas, hombre predilecto; … pues me has dado fuerzas.cuarta bestia es un cuarto reino…»; no se puede fijar con seguridad el inicio genuino del versículo; el guion conserva el texto de la web; revisar el versículo",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Setenta semanas"
+          },
+          "titulo_corto": {
+            "es": "Setenta semanas"
+          },
+          "resumen": {
+            "es": "Daniel confiesa los pecados de su pueblo, y Gabriel le revela el sentido de las setenta semanas. Después se le aparece junto al río un hombre vestido de lino, que viene a anunciarle lo que sucederá a su pueblo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         },
         {
           "id": "dn-07",
           "orden": 7,
-          "capitulos": "12-13",
-          "rango": "12:1-13:64",
+          "capitulos": "11-12",
+          "rango": "11:1-12:13",
           "etiqueta": {
-            "es": "Daniel 12–13",
-            "en": "Daniel 12–13"
+            "es": "Daniel 11–12",
+            "en": "Daniel 11–12"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 691,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 648,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Como las estrellas"
+          },
+          "titulo_corto": {
+            "es": "Como las estrellas"
+          },
+          "resumen": {
+            "es": "La revelación anuncia las guerras entre los reyes del sur y del norte, hasta un rey que se engrandecerá sobre todos los dioses. Entonces se levantará Miguel; los que duermen en el polvo despertarán, y los sabios brillarán como las estrellas."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "dn-08",
           "orden": 8,
+          "capitulos": "13",
+          "rango": "13:1-13:64",
+          "etiqueta": {
+            "es": "Daniel 13",
+            "en": "Daniel 13"
+          },
+          "propuesta": false,
+          "duracion_estimada_s": 553,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una vida inocente"
+          },
+          "titulo_corto": {
+            "es": "Una vida inocente"
+          },
+          "resumen": {
+            "es": "Dos ancianos acusan falsamente a Susana, que es condenada a muerte. Dios suscita el espíritu santo en el joven Daniel, que interroga por separado a los ancianos y descubre su mentira."
+          },
+          "idiomas": {
+            "es": {
+              "estado": "listo_voz"
+            }
+          }
+        },
+        {
+          "id": "dn-09",
+          "orden": 9,
           "capitulos": "14",
           "rango": "14:1-14:42",
           "etiqueta": {
             "es": "Daniel 14",
             "en": "Daniel 14"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 420,
           "pendientes": [
-            "Excepción de duración: 7:00 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 7:00 < 8 min (Dn 14 (Bel y el dragón, adición griega); Dn 13–14 daría 16:12 y Susana (Dn 13) es otra unidad)",
+            "Cotejo con la edición impresa (no bloquea): Dn 14,27: errata en la web CEE: falta el espacio tras el punto; errata evidente corregida en el guion: «reventó.Daniel» → «reventó. Daniel» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Grande eres Señor"
+          },
+          "titulo_corto": {
+            "es": "Grande eres Señor"
+          },
+          "resumen": {
+            "es": "Daniel demuestra al rey que el ídolo Bel no come las ofrendas y da muerte al dragón que veneraban los babilonios. Arrojado al foso de los leones, es alimentado por Habacuc, y el rey alaba al Dios de Daniel."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11697,12 +12542,26 @@
             "es": "Oseas 1–4",
             "en": "Hosea 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 626,
-          "pendientes": [],
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Os 2,4: errata en la web CEE: coma sobrante entre el verbo y su complemento; errata evidente corregida en el guion: ««Acusad, a vuestra madre,» → ««Acusad a vuestra madre,» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Le hablo al corazón"
+          },
+          "titulo_corto": {
+            "es": "Le hablo al corazón"
+          },
+          "resumen": {
+            "es": "El Señor manda a Oseas desposarse con una mujer ligada a la prostitución, signo de la infidelidad de Israel, al que llevará al desierto para hablarle al corazón y desposarse con él para siempre. El Señor tiene un proceso contra los habitantes del país."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11715,12 +12574,26 @@
             "es": "Oseas 5–9",
             "en": "Hosea 5–9"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 691,
-          "pendientes": [],
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Os 5,1: errata en la web CEE: falta el signo de apertura de la exclamación; errata evidente corregida en el guion: «| Atención, casa de Israel!» → «| ¡Atención, casa de Israel!» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Quiero misericordia y no sacrificio"
+          },
+          "titulo_corto": {
+            "es": "Quiero misericordia"
+          },
+          "resumen": {
+            "es": "El Señor reprocha a sacerdotes, pueblo y casa real su infidelidad: quiere misericordia y no sacrificio, conocimiento de Dios más que holocaustos. Puesto que siembran viento, cosecharán tempestades."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11733,12 +12606,25 @@
             "es": "Oseas 10–14",
             "en": "Hosea 10–14"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 638,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "De Egipto llamé a mi hijo"
+          },
+          "titulo_corto": {
+            "es": "Llamé a mi hijo"
+          },
+          "resumen": {
+            "es": "El Señor recuerda que amó a Israel cuando era joven y lo atrajo con vínculos de amor; su corazón no puede abandonarlo. El profeta invita a Israel a volver al Señor su Dios."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11764,12 +12650,26 @@
             "es": "Joel 1–4",
             "en": "Joel 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 736,
-          "pendientes": [],
+          "pendientes": [
+            "Cotejo con la edición impresa (no bloquea): Jl 1,11: errata en la web CEE: faltan las comas de los vocativos; errata evidente corregida en el guion: «Avergonzaos labradores» → «Avergonzaos, labradores»; «lamentaos viñadores» → «lamentaos, viñadores» (autorización de Javier 2026-11-09); pendiente de cotejo con la edición impresa",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Rasgad vuestros corazones"
+          },
+          "titulo_corto": {
+            "es": "Rasgad vuestros"
+          },
+          "resumen": {
+            "es": "Una plaga de langosta asola el país, y el profeta convoca al ayuno y a la conversión: «rasgad vuestros corazones, no vuestros vestidos». El Señor promete derramar su espíritu sobre toda carne y juzgar a los pueblos en el valle de Josafat."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11795,12 +12695,25 @@
             "es": "Amós 1–3",
             "en": "Amos 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 496,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Señor ruge desde Sión"
+          },
+          "titulo_corto": {
+            "es": "El Señor ruge desde Sión"
+          },
+          "resumen": {
+            "es": "Amós anuncia el castigo del Señor sobre los pueblos vecinos, sobre Judá y sobre Israel. Ha rugido el león: ¿quién no temerá? El Señor ha hablado: ¿quién no profetizará?"
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11813,12 +12726,25 @@
             "es": "Amós 4–6",
             "en": "Amos 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 571,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Buscadme y viviréis"
+          },
+          "titulo_corto": {
+            "es": "Buscadme y viviréis"
+          },
+          "resumen": {
+            "es": "El profeta denuncia la opresión de los pobres y el culto vacío, y pide que fluya como agua el derecho. ¡Ay de aquellos que se sienten seguros en Sión!"
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11831,12 +12757,25 @@
             "es": "Amós 7–9",
             "en": "Amos 7–9"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 517,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La cabaña caída de David"
+          },
+          "titulo_corto": {
+            "es": "La cabaña caída"
+          },
+          "resumen": {
+            "es": "En una serie de visiones, el Señor anuncia el castigo de Israel; Amasías quiere expulsar a Amós, que responde que no es profeta, sino pastor. Al final, el Señor promete levantar la cabaña caída de David."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11862,14 +12801,26 @@
             "es": "Abdías",
             "en": "Obadiah"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 235,
           "pendientes": [
-            "Excepción de duración: 3:55 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 3:55 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Y el Señor reinará"
+          },
+          "titulo_corto": {
+            "es": "Y el Señor reinará"
+          },
+          "resumen": {
+            "es": "Oráculo contra Edón, que se alegró de la desgracia de Judá. Llega el Día del Señor contra todos los pueblos, y el Señor reinará."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11895,12 +12846,25 @@
             "es": "Jonás 1–4",
             "en": "Jonah 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 491,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "En el vientre del pez"
+          },
+          "titulo_corto": {
+            "es": "En el vientre del pez"
+          },
+          "resumen": {
+            "es": "Jonás huye a Tarsis para no ir a Nínive, y un gran pez se lo traga. Cuando por fin predica, Nínive se convierte, y el Señor, ante el disgusto del profeta, le muestra su compasión por la gran ciudad."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11926,12 +12890,25 @@
             "es": "Miqueas 1–4",
             "en": "Micah 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 596,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "De las espadas forjarán arados"
+          },
+          "titulo_corto": {
+            "es": "Forjarán arados"
+          },
+          "resumen": {
+            "es": "Miqueas anuncia el castigo de Samaría y de Jerusalén, y denuncia a quienes codician campos y a los falsos profetas. En los días futuros, todas las naciones confluirán al monte de la casa del Señor."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -11944,12 +12921,25 @@
             "es": "Miqueas 5–7",
             "en": "Micah 5–7"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 493,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Y tú, Belén Efratá"
+          },
+          "titulo_corto": {
+            "es": "Y tú, Belén Efratá"
+          },
+          "resumen": {
+            "es": "De Belén Efratá saldrá el que ha de gobernar Israel. El Señor recuerda a su pueblo lo que quiere de él: practicar el derecho, amar la bondad y caminar humildemente con su Dios, que arrojará sus pecados a lo hondo del mar."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -11975,14 +12965,27 @@
             "es": "Nahún 1–3",
             "en": "Nahum 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 437,
           "pendientes": [
-            "Excepción de duración: 7:17 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 7:17 < 8 min (libro entero más corto de 8 min)",
+            "Nah 1: rúbricas «(Pausa)» o letras del acróstico entre paréntesis en la web CEE (7 versículos); el guion las lee tal cual, como texto CEE; pendiente de que Javier decida si se leen («Pausa», nombres de las letras hebreas)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Los pies del mensajero"
+          },
+          "titulo_corto": {
+            "es": "Los pies del mensajero"
+          },
+          "resumen": {
+            "es": "Poema sobre Nínive: el Señor, paciente y fuerte, es buen refugio para los que se cobijan en él. El profeta anuncia la caída de Nínive, la ciudad sanguinaria."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         }
@@ -12008,12 +13011,25 @@
             "es": "Habacuc 1–3",
             "en": "Habakkuk 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 535,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El justo por su fe vivirá"
+          },
+          "titulo_corto": {
+            "es": "Por su fe vivirá"
+          },
+          "resumen": {
+            "es": "El profeta pregunta al Señor hasta cuándo pedirá auxilio, y el Señor le responde que el justo por su fe vivirá. El libro termina con una oración: aunque falten las cosechas, el profeta se gloriará en Dios, su salvador."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -12039,12 +13055,25 @@
             "es": "Sofonías 1–3",
             "en": "Zephaniah 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 585,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El gran Día del Señor"
+          },
+          "titulo_corto": {
+            "es": "El gran Día del Señor"
+          },
+          "resumen": {
+            "es": "Sofonías anuncia el Día del Señor contra Judá y contra las naciones, y exhorta a los humildes a buscar al Señor. El Señor dejará un resto humilde y pobre, y se alegrará con la hija de Sión."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -12070,14 +13099,26 @@
             "es": "Ageo 1–2",
             "en": "Haggai 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 407,
           "pendientes": [
-            "Excepción de duración: 6:47 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 6:47 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Mayor será la gloria"
+          },
+          "titulo_corto": {
+            "es": "Mayor será la gloria"
+          },
+          "resumen": {
+            "es": "El año segundo del rey Darío, Ageo exhorta a Zorobabel, a Josué y al pueblo a reconstruir el templo, que está en ruinas. El Señor promete que la gloria de este segundo templo será mayor que la del primero."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -12103,12 +13144,25 @@
             "es": "Zacarías 1–6",
             "en": "Zechariah 1–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 832,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Volveos a mí"
+          },
+          "titulo_corto": {
+            "es": "Volveos a mí"
+          },
+          "resumen": {
+            "es": "Zacarías llama a la conversión y narra sus visiones sobre la restauración de Jerusalén. El Señor habitará en medio de Sión, y su mensaje a Zorobabel es: «Ni con violencia ni por la fuerza, sino por mi espíritu»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -12121,12 +13175,25 @@
             "es": "Zacarías 7–10",
             "en": "Zechariah 7–10"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 712,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Mira que viene tu rey"
+          },
+          "titulo_corto": {
+            "es": "Mira que viene tu rey"
+          },
+          "resumen": {
+            "es": "El Señor pide sentencias justas y misericordia, y promete que los ancianos volverán a sentarse en las calles de Jerusalén. Sión salta de gozo, porque viene su rey, justo y pobre, montado en un borrico."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -12139,12 +13206,26 @@
             "es": "Zacarías 11–14",
             "en": "Zechariah 11–14"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 743,
-          "pendientes": [],
+          "pendientes": [
+            "Zac 14,21: la web CEE repite la última oración («Aquel día no quedará ni un comerciante en el templo del Señor del universo.») dos veces seguidas, sin espacio; el guion conserva el texto de la web; revisar el versículo",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Al que traspasaron"
+          },
+          "titulo_corto": {
+            "es": "Al que traspasaron"
+          },
+          "resumen": {
+            "es": "El profeta, como pastor, recibe por salario treinta monedas de plata. El Señor derramará sobre Jerusalén un espíritu de perdón y de oración, y volverán sus ojos al que traspasaron; aquel día el Señor será rey de todo el mundo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "borrador"
             }
           }
         }
@@ -12170,12 +13251,25 @@
             "es": "Malaquías 1–3",
             "en": "Malachi 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 680,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un sol de justicia"
+          },
+          "titulo_corto": {
+            "es": "Un sol de justicia"
+          },
+          "resumen": {
+            "es": "El Señor reprocha a los sacerdotes y al pueblo sus ofrendas indignas y su infidelidad, y anuncia que enviará a su mensajero. A los que temen su nombre los iluminará un sol de justicia, y antes de su Día enviará al profeta Elías."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14168,12 +15262,25 @@
             "es": "Romanos 1–3",
             "en": "Romans 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 851,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Fuerza de Dios para la salvación"
+          },
+          "titulo_corto": {
+            "es": "Fuerza de Dios"
+          },
+          "resumen": {
+            "es": "Pablo saluda a los que están en Roma y presenta el Evangelio, fuerza de Dios para la salvación de todo el que cree. Todos pecaron, judíos y griegos, y el hombre es justificado por la fe, sin obras de la Ley."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14186,12 +15293,25 @@
             "es": "Romanos 4–6",
             "en": "Romans 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 707,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La esperanza no defrauda"
+          },
+          "titulo_corto": {
+            "es": "La esperanza no defrauda"
+          },
+          "resumen": {
+            "es": "Abrahán creyó a Dios y le fue contado como justicia. Justificados por la fe, estamos en paz con Dios, que nos demostró su amor en que Cristo murió por nosotros; por el bautismo fuimos sepultados con él para andar en una vida nueva."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14204,12 +15324,25 @@
             "es": "Romanos 7–8",
             "en": "Romans 7–8"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 665,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Si Dios está con nosotros"
+          },
+          "titulo_corto": {
+            "es": "Dios está con nosotros"
+          },
+          "resumen": {
+            "es": "Pablo describe la lucha de quien no hace el bien que desea y la vida según el Espíritu, que nos hace hijos de Dios. Nada podrá separarnos del amor de Dios manifestado en Cristo Jesús."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14222,12 +15355,25 @@
             "es": "Romanos 9–10",
             "en": "Romans 9–10"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 529,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Jesús es Señor"
+          },
+          "titulo_corto": {
+            "es": "Jesús es Señor"
+          },
+          "resumen": {
+            "es": "Pablo expresa su dolor por Israel y explica que todo depende de Dios, que se compadece. Quien profese con sus labios que Jesús es Señor y crea con su corazón que Dios lo resucitó, será salvo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14240,12 +15386,25 @@
             "es": "Romanos 11–13",
             "en": "Romans 11–13"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 698,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Qué abismo de riqueza"
+          },
+          "titulo_corto": {
+            "es": "Qué abismo de riqueza"
+          },
+          "resumen": {
+            "es": "Dios no ha desechado a su pueblo, y todo Israel será salvo: ¡qué abismo de riqueza, de sabiduría y de conocimiento el de Dios! Pablo exhorta a presentar los cuerpos como sacrificio vivo, a amar sin fingimiento y a someterse a las autoridades; la plenitud de la ley es el amor."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14258,12 +15417,25 @@
             "es": "Romanos 14–16",
             "en": "Romans 14–16"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 782,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Somos del Señor"
+          },
+          "titulo_corto": {
+            "es": "Somos del Señor"
+          },
+          "resumen": {
+            "es": "Pablo pide acoger al débil en la fe y no juzgar al hermano, porque, ya vivamos ya muramos, somos del Señor. Explica su proyecto de viajar a España y termina con saludos a sus colaboradores y una alabanza a Dios."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14289,12 +15461,25 @@
             "es": "1 Corintios 1–3",
             "en": "1 Corinthians 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 638,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Cristo crucificado"
+          },
+          "titulo_corto": {
+            "es": "Cristo crucificado"
+          },
+          "resumen": {
+            "es": "Pablo reprocha a los corintios sus divisiones y les recuerda que predica a Cristo crucificado, escándalo para los judíos, necedad para los gentiles. Él plantó, Apolo regó, pero fue Dios quien hizo crecer; ellos son templo de Dios."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14307,12 +15492,25 @@
             "es": "1 Corintios 4–6",
             "en": "1 Corinthians 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 518,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Templo del Espíritu Santo"
+          },
+          "titulo_corto": {
+            "es": "Templo del Espíritu"
+          },
+          "resumen": {
+            "es": "Pablo se presenta como servidor de Cristo y administrador de los misterios de Dios. Corrige un caso de inmoralidad en la comunidad y los pleitos entre hermanos, y recuerda que el cuerpo es templo del Espíritu Santo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14325,12 +15523,25 @@
             "es": "1 Corintios 7–9",
             "en": "1 Corinthians 7–9"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 820,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Todo para todos"
+          },
+          "titulo_corto": {
+            "es": "Todo para todos"
+          },
+          "resumen": {
+            "es": "Pablo responde a las preguntas sobre el matrimonio y los célibes, y sobre lo sacrificado a los ídolos: el conocimiento engríe, mientras que el amor edifica. Por el Evangelio se ha hecho todo para todos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14343,12 +15554,25 @@
             "es": "1 Corintios 10–11",
             "en": "1 Corinthians 10–11"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 579,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "En memoria mía"
+          },
+          "titulo_corto": {
+            "es": "En memoria mía"
+          },
+          "resumen": {
+            "es": "Con el ejemplo de los padres en el desierto, el apóstol exhorta a huir de la idolatría: el pan es uno y formamos un solo cuerpo. Corrige los abusos en las reuniones y transmite lo que recibió del Señor: «Haced esto en memoria mía»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14361,12 +15585,25 @@
             "es": "1 Corintios 12–14",
             "en": "1 Corinthians 12–14"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 769,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La más grande es el amor"
+          },
+          "titulo_corto": {
+            "es": "La más grande es el amor"
+          },
+          "resumen": {
+            "es": "Hay diversidad de dones, pero un mismo Espíritu, y todos son el cuerpo de Cristo. El amor es paciente y benigno; de la fe, la esperanza y el amor, la más grande es el amor. Pablo da normas sobre el don de lenguas y la profecía en la asamblea."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14379,12 +15616,25 @@
             "es": "1 Corintios 15–16",
             "en": "1 Corinthians 15–16"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 676,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Dónde está, muerte, tu victoria"
+          },
+          "titulo_corto": {
+            "es": "Muerte, tu victoria"
+          },
+          "resumen": {
+            "es": "Pablo transmite lo que recibió: Cristo murió por nuestros pecados y resucitó al tercer día; si Cristo no ha resucitado, la fe no tiene sentido. Explica la resurrección de los muertos y termina con la colecta para Jerusalén y los saludos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14410,12 +15660,25 @@
             "es": "2 Corintios 1–3",
             "en": "2 Corinthians 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 583,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Dios de todo consuelo"
+          },
+          "titulo_corto": {
+            "es": "Dios de todo consuelo"
+          },
+          "resumen": {
+            "es": "Pablo bendice al Padre de las misericordias y Dios de todo consuelo, y explica a los corintios por qué cambió sus planes de viaje. Dios lo ha capacitado para ser ministro de una alianza nueva, no de la letra, sino del Espíritu."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14428,48 +15691,88 @@
             "es": "2 Corintios 4–7",
             "en": "2 Corinthians 4–7"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 723,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Este tesoro en vasijas de barro"
+          },
+          "titulo_corto": {
+            "es": "En vasijas de barro"
+          },
+          "resumen": {
+            "es": "El apóstol lleva un tesoro en vasijas de barro; quien está en Cristo es una criatura nueva, y Dios exhorta por medio de sus enviados a reconciliarse con él. Pablo abre su corazón a los corintios y se alegra de su arrepentimiento."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "2cor-03",
           "orden": 3,
-          "capitulos": "8-10",
-          "rango": "8:1-10:18",
+          "capitulos": "8-9",
+          "rango": "8:1-9:15",
           "etiqueta": {
-            "es": "2 Corintios 8–10",
-            "en": "2 Corinthians 8–10"
+            "es": "2 Corintios 8–9",
+            "en": "2 Corinthians 8–9"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 555,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 373,
+          "pendientes": [
+            "Excepción de duración: 6:13 < 8 min (2 Cor 8–9 (la colecta para Jerusalén, unidad propia); la partición anterior (8–10 = 9:15; 11–13 = 11:24) separaba 2 Cor 10 del resto de la sección polémica (10–13), que ahora va entera en 2cor-04 (14:26))",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Al que da con alegría"
+          },
+          "titulo_corto": {
+            "es": "Al que da con alegría"
+          },
+          "resumen": {
+            "es": "Pablo anima a los corintios a ser generosos en la colecta en favor de los santos, con el ejemplo de Cristo, que siendo rico se hizo pobre. Cada uno dé como le dicte su corazón, pues Dios ama al que da con alegría."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "2cor-04",
           "orden": 4,
-          "capitulos": "11-13",
-          "rango": "11:1-13:13",
+          "capitulos": "10-13",
+          "rango": "10:1-13:13",
           "etiqueta": {
-            "es": "2 Corintios 11–13",
-            "en": "2 Corinthians 11–13"
+            "es": "2 Corintios 10–13",
+            "en": "2 Corinthians 10–13"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 684,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 866,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Te basta mi gracia"
+          },
+          "titulo_corto": {
+            "es": "Te basta mi gracia"
+          },
+          "resumen": {
+            "es": "Pablo defiende su ministerio frente a esos superapóstoles y, forzado, se gloría de sus trabajos y de su debilidad. El Señor le dice: «Te basta mi gracia: la fuerza se realiza en la debilidad»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14495,12 +15798,25 @@
             "es": "Gálatas 1–3",
             "en": "Galatians 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 717,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Es Cristo quien vive en mí"
+          },
+          "titulo_corto": {
+            "es": "Quien vive en mí"
+          },
+          "resumen": {
+            "es": "Pablo defiende que su Evangelio no viene de ningún hombre, sino de una revelación de Jesucristo, y recuerda cómo se encaró con Cefas en Antioquía. El hombre no es justificado por las obras de la ley, sino por la fe, y todos son uno en Cristo Jesús."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14513,12 +15829,25 @@
             "es": "Gálatas 4–6",
             "en": "Galatians 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 630,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Para la libertad"
+          },
+          "titulo_corto": {
+            "es": "Para la libertad"
+          },
+          "resumen": {
+            "es": "Al llegar la plenitud del tiempo, Dios envió a su Hijo, y somos hijos que claman «¡Abba, Padre!». Cristo nos ha liberado para la libertad: Pablo opone las obras de la carne al fruto del Espíritu, y solo se gloría en la cruz de nuestro Señor Jesucristo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14544,12 +15873,25 @@
             "es": "Efesios 1–3",
             "en": "Ephesians 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 578,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Él es nuestra paz"
+          },
+          "titulo_corto": {
+            "es": "Él es nuestra paz"
+          },
+          "resumen": {
+            "es": "Pablo bendice a Dios, que nos ha bendecido en Cristo con toda clase de bendiciones. Por gracia estamos salvados, mediante la fe; Cristo ha derribado el muro que separaba a los dos pueblos, y Pablo pide que habite por la fe en los corazones."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14562,12 +15904,25 @@
             "es": "Efesios 4–6",
             "en": "Ephesians 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 695,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Un Señor, una fe, un bautismo"
+          },
+          "titulo_corto": {
+            "es": "Una fe, un bautismo"
+          },
+          "resumen": {
+            "es": "Pablo exhorta a andar como pide la vocación recibida, en la unidad de un solo cuerpo, y a renovarse en la mente y en el espíritu. Da normas a mujeres y maridos, hijos y padres, esclavos y amos, y pide revestirse de las armas de Dios."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14593,14 +15948,26 @@
             "es": "Filipenses 1–4",
             "en": "Philippians 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 909,
           "pendientes": [
-            "Excepción de duración: 15:09 > 15 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 15:09 > 15 min (la partición en capítulos enteros no deja otra opción mejor)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Alegraos siempre en el Señor"
+          },
+          "titulo_corto": {
+            "es": "Alegraos siempre"
+          },
+          "resumen": {
+            "es": "Preso por Cristo, Pablo agradece a los filipenses su ayuda: para él la vida es Cristo. Les pide tener los sentimientos propios de Cristo Jesús, que se despojó de sí mismo; todo lo considera pérdida comparado con conocerlo, y los invita a alegrarse siempre en el Señor."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14626,12 +15993,25 @@
             "es": "Colosenses 1–4",
             "en": "Colossians 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 850,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Imagen del Dios invisible"
+          },
+          "titulo_corto": {
+            "es": "El Dios invisible"
+          },
+          "resumen": {
+            "es": "Pablo da gracias por los hermanos de Colosas y canta a Cristo, imagen del Dios invisible y primogénito de toda criatura. Los exhorta a no dejarse envolver por teorías humanas, a buscar los bienes de allá arriba y a vivir en el amor, vínculo de la unidad perfecta."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14657,12 +16037,25 @@
             "es": "1 Tesalonicenses 1–5",
             "en": "1 Thessalonians 1–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 794,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Como un ladrón en la noche"
+          },
+          "titulo_corto": {
+            "es": "Como un ladrón"
+          },
+          "resumen": {
+            "es": "Pablo recuerda a los tesalonicenses cómo acogieron la Palabra en medio de la tribulación, y los exhorta a comportarse para agradar a Dios. Les habla de la suerte de los difuntos y del Día del Señor, que llegará como un ladrón en la noche."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14688,14 +16081,26 @@
             "es": "2 Tesalonicenses 1–3",
             "en": "2 Thessalonians 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 453,
           "pendientes": [
-            "Excepción de duración: 7:33 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 7:33 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Conservad las tradiciones"
+          },
+          "titulo_corto": {
+            "es": "Las tradiciones"
+          },
+          "resumen": {
+            "es": "Pablo anima a los tesalonicenses en las persecuciones y les advierte que nadie los engañe: antes del día del Señor tiene que llegar la apostasía. Les pide conservar las tradiciones y trabajar, porque si alguno no quiere trabajar, que no coma."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14721,14 +16126,26 @@
             "es": "1 Timoteo 1–3",
             "en": "1 Timothy 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 466,
           "pendientes": [
-            "Excepción de duración: 7:46 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 7:46 < 8 min (la partición en capítulos enteros no deja otra opción mejor)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Columna y fundamento de la verdad"
+          },
+          "titulo_corto": {
+            "es": "Fundamento de la verdad"
+          },
+          "resumen": {
+            "es": "Pablo encarga a Timoteo que en Éfeso nadie enseñe doctrinas diferentes, y recuerda que Cristo Jesús vino al mundo para salvar a los pecadores. Da normas sobre la oración, porque Dios quiere que todos los hombres se salven, y sobre el obispo y los diáconos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14741,12 +16158,25 @@
             "es": "1 Timoteo 4–6",
             "en": "1 Timothy 4–6"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 601,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Combate el buen combate"
+          },
+          "titulo_corto": {
+            "es": "Combate el buen combate"
+          },
+          "resumen": {
+            "es": "Pablo exhorta a Timoteo a ser modelo para los fieles y da normas sobre las viudas, los presbíteros y los esclavos. El amor al dinero es la raíz de todos los males; Timoteo debe combatir el buen combate de la fe."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14772,12 +16202,25 @@
             "es": "2 Timoteo 1–4",
             "en": "2 Timothy 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 741,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "He combatido el noble combate"
+          },
+          "titulo_corto": {
+            "es": "El noble combate"
+          },
+          "resumen": {
+            "es": "Pablo, prisionero, pide a Timoteo que reavive el don de Dios y tome parte en los padecimientos como buen soldado de Cristo Jesús. Toda Escritura es inspirada por Dios; Timoteo debe proclamar la palabra, porque la partida de Pablo es inminente."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14803,14 +16246,26 @@
             "es": "Tito 1–3",
             "en": "Titus 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 447,
           "pendientes": [
-            "Excepción de duración: 7:27 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 7:27 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Se ha manifestado la gracia"
+          },
+          "titulo_corto": {
+            "es": "La gracia de Dios"
+          },
+          "resumen": {
+            "es": "Pablo encarga a Tito organizar lo que falta en Creta y constituir presbíteros en cada ciudad, y le da normas para la vida de los fieles. Se ha manifestado la gracia de Dios, que nos salvó por el baño del nuevo nacimiento."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14836,14 +16291,26 @@
             "es": "Filemón",
             "en": "Philemon"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 180,
           "pendientes": [
-            "Excepción de duración: 3:00 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 3:00 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Como un hermano querido"
+          },
+          "titulo_corto": {
+            "es": "Como un hermano querido"
+          },
+          "resumen": {
+            "es": "Pablo, prisionero por Cristo Jesús, recomienda a Filemón a Onésimo, a quien engendró en la prisión, y le pide que lo reciba no como esclavo, sino como un hermano querido."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14869,48 +16336,87 @@
             "es": "Hebreos 1–4",
             "en": "Hebrews 1–4"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 627,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La palabra de Dios es viva"
+          },
+          "titulo_corto": {
+            "es": "Viva y eficaz"
+          },
+          "resumen": {
+            "es": "Dios, que habló antiguamente por los profetas, nos ha hablado por el Hijo, superior a los ángeles. El honor de Jesús es superior al de Moisés; la palabra de Dios es viva y eficaz, y tenemos un sumo sacerdote probado en todo, menos en el pecado."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "heb-02",
           "orden": 2,
-          "capitulos": "5-8",
-          "rango": "5:1-8:13",
+          "capitulos": "5-7",
+          "rango": "5:1-7:28",
           "etiqueta": {
-            "es": "Hebreos 5–8",
-            "en": "Hebrews 5–8"
+            "es": "Hebreos 5–7",
+            "en": "Hebrews 5–7"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 710,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 561,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Según el rito de Melquisedec"
+          },
+          "titulo_corto": {
+            "es": "Rito de Melquisedec"
+          },
+          "resumen": {
+            "es": "Cristo, aun siendo Hijo, aprendió sufriendo a obedecer, y es sacerdote para siempre según el rito de Melquisedec. El autor exhorta a elevarse a lo perfecto y a mantener la esperanza, ancla del alma segura y firme."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "heb-03",
           "orden": 3,
-          "capitulos": "9-10",
-          "rango": "9:1-10:39",
+          "capitulos": "8-10",
+          "rango": "8:1-10:39",
           "etiqueta": {
-            "es": "Hebreos 9–10",
-            "en": "Hebrews 9–10"
+            "es": "Hebreos 8–10",
+            "en": "Hebrews 8–10"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 626,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 775,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "He aquí que vengo"
+          },
+          "titulo_corto": {
+            "es": "He aquí que vengo"
+          },
+          "resumen": {
+            "es": "Cristo es mediador de una alianza mejor, con las leyes de Dios escritas en los corazones, y ha entrado en el santuario una vez para siempre con su propia sangre. Por eso hay que mantenerse firmes en la esperanza que profesamos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14923,12 +16429,25 @@
             "es": "Hebreos 11–13",
             "en": "Hebrews 11–13"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 851,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La fe es fundamento"
+          },
+          "titulo_corto": {
+            "es": "La fe es fundamento"
+          },
+          "resumen": {
+            "es": "La fe es fundamento de lo que se espera: por la fe vivieron Abel, Abrahán, Moisés y tantos testigos. Corramos con constancia, aceptemos la corrección de Dios y no olvidemos la hospitalidad: Jesucristo es el mismo ayer y hoy y siempre."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -14954,14 +16473,26 @@
             "es": "Santiago 1–2",
             "en": "James 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 471,
           "pendientes": [
-            "Excepción de duración: 7:51 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 7:51 < 8 min (la partición en capítulos enteros no deja otra opción mejor)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "La fe sin obras"
+          },
+          "titulo_corto": {
+            "es": "La fe sin obras"
+          },
+          "resumen": {
+            "es": "Santiago anima a aguantar la prueba y a poner en práctica la palabra, sin acepción de personas. La fe, si no tiene obras, está muerta."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -14974,12 +16505,25 @@
             "es": "Santiago 3–5",
             "en": "James 3–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 534,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Acercaos a Dios"
+          },
+          "titulo_corto": {
+            "es": "Acercaos a Dios"
+          },
+          "resumen": {
+            "es": "La carta advierte sobre los peligros de la lengua y de la sabiduría terrena, invita a acercarse a Dios y denuncia a los ricos que retienen el jornal de los obreros. Exhorta a la paciencia y a la oración: mucho puede la oración insistente del justo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15005,12 +16549,25 @@
             "es": "1 Pedro 1–2",
             "en": "1 Peter 1–2"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 499,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Como piedras vivas"
+          },
+          "titulo_corto": {
+            "es": "Como piedras vivas"
+          },
+          "resumen": {
+            "es": "Pedro bendice a Dios, que por la resurrección de Jesucristo nos ha regenerado para una esperanza viva, y llama a ser santos en toda la conducta. Los creyentes, como piedras vivas, son un linaje elegido y un sacerdocio real, y deben vivir como personas libres y siervos de Dios."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -15023,12 +16580,25 @@
             "es": "1 Pedro 3–5",
             "en": "1 Peter 3–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 563,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Él cuida de vosotros"
+          },
+          "titulo_corto": {
+            "es": "Él cuida de vosotros"
+          },
+          "resumen": {
+            "es": "La carta da normas a mujeres y maridos y anima a sufrir haciendo el bien, dispuestos siempre a dar razón de la esperanza. Exhorta a los presbíteros a pastorear el rebaño de Dios y a todos a velar, porque el diablo ronda como león rugiente."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15054,12 +16624,25 @@
             "es": "2 Pedro 1–3",
             "en": "2 Peter 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 654,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una tierra nueva"
+          },
+          "titulo_corto": {
+            "es": "Una tierra nueva"
+          },
+          "resumen": {
+            "es": "Pedro recuerda que fue testigo ocular de la grandeza de nuestro Señor Jesucristo y advierte contra los falsos maestros. Para el Señor un día es como mil años, y esperamos, según su promesa, unos cielos nuevos y una tierra nueva."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15085,12 +16668,25 @@
             "es": "1 Juan 1–3",
             "en": "1 John 1–3"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 632,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Dios es luz"
+          },
+          "titulo_corto": {
+            "es": "Dios es luz"
+          },
+          "resumen": {
+            "es": "La carta anuncia lo que se ha visto y oído acerca del Verbo de la vida: Dios es luz, y quien camina en la luz está en comunión con los hermanos. «Mirad qué amor nos ha tenido el Padre para llamarnos hijos de Dios»; su mandamiento es que nos amemos unos a otros."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -15103,14 +16699,26 @@
             "es": "1 Juan 4–5",
             "en": "1 John 4–5"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 444,
           "pendientes": [
-            "Excepción de duración: 7:24 < 8 min (la partición en capítulos enteros no deja otra opción mejor)"
+            "Excepción de duración: 7:24 < 8 min (la partición en capítulos enteros no deja otra opción mejor)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Dios es amor"
+          },
+          "titulo_corto": {
+            "es": "Dios es amor"
+          },
+          "resumen": {
+            "es": "Hay que examinar si los espíritus vienen de Dios. Dios es amor, y quien permanece en el amor permanece en Dios; amemos a Dios, porque él nos amó primero. La fe vence al mundo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15136,14 +16744,26 @@
             "es": "2 Juan",
             "en": "2 John"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 129,
           "pendientes": [
-            "Excepción de duración: 2:09 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 2:09 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Que nos amemos unos a otros"
+          },
+          "titulo_corto": {
+            "es": "Que nos amemos"
+          },
+          "resumen": {
+            "es": "El Presbítero se alegra de que los hijos de la Señora Elegida caminen en la verdad, le pide que se amen unos a otros y advierte contra los embusteros que no reconocen que Jesucristo vino en carne."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15169,14 +16789,26 @@
             "es": "3 Juan",
             "en": "3 John"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 131,
           "pendientes": [
-            "Excepción de duración: 2:11 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 2:11 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Caminan en la verdad"
+          },
+          "titulo_corto": {
+            "es": "Caminan en la verdad"
+          },
+          "resumen": {
+            "es": "El Presbítero alaba a su querido Gayo por caminar en la verdad y portarse con lealtad con los hermanos, reprocha la conducta de Diótrefes y recomienda a Demetrio."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15202,14 +16834,26 @@
             "es": "Judas",
             "en": "Jude"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 268,
           "pendientes": [
-            "Excepción de duración: 4:28 < 8 min (libro entero más corto de 8 min)"
+            "Excepción de duración: 4:28 < 8 min (libro entero más corto de 8 min)",
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
           ],
+          "titulo": {
+            "es": "Al Dios único"
+          },
+          "titulo_corto": {
+            "es": "Al Dios único"
+          },
+          "resumen": {
+            "es": "Judas exhorta a combatir por la fe frente a los impíos que se han infiltrado entre los creyentes, y termina con una alabanza al Dios único, nuestro Salvador."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
@@ -15229,108 +16873,186 @@
         {
           "id": "ap-01",
           "orden": 1,
-          "capitulos": "1-2",
-          "rango": "1:1-2:29",
+          "capitulos": "1-3",
+          "rango": "1:1-3:22",
           "etiqueta": {
-            "es": "Apocalipsis 1–2",
-            "en": "Revelation 1–2"
+            "es": "Apocalipsis 1–3",
+            "en": "Revelation 1–3"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 562,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 822,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "El Alfa y la Omega"
+          },
+          "titulo_corto": {
+            "es": "El Alfa y la Omega"
+          },
+          "resumen": {
+            "es": "Juan, desterrado en la isla de Patmos, ve a uno como un Hijo de hombre, el Primero y el Último, que le manda escribir a las siete iglesias. Siguen los mensajes a cada una de ellas: «Mira, estoy de pie a la puerta y llamo»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "ap-02",
           "orden": 2,
-          "capitulos": "3-6",
-          "rango": "3:1-6:17",
+          "capitulos": "4-7",
+          "rango": "4:1-7:17",
           "etiqueta": {
-            "es": "Apocalipsis 3–6",
-            "en": "Revelation 3–6"
+            "es": "Apocalipsis 4–7",
+            "en": "Revelation 4–7"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 787,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 731,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Digno es el Cordero"
+          },
+          "titulo_corto": {
+            "es": "Digno es el Cordero"
+          },
+          "resumen": {
+            "es": "Ante el trono de Dios, el Cordero degollado recibe el libro sellado con siete sellos y los abre. Una muchedumbre que viene de la gran tribulación ha lavado sus vestiduras en la sangre del Cordero, y Dios enjugará toda lágrima de sus ojos."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "ap-03",
           "orden": 3,
-          "capitulos": "7-10",
-          "rango": "7:1-10:11",
+          "capitulos": "8-11",
+          "rango": "8:1-11:19",
           "etiqueta": {
-            "es": "Apocalipsis 7–10",
-            "en": "Revelation 7–10"
+            "es": "Apocalipsis 8–11",
+            "en": "Revelation 8–11"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 764,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 806,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Toma y devóralo"
+          },
+          "titulo_corto": {
+            "es": "Toma y devóralo"
+          },
+          "resumen": {
+            "es": "Al abrirse el séptimo sello, siete ángeles tocan las trompetas y se desencadenan las plagas. El vidente devora el librito, los dos testigos profetizan, y con la séptima trompeta el reino del mundo pasa a nuestro Señor y a su Cristo."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "ap-04",
           "orden": 4,
-          "capitulos": "11-13",
-          "rango": "11:1-13:18",
+          "capitulos": "12-14",
+          "rango": "12:1-14:20",
           "etiqueta": {
-            "es": "Apocalipsis 11–13",
-            "en": "Revelation 11–13"
+            "es": "Apocalipsis 12–14",
+            "en": "Revelation 12–14"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 682,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 709,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Una mujer vestida del sol"
+          },
+          "titulo_corto": {
+            "es": "Vestida del sol"
+          },
+          "resumen": {
+            "es": "Aparece en el cielo una mujer vestida del sol, a la que persigue el dragón; Miguel y sus ángeles combaten contra él. Dos bestias reciben poder del dragón, mientras el Cordero está de pie sobre el monte Sión; bienaventurados los muertos que mueren en el Señor."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "ap-05",
           "orden": 5,
-          "capitulos": "14-16",
-          "rango": "14:1-16:21",
+          "capitulos": "15-17",
+          "rango": "15:1-17:18",
           "etiqueta": {
-            "es": "Apocalipsis 14–16",
-            "en": "Revelation 14–16"
+            "es": "Apocalipsis 15–17",
+            "en": "Revelation 15–17"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 609,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 560,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "La gran Babilonia"
+          },
+          "titulo_corto": {
+            "es": "La gran Babilonia"
+          },
+          "resumen": {
+            "es": "Los vencedores cantan el cántico de Moisés y del Cordero, y siete ángeles derraman las siete copas de la ira de Dios; los reyes son congregados en Harmaguedón. Aparece la gran Babilonia, madre de las prostitutas, pero el Cordero vencerá, porque es Señor de señores y Rey de reyes."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
         {
           "id": "ap-06",
           "orden": 6,
-          "capitulos": "17-19",
-          "rango": "17:1-19:21",
+          "capitulos": "18-19",
+          "rango": "18:1-19:21",
           "etiqueta": {
-            "es": "Apocalipsis 17–19",
-            "en": "Revelation 17–19"
+            "es": "Apocalipsis 18–19",
+            "en": "Revelation 18–19"
           },
-          "propuesta": true,
-          "duracion_estimada_s": 779,
-          "pendientes": [],
+          "propuesta": false,
+          "duracion_estimada_s": 556,
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Cayó la gran Babilonia"
+          },
+          "titulo_corto": {
+            "es": "Cayó la gran Babilonia"
+          },
+          "resumen": {
+            "es": "Un ángel anuncia la caída de Babilonia, y los reyes y mercaderes de la tierra la lloran. En el cielo resuena el aleluya por la boda del Cordero, y aparece el jinete del caballo blanco, Rey de reyes y Señor de señores, que vence a la bestia."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         },
@@ -15343,12 +17065,25 @@
             "es": "Apocalipsis 20–22",
             "en": "Revelation 20–22"
           },
-          "propuesta": true,
+          "propuesta": false,
           "duracion_estimada_s": 709,
-          "pendientes": [],
+          "pendientes": [
+            "Título ES propuesto por Capítulos (producción en masa ordenada por Javier); títulos en otros idiomas pendientes",
+            "Música de inicio y cierre",
+            "Locución de cierre (no consta)"
+          ],
+          "titulo": {
+            "es": "Hago nuevas todas las cosas"
+          },
+          "titulo_corto": {
+            "es": "Nuevas todas las cosas"
+          },
+          "resumen": {
+            "es": "El dragón es encadenado por mil años y al final es arrojado al lago de fuego; los muertos son juzgados ante el trono. Juan ve un cielo nuevo y una tierra nueva, y la nueva Jerusalén; el libro termina con la súplica «¡Ven, Señor Jesús!»."
+          },
           "idiomas": {
             "es": {
-              "estado": "pendiente"
+              "estado": "listo_voz"
             }
           }
         }
