@@ -2,7 +2,8 @@
 
 import { formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useRef } from "react";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
@@ -89,15 +90,25 @@ export function MiniPlayer() {
   const pathname = usePathname();
   const { catalog, player, settings, toggle } = useLibrary();
   const locale = settings.uiLocale;
+  const router = useRouter();
+  const origen = useRef(0);
   if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
   const episode = catalog.episodes.find((item) => item.id === player.episodeId);
   const listo = playableEpisodes(catalog)[0] ?? null;
   const activo = Boolean(episode && player.episodeId && player.status !== "idle");
   const visible = episode ?? listo;
   const playing = player.status === "playing";
+  const fraccion = player.duration > 0 ? Math.min(1, player.globalTime / player.duration) : 0;
   return (
-    <div className="fixed inset-x-3 bottom-20 z-40 md:bottom-4">
-      <div className="neo-card mx-auto flex w-full max-w-lg items-center gap-3 bg-background/75 px-3 py-2 backdrop-blur-md">
+    <div
+      className="fixed inset-x-3 bottom-20 z-40 touch-none md:bottom-4"
+      onPointerDown={(event) => { origen.current = event.clientY; }}
+      onPointerUp={(event) => { if (origen.current - event.clientY > 42) router.push("/ahora"); }}
+    >
+      <div className="neo-card relative mx-auto flex w-full max-w-lg items-center gap-3 overflow-hidden bg-background/75 px-3 py-2 backdrop-blur-md">
+        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-foreground/10">
+          <span className="block h-full bg-acento transition-[width] duration-300" style={{ width: `${fraccion * 100}%` }} />
+        </span>
         <Link href="/ahora" className="flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -106,7 +117,7 @@ export function MiniPlayer() {
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}
           <span className="min-w-0">
-            <span className="font-display block truncate text-base leading-tight">{visible ? nombreCorto(visible, locale) : t(locale, "statusPreparing")}</span>
+            <span className="font-display block truncate text-base leading-tight">{visible ? nombreCorto(visible, locale) : (locale === "en" ? "Soon" : "Pronto")}</span>
             {activo || visible?.scriptureRangeLabel ? (
               <span className="tabular block truncate text-xs text-muted">
                 {activo ? `${formatClock(player.globalTime)} / ${formatClock(player.duration)}` : visible?.scriptureRangeLabel}
