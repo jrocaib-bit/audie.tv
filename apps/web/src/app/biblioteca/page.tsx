@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { LibraryClient } from "@/components/library-client";
+import { BibliotecaV2 } from "@/components/v2/biblioteca";
 
 export const metadata: Metadata = { title: "Biblioteca" };
 
 export default function Page() {
-  return <LibraryClient />;
+  return <BibliotecaV2 />;
 }
