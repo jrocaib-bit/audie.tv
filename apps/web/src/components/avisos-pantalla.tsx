@@ -62,11 +62,6 @@ export function AvisosPantalla() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{locale === "en" ? "Reminders" : "Avisos"}</h1>
-      <p className="mt-3 text-sm text-muted">
-        {locale === "en"
-          ? "Local notifications only. Nothing is sent to a server, and there is no account."
-          : "Solo avisos locales del teléfono. No hay servidor push ni cuenta."}
-      </p>
       <section className="neo-card mt-4 p-4">
         <div className="flex items-center justify-between gap-3">
           <p>{locale === "en" ? "Enabled" : "Activados"}</p>

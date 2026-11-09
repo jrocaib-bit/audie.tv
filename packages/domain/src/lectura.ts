@@ -26,11 +26,11 @@ const AVISO = "Texto ficticio de prueba. No es una edición bíblica y no sustit
 const FIXTURE: Record<string, Record<number, { es: string; en: string }[]>> = {
   gn: {
     1: [
-      { es: "FIXTURE 1. Esta frase no pertenece a ninguna edición bíblica.", en: "FIXTURE 1. This sentence belongs to no Bible edition." },
-      { es: "FIXTURE 2. Sirve solo para probar la lectura en pantalla.", en: "FIXTURE 2. It only tests reading on screen." },
-      { es: "FIXTURE 3. El texto con licencia se cargará desde un almacén privado.", en: "FIXTURE 3. Licensed text will load from a private store." },
-      { es: "FIXTURE 4. Aquí no hay versículos reales.", en: "FIXTURE 4. There are no real verses here." },
-      { es: "FIXTURE 5. Fin del capítulo de prueba.", en: "FIXTURE 5. End of the test chapter." },
+      { es: "FIXTURE", en: "FIXTURE" },
+      { es: "FIXTURE", en: "FIXTURE" },
+      { es: "FIXTURE", en: "FIXTURE" },
+      { es: "FIXTURE", en: "FIXTURE" },
+      { es: "FIXTURE", en: "FIXTURE" },
     ],
   },
 };

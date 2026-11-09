@@ -35,16 +35,21 @@ export function BibliotecaV2() {
   const es = locale === "es";
   const [filtro, setFiltro] = useState<(typeof filtros)[number]["id"]>("todo");
   const [rejilla, setRejilla] = useState(true);
+  const [porNombre, setPorNombre] = useState(false);
   const marcadores = useSyncExternalStore(() => () => {}, leerMarcadores, () => marcadoresVacios);
   const caminos = library.path.steps;
   const favoritos = library.catalog.books.filter((libro) => esFavorito(marcadores, `${libro.id}-01`) || marcadores.favoritos.some((favorito) => favorito.episodeId.startsWith(`${libro.id}-`)));
-  const visible = filtro === "notas" || filtro === "descargas" || filtro === "pasajes" ? [] : filtro === "favoritos" ? favoritos : filtro === "caminos" ? [] : library.catalog.books.slice(0, 18);
+  const base = filtro === "notas" || filtro === "descargas" || filtro === "pasajes" ? [] : filtro === "favoritos" ? favoritos : filtro === "caminos" ? [] : library.catalog.books.slice(0, 18);
+  const visible = porNombre ? [...base].sort((a, b) => (a.name[locale] || a.name.es).localeCompare(b.name[locale] || b.name.es, locale)) : base;
 
   return (
     <main id="contenido" className="app-clear px-4 pt-4">
       <div className="flex items-end justify-between gap-3">
         <h1 className="font-display text-4xl leading-none">{es ? "Tu biblioteca" : "Your library"}</h1>
-        <button type="button" className="min-h-11 text-sm" onClick={() => setRejilla((valor) => !valor)}>{rejilla ? (es ? "Lista" : "List") : (es ? "Rejilla" : "Grid")}</button>
+        <div className="flex gap-3">
+          <button type="button" className="min-h-11 text-sm" onClick={() => setPorNombre((valor) => !valor)}>{porNombre ? "A–Z" : (es ? "Canon" : "Canon")}</button>
+          <button type="button" className="min-h-11 text-sm" onClick={() => setRejilla((valor) => !valor)}>{rejilla ? (es ? "Lista" : "List") : (es ? "Rejilla" : "Grid")}</button>
+        </div>
       </div>
       <div className="estante mt-4 flex gap-2 overflow-x-auto">
         {filtros.map((item) => (

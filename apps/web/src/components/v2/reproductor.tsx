@@ -106,10 +106,10 @@ export function ReproductorV2() {
         </div>
         <section className="mt-8">
           <h2 className="font-display text-2xl">{cita ?? episode?.scriptureRangeLabel}</h2>
-          <ol className="mt-3 space-y-2">
+          <ol className="mt-3 space-y-3">
             {lectura?.versiculos.map((versiculo) => (
-              <li key={versiculo.versiculo} className={`rounded-xl px-2 py-1 ${cita === `${versiculo.capitulo}:${versiculo.versiculo}` ? "bg-white/10" : "text-[#B7AB9C]"}`}>
-                <span className="mr-2 text-[#C9A96E]">{versiculo.versiculo}</span>{versiculo.texto}
+              <li key={versiculo.versiculo} className={`font-display text-4xl leading-none ${cita === `${versiculo.capitulo}:${versiculo.versiculo}` ? "text-[#F4ECE2]" : "text-[#B7AB9C]"}`}>
+                {versiculo.marca === "ficticio" ? versiculo.versiculo : versiculo.texto}
               </li>
             ))}
           </ol>
@@ -151,11 +151,14 @@ export function ReproductorV2() {
         <section className="mt-8">
           <h2 className="font-display text-2xl">{es ? "A continuación" : "Up next"}</h2>
           <ol className="mt-3 space-y-2">
-            {library.path.steps.map((paso, indice) => (
-              <li key={paso.episodeId} className="flex min-h-12 items-center justify-between gap-3">
-                <span className="truncate">{indice + 1}. {paso.episodeId}</span>
-              </li>
-            ))}
+            {library.path.steps.map((paso, indice) => {
+              const siguiente = library.catalog.episodes.find((item) => item.id === paso.episodeId);
+              return (
+                <li key={paso.episodeId} className="flex min-h-12 items-center justify-between gap-3">
+                  <span className="truncate">{indice + 1}. {siguiente ? nombreCorto(siguiente, locale) : (es ? "Pronto" : "Soon")}</span>
+                </li>
+              );
+            })}
           </ol>
         </section>
         <p className="sr-only">{metadatosReproduccion({ titulo, libro: episode?.scriptureRangeLabel ?? "", caratula: obra ? obraWebp(obra) : null, duracion, posicion: tiempo, velocidad: library.settings.rate }).artista}</p>

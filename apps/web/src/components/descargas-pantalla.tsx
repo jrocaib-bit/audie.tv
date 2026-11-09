@@ -119,9 +119,6 @@ export function DescargasPantalla() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{tx(locale, "Descargas", "Downloads")}</h1>
-      <p className="mt-3 text-sm text-muted">
-        {tx(locale, "Solo en la app. El navegador no copia el audio: no hay caché del máster.", "App only. The browser does not copy the audio: the master is not cached.")}
-      </p>
       <section className="neo-card mt-4 p-4">
         <div className="flex items-center justify-between gap-3">
           <p>{tx(locale, "Solo Wi-Fi", "Wi-Fi only")}</p>
@@ -129,8 +126,7 @@ export function DescargasPantalla() {
             {soloWifi ? tx(locale, "Activo", "On") : tx(locale, "No", "Off")}
           </button>
         </div>
-        <p className="mt-3 text-sm text-muted">{tx(locale, "Red de prueba", "Test network")}</p>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-3 flex gap-2">
           {(["wifi", "celular", "sin-red"] as const).map((opcion) => (
             <button key={opcion} type="button" className={`neo-chip ${red === opcion ? "border-acento" : ""}`} onClick={() => setRed(opcion)}>
               {opcion === "wifi" ? "Wi-Fi" : opcion === "celular" ? tx(locale, "Datos", "Cellular") : tx(locale, "Sin red", "Offline")}
@@ -152,7 +148,7 @@ export function DescargasPantalla() {
       <section className="neo-card mt-3 p-4">
         <p className="kicker text-muted">{tx(locale, "Para bajar", "To download")}</p>
         {plan.nuevos.length === 0 && plan.ya.length === 0 ? (
-          <p className="mt-2 text-sm">{tx(locale, "No hay audio con máster en este alcance.", "This scope has no master audio.")}</p>
+          <p className="mt-2 text-sm">{tx(locale, "Pronto", "Soon")}</p>
         ) : (
           <ul className="mt-2 space-y-2">
             {ids.map((id) => {
@@ -177,7 +173,7 @@ export function DescargasPantalla() {
           <p className="cifra text-xl">{textoEspacio(espacioUsado(archivos), locale)}</p>
         </div>
         {archivos.length === 0 ? (
-          <p className="mt-2 text-sm text-muted">{tx(locale, "Nada guardado aquí. En la app, cada archivo se puede borrar.", "Nothing kept here. In the app, each file can be deleted.")}</p>
+          <p className="mt-2 text-sm text-muted">{tx(locale, "Nada guardado", "Nothing saved")}</p>
         ) : (
           <ul className="mt-3 space-y-2">
             {archivos.map((archivo) => (

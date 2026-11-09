@@ -33,7 +33,6 @@ export function CompartirV2() {
       <button type="button" className="mt-4 inline-flex min-h-11 items-center rounded-full bg-acento px-5 text-acento-ink" onClick={() => void navigator.clipboard?.writeText(`${window.location.origin}${enlaces.web}`)}>
         {es ? "Copiar enlace" : "Copy link"}
       </button>
-      <p className="mt-2 text-xs text-muted">{enlaces.app}</p>
     </main>
   );
 }

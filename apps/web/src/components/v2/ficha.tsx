@@ -18,8 +18,7 @@ export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "pe
   const episodios = filas.length > 0 ? filas : catalog.pendientes.filter((episodio) => episodio.bookId === libroId).map((episodio) => ({ id: episodio.id, etiqueta: episodio.etiqueta?.[locale] || episodio.capitulos || episodio.id }));
   const oibles = new Set(playableEpisodes(catalog).map((episodio) => episodio.id));
   const aleatorio = libroId === "sal" || libroId === "prov";
-  const primero = oibles.values().next().value as string | undefined;
-  const destino = [...oibles].find((episodio) => episodio.startsWith(`${libroId}-`)) ?? primero;
+  const destino = [...oibles].find((episodio) => episodio.startsWith(`${libroId}-`));
 
   return (
     <main id="contenido" className="app-clear">

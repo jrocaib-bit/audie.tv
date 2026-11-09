@@ -60,7 +60,6 @@ export function NotasPantalla() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{es ? "Notas" : "Notes"}</h1>
-      <p className="mt-3 text-sm text-muted">{es ? "Se quedan en este dispositivo. No hay cuenta." : "They stay on this device. There is no account."}</p>
       <section className="neo-card mt-4 p-4">
         <div className="flex items-center justify-between gap-3">
           <p className="font-display text-2xl leading-none">{episodio}</p>
