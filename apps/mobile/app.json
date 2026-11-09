@@ -41,7 +41,8 @@
           "root": "src/app"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-notifications"
     ]
   }
 }

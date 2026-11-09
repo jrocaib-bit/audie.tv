@@ -102,6 +102,15 @@ export {
 export { citaEnCurso, clamp, formatClock, formatSpokenDuration } from "./time";
 export { SALTO_SEGUNDOS, metadatosReproduccion, posicionTrasSalto, type MetadatosReproduccion } from "./sesion-media";
 export {
+  CLAVE_AVISOS,
+  parsePlanAviso,
+  planVacio,
+  proximosAvisos,
+  textoAviso,
+  type DiaAviso,
+  type PlanAviso,
+} from "./avisos";
+export {
   CLAVE_DESCARGA_PREFERENCIA,
   CLAVE_DESCARGAS,
   espacioUsado,

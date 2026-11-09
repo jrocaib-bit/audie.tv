@@ -54,6 +54,9 @@ export default function SettingsScreen() {
           {t(locale, "settingsCaptions")}: {library.settings.captions ? "on" : "off"}
         </Text>
       </Pressable>
+      <Pressable onPress={() => router.push("/avisos")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>{locale === "es" ? "Avisos" : "Reminders"}</Text>
+      </Pressable>
       <Pressable onPress={() => router.push("/descargas")} style={[ui.button, { backgroundColor: colors.card }]}>
         <Text style={{ color: colors.ink }}>{locale === "es" ? "Descargas" : "Downloads"}</Text>
       </Pressable>
