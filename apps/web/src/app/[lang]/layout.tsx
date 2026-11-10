@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   if (!copy) return {};
   const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, `/${idioma}`]));
   return {
-    title: copy.metaTitle,
+    title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
     alternates: {
       canonical: `/${lang}`,

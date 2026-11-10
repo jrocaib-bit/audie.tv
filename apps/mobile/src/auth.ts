@@ -82,7 +82,7 @@ export async function borrarApp(): Promise<void> {
   const { data } = await remoto.auth.getSession();
   const token = data.session?.access_token;
   if (!token) throw new Error("sin-sesion");
-  const respuesta = await fetch(`${url}/rest/v1/rpc/delete_own_account`, {
+  const respuesta = await fetch(`${url}/rest/v1/rpc/delete_my_account`, {
     method: "POST",
     headers: { apikey: anon, Authorization: `Bearer ${token}`, "content-type": "application/json" },
   });

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, limpiarPropiedades, prepararMedicion, scriptPlausible, track, type ContextoMedicion } from "./medicion";
+import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, prepararMedicion, scriptPlausible, track, type ContextoMedicion } from "./medicion";
 
 const ctx: ContextoMedicion = {
   platform: "web",
@@ -74,6 +74,11 @@ describe("medición", () => {
     expect(tercero.eventos.map((item) => item.nombre)).toEqual(["episode_completed"]);
   });
 
+  it("el alta solo escribe las columnas concedidas", () => {
+    expect(Object.keys(filaPreferenciaCorreo("usuario", true, "2026-11-10T00:00:00.000Z"))).toEqual(["user_id", "marketing_consent", "consent_at"]);
+    expect(filaPreferenciaCorreo("usuario", false, "2026-11-10T00:00:00.000Z").consent_at).toBeNull();
+  });
+
   it("carga Plausible solo con dominio", () => {
     expect(scriptPlausible(undefined)).toBeNull();
     expect(scriptPlausible("  ")).toBeNull();
@@ -113,6 +118,11 @@ describe("migración de medición", () => {
     expect(sql).not.toMatch(/for select[\s\S]*analytics_events/);
     expect(sql).toContain("grant select, insert, update on table public.reto_progreso to authenticated");
     expect(sql).not.toContain("grant delete");
+  });
+
+  it("retira el borrado antiguo", () => {
+    const baja = readFileSync(new URL("../../../supabase/migrations/20261110223000_drop_delete_own_account.sql", import.meta.url), "utf8");
+    expect(baja).toContain("drop function if exists public.delete_own_account()");
   });
 
   it("borra la cuenta solo como authenticated y con search_path vacío", () => {

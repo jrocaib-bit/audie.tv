@@ -1,6 +1,6 @@
 "use client";
 
-import { AUTH_URLS } from "@audite/domain";
+import { AUTH_URLS, filaPreferenciaCorreo } from "@audite/domain";
 import { useEffect } from "react";
 import { migrarWeb, supabaseWeb } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
@@ -16,11 +16,7 @@ export default function Page() {
       const userId = (await remoto?.auth.getSession())?.data.session?.user.id;
       const consentimiento = window.localStorage.getItem("audite.marketing.v1") === "1";
       if (remoto && userId) {
-        await remoto.from("email_preferencias").upsert({
-          user_id: userId,
-          marketing_consent: consentimiento,
-          consent_at: consentimiento ? new Date().toISOString() : null,
-        });
+        await remoto.from("email_preferencias").upsert(filaPreferenciaCorreo(userId, consentimiento));
       }
       await migrarWeb();
       window.location.replace("/escuchar");

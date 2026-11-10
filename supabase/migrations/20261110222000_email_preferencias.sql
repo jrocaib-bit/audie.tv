@@ -14,7 +14,9 @@ alter table public.email_preferencias enable row level security;
 revoke all on table public.email_preferencias from public;
 revoke all on table public.email_preferencias from anon;
 revoke all on table public.email_preferencias from authenticated;
-grant select, insert, update on table public.email_preferencias to authenticated;
+grant select on table public.email_preferencias to authenticated;
+grant insert (user_id, marketing_consent, consent_at, unsubscribed_at) on table public.email_preferencias to authenticated;
+grant update (user_id, marketing_consent, consent_at, unsubscribed_at) on table public.email_preferencias to authenticated;
 
 drop policy if exists "read own email preferences" on public.email_preferencias;
 create policy "read own email preferences"

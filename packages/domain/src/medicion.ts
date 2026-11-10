@@ -193,6 +193,14 @@ export function track<E extends Evento>(nombre: E, propiedades: PropsDe[E], ctx:
   }
 }
 
+export function filaPreferenciaCorreo(userId: string, consentimiento: boolean, ahora = new Date().toISOString()) {
+  return {
+    user_id: userId,
+    marketing_consent: consentimiento,
+    consent_at: consentimiento ? ahora : null,
+  };
+}
+
 export function scriptPlausible(dominio: string | null | undefined): { src: string; domain: string } | null {
   const domain = dominio?.trim() ?? "";
   if (!domain) return null;

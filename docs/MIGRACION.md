@@ -20,9 +20,9 @@ Proyecto nuevo, solo de Audite:
 - Región: `eu-west-1`
 - `project_id` en `supabase/config.toml`
 
-Ya aplicadas en producción: `20261109120000_listening.sql`, `20261109183000_notas_favoritos.sql`, `20261109190000_salas.sql`, `20261110120000_auth_cuenta.sql` y `20261110130000_endurecer.sql`.
+Ya aplicadas en producción: `20261109120000_listening.sql`, `20261109183000_notas_favoritos.sql`, `20261109190000_salas.sql`, `20261110120000_auth_cuenta.sql`, `20261110130000_endurecer.sql`, `20261110220000_analytics.sql`, `20261110221000_delete_my_account.sql` y `20261110222000_email_preferencias.sql`.
 
-Escritas y sin aplicar: `20261110220000_analytics.sql`, `20261110221000_delete_my_account.sql` y `20261110222000_email_preferencias.sql`.
+Escrita y sin aplicar: `20261110223000_drop_delete_own_account.sql`.
 
 Cuando se decida aplicar una migración nueva, y no antes:
 

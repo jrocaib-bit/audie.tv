@@ -133,6 +133,7 @@ export {
   decidirEscucha,
   eliminarCuenta,
   esEvento,
+  filaPreferenciaCorreo,
   eventosDePaywall,
   estadoEscuchaVacio,
   hostDeReferrer,
