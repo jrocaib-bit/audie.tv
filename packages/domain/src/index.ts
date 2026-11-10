@@ -128,6 +128,7 @@ export {
   type Idioma,
 } from "./idioma";
 export { PRECIO } from "./precio";
+export { pruebaSocial } from "./prueba-social";
 export { textosAlta, type TextosAlta } from "./alta-ui";
 export {
   AUTH_URLS,

@@ -193,12 +193,78 @@ body {
 }
 
 .esqueleto {
-  background: color-mix(in srgb, var(--foreground) 8%, transparent);
-  animation: esqueleto 1.2s ease-in-out infinite;
+  background: linear-gradient(100deg, #1b1815 32%, rgba(201, 169, 110, 0.38) 50%, #1b1815 68%);
+  background-size: 220% 100%;
+  animation: audite-brillo 1.6s linear infinite;
 }
 
 @keyframes esqueleto {
   50% { opacity: 0.45; }
+}
+
+@keyframes audite-brillo {
+  from { background-position: 120% 0; }
+  to { background-position: -120% 0; }
+}
+
+@keyframes audite-sube {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes audite-respira {
+  50% { transform: scale(1.06); }
+}
+
+@keyframes audite-fundido {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.audite-fundido {
+  animation: audite-fundido 280ms ease;
+}
+
+.audite-pulso {
+  transition: transform 160ms ease;
+}
+
+.audite-pulso:active {
+  transform: scale(0.96);
+}
+
+.play-respira {
+  animation: audite-respira 1.6s ease-in-out infinite;
+}
+
+.estante > * {
+  animation: audite-sube 480ms ease both;
+}
+
+.estante > *:nth-child(2) { animation-delay: 40ms; }
+.estante > *:nth-child(3) { animation-delay: 80ms; }
+.estante > *:nth-child(4) { animation-delay: 120ms; }
+.estante > *:nth-child(5) { animation-delay: 160ms; }
+.estante > *:nth-child(6) { animation-delay: 200ms; }
+.estante > *:nth-child(n + 7) { animation-delay: 240ms; }
+
+.audite-portada {
+  view-transition-name: audite-portada;
+}
+
+.audite-portada-entra {
+  animation: audite-crece 460ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes audite-crece {
+  from { transform: scale(0.28); }
+  to { transform: none; }
+}
+
+::view-transition-old(audite-portada),
+::view-transition-new(audite-portada) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .estante::-webkit-scrollbar { display: none; }
 
@@ -302,7 +368,13 @@ html[data-reduce-motion="true"] .obra-drift {
   .art-in,
   .art-out,
   .ken-burns,
-  .obra-drift {
+  .obra-drift,
+  .esqueleto,
+  .audite-fundido,
+  .play-respira,
+  .estante > *,
+  .audite-pulso,
+  .audite-portada-entra {
     animation: none;
     transition: none;
   }
@@ -310,4 +382,20 @@ html[data-reduce-motion="true"] .obra-drift {
   .camino-tramo {
     scroll-snap-align: none;
   }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}
+
+html[data-reduce-motion="true"] .esqueleto,
+html[data-reduce-motion="true"] .audite-fundido,
+html[data-reduce-motion="true"] .play-respira,
+html[data-reduce-motion="true"] .estante > *,
+html[data-reduce-motion="true"] .audite-pulso,
+html[data-reduce-motion="true"] .audite-portada-entra {
+  animation: none;
+  transition: none;
 }

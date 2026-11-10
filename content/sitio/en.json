@@ -41,5 +41,14 @@
   "ctaRisk": "Cancel anytime.",
   "railBooks": "Books",
   "railPaths": "Paths",
-  "railChallenges": "Challenges"
+  "railChallenges": "Challenges",
+  "hoy": "Today",
+  "faqPriceQ": "What does it cost?",
+  "faqPriceA": "€1.99 a month or €8 a year.",
+  "faqTrialQ": "Is there a trial?",
+  "faqTrialA": "Seven days.",
+  "faqCancelQ": "Can I cancel?",
+  "faqCancelA": "Whenever you want.",
+  "faqLangQ": "Which languages?",
+  "faqLangA": "Seven."
 }

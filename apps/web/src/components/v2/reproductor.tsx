@@ -1,6 +1,7 @@
 "use client";
 
-import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, versiculoEnTiempo, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { Download, Heart, ListMusic, Moon, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
@@ -26,42 +27,6 @@ function alternar(id: string) {
   const actual = parseMarcadores(JSON.parse(localStorage.getItem(CLAVE_MARCADORES) || "null") as unknown);
   localStorage.setItem(CLAVE_MARCADORES, JSON.stringify(alternarFavorito(actual, id, new Date().toISOString())));
   oyentesFavorito.forEach((oyente) => oyente());
-}
-
-function IconoPlay({ pausa }: { pausa: boolean }) {
-  return pausa ? (
-    <svg viewBox="0 0 24 24" className="size-8" aria-hidden="true"><path fill="currentColor" d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>
-  ) : (
-    <svg viewBox="0 0 24 24" className="size-8" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
-  );
-}
-
-function IconoSalto({ atras }: { atras: boolean }) {
-  return (
-    <span className="relative inline-flex size-12 items-center justify-center">
-      <svg viewBox="0 0 48 48" className="absolute size-12" aria-hidden="true">
-        <path fill="none" stroke="currentColor" strokeWidth="1.6" d={atras ? "M30 12a14 14 0 1 1-4 22" : "M18 12a14 14 0 1 0 4 22"} />
-        <path fill="currentColor" d={atras ? "M16 8 8 16l8 5z" : "M32 8 40 16l-8 5z"} />
-      </svg>
-      <span className="text-[11px] leading-none font-semibold">15</span>
-    </span>
-  );
-}
-
-function Icono({ nombre }: { nombre: "corazon" | "bajar" | "compartir" | "cola" | "reloj" }) {
-  const caminos: Record<typeof nombre, string> = {
-    corazon: "M12 19s-7-4.4-7-8.5A3.5 3.5 0 0 1 12 8a3.5 3.5 0 0 1 7 2.5C19 14.6 12 19 12 19z",
-    bajar: "M12 4v10m0 0 4-4m-4 4-4-4M5 19h14",
-    compartir: "M12 16V5m0 0 4 4m-4-4-4 4M6 19h12",
-    cola: "M5 7h14M5 12h14M5 17h9",
-    reloj: "M12 7v5l3 2",
-  };
-  return (
-    <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
-      {nombre === "reloj" ? <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.7" /> : null}
-      <path fill={nombre === "corazon" ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" d={caminos[nombre]} />
-    </svg>
-  );
 }
 
 export function ReproductorV2() {
@@ -111,6 +76,7 @@ export function ReproductorV2() {
   }, [fundido, playEpisode, reducir, siguiente]);
   const fondo = colorDeObra(obra);
   const oible = Boolean(episode);
+  const marca = episode?.tiempos ? versiculoEnTiempo(episode.tiempos, tiempo) : null;
 
   function tocar(accion: () => void) {
     if (!library.reduceMotion && typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(8);
@@ -136,43 +102,59 @@ export function ReproductorV2() {
         onPointerDown={(event) => { origen.current = event.clientY; }}
         onPointerUp={(event) => subir(origen.current - event.clientY)}
       >
-        <div className="overflow-hidden rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+        <div className="overflow-hidden rounded-2xl">
           {obra ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obra)} alt="" className={`aspect-square w-full object-cover transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"} ${library.reduceMotion ? "" : "obra-drift"}`} />
+            <img src={obraWebp(obra)} alt="" className={`audite-portada audite-portada-entra aspect-square w-full object-cover transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`} />
           ) : <div className="aspect-square bg-[#0C0B09]" />}
         </div>
       </div>
       <div className="relative mx-auto mt-auto w-full max-w-lg px-4 pt-4 pb-6">
         <h1 className="font-display text-[1.7rem] leading-tight">{titulo}</h1>
         <p className="font-display-regular mt-1 text-lg whitespace-nowrap text-[#E7D7C3]">{episode?.scriptureRangeLabel}</p>
-        <label className="mt-4 block">
+        {marca ? <p className="font-display mt-4 text-6xl leading-none">{marca.capitulo},{marca.versiculo}</p> : null}
+        <label className="relative mt-4 block h-11">
           <span className="sr-only">{es ? "Posición" : "Position"}</span>
-          <input type="range" className="h-11 w-full accent-[#C9A96E]" min={0} max={duracion || 1} step={0.1} value={Math.min(tiempo, duracion || 1)} disabled={!oible} onChange={(event) => library.seek(Number(event.target.value))} />
+          <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/25">
+            <span className="block h-full bg-[#C9A96E]" style={{ width: `${fraccion * 100}%` }} />
+            {episode?.segments.map((segmento) => (
+              <span key={segmento.id} className="absolute top-1/2 h-2 w-px -translate-y-1/2 bg-[#F4ECE2]/80" style={{ left: `${duracion ? (segmento.startSeconds / duracion) * 100 : 0}%` }} />
+            ))}
+          </span>
+          <input type="range" className="absolute inset-0 w-full cursor-pointer opacity-0" min={0} max={duracion || 1} step={0.1} value={Math.min(tiempo, duracion || 1)} disabled={!oible} onChange={(event) => library.seek(Number(event.target.value))} />
         </label>
         <div className="flex justify-between text-xs tabular-nums text-[#B7AB9C]">
           <span>{formatClock(tiempo)}</span>
           <span>{formatClock(duracion)}</span>
         </div>
         <div className="mt-2 flex items-center justify-center gap-5">
-          <button type="button" aria-label={es ? "Retroceder 15 segundos" : "Back 15 seconds"} className="inline-flex size-12 items-center justify-center" onClick={() => tocar(() => library.seekBy(-15))}><IconoSalto atras /></button>
-          <button type="button" disabled={!oible} aria-label={sonando ? (es ? "Pausa" : "Pause") : (es ? "Oír" : "Play")} className="inline-flex size-[4.5rem] items-center justify-center rounded-full bg-[#F4ECE2] text-[#100E0C] disabled:opacity-40" onClick={() => tocar(() => episode && (sonando ? library.toggle() : library.playEpisode(episode.id)))}>
-            <IconoPlay pausa={sonando} />
+          <button type="button" aria-label={es ? "Retroceder 15 segundos" : "Back 15 seconds"} className="audite-pulso inline-flex size-12 items-center justify-center" onClick={() => tocar(() => library.seekBy(-15))}><SkipBack strokeWidth={1.5} /></button>
+          <button type="button" disabled={!oible} aria-label={sonando ? (es ? "Pausa" : "Pause") : (es ? "Oír" : "Play")} className={`audite-pulso inline-flex size-[4.5rem] items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C] disabled:opacity-40 ${sonando && !library.reduceMotion ? "play-respira" : ""}`} onClick={() => tocar(() => episode && (sonando ? library.toggle() : library.playEpisode(episode.id)))}>
+            {sonando ? <Pause strokeWidth={1.5} /> : <Play strokeWidth={1.5} />}
           </button>
-          <button type="button" aria-label={es ? "Adelantar 15 segundos" : "Forward 15 seconds"} className="inline-flex size-12 items-center justify-center" onClick={() => tocar(() => library.seekBy(15))}><IconoSalto atras={false} /></button>
+          <button type="button" aria-label={es ? "Adelantar 15 segundos" : "Forward 15 seconds"} className="audite-pulso inline-flex size-12 items-center justify-center" onClick={() => tocar(() => library.seekBy(15))}><SkipForward strokeWidth={1.5} /></button>
         </div>
         <div className="mt-4 flex items-center justify-between px-1">
-          <button type="button" aria-label={es ? "Favorito" : "Favorite"} className={`inline-flex size-11 items-center justify-center ${favorito ? "text-[#C9A96E]" : ""}`} onClick={() => episode && tocar(() => alternar(episode.id))}><Icono nombre="corazon" /></button>
-          <Link href="/descargas" aria-label={es ? "Descargar" : "Download"} className="inline-flex size-11 items-center justify-center"><Icono nombre="bajar" /></Link>
-          <Link href={episode ? `/compartir?e=${episode.id}&t=${Math.floor(tiempo)}` : "/compartir"} aria-label={es ? "Compartir" : "Share"} className="inline-flex size-11 items-center justify-center"><Icono nombre="compartir" /></Link>
-          <button type="button" aria-label={es ? "Cola" : "Queue"} className="inline-flex size-11 items-center justify-center" onClick={() => setHoja("cola")}><Icono nombre="cola" /></button>
+          <button type="button" aria-label={es ? "Favorito" : "Favorite"} className={`audite-pulso inline-flex size-11 items-center justify-center ${favorito ? "text-[#C9A96E]" : ""}`} onClick={() => episode && tocar(() => alternar(episode.id))}><Heart strokeWidth={1.5} /></button>
+          <Link href="/descargas" aria-label={es ? "Descargar" : "Download"} className="audite-pulso inline-flex size-11 items-center justify-center"><Download strokeWidth={1.5} /></Link>
+          <Link href={episode ? `/compartir?e=${episode.id}&t=${Math.floor(tiempo)}` : "/compartir"} aria-label={es ? "Compartir" : "Share"} className="audite-pulso inline-flex size-11 items-center justify-center"><Share2 strokeWidth={1.5} /></Link>
+          <button type="button" aria-label={es ? "Cola" : "Queue"} className="audite-pulso inline-flex size-11 items-center justify-center" onClick={() => setHoja("cola")}><ListMusic strokeWidth={1.5} /></button>
         </div>
         <div className="mt-1 flex items-center justify-center gap-2">
-          <button type="button" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-3 text-sm" onClick={() => setHoja("sueno")}><Icono nombre="reloj" />{sueno === "fin" ? (es ? "Fin" : "End") : sueno ? `${sueno} min` : (es ? "Sueño" : "Sleep")}</button>
+          <button type="button" className="audite-pulso inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-3 text-sm" onClick={() => setHoja("sueno")}><Moon strokeWidth={1.5} className="size-5" />{sueno === "fin" ? (es ? "Fin" : "End") : sueno ? `${sueno} min` : (es ? "Sueño" : "Sleep")}</button>
           <button type="button" className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-3 text-sm tabular-nums" onClick={() => setHoja("velocidad")}>{formatoNumero(locale, library.settings.rate)}×</button>
         </div>
       </div>
       </div>
+        <section className="relative mx-auto mt-6 w-full max-w-lg px-4">
+          <h2 className="font-display text-2xl">{es ? "A continuación" : "Up next"}</h2>
+          <ol className="mt-3">
+            {library.path.steps.slice(0, 4).map((paso, indice) => {
+              const item = library.catalog.episodes.find((episodio) => episodio.id === paso.episodeId);
+              return <li key={paso.episodeId} className="flex min-h-12 items-center border-b border-white/10">{indice + 1}. {item ? nombreCorto(item, locale) : (es ? "Pronto" : "Soon")}</li>;
+            })}
+          </ol>
+        </section>
         <section id="letras" className="relative mx-auto mt-2 w-full max-w-lg scroll-mt-6 px-4 pb-16">
           <h2 className="font-display text-2xl">{cita ?? episode?.scriptureRangeLabel}</h2>
           <ol className="mt-3 space-y-3">

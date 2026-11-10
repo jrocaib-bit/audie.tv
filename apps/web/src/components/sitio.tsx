@@ -1,6 +1,7 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { creditoVisible, nombreEpisodio, textoOPendiente, textosAlta } from "@audite/domain";
+import { creditoVisible, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
+import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
@@ -10,7 +11,8 @@ import { RETOS } from "@/lib/retos";
 import { BarraFija, CtaPar, Planes } from "@/components/conversion";
 import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
-import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
+import { HoyFranja } from "@/components/hoy";
+import { copiaSitio, idiomasPublicos, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
@@ -75,6 +77,8 @@ export function SitioHome({ lang }: { lang: string }) {
             <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
           </div>
         </section>
+        <HoyFranja lang={lang} />
+        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: obras.length, idiomas: idiomasPublicos.length }, lang)}</p>
         {obras.slice(1, 4).map((obra) => (
           <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
             <div className="absolute inset-0">
@@ -126,6 +130,24 @@ export function SitioHome({ lang }: { lang: string }) {
                 <TarjetaCuadro key={reto.id} href={`/reto/${reto.id}`} episodioId={reto.obra} titulo={titulo} pronto prontoTexto={copy.pending} />
               );
             })}
+          </div>
+        </section>
+        <section id="faq" className="bg-[#100E0C] px-5 py-16 md:px-8">
+          <dl className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-2">
+            {([
+              ["faqPriceQ", "faqPriceA"],
+              ["faqTrialQ", "faqTrialA"],
+              ["faqCancelQ", "faqCancelA"],
+              ["faqLangQ", "faqLangA"],
+            ] as const).map(([pregunta, respuesta]) => (
+              <div key={pregunta}>
+                <dt className="font-display text-2xl">{copy[pregunta]}</dt>
+                <dd className="mt-2 text-[#B7AB9C]">{copy[respuesta]}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="mx-auto w-full max-w-6xl">
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
           </div>
         </section>
         <section id="precios" className="bg-[#100E0C] px-5 py-20 md:px-8">
