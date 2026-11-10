@@ -20,7 +20,7 @@
   "episodeDescription": "An episode of Audite.",
   "proposed": "Soon",
   "review": "Soon",
-  "homeCta": "Start free",
+  "homeCta": "Start 7 days free",
   "ctaDays": "7 days",
   "ctaDownload": "Download the app",
   "ctaNotify": "Tell me",
@@ -36,5 +36,10 @@
   "membershipTitle": "Membership",
   "membershipBody": "Seven days free.",
   "noPrice": "There is no payment and there are no sample accounts.",
-  "appLink": "Open the listening app"
+  "appLink": "Open the listening app",
+  "ctaGhost": "Sign in with Apple or Google",
+  "ctaRisk": "Cancel anytime.",
+  "railBooks": "Books",
+  "railPaths": "Paths",
+  "railChallenges": "Challenges"
 }

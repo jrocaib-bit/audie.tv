@@ -24,5 +24,5 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function SitioLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!copiaSitio(lang)) notFound();
-  return <div lang={lang}>{children}</div>;
+  return <div lang={lang} className="lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]">{children}</div>;
 }

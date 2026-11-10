@@ -20,7 +20,7 @@
     "episodeDescription": "Un episodio di Audite.",
     "proposed": "Presto",
     "review": "Presto",
-    "homeCta": "Inizia gratis",
+    "homeCta": "Inizia 7 giorni gratis",
     "ctaDays": "7 giorni",
     "ctaDownload": "Scarica l'app",
     "ctaNotify": "Avvisami",
@@ -36,7 +36,12 @@
     "membershipTitle": "Abbonamento",
     "membershipBody": "Sette giorni.",
     "noPrice": "1,99 € · 8 €",
-    "appLink": "Apri l'ascolto"
+    "appLink": "Apri l'ascolto",
+    "ctaGhost": "Entra con Apple o Google",
+    "ctaRisk": "Annulla quando vuoi.",
+    "railBooks": "Libri",
+    "railPaths": "Cammini",
+    "railChallenges": "Sfide"
   },
   "pt": {
     "metaDescription": "A Bíblia, do princípio ao fim.",
@@ -57,7 +62,7 @@
     "episodeDescription": "Um episódio de Audite.",
     "proposed": "Em breve",
     "review": "Em breve",
-    "homeCta": "Começa grátis",
+    "homeCta": "Começa 7 dias grátis",
     "ctaDays": "7 dias",
     "ctaDownload": "Descarrega a app",
     "ctaNotify": "Avisa-me",
@@ -73,7 +78,12 @@
     "membershipTitle": "Adesão",
     "membershipBody": "Sete dias.",
     "noPrice": "1,99 € · 8 €",
-    "appLink": "Abrir a escuta"
+    "appLink": "Abrir a escuta",
+    "ctaGhost": "Entrar com a Apple ou o Google",
+    "ctaRisk": "Cancela quando quiseres.",
+    "railBooks": "Livros",
+    "railPaths": "Caminhos",
+    "railChallenges": "Desafios"
   },
   "fr": {
     "metaDescription": "La Bible, du début à la fin.",
@@ -94,7 +104,7 @@
     "episodeDescription": "Un épisode d'Audite.",
     "proposed": "Bientôt",
     "review": "Bientôt",
-    "homeCta": "Commence gratuitement",
+    "homeCta": "Commence 7 jours gratuits",
     "ctaDays": "7 jours",
     "ctaDownload": "Télécharge l'app",
     "ctaNotify": "Préviens-moi",
@@ -110,7 +120,12 @@
     "membershipTitle": "Adhésion",
     "membershipBody": "Sept jours.",
     "noPrice": "1,99 € · 8 €",
-    "appLink": "Ouvrir l'écoute"
+    "appLink": "Ouvrir l'écoute",
+    "ctaGhost": "Entrer avec Apple ou Google",
+    "ctaRisk": "Annule quand tu veux.",
+    "railBooks": "Livres",
+    "railPaths": "Chemins",
+    "railChallenges": "Défis"
   },
   "de": {
     "metaDescription": "Die Bibel, von Anfang bis Ende.",
@@ -131,7 +146,7 @@
     "episodeDescription": "Eine Folge von Audite.",
     "proposed": "Bald",
     "review": "Bald",
-    "homeCta": "Kostenlos beginnen",
+    "homeCta": "7 Tage gratis beginnen",
     "ctaDays": "7 Tage",
     "ctaDownload": "App laden",
     "ctaNotify": "Sag mir Bescheid",
@@ -147,7 +162,12 @@
     "membershipTitle": "Mitgliedschaft",
     "membershipBody": "Sieben Tage.",
     "noPrice": "1,99 € · 8 €",
-    "appLink": "Zum Hören"
+    "appLink": "Zum Hören",
+    "ctaGhost": "Mit Apple oder Google anmelden",
+    "ctaRisk": "Jederzeit kündbar.",
+    "railBooks": "Bücher",
+    "railPaths": "Wege",
+    "railChallenges": "Aufgaben"
   },
   "zh": {
     "metaDescription": "圣经，从头到尾。",
@@ -168,7 +188,7 @@
     "episodeDescription": "Audite 的一集。",
     "proposed": "即将",
     "review": "即将",
-    "homeCta": "免费开始",
+    "homeCta": "免费开始 7 天",
     "ctaDays": "7 天",
     "ctaDownload": "下载应用",
     "ctaNotify": "通知我",
@@ -184,6 +204,11 @@
     "membershipTitle": "会员",
     "membershipBody": "七天。",
     "noPrice": "1,99 € · 8 €",
-    "appLink": "进入聆听"
+    "appLink": "进入聆听",
+    "ctaGhost": "用 Apple 或 Google 登录",
+    "ctaRisk": "随时取消。",
+    "railBooks": "书卷",
+    "railPaths": "路径",
+    "railChallenges": "挑战"
   }
 }

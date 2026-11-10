@@ -3,6 +3,7 @@
 import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
+import { RETOS } from "@/lib/retos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useSyncExternalStore } from "react";
@@ -36,19 +37,46 @@ export function RetoV2({ reto }: { reto: Reto }) {
   const mismo = dia.tiempo === reto.tiempo || (dia.tiempo === "triduo" && reto.tiempo === "semana-santa");
   const base = reto.tiempo === "adviento" || reto.tiempo === "cuaresma" ? "morado" : reto.tiempo === "semana-santa" ? "rojo" : reto.tiempo === "ordinario" ? "verde" : "blanco";
   const color = COLOR_HEX[mismo ? dia.color : base];
+  const ui = idiomaContenido(locale);
+  const minutos = reto.pasos.reduce((total, paso) => total + paso.minutos, 0);
+  const pasoSiguiente = reto.pasos.find((paso) => paso.dia === siguiente) ?? reto.pasos[0];
+  const fichaPlay = pasoSiguiente?.episodio ? library.catalog.episodes.find((episodio) => episodio.id === pasoSiguiente.episodio) : undefined;
+  const segundoPlay = fichaPlay && pasoSiguiente ? inicioDelPasaje(fichaPlay.tiempos, pasoSiguiente.capitulo, pasoSiguiente.versiculo, pasoSiguiente.versiculoFin) : null;
+  const playHref = fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`;
+  const otros = RETOS.filter((item) => item.id !== reto.id);
 
   return (
-    <main id="contenido" className="app-clear">
-      <div className={`relative overflow-hidden bg-[#1B1815] ${propia ? "aspect-video" : "h-52"}`}>
+    <main id="contenido" className="app-clear bg-[#100E0C] text-[#F4ECE2]">
+      <section className="relative min-h-[78svh] overflow-hidden bg-[#100E0C]">
         {propia || obra ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={propia ? propia.src.ancho : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="h-full w-full object-cover" />
+          <img src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="absolute inset-0 h-full w-full object-cover" />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/40 to-transparent" />
-        <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />
-        <h1 className="font-display absolute right-4 bottom-4 left-4 text-[clamp(1.7rem,7vw,2.5rem)] leading-tight text-[#F4ECE2]">{reto.titulo[idiomaContenido(locale)]}</h1>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
+        <div className="relative z-10 flex min-h-[78svh] flex-col justify-end px-5 pb-8">
+          <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-7xl">{reto.titulo[ui]}</h1>
+          <p className="mt-4 text-base text-[#F4ECE2]">{({ adviento: es ? "Adviento" : "Advent", navidad: es ? "Navidad" : "Christmas", ordinario: es ? "Tiempo ordinario" : "Ordinary Time", cuaresma: es ? "Cuaresma" : "Lent", "semana-santa": es ? "Semana Santa" : "Holy Week", pascua: es ? "Pascua" : "Easter", triduo: es ? "Triduo" : "Triduum" } as Record<string, string>)[reto.tiempo] ?? reto.tiempo} · {es ? "Día" : "Day"} {siguiente} · {minutos} min</p>
+          <Link href={playHref} className="mt-6 inline-flex size-16 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" aria-label={es ? "Oír" : "Play"}>
+            <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
+          </Link>
+        </div>
+      </section>
+      <div className="estante flex gap-3 overflow-x-auto px-5 py-6">
+        {otros.map((item) => {
+          const poster = portadaDeReto(item.id);
+          const titulo = (item.tituloCorto ?? item.titulo)[ui];
+          return (
+            <Link key={item.id} href={`/reto/${item.id}`} className="w-36 shrink-0 snap-start">
+              {poster ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={poster.src.cuadrado} alt="" className="aspect-square w-full object-cover" />
+              ) : <span className="block aspect-square bg-[#1B1815]" />}
+              <span className="mt-2 block font-display text-sm leading-tight">{titulo}</span>
+            </Link>
+          );
+        })}
       </div>
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-2">
         <div className="flex items-center justify-between gap-4">
           <p className="cifra flex items-baseline leading-none whitespace-nowrap">
             <span className="text-6xl">{avance.hechos}</span>

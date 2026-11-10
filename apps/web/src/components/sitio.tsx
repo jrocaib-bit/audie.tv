@@ -6,7 +6,8 @@ import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { ObraFoto, Placa } from "@/components/placa";
 import { portadaDeReto } from "@audite/content/obras-creditos";
-import { BarraFija, Ctas, Planes } from "@/components/conversion";
+import { RETOS } from "@/lib/retos";
+import { BarraFija, CtaPar, Planes } from "@/components/conversion";
 import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
@@ -18,12 +19,12 @@ function idiomaUi(lang: string): "es" | "en" {
 export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; copy: SitioCopy; sobreObra?: boolean }) {
   const ui = idiomaUi(lang);
   return (
-    <header className={sobreObra ? "absolute inset-x-0 top-0 z-20" : "border-b border-border"}>
+    <header className={sobreObra ? "absolute inset-x-0 top-0 z-20" : "bg-[#100E0C]"}>
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
-          <Wordmark locale={ui} tono={sobreObra ? "blanco" : "auto"} className="h-8 w-auto md:h-9" />
+          <Wordmark locale={ui} tono="blanco" className="h-8 w-auto md:h-9" />
         </Link>
-        <nav className={`flex items-center gap-4 text-sm ${sobreObra ? "text-[#F4ECE2]" : ""}`}>
+        <nav className="flex items-center gap-4 text-sm text-[#F4ECE2]">
           <Link href={`/${lang}`} className="hidden min-h-11 items-center md:inline-flex">
             {copy.navHome}
           </Link>
@@ -43,22 +44,6 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
   );
 }
 
-function Lamina({ obra, titulo, linea, href, accion }: { obra: ReturnType<typeof obrasVisibles>[number]; titulo: string; linea: string; href: string; accion: string }) {
-  return (
-    <section className="relative min-h-[92svh] bg-[#0C0B09] text-[#F4ECE2]">
-      <div className="absolute inset-0">
-        <ObraFoto obra={obra} className="h-full w-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-[#100E0C]/15" />
-      <div className="relative z-10 mx-auto flex min-h-[92svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 md:px-8">
-        <h2 className="font-display max-w-3xl text-5xl leading-[0.95] md:text-7xl">{titulo}</h2>
-        <p className="mt-4 max-w-md text-lg text-[#F4ECE2]">{linea}</p>
-        <Link href={href} className="mt-8 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{accion}</Link>
-      </div>
-    </section>
-  );
-}
-
 export function SitioHome({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const ui = idiomaUi(lang);
@@ -66,7 +51,6 @@ export function SitioHome({ lang }: { lang: string }) {
   const fuente = loadAppCatalog().fuenteTexto[ui];
   const portada = obraDeEpisodio("gn-01");
   const obras = obrasVisibles();
-  const segunda = obras[1];
   const catalogo = loadAppCatalog();
   const adviento = portadaDeReto("adviento-isaias");
   if (!copy || !portada) return null;
@@ -75,70 +59,116 @@ export function SitioHome({ lang }: { lang: string }) {
     <>
       <RecordarIdioma />
       <SitioHeader lang={lang} copy={copy} sobreObra />
-      <main className="pb-28 md:pb-0">
-        <section id="hero" className="relative min-h-[100svh] bg-[#0C0B09] text-[#F4ECE2]">
+      <main className="bg-[#100E0C] pb-28 text-[#F4ECE2] md:pb-0">
+        <section id="hero" className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
           <div className="absolute inset-0 overflow-hidden">
-            <ObraFoto obra={portada} priority mover className="h-full w-full object-cover" />
+            <ObraFoto obra={portada} priority className="h-full w-full object-cover" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-[#100E0C]/20" />
-          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-32 pb-12 md:px-8 md:pb-16">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/10" />
+          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-32 pb-16 md:px-8">
             <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-8xl">{copy.homeTitle}</h1>
             <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
-            <Ctas lang={lang} copy={copy} invertido precio />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
           </div>
         </section>
-        {segunda ? <Lamina obra={segunda} titulo={copy.dailyTitle} linea={copy.dailyBody} href="/escuchar" accion={copy.homeCta} /> : null}
-        <section className="bg-[#100E0C] py-16 text-[#F4ECE2] md:py-24">
-          <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
-            <h2 className="font-display text-5xl leading-[0.95] md:text-7xl">{copy.pathTitle}</h2>
-            <p className="mt-4 max-w-md text-lg">{copy.pathBody}</p>
-          </div>
-          <div className="estante mt-8 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
+        {obras.slice(1, 4).map((obra) => (
+          <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
+            <div className="absolute inset-0">
+              <ObraFoto obra={obra} className="h-full w-full object-cover" />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-[#100E0C]/10" />
+            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-16 md:px-8">
+              <h2 className="font-display max-w-3xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{obra.escena[ui]}</h2>
+              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            </div>
+          </section>
+        ))}
+        <section className="bg-[#100E0C] py-14">
+          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railBooks}</h2>
+          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
             {obras.map((obra) => {
               const episodio = catalogo.pendientes.find((item) => item.id === obra.episodio);
               const corto = episodio?.tituloCorto?.[ui] || episodio?.etiqueta?.[ui] || obra.escena[ui];
               return (
-                <TarjetaCuadro
-                  key={obra.id}
-                  href={`/${lang}/catalogo/${obra.episodio}`}
-                  episodioId={obra.episodio}
-                  titulo={corto || obra.escena[ui]}
-                  pronto
-                  prontoTexto={copy.pending}
-                />
+                <TarjetaCuadro key={obra.id} href={`/${lang}/catalogo/${obra.episodio}`} episodioId={obra.episodio} titulo={corto || obra.escena[ui]} pronto prontoTexto={copy.pending} />
               );
             })}
           </div>
-          <div className="mx-auto mt-8 w-full max-w-6xl px-5 md:px-8">
-            <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
+          <div className="px-5 md:px-8">
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
           </div>
         </section>
-        <section className="bg-[#F3ECDF] px-5 py-20 text-[#161310] md:px-8 md:py-28">
+        <section className="bg-[#100E0C] py-10">
+          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railPaths}</h2>
+          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
+            {obras.filter((_, indice) => indice % 5 === 0).map((obra) => (
+              <TarjetaCuadro key={obra.id} href={`/${lang}/catalogo/${obra.episodio}`} episodioId={obra.episodio} titulo={obra.escena[ui]} pronto prontoTexto={copy.pending} />
+            ))}
+          </div>
+        </section>
+        <section className="bg-[#100E0C] py-10">
+          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railChallenges}</h2>
+          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
+            {RETOS.map((reto) => {
+              const poster = portadaDeReto(reto.id);
+              const titulo = (reto.tituloCorto ?? reto.titulo)[ui];
+              return poster ? (
+                <Link key={reto.id} href={`/reto/${reto.id}`} className="w-44 shrink-0 snap-start">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={poster.src.cuadrado} alt="" className="aspect-square w-full object-cover" />
+                  <span className="mt-2 block font-display text-base leading-tight">{titulo}</span>
+                </Link>
+              ) : (
+                <TarjetaCuadro key={reto.id} href={`/reto/${reto.id}`} episodioId={reto.obra} titulo={titulo} pronto prontoTexto={copy.pending} />
+              );
+            })}
+          </div>
+        </section>
+        <section id="precios" className="bg-[#100E0C] px-5 py-20 md:px-8">
           <div className="mx-auto w-full max-w-6xl">
-            <Planes lang={lang} />
-            <Ctas lang={lang} copy={copy} />
+            <Planes lang={lang} cta={copy.homeCta} riesgo={copy.ctaRisk} />
           </div>
         </section>
         {adviento ? (
-          <section className="relative min-h-[92svh] bg-[#0C0B09] text-[#F4ECE2]">
+          <section className="relative min-h-[88svh] bg-[#100E0C]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={adviento.src.ancho} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/25 to-transparent" />
-            <div className="relative z-10 mx-auto flex min-h-[92svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 md:px-8">
-              <h2 className="font-display text-5xl md:text-7xl">{copy.adventTitle}</h2>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/40 to-transparent" />
+            <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 md:px-8">
+              <h2 className="font-display text-5xl text-[#F4ECE2] md:text-7xl">{copy.adventTitle}</h2>
               <Link href="/reto/adviento-isaias" className="mt-8 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.ctaAdvent}</Link>
             </div>
           </section>
         ) : null}
       </main>
-      <footer className="bg-[#100E0C] px-5 py-10 text-sm text-[#B7AB9C] md:px-8">
-        <div className="mx-auto w-full max-w-6xl">
-          {credito ? <p>{credito}</p> : null}
-          <p className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+      <footer className="bg-[#100E0C] text-[#F4ECE2]">
+        <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
+          <div>
+            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
+            <SelectorIdioma lang={lang} claro />
+          </div>
+          <div className="grid content-start gap-2">
+            <p className="text-sm text-[#B7AB9C]">Audite</p>
+            <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
+            <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
+          </div>
+          <div className="grid content-start gap-2">
+            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
             <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
+            <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
+          </div>
+          <div className="grid content-start gap-2">
+            <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
             <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
             <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
-          </p>
+          </div>
+        </div>
+        <div className="px-5 md:px-8">
+          <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+          {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
+        </div>
+        <div className="mt-8 overflow-hidden">
+          <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
         </div>
       </footer>
       <BarraFija lang={lang} copy={copy} />
@@ -201,7 +231,7 @@ export function SitioMembresia({ lang }: { lang: string }) {
         <div>
           <p className="kicker">{copy.navMembership}</p>
           <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
-          <Planes lang={lang} />
+          <Planes lang={lang} cta={copy.homeCta} riesgo={copy.ctaRisk} />
           <Link href="/escuchar" className="mt-8 inline-flex min-h-12 items-center rounded-full bg-primary px-6 text-primary-foreground">
             {copy.appLink}
           </Link>

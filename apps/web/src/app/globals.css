@@ -269,6 +269,35 @@ html[data-reduce-motion="true"] .obra-drift {
   transition: none;
 }
 
+.lienzo {
+  background: #100e0c;
+  color: #f4ece2;
+  --background: #100e0c;
+  --foreground: #f4ece2;
+  --card: #1b1815;
+  --muted: #b7ab9c;
+  --border: #2e2924;
+  --primary: #c9a96e;
+  --primary-foreground: #100e0c;
+  --acento: #c9a96e;
+  --acento-ink: #100e0c;
+}
+
+.lienzo .neo-card {
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.lienzo) {
+    scroll-snap-type: y proximity;
+  }
+
+  .camino-tramo {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .art-in,
   .art-out,
@@ -276,5 +305,9 @@ html[data-reduce-motion="true"] .obra-drift {
   .obra-drift {
     animation: none;
     transition: none;
+  }
+
+  .camino-tramo {
+    scroll-snap-align: none;
   }
 }
