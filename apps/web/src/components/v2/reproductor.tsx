@@ -1,6 +1,6 @@
 "use client";
 
-import { PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
@@ -210,7 +210,7 @@ export function ReproductorV2() {
             <button type="button" className="flex w-full items-center justify-between gap-3 text-left" onClick={() => setObraAbierta((valor) => !valor)}>
               <span>
                 <span className="font-display block text-2xl">{es ? "Sobre la obra" : "About the art"}</span>
-                <span className="mt-1 block text-sm text-[#B7AB9C]">{obra.titulo[locale]}</span>
+                <span className="mt-1 block text-sm text-[#B7AB9C]">{obra.titulo[idiomaContenido(locale)]}</span>
               </span>
               <span className="text-sm text-[#C9A96E]">{obraAbierta ? "–" : "+"}</span>
             </button>

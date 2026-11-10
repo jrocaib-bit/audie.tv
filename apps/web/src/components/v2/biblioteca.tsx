@@ -1,6 +1,6 @@
 "use client";
 
-import { esFavorito, parseMarcadores, CLAVE_MARCADORES } from "@audite/domain";
+import { idiomaContenido, esFavorito, parseMarcadores, CLAVE_MARCADORES } from "@audite/domain";
 import Link from "next/link";
 import { useSyncExternalStore, useState } from "react";
 import { useLibrary } from "@/components/library";
@@ -40,7 +40,7 @@ export function BibliotecaV2() {
   const caminos = library.path.steps;
   const favoritos = library.catalog.books.filter((libro) => esFavorito(marcadores, `${libro.id}-01`) || marcadores.favoritos.some((favorito) => favorito.episodeId.startsWith(`${libro.id}-`)));
   const base = filtro === "notas" || filtro === "descargas" || filtro === "pasajes" ? [] : filtro === "favoritos" ? favoritos : filtro === "caminos" ? [] : library.catalog.books.slice(0, 18);
-  const visible = porNombre ? [...base].sort((a, b) => (a.name[locale] || a.name.es).localeCompare(b.name[locale] || b.name.es, locale)) : base;
+  const visible = porNombre ? [...base].sort((a, b) => (a.name[idiomaContenido(locale)] || a.name.es).localeCompare(b.name[idiomaContenido(locale)] || b.name.es, locale)) : base;
 
   return (
     <main id="contenido" className="app-clear px-4 pt-4">
@@ -66,13 +66,13 @@ export function BibliotecaV2() {
       {rejilla ? (
         <div className="mt-4 grid grid-cols-2 gap-3">
           {(filtro === "caminos" ? caminos.map((paso) => library.catalog.books.find((libro) => paso.episodeId.startsWith(`${libro.id}-`))).filter((libro): libro is NonNullable<typeof libro> => Boolean(libro)) : visible).map((libro) => (
-            <TarjetaCuadro key={libro.id} href={`/libro/${libro.id}`} episodioId={`${libro.id}-01`} titulo={libro.name[locale] || libro.name.es} pronto={!library.catalog.episodes.some((episodio) => episodio.bookId === libro.id)} prontoTexto={es ? "Pronto" : "Soon"} lleno />
+            <TarjetaCuadro key={libro.id} href={`/libro/${libro.id}`} episodioId={`${libro.id}-01`} titulo={libro.name[idiomaContenido(locale)] || libro.name.es} pronto={!library.catalog.episodes.some((episodio) => episodio.bookId === libro.id)} prontoTexto={es ? "Pronto" : "Soon"} lleno />
           ))}
         </div>
       ) : (
         <ul className="mt-4">
           {visible.map((libro) => (
-            <li key={libro.id}><Link href={`/libro/${libro.id}`} className="flex min-h-12 items-center justify-between border-b border-border"><span className="font-display text-xl">{libro.name[locale] || libro.name.es}</span></Link></li>
+            <li key={libro.id}><Link href={`/libro/${libro.id}`} className="flex min-h-12 items-center justify-between border-b border-border"><span className="font-display text-xl">{libro.name[idiomaContenido(locale)] || libro.name.es}</span></Link></li>
           ))}
         </ul>
       )}

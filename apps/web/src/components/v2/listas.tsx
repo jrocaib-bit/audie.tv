@@ -1,6 +1,6 @@
 "use client";
 
-import { CLAVE_MARCADORES, añadirALista, crearLista, portadaLista, reordenarLista, type ListaUsuario } from "@audite/domain";
+import { idiomaContenido, CLAVE_MARCADORES, añadirALista, crearLista, portadaLista, reordenarLista, type ListaUsuario } from "@audite/domain";
 import Link from "next/link";
 import { useSyncExternalStore, useState } from "react";
 import { useLibrary } from "@/components/library";
@@ -49,7 +49,7 @@ export function ListasV2({ id }: { id?: string }) {
         <ul className="mt-4">
           {lista.items.map((item, indice) => (
             <li key={item.episodeId} className="flex min-h-14 items-center justify-between gap-3 border-b border-border">
-              <Link href={`/ahora?e=${item.episodeId}`} className="font-display text-xl">{catalog.books.find((libro) => item.episodeId.startsWith(`${libro.id}-`))?.name[settings.uiLocale] || item.episodeId}</Link>
+              <Link href={`/ahora?e=${item.episodeId}`} className="font-display text-xl">{catalog.books.find((libro) => item.episodeId.startsWith(`${libro.id}-`))?.name[idiomaContenido(settings.uiLocale)] || item.episodeId}</Link>
               <span className="flex gap-2">
                 <button type="button" className="min-h-11 px-2" onClick={() => publicar(actual.map((itemLista) => itemLista.id === lista.id ? reordenarLista(itemLista, indice, indice - 1) : itemLista))}>↑</button>
                 <button type="button" className="min-h-11 px-2" onClick={() => publicar(actual.map((itemLista) => itemLista.id === lista.id ? reordenarLista(itemLista, indice, indice + 1) : itemLista))}>↓</button>

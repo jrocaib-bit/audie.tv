@@ -99,20 +99,23 @@ function limpio(valor: string | null | undefined): string | null {
   return texto ? texto : null;
 }
 
-export function nombreEpisodio(episodio: Nombres, lang: "es" | "en"): string {
-  return limpio(episodio.titulo?.[lang]) ?? limpio(episodio.etiqueta?.[lang]) ?? limpio(episodio.title) ?? episodio.id;
+export function nombreEpisodio(episodio: Nombres, lang: string): string {
+  const idioma = lang === "en" ? "en" : "es";
+  return limpio(episodio.titulo?.[idioma]) ?? limpio(episodio.etiqueta?.[idioma]) ?? limpio(episodio.title) ?? episodio.id;
 }
 
-export function rotuloEpisodio(episodio: Nombres, lang: "es" | "en"): string | null {
-  return limpio(episodio.tituloCorto?.[lang]) ?? limpio(episodio.titulo_corto?.[lang]) ?? limpio(episodio.titulo?.[lang]) ?? limpio(episodio.etiqueta?.[lang]);
+export function rotuloEpisodio(episodio: Nombres, lang: string): string | null {
+  const idioma = lang === "en" ? "en" : "es";
+  return limpio(episodio.tituloCorto?.[idioma]) ?? limpio(episodio.titulo_corto?.[idioma]) ?? limpio(episodio.titulo?.[idioma]) ?? limpio(episodio.etiqueta?.[idioma]);
 }
 
-export function nombreCorto(episodio: Nombres, lang: "es" | "en"): string {
+export function nombreCorto(episodio: Nombres, lang: string): string {
   return rotuloEpisodio(episodio, lang) ?? episodio.id;
 }
 
-export function creditoTexto(fuente: Textos | undefined, lang: "es" | "en"): string | null {
-  return limpio(fuente?.[lang]);
+export function creditoTexto(fuente: Textos | undefined, lang: string): string | null {
+  const idioma = lang === "en" ? "en" : "es";
+  return limpio(fuente?.[idioma]);
 }
 
 /** The credit is shown once. If the text already names itself, no second label is added. */

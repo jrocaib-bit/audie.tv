@@ -1,4 +1,4 @@
-import { PLAYBACK_RATES, t, type DailyMinutes, type ThemeChoice, type UiLocale } from "@audite/domain";
+import { IDIOMAS, PLAYBACK_RATES, t, type DailyMinutes, type ThemeChoice } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "react-native";
 import { Pressable, ScrollView, Text } from "react-native";
@@ -13,7 +13,7 @@ export default function SettingsScreen() {
   const locale = library.settings.uiLocale;
   const themes: ThemeChoice[] = ["system", "light", "dark"];
   const minutes: DailyMinutes[] = [10, 15, 20, 30];
-  const languages: UiLocale[] = ["es", "en"];
+  const languages = IDIOMAS;
   return (
     <ScrollView contentContainerStyle={[ui.screen, { backgroundColor: colors.bg }]}>
       <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "settingsTitle")}</Text>
@@ -44,7 +44,7 @@ export default function SettingsScreen() {
       <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsLanguage")}</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {languages.map((value) => (
-          <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
+          <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value, localeElegido: true })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
             <Text style={{ color: library.settings.uiLocale === value ? colors.accentInk : colors.ink }}>{value}</Text>
           </Pressable>
         ))}
@@ -53,6 +53,9 @@ export default function SettingsScreen() {
         <Text style={{ color: colors.ink }}>
           {t(locale, "settingsCaptions")}: {library.settings.captions ? "on" : "off"}
         </Text>
+      </Pressable>
+      <Pressable onPress={() => router.push("/entrar")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>{locale === "en" ? "Sign in" : "Entrar"}</Text>
       </Pressable>
       <Pressable onPress={() => router.push("/leer")} style={[ui.button, { backgroundColor: colors.card }]}>
         <Text style={{ color: colors.ink }}>{locale === "es" ? "Lectura" : "Reading"}</Text>

@@ -32,6 +32,6 @@ export function obraAvif(obra: ObraVisible): string {
   return obra.detalle ? `/obras/${obra.id}-detalle-1600.avif` : `/obras/${obra.id}-1600.avif`;
 }
 
-export function rotuloObra(obra: ObraVisible, lang: "es" | "en"): string {
+export function rotuloObra(obra: ObraVisible, lang: string): string {
   return lang === "en" ? `Genesis · Episode ${obra.numero}` : `Génesis · Episodio ${obra.numero}`;
 }

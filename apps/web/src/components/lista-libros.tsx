@@ -1,6 +1,6 @@
 "use client";
 
-import { booksOnTheWay, creditoVisible, episodiosDeLibro, rotuloEpisodio, t, type AppCatalog, type PendingEpisode, type UiLocale } from "@audite/domain";
+import { idiomaContenido, booksOnTheWay, creditoVisible, episodiosDeLibro, rotuloEpisodio, t, type AppCatalog, type PendingEpisode, type UiLocale } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 
@@ -53,7 +53,7 @@ export function ListaPorLibros({
       return texto.includes(q);
     });
   }, [abierto, catalog.pendientes, consulta, estado, remotos]);
-  const fuente = catalog.fuenteTexto[locale];
+  const fuente = catalog.fuenteTexto[idiomaContenido(locale)];
   const mostrarLista = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -83,7 +83,7 @@ export function ListaPorLibros({
                           onClick={() => setAbierto(libro.id)}
                           className={`flex min-h-11 items-center gap-3 whitespace-nowrap px-2 py-2 text-left ${neo ? "neo-chip max-w-full" : "border-b border-border lg:w-full lg:justify-between lg:px-0"} ${activo ? "text-foreground" : "text-muted"}`}
                         >
-                          <span className={neo ? "text-sm" : "font-serif text-xl"}>{libro.name[locale] || libro.name.es}</span>
+                          <span className={neo ? "text-sm" : "font-serif text-xl"}>{libro.name[idiomaContenido(locale)] || libro.name.es}</span>
                           {libro.deuterocanonico ? <span className="text-[11px] uppercase tracking-wide">{locale === "en" ? "Deuterocanon" : "Deuterocanónico"}</span> : null}
                         </button>
                       </li>
@@ -94,7 +94,7 @@ export function ListaPorLibros({
           ))}
         </div>
         <div>
-          <h2 className="font-display text-3xl leading-none">{libros.find((libro) => libro.id === abierto)?.name[locale]}</h2>
+          <h2 className="font-display text-3xl leading-none">{libros.find((libro) => libro.id === abierto)?.name[idiomaContenido(locale)]}</h2>
           <ul className="mt-4 max-h-[32rem] space-y-3 overflow-y-auto pr-1">
           {episodios.map((episodio) => (
             <li key={episodio.id} className={neo ? "flex min-h-14 items-center justify-between gap-3 border-b border-border py-2" : "border border-border bg-card px-4 py-4"}>

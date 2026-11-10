@@ -1,6 +1,6 @@
 "use client";
 
-import { PERSONAJES, TEMAS, buscar, mixesDeHora } from "@audite/domain";
+import { idiomaContenido, IDIOMAS, PERSONAJES, TEMAS, buscar, mixesDeHora } from "@audite/domain";
 import { obraWebp } from "@audite/content/obras";
 import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
@@ -92,13 +92,13 @@ export function BuscarV2() {
             <div className="mt-5">
               <button type="button" className="kicker text-muted" onClick={() => setCategoria(null)}>{es ? "Cerrar" : "Close"}</button>
               {categoria === "libros" ? (
-                <ul className="mt-2">{catalog.books.slice(0, 16).map((libro) => <li key={libro.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/libro/${libro.id}`}>{libro.name[locale] || libro.name.es}</Link></li>)}</ul>
+                <ul className="mt-2">{catalog.books.slice(0, 16).map((libro) => <li key={libro.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/libro/${libro.id}`}>{libro.name[idiomaContenido(locale)] || libro.name.es}</Link></li>)}</ul>
               ) : null}
               {categoria === "temas" ? (
-                <ul className="mt-2">{TEMAS.map((tema) => <li key={tema.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/tema/${tema.id}`}>{tema.titulo[locale]}</Link></li>)}</ul>
+                <ul className="mt-2">{TEMAS.map((tema) => <li key={tema.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/tema/${tema.id}`}>{tema.titulo[idiomaContenido(locale)]}</Link></li>)}</ul>
               ) : null}
               {categoria === "personajes" ? (
-                <ul className="mt-2">{PERSONAJES.map((persona) => <li key={persona.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/personaje/${persona.id}`}>{persona.titulo[locale]}</Link></li>)}</ul>
+                <ul className="mt-2">{PERSONAJES.map((persona) => <li key={persona.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/personaje/${persona.id}`}>{persona.titulo[idiomaContenido(locale)]}</Link></li>)}</ul>
               ) : null}
               {categoria === "momentos" ? (
                 <ul className="mt-2">{momentos.map((mix) => <li key={mix.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={mix.href}>{mix.titulo}</Link></li>)}</ul>
@@ -110,8 +110,9 @@ export function BuscarV2() {
               {categoria === "caminos" ? <Link className="font-display mt-3 block text-3xl" href="/camino">{es ? "Tu camino" : "Your path"}</Link> : null}
               {categoria === "idiomas" ? (
                 <div className="mt-3 flex gap-2">
-                  <button type="button" className={`neo-chip ${locale === "es" ? "bg-acento text-acento-ink" : ""}`} onClick={() => library.updateSettings({ uiLocale: "es" })}>Español</button>
-                  <button type="button" className={`neo-chip ${locale === "en" ? "bg-acento text-acento-ink" : ""}`} onClick={() => library.updateSettings({ uiLocale: "en" })}>English</button>
+                  {IDIOMAS.map((idioma) => (
+                    <button key={idioma} type="button" className={`neo-chip uppercase ${locale === idioma ? "bg-acento text-acento-ink" : ""}`} onClick={() => library.updateSettings({ uiLocale: idioma, localeElegido: true })}>{idioma}</button>
+                  ))}
                 </div>
               ) : null}
             </div>
@@ -122,7 +123,7 @@ export function BuscarV2() {
           {resultado.pasaje ? (
             <section>
               <h2 className="kicker text-muted">{es ? "Pasaje" : "Passage"}</h2>
-              <Link href={`/libro/${resultado.pasaje.libroId}?c=${resultado.pasaje.capitulo}&v=${resultado.pasaje.versiculo}`} className="font-display mt-2 block text-3xl leading-none whitespace-nowrap" onClick={() => recordar(consulta)}>{catalog.books.find((libro) => libro.id === resultado.pasaje?.libroId)?.name[locale] || resultado.pasaje.libroId} {resultado.pasaje.capitulo}:{resultado.pasaje.versiculo}</Link>
+              <Link href={`/libro/${resultado.pasaje.libroId}?c=${resultado.pasaje.capitulo}&v=${resultado.pasaje.versiculo}`} className="font-display mt-2 block text-3xl leading-none whitespace-nowrap" onClick={() => recordar(consulta)}>{catalog.books.find((libro) => libro.id === resultado.pasaje?.libroId)?.name[idiomaContenido(locale)] || resultado.pasaje.libroId} {resultado.pasaje.capitulo}:{resultado.pasaje.versiculo}</Link>
             </section>
           ) : null}
           {resultado.libros.length > 0 ? (
@@ -130,7 +131,7 @@ export function BuscarV2() {
               <h2 className="kicker text-muted">{es ? "Libros" : "Books"}</h2>
               <div className="estante mt-3 flex gap-3 overflow-x-auto">
                 {resultado.libros.map((id) => (
-                  <TarjetaCuadro key={id} href={`/libro/${id}`} episodioId={`${id}-01`} titulo={catalog.books.find((libro) => libro.id === id)?.name[locale] || id} pronto={false} prontoTexto="Pronto" />
+                  <TarjetaCuadro key={id} href={`/libro/${id}`} episodioId={`${id}-01`} titulo={catalog.books.find((libro) => libro.id === id)?.name[idiomaContenido(locale)] || id} pronto={false} prontoTexto="Pronto" />
                 ))}
               </div>
             </section>
@@ -138,13 +139,13 @@ export function BuscarV2() {
           {resultado.personajes.length > 0 ? (
             <section>
               <h2 className="kicker text-muted">{es ? "Personajes" : "People"}</h2>
-              <ul className="mt-2">{resultado.personajes.map((persona) => <li key={persona.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/personaje/${persona.id}`}>{persona.titulo[locale]}</Link></li>)}</ul>
+              <ul className="mt-2">{resultado.personajes.map((persona) => <li key={persona.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/personaje/${persona.id}`}>{persona.titulo[idiomaContenido(locale)]}</Link></li>)}</ul>
             </section>
           ) : null}
           {resultado.temas.length > 0 ? (
             <section>
               <h2 className="kicker text-muted">{es ? "Temas" : "Themes"}</h2>
-              <ul className="mt-2">{resultado.temas.map((tema) => <li key={tema.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/tema/${tema.id}`}>{tema.titulo[locale]}</Link></li>)}</ul>
+              <ul className="mt-2">{resultado.temas.map((tema) => <li key={tema.id}><Link className="flex min-h-12 items-center font-display text-2xl" href={`/tema/${tema.id}`}>{tema.titulo[idiomaContenido(locale)]}</Link></li>)}</ul>
             </section>
           ) : null}
           {!resultado.pasaje && resultado.libros.length === 0 && resultado.personajes.length === 0 && resultado.temas.length === 0 ? (

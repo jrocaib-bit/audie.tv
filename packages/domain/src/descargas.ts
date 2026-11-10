@@ -124,7 +124,7 @@ export function urisDeReproduccion(
   return { origen: "local", uris: [local.ruta] };
 }
 
-export function textoEspacio(bytes: number, locale: "es" | "en"): string {
+export function textoEspacio(bytes: number, locale: string): string {
   const formato = new Intl.NumberFormat(locale === "en" ? "en-US" : "es-ES", { maximumFractionDigits: 1 });
   if (bytes < 1024 * 1024) return `${formato.format(bytes / 1024)} KB`;
   return `${formato.format(bytes / (1024 * 1024))} MB`;

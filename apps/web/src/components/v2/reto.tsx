@@ -1,6 +1,6 @@
 "use client";
 
-import { COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export function RetoV2({ reto }: { reto: Reto }) {
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/40 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />
-        <h1 className="font-display absolute right-4 bottom-4 left-4 text-[clamp(1.7rem,7vw,2.5rem)] leading-tight text-[#F4ECE2]">{reto.titulo[locale]}</h1>
+        <h1 className="font-display absolute right-4 bottom-4 left-4 text-[clamp(1.7rem,7vw,2.5rem)] leading-tight text-[#F4ECE2]">{reto.titulo[idiomaContenido(locale)]}</h1>
       </div>
       <div className="px-4 pt-4">
         <div className="flex items-center justify-between gap-4">
@@ -56,7 +56,7 @@ export function RetoV2({ reto }: { reto: Reto }) {
           </p>
           <div className="flex flex-col items-center">
             <span className={`inline-flex size-16 items-center justify-center rounded-full border-2 px-1 ${avance.completo ? "bg-[#C9A96E] text-[#100E0C]" : "text-foreground/70"}`} style={{ borderColor: avance.completo ? "#C9A96E" : color }}>
-              <span className="font-display text-center text-xs leading-tight">{reto.insignia[locale]}</span>
+              <span className="font-display text-center text-xs leading-tight">{reto.insignia[idiomaContenido(locale)]}</span>
             </span>
           </div>
         </div>
@@ -83,7 +83,7 @@ export function RetoV2({ reto }: { reto: Reto }) {
                   ) : null}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-lg leading-tight">{paso.titulo[locale]}</span>
+                  <span className="block font-display text-lg leading-tight">{paso.titulo[idiomaContenido(locale)]}</span>
                   <span className="mt-0.5 block text-sm whitespace-nowrap text-muted">{referenciaPaso(paso, locale, true)} · {paso.minutos} min</span>
                 </span>
                 {oir ? (
@@ -99,7 +99,7 @@ export function RetoV2({ reto }: { reto: Reto }) {
             );
             return (
               <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
-                {oir ? <Link href={oir} aria-label={paso.titulo[locale]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
+                {oir ? <Link href={oir} aria-label={paso.titulo[idiomaContenido(locale)]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
                 <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => marcarDia(reto.id, paso.dia, hoy)}>
                   {hecho ? "✓" : ""}
                 </button>

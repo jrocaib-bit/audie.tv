@@ -1,6 +1,6 @@
 "use client";
 
-import { PERSONAJES, TEMAS, playableEpisodes } from "@audite/domain";
+import { idiomaContenido, PERSONAJES, TEMAS, playableEpisodes } from "@audite/domain";
 import Link from "next/link";
 import { useLibrary } from "@/components/library";
 import { Arte, Candado } from "@/components/v2/fichas";
@@ -13,9 +13,9 @@ export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "pe
   const persona = PERSONAJES.find((item) => item.id === id);
   const libroId = tipo === "libro" ? id : tema?.libroId ?? persona?.libroId ?? id;
   const libro = catalog.books.find((item) => item.id === libroId);
-  const titulo = tipo === "tema" ? tema?.titulo[locale] : tipo === "personaje" ? persona?.titulo[locale] : libro?.name[locale] || libro?.name.es || id;
+  const titulo = tipo === "tema" ? tema?.titulo[idiomaContenido(locale)] : tipo === "personaje" ? persona?.titulo[idiomaContenido(locale)] : libro?.name[idiomaContenido(locale)] || libro?.name.es || id;
   const color = tema?.color ?? persona?.color ?? "#1B1815";
-  const episodios = filas.length > 0 ? filas : catalog.pendientes.filter((episodio) => episodio.bookId === libroId).map((episodio) => ({ id: episodio.id, etiqueta: episodio.etiqueta?.[locale] || episodio.capitulos || episodio.id }));
+  const episodios = filas.length > 0 ? filas : catalog.pendientes.filter((episodio) => episodio.bookId === libroId).map((episodio) => ({ id: episodio.id, etiqueta: episodio.etiqueta?.[idiomaContenido(locale)] || episodio.capitulos || episodio.id }));
   const oibles = new Set(playableEpisodes(catalog).map((episodio) => episodio.id));
   const aleatorio = libroId === "sal" || libroId === "prov";
   const destino = [...oibles].find((episodio) => episodio.startsWith(`${libroId}-`));

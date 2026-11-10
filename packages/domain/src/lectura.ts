@@ -40,7 +40,7 @@ export function describirFuente(url: string | undefined): { modo: "fixture" | "r
   return { modo: "fixture", url: null };
 }
 
-export function capituloDePrueba(libroId: string, capitulo: number, locale: "es" | "en", url: string | undefined): CapituloTexto | null {
+export function capituloDePrueba(libroId: string, capitulo: number, locale: string, url: string | undefined): CapituloTexto | null {
   if (describirFuente(url).modo === "remota-sin-conectar") return null;
   const filas = FIXTURE[libroId]?.[capitulo];
   if (!filas) return null;

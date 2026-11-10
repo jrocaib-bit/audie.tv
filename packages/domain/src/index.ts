@@ -117,6 +117,34 @@ export {
   sleepRemainingMs,
   type SleepMinutes,
 } from "./sleep";
+export {
+  IDIOMAS,
+  esIdioma,
+  etiquetasDeCabecera,
+  idiomaContenido,
+  idiomaDeEtiqueta,
+  idiomaDeLista,
+  idiomaResuelto,
+  type Idioma,
+} from "./idioma";
+export { PRECIO } from "./precio";
+export {
+  AUTH_URLS,
+  PROVEEDORES_ALTA,
+  borrarCuenta,
+  cargaLocal,
+  cerrarSesion,
+  correoValido,
+  entrarConCorreo,
+  entrarConOAuth,
+  entrarConToken,
+  planDeMigracion,
+  redirectDe,
+  type CargaLocal,
+  type ClienteAuth,
+  type Proveedor,
+  type Sesion,
+} from "./auth";
 export { t, messages, type MessageKey, type UiLocale as MessageLocale } from "./messages";
 export { addToPath, emptyPath, moveStep, parsePath, removeFromPath, sanitizePath, type ListeningPath, type PathResult } from "./path";
 export { JoinedPlayback, type AudioPort } from "./playback";

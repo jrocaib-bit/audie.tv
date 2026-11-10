@@ -1,20 +1,21 @@
 import { obraAvif, obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
 
-export function Placa({ obra, lang }: { obra: ObraVisible; lang: "es" | "en" }) {
-  const otro = lang === "en" ? "es" : "en";
+export function Placa({ obra, lang }: { obra: ObraVisible; lang: string }) {
+  const ui = lang === "en" ? "en" : "es";
+  const otro = ui === "en" ? "es" : "en";
   const marca = (codigo: "es" | "en") => (obra.detalle ? (codigo === "es" ? " (detalle)" : " (detail)") : "");
   return (
     <figure className="max-w-xl border-l-[3px] border-[#C9A96E] bg-[#100E0C]/85 px-4 py-3 text-[#F4ECE2]">
       <figcaption>
-        <p className="kicker text-[#C9A96E]">{rotuloObra(obra, lang)}</p>
+        <p className="kicker text-[#C9A96E]">{rotuloObra(obra, ui)}</p>
         <p className="font-display mt-2 text-[1.35rem] leading-tight">
-          {obra.titulo[lang]}
-          {marca(lang)}
+          {obra.titulo[ui]}
+          {marca(ui)}
         </p>
         <p className="mt-1 text-sm text-[#F4ECE2]">
-          {obra.autor[lang]} · {obra.fecha}
+          {obra.autor[ui]} · {obra.fecha}
         </p>
-        <p className="text-sm text-[#B7AB9C]">{obra.ubicacion[lang]}</p>
+        <p className="text-sm text-[#B7AB9C]">{obra.ubicacion[ui]}</p>
         <div className="my-3 h-px w-12 bg-[#C9A96E]" />
         <p className="text-sm italic text-[#F4ECE2]">
           {obra.titulo[otro]}

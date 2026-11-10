@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import { idiomaContenido,
   booksOnTheWay,
   creditoVisible,
   journeyState,
@@ -163,7 +163,7 @@ export function NeoToday() {
             {episode ? nombreCorto(episode, locale) : rotuloEpisodio(primero ?? { id }, locale) ?? t(locale, "listenComingTitle")}
           </h2>
           <p className="font-display-regular mt-1 truncate text-lg text-[#F4ECE2]">
-            {episode ? episode.scriptureRangeLabel : primero ? primero.etiqueta?.[locale] || primero.rango?.replace("-", "–") || "" : ""}
+            {episode ? episode.scriptureRangeLabel : primero ? primero.etiqueta?.[idiomaContenido(locale)] || primero.rango?.replace("-", "–") || "" : ""}
           </p>
           {!esTono && duracion > 0 ? <p className="mt-1 text-sm text-[#F4ECE2]">{`${Math.max(1, Math.round(duracion / 60))} min`}</p> : null}
           {duracion > 0 ? (
@@ -211,7 +211,7 @@ export function NeoToday() {
         </Metrica>
         <Metrica etiqueta={tx(locale, "Minutos", "Minutes")} valor={minutosTexto(library.progress.episodes, locale)} />
       </div>
-      <p className="mt-44 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
+      <p className="mt-44 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[idiomaContenido(locale)], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
     </main>
   );
 }
@@ -278,7 +278,7 @@ export function NeoPath() {
                     <li key={book.id} className="relative py-2">
                       <span className={`absolute -left-[1.3rem] top-4 size-2 rounded-full ${oidos > 0 || state !== "ahead" ? "bg-acento" : "bg-foreground/20"}`} />
                       <div className="flex items-baseline justify-between gap-3">
-                        <span className="font-display truncate text-lg leading-tight">{book.name[locale] || book.name.es}</span>
+                        <span className="font-display truncate text-lg leading-tight">{book.name[idiomaContenido(locale)] || book.name.es}</span>
                         <span className="tabular shrink-0 text-xs text-muted">{oidos}/{total}</span>
                       </div>
                       <div className="mt-1 h-1 overflow-hidden rounded-full bg-foreground/10">

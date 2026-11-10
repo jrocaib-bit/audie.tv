@@ -5,3 +5,36 @@
 # No aplicar supabase/migrations desde este repositorio hasta que se pida aparte.
 
 project_id = "qdjowihivtqoelurvyke"
+
+# Escrito, no aplicado. Las URLs de callback son las de docs/auth.md.
+
+[auth]
+site_url = "https://audite.tv"
+additional_redirect_urls = ["https://audite.tv/auth/callback", "audite://auth/callback"]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+[auth.email.smtp]
+enabled = true
+host = "smtp.resend.com"
+port = 465
+user = "resend"
+pass = "env(RESEND_API_KEY)"
+admin_email = "no-reply@audite.tv"
+sender_name = "Audite"
+
+[auth.email.template.magic_link]
+subject = "Tu enlace"
+content_path = "./templates/magic-link/es.html"
+
+[auth.external.apple]
+enabled = true
+client_id = "env(AUDITE_APPLE_SERVICES_ID)"
+secret = "env(AUDITE_APPLE_SECRET)"
+
+[auth.external.google]
+enabled = true
+client_id = "env(AUDITE_GOOGLE_CLIENT_ID)"
+secret = "env(AUDITE_GOOGLE_CLIENT_SECRET)"

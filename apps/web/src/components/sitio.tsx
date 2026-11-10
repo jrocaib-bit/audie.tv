@@ -1,11 +1,14 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { creditoVisible, nombreEpisodio, textoOPendiente } from "@audite/domain";
+import { PRECIO, creditoVisible, nombreEpisodio, textoOPendiente } from "@audite/domain";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { ObraFoto, Placa } from "@/components/placa";
-import { copiaSitio, idiomasPublicos, type SitioCopy } from "@/sitio/i18n";
+import { portadaDeReto } from "@audite/content/obras-creditos";
+import { BarraFija, Ctas } from "@/components/conversion";
+import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
+import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
@@ -29,16 +32,10 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
           <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">
             {copy.navMembership}
           </Link>
-          {idiomasPublicos.map((idioma) => (
-            <Link
-              key={idioma}
-              href={`/${idioma}`}
-              hrefLang={idioma}
-              className={`inline-flex min-h-11 items-center text-xs uppercase tracking-[0.14em] ${idioma === lang ? (sobreObra ? "text-[#C9A96E]" : "text-acento") : sobreObra ? "text-[#B7AB9C]" : "text-muted"}`}
-            >
-              {idioma}
-            </Link>
-          ))}
+          <Link href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center">
+            {copy.ctaSign}
+          </Link>
+          <SelectorIdioma lang={lang} claro={sobreObra} />
         </nav>
       </div>
     </header>
@@ -51,12 +48,14 @@ export function SitioHome({ lang }: { lang: string }) {
   const fuente = loadAppCatalog().fuenteTexto[ui];
   const portada = obraDeEpisodio("gn-01");
   const obras = obrasVisibles();
+  const adviento = portadaDeReto("adviento-isaias");
   if (!copy || !portada) return null;
   return (
     <>
+      <RecordarIdioma />
       <SitioHeader lang={lang} copy={copy} sobreObra />
-      <main>
-        <section className="relative min-h-[100svh] bg-[#0C0B09] text-[#F4ECE2]">
+      <main className="pb-24 md:pb-0">
+        <section id="hero" className="relative min-h-[100svh] bg-[#0C0B09] text-[#F4ECE2]">
           <div className="absolute inset-0 overflow-hidden">
             <ObraFoto obra={portada} priority mover className="h-full w-full object-cover" />
           </div>
@@ -67,14 +66,7 @@ export function SitioHome({ lang }: { lang: string }) {
             <p className="kicker text-[#C9A96E]">{rotuloObra(portada, ui)}</p>
             <h1 className="font-display mt-4 max-w-4xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{copy.homeTitle}</h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#F4ECE2]">{copy.homeLede}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">
-                {copy.homeCta}
-              </Link>
-              <Link href={`/${lang}/membresia`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/40 px-6 text-[#F4ECE2]">
-                {copy.navMembership}
-              </Link>
-            </div>
+            <Ctas lang={lang} copy={copy} invertido />
             <div className="mt-10 max-w-xl">
               <Placa obra={portada} lang={ui} />
             </div>
@@ -104,9 +96,25 @@ export function SitioHome({ lang }: { lang: string }) {
               </li>
             ))}
           </ul>
+          <div className="mx-auto w-full max-w-6xl"><Ctas lang={lang} copy={copy} /></div>
           <p className="mx-auto mt-12 w-full max-w-6xl text-sm text-muted">{creditoVisible(fuente, copy.aboutTitle, copy.sourcePending)}</p>
         </section>
+        {adviento ? (
+          <section className="bg-[#100E0C] px-5 py-16 text-[#F4ECE2] md:px-8">
+            <div className="mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-[16rem_1fr]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={adviento.src.cuadrado} alt="" className="aspect-square w-full max-w-xs object-cover" />
+              <div>
+                <p className="kicker text-[#C9A96E]">{copy.adventTitle}</p>
+                <h2 className="font-display mt-3 text-4xl">{copy.adventTitle}</h2>
+                <Link href="/reto/adviento-isaias" className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.ctaAdvent}</Link>
+              </div>
+            </div>
+            <div className="mx-auto w-full max-w-6xl"><Ctas lang={lang} copy={copy} invertido /></div>
+          </section>
+        ) : null}
       </main>
+      <BarraFija lang={lang} copy={copy} />
     </>
   );
 }
@@ -166,8 +174,9 @@ export function SitioMembresia({ lang }: { lang: string }) {
         <div>
           <p className="kicker">{copy.navMembership}</p>
           <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed">{copy.membershipBody}</p>
-          <p className="mt-4 max-w-xl text-muted">{copy.noPrice}</p>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed">{copy.ctaDays}</p>
+          <p className="font-display mt-3 text-4xl">{PRECIO.mes}</p>
+          <p className="mt-1 text-muted">{PRECIO.anio}</p>
           <Link href="/escuchar" className="mt-8 inline-flex min-h-12 items-center rounded-full bg-primary px-6 text-primary-foreground">
             {copy.appLink}
           </Link>

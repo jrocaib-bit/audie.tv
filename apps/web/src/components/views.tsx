@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import { idiomaContenido,
   booksOnTheWay,
   episodeById,
   formatClock,
@@ -124,7 +124,7 @@ export function TodayScreen() {
             </div>
           ) : null}
           <p className="mt-6 text-sm text-[#F4ECE2]">
-            {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
+            {creditoVisible(library.catalog.fuenteTexto[idiomaContenido(locale)], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
           </p>
           </div>
         </div>
@@ -256,7 +256,7 @@ export function PathScreen() {
               state === "heard" ? t(locale, "journeyHeard") : state === "on_path" || state === "playable" ? t(locale, "journeyCurrent") : t(locale, "journeyAhead");
             return (
               <li key={book.id} className="flex items-baseline justify-between gap-4 border-b border-border py-2">
-                <span className={state === "ahead" ? "text-muted" : "text-foreground"}>{book.name[locale]}</span>
+                <span className={state === "ahead" ? "text-muted" : "text-foreground"}>{book.name[idiomaContenido(locale)]}</span>
                 <span className="text-xs text-muted">{label}</span>
               </li>
             );
@@ -282,12 +282,12 @@ export function LibraryScreen({ bare = false }: { bare?: boolean }) {
         <article className="mt-8 overflow-hidden border border-border bg-card">
           {artwork ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={artwork.publicPath} alt={`${artwork.title[locale]}. ${artwork.artist[locale]}`} loading="lazy" className="h-72 w-full bg-[#141210] object-contain" />
+            <img src={artwork.publicPath} alt={`${artwork.title[idiomaContenido(locale)]}. ${artwork.artist[idiomaContenido(locale)]}`} loading="lazy" className="h-72 w-full bg-[#141210] object-contain" />
           ) : null}
           <div className="p-6">
             <p className="text-sm text-muted">{episode.scriptureRangeLabel}</p>
             <h2 className="mt-1 font-serif text-4xl">{episode.title}</h2>
-            <p className="mt-3 text-muted">{episode.summary[locale]}</p>
+            <p className="mt-3 text-muted">{episode.summary[idiomaContenido(locale)]}</p>
             <Button asChild className="mt-6" size="lg">
               <Link href="/ahora">{t(locale, "catalogListen")}</Link>
             </Button>
