@@ -1,6 +1,6 @@
 "use client";
 
-import { idiomaContenido,
+import { IDIOMAS, idiomaContenido,
   booksOnTheWay,
   creditoVisible,
   journeyState,
@@ -18,6 +18,7 @@ import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Mark, Wordmark } from "@/components/brand";
+import { Cuenta } from "@/components/cuenta";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { useLibrary } from "@/components/library";
 import { ObraFoto, Placa } from "@/components/placa";
@@ -352,6 +353,7 @@ export function NeoSettings() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-2">
       <Cabecera locale={locale} titulo={t(locale, "navSettings")} />
+      <Cuenta lang={locale} />
       <Grupo titulo={t(locale, "settingsTheme")}>
         {(["system", "light", "dark"] as const).map((theme) => (
           <Fila key={theme} label={t(locale, theme === "system" ? "settingsThemeSystem" : theme === "light" ? "settingsThemeLight" : "settingsThemeDark")} onClick={() => { toque(reduceMotion); updateSettings({ theme }); }}>
@@ -360,8 +362,8 @@ export function NeoSettings() {
         ))}
       </Grupo>
       <Grupo titulo={t(locale, "settingsLanguage")}>
-        {(["es", "en"] as const).map((uiLocale) => (
-          <Fila key={uiLocale} label={t(locale, uiLocale === "es" ? "commonSpanish" : "commonEnglish")} onClick={() => updateSettings({ uiLocale })}>
+        {IDIOMAS.map((uiLocale) => (
+          <Fila key={uiLocale} label={uiLocale.toUpperCase()} onClick={() => updateSettings({ uiLocale, localeElegido: true })}>
             <span className="text-sm text-acento">{settings.uiLocale === uiLocale ? "●" : ""}</span>
           </Fila>
         ))}

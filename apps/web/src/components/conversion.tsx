@@ -36,7 +36,7 @@ export function tiendas(): { appStore: string; play: string } {
   };
 }
 
-export function Ctas({ lang, copy, invertido = false }: { lang: string; copy: Copy; invertido?: boolean }) {
+export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: string; copy: Copy; invertido?: boolean; precio?: boolean }) {
   const [aviso, setAviso] = useState(false);
   const enlaces = tiendas();
   const vacias = !enlaces.appStore && !enlaces.play;
@@ -59,7 +59,7 @@ export function Ctas({ lang, copy, invertido = false }: { lang: string; copy: Co
       <Link href={`/${lang}/entrar`} className={`inline-flex min-h-12 items-center text-sm ${invertido ? "text-[#F4ECE2]" : "text-muted"}`}>
         {copy.ctaSign}
       </Link>
-      <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span>
+      {precio ? <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span> : null}
       {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
     </div>
   );
@@ -93,7 +93,7 @@ export function Avisame({ copy, onClose }: { copy: Copy; onClose: () => void }) 
   );
 }
 
-export function BarraFija({ copy }: { lang: string; copy: Copy }) {
+export function BarraFija({ lang, copy }: { lang: string; copy: Copy }) {
   const [visible, setVisible] = useState(false);
   const [aviso, setAviso] = useState(false);
   useEffect(() => {
@@ -109,6 +109,7 @@ export function BarraFija({ copy }: { lang: string; copy: Copy }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 py-3 md:hidden">
       {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
+      <p className="mb-2 text-center text-sm">{lineaPrecio(lang)}</p>
       <div className="flex gap-2">
         <Link href="/escuchar" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-primary px-4 text-primary-foreground">
           {copy.homeCta}

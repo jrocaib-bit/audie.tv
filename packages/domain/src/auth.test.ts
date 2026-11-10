@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { textosAlta } from "./alta-ui";
 import { PROVEEDORES_ALTA, AUTH_URLS, borrarCuenta, cargaLocal, cerrarSesion, entrarConCorreo, entrarConOAuth, entrarConToken, planDeMigracion, redirectDe, type ClienteAuth } from "./auth";
 import { marcadoresVacios } from "./notas";
 import { emptyProgress } from "./progress";
@@ -21,6 +22,10 @@ describe("alta", () => {
     expect(PROVEEDORES_ALTA).toEqual(["apple", "google", "correo"]);
     expect(PROVEEDORES_ALTA.indexOf("apple")).toBe(PROVEEDORES_ALTA.indexOf("google") - 1);
     expect(PROVEEDORES_ALTA.at(-1)).toBe("correo");
+    expect(textosAlta("es").apple).toBe("Continuar con Apple");
+    expect(textosAlta("es").google).toBe("Continuar con Google");
+    expect(textosAlta("en").apple).toBe("Continue with Apple");
+    expect(textosAlta("zh").o).toBe("或");
   });
 
   it("entra con id_token, OAuth y enlace mágico hacia las URLs de Audite", async () => {

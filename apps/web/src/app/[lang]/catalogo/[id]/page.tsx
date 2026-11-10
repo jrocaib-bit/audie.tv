@@ -73,7 +73,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           <section className="mx-auto w-full max-w-3xl px-5 py-16">
             <p className="kicker">{libro?.name[uiLang] || libro?.name.es}</p>
             <h1 className="font-display mt-3 text-5xl leading-tight">{titulo ?? copy.comingSoon}</h1>
-            {titulo ? null : <p className="mt-4 text-muted">{copy.comingSoonBody}</p>}
             <p className="mt-6 text-sm text-muted">
               {episodio.capitulos ?? episodio.rango ?? ""}
               {episodio.capitulos || episodio.rango ? " · " : ""}

@@ -62,6 +62,15 @@ export async function entrarCorreoApp(email: string): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
+export async function sesionApp(): Promise<Sesion | null> {
+  const remoto = supabaseApp();
+  if (!remoto) return null;
+  const { data } = await remoto.auth.getSession();
+  const user = data.session?.user;
+  if (!user) return null;
+  return { userId: user.id, email: user.email ?? null, proveedor: "correo" };
+}
+
 export async function cerrarApp(): Promise<void> {
   await supabaseApp()?.auth.signOut();
 }

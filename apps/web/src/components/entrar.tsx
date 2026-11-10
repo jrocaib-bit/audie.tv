@@ -1,46 +1,67 @@
 "use client";
 
-import { PROVEEDORES_ALTA, correoValido } from "@audite/domain";
+import { esIdioma, textosAlta } from "@audite/domain";
+import { obraDeEpisodio } from "@audite/content/obras";
+import Link from "next/link";
 import { useState } from "react";
-import { borrarWeb, cerrarWeb, entrarCorreo, entrarOAuth } from "@/lib/auth-web";
-
-const TEXTOS = {
-  es: { titulo: "Entrar", apple: "Apple", google: "Google", correo: "Correo", enviar: "Enviar enlace", listo: "Listo", salir: "Salir", borrar: "Borrar cuenta" },
-  en: { titulo: "Sign in", apple: "Apple", google: "Google", correo: "Email", enviar: "Send link", listo: "Done", salir: "Sign out", borrar: "Delete account" },
-} as const;
+import { Wordmark } from "@/components/brand";
+import { BotonApple, BotonGoogle } from "@/components/botones-alta";
+import { ObraFoto } from "@/components/placa";
+import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
+import { correoValido } from "@audite/domain";
 
 export function Entrar({ lang }: { lang: string }) {
-  const copy = lang === "en" ? TEXTOS.en : TEXTOS.es;
+  const copy = textosAlta(lang);
+  const ui = esIdioma(lang) ? lang : "es";
+  const obra = obraDeEpisodio("gn-01");
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
 
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center bg-[#100E0C] px-6 py-16 text-[#F4ECE2]">
-      <p className="kicker text-[#C9A96E]">Audite</p>
-      <h1 className="font-display mt-3 text-5xl">{copy.titulo}</h1>
-      <div className="mt-8 grid grid-cols-2 gap-3">
-        {PROVEEDORES_ALTA.filter((item) => item !== "correo").map((item) => (
-          <button key={item} type="button" className="inline-flex min-h-14 items-center justify-center rounded-full bg-[#F4ECE2] text-[#100E0C]" onClick={() => void entrarOAuth(item).catch(() => setEstado(""))}>
-            {item === "apple" ? copy.apple : copy.google}
-          </button>
-        ))}
+    <main className="relative min-h-dvh bg-[#100E0C] text-[#F4ECE2]">
+      <div className="absolute inset-x-0 top-0 h-[52svh] overflow-hidden">
+        {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#100E0C]/25 via-[#100E0C]/55 to-[#100E0C]" />
       </div>
-      <form
-        className="mt-6 grid gap-3"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!correoValido(correo)) return;
-          void entrarCorreo(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
-        }}
-      >
-        <input type="email" required value={correo} aria-label={copy.correo} placeholder={copy.correo} onChange={(event) => setCorreo(event.target.value)} className="min-h-12 rounded-full border border-[#F4ECE2]/30 bg-transparent px-4" />
-        <button type="submit" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#F4ECE2]/40">{copy.enviar}</button>
-      </form>
-      <div className="mt-8 flex gap-3">
-        <button type="button" className="inline-flex min-h-11 items-center" onClick={() => void cerrarWeb()}>{copy.salir}</button>
-        <button type="button" className="inline-flex min-h-11 items-center" onClick={() => void borrarWeb()}>{copy.borrar}</button>
+      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-md flex-col px-6 pt-16 pb-8">
+        <Wordmark locale={ui} tono="blanco" className="h-8 w-auto" />
+        <h1 className="font-display mt-8 max-w-sm text-5xl leading-[0.95]">{copy.titulo}</h1>
+        <div className="mt-auto grid gap-3 pt-16">
+          <BotonApple etiqueta={copy.apple} onClick={() => void entrarOAuth("apple").catch(() => setEstado(""))} />
+          <BotonGoogle etiqueta={copy.google} onClick={() => void entrarOAuth("google").catch(() => setEstado(""))} />
+          <div className="flex items-center gap-3 py-1 text-sm text-[#B7AB9C]">
+            <span className="h-px flex-1 bg-[#F4ECE2]/25" />
+            {copy.o}
+            <span className="h-px flex-1 bg-[#F4ECE2]/25" />
+          </div>
+          <form
+            className="grid gap-3"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!correoValido(correo)) return;
+              void entrarCorreo(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
+            }}
+          >
+            <input
+              type="email"
+              required
+              value={correo}
+              aria-label={copy.correo}
+              placeholder={copy.correo}
+              onChange={(event) => setCorreo(event.target.value)}
+              className="h-12 rounded-[6px] border border-[#F4ECE2]/30 bg-transparent px-4"
+            />
+            <button type="submit" className="inline-flex h-12 items-center justify-center rounded-[6px] border border-[#F4ECE2]/40">
+              {copy.enviar}
+            </button>
+          </form>
+          {estado ? <p className="text-center text-sm text-[#C9A96E]">{estado}</p> : null}
+          <p className="mt-2 flex justify-center gap-4 text-xs text-[#B7AB9C]">
+            <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{copy.condiciones}</Link>
+            <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{copy.privacidad}</Link>
+          </p>
+        </div>
       </div>
-      {estado ? <p className="mt-4 text-sm text-[#C9A96E]">{estado}</p> : null}
     </main>
   );
 }
