@@ -2,7 +2,7 @@
 
 import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, inicioDelPasaje, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
 import { obrasVisibles } from "@audite/content/obras";
-import { portadaPara } from "@audite/content/obras-creditos";
+import { portadaDeReto, portadaPara } from "@audite/content/obras-creditos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, useSyncExternalStore } from "react";
@@ -68,7 +68,8 @@ export function InicioV2() {
     if (id) usadas.add(id);
     return id;
   }
-  const portadaDia = tomar(pasaje?.referencia.libroId ?? liturgia.iso);
+  const portadaReto = delTiempo[0] ? portadaDeReto(delTiempo[0].id) : null;
+  const portadaDia = portadaReto ? null : tomar(pasaje?.referencia.libroId ?? liturgia.iso);
   const coincidente = pasaje
     ? RETOS.flatMap((reto) => reto.pasos).find((paso) => paso.episodio && paso.libroId === pasaje.referencia.libroId && paso.capitulo === pasaje.referencia.capitulo && paso.versiculo === pasaje.referencia.versiculo)
     : undefined;
@@ -76,8 +77,8 @@ export function InicioV2() {
   const segundoOir = fichaOir && coincidente ? inicioDelPasaje(fichaOir.tiempos, coincidente.capitulo, coincidente.versiculo, coincidente.versiculoFin) : null;
   const oir = fichaOir ? `/ahora?e=${fichaOir.id}${segundoOir != null ? `&t=${segundoOir}` : ""}` : null;
   const estanteTiempo = delTiempo.flatMap((reto) => [
-    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: (reto.tituloCorto ?? reto.titulo)[locale], obra: tomar(reto.id) },
-    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es) })),
+    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: (reto.tituloCorto ?? reto.titulo)[locale], obra: portadaDeReto(reto.id) ? null : tomar(reto.id), src: portadaDeReto(reto.id)?.src.cuadrado ?? null },
+    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es), src: null })),
   ]);
 
   return (
@@ -107,14 +108,18 @@ export function InicioV2() {
           clave={portadaDia ?? liturgia.iso}
           filete={COLOR_HEX[liturgia.color]}
           oir={oir ? `/ahora?e=${oir}` : null}
+          poster={portadaReto?.src.vertical}
         />
       ) : null}
       {filtro === "todo" && estanteTiempo.length > 0 ? (
         <EstanteFila titulo={locale === "en" ? "For this season" : "Para este tiempo"}>
           {estanteTiempo.map((ficha) => (
             <Link key={ficha.id} href={ficha.href} className="w-[10.5rem] shrink-0 snap-start">
-              <span className="relative block h-28 overflow-hidden rounded-2xl bg-[#1B1815]">
-                <Arte episodioId={ficha.obra} className="absolute inset-0 h-full w-full" />
+              <span className={`relative block overflow-hidden rounded-2xl bg-[#1B1815] ${ficha.src ? "aspect-square" : "h-28"}`}>
+                {ficha.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={ficha.src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                ) : <Arte episodioId={ficha.obra} className="absolute inset-0 h-full w-full" />}
                 <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-transparent" />
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: COLOR_HEX[liturgia.color] }} />
                 <span className="absolute inset-x-2.5 bottom-2.5 line-clamp-2 font-display text-base leading-tight text-[#F4ECE2]">{ficha.titulo}</span>
