@@ -2,6 +2,7 @@
 
 import { COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
+import { portadaDeReto } from "@audite/content/obras-creditos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useSyncExternalStore } from "react";
@@ -30,17 +31,18 @@ export function RetoV2({ reto }: { reto: Reto }) {
   const avance = fraccionReto(estado.hechos, reto.pasos.length);
   const dias = racha(estado.fechas, hoy);
   const siguiente = reto.pasos.find((paso) => !estado.hechos.includes(paso.dia))?.dia ?? 1;
-  const obra = portada(reto.obra) ?? portada(reto.pasos[0]?.obra ?? null);
+  const propia = portadaDeReto(reto.id);
+  const obra = propia ? null : portada(reto.obra) ?? portada(reto.pasos[0]?.obra ?? null);
   const mismo = dia.tiempo === reto.tiempo || (dia.tiempo === "triduo" && reto.tiempo === "semana-santa");
   const base = reto.tiempo === "adviento" || reto.tiempo === "cuaresma" ? "morado" : reto.tiempo === "semana-santa" ? "rojo" : reto.tiempo === "ordinario" ? "verde" : "blanco";
   const color = COLOR_HEX[mismo ? dia.color : base];
 
   return (
     <main id="contenido" className="app-clear">
-      <div className="relative h-52 overflow-hidden bg-[#1B1815]">
-        {obra ? (
+      <div className={`relative overflow-hidden bg-[#1B1815] ${propia ? "aspect-video" : "h-52"}`}>
+        {propia || obra ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
+          <img src={propia ? propia.src.ancho : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="h-full w-full object-cover" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/40 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />

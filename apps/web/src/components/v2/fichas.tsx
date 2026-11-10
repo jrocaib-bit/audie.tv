@@ -79,16 +79,19 @@ export function EstanteFila({ titulo, children }: { titulo: string; children: Re
   );
 }
 
-export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario, oir }: { href: string; titulo: string; subtitulo?: string; clave: string; filete?: string; calendario?: string; oir?: string | null }) {
+export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario, oir, poster }: { href: string; titulo: string; subtitulo?: string; clave: string; filete?: string; calendario?: string; oir?: string | null; poster?: string | null }) {
   const obra = obrasPara(clave, 1)[0];
   const color = filete ?? colorDeObra(obra ?? null);
   return (
     <div className="relative mx-4 mt-5">
-      <Link href={href} className="relative block h-44 overflow-hidden rounded-2xl" style={{ background: color }}>
-        {obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
+      <Link href={href} className={`relative block overflow-hidden rounded-2xl ${poster ? "mx-auto aspect-[9/16] w-[min(100%,calc((100dvh-16rem)*9/16))]" : "h-44"}`} style={{ background: color }}>
+        {poster ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        ) : obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
         <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5 shadow-[0_1px_0_rgba(16,14,12,0.35)]" style={{ background: color }} />
-        <span className="absolute inset-x-4 bottom-4">
+        <span className={`absolute inset-x-4 ${poster ? "bottom-28" : "bottom-4"}`}>
           <span className="block font-display text-[clamp(1.15rem,4.6vw,1.65rem)] leading-tight text-[#F4ECE2]">{titulo}</span>
           {subtitulo ? <span className="mt-2 block text-sm whitespace-nowrap text-[#F4ECE2]/85">{subtitulo}</span> : null}
         </span>

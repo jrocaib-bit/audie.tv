@@ -4728,5 +4728,536 @@
       },
       "estado": "propuesta — pendiente de aprobación de Javier"
     }
-  ]
+  ],
+"retos": {
+    "nota": "Portadas de retos para la app (vertical 9:16 y cuadrado). Créditos verificados; mismas fichas Met/Commons que las obras de episodio.",
+    "generado": "2026-11-09T22:15:49+01:00",
+    "items": [
+      {
+        "id": "adviento-isaias",
+        "titulo": {
+          "id": "adviento-isaias",
+          "es": "Adviento con Isaías",
+          "en": "Advent with Isaiah",
+          "insignia_es": "Centinela",
+          "insignia_en": "Watchman",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "is-01": "A la luz del Señor",
+            "is-04": "Del tronco de Jesé"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según 00_coordinacion/RETOS_PASAJES.md."
+        },
+        "obras": [
+          "reto-adviento_o1",
+          "reto-adviento_o2"
+        ]
+      },
+      {
+        "id": "navidad-infancia",
+        "titulo": {
+          "id": "navidad-infancia",
+          "es": "Navidad: los relatos de la infancia",
+          "en": "Christmas: the infancy narratives",
+          "insignia_es": "Belén",
+          "insignia_en": "Bethlehem",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "lc-01": "Llena de gracia",
+            "lc-02": "Os ha nacido un Salvador",
+            "mt-01": "Dios-con-nosotros"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según RETOS_PASAJES.md. Titulos cortos de episodios ancla del manifiesto."
+        },
+        "obras": [
+          "reto-navidad_o1",
+          "reto-navidad_o2"
+        ]
+      }
+    ],
+    "obras": [
+      {
+        "id": "reto-adviento_o1",
+        "id_v1": null,
+        "episodio": null,
+        "principal": true,
+        "uso": "principal",
+        "pasaje": "Is 11",
+        "escena": {
+          "es": "Reino pacífico / renuevo de Jesé",
+          "en": "Peaceable kingdom / shoot of Jesse"
+        },
+        "titulo": {
+          "es": "El reino pacífico",
+          "en": "Peaceable Kingdom"
+        },
+        "autor": {
+          "es": "Edward Hicks",
+          "en": "Edward Hicks"
+        },
+        "fecha": "c. 1830–1832",
+        "ubicacion": {
+          "es": "The Metropolitan Museum of Art, Nueva York",
+          "en": "The Metropolitan Museum of Art, New York"
+        },
+        "placa": {
+          "es": "El reino pacífico · Edward Hicks · c. 1830–1832 · The Metropolitan Museum of Art, Nueva York",
+          "en": "Peaceable Kingdom · Edward Hicks · c. 1830–1832 · The Metropolitan Museum of Art, New York"
+        },
+        "fuente": {
+          "fuente_tipo": "Met Open Access",
+          "institucion_fuente": "The Metropolitan Museum of Art",
+          "url_ficha": "https://www.metmuseum.org/art/collection/search/11081",
+          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/11081",
+          "url_archivo": "https://images.metmuseum.org/CRDImages/ad/original/DT4930.jpg",
+          "titulo_catalogo": "Peaceable Kingdom",
+          "autor_catalogo": "Edward Hicks",
+          "autor_bio": "American, Langhorne, Pennsylvania 1780–1849 Newtown, Pennsylvania",
+          "fecha_catalogo": "ca. 1830–32",
+          "tecnica_catalogo": "Oil on canvas",
+          "dimensiones_catalogo": "17 7/8 x 23 7/8 in. (45.4 x 60.6 cm)",
+          "inventario": "1970.283.1",
+          "linea_credito_museo": "Gift of Edgar William and Bernice Chrysler Garbisch, 1970",
+          "licencia": "CC0 1.0 (Met Open Access)",
+          "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "evidencia": "API Met isPublicDomain=True",
+          "dominio_publico_api": true
+        },
+        "archivo_local": "retos/adviento/reto-adviento_o1_peaceable_kingdom.jpg",
+        "copia_de": null,
+        "origen": "Portada reto app · is-04_o1 · 2026-11-09",
+        "resolucion": [
+          3811,
+          2866
+        ],
+        "sha256": "8c879d005d5e26c798f22a46087667f03c4cecae63898bf5206d04fecdb335e5",
+        "aviso_resolucion": null,
+        "derechos": {
+          "obra": "Dominio público (autor fallecido hace más de 100 años)",
+          "reproduccion": "CC0 1.0 (Met Open Access)",
+          "riesgo": "bajo",
+          "notas": "Met Open Access CC0. Tradición visual de Is 11. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
+          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de is-04_o1 (misma ficha/licencia verificada)",
+          "dictamen_juridico": false
+        },
+        "recorte_16_9": {
+          "rama": "A_recorte_16x9",
+          "caja_px": [
+            0,
+            218,
+            3811,
+            2144
+          ],
+          "area_perdida": 0.25,
+          "nota": "Recorte 16:9 directo centrado en el foco indicado; movimiento máx. 1–3 %."
+        },
+        "estado": "propuesta — pendiente de aprobación de Javier",
+        "reto": "adviento-isaias",
+        "reto_titulo": {
+          "id": "adviento-isaias",
+          "es": "Adviento con Isaías",
+          "en": "Advent with Isaiah",
+          "insignia_es": "Centinela",
+          "insignia_en": "Watchman",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "is-01": "A la luz del Señor",
+            "is-04": "Del tronco de Jesé"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según 00_coordinacion/RETOS_PASAJES.md."
+        },
+        "recorte_app": {
+          "vertical_9x16": {
+            "caja_px": [
+              1099,
+              0,
+              1612,
+              2866
+            ],
+            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          },
+          "cuadrado_1x1": {
+            "caja_px": [
+              472,
+              0,
+              2866,
+              2866
+            ],
+            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          },
+          "horizontal_16x9": {
+            "caja_px": [
+              0,
+              218,
+              3811,
+              2144
+            ],
+            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          }
+        }
+      },
+      {
+        "id": "reto-adviento_o2",
+        "id_v1": null,
+        "episodio": null,
+        "principal": false,
+        "uso": "complementaria",
+        "pasaje": "Lc 1,26-38",
+        "escena": {
+          "es": "Anunciación",
+          "en": "The Annunciation"
+        },
+        "titulo": {
+          "es": "La Anunciación",
+          "en": "The Annunciation"
+        },
+        "autor": {
+          "es": "Sandro Botticelli",
+          "en": "Botticelli (Alessandro di Mariano Filipepi)"
+        },
+        "fecha": "c. 1490",
+        "ubicacion": {
+          "es": "The Metropolitan Museum of Art, Nueva York",
+          "en": "The Metropolitan Museum of Art, New York"
+        },
+        "placa": {
+          "es": "La Anunciación · Sandro Botticelli · c. 1490 · The Metropolitan Museum of Art, Nueva York",
+          "en": "The Annunciation · Botticelli (Alessandro di Mariano Filipepi) · c. 1490 · The Metropolitan Museum of Art, New York"
+        },
+        "fuente": {
+          "fuente_tipo": "Met Open Access",
+          "institucion_fuente": "The Metropolitan Museum of Art",
+          "url_ficha": "https://www.metmuseum.org/art/collection/search/459016",
+          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/459016",
+          "url_archivo": "https://images.metmuseum.org/CRDImages/rl/original/DP267397.jpg",
+          "titulo_catalogo": "The Annunciation",
+          "autor_catalogo": "Botticelli (Alessandro di Mariano Filipepi)",
+          "autor_bio": "Italian, Florence 1444/45–1510 Florence",
+          "fecha_catalogo": "ca. 1490",
+          "tecnica_catalogo": "Tempera and gold on wood",
+          "dimensiones_catalogo": "7 1/2 x 12 3/8 in. (19.1 x 31.4 cm)",
+          "inventario": "1975.1.74",
+          "linea_credito_museo": "Robert Lehman Collection, 1975",
+          "licencia": "CC0 1.0 (Met Open Access)",
+          "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "evidencia": "API Met isPublicDomain=True",
+          "dominio_publico_api": true
+        },
+        "archivo_local": "retos/adviento/reto-adviento_o2_the_annunciation.jpg",
+        "copia_de": null,
+        "origen": "Portada reto app · lc-01_o1 · 2026-11-09",
+        "resolucion": [
+          3913,
+          2571
+        ],
+        "sha256": "054284b4a8e2e5d6cc89696f5ec6a9d7d3d8f44df0d23f08069fcc9d08ac1bf8",
+        "aviso_resolucion": null,
+        "derechos": {
+          "obra": "Dominio público (autor fallecido hace más de 100 años)",
+          "reproduccion": "CC0 1.0 (Met Open Access)",
+          "riesgo": "bajo",
+          "notas": "Met Open Access CC0. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
+          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de lc-01_o1 (misma ficha/licencia verificada)",
+          "dictamen_juridico": false
+        },
+        "recorte_16_9": {
+          "rama": "A_recorte_16x9",
+          "caja_px": [
+            0,
+            0,
+            3913,
+            2201
+          ],
+          "area_perdida": 0.14,
+          "nota": "Recorte 16:9 directo centrado en el foco indicado; movimiento máx. 1–3 %."
+        },
+        "estado": "propuesta — pendiente de aprobación de Javier",
+        "reto": "adviento-isaias",
+        "reto_titulo": {
+          "id": "adviento-isaias",
+          "es": "Adviento con Isaías",
+          "en": "Advent with Isaiah",
+          "insignia_es": "Centinela",
+          "insignia_en": "Watchman",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "is-01": "A la luz del Señor",
+            "is-04": "Del tronco de Jesé"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según 00_coordinacion/RETOS_PASAJES.md."
+        },
+        "recorte_app": {
+          "vertical_9x16": {
+            "caja_px": [
+              1233,
+              0,
+              1446,
+              2571
+            ],
+            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+          },
+          "cuadrado_1x1": {
+            "caja_px": [
+              671,
+              0,
+              2571,
+              2571
+            ],
+            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+          },
+          "horizontal_16x9": {
+            "caja_px": [
+              0,
+              0,
+              3913,
+              2201
+            ],
+            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+          }
+        }
+      },
+      {
+        "id": "reto-navidad_o1",
+        "id_v1": null,
+        "episodio": null,
+        "principal": true,
+        "uso": "principal",
+        "pasaje": "Lc 2,1-20",
+        "escena": {
+          "es": "Natividad / Madonna adorando al Niño",
+          "en": "Nativity / Madonna adoring the Child"
+        },
+        "titulo": {
+          "es": "Madonna adorando al Niño",
+          "en": "Madonna Adoring the Child"
+        },
+        "autor": {
+          "es": "Sandro Botticelli",
+          "en": "Botticelli (Alessandro di Mariano Filipepi)"
+        },
+        "fecha": "c. 1490–1495",
+        "ubicacion": {
+          "es": "The Metropolitan Museum of Art, Nueva York",
+          "en": "The Metropolitan Museum of Art, New York"
+        },
+        "placa": {
+          "es": "Madonna adorando al Niño · Sandro Botticelli · c. 1490–1495 · The Metropolitan Museum of Art, Nueva York",
+          "en": "Madonna Adoring the Child · Botticelli (Alessandro di Mariano Filipepi) · c. 1490–1495 · The Metropolitan Museum of Art, New York"
+        },
+        "fuente": {
+          "fuente_tipo": "Met Open Access",
+          "institucion_fuente": "The Metropolitan Museum of Art",
+          "url_ficha": "https://www.metmuseum.org/art/collection/search/459001",
+          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/459001",
+          "url_archivo": "https://images.metmuseum.org/CRDImages/rl/original/DP318246.jpg",
+          "titulo_catalogo": "Madonna Adoring the Child",
+          "autor_catalogo": "Botticelli (Alessandro di Mariano Filipepi)",
+          "autor_bio": "Italian, Florence 1444/45–1510 Florence",
+          "fecha_catalogo": "ca. 1490–95",
+          "tecnica_catalogo": "Tempera and gold on wood",
+          "dimensiones_catalogo": "Overall: 30 1/2 × 22 1/2 in. (77.5 × 57.2 cm)",
+          "inventario": "1975.1.61",
+          "linea_credito_museo": "Robert Lehman Collection, 1975",
+          "licencia": "CC0 1.0 (Met Open Access)",
+          "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "evidencia": "API Met isPublicDomain=True",
+          "dominio_publico_api": true
+        },
+        "archivo_local": "retos/navidad/reto-navidad_o1_madonna_adoring_the_child.jpg",
+        "copia_de": null,
+        "origen": "Portada reto app · lc-02_o1 · 2026-11-09",
+        "resolucion": [
+          2926,
+          3883
+        ],
+        "sha256": "cdcf3d5c75ca02b8a94f280f5bd3c18db773801146e540460c6498df86830dc3",
+        "aviso_resolucion": null,
+        "derechos": {
+          "obra": "Dominio público (autor fallecido hace más de 100 años)",
+          "reproduccion": "CC0 1.0 (Met Open Access)",
+          "riesgo": "bajo",
+          "notas": "Met Open Access CC0. Sobrio; sin violencia. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
+          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de lc-02_o1 (misma ficha/licencia verificada)",
+          "dictamen_juridico": false
+        },
+        "recorte_16_9": {
+          "rama": "B_encaje_fondo",
+          "caja_px": [
+            0,
+            924,
+            2926,
+            1646
+          ],
+          "area_perdida": 0.58,
+          "nota": "Obra vertical/cuadrada: encajar completa a altura 1080 sobre fondo Galería #0C0B09 (o extensión desenfocada y oscurecida de la propia obra). La caja indicada sirve para un plano de detalle 16:9 lento, no para sustituir la obra completa."
+        },
+        "estado": "propuesta — pendiente de aprobación de Javier",
+        "reto": "navidad-infancia",
+        "reto_titulo": {
+          "id": "navidad-infancia",
+          "es": "Navidad: los relatos de la infancia",
+          "en": "Christmas: the infancy narratives",
+          "insignia_es": "Belén",
+          "insignia_en": "Bethlehem",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "lc-01": "Llena de gracia",
+            "lc-02": "Os ha nacido un Salvador",
+            "mt-01": "Dios-con-nosotros"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según RETOS_PASAJES.md. Titulos cortos de episodios ancla del manifiesto."
+        },
+        "recorte_app": {
+          "vertical_9x16": {
+            "caja_px": [
+              371,
+              0,
+              2184,
+              3883
+            ],
+            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.42); movimiento máx. 1–3 %."
+          },
+          "cuadrado_1x1": {
+            "caja_px": [
+              0,
+              168,
+              2926,
+              2926
+            ],
+            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.42); movimiento máx. 1–3 %."
+          },
+          "horizontal_16x9": {
+            "caja_px": [
+              0,
+              808,
+              2926,
+              1646
+            ],
+            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.42); movimiento máx. 1–3 %."
+          }
+        }
+      },
+      {
+        "id": "reto-navidad_o2",
+        "id_v1": null,
+        "episodio": null,
+        "principal": false,
+        "uso": "complementaria",
+        "pasaje": "Mt 2,1-12",
+        "escena": {
+          "es": "Adoración de los Magos",
+          "en": "The Adoration of the Magi"
+        },
+        "titulo": {
+          "es": "La adoración de los Magos",
+          "en": "The Adoration of the Magi"
+        },
+        "autor": {
+          "es": "Giotto",
+          "en": "Giotto di Bondone"
+        },
+        "fecha": "posiblemente c. 1320",
+        "ubicacion": {
+          "es": "The Metropolitan Museum of Art, Nueva York",
+          "en": "The Metropolitan Museum of Art, New York"
+        },
+        "placa": {
+          "es": "La adoración de los Magos · Giotto · posiblemente c. 1320 · The Metropolitan Museum of Art, Nueva York",
+          "en": "The Adoration of the Magi · Giotto di Bondone · posiblemente c. 1320 · The Metropolitan Museum of Art, New York"
+        },
+        "fuente": {
+          "fuente_tipo": "Met Open Access",
+          "institucion_fuente": "The Metropolitan Museum of Art",
+          "url_ficha": "https://www.metmuseum.org/art/collection/search/436504",
+          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/436504",
+          "url_archivo": "https://images.metmuseum.org/CRDImages/ep/original/DP-31416-001.jpg",
+          "titulo_catalogo": "The Adoration of the Magi",
+          "autor_catalogo": "Giotto di Bondone",
+          "autor_bio": "Italian, Florentine, 1266/76–1337",
+          "fecha_catalogo": "possibly ca. 1320",
+          "tecnica_catalogo": "Tempera on wood, gold ground",
+          "dimensiones_catalogo": "17 3/4 x 17 1/4 in. (45.1 x 43.8 cm)",
+          "inventario": "11.126.1",
+          "linea_credito_museo": "John Stewart Kennedy Fund, 1911",
+          "licencia": "CC0 1.0 (Met Open Access)",
+          "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "evidencia": "API Met isPublicDomain=True",
+          "dominio_publico_api": true
+        },
+        "archivo_local": "retos/navidad/reto-navidad_o2_the_adoration_of_the_magi.jpg",
+        "copia_de": null,
+        "origen": "Portada reto app · mt-01_o1 · 2026-11-09",
+        "resolucion": [
+          3885,
+          4000
+        ],
+        "sha256": "8ed5633c479f888836e38135c8080c6fe0c0f6d533b5a80348da06bbadc61044",
+        "aviso_resolucion": null,
+        "derechos": {
+          "obra": "Dominio público (autor fallecido hace más de 100 años)",
+          "reproduccion": "CC0 1.0 (Met Open Access)",
+          "riesgo": "bajo",
+          "notas": "Met Open Access CC0. Cubre Enmanuel/Mt 1–2; magos en Mt 2. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
+          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de mt-01_o1 (misma ficha/licencia verificada)",
+          "dictamen_juridico": false
+        },
+        "recorte_16_9": {
+          "rama": "B_encaje_fondo",
+          "caja_px": [
+            0,
+            707,
+            3885,
+            2185
+          ],
+          "area_perdida": 0.45,
+          "nota": "Obra vertical/cuadrada: encajar completa a altura 1080 sobre fondo Galería #0C0B09 (o extensión desenfocada y oscurecida de la propia obra). La caja indicada sirve para un plano de detalle 16:9 lento, no para sustituir la obra completa."
+        },
+        "estado": "propuesta — pendiente de aprobación de Javier",
+        "reto": "navidad-infancia",
+        "reto_titulo": {
+          "id": "navidad-infancia",
+          "es": "Navidad: los relatos de la infancia",
+          "en": "Christmas: the infancy narratives",
+          "insignia_es": "Belén",
+          "insignia_en": "Bethlehem",
+          "titulo_corto_manifiesto": null,
+          "episodios_ancla": {
+            "lc-01": "Llena de gracia",
+            "lc-02": "Os ha nacido un Salvador",
+            "mt-01": "Dios-con-nosotros"
+          },
+          "nota": "No hay titulo_corto de reto en manifiesto.json; nombre e insignia según RETOS_PASAJES.md. Titulos cortos de episodios ancla del manifiesto."
+        },
+        "recorte_app": {
+          "vertical_9x16": {
+            "caja_px": [
+              818,
+              0,
+              2250,
+              4000
+            ],
+            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          },
+          "cuadrado_1x1": {
+            "caja_px": [
+              0,
+              0,
+              3885,
+              3885
+            ],
+            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          },
+          "horizontal_16x9": {
+            "caja_px": [
+              0,
+              707,
+              3885,
+              2185
+            ],
+            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+          }
+        }
+      }
+    ]
+  }
 }

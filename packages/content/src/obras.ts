@@ -68,3 +68,59 @@ export function portadaPara(clave: string, evitar: readonly string[] = [], giro 
   }
   return lista[inicio]?.episodio ?? null;
 }
+
+export type FormatoPortada = "vertical" | "cuadrado" | "ancho";
+
+export type PortadaReto = {
+  id: string;
+  retoId: string;
+  titulo: { es: string; en: string };
+  autor: { es: string; en: string };
+  ubicacion: { es: string; en: string };
+  licencia: string;
+  src: Record<FormatoPortada, string>;
+};
+
+type ObraReto = {
+  id?: string;
+  principal?: boolean;
+  uso?: string;
+  reto?: string;
+  titulo?: { es?: string; en?: string };
+  autor?: { es?: string; en?: string };
+  ubicacion?: { es?: string; en?: string };
+  fuente?: { licencia?: string };
+};
+
+const retosArchivo = creditos as { retos?: { obras?: ObraReto[] } };
+
+function textoDe(valor: { es?: string; en?: string } | undefined, lang: "es" | "en"): string {
+  return valor?.[lang]?.trim() || valor?.es?.trim() || "";
+}
+
+export function portadasDeRetos(): PortadaReto[] {
+  return (retosArchivo.retos?.obras ?? []).flatMap((obra) => {
+    if (obra.principal !== true || obra.uso !== "principal" || !obra.id || !obra.reto) return [];
+    const titulo = { es: textoDe(obra.titulo, "es"), en: textoDe(obra.titulo, "en") };
+    const autor = { es: textoDe(obra.autor, "es"), en: textoDe(obra.autor, "en") };
+    const ubicacion = { es: textoDe(obra.ubicacion, "es"), en: textoDe(obra.ubicacion, "en") };
+    if (!titulo.es || !autor.es || !ubicacion.es || !obra.fuente?.licencia) return [];
+    return [{
+      id: obra.id,
+      retoId: obra.reto,
+      titulo,
+      autor,
+      ubicacion,
+      licencia: obra.fuente.licencia,
+      src: {
+        vertical: `/obras/${obra.id}-9x16.webp`,
+        cuadrado: `/obras/${obra.id}-1x1.webp`,
+        ancho: `/obras/${obra.id}-16x9.webp`,
+      },
+    }];
+  });
+}
+
+export function portadaDeReto(retoId: string): PortadaReto | null {
+  return portadasDeRetos().find((portada) => portada.retoId === retoId) ?? null;
+}

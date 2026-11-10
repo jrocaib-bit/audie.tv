@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { creditoDeObraVerificado, idsVisiblesEnCreditos, obraDeEpisodio, obrasVisibles, portadaPara, textoVerificado } from "./obras";
+import { creditoDeObraVerificado, idsVisiblesEnCreditos, obraDeEpisodio, obrasVisibles, portadaDeReto, portadaPara, portadasDeRetos, textoVerificado } from "./obras";
 
 describe("obras con crédito", () => {
   it("solo muestra principales cuyo crédito está verificado", () => {
@@ -31,6 +31,23 @@ describe("obras con crédito", () => {
     expect(obraDeEpisodio("gn-01")?.id).toBe("gn-01_o5");
     expect(obraDeEpisodio("gn-01")?.detalle).toBe(true);
     expect(obraDeEpisodio("no-existe")).toBeNull();
+  });
+
+  it("usa solo la obra principal aprobada de cada reto", () => {
+    const portadas = portadasDeRetos();
+    expect(portadas.map((portada) => portada.retoId)).toEqual(["adviento-isaias", "navidad-infancia"]);
+    expect(portadas.every((portada) => portada.id.endsWith("_o1"))).toBe(true);
+    expect(portadaDeReto("cuaresma-40")).toBeNull();
+    const adviento = portadaDeReto("adviento-isaias");
+    expect(adviento?.titulo.es).toBe("El reino pacífico");
+    expect(adviento?.autor.es).toBe("Edward Hicks");
+    expect(adviento?.licencia).toMatch(/CC0/);
+    expect(adviento?.src).toEqual({
+      vertical: "/obras/reto-adviento_o1-9x16.webp",
+      cuadrado: "/obras/reto-adviento_o1-1x1.webp",
+      ancho: "/obras/reto-adviento_o1-16x9.webp",
+    });
+    expect(portadaDeReto("navidad-infancia")?.titulo.es).toBe("Madonna adorando al Niño");
   });
 
   it("rota la portada de un día a otro sin repetirla en la misma pantalla", () => {
