@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { filaPreferenciaCorreo } from "@audite/domain";
 import { supabaseApp } from "../../auth";
+import { medir } from "../../medicion";
 
 export default function Callback() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function Callback() {
       const consentimiento = (await AsyncStorage.getItem("audite.marketing.v1")) === "1";
       if (remoto && userId) {
         await remoto.from("email_preferencias").upsert(filaPreferenciaCorreo(userId, consentimiento));
+        medir("signup_confirmed", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "callback", idioma: "es", plataforma: "app" });
       }
       router.replace("/");
     })();

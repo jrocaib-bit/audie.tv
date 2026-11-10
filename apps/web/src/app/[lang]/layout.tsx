@@ -15,7 +15,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
     alternates: {
-      canonical: `/${lang}`,
       languages: { ...languages, "x-default": "/es" },
     },
   };

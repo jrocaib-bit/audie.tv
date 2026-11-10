@@ -11,7 +11,7 @@ import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
 import { correoValido } from "@audite/domain";
 
-export function Entrar({ lang }: { lang: string }) {
+export function Entrar({ lang, google = false }: { lang: string; google?: boolean }) {
   const copy = textosAlta(lang);
   const ui = esIdioma(lang) ? lang : "es";
   const obra = obraDeEpisodio("gn-01");
@@ -33,8 +33,8 @@ export function Entrar({ lang }: { lang: string }) {
             <input type="checkbox" checked={marketing} onChange={(event) => { setMarketing(event.target.checked); localStorage.setItem("audite.marketing.v1", event.target.checked ? "1" : "0"); }} />
             Recibir correos de Audite
           </label>
-          <BotonApple etiqueta={copy.apple} onClick={() => { localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); medir("signup_started", { proveedor: "apple" }); void entrarOAuth("apple").catch(() => setEstado("")); }} />
-          <BotonGoogle etiqueta={copy.google} onClick={() => { medir("signup_started", { proveedor: "google" }); void entrarOAuth("google").catch(() => setEstado("")); }} />
+          <BotonApple etiqueta={copy.apple} onClick={() => { localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); medir("signup_started", { proveedor: "apple" }); medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_apple", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "apple", opt_in_correo: marketing }); void entrarOAuth("apple").catch(() => setEstado("")); }} />
+          {google ? <BotonGoogle etiqueta={copy.google} onClick={() => { medir("signup_started", { proveedor: "google" }); medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_google", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "google", opt_in_correo: marketing }); void entrarOAuth("google").catch(() => setEstado("")); }} /> : null}
           <div className="flex items-center gap-3 py-1 text-sm text-[#B7AB9C]">
             <span className="h-px flex-1 bg-[#F4ECE2]/25" />
             {copy.o}
@@ -47,6 +47,8 @@ export function Entrar({ lang }: { lang: string }) {
               if (!correoValido(correo)) return;
               localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
               medir("signup_started", { proveedor: "correo" });
+              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "correo", opt_in_correo: marketing });
+              medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "correo", opt_in_correo: marketing });
               void entrarCorreo(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
             }}
           >

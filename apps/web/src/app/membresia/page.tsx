@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
-import { NeoMembership as MembershipScreen } from "@/components/neo-app";
-
-export const metadata: Metadata = { title: "Membresía" };
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <MembershipScreen />;
+  redirect("/es/membresia");
 }

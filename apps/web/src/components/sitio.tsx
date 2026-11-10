@@ -1,6 +1,6 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { creditoVisible, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
+import { creditoVisible, lineaIdiomas, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
 import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
@@ -13,7 +13,10 @@ import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { HoyFranja } from "@/components/hoy";
 import { PaywallWeb } from "@/components/paywall-web";
-import { copiaSitio, idiomasPublicos, type SitioCopy } from "@/sitio/i18n";
+import { EnlaceSoporte } from "@/components/enlace-soporte";
+import { FormularioBoletin } from "@/components/formularios";
+import { marcaFormulario } from "@/lib/formularios/acciones";
+import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
@@ -47,8 +50,9 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
   );
 }
 
-export function SitioPie({ lang }: { lang: string }) {
+export async function SitioPie({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
+  const marca = await marcaFormulario();
   const ui = idiomaUi(lang);
   const legal = textosAlta(lang);
   const fuente = loadAppCatalog().fuenteTexto[ui];
@@ -68,19 +72,22 @@ export function SitioPie({ lang }: { lang: string }) {
         </div>
         <div className="grid content-start gap-2">
           <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
+          <Link href="/ayuda" className="inline-flex min-h-11 items-center">{ui === "en" ? "Help" : "Ayuda"}</Link>
+          <Link href={`/${lang}/contacto`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Contact" : "Contacto"}</Link>
           <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
-          <Link href="/ayuda" className="inline-flex min-h-11 items-center">Ayuda</Link>
-          <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
+          <EnlaceSoporte className="inline-flex min-h-11 items-center">soporte@audite.tv</EnlaceSoporte>
+          <p className="text-sm text-[#B7AB9C]">La voz y la música están generadas con IA.</p>
           <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
         </div>
         <div className="grid content-start gap-2">
-          <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
+          <p className="text-sm text-[#B7AB9C]">Legal</p>
           <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
           <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
           <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
         </div>
       </div>
       <div className="px-5 md:px-8">
+        <FormularioBoletin marca={marca} />
         <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
         {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
       </div>
@@ -116,11 +123,13 @@ export function SitioHome({ lang }: { lang: string }) {
               ))}
             </h1>
             <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} href="/reto/adviento-isaias" />
           </div>
         </section>
         <HoyFranja lang={lang} />
-        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length, idiomas: idiomasPublicos.length }, lang)}</p>
+        <p className="bg-[#100E0C] px-5 pb-2 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length }, lang)}</p>
+        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{lineaIdiomas(lang)}</p>
         {obras.slice(1, 4).map((obra) => (
           <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
             <div className="absolute inset-0">
@@ -184,7 +193,7 @@ export function SitioHome({ lang }: { lang: string }) {
             ] as const).map(([pregunta, respuesta]) => (
               <div key={pregunta}>
                 <dt className="font-display text-2xl">{copy[pregunta]}</dt>
-                <dd className="mt-2 text-[#B7AB9C]">{copy[respuesta]}</dd>
+                <dd className="mt-2 text-[#B7AB9C]">{respuesta === "faqLangA" ? lineaIdiomas(lang) : copy[respuesta]}</dd>
               </div>
             ))}
           </dl>
@@ -225,8 +234,7 @@ export function SitioCatalogo({ lang }: { lang: string }) {
     <>
       <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
-        <p className="kicker">{copy.navCatalog}</p>
-        <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.catalogTitle}</h1>
+        <h1 className="font-display text-5xl md:text-6xl">{copy.catalogTitle}</h1>
         <p className="mt-4 text-lg">{copy.catalogIntro}</p>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {obras.map((obra) => {
@@ -268,8 +276,6 @@ export function SitioMembresia({ lang }: { lang: string }) {
       <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
-          <p className="kicker">{copy.navMembership}</p>
-          <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
           <PaywallWeb lang={lang} />
         </div>
         <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">

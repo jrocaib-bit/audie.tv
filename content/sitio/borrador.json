@@ -44,13 +44,13 @@
     "railChallenges": "Sfide",
     "hoy": "Oggi",
     "faqPriceQ": "Quanto costa?",
-    "faqPriceA": "1,99 € al mese o 8 € all'anno.",
+    "faqPriceA": "1,99 € al mese o 8,00 € all'anno.",
     "faqTrialQ": "C'è una prova?",
     "faqTrialA": "Sette giorni.",
     "faqCancelQ": "Posso annullare?",
     "faqCancelA": "Quando vuoi.",
     "faqLangQ": "In quali lingue?",
-    "faqLangA": "Sette."
+    "faqLangA": "Disponibile in spagnolo; altre lingue presto."
   },
   "pt": {
     "metaDescription": "A Bíblia, do princípio ao fim.",
@@ -95,13 +95,13 @@
     "railChallenges": "Desafios",
     "hoy": "Hoje",
     "faqPriceQ": "Quanto custa?",
-    "faqPriceA": "1,99 € por mês ou 8 € por ano.",
+    "faqPriceA": "1,99 € por mês ou 8,00 € por ano.",
     "faqTrialQ": "Há prova?",
     "faqTrialA": "Sete dias.",
     "faqCancelQ": "Posso cancelar?",
     "faqCancelA": "Quando quiseres.",
     "faqLangQ": "Em que línguas?",
-    "faqLangA": "Sete."
+    "faqLangA": "Disponível em espanhol; mais línguas em breve."
   },
   "fr": {
     "metaDescription": "La Bible, du début à la fin.",
@@ -146,13 +146,13 @@
     "railChallenges": "Défis",
     "hoy": "Aujourd'hui",
     "faqPriceQ": "Combien ça coûte ?",
-    "faqPriceA": "1,99 € par mois ou 8 € par an.",
+    "faqPriceA": "1,99 € par mois ou 8,00 € par an.",
     "faqTrialQ": "Il y a un essai ?",
     "faqTrialA": "Sept jours.",
     "faqCancelQ": "Je peux annuler ?",
     "faqCancelA": "Quand tu veux.",
     "faqLangQ": "En quelles langues ?",
-    "faqLangA": "Sept."
+    "faqLangA": "Disponible en espagnol ; d'autres langues bientôt."
   },
   "de": {
     "metaDescription": "Die Bibel, von Anfang bis Ende.",
@@ -197,13 +197,13 @@
     "railChallenges": "Aufgaben",
     "hoy": "Heute",
     "faqPriceQ": "Was kostet es?",
-    "faqPriceA": "1,99 € im Monat oder 8 € im Jahr.",
+    "faqPriceA": "1,99 € im Monat oder 8,00 € im Jahr.",
     "faqTrialQ": "Gibt es eine Probe?",
     "faqTrialA": "Sieben Tage.",
     "faqCancelQ": "Kann ich kündigen?",
     "faqCancelA": "Wann du willst.",
     "faqLangQ": "In welchen Sprachen?",
-    "faqLangA": "Sieben."
+    "faqLangA": "Auf Spanisch verfügbar; weitere Sprachen bald."
   },
   "zh": {
     "metaDescription": "圣经，从头到尾。",
@@ -248,12 +248,12 @@
     "railChallenges": "挑战",
     "hoy": "今天",
     "faqPriceQ": "多少钱？",
-    "faqPriceA": "每月 1,99 € 或每年 8 €。",
+    "faqPriceA": "每月 1,99 € 或每年 8,00 €。",
     "faqTrialQ": "有试用吗？",
     "faqTrialA": "七天。",
     "faqCancelQ": "可以取消吗？",
     "faqCancelA": "随时。",
     "faqLangQ": "有哪些语言？",
-    "faqLangA": "七种。"
+    "faqLangA": "目前提供西班牙语；更多语言即将推出。"
   }
 }

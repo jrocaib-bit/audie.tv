@@ -2,23 +2,6 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-/* Gazpacho: solo si el OTF está en la carpeta ignorada. Si no, Georgia. */
-@font-face {
-  font-family: "Gazpacho";
-  src: url("/fonts/private/Gazpacho-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Gazpacho";
-  src: url("/fonts/private/Gazpacho-Heavy.otf") format("opentype");
-  font-weight: 700 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 @font-face {
   font-family: "Inter";
   src: url("/fonts/inter/InterVariable.ttf") format("truetype");
@@ -52,7 +35,7 @@
   --noche: #100e0c;
   --crema: #f3ecdf;
   --piedra: #b7ab9c;
-  --audite-font-display: "Gazpacho", Georgia;
+  --audite-font-display: Georgia, serif;
   --audite-font-secundaria: "Inter", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --audite-font-text: var(--audite-font-secundaria);
   --audite-font-ios-system: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;

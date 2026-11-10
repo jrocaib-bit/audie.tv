@@ -1,9 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import { bajaLista } from "@/lib/formularios/acciones";
 
 async function darDeBaja(token: string): Promise<void> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (token) await bajaLista(token);
   if (!url || !anon || !token) return;
   const cliente = createClient(url, anon, { auth: { persistSession: false } });
   await cliente.rpc("unsubscribe_by_token", { t: token });

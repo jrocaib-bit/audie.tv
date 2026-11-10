@@ -141,14 +141,18 @@ export {
   prepararMedicion,
   scriptPlausible,
   track,
+  propsFormulario,
+  utmDeBusqueda,
   type ContextoMedicion,
   type Evento,
   type FilaEvento,
   type FilaReto,
   type PropsDe,
+  type PropsFormulario,
   type SumideroMedicion,
 } from "./medicion";
 export { pruebaSocial } from "./prueba-social";
+export { lineaIdiomas } from "./idiomas-linea";
 export { textosAlta, type TextosAlta } from "./alta-ui";
 export {
   AUTH_URLS,

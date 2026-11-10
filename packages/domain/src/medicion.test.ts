@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, prepararMedicion, scriptPlausible, track, type ContextoMedicion } from "./medicion";
+import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
 
 const ctx: ContextoMedicion = {
   platform: "web",
@@ -24,6 +24,28 @@ describe("medición", () => {
     });
     expect(limpio).toEqual({ path: "/es", referrer: "ejemplo.test" });
     expect(JSON.stringify(limpio)).not.toMatch(/ada@|Ada|203\.0\.113/);
+  });
+
+  it("los eventos de formulario llevan el nombre exacto y ningún dato personal", () => {
+    expect(esEvento("cta_clicked")).toBe(true);
+    expect(esEvento("form_submitted")).toBe(true);
+    expect(esEvento("signup_confirmed")).toBe(true);
+    const props = propsFormulario({
+      form_id: "soporte",
+      cta_id: "mailto_soporte",
+      ubicacion: "ayuda",
+      idioma: "es",
+      plataforma: "web",
+      email: "ada@audite.tv",
+      nombre: "Ada",
+    } as PropsFormulario);
+    expect(props).toEqual({ form_id: "soporte", cta_id: "mailto_soporte", ubicacion: "ayuda", idioma: "es", plataforma: "web" });
+    expect(JSON.stringify(props)).not.toMatch(/ada@|Ada/);
+    expect(utmDeBusqueda("?utm_source=ig&utm_medium=cpc&utm_campaign=adviento&email=ada@audite.tv")).toEqual({
+      utm_source: "ig",
+      utm_medium: "cpc",
+      utm_campaign: "adviento",
+    });
   });
 
   it("solo acepta nombres del catálogo", () => {

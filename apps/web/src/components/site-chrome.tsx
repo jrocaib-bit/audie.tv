@@ -9,6 +9,7 @@ import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando } from "@/lib/cuando";
+import { medir } from "@/lib/medicion";
 import { irAlReproductor } from "@/lib/movimiento";
 import { esRutaPublica } from "@/sitio/i18n";
 
@@ -167,7 +168,10 @@ export function SiteFooter() {
         <Link href="/es" className="inline-flex min-h-11 items-center" aria-label="Audite">
           <Wordmark locale={locale} className="h-6 w-auto" />
         </Link>
-        <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
+        <Link href="/ayuda" className="underline decoration-border underline-offset-4">{locale === "en" ? "Help" : "Ayuda"}</Link>
+        <Link href="/contacto" className="underline decoration-border underline-offset-4">{locale === "en" ? "Contact" : "Contacto"}</Link>
+        <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center" onClick={() => medir("cta_clicked", { form_id: "soporte", cta_id: "mailto_soporte", ubicacion: "pie", idioma: locale, plataforma: "web" })}>soporte@audite.tv</a>
+        <p>La voz y la música están generadas con IA.</p>
         <Link href="/es/privacidad" className="underline decoration-border underline-offset-4">
           {locale === "en" ? "Privacy" : "Privacidad"}
         </Link>

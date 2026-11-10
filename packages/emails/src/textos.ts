@@ -15,6 +15,7 @@ export type PlataformaCorreo = "App Store" | "Google Play";
 
 export type DatosCorreo = {
   nombre?: string | null;
+  correo?: string | null;
   plan?: PlanCorreo;
   precio?: string;
   fecha_fin_prueba?: string;
@@ -38,7 +39,11 @@ export type IdCorreo =
   | "inactividad_14"
   | "recuperacion"
   | "adviento_servicio"
-  | "adviento_campana";
+  | "adviento_campana"
+  | "confirmacion_boletin"
+  | "bienvenida_lista"
+  | "acuse_soporte"
+  | "confirmacion_lanzamiento";
 
 export function urlBaja(token = ""): string {
   return `https://audite.tv/correo/baja?t=${token}`;
@@ -62,6 +67,7 @@ function campos(datos: DatosCorreo): Record<string, string> {
   const precio = precioDe(datos);
   return {
     nombre: datos.nombre?.trim() ?? "",
+    correo: datos.correo?.trim() ?? "",
     plan: datos.plan ?? "mensual",
     precio,
     fecha_fin_prueba: datos.fecha_fin_prueba ?? "",
@@ -76,6 +82,8 @@ function campos(datos: DatosCorreo): Record<string, string> {
     url_reto: urlReto(datos.reto_id ?? ""),
     url_ayuda: URL_AYUDA,
     url_privacidad: URL_PRIVACIDAD,
+    token: datos.token ?? "",
+    url_confirmar: `${URL_WEB}/correo/confirmar?t=${datos.token ?? ""}`,
     url_baja: urlBaja(datos.token ?? ""),
     url_cuenta: URL_CUENTA,
   };
@@ -213,6 +221,39 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       cuerpo: [hola, "El 29 de noviembre comienza el Adviento. En Audite te invitamos a recorrerlo con el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español.", "No sustituye la liturgia de tu parroquia: es un acompañamiento para escuchar la Escritura en estos días de espera.", "El primer domingo puedes abrirlo en la app o en https://audite.tv, con tu cuenta. Si ese día se te pasa, puedes incorporarte cuando te vaya bien.", "Que este Adviento te encuentre en paz.", "El equipo de Audite"].join("\n\n"),
     };
   }
+  if (id === "confirmacion_boletin" || id === "confirmacion_lanzamiento") {
+    return {
+      id, tipo: "transactional",
+      asuntoA: "Confirma que quieres correos de Audite",
+      asuntoB: "Un paso más para la lista de Audite",
+      preheader: "Pulsa el enlace para confirmar. Si no has sido tú, ignora este mensaje.",
+      cta: "Confirmar suscripción",
+      ctaUrl: f("{url_confirmar}"),
+      cuerpo: ["Hola:", f("Hemos recibido una petición para enviarte correos de Audite a {correo}."), "Si has sido tú, confirma la suscripción en este enlace:", f("{url_confirmar}"), "Si no has sido tú, ignora este mensaje y no te apuntaremos.", "En esos correos te hablaremos de la escucha y de los tiempos litúrgicos, con calma. Puedes darte de baja cuando quieras. Más detalle en https://audite.tv/privacidad.", "El equipo de Audite"].join("\n\n"),
+    };
+  }
+  if (id === "bienvenida_lista") {
+    return {
+      id, tipo: "marketing",
+      asuntoA: "Bienvenido a los correos de Audite",
+      asuntoB: "Ya estás en la lista",
+      preheader: "Gracias por confirmar. Puedes darte de baja cuando quieras.",
+      cta: "Ir a Audite",
+      ctaUrl: URL_WEB,
+      cuerpo: ["Hola:", "Gracias por confirmar. A partir de ahora podrás recibir correos de Audite: avisos de la escucha y de los tiempos del año, sin prisa.", "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv.", f("Si no quieres seguir recibiéndolos, puedes darte de baja aquí: {url_baja}"), "El detalle de cómo tratamos tus datos está en https://audite.tv/privacidad.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
+    };
+  }
+  if (id === "acuse_soporte") {
+    return {
+      id, tipo: "transactional",
+      asuntoA: "Hemos recibido tu mensaje",
+      asuntoB: "Tu consulta ha llegado a Audite",
+      preheader: "Gracias por escribirnos. Te responderemos a este correo.",
+      cta: "Ver la ayuda",
+      ctaUrl: URL_AYUDA,
+      cuerpo: [hola, "Hemos recibido tu mensaje y te damos las gracias por escribirnos.", "El equipo de Audite te responderá a este mismo correo. Mientras tanto, puede que encuentres respuesta en https://audite.tv/ayuda.", "Si nos has escrito por un cargo, una cancelación o un acceso, ten a mano si te suscribiste en el App Store o en Google Play.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
+    };
+  }
   return {
     id: "adviento_campana", tipo: "marketing",
     asuntoA: "Te invitamos a escuchar el Adviento en Audite",
@@ -234,4 +275,8 @@ export const IDS_CORREO: IdCorreo[] = [
   "recuperacion",
   "adviento_servicio",
   "adviento_campana",
+  "confirmacion_boletin",
+  "bienvenida_lista",
+  "acuse_soporte",
+  "confirmacion_lanzamiento",
 ];

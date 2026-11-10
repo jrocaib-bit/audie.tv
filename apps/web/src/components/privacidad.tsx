@@ -17,8 +17,8 @@ export function Privacidad({ inicio = "/es" }: { inicio?: string }) {
         <li>Anotar eventos de uso. El código retira las claves que parecen datos personales. Si hay sesión, el evento puede llevar el identificador de la cuenta. Esta medición no usa cookies.</li>
         <li>Cargar Plausible, sin cookies, solo si el dominio está definido en el entorno.</li>
         <li>Enviar el enlace mágico. El correo sale por Resend, como SMTP de Supabase.</li>
-        <li>En la app, la suscripción se contrata en el App Store. La web no cobra. El código también admite entrar con Google. El identificador de Google Play es un marcador de posición.</li>
-        <li>La casilla de correos de Audite nace desmarcada. El módulo de esos correos existe y no está conectado a ningún envío.</li>
+        <li>En la app, la suscripción se contrata en el App Store. La web no cobra. También se puede entrar con Google.</li>
+        <li>Los correos que no son el enlace de acceso solo se preparan si marcas la casilla, que nace desmarcada.</li>
       </ul>
 
       <h2 className="font-display mt-10 text-3xl">Bases</h2>
