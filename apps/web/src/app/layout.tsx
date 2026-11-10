@@ -3,6 +3,8 @@ import { loadAppCatalog } from "@audite/content/app-catalog";
 import { LibraryProvider } from "@/components/library";
 import { RegisterServiceWorker } from "@/components/register-sw";
 import { Suspense } from "react";
+import { MedicionEscucha, MedicionRuta } from "@/components/medicion-cliente";
+import { Plausible } from "@/components/plausible";
 import { AppFrame, MiniPlayer, TabBar, VeloCromo } from "@/components/site-chrome";
 import "./globals.css";
 
@@ -29,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full bg-background font-sans text-foreground antialiased">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <style>{`body{margin:0;background:#100e0c;color:#f4ece2}:root[data-theme="light"] body{background:#f3ecdf;color:#161310}`}</style>
+        <Plausible />
         <LibraryProvider catalog={catalog}>
+          <MedicionRuta />
+          <MedicionEscucha />
           <AppFrame>{children}</AppFrame>
           <VeloCromo />
           <Suspense>

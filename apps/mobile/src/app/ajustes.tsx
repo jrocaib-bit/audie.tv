@@ -1,9 +1,12 @@
 import { IDIOMAS, PLAYBACK_RATES, t, textosAlta, type DailyMinutes, type Sesion, type ThemeChoice } from "@audite/domain";
+import { restaurarCompras } from "../compras/tienda";
+import { restaurarNativo } from "../compras/storekit";
+import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { Pressable, ScrollView, Text } from "react-native";
-import { borrarApp, cerrarApp, sesionApp } from "../auth";
+import { cerrarApp, sesionApp } from "../auth";
 import { useMobileLibrary } from "../state";
 import { dark, light, ui } from "../theme";
 
@@ -18,7 +21,6 @@ export default function SettingsScreen() {
   const languages = IDIOMAS;
   const copy = textosAlta(locale);
   const [sesion, setSesion] = useState<Sesion | null>(null);
-  const [confirmar, setConfirmar] = useState(false);
   useEffect(() => {
     void sesionApp().then(setSesion);
   }, []);
@@ -31,27 +33,15 @@ export default function SettingsScreen() {
           <Pressable onPress={() => void cerrarApp().then(() => setSesion(null))} style={[ui.button, { backgroundColor: colors.card }]}>
             <Text style={{ color: colors.ink }}>{copy.salir}</Text>
           </Pressable>
-          {confirmar ? (
-            <>
-              <Text style={[ui.body, { color: colors.ink }]}>{copy.confirmar}</Text>
-              <Pressable onPress={() => setConfirmar(false)} style={[ui.button, { backgroundColor: colors.card }]}>
-                <Text style={{ color: colors.ink }}>{copy.cancelar}</Text>
-              </Pressable>
-              <Pressable onPress={() => void borrarApp().then(() => setSesion(null))} style={[ui.button, { backgroundColor: colors.card }]}>
-                <Text style={{ color: colors.ink }}>{copy.borrar}</Text>
-              </Pressable>
-            </>
-          ) : (
-            <Pressable onPress={() => setConfirmar(true)} style={[ui.button, { backgroundColor: colors.card }]}>
-              <Text style={{ color: colors.ink }}>{copy.borrar}</Text>
-            </Pressable>
-          )}
         </>
       ) : (
         <Pressable onPress={() => router.push("/entrar")} style={[ui.button, { backgroundColor: colors.card }]}>
           <Text style={{ color: colors.ink }}>{copy.entrar}</Text>
         </Pressable>
       )}
+      <Pressable onPress={() => router.push("/suscripcion")} style={[ui.button, { backgroundColor: colors.accent }]}>
+        <Text style={{ color: colors.accentInk }}>Audite Premium</Text>
+      </Pressable>
       <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsTheme")}</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {themes.map((theme) => (
@@ -76,7 +66,7 @@ export default function SettingsScreen() {
           </Pressable>
         ))}
       </ScrollView>
-      <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsLanguage")}</Text>
+      <Text style={[ui.body, { color: colors.ink }]}>Idioma</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {languages.map((value) => (
           <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value, localeElegido: true })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
@@ -98,8 +88,18 @@ export default function SettingsScreen() {
       <Pressable onPress={() => router.push("/avisos")} style={[ui.button, { backgroundColor: colors.card }]}>
         <Text style={{ color: colors.ink }}>{locale === "es" ? "Avisos" : "Reminders"}</Text>
       </Pressable>
-      <Pressable onPress={() => router.push("/descargas")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>{locale === "es" ? "Descargas" : "Downloads"}</Text>
+      <Pressable onPress={() => void restaurarCompras({ restaurar: restaurarNativo }, Date.now(), undefined, sesion?.userId ?? null)} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>Restaurar compras</Text>
+      </Pressable>
+      <Text style={[ui.body, { color: colors.ink }]}>Ayuda</Text>
+      <Pressable onPress={() => void Linking.openURL("mailto:soporte@audite.tv")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>soporte@audite.tv</Text>
+      </Pressable>
+      <Pressable onPress={() => void Linking.openURL("https://audite.tv/privacidad")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>Privacidad</Text>
+      </Pressable>
+      <Pressable onPress={() => router.push("/eliminar-cuenta")} style={[ui.button, { backgroundColor: colors.card }]}>
+        <Text style={{ color: colors.ink }}>Eliminar cuenta</Text>
       </Pressable>
       <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "settingsAboutBody")}</Text>
     </ScrollView>

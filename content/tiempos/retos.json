@@ -590,17 +590,17 @@
         },
         {
           "dia": 10,
-          "libroId": "mt",
-          "capitulo": 2,
+          "libroId": "jn",
+          "capitulo": 1,
           "versiculo": 1,
-          "versiculoFin": 12,
+          "versiculoFin": 18,
           "titulo": {
-            "es": "Los magos",
-            "en": "The magi"
+            "es": "La luz que vino al mundo",
+            "en": "The light that came into the world"
           },
           "minutos": 4,
           "obra": "gn-16",
-          "episodio": "mt-01"
+          "episodio": "jn-01"
         },
         {
           "dia": 11,
@@ -638,8 +638,8 @@
           "versiculo": 1,
           "versiculoFin": 12,
           "titulo": {
-            "es": "La epifanía",
-            "en": "The epiphany"
+            "es": "Una estrella en Oriente",
+            "en": "A star in the East"
           },
           "minutos": 4,
           "obra": "gn-19",
@@ -648,17 +648,17 @@
         {
           "dia": 14,
           "ancla": "01-07",
-          "libroId": "lc",
-          "capitulo": 2,
-          "versiculo": 21,
-          "versiculoFin": 21,
+          "libroId": "mt",
+          "capitulo": 3,
+          "versiculo": 1,
+          "versiculoFin": 12,
           "titulo": {
-            "es": "El nombre",
-            "en": "The name"
+            "es": "Una voz en el desierto",
+            "en": "A voice in the wilderness"
           },
           "minutos": 2,
           "obra": "gn-20",
-          "episodio": "lc-02"
+          "episodio": "mt-02"
         },
         {
           "dia": 15,
@@ -668,8 +668,8 @@
           "versiculo": 41,
           "versiculoFin": 52,
           "titulo": {
-            "es": "Entre los doctores",
-            "en": "Among the teachers"
+            "es": "En la casa de mi Padre",
+            "en": "In my Father's house"
           },
           "minutos": 4,
           "obra": "gn-21",
@@ -679,12 +679,12 @@
           "dia": 16,
           "ancla": "01-09",
           "libroId": "jn",
-          "capitulo": 1,
-          "versiculo": 9,
-          "versiculoFin": 14,
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 11,
           "titulo": {
-            "es": "La luz",
-            "en": "The light"
+            "es": "Las tinajas de Caná",
+            "en": "The jars at Cana"
           },
           "minutos": 2,
           "obra": "gn-22",
@@ -698,8 +698,8 @@
           "versiculo": 13,
           "versiculoFin": 17,
           "titulo": {
-            "es": "El bautismo",
-            "en": "The baptism"
+            "es": "Los cielos abiertos",
+            "en": "The heavens opened"
           },
           "minutos": 2,
           "obra": "gn-03",

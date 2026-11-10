@@ -3,15 +3,18 @@
 import { PRECIO } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { medir } from "@/lib/medicion";
 
 type Copy = {
   homeCta: string;
+  ctaGhost: string;
   ctaDays: string;
   ctaDownload: string;
   ctaNotify: string;
   ctaEmail: string;
   ctaReady: string;
   ctaSign: string;
+  ctaRisk: string;
 };
 
 const PERIODO: Record<string, { mes: string; anio: string; o: string; ahorro: string; gratis: string }> = {
@@ -33,33 +36,33 @@ export function lineaPrecio(lang: string): string {
   return `${PRECIO.mes}/${texto.mes} ${texto.o} ${PRECIO.anio}/${texto.anio}`;
 }
 
-export function Planes({ lang }: { lang: string }) {
+export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesgo: string }) {
   const texto = periodo(lang);
   const [plan, setPlan] = useState<"anio" | "mes">("anio");
-  const anio = plan === "anio";
+  const anual = plan === "anio";
+  const cifra = anual ? `${PRECIO.anio}/${texto.anio}` : `${PRECIO.mes}/${texto.mes}`;
   return (
-    <div className="mt-8">
-      <p className="font-display text-3xl md:text-4xl">{texto.gratis}</p>
-      <div className="mt-6 grid gap-4 md:grid-cols-[1.2fr_auto_1fr] md:items-stretch">
-        <button
-          type="button"
-          aria-pressed={anio}
-          onClick={() => setPlan("anio")}
-          className={`rounded-3xl border-2 px-6 py-8 text-left ${anio ? "border-[#C9A96E] bg-[#100E0C] text-[#F4ECE2]" : "border-transparent bg-[#F3ECDF] text-[#161310]"}`}
-        >
-          <span className={`inline-flex min-h-8 items-center rounded-full px-3 text-sm ${anio ? "bg-[#C9A96E] text-[#100E0C]" : "bg-[#E4D8C8] text-[#161310]"}`}>{texto.ahorro}</span>
-          <span className="font-display mt-4 block text-5xl leading-none md:text-6xl">{PRECIO.anio}/{texto.anio}</span>
-        </button>
-        <span className="self-center text-center text-lg">{texto.o}</span>
-        <button
-          type="button"
-          aria-pressed={!anio}
-          onClick={() => setPlan("mes")}
-          className={`rounded-3xl border-2 px-6 py-8 text-left ${anio ? "border-transparent bg-[#F3ECDF] text-[#161310]" : "border-[#C9A96E] bg-[#100E0C] text-[#F4ECE2]"}`}
-        >
-          <span className="font-display block text-4xl leading-none md:text-5xl">{PRECIO.mes}/{texto.mes}</span>
-        </button>
-      </div>
+    <div className="mt-8 max-w-xl">
+      <p className="font-display text-3xl text-[#F4ECE2] md:text-4xl">{texto.gratis}</p>
+      <article className="mt-6 rounded-3xl bg-[#1B1815] px-6 py-8 md:px-8">
+        <p className="text-sm text-[#C9A96E]">{PRECIO.anio}/{texto.anio} · {texto.ahorro}</p>
+        <p className="font-display mt-4 text-5xl leading-none text-[#F4ECE2] md:text-7xl">{cifra}</p>
+        <div className="mt-6 flex gap-2">
+          <button type="button" aria-pressed={anual} className={`min-h-11 rounded-full px-4 ${anual ? "bg-[#C9A96E] text-[#100E0C]" : "text-[#F4ECE2]"}`} onClick={() => setPlan("anio")}>{PRECIO.anio}/{texto.anio}</button>
+          <button type="button" aria-pressed={!anual} className={`min-h-11 rounded-full px-4 ${anual ? "text-[#B7AB9C]" : "bg-[#C9A96E] text-[#100E0C]"}`} onClick={() => setPlan("mes")}>{PRECIO.mes}/{texto.mes}</button>
+        </div>
+        <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "planes" })} className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{cta}</Link>
+        <p className="mt-3 text-base text-[#B7AB9C]">{riesgo}</p>
+      </article>
+    </div>
+  );
+}
+
+export function CtaPar({ lang, etiqueta, ghost }: { lang: string; etiqueta: string; ghost: string }) {
+  return (
+    <div className="mt-8 flex flex-wrap items-center gap-3">
+      <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "sitio" })} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{etiqueta}</Link>
+      <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">{ghost}</Link>
     </div>
   );
 }
@@ -77,9 +80,8 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
   const vacias = !enlaces.appStore && !enlaces.play;
   return (
     <div className="mt-8 flex flex-wrap items-center gap-3">
-      <Link href="/escuchar" className={`inline-flex min-h-12 items-center rounded-full px-6 ${invertido ? "bg-[#C9A96E] text-[#100E0C]" : "bg-primary text-primary-foreground"}`}>
+      <Link href="/escuchar" className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">
         {copy.homeCta}
-        <span className="ml-2 text-sm opacity-80">{copy.ctaDays}</span>
       </Link>
       {vacias ? (
         <button type="button" className={`inline-flex min-h-12 items-center rounded-full border px-6 ${invertido ? "border-[#F4ECE2]/40 text-[#F4ECE2]" : "border-border"}`} onClick={() => setAviso(true)}>
@@ -87,12 +89,12 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         </button>
       ) : (
         <>
-          {enlaces.appStore ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.appStore}>App Store</a> : null}
-          {enlaces.play ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.play}>Google Play</a> : null}
+          {enlaces.appStore ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.appStore} onClick={() => medir("store_click", { tienda: "apple" })}>App Store</a> : null}
+          {enlaces.play ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.play} onClick={() => medir("store_click", { tienda: "google" })}>Google Play</a> : null}
         </>
       )}
-      <Link href={`/${lang}/entrar`} className={`inline-flex min-h-12 items-center text-sm ${invertido ? "text-[#F4ECE2]" : "text-muted"}`}>
-        {copy.ctaSign}
+      <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">
+        {copy.ctaGhost}
       </Link>
       {precio ? <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span> : null}
       {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
@@ -146,7 +148,7 @@ export function BarraFija({ lang, copy }: { lang: string; copy: Copy }) {
       {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
       <p className="mb-2 text-center text-sm">{lineaPrecio(lang)}</p>
       <div className="flex gap-2">
-        <Link href="/escuchar" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-primary px-4 text-primary-foreground">
+        <Link href="/escuchar" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-[#C9A96E] px-4 text-[#100E0C]">
           {copy.homeCta}
         </Link>
         {vacias ? (

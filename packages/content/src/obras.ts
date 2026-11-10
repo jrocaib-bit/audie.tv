@@ -1,4 +1,5 @@
 import creditos from "../../../content/obras/creditos.json";
+import { obraDeEpisodio, obraWebp } from "./obras-visibles";
 
 export type { ObraVisible } from "./obras-visibles";
 export { obraAvif, obraDeEpisodio, obraWebp, obrasVisibles, rotuloObra } from "./obras-visibles";
@@ -123,4 +124,26 @@ export function portadasDeRetos(): PortadaReto[] {
 
 export function portadaDeReto(retoId: string): PortadaReto | null {
   return portadasDeRetos().find((portada) => portada.retoId === retoId) ?? null;
+}
+
+export function libroDeEpisodio(episodio: string): string {
+  return episodio.replace(/-\d+$/, "");
+}
+
+export type PortadaHoy =
+  | { tipo: "reto"; src: string; retoId: string }
+  | { tipo: "episodio"; src: string; libroId: string; episodio: string }
+  | { tipo: "tiempo" };
+
+/** Portada del reto, obra verificada de ese episodio, o el tiempo litúrgico. Nunca otro libro. */
+export function elegirPortadaHoy(datos: { retoId: string; libroId: string; episodio: string | null }): PortadaHoy {
+  const portada = portadaDeReto(datos.retoId);
+  if (portada) return { tipo: "reto", src: portada.src.ancho, retoId: portada.retoId };
+  if (datos.episodio && libroDeEpisodio(datos.episodio) === datos.libroId) {
+    const obra = obraDeEpisodio(datos.episodio);
+    if (obra && libroDeEpisodio(obra.episodio) === datos.libroId) {
+      return { tipo: "episodio", src: obraWebp(obra), libroId: datos.libroId, episodio: obra.episodio };
+    }
+  }
+  return { tipo: "tiempo" };
 }

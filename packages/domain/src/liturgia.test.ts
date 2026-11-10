@@ -17,9 +17,12 @@ describe("calendario litúrgico", () => {
   it("cierra la Navidad en el Bautismo y lo pasa al lunes si la Epifanía cae en domingo", () => {
     expect(bautismoDelSenor(2025)).toBe("2025-01-12");
     expect(bautismoDelSenor(2026)).toBe("2026-01-11");
+    expect(bautismoDelSenor(2027)).toBe("2027-01-10");
     expect(bautismoDelSenor(2030)).toBe("2030-01-07");
     expect(diaLiturgicoDeIso("2026-01-11").tiempo).toBe("navidad");
     expect(diaLiturgicoDeIso("2026-01-12").tiempo).toBe("ordinario");
+    expect(diaLiturgicoDeIso("2027-01-10")).toMatchObject({ tiempo: "navidad", celebracion: { es: "Bautismo del Señor" } });
+    expect(diaLiturgicoDeIso("2027-01-11").tiempo).toBe("ordinario");
     expect(diaLiturgicoDeIso("2030-01-06").solemnidad?.es).toBe("Epifanía");
   });
 

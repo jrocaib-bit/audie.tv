@@ -5,6 +5,7 @@ import * as Linking from "expo-linking";
 import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, Pressable, Text, TextInput, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
@@ -29,6 +30,7 @@ export default function EntrarScreen() {
   const copy = textosAlta(useMobileLibrary().settings.uiLocale);
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
+  const [marketing, setMarketing] = useState(false);
   const ios = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID?.trim() ?? "";
   const web = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? "";
   const googleListo = Boolean(ios || web);
@@ -65,7 +67,7 @@ export default function EntrarScreen() {
               buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
               cornerRadius={6}
               style={{ width: "100%", height: 48 }}
-              onPress={() => void entrarApple().then(() => setEstado(copy.listo)).catch(() => setEstado(""))}
+              onPress={() => { void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); void entrarApple().then(() => setEstado(copy.listo)).catch(() => setEstado("")); }}
             />
           ) : (
             <Pressable accessibilityRole="button" onPress={() => void entrarApple().catch(() => setEstado(""))} style={boton}>
@@ -89,6 +91,10 @@ export default function EntrarScreen() {
             <Text style={{ color: "#B7AB9C" }}>{copy.o}</Text>
             <View style={{ flex: 1, height: 1, backgroundColor: "rgba(244,236,226,0.25)" }} />
           </View>
+          <Pressable onPress={() => setMarketing((valor) => !valor)} style={{ minHeight: 44, flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Text style={{ color: oro }}>{marketing ? "☑" : "☐"}</Text>
+            <Text style={{ color: "#B7AB9C" }}>Recibir correos de Audite</Text>
+          </Pressable>
           <TextInput
             value={correo}
             onChangeText={setCorreo}
@@ -101,6 +107,7 @@ export default function EntrarScreen() {
           <Pressable
             onPress={() => {
               if (!correoValido(correo)) return;
+              void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
               void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
             }}
             style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.4)", alignItems: "center", justifyContent: "center" }}

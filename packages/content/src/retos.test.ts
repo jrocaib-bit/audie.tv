@@ -56,5 +56,25 @@ describe("retos del tiempo", () => {
       });
       expect(reto.pasos.every((paso) => paso.versiculo === 1 && paso.versiculoFin === 1)).toBe(false);
     }
+    const navidad = archivo.retos.find((reto) => reto.id === "navidad-infancia");
+    expect(navidad?.pasos.map((paso) => [paso.dia, paso.ancla ?? "", paso.titulo.es, paso.episodio, paso.capitulo])).toEqual([
+      [1, "", "Zacarías", "lc-01", 1],
+      [2, "", "La anunciación", "lc-01", 1],
+      [3, "", "La visitación", "lc-01", 1],
+      [4, "", "El cántico de María", "lc-01", 1],
+      [5, "", "El nombre de Juan", "lc-01", 1],
+      [6, "", "El cántico de Zacarías", "lc-01", 1],
+      [7, "", "El sueño de José", "mt-01", 1],
+      [8, "", "Belén", "lc-02", 2],
+      [9, "", "Los pastores", "lc-02", 2],
+      [10, "", "La luz que vino al mundo", "jn-01", 1],
+      [11, "", "Simeón y Ana", "lc-02", 2],
+      [12, "", "El camino de Egipto", "mt-01", 2],
+      [13, "01-06", "Una estrella en Oriente", "mt-01", 2],
+      [14, "01-07", "Una voz en el desierto", "mt-02", 3],
+      [15, "01-08", "En la casa de mi Padre", "lc-02", 2],
+      [16, "01-09", "Las tinajas de Caná", "jn-01", 2],
+      [17, "01-10", "Los cielos abiertos", "mt-02", 3],
+    ]);
   });
 });

@@ -1,6 +1,7 @@
 "use client";
 
 import { COLOR_HEX, diaLiturgico, formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
+import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useRef } from "react";
@@ -8,6 +9,7 @@ import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando } from "@/lib/cuando";
+import { irAlReproductor } from "@/lib/movimiento";
 import { esRutaPublica } from "@/sitio/i18n";
 
 const links = [
@@ -82,7 +84,7 @@ export function TabBar() {
             key={link.href}
             href={link.href}
             aria-current={current ? "page" : undefined}
-            className={`flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
+            className={`audite-pulso flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
             <span className={`h-0.5 w-4 rounded-full ${current ? "bg-acento" : "bg-transparent"}`} />
             {locale === "en" ? link.en : link.es}
@@ -118,10 +120,10 @@ export function MiniPlayer() {
         <span className="absolute inset-x-0 bottom-0 h-0.5 bg-foreground/10">
           <span className="block h-full transition-[width] duration-300" style={{ width: `${fraccion * 100}%`, background: colorDia }} />
         </span>
-        <Link href="/ahora" className="flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")}>
+        <Link href="/ahora" className="audite-pulso flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")} onClick={(event) => { event.preventDefault(); irAlReproductor(router.push); }}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} alt="" className="size-11 shrink-0 rounded-2xl object-cover" />
+            <img src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} alt="" className="audite-portada size-11 shrink-0 rounded-2xl object-cover" />
           ) : (
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}
@@ -135,38 +137,22 @@ export function MiniPlayer() {
           </span>
         </Link>
         {listo && !activo ? (
-          <Link href="/ahora" aria-label={t(locale, "playerPlay")} className="inline-flex size-11 items-center justify-center rounded-2xl bg-acento text-acento-ink">
-            <IconoPlay />
+          <Link href="/ahora" aria-label={t(locale, "playerPlay")} className="audite-pulso inline-flex size-11 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" onClick={(event) => { event.preventDefault(); irAlReproductor(router.push); }}>
+            <Play strokeWidth={1.5} className="size-5" />
           </Link>
         ) : (
           <button
             type="button"
             disabled={!activo}
             onClick={toggle}
-            className="inline-flex size-11 items-center justify-center rounded-2xl bg-acento text-acento-ink disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted"
+            className={`audite-pulso inline-flex size-11 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C] disabled:cursor-not-allowed disabled:bg-transparent disabled:text-muted ${playing ? "play-respira" : ""}`}
             aria-label={activo ? (playing ? t(locale, "playerPause") : t(locale, "playerPlay")) : t(locale, "statusPreparing")}
           >
-            {playing ? <IconoPausa /> : <IconoPlay />}
+            {playing ? <Pause strokeWidth={1.5} className="size-5" /> : <Play strokeWidth={1.5} className="size-5" />}
           </button>
         )}
       </div>
     </div>
-  );
-}
-
-function IconoPlay() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-      <path d="M8 5.5v13l11-6.5-11-6.5z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function IconoPausa() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-      <path d="M6 5h4.5v14H6V5zm7.5 0H18v14h-4.5V5z" fill="currentColor" />
-    </svg>
   );
 }
 
@@ -183,6 +169,10 @@ export function SiteFooter() {
         <Link href="/es" className="inline-flex min-h-11 items-center" aria-label="Audite">
           <Wordmark locale={locale} className="h-6 w-auto" />
         </Link>
+        <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
+        <Link href="/es/privacidad" className="underline decoration-border underline-offset-4">
+          {locale === "en" ? "Privacy" : "Privacidad"}
+        </Link>
         <Link href="/membresia" className="underline decoration-border underline-offset-4">
           {t(locale, "navMembership")}
         </Link>
@@ -193,11 +183,11 @@ export function SiteFooter() {
 
 export function AppFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const publicPage = pathname === "/ahora" || esRutaPublica(pathname);
+  const { reduceMotion } = useLibrary();
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
-      <div className={publicPage ? "flex-1" : "flex-1"}>{children}</div>
+      <div key={pathname} className={reduceMotion ? "flex-1" : "audite-fundido flex-1"}>{children}</div>
       <SiteFooter />
     </div>
   );

@@ -376,6 +376,9 @@ function conRango(dia: DiaLiturgico): DiaLiturgico {
   if (dia.iso.slice(5) === "12-25") {
     return celebrar(dia, "navidad", "solemnidad", "Natividad del Señor", "The Nativity of the Lord", "blanco", { libroId: "lc", capitulo: 2, versiculo: 1, versiculoFin: 14, titulo: { es: "Belén", en: "Bethlehem" } });
   }
+  if (dia.iso === bautismoDelSenor(Number(dia.iso.slice(0, 4)))) {
+    return celebrar(dia, "bautismo", "solemnidad", "Bautismo del Señor", "The Baptism of the Lord", "blanco", { libroId: "mt", capitulo: 3, versiculo: 13, versiculoFin: 17, titulo: { es: "Los cielos abiertos", en: "The heavens opened" } });
+  }
   if (rango === "octava") return { ...dia, rango, etiqueta: { es: "Octava de Navidad", en: "Christmas octave" } };
   return { ...dia, rango };
 }

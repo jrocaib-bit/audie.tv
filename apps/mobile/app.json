@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "es.audite.pilot",
+      "bundleIdentifier": "tv.audite.app",
       "usesAppleSignIn": true
     },
     "android": {
@@ -45,7 +45,8 @@
       "expo-font",
       "expo-notifications",
       "expo-localization",
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      "expo-iap"
     ]
   }
 }

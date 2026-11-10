@@ -1,0 +1,16 @@
+{
+  "name": "@audite/emails",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.3.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "^6.38.0"
+  }
+}
