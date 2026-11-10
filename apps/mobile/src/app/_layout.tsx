@@ -21,7 +21,7 @@ function Shell() {
   const router = useRouter();
   const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
   const locale = library.settings.uiLocale;
-  const immersive = path === "/ahora" || path === "/entrar";
+  const immersive = path === "/ahora" || path === "/entrar" || path === "/suscripcion";
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <Stack
@@ -48,6 +48,7 @@ function Shell() {
         <Stack.Screen name="referencias" />
         <Stack.Screen name="leer" />
         <Stack.Screen name="entrar" options={{ headerShown: false }} />
+        <Stack.Screen name="suscripcion" options={{ headerShown: false }} />
         <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
         <Stack.Screen name="ahora" options={{ headerShown: false }} />
         <Stack.Screen name="catalogo" options={{ headerShown: false }} />

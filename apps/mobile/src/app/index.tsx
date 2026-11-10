@@ -68,7 +68,7 @@ export default function Today() {
   return (
     <ScrollView contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 12, paddingBottom: 120, gap: 8, backgroundColor: "#100E0C" }}>
       <Text style={{ color: "#F4ECE2", fontFamily: fonts.serif, fontSize: 40, lineHeight: 44 }}>{copy.titulo}</Text>
-      <Pressable onPress={() => router.push("/entrar")} style={{ alignSelf: "flex-start", minHeight: 48, borderRadius: 999, backgroundColor: "#C9A96E", paddingHorizontal: 18, justifyContent: "center" }}>
+      <Pressable onPress={() => router.push("/suscripcion")} style={{ alignSelf: "flex-start", minHeight: 48, borderRadius: 999, backgroundColor: "#C9A96E", paddingHorizontal: 18, justifyContent: "center" }}>
         <Text style={{ color: "#100E0C" }}>{library.settings.uiLocale === "en" ? "Start 7 days free" : "Empieza 7 días gratis"}</Text>
       </Pressable>
       <Rail titulo={library.settings.uiLocale === "en" ? "Books" : "Libros"} items={LIBROS} ink={colors.ink} orden={0} />

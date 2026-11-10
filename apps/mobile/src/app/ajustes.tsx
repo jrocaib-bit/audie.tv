@@ -52,6 +52,9 @@ export default function SettingsScreen() {
           <Text style={{ color: colors.ink }}>{copy.entrar}</Text>
         </Pressable>
       )}
+      <Pressable onPress={() => router.push("/suscripcion")} style={[ui.button, { backgroundColor: colors.accent }]}>
+        <Text style={{ color: colors.accentInk }}>Audite Premium</Text>
+      </Pressable>
       <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsTheme")}</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {themes.map((theme) => (
