@@ -29,7 +29,14 @@ Nombres, sin valores:
 - `suscripciones_correo` (`boletin` y `lanzamiento_app`)
 - `limites_envio`
 
-Migración: `supabase/migrations/20261110240000_formularios.sql`.
+Migraciones, escritas y no aplicadas:
+
+- `supabase/migrations/20261110240000_formularios.sql`
+- `supabase/migrations/20261110241000_consumir_limite.sql` (upsert atómico del límite; si la función aún no está, el servidor consulta solo la clave y la ventana)
+
+Si `CORREO_ENVIO_REAL` no es `true`, Avísame y la lista responden «Te avisaremos.» y no dicen que salió un correo.
+
+`/correo/confirmar` y `/correo/baja` muestran un botón en GET. La acción es un POST. El POST con `List-Unsubscribe=One-Click` da de baja al momento (RFC 8058). Un token que no corresponde a ninguna lista responde con un error claro.
 
 ## Flujo
 

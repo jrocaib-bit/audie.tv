@@ -3,7 +3,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
 import { enviarCorreo } from "@audite/emails";
-import { POLITICA_VERSION, MENSAJE_CONTACTO_CORREO, MENSAJE_CONTACTO_OK, MENSAJE_CONTACTO_RED, MENSAJE_CONTACTO_VACIO, MENSAJE_CORREO, MENSAJE_LISTA, MENSAJE_RED, consumirLimite, correoNormalizado, correoValido, crearToken, debeEnviarCorreo, decidirEnvio, firmarMarca, hashSecreto, type ListaCorreo } from "./logica";
+import { esquemaLanzamiento, esquemaLista, esquemaSoporte, textoErrorLista, textoErrorSoporte } from "./esquemas";
+import { POLITICA_VERSION, MENSAJE_BAJA_ERROR, MENSAJE_CONTACTO_OK, MENSAJE_CONTACTO_RED, MENSAJE_RED, correoNormalizado, crearToken, debeEnviarCorreo, esTokenUuid, filtrosLimite, firmarMarca, hashSecreto, mensajeLista, puedeContarLimite, resolverBaja, type ListaCorreo } from "./logica";
 
 export async function marcaFormulario(): Promise<string> {
   return firmarMarca(Date.now(), process.env.IP_HASH_SALT?.trim() || "sin-sal");
@@ -22,25 +23,34 @@ async function ipHash(): Promise<string> {
   return hashSecreto(cabeza, sal);
 }
 
+async function consumirUno(cliente: NonNullable<ReturnType<typeof admin>>, pedido: { clave: string; periodo: "hora" | "dia"; inicio: number; tope: number }): Promise<boolean> {
+  const inicio = new Date(pedido.inicio).toISOString();
+  const { data, error } = await cliente.rpc("consumir_limite", {
+    p_clave: pedido.clave,
+    p_periodo: pedido.periodo,
+    p_inicio: inicio,
+    p_tope: pedido.tope,
+  });
+  if (!error) return data === true;
+  if (!/consumir_limite|PGRST202|42883/i.test(String(error.message ?? ""))) return false;
+  const lectura = await cliente.from("limites_envio").select("cuenta").eq("clave", pedido.clave).eq("periodo", pedido.periodo).eq("inicio", inicio).maybeSingle();
+  if (lectura.error) return false;
+  const cuenta = Number(lectura.data?.cuenta ?? 0);
+  if (cuenta >= pedido.tope) return false;
+  const escritura = await cliente.from("limites_envio").upsert({
+    clave: pedido.clave,
+    periodo: pedido.periodo,
+    inicio,
+    cuenta: cuenta + 1,
+  }, { onConflict: "clave,periodo,inicio" });
+  return !escritura.error;
+}
+
 async function permitido(email: string, ip: string): Promise<boolean> {
   const cliente = admin();
   if (!cliente) return true;
-  const { data } = await cliente.from("limites_envio").select("clave, periodo, inicio, cuenta");
-  const ventanas = ((data ?? []) as { clave: string; periodo: "hora" | "dia"; inicio: string; cuenta: number }[]).map((item) => ({
-    clave: item.clave,
-    periodo: item.periodo,
-    inicio: Date.parse(item.inicio),
-    cuenta: item.cuenta,
-  }));
-  const paso = consumirLimite(ventanas, ip, email, Date.now());
-  if (!paso.permitido) return false;
-  for (const ventana of paso.ventanas) {
-    await cliente.from("limites_envio").upsert({
-      clave: ventana.clave,
-      periodo: ventana.periodo,
-      inicio: new Date(ventana.inicio).toISOString(),
-      cuenta: ventana.cuenta,
-    });
+  for (const pedido of filtrosLimite(ip, email, Date.now())) {
+    if (!await consumirUno(cliente, pedido)) return false;
   }
   return true;
 }
@@ -61,20 +71,24 @@ async function enviar(id: "confirmacion_boletin" | "confirmacion_lanzamiento" | 
 export async function enviarSoporte(datos: FormData): Promise<{ estado: "ok" | "error"; texto: string; cuenta: boolean }> {
   const miel = String(datos.get("compania") ?? "");
   const firma = String(datos.get("marca") ?? "");
-  const nombre = String(datos.get("nombre") ?? "").trim();
-  const email = correoNormalizado(String(datos.get("correo") ?? datos.get("email") ?? ""));
-  const mensaje = String(datos.get("mensaje") ?? "").trim();
-  const privacidad = datos.get("privacidad") === "on";
+  const parsed = esquemaSoporte.safeParse({
+    nombre: String(datos.get("nombre") ?? ""),
+    correo: String(datos.get("correo") ?? datos.get("email") ?? ""),
+    mensaje: String(datos.get("mensaje") ?? ""),
+    privacidad: String(datos.get("privacidad") ?? ""),
+  });
   const sal = process.env.IP_HASH_SALT?.trim() || "sin-sal";
-  const valido = nombre.length > 1 && nombre.length < 80 && correoValido(email) && mensaje.length > 3 && mensaje.length < 4000 && privacidad;
-  const ip = await ipHash();
-  const cabe = await permitido(email, ip);
-  const decision = decidirEnvio({ miel, firma, sal, ahora: Date.now(), permitido: cabe, valido });
-  if (decision === "descartado") return { estado: "ok", texto: MENSAJE_CONTACTO_OK, cuenta: false };
-  if (decision !== "aceptado") {
-    const vacio = mensaje.length < 2;
-    return { estado: "error", texto: decision === "limite" ? MENSAJE_CONTACTO_RED : vacio ? MENSAJE_CONTACTO_VACIO : !correoValido(email) ? MENSAJE_CONTACTO_CORREO : MENSAJE_CONTACTO_RED, cuenta: false };
+  const ahora = Date.now();
+  if (miel.trim()) return { estado: "ok", texto: MENSAJE_CONTACTO_OK, cuenta: false };
+  if (!parsed.success) return { estado: "error", texto: textoErrorSoporte(parsed.error), cuenta: false };
+  if (!puedeContarLimite({ miel, firma, sal, ahora, valido: true })) {
+    return { estado: "ok", texto: MENSAJE_CONTACTO_OK, cuenta: false };
   }
+  const nombre = parsed.data.nombre;
+  const email = correoNormalizado(parsed.data.correo);
+  const mensaje = parsed.data.mensaje;
+  const ip = await ipHash();
+  if (!await permitido(email, ip)) return { estado: "error", texto: MENSAJE_CONTACTO_RED, cuenta: false };
   const cliente = admin();
   if (cliente) {
     await cliente.from("mensajes_soporte").insert({ nombre, email, asunto: "Consulta", mensaje, ip_hash: ip });
@@ -102,17 +116,24 @@ export async function enviarSoporte(datos: FormData): Promise<{ estado: "ok" | "
 async function altaLista(datos: FormData, lista: ListaCorreo): Promise<{ estado: "ok" | "error"; texto: string; cuenta: boolean }> {
   const miel = String(datos.get("compania") ?? "");
   const firma = String(datos.get("marca") ?? "");
-  const email = correoNormalizado(String(datos.get("correo") ?? datos.get("email") ?? ""));
-  const plataforma = String(datos.get("plataforma") ?? "");
-  const privacidad = datos.get("privacidad") === "on";
+  const esquema = lista === "boletin" ? esquemaLista : esquemaLanzamiento;
+  const parsed = esquema.safeParse({
+    correo: String(datos.get("correo") ?? datos.get("email") ?? ""),
+    privacidad: String(datos.get("privacidad") ?? ""),
+    plataforma: String(datos.get("plataforma") ?? ""),
+  });
   const sal = process.env.IP_HASH_SALT?.trim() || "sin-sal";
-  const plataformaOk = lista === "boletin" || plataforma === "ios" || plataforma === "android" || plataforma === "ambas";
-  const valido = correoValido(email) && privacidad && plataformaOk;
+  const ahora = Date.now();
+  const texto = mensajeLista(debeEnviarCorreo());
+  if (miel.trim()) return { estado: "ok", texto, cuenta: false };
+  if (!parsed.success) return { estado: "error", texto: textoErrorLista(parsed.error), cuenta: false };
+  if (!puedeContarLimite({ miel, firma, sal, ahora, valido: true })) {
+    return { estado: "ok", texto, cuenta: false };
+  }
+  const email = correoNormalizado(parsed.data.correo);
+  const plataforma = "plataforma" in parsed.data ? parsed.data.plataforma : "";
   const ip = await ipHash();
-  const cabe = await permitido(email, ip);
-  const decision = decidirEnvio({ miel, firma, sal, ahora: Date.now(), permitido: cabe, valido });
-  if (decision === "descartado") return { estado: "ok", texto: MENSAJE_LISTA, cuenta: false };
-  if (decision !== "aceptado") return { estado: "error", texto: decision === "limite" ? MENSAJE_RED : MENSAJE_CORREO, cuenta: false };
+  if (!await permitido(email, ip)) return { estado: "error", texto: MENSAJE_RED, cuenta: false };
   const token = crearToken(Date.now(), sal);
   const cliente = admin();
   if (cliente) {
@@ -131,7 +152,7 @@ async function altaLista(datos: FormData, lista: ListaCorreo): Promise<{ estado:
       await enviar(lista === "boletin" ? "confirmacion_boletin" : "confirmacion_lanzamiento", email, { token: token.token, correo: email });
     }
   }
-  return { estado: "ok", texto: MENSAJE_LISTA, cuenta: true };
+  return { estado: "ok", texto, cuenta: true };
 }
 
 export async function enviarBoletin(datos: FormData) {
@@ -164,13 +185,27 @@ export async function confirmarLista(token: string): Promise<"ok" | "caducado"> 
   return "ok";
 }
 
-export async function bajaLista(token: string): Promise<void> {
+export async function bajaLista(token: string): Promise<"ok" | "invalido" | "error"> {
+  if (!token) return "invalido";
   const sal = process.env.IP_HASH_SALT?.trim() || "sin-sal";
   const cliente = admin();
-  if (!cliente || !token) return;
-  await cliente.from("suscripciones_correo").update({
+  if (!cliente) return "error";
+  const lista = await cliente.from("suscripciones_correo").update({
     estado: "baja",
     unsubscribed_at: new Date().toISOString(),
-  }).eq("token_hash", hashSecreto(token, sal));
+  }).eq("token_hash", hashSecreto(token, sal)).select("id");
+  let filasPreferencia = 0;
+  let error = lista.error?.message ?? null;
+  if (!error && esTokenUuid(token)) {
+    const preferencia = await cliente.from("email_preferencias").update({
+      marketing_consent: false,
+      unsubscribed_at: new Date().toISOString(),
+    }).eq("token", token).select("user_id");
+    if (preferencia.error) error = preferencia.error.message;
+    else filasPreferencia = preferencia.data?.length ?? 0;
+  }
+  const resultado = resolverBaja({ filasLista: lista.data?.length ?? 0, filasPreferencia, error });
+  if (resultado === "error") console.error(JSON.stringify({ baja: MENSAJE_BAJA_ERROR, error }));
+  return resultado;
 }
 

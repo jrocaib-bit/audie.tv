@@ -75,7 +75,7 @@ export async function SitioPie({ lang }: { lang: string }) {
           <Link href="/ayuda" className="inline-flex min-h-11 items-center">{ui === "en" ? "Help" : "Ayuda"}</Link>
           <Link href={`/${lang}/contacto`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Contact" : "Contacto"}</Link>
           <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
-          <EnlaceSoporte className="inline-flex min-h-11 items-center">soporte@audite.tv</EnlaceSoporte>
+          <EnlaceSoporte idioma={lang} className="inline-flex min-h-11 items-center">soporte@audite.tv</EnlaceSoporte>
           <p className="text-sm text-[#B7AB9C]">La voz y la música están generadas con IA.</p>
           <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
         </div>
@@ -87,7 +87,7 @@ export async function SitioPie({ lang }: { lang: string }) {
         </div>
       </div>
       <div className="px-5 md:px-8">
-        <FormularioBoletin marca={marca} />
+        <FormularioBoletin marca={marca} idioma={lang} />
         <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
         {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
       </div>

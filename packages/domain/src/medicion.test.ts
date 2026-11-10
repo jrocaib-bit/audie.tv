@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
+import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, plataformaCliente, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
 
 const ctx: ContextoMedicion = {
   platform: "web",
@@ -41,6 +41,9 @@ describe("medición", () => {
     } as PropsFormulario);
     expect(props).toEqual({ form_id: "soporte", cta_id: "mailto_soporte", ubicacion: "ayuda", idioma: "es", plataforma: "web" });
     expect(JSON.stringify(props)).not.toMatch(/ada@|Ada/);
+    expect(plataformaCliente("ios")).toBe("ios");
+    expect(plataformaCliente("android")).toBe("android");
+    expect(plataformaCliente("app")).toBe("web");
     expect(utmDeBusqueda("?utm_source=ig&utm_medium=cpc&utm_campaign=adviento&email=ada@audite.tv")).toEqual({
       utm_source: "ig",
       utm_medium: "cpc",

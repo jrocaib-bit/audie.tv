@@ -209,6 +209,11 @@ export function propsFormulario(entrada: PropsFormulario): PropsFormulario {
   return salida;
 }
 
+export function plataformaCliente(sistema: string): "ios" | "android" | "web" {
+  if (sistema === "ios" || sistema === "android") return sistema;
+  return "web";
+}
+
 export function utmDeBusqueda(busqueda: string): Pick<PropsFormulario, "utm_source" | "utm_medium" | "utm_campaign"> {
   const params = new URLSearchParams(busqueda.startsWith("?") ? busqueda.slice(1) : busqueda);
   const salida: Pick<PropsFormulario, "utm_source" | "utm_medium" | "utm_campaign"> = {};

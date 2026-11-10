@@ -142,6 +142,7 @@ export {
   scriptPlausible,
   track,
   propsFormulario,
+  plataformaCliente,
   utmDeBusqueda,
   type ContextoMedicion,
   type Evento,

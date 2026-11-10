@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
   const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-audite-path", request.nextUrl.pathname);
   const segmento = request.nextUrl.pathname.split("/")[1] ?? "";
   if (IDIOMAS.has(segmento)) requestHeaders.set("x-audite-lang", segmento);
   return NextResponse.next({ request: { headers: requestHeaders } });

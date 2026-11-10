@@ -30,14 +30,14 @@ function Privacidad() {
   );
 }
 
-export function FormularioSoporte({ marca }: { marca: string }) {
+export function FormularioSoporte({ marca, idioma, ubicacion = "contacto" }: { marca: string; idioma: string; ubicacion?: string }) {
   const [estado, setEstado] = useState<"ok" | "error" | "idle">("idle");
   const [texto, setTexto] = useState("");
   return (
     <form className="relative mt-8 grid gap-3" action={async (datos) => {
-      medir("cta_clicked", { form_id: "soporte", cta_id: "soporte_enviar", ubicacion: "ayuda", idioma: "es", plataforma: "web" });
+      medir("cta_clicked", { form_id: "soporte", cta_id: "soporte_enviar", ubicacion, idioma, plataforma: "web" });
       const respuesta = await enviarSoporte(datos);
-      if (respuesta.cuenta) medir("form_submitted", { form_id: "soporte", cta_id: "soporte_enviar", ubicacion: "ayuda", idioma: "es", plataforma: "web" });
+      if (respuesta.cuenta) medir("form_submitted", { form_id: "soporte", cta_id: "soporte_enviar", ubicacion, idioma, plataforma: "web" });
       setEstado(respuesta.estado);
       setTexto(respuesta.texto);
     }}>
@@ -54,14 +54,14 @@ export function FormularioSoporte({ marca }: { marca: string }) {
   );
 }
 
-export function FormularioBoletin({ marca }: { marca: string }) {
+export function FormularioBoletin({ marca, idioma }: { marca: string; idioma: string }) {
   const [estado, setEstado] = useState<"ok" | "error" | "idle">("idle");
   const [texto, setTexto] = useState("");
   return (
     <form className="relative grid gap-3" action={async (datos) => {
-      medir("cta_clicked", { form_id: "lista_correo", cta_id: "lista_enviar", ubicacion: "pie", idioma: "es", plataforma: "web", opt_in_correo: true });
+      medir("cta_clicked", { form_id: "lista_correo", cta_id: "lista_enviar", ubicacion: "pie", idioma, plataforma: "web", opt_in_correo: true });
       const respuesta = await enviarBoletin(datos);
-      if (respuesta.cuenta) medir("form_submitted", { form_id: "lista_correo", cta_id: "lista_enviar", ubicacion: "pie", idioma: "es", plataforma: "web", opt_in_correo: true });
+      if (respuesta.cuenta) medir("form_submitted", { form_id: "lista_correo", cta_id: "lista_enviar", ubicacion: "pie", idioma, plataforma: "web", opt_in_correo: true });
       setEstado(respuesta.estado);
       setTexto(respuesta.texto);
     }}>
@@ -74,14 +74,14 @@ export function FormularioBoletin({ marca }: { marca: string }) {
   );
 }
 
-export function FormularioLanzamiento({ marca }: { marca: string }) {
+export function FormularioLanzamiento({ marca, idioma }: { marca: string; idioma: string }) {
   const [estado, setEstado] = useState<"ok" | "error" | "idle">("idle");
   const [texto, setTexto] = useState("");
   return (
     <form id="aviso" className="relative grid gap-3" action={async (datos) => {
-      medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "app", idioma: "es", plataforma: "web", opt_in_correo: true });
+      medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "app", idioma, plataforma: "web", opt_in_correo: true });
       const respuesta = await enviarLanzamiento(datos);
-      if (respuesta.cuenta) medir("form_submitted", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "app", idioma: "es", plataforma: "web", opt_in_correo: true });
+      if (respuesta.cuenta) medir("form_submitted", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "app", idioma, plataforma: "web", opt_in_correo: true });
       setEstado(respuesta.estado);
       setTexto(respuesta.texto);
     }}>

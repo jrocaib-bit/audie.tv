@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MENSAJE_LISTA, apuntarLista, confirmarToken, consumirLimite, crearToken, darDeBaja, debeEnviarCorreo, decidirEnvio, firmarMarca, marcaAceptada } from "./logica";
+import { MENSAJE_AVISO, MENSAJE_LISTA, apuntarLista, confirmarToken, consumirLimite, crearToken, darDeBaja, debeEnviarCorreo, decidirEnvio, filtrosLimite, firmarMarca, marcaAceptada, mensajeLista, puedeContarLimite, resolverBaja, vistaCorreo } from "./logica";
 
 const sal = "sal-de-prueba";
 const ahora = Date.parse("2026-11-10T12:00:00Z");
@@ -53,5 +53,32 @@ describe("formularios", () => {
     expect(bajas[0]?.estado).toBe("baja");
     expect(debeEnviarCorreo(undefined)).toBe(false);
     expect(debeEnviarCorreo("true")).toBe(true);
+    expect(mensajeLista(false)).toBe(MENSAJE_AVISO);
+    expect(mensajeLista(false)).not.toMatch(/enviado|correo para que confirmes/i);
+    expect(mensajeLista(true)).toBe(MENSAJE_LISTA);
+  });
+
+  it("cuenta el límite solo después del cebo y de la validación", () => {
+    const firma = firmarMarca(ahora - 4000, sal);
+    expect(puedeContarLimite({ miel: "bot", firma, sal, ahora, valido: true })).toBe(false);
+    expect(puedeContarLimite({ miel: "", firma, sal, ahora, valido: false })).toBe(false);
+    expect(puedeContarLimite({ miel: "", firma: firmarMarca(ahora - 500, sal), sal, ahora, valido: true })).toBe(false);
+    expect(puedeContarLimite({ miel: "", firma, sal, ahora, valido: true })).toBe(true);
+    const filtros = filtrosLimite("ip1", "Ana@Audite.tv", ahora);
+    expect(filtros.map((item) => item.clave)).toEqual([`ip:ip1`, `correo:ana@audite.tv`]);
+    expect(filtros).toHaveLength(2);
+  });
+
+  it("el GET no confirma y el POST sí, también el one-click", () => {
+    expect(vistaCorreo("GET")).toBe("boton");
+    expect(vistaCorreo("POST")).toBe("ejecutar");
+    expect(vistaCorreo("get")).toBe("boton");
+  });
+
+  it("la baja distingue token inválido de un error de base", () => {
+    expect(resolverBaja({ filasLista: 0, filasPreferencia: 0, error: null })).toBe("invalido");
+    expect(resolverBaja({ filasLista: 1, filasPreferencia: 0, error: null })).toBe("ok");
+    expect(resolverBaja({ filasLista: 0, filasPreferencia: 1, error: null })).toBe("ok");
+    expect(resolverBaja({ filasLista: 1, filasPreferencia: 0, error: "permiso" })).toBe("error");
   });
 });

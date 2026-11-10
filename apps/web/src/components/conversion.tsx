@@ -95,12 +95,12 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         {copy.ctaGhost}
       </Link>
       {precio ? <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span> : null}
-      {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
+      {aviso ? <Avisame lang={lang} copy={copy} onClose={() => setAviso(false)} /> : null}
     </div>
   );
 }
 
-export function Avisame({ copy, onClose }: { copy: Copy; onClose: () => void }) {
+export function Avisame({ copy, lang, onClose }: { copy: Copy; lang: string; onClose: () => void }) {
   const [marca, setMarca] = useState("");
   const [estado, setEstado] = useState<"idle" | "ok" | "error">("idle");
   const [texto, setTexto] = useState("");
@@ -109,9 +109,9 @@ export function Avisame({ copy, onClose }: { copy: Copy; onClose: () => void }) 
     <form
       className="relative mt-3 grid w-full max-w-md gap-2"
       action={async (datos) => {
-        medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: "es", plataforma: "web", opt_in_correo: true });
+        medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: lang, plataforma: "web", opt_in_correo: true });
         const respuesta = await enviarLanzamiento(datos);
-        if (respuesta.cuenta) medir("form_submitted", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: "es", plataforma: "web", opt_in_correo: true });
+        if (respuesta.cuenta) medir("form_submitted", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: lang, plataforma: "web", opt_in_correo: true });
         setEstado(respuesta.estado);
         setTexto(respuesta.texto);
       }}
@@ -148,7 +148,7 @@ export function BarraFija({ lang, copy }: { lang: string; copy: Copy }) {
   const vacias = !enlaces.appStore && !enlaces.play;
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 py-3 md:hidden">
-      {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
+      {aviso ? <Avisame lang={lang} copy={copy} onClose={() => setAviso(false)} /> : null}
       <p className="mb-2 text-center text-sm">{lineaPrecio(lang)}</p>
       <div className="flex gap-2">
         <Link href="/escuchar" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-[#C9A96E] px-4 text-[#100E0C]">

@@ -123,6 +123,35 @@ export function debeEnviarCorreo(marca = process.env.CORREO_ENVIO_REAL): boolean
 }
 
 export const MENSAJE_LISTA = "Listo. Te hemos enviado un correo para que confirmes la suscripción. Si no lo ves, mira en correo no deseado (sale desde no-reply@audite.tv).";
+export const MENSAJE_AVISO = "Te avisaremos.";
+export function mensajeLista(envioReal: boolean): string {
+  return envioReal ? MENSAJE_LISTA : MENSAJE_AVISO;
+}
+export function puedeContarLimite(entrada: { miel: string; firma: string; sal: string; ahora: number; valido: boolean }): boolean {
+  return decidirEnvio({ ...entrada, permitido: true }) === "aceptado";
+}
+export function filtrosLimite(ipHash: string, email: string, ahora: number): { clave: string; periodo: "hora" | "dia"; inicio: number; tope: number }[] {
+  return [
+    { clave: `ip:${ipHash}`, periodo: "hora", inicio: inicioHora(ahora), tope: TOPE_IP_HORA },
+    { clave: `correo:${correoNormalizado(email)}`, periodo: "dia", inicio: inicioDia(ahora), tope: TOPE_CORREO_DIA },
+  ];
+}
+export function resolverBaja(entrada: { filasLista: number; filasPreferencia: number; error: string | null }): "ok" | "invalido" | "error" {
+  if (entrada.error) return "error";
+  if (entrada.filasLista + entrada.filasPreferencia > 0) return "ok";
+  return "invalido";
+}
+export function vistaCorreo(metodo: string): "boton" | "ejecutar" {
+  return metodo.toUpperCase() === "POST" ? "ejecutar" : "boton";
+}
+export const BOTON_CONFIRMAR = "Confirmar suscripción";
+export const BOTON_BAJA = "Darme de baja";
+export const MENSAJE_BAJA_OK = "Listo. Ya no recibirás correos de este tipo.";
+export const MENSAJE_BAJA_INVALIDA = "Este enlace no es válido.";
+export const MENSAJE_BAJA_ERROR = "No hemos podido darte de baja. Escríbenos a soporte@audite.tv.";
+export function esTokenUuid(token: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token);
+}
 export const MENSAJE_CONTACTO_OK = "Gracias. Hemos recibido tu mensaje. Te responderemos a tu correo. Si quieres, puedes seguir mirando la ayuda.";
 export const MENSAJE_CONTACTO_RED = "No hemos podido enviar tu mensaje. Prueba de nuevo en un momento, o escríbenos a soporte@audite.tv.";
 export const MENSAJE_CORREO = "Escribe un correo válido para que podamos enviarte el enlace de confirmación.";

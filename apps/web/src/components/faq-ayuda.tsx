@@ -12,7 +12,7 @@ const LOCAL: Record<string, string> = {
   "https://audite.tv/correo/baja": "/correo/baja",
 };
 
-function trozo(texto: string, clave: string): ReactNode[] {
+function trozo(texto: string, clave: string, idioma: string): ReactNode[] {
   const marcas = texto.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
   return marcas.filter(Boolean).map((parte, indice) => {
     const id = `${clave}-${indice}`;
@@ -22,7 +22,7 @@ function trozo(texto: string, clave: string): ReactNode[] {
     const enlace = parte.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (!enlace) return <span key={id}>{parte}</span>;
     const [, etiqueta, href] = enlace;
-    if (href?.startsWith("mailto:")) return <EnlaceSoporte key={id} className="underline">{etiqueta}</EnlaceSoporte>;
+    if (href?.startsWith("mailto:")) return <EnlaceSoporte key={id} idioma={idioma} className="underline">{etiqueta}</EnlaceSoporte>;
     const local = href ? LOCAL[href] : undefined;
     if (local) return <Link key={id} href={local} className="underline">{etiqueta}</Link>;
     if (href?.startsWith("#")) return <a key={id} href={href} className="underline">{etiqueta}</a>;
@@ -30,7 +30,7 @@ function trozo(texto: string, clave: string): ReactNode[] {
   });
 }
 
-function Bloque({ texto, clave }: { texto: string; clave: string }) {
+function Bloque({ texto, clave, idioma }: { texto: string; clave: string; idioma: string }) {
   const partes = texto.split(/\n\n+/);
   return (
     <>
@@ -41,30 +41,30 @@ function Bloque({ texto, clave }: { texto: string; clave: string }) {
         if (viñetas) {
           return (
             <ul key={`${clave}-${indice}`} className="mt-3 list-disc space-y-2 pl-5">
-              {lineas.map((linea) => <li key={linea}>{trozo(linea.slice(2), `${clave}-${linea}`)}</li>)}
+              {lineas.map((linea) => <li key={linea}>{trozo(linea.slice(2), `${clave}-${linea}`, idioma)}</li>)}
             </ul>
           );
         }
         if (pasos) {
           return (
             <ol key={`${clave}-${indice}`} className="mt-3 list-decimal space-y-2 pl-5">
-              {lineas.map((linea) => <li key={linea}>{trozo(linea.replace(/^\d+\. /, ""), `${clave}-${linea}`)}</li>)}
+              {lineas.map((linea) => <li key={linea}>{trozo(linea.replace(/^\d+\. /, ""), `${clave}-${linea}`, idioma)}</li>)}
             </ol>
           );
         }
-        return <p key={`${clave}-${indice}`} className="mt-3">{trozo(parte, `${clave}-${indice}`)}</p>;
+        return <p key={`${clave}-${indice}`} className="mt-3">{trozo(parte, `${clave}-${indice}`, idioma)}</p>;
       })}
     </>
   );
 }
 
-export function FaqAyuda({ google = false }: { google?: boolean }) {
+export function FaqAyuda({ google = false, idioma = "es" }: { google?: boolean; idioma?: string }) {
   return (
     <div className="mt-10 grid gap-12">
       {seccionesAyuda(google).map((seccion) => (
         <section key={seccion.id} id={seccion.id} aria-labelledby={`${seccion.id}-titulo`} className="scroll-mt-8">
           <h2 id={`${seccion.id}-titulo`} className="font-display text-3xl">{seccion.titulo}</h2>
-          {seccion.intro ? <Bloque texto={seccion.intro} clave={`${seccion.id}-intro`} /> : null}
+          {seccion.intro ? <Bloque texto={seccion.intro} clave={`${seccion.id}-intro`} idioma={idioma} /> : null}
           <div className="mt-4 divide-y divide-[#2E2924] border-y border-[#2E2924]">
             {seccion.preguntas.map((pregunta) => (
               <details key={pregunta.id} id={pregunta.id} className="group scroll-mt-8 py-1">
@@ -73,12 +73,12 @@ export function FaqAyuda({ google = false }: { google?: boolean }) {
                   <span aria-hidden="true" className="text-[#C9A96E] group-open:rotate-45">+</span>
                 </summary>
                 <div className="pb-4 text-[#B7AB9C]">
-                  <Bloque texto={pregunta.respuesta} clave={pregunta.id} />
+                  <Bloque texto={pregunta.respuesta} clave={pregunta.id} idioma={idioma} />
                 </div>
               </details>
             ))}
           </div>
-          {seccion.cierre ? <div className="text-[#F4ECE2]"><Bloque texto={seccion.cierre} clave={`${seccion.id}-cierre`} /></div> : null}
+          {seccion.cierre ? <div className="text-[#F4ECE2]"><Bloque texto={seccion.cierre} clave={`${seccion.id}-cierre`} idioma={idioma} /></div> : null}
         </section>
       ))}
     </div>

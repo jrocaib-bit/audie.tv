@@ -2,8 +2,6 @@
 
 Gazpacho no se versiona. La licencia sigue pendiente.
 
-Si `GAZPACHO_FONTS_URL` apunta a una carpeta privada con `Gazpacho-Regular.otf` y `Gazpacho-Heavy.otf`, `scripts/gazpacho.mjs` los baja al construir, a `apps/web/public/fonts/gazpacho/`, carpeta ignorada por git. Ahí se escribe `faces.css`.
+Si `GAZPACHO_FONTS_URL` apunta a una carpeta privada con `Gazpacho-Regular.otf` y `Gazpacho-Heavy.otf`, `scripts/gazpacho.mjs` los baja al construir y los convierte a WOFF2 con `wawoff2`. El CSS solo referencia esos `.woff2`, en `apps/web/public/fonts/gazpacho/`, carpeta ignorada por git.
 
-Si la variable no está, el script no hace nada y la web no pide `/fonts/private`. El texto usa Georgia.
-
-No conviertas a woff2 en el repositorio. Si el entorno tiene `woff2_compress`, se puede convertir en ese directorio de build; el CSS publicado solo existe cuando la descarga ha funcionado.
+Si la variable no está, si la descarga falla o si no se puede convertir, el script avisa y sale sin error. La web no pide la fuente y el texto usa Georgia. No se versiona ningún archivo de fuente.

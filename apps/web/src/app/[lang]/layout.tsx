@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { canonicalPropio } from "@/lib/sitio-publico";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
 export function generateStaticParams() {
@@ -10,12 +12,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   const copy = copiaSitio(lang);
   if (!copy) return {};
-  const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, `/${idioma}`]));
+  const ruta = (await headers()).get("x-audite-path") || `/${lang}`;
+  const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, canonicalPropio(ruta.replace(`/${lang}`, `/${idioma}`) || `/${idioma}`, idioma)]));
   return {
     title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
     alternates: {
-      languages: { ...languages, "x-default": "/es" },
+      canonical: canonicalPropio(ruta, lang),
+      languages: { ...languages, "x-default": canonicalPropio(ruta.replace(`/${lang}`, "/es") || "/es", "es") },
     },
   };
 }

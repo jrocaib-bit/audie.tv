@@ -1,4 +1,4 @@
-import { correoValido, textosAlta } from "@audite/domain";
+import { correoValido, plataformaCliente, textosAlta } from "@audite/domain";
 import * as AppleAuthentication from "expo-apple-authentication";
 import * as Google from "expo-auth-session/providers/google";
 import * as Linking from "expo-linking";
@@ -28,7 +28,9 @@ const boton = {
 };
 
 export default function EntrarScreen() {
-  const copy = textosAlta(useMobileLibrary().settings.uiLocale);
+  const idioma = useMobileLibrary().settings.uiLocale;
+  const plataforma = plataformaCliente(Platform.OS);
+  const copy = textosAlta(idioma);
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
   const [marketing, setMarketing] = useState(false);
@@ -68,7 +70,7 @@ export default function EntrarScreen() {
               buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
               cornerRadius={6}
               style={{ width: "100%", height: 48 }}
-              onPress={() => { medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_apple", ubicacion: "entrar", idioma: "es", plataforma: Platform.OS, metodo: "apple", opt_in_correo: marketing }); void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); void entrarApple().then(() => setEstado(copy.listo)).catch(() => setEstado("")); }}
+              onPress={() => { medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_apple", ubicacion: "entrar", idioma, plataforma, metodo: "apple", opt_in_correo: marketing }); void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); void entrarApple().then(() => setEstado(copy.listo)).catch(() => setEstado("")); }}
             />
           ) : (
             <Pressable accessibilityRole="button" onPress={() => void entrarApple().catch(() => setEstado(""))} style={boton}>
@@ -81,7 +83,7 @@ export default function EntrarScreen() {
             accessibilityRole="button"
             onPress={() => {
               if (!googleListo) return;
-              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_google", ubicacion: "entrar", idioma: "es", plataforma: Platform.OS, metodo: "google", opt_in_correo: marketing });
+              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_google", ubicacion: "entrar", idioma, plataforma, metodo: "google", opt_in_correo: marketing });
               void pedirGoogle();
             }}
             style={[boton, { borderWidth: 1, borderColor: "#747775" }]}
@@ -111,8 +113,8 @@ export default function EntrarScreen() {
           <Pressable
             onPress={() => {
               if (!correoValido(correo)) return;
-              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma: "es", plataforma: Platform.OS, metodo: "correo", opt_in_correo: marketing });
-              medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma: "es", plataforma: Platform.OS, metodo: "correo", opt_in_correo: marketing });
+              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
+              medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
               void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
               void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
             }}
