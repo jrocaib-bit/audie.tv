@@ -47,17 +47,58 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
   );
 }
 
-export function SitioHome({ lang }: { lang: string }) {
+export function SitioPie({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const ui = idiomaUi(lang);
   const legal = textosAlta(lang);
   const fuente = loadAppCatalog().fuenteTexto[ui];
+  if (!copy) return null;
+  const credito = creditoVisible(fuente, "", "");
+  return (
+    <footer className="bg-[#100E0C] text-[#F4ECE2]">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
+        <div>
+          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
+          <SelectorIdioma lang={lang} claro />
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">Audite</p>
+          <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
+          <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
+          <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
+          <Link href="/ayuda" className="inline-flex min-h-11 items-center">Ayuda</Link>
+          <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
+          <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
+          <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
+          <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
+          <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
+        </div>
+      </div>
+      <div className="px-5 md:px-8">
+        <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+        {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
+      </div>
+      <div className="mt-8 overflow-hidden">
+        <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
+      </div>
+    </footer>
+  );
+}
+
+export function SitioHome({ lang }: { lang: string }) {
+  const copy = copiaSitio(lang);
+  const ui = idiomaUi(lang);
   const portada = obraDeEpisodio("gn-01");
   const obras = obrasVisibles();
   const catalogo = loadAppCatalog();
   const adviento = portadaDeReto("adviento-isaias");
   if (!copy || !portada) return null;
-  const credito = creditoVisible(fuente, "", "");
   return (
     <>
       <RecordarIdioma />
@@ -168,39 +209,7 @@ export function SitioHome({ lang }: { lang: string }) {
           </section>
         ) : null}
       </main>
-      <footer className="bg-[#100E0C] text-[#F4ECE2]">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
-          <div>
-            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
-            <SelectorIdioma lang={lang} claro />
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">Audite</p>
-            <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
-            <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
-            <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
-            <Link href="/ayuda" className="inline-flex min-h-11 items-center">Ayuda</Link>
-            <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
-            <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
-            <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
-            <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
-            <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
-          </div>
-        </div>
-        <div className="px-5 md:px-8">
-          <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
-          {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
-        </div>
-        <div className="mt-8 overflow-hidden">
-          <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
-        </div>
-      </footer>
+      <SitioPie lang={lang} />
       <BarraFija lang={lang} copy={copy} />
     </>
   );
