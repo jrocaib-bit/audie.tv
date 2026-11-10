@@ -34,11 +34,12 @@ describe("programa editorial", () => {
     expect(cita("2026-12-23")).toBe("Dios con nosotros · Isaías 8,8–10 · is-03");
     expect(cita("2028-12-23")).toBe("Dios con nosotros · Isaías 8,8–10 · is-03");
     expect(cita("2026-12-24")).toBe("Ya llega · Isaías 62,11–12 · is-18");
-    expect(cita("2027-01-06")).toBe("La epifanía · Mateo 2,1–12 · mt-01");
-    expect(cita("2027-01-07")).toBe("El nombre · Lucas 2,21 · lc-02");
-    expect(cita("2027-01-08")).toBe("Entre los doctores · Lucas 2,41–52 · lc-02");
-    expect(cita("2027-01-09")).toBe("La luz · Juan 1,9–14 · jn-01");
-    expect(cita("2027-01-10")).toBe("El bautismo · Mateo 3,13–17 · mt-02");
+    expect(cita("2027-01-03")).toBe("La luz que vino al mundo · Juan 1,1–18 · jn-01");
+    expect(cita("2027-01-06")).toBe("Una estrella en Oriente · Mateo 2,1–12 · mt-01");
+    expect(cita("2027-01-07")).toBe("Una voz en el desierto · Mateo 3,1–12 · mt-02");
+    expect(cita("2027-01-08")).toBe("En la casa de mi Padre · Lucas 2,41–52 · lc-02");
+    expect(cita("2027-01-09")).toBe("Las tinajas de Caná · Juan 2,1–11 · jn-01");
+    expect(cita("2027-01-10")).toBe("Los cielos abiertos · Mateo 3,13–17 · mt-02");
     expect(pasajeDelDia(diaLiturgicoDeIso("2026-12-23"), reales)?.titulo.es).toBe("Dios con nosotros");
     expect(pasajeDelDia(diaLiturgicoDeIso("2027-01-06"), reales)?.titulo.es).toBe("Los magos");
   });
