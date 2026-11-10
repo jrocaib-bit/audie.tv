@@ -6,7 +6,9 @@ export function Privacidad({ inicio = "/es" }: { inicio?: string }) {
       <p className="text-sm tracking-[0.16em] text-[#C9A96E] uppercase">Borrador</p>
       <h1 className="font-display mt-3 text-5xl leading-none">Privacidad</h1>
       <p className="mt-4 text-[#C9A96E]">BORRADOR. Pendiente de revisión legal.</p>
-      <p className="mt-8 text-[#B7AB9C]">[TITULAR] · [NIF] · [DIRECCIÓN]</p>
+      <p className="mt-8">El responsable del tratamiento es Francisco Javier Roca Ibáñez, persona física.</p>
+      <p className="mt-3 text-[#B7AB9C]">[NIF] · [DIRECCIÓN]</p>
+      <p className="mt-3">El contacto para privacidad es <a className="underline" href="mailto:soporte@audite.tv">soporte@audite.tv</a>.</p>
       <h2 className="font-display mt-10 text-3xl">Qué guardamos</h2>
       <ul className="mt-4 grid gap-3 text-[#F4ECE2]">
         <li>El identificador de la cuenta y el correo, si llegan de Apple, de Google o del enlace mágico.</li>
