@@ -8,8 +8,55 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
 import { Placa } from "@/components/placa";
-import { colorDeObra } from "@/components/v2/fichas";
 import { formatoNumero } from "@/lib/numeros";
+
+function colorDominante(datos: Uint8ClampedArray): string | null {
+  let rojo = 0;
+  let verde = 0;
+  let azul = 0;
+  let peso = 0;
+  for (let i = 0; i < datos.length; i += 4) {
+    const r = datos[i] ?? 0;
+    const g = datos[i + 1] ?? 0;
+    const b = datos[i + 2] ?? 0;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const saturacion = max === 0 ? 0 : (max - min) / max;
+    const valor = max / 255;
+    if (saturacion < 0.12 || valor < 0.08) continue;
+    const parte = saturacion * valor;
+    rojo += r * parte;
+    verde += g * parte;
+    azul += b * parte;
+    peso += parte;
+  }
+  if (peso === 0) return null;
+  const tono = (canal: number) => Math.round((canal / peso) * 0.72);
+  return `rgb(${tono(rojo)}, ${tono(verde)}, ${tono(azul)})`;
+}
+
+function useColorDeObra(src: string | null): string {
+  const [color, setColor] = useState("#100E0C");
+  useEffect(() => {
+    if (!src) return;
+    let vivo = true;
+    const imagen = new Image();
+    imagen.onload = () => {
+      if (!vivo) return;
+      const lienzo = document.createElement("canvas");
+      lienzo.width = 24;
+      lienzo.height = 24;
+      const ctx = lienzo.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return;
+      ctx.drawImage(imagen, 0, 0, 24, 24);
+      const siguiente = colorDominante(ctx.getImageData(0, 0, 24, 24).data);
+      if (siguiente) setColor(siguiente);
+    };
+    imagen.src = src;
+    return () => { vivo = false; };
+  }, [src]);
+  return color;
+}
 
 const refs = dataset.refs as ReferenciaCruzada[];
 const oyentesFavorito = new Set<() => void>();
@@ -74,7 +121,7 @@ export function ReproductorV2() {
     const espera = window.setTimeout(() => playEpisode(siguiente, true), fundidoMs(reducir));
     return () => window.clearTimeout(espera);
   }, [fundido, playEpisode, reducir, siguiente]);
-  const fondo = colorDeObra(obra);
+  const fondo = useColorDeObra(obra ? obraWebp(obra) : null);
   const oible = Boolean(episode);
   const marca = episode?.tiempos ? versiculoEnTiempo(episode.tiempos, tiempo) : null;
 
@@ -89,8 +136,8 @@ export function ReproductorV2() {
   }
 
   return (
-    <main className="relative min-h-full text-[#F4ECE2]" style={{ background: "#100E0C" }}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[40rem]" style={{ background: `radial-gradient(90% 80% at 50% -10%, ${fondo} 0%, ${fondo}cc 32%, transparent 70%)` }} />
+    <main className="relative min-h-full bg-black text-[#F4ECE2]">
+      <div className="pointer-events-none fixed inset-0" style={{ background: `linear-gradient(180deg, ${fondo} 0%, #100E0C 52%, #000000 100%)` }} />
       <div className="relative flex min-h-dvh flex-col">
       <header className="flex items-center justify-between px-4 py-3">
         <Link href="/escuchar" aria-label={es ? "Cerrar" : "Close"} className="inline-flex size-11 items-center justify-center text-xl">↓</Link>

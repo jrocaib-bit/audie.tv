@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { ObraFoto, Placa } from "@/components/placa";
-import { portadaDeReto } from "@audite/content/obras-creditos";
+import { idsVisiblesEnCreditos, portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
 import { BarraFija, CtaPar, Planes } from "@/components/conversion";
 import { TarjetaCuadro } from "@/components/v2/fichas";
@@ -78,7 +78,7 @@ export function SitioHome({ lang }: { lang: string }) {
           </div>
         </section>
         <HoyFranja lang={lang} />
-        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: obras.length, idiomas: idiomasPublicos.length }, lang)}</p>
+        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length, idiomas: idiomasPublicos.length }, lang)}</p>
         {obras.slice(1, 4).map((obra) => (
           <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
             <div className="absolute inset-0">
