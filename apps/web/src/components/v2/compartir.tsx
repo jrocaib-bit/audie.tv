@@ -1,6 +1,6 @@
 "use client";
 
-import { enlaceProfundo, nombreCorto, playableEpisodes } from "@audite/domain";
+import { idiomaContenido, enlaceProfundo, nombreCorto, playableEpisodes } from "@audite/domain";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { useLibrary } from "@/components/library";
 
@@ -14,7 +14,7 @@ export function CompartirV2() {
   const episode = library.catalog.episodes.find((item) => item.id === id) ?? null;
   const obra = obraDeEpisodio(id);
   const enlaces = enlaceProfundo(id, segundo, locale);
-  const titulo = episode ? nombreCorto(episode, locale) : obra?.titulo[locale] ?? id;
+  const titulo = episode ? nombreCorto(episode, locale) : obra?.titulo[idiomaContenido(locale)] ?? id;
   return (
     <main id="contenido" className="app-clear mx-auto flex w-full max-w-lg flex-col items-center px-4 pt-6">
       <h1 className="font-display self-start text-4xl leading-none">{es ? "Compartir" : "Share"}</h1>

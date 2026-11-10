@@ -3,6 +3,7 @@ import { t } from "@audite/domain";
 import { Stack, usePathname, useRouter } from "expo-router";
 import { Platform, Pressable, Text, View, useColorScheme } from "react-native";
 import { Mark, Wordmark } from "../brand";
+import { fuenteGazpacho } from "../gazpacho";
 import { MobileProvider, useMobileLibrary } from "../state";
 import { dark, fonts, light } from "../theme";
 
@@ -20,7 +21,7 @@ function Shell() {
   const router = useRouter();
   const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
   const locale = library.settings.uiLocale;
-  const immersive = path === "/ahora";
+  const immersive = path === "/ahora" || path === "/entrar";
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <Stack
@@ -46,6 +47,8 @@ function Shell() {
         <Stack.Screen name="notas" />
         <Stack.Screen name="referencias" />
         <Stack.Screen name="leer" />
+        <Stack.Screen name="entrar" options={{ headerShown: false }} />
+        <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
         <Stack.Screen name="ahora" options={{ headerShown: false }} />
         <Stack.Screen name="catalogo" options={{ headerShown: false }} />
       </Stack>
@@ -73,7 +76,11 @@ function Shell() {
 }
 
 export default function Layout() {
-  useFonts(Platform.OS === "ios" ? {} : { Inter: require("../../assets/fonts/inter/InterVariable.ttf") });
+  const fuentes: Record<string, number | string> = {};
+  if (Platform.OS !== "ios") fuentes.Inter = require("../../assets/fonts/inter/InterVariable.ttf") as number;
+  if (fuenteGazpacho) fuentes.Gazpacho = fuenteGazpacho;
+  const [listas] = useFonts(fuentes);
+  if (!listas) return null;
   return (
     <MobileProvider>
       <Shell />

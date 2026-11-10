@@ -1,6 +1,6 @@
 "use client";
 
-import { citaEnCurso, entrarReferencia, etiquetaCita, referenciasDe, segundoDeCita, volverReferencia, type MarcoEscucha, type ReferenciaCruzada } from "@audite/domain";
+import { idiomaContenido, citaEnCurso, entrarReferencia, etiquetaCita, referenciasDe, segundoDeCita, volverReferencia, type MarcoEscucha, type ReferenciaCruzada } from "@audite/domain";
 import dataset from "../../../../content/referencias/openbible.json";
 import { useState } from "react";
 import { useLibrary } from "@/components/library";
@@ -60,7 +60,7 @@ export function ReferenciasPantalla() {
       <p className="font-display-regular mt-4 text-3xl">{es ? "Génesis" : "Genesis"} {enCurso ?? "1:1"}</p>
       <ul className="mt-3 space-y-2">
         {relacionadas.map((referencia) => {
-          const nombre = nombres[referencia.hacia.libroId]?.[locale] ?? referencia.hacia.libroId;
+          const nombre = nombres[referencia.hacia.libroId]?.[idiomaContenido(locale)] ?? referencia.hacia.libroId;
           const cita = `${referencia.hacia.capitulo}:${referencia.hacia.versiculo}`;
           const oible = Boolean(episode && referencia.hacia.libroId === episode.bookId && segundoDeCita(episode.scriptureRangeLabel, cita, episode.durationSeconds) != null);
           return (

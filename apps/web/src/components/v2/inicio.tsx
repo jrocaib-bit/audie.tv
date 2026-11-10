@@ -1,6 +1,6 @@
 "use client";
 
-import { COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, inicioDelPasaje, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
+import { idiomaContenido, COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, inicioDelPasaje, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
 import { obrasVisibles } from "@audite/content/obras";
 import { portadaDeReto, portadaPara } from "@audite/content/obras-creditos";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { Arte, EstanteFila, FilaContinua, TarjetaCuadro, TarjetaDia, TarjetaMix 
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
 import { RETOS } from "@/lib/retos";
 
-function saludo(locale: "es" | "en", hora: number): string {
+function saludo(locale: string, hora: number): string {
   if (locale === "en") return hora < 12 ? "Good morning" : hora < 20 ? "Good afternoon" : "Good evening";
   return hora < 12 ? "Buenos días" : hora < 20 ? "Buenas tardes" : "Buenas noches";
 }
@@ -37,7 +37,7 @@ export function InicioV2() {
     const libro = library.catalog.books.find((item) => item.id === id.split("-")[0]);
     const episodio = library.catalog.episodes.find((item) => item.id === id) ?? library.catalog.pendientes.find((item) => item.id === id);
     const obra = obrasVisibles().find((item) => item.episodio === id);
-    return episodio?.etiqueta?.[locale] || episodio?.tituloCorto?.[locale] || obra?.capitulos || libro?.name[locale] || id;
+    return episodio?.etiqueta?.[idiomaContenido(locale)] || episodio?.tituloCorto?.[idiomaContenido(locale)] || obra?.capitulos || libro?.name[idiomaContenido(locale)] || id;
   };
   const oibles = new Set(library.catalog.episodes.map((episodio) => episodio.id));
   const filas = estantes({
@@ -49,7 +49,7 @@ export function InicioV2() {
       .filter(([, episodio]) => episodio.positionSeconds > 0)
       .map(([id]) => ({ id, titulo: nombre(id) })),
     camino: library.path.steps.map((paso) => ({ id: paso.episodeId, titulo: nombre(paso.episodeId) })),
-    libros: library.catalog.books.slice(0, 12).map((libro) => ({ id: libro.id, titulo: libro.name[locale] || libro.name.es })),
+    libros: library.catalog.books.slice(0, 12).map((libro) => ({ id: libro.id, titulo: libro.name[idiomaContenido(locale)] || libro.name.es })),
   });
   const demo = useSyncExternalStore(() => () => {}, () => document.documentElement.dataset.demo === "1", () => false);
   const aMedias = capitulosAMedias(library.progress.episodes);
@@ -77,8 +77,8 @@ export function InicioV2() {
   const segundoOir = fichaOir && coincidente ? inicioDelPasaje(fichaOir.tiempos, coincidente.capitulo, coincidente.versiculo, coincidente.versiculoFin) : null;
   const oir = fichaOir ? `/ahora?e=${fichaOir.id}${segundoOir != null ? `&t=${segundoOir}` : ""}` : null;
   const estanteTiempo = delTiempo.flatMap((reto) => [
-    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: (reto.tituloCorto ?? reto.titulo)[locale], obra: portadaDeReto(reto.id) ? null : tomar(reto.id), src: portadaDeReto(reto.id)?.src.cuadrado ?? null },
-    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[locale], obra: tomar(companero.titulo.es), src: null })),
+    { id: reto.id, href: `/reto/${reto.id}?cuando=${isoLocal(ahora)}`, titulo: (reto.tituloCorto ?? reto.titulo)[idiomaContenido(locale)], obra: portadaDeReto(reto.id) ? null : tomar(reto.id), src: portadaDeReto(reto.id)?.src.cuadrado ?? null },
+    ...reto.companeros.map((companero) => ({ id: `${reto.id}-${companero.titulo.es}`, href: companero.href, titulo: companero.titulo[idiomaContenido(locale)], obra: tomar(companero.titulo.es), src: null })),
   ]);
 
   return (
@@ -103,8 +103,8 @@ export function InicioV2() {
         <TarjetaDia
           href={delTiempo[0] ? `/reto/${delTiempo[0].id}?cuando=${isoLocal(ahora)}` : `/calendario?cuando=${isoLocal(ahora)}`}
           calendario={`/calendario?cuando=${isoLocal(ahora)}`}
-          titulo={liturgia.etiqueta[locale]}
-          subtitulo={pasaje ? `${pasaje.titulo[locale]} · ${referenciaPaso(pasaje.referencia, locale)}` : undefined}
+          titulo={liturgia.etiqueta[idiomaContenido(locale)]}
+          subtitulo={pasaje ? `${pasaje.titulo[idiomaContenido(locale)]} · ${referenciaPaso(pasaje.referencia, locale)}` : undefined}
           clave={portadaDia ?? liturgia.iso}
           filete={COLOR_HEX[liturgia.color]}
           oir={oir ? `/ahora?e=${oir}` : null}

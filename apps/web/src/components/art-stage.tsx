@@ -1,6 +1,6 @@
 "use client";
 
-import { artworkScale, t, type Artwork, type PresentationFrame, type UiLocale } from "@audite/domain";
+import { idiomaContenido, artworkScale, t, type Artwork, type PresentationFrame, type UiLocale } from "@audite/domain";
 import { useEffect, useRef, useState } from "react";
 
 export function ArtStage({
@@ -61,7 +61,7 @@ export function ArtStage({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={artwork.publicPath}
-              alt={`${artwork.title[locale]}. ${artwork.artist[locale]}`}
+              alt={`${artwork.title[idiomaContenido(locale)]}. ${artwork.artist[idiomaContenido(locale)]}`}
               className={`max-h-full max-w-full object-contain ${reduceMotion ? "" : "ken-burns"}`}
               style={{ transform: `scale(${scale})` }}
             />

@@ -9,7 +9,9 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Directory, File, Paths } from "expo-file-system";
 
-const carpeta = new Directory(Paths.document, "audite-audio");
+function carpetaDeAudio(): Directory {
+  return new Directory(Paths.document, "audite-audio");
+}
 
 export async function leerDescargas(): Promise<ArchivoLocal[]> {
   const raw = await AsyncStorage.getItem(CLAVE_DESCARGAS);
@@ -26,6 +28,7 @@ async function guardarIndice(archivos: ArchivoLocal[]): Promise<void> {
 }
 
 export async function bajarEpisodio(episodeId: string, segmentos: { id: string; url: string }[]): Promise<ArchivoLocal> {
+  const carpeta = carpetaDeAudio();
   if (!carpeta.exists) carpeta.create({ intermediates: true, idempotent: true });
   const partes: { id: string; ruta: string }[] = [];
   let bytes = 0;

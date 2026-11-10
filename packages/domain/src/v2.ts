@@ -45,7 +45,8 @@ export function momento(hora: number): Momento {
   return "noche";
 }
 
-export function mixesDeHora(hora: number, diaDelAno: number, locale: "es" | "en"): TarjetaInicio[] {
+export function mixesDeHora(hora: number, diaDelAno: number, locale: string): TarjetaInicio[] {
+  const ui = locale === "en" ? "en" : "es";
   const evangelio = EVANGELIOS[Math.abs(diaDelAno) % EVANGELIOS.length] ?? "jn";
   const nombres: Record<string, { es: string; en: string }> = {
     sal: { es: "Salmos", en: "Psalms" },
@@ -54,8 +55,8 @@ export function mixesDeHora(hora: number, diaDelAno: number, locale: "es" | "en"
     lc: { es: "Lucas", en: "Luke" },
     jn: { es: "Juan", en: "John" },
   };
-  const salmos = nombres.sal?.[locale] ?? "Salmos";
-  const ev = nombres[evangelio]?.[locale] ?? evangelio;
+  const salmos = nombres.sal?.[ui] ?? "Salmos";
+  const ev = nombres[evangelio]?.[ui] ?? evangelio;
   const tarjetas: TarjetaInicio[] = [
     {
       id: "mix-manana",
@@ -88,7 +89,7 @@ export function mixesDeHora(hora: number, diaDelAno: number, locale: "es" | "en"
 }
 
 export function estantes(entrada: {
-  locale: "es" | "en";
+  locale: string;
   filtro: FiltroInicio;
   hora: number;
   diaDelAno: number;
@@ -97,7 +98,8 @@ export function estantes(entrada: {
   libros: readonly { id: string; titulo: string }[];
 }): Estante[] {
   const { locale, filtro } = entrada;
-  const es = locale === "es";
+  const ui = locale === "en" ? "en" : "es";
+  const es = ui === "es";
   const sigue: Estante = {
     id: "sigue",
     titulo: es ? "Sigue escuchando" : "Continue",
@@ -132,7 +134,7 @@ export function estantes(entrada: {
     titulo: es ? "Por temas" : "Themes",
     tarjetas: TEMAS.map((tema) => ({
       id: tema.id,
-      titulo: tema.titulo[locale],
+      titulo: tema.titulo[ui],
       subtitulo: "",
       episodioId: `${tema.libroId}-01`,
       href: `/tema/${tema.id}`,
@@ -144,7 +146,7 @@ export function estantes(entrada: {
     titulo: es ? "Personajes" : "People",
     tarjetas: PERSONAJES.map((persona) => ({
       id: persona.id,
-      titulo: persona.titulo[locale],
+      titulo: persona.titulo[ui],
       subtitulo: "",
       episodioId: `${persona.libroId}-01`,
       href: `/personaje/${persona.id}`,
@@ -190,7 +192,7 @@ export type ResultadoBusqueda = {
   personajes: Personaje[];
 };
 
-export function buscar(consulta: string, locale: "es" | "en"): ResultadoBusqueda {
+export function buscar(consulta: string, locale: string): ResultadoBusqueda {
   const texto = consulta.trim().toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
   const pasaje = /^([a-záéíóúñ.]+)\s*(\d+)\s*[,.:]\s*(\d+)/iu.exec(consulta.trim());
   let cita: ResultadoBusqueda["pasaje"] = null;
@@ -212,7 +214,7 @@ export function buscar(consulta: string, locale: "es" | "en"): ResultadoBusqueda
     pasaje: cita,
     libros,
     temas: TEMAS.filter((tema) => tema.titulo.es.toLowerCase().includes(texto) || tema.titulo.en.toLowerCase().includes(texto) || tema.id.includes(texto)),
-    personajes: PERSONAJES.filter((persona) => persona.titulo[locale].toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").includes(texto) || persona.id.includes(texto)),
+    personajes: PERSONAJES.filter((persona) => persona.titulo.es.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").includes(texto) || persona.titulo.en.toLowerCase().includes(texto) || persona.id.includes(texto)),
   };
 }
 
@@ -270,7 +272,7 @@ export function resumenAnio(entrada: {
   };
 }
 
-export function enlaceProfundo(episodioId: string, segundo: number, locale: "es" | "en"): { app: string; web: string } {
+export function enlaceProfundo(episodioId: string, segundo: number, locale: string): { app: string; web: string } {
   const t = Math.max(0, Math.floor(segundo));
   return {
     app: `audite://escuchar/${episodioId}?t=${t}`,

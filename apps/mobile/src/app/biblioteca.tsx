@@ -1,4 +1,4 @@
-import { booksOnTheWay, creditoVisible, episodiosDeLibro, playableEpisodes, rotuloEpisodio, t, type PendingEpisode } from "@audite/domain";
+import { idiomaContenido, booksOnTheWay, creditoVisible, episodiosDeLibro, playableEpisodes, rotuloEpisodio, t, type PendingEpisode } from "@audite/domain";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, Text, useColorScheme, View } from "react-native";
 import { useMobileLibrary } from "../state";
@@ -34,7 +34,7 @@ export default function LibraryScreen() {
     return remotos?.libro === abierto ? remotos.episodios : [];
   }, [abierto, library.catalog.pendientes, remotos]);
   const episode = playableEpisodes(library.catalog)[0];
-  const fuente = library.catalog.fuenteTexto[locale];
+  const fuente = library.catalog.fuenteTexto[idiomaContenido(locale)];
   return (
     <FlatList
       data={episodios}
@@ -61,7 +61,7 @@ export default function LibraryScreen() {
               const activo = item.id === abierto;
               return (
                 <Pressable accessibilityRole="button" accessibilityState={{ selected: item.id === abierto }} onPress={() => setAbierto(item.id)} style={{ marginRight: 16, minHeight: 44, justifyContent: "center" }}>
-                  <Text style={{ color: activo ? colors.ink : colors.muted, fontFamily: fonts.serif, fontSize: 22 }}>{item.name[locale] || item.name.es}</Text>
+                  <Text style={{ color: activo ? colors.ink : colors.muted, fontFamily: fonts.serif, fontSize: 22 }}>{item.name[idiomaContenido(locale)] || item.name.es}</Text>
                 </Pressable>
               );
             }}

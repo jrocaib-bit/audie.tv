@@ -1,6 +1,6 @@
 "use client";
 
-import { COLOR_HEX, diaLiturgico, textoDiaLiturgico, tramosDelAnio, type TiempoId, type TramoLiturgico } from "@audite/domain";
+import { idiomaContenido, COLOR_HEX, diaLiturgico, textoDiaLiturgico, tramosDelAnio, type TiempoId, type TramoLiturgico } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -24,9 +24,9 @@ const MESES = {
   en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 };
 
-function corta(valor: string, locale: "es" | "en"): string {
+function corta(valor: string, locale: string): string {
   const [, mes, dia] = valor.split("-").map(Number);
-  return `${dia} ${MESES[locale][(mes ?? 1) - 1]}`;
+  return `${dia} ${MESES[idiomaContenido(locale)][(mes ?? 1) - 1]}`;
 }
 
 function dias(desde: string, hasta: string): number {
@@ -79,10 +79,10 @@ export function CalendarioV2() {
   return (
     <main id="contenido" className="app-clear px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{es ? "Calendario" : "Calendar"}</h1>
-      <p className="mt-3 font-display text-2xl leading-none">{dia.etiqueta[locale]}</p>
+      <p className="mt-3 font-display text-2xl leading-none">{dia.etiqueta[idiomaContenido(locale)]}</p>
       <p className="mt-2 text-sm text-muted">{textoDiaLiturgico(dia, locale)}</p>
       <div className="mx-auto mt-2 w-[min(100%,14.5rem)]">
-        <svg viewBox="0 0 200 200" className="h-auto w-full" role="img" aria-label={dia.etiqueta[locale]}>
+        <svg viewBox="0 0 200 200" className="h-auto w-full" role="img" aria-label={dia.etiqueta[idiomaContenido(locale)]}>
           <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="18" />
           {anillos.map((anillo) => (
             <path key={`${anillo.tramo.tiempo}-${anillo.tramo.inicio}`} d={anillo.d} fill="none" stroke={COLOR_HEX[anillo.tramo.color]} strokeWidth="18" />
@@ -100,7 +100,7 @@ export function CalendarioV2() {
   );
 }
 
-function TarjetaTiempo({ tramo, hoy, locale, obra }: { tramo: TramoLiturgico; hoy: string; locale: "es" | "en"; obra: string | null }) {
+function TarjetaTiempo({ tramo, hoy, locale, obra }: { tramo: TramoLiturgico; hoy: string; locale: string; obra: string | null }) {
   const es = locale === "es";
   const reto = RETOS.find((item) => item.tiempo === tramo.tiempo);
   const portada = obrasVisibles().find((item) => item.episodio === obra);
@@ -117,9 +117,9 @@ function TarjetaTiempo({ tramo, hoy, locale, obra }: { tramo: TramoLiturgico; ho
           <span className="absolute inset-y-0 left-0 w-1.5" style={{ background: COLOR_HEX[tramo.color] }} />
         </span>
         <span className="flex min-w-0 flex-1 flex-col justify-center px-3 py-3">
-          <span className="font-display text-xl leading-none">{NOMBRES[tramo.tiempo][locale]}</span>
+          <span className="font-display text-xl leading-none">{NOMBRES[tramo.tiempo][idiomaContenido(locale)]}</span>
           <span className="mt-1 text-sm whitespace-nowrap">{corta(tramo.inicio, locale)} – {corta(tramo.fin, locale)}</span>
-          <span className="text-sm leading-snug">{quedan == null ? "" : `${quedan} ${es ? "días" : "days"} · `}{reto?.titulo[locale]}</span>
+          <span className="text-sm leading-snug">{quedan == null ? "" : `${quedan} ${es ? "días" : "days"} · `}{reto?.titulo[idiomaContenido(locale)]}</span>
         </span>
       </Link>
     </li>

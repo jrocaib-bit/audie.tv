@@ -1,9 +1,10 @@
+import { esIdioma, type Idioma } from "./idioma";
 import { isPlaybackRate, type PlaybackRate } from "./player";
 
 export type ThemeChoice = "system" | "light" | "dark";
 export type TextScale = "sm" | "md" | "lg" | "xl";
 export type DailyMinutes = 10 | 15 | 20 | 30;
-export type UiLocale = "es" | "en";
+export type UiLocale = Idioma;
 
 export type Settings = {
   version: 1;
@@ -14,6 +15,7 @@ export type Settings = {
   rate: PlaybackRate;
   dailyMinutes: DailyMinutes;
   uiLocale: UiLocale;
+  localeElegido: boolean;
 };
 
 export const STORAGE_KEYS = {
@@ -32,6 +34,7 @@ export function defaultSettings(): Settings {
     rate: 1,
     dailyMinutes: 15,
     uiLocale: "es",
+    localeElegido: false,
   };
 }
 
@@ -55,6 +58,7 @@ export function parseSettings(value: unknown): Settings {
     captions: record.captions !== false,
     rate: isPlaybackRate(record.rate) ? record.rate : defaults.rate,
     dailyMinutes: isDailyMinutes(record.dailyMinutes) ? record.dailyMinutes : defaults.dailyMinutes,
-    uiLocale: record.uiLocale === "en" ? "en" : "es",
+    uiLocale: esIdioma(typeof record.uiLocale === "string" ? record.uiLocale : null) ? record.uiLocale as Settings["uiLocale"] : defaults.uiLocale,
+    localeElegido: record.localeElegido === true,
   };
 }

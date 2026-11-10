@@ -17,6 +17,7 @@ import {
   migrarProgreso,
   parseProgress,
   parseSettings,
+  idiomaDeEtiqueta,
   playableIds,
   recordListen,
   removeFromPath,
@@ -33,6 +34,7 @@ import {
   type SleepMinutes,
 } from "@audite/domain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getLocales } from "expo-localization";
 import { leerDescargas } from "./descargas";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -132,6 +134,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       ]);
       if (!active) return;
       const nextSettings = parseSettings(storedSettings);
+      if (!nextSettings.localeElegido) {
+        const idioma = idiomaDeEtiqueta(getLocales()[0]?.languageTag ?? null);
+        if (idioma) nextSettings.uiLocale = idioma;
+      }
       const rangos = catalog.rangos ?? [];
       const nextProgress = migrarProgreso(parseProgress(storedProgress), rangos);
       const nextPath = sanitizePath(migrarCamino(parsePath(storedPath), rangos), ids, new Date().toISOString());

@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import { IDIOMAS, idiomaContenido,
   booksOnTheWay,
   creditoVisible,
   journeyState,
@@ -18,6 +18,7 @@ import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Mark, Wordmark } from "@/components/brand";
+import { Cuenta } from "@/components/cuenta";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { useLibrary } from "@/components/library";
 import { ObraFoto, Placa } from "@/components/placa";
@@ -163,7 +164,7 @@ export function NeoToday() {
             {episode ? nombreCorto(episode, locale) : rotuloEpisodio(primero ?? { id }, locale) ?? t(locale, "listenComingTitle")}
           </h2>
           <p className="font-display-regular mt-1 truncate text-lg text-[#F4ECE2]">
-            {episode ? episode.scriptureRangeLabel : primero ? primero.etiqueta?.[locale] || primero.rango?.replace("-", "–") || "" : ""}
+            {episode ? episode.scriptureRangeLabel : primero ? primero.etiqueta?.[idiomaContenido(locale)] || primero.rango?.replace("-", "–") || "" : ""}
           </p>
           {!esTono && duracion > 0 ? <p className="mt-1 text-sm text-[#F4ECE2]">{`${Math.max(1, Math.round(duracion / 60))} min`}</p> : null}
           {duracion > 0 ? (
@@ -211,7 +212,7 @@ export function NeoToday() {
         </Metrica>
         <Metrica etiqueta={tx(locale, "Minutos", "Minutes")} valor={minutosTexto(library.progress.episodes, locale)} />
       </div>
-      <p className="mt-44 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
+      <p className="mt-44 text-sm text-muted">{creditoVisible(library.catalog.fuenteTexto[idiomaContenido(locale)], t(locale, "sourceLabel"), t(locale, "sourcePending"))}</p>
     </main>
   );
 }
@@ -278,7 +279,7 @@ export function NeoPath() {
                     <li key={book.id} className="relative py-2">
                       <span className={`absolute -left-[1.3rem] top-4 size-2 rounded-full ${oidos > 0 || state !== "ahead" ? "bg-acento" : "bg-foreground/20"}`} />
                       <div className="flex items-baseline justify-between gap-3">
-                        <span className="font-display truncate text-lg leading-tight">{book.name[locale] || book.name.es}</span>
+                        <span className="font-display truncate text-lg leading-tight">{book.name[idiomaContenido(locale)] || book.name.es}</span>
                         <span className="tabular shrink-0 text-xs text-muted">{oidos}/{total}</span>
                       </div>
                       <div className="mt-1 h-1 overflow-hidden rounded-full bg-foreground/10">
@@ -352,6 +353,7 @@ export function NeoSettings() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-2">
       <Cabecera locale={locale} titulo={t(locale, "navSettings")} />
+      <Cuenta lang={locale} />
       <Grupo titulo={t(locale, "settingsTheme")}>
         {(["system", "light", "dark"] as const).map((theme) => (
           <Fila key={theme} label={t(locale, theme === "system" ? "settingsThemeSystem" : theme === "light" ? "settingsThemeLight" : "settingsThemeDark")} onClick={() => { toque(reduceMotion); updateSettings({ theme }); }}>
@@ -360,8 +362,8 @@ export function NeoSettings() {
         ))}
       </Grupo>
       <Grupo titulo={t(locale, "settingsLanguage")}>
-        {(["es", "en"] as const).map((uiLocale) => (
-          <Fila key={uiLocale} label={t(locale, uiLocale === "es" ? "commonSpanish" : "commonEnglish")} onClick={() => updateSettings({ uiLocale })}>
+        {IDIOMAS.map((uiLocale) => (
+          <Fila key={uiLocale} label={uiLocale.toUpperCase()} onClick={() => updateSettings({ uiLocale, localeElegido: true })}>
             <span className="text-sm text-acento">{settings.uiLocale === uiLocale ? "●" : ""}</span>
           </Fila>
         ))}

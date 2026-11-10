@@ -1,4 +1,4 @@
-import { booksOnTheWay, episodeById, journeyState, nombreCorto, playableByBook, t } from "@audite/domain";
+import { idiomaContenido, booksOnTheWay, episodeById, journeyState, nombreCorto, playableByBook, t } from "@audite/domain";
 import { useMemo } from "react";
 import { FlatList, Text, useColorScheme, View } from "react-native";
 import { useMobileLibrary } from "../state";
@@ -39,7 +39,7 @@ export default function PathScreen() {
         const label = state === "heard" ? t(locale, "journeyHeard") : state === "ahead" ? t(locale, "journeyAhead") : t(locale, "journeyCurrent");
         return (
           <View style={{ marginHorizontal: 22, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line, flexDirection: "row", justifyContent: "space-between", gap: 12 }}>
-            <Text style={{ color: state === "ahead" ? colors.muted : colors.ink, fontFamily: fonts.serif, fontSize: 24, flex: 1 }}>{item.name[locale] || item.name.es}</Text>
+            <Text style={{ color: state === "ahead" ? colors.muted : colors.ink, fontFamily: fonts.serif, fontSize: 24, flex: 1 }}>{item.name[idiomaContenido(locale)] || item.name.es}</Text>
             <Text style={{ color: colors.muted, fontFamily: fonts.sans, fontSize: 13, paddingTop: 8 }}>{label}</Text>
           </View>
         );

@@ -303,6 +303,8 @@ export const messages = { es, en };
 export type UiLocale = keyof typeof messages;
 export type MessageKey = keyof typeof es;
 
-export function t(locale: UiLocale, key: MessageKey): string {
-  return messages[locale][key];
+export function t(locale: string, key: MessageKey): string {
+  if (locale === "es") return es[key];
+  if (locale === "en") return en[key];
+  return en[key] ?? es[key];
 }

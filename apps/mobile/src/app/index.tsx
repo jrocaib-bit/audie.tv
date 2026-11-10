@@ -1,4 +1,4 @@
-import { creditoVisible, listeningDayCount, nombreEpisodio, t } from "@audite/domain";
+import { idiomaContenido, creditoVisible, listeningDayCount, nombreEpisodio, t } from "@audite/domain";
 import { ScrollView, Text, useColorScheme } from "react-native";
 import { useMobileLibrary } from "../state";
 import { dark, fonts, light, ui } from "../theme";
@@ -9,7 +9,7 @@ export default function Today() {
   const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
   const locale = library.settings.uiLocale;
   const primero = library.catalog.pendientes.find((episodio) => episodio.bookId === "gn") ?? library.catalog.pendientes[0];
-  const fuente = library.catalog.fuenteTexto[locale];
+  const fuente = library.catalog.fuenteTexto[idiomaContenido(locale)];
   return (
     <ScrollView contentContainerStyle={[ui.screen, { backgroundColor: colors.bg }]}>
       <Text style={[ui.kicker, { color: colors.muted }]}>{t(locale, "todayEyebrow")}</Text>

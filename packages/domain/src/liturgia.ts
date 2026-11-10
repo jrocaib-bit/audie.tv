@@ -419,15 +419,15 @@ export function diaLiturgico(fecha: Date): DiaLiturgico {
   return diaLiturgicoDeIso(`${fecha.getFullYear()}-${mes}-${dia}`);
 }
 
-export function textoDiaLiturgico(dia: DiaLiturgico, locale: "es" | "en"): string {
+export function textoDiaLiturgico(dia: DiaLiturgico, locale: string): string {
   if (locale === "en") return `Day ${dia.dia} of ${dia.nombre.en}`;
   return `Día ${dia.dia} de ${dia.nombre.es}`;
 }
 
-export function textoAvisoLiturgico(dia: DiaLiturgico, locale: "es" | "en"): string {
+export function textoAvisoLiturgico(dia: DiaLiturgico, locale: string): string {
   if (dia.tiempo === "adviento" && dia.dia === 1) return locale === "en" ? "Advent begins today" : "Hoy empieza el Adviento";
   if (dia.celebracion?.id === "ceniza") return locale === "en" ? "Ash Wednesday" : "Miércoles de Ceniza";
-  if (dia.celebracion) return rotulo(dia.celebracion.es, dia.celebracion.en, dia.celebracion.rango)[locale];
+  if (dia.celebracion) return rotulo(dia.celebracion.es, dia.celebracion.en, dia.celebracion.rango)[locale === "en" ? "en" : "es"];
   if (locale === "en") return `Challenge · day ${dia.dia}`;
   return `Reto · día ${dia.dia}`;
 }
@@ -505,9 +505,10 @@ const LIBROS: Record<string, { es: string; en: string; breve: string }> = {
   gal: { es: "Gálatas", en: "Galatians", breve: "Gál" },
 };
 
-export function referenciaPaso(paso: Pick<PasoReto, "libroId" | "capitulo" | "versiculo" | "versiculoFin">, locale: "es" | "en", completa = false): string {
+export function referenciaPaso(paso: Pick<PasoReto, "libroId" | "capitulo" | "versiculo" | "versiculoFin">, locale: string, completa = false): string {
   const libro = LIBROS[paso.libroId];
-  const nombre = libro ? (completa ? libro[locale] : libro.breve) : paso.libroId;
+  const idioma = locale === "en" ? "en" : "es";
+  const nombre = libro ? (completa ? libro[idioma] : libro.breve) : paso.libroId;
   const rango = paso.versiculoFin > paso.versiculo ? `${paso.versiculo}–${paso.versiculoFin}` : String(paso.versiculo);
   const separador = locale === "en" ? ":" : ",";
   return `${nombre} ${paso.capitulo}${separador}${rango}`;

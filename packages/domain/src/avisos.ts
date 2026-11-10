@@ -27,7 +27,7 @@ export function parsePlanAviso(value: unknown): PlanAviso {
   return { activo: record.activo === true, hora, minuto, dias };
 }
 
-export function textoAviso(locale: "es" | "en", libro: string, capitulo: number): string {
+export function textoAviso(locale: string, libro: string, capitulo: number): string {
   const limpio = libro.trim();
   const numero = Number.isFinite(capitulo) ? Math.max(1, Math.floor(capitulo)) : 1;
   if (locale === "en") return `Next: ${limpio} ${numero}`;

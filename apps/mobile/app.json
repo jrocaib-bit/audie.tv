@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "es.audite.pilot"
+      "bundleIdentifier": "es.audite.pilot",
+      "usesAppleSignIn": true
     },
     "android": {
       "package": "es.audite.pilot",
@@ -42,7 +43,9 @@
         }
       ],
       "expo-font",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-localization",
+      "expo-apple-authentication"
     ]
   }
 }

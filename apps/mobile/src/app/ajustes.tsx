@@ -1,7 +1,9 @@
-import { PLAYBACK_RATES, t, type DailyMinutes, type ThemeChoice, type UiLocale } from "@audite/domain";
+import { IDIOMAS, PLAYBACK_RATES, t, textosAlta, type DailyMinutes, type Sesion, type ThemeChoice } from "@audite/domain";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { Pressable, ScrollView, Text } from "react-native";
+import { borrarApp, cerrarApp, sesionApp } from "../auth";
 import { useMobileLibrary } from "../state";
 import { dark, light, ui } from "../theme";
 
@@ -13,10 +15,43 @@ export default function SettingsScreen() {
   const locale = library.settings.uiLocale;
   const themes: ThemeChoice[] = ["system", "light", "dark"];
   const minutes: DailyMinutes[] = [10, 15, 20, 30];
-  const languages: UiLocale[] = ["es", "en"];
+  const languages = IDIOMAS;
+  const copy = textosAlta(locale);
+  const [sesion, setSesion] = useState<Sesion | null>(null);
+  const [confirmar, setConfirmar] = useState(false);
+  useEffect(() => {
+    void sesionApp().then(setSesion);
+  }, []);
   return (
     <ScrollView contentContainerStyle={[ui.screen, { backgroundColor: colors.bg }]}>
       <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "settingsTitle")}</Text>
+      <Text style={[ui.body, { color: colors.ink }]}>{copy.cuenta}</Text>
+      {sesion ? (
+        <>
+          <Pressable onPress={() => void cerrarApp().then(() => setSesion(null))} style={[ui.button, { backgroundColor: colors.card }]}>
+            <Text style={{ color: colors.ink }}>{copy.salir}</Text>
+          </Pressable>
+          {confirmar ? (
+            <>
+              <Text style={[ui.body, { color: colors.ink }]}>{copy.confirmar}</Text>
+              <Pressable onPress={() => setConfirmar(false)} style={[ui.button, { backgroundColor: colors.card }]}>
+                <Text style={{ color: colors.ink }}>{copy.cancelar}</Text>
+              </Pressable>
+              <Pressable onPress={() => void borrarApp().then(() => setSesion(null))} style={[ui.button, { backgroundColor: colors.card }]}>
+                <Text style={{ color: colors.ink }}>{copy.borrar}</Text>
+              </Pressable>
+            </>
+          ) : (
+            <Pressable onPress={() => setConfirmar(true)} style={[ui.button, { backgroundColor: colors.card }]}>
+              <Text style={{ color: colors.ink }}>{copy.borrar}</Text>
+            </Pressable>
+          )}
+        </>
+      ) : (
+        <Pressable onPress={() => router.push("/entrar")} style={[ui.button, { backgroundColor: colors.card }]}>
+          <Text style={{ color: colors.ink }}>{copy.entrar}</Text>
+        </Pressable>
+      )}
       <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsTheme")}</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {themes.map((theme) => (
@@ -44,7 +79,7 @@ export default function SettingsScreen() {
       <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsLanguage")}</Text>
       <ScrollView horizontal contentContainerStyle={ui.row}>
         {languages.map((value) => (
-          <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
+          <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value, localeElegido: true })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
             <Text style={{ color: library.settings.uiLocale === value ? colors.accentInk : colors.ink }}>{value}</Text>
           </Pressable>
         ))}

@@ -1,4 +1,4 @@
-import { PLAYBACK_RATES, SLEEP_CHOICES, creditoVisible, formatClock, frameAt, playableEpisodes, t } from "@audite/domain";
+import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, creditoVisible, formatClock, frameAt, playableEpisodes, t } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useMobileLibrary } from "../state";
@@ -29,7 +29,7 @@ export default function NowPlaying() {
       <View style={{ backgroundColor: "#171512", padding: 16, gap: 8 }}>
         <Text style={{ color: "#f4ece2", fontSize: 22, lineHeight: 28 }}>{library.settings.captions ? frame.captionText || " " : t(locale, "episodeCaptionsOff")}</Text>
         <Text style={{ color: "#b7ab9c", fontSize: 14 }}>
-          {creditoVisible(library.catalog.fuenteTexto[locale], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
+          {creditoVisible(library.catalog.fuenteTexto[idiomaContenido(locale)], t(locale, "sourceLabel"), t(locale, "sourcePending"))}
         </Text>
         {artwork ? (
           <Text style={{ color: "#b7ab9c", fontSize: 13, lineHeight: 18 }}>

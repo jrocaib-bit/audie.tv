@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import { idiomaContenido,
   espacioUsado,
   idsDeAlcance,
   parseArchivos,
@@ -46,7 +46,7 @@ function publicar(siguiente: EstadoLocal) {
   oyentes.forEach((oyente) => oyente());
 }
 
-function tx(locale: "es" | "en", es: string, en: string): string {
+function tx(locale: string, es: string, en: string): string {
   return locale === "en" ? en : es;
 }
 
@@ -76,7 +76,7 @@ export function DescargasPantalla() {
   const episodios: EpisodioDescargable[] = catalog.episodes.map((episodio) => ({
     id: episodio.id,
     bookId: episodio.bookId,
-    titulo: episodio.tituloCorto?.[locale] || episodio.title,
+    titulo: episodio.tituloCorto?.[idiomaContenido(locale)] || episodio.title,
     bytes: episodio.segments.reduce((suma, segmento) => suma + segmento.bytes, 0),
     remoto: episodio.segments[0]?.publicPath ?? "",
   }));
