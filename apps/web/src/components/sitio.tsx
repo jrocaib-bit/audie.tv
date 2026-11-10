@@ -66,7 +66,11 @@ export function SitioHome({ lang }: { lang: string }) {
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/10" />
           <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-32 pb-16 md:px-8">
-            <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-8xl">{copy.homeTitle}</h1>
+            <h1 className="font-display text-[clamp(2.75rem,8.6vw,7.25rem)] leading-[0.92] text-[#F4ECE2]">
+              {copy.homeTitle.split("\n").map((linea) => (
+                <span key={linea} className="block whitespace-nowrap">{linea}</span>
+              ))}
+            </h1>
             <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
             <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
           </div>
