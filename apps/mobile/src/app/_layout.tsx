@@ -3,6 +3,7 @@ import { t } from "@audite/domain";
 import { Stack, usePathname, useRouter } from "expo-router";
 import { Platform, Pressable, Text, View, useColorScheme } from "react-native";
 import { Mark, Wordmark } from "../brand";
+import { fuenteGazpacho } from "../gazpacho";
 import { MobileProvider, useMobileLibrary } from "../state";
 import { dark, fonts, light } from "../theme";
 
@@ -75,7 +76,11 @@ function Shell() {
 }
 
 export default function Layout() {
-  useFonts(Platform.OS === "ios" ? {} : { Inter: require("../../assets/fonts/inter/InterVariable.ttf") });
+  const fuentes: Record<string, number | string> = {};
+  if (Platform.OS !== "ios") fuentes.Inter = require("../../assets/fonts/inter/InterVariable.ttf") as number;
+  if (fuenteGazpacho) fuentes.Gazpacho = fuenteGazpacho;
+  const [listas] = useFonts(fuentes);
+  if (!listas) return null;
   return (
     <MobileProvider>
       <Shell />

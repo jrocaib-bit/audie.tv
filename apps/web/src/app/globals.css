@@ -52,7 +52,7 @@
   --noche: #100e0c;
   --crema: #f3ecdf;
   --piedra: #b7ab9c;
-  --audite-font-display: "Gazpacho", Georgia, "Times New Roman", serif;
+  --audite-font-display: "Gazpacho", Georgia;
   --audite-font-secundaria: "Inter", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --audite-font-text: var(--audite-font-secundaria);
   --audite-font-ios-system: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;

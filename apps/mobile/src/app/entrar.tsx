@@ -3,6 +3,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as Google from "expo-auth-session/providers/google";
 import * as Linking from "expo-linking";
 import { useEffect, useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
 import { LogoApple, LogoGoogle } from "../marcas";
@@ -46,10 +47,12 @@ export default function EntrarScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: noche }}>
-      <Image source={{ uri: obra }} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 420 }} />
-      <View style={{ position: "absolute", top: 0, left: 0, right: 0, height: 420, backgroundColor: "rgba(16,14,12,0.35)" }} />
-      <View style={{ position: "absolute", top: 240, left: 0, right: 0, height: 80, backgroundColor: "rgba(16,14,12,0.45)" }} />
-      <View style={{ position: "absolute", top: 310, left: 0, right: 0, height: 110, backgroundColor: "rgba(16,14,12,0.82)" }} />
+      <Image source={{ uri: obra }} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }} resizeMode="cover" />
+      <LinearGradient
+        colors={["rgba(16,14,12,0.15)", "rgba(16,14,12,0.35)", "rgba(16,14,12,0.72)", noche]}
+        locations={[0, 0.42, 0.72, 1]}
+        style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }}
+      />
       <View style={{ flex: 1, paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, justifyContent: "space-between" }}>
         <View>
           <Image source={require("../../assets/marca/audite_wordmark_blanco.png")} style={{ height: 32, width: 148 }} resizeMode="contain" />

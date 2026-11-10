@@ -1,12 +1,13 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { PRECIO, creditoVisible, nombreEpisodio, textoOPendiente, textosAlta } from "@audite/domain";
+import { creditoVisible, nombreEpisodio, textoOPendiente, textosAlta } from "@audite/domain";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { ObraFoto, Placa } from "@/components/placa";
 import { portadaDeReto } from "@audite/content/obras-creditos";
-import { BarraFija, Ctas } from "@/components/conversion";
+import { BarraFija, Ctas, Planes } from "@/components/conversion";
+import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
 
@@ -66,7 +67,7 @@ export function SitioHome({ lang }: { lang: string }) {
   const portada = obraDeEpisodio("gn-01");
   const obras = obrasVisibles();
   const segunda = obras[1];
-  const tercera = obras[2];
+  const catalogo = loadAppCatalog();
   const adviento = portadaDeReto("adviento-isaias");
   if (!copy || !portada) return null;
   const credito = creditoVisible(fuente, "", "");
@@ -87,12 +88,34 @@ export function SitioHome({ lang }: { lang: string }) {
           </div>
         </section>
         {segunda ? <Lamina obra={segunda} titulo={copy.dailyTitle} linea={copy.dailyBody} href="/escuchar" accion={copy.homeCta} /> : null}
-        {tercera ? <Lamina obra={tercera} titulo={copy.pathTitle} linea={copy.pathBody} href={`/${lang}/catalogo`} accion={copy.navCatalog} /> : null}
-        <section className="bg-[#F3ECDF] px-5 py-24 text-[#161310] md:px-8">
+        <section className="bg-[#100E0C] py-16 text-[#F4ECE2] md:py-24">
+          <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
+            <h2 className="font-display text-5xl leading-[0.95] md:text-7xl">{copy.pathTitle}</h2>
+            <p className="mt-4 max-w-md text-lg">{copy.pathBody}</p>
+          </div>
+          <div className="estante mt-8 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
+            {obras.map((obra) => {
+              const episodio = catalogo.pendientes.find((item) => item.id === obra.episodio);
+              const corto = episodio?.tituloCorto?.[ui] || episodio?.etiqueta?.[ui] || obra.escena[ui];
+              return (
+                <TarjetaCuadro
+                  key={obra.id}
+                  href={`/${lang}/catalogo/${obra.episodio}`}
+                  episodioId={obra.episodio}
+                  titulo={corto || obra.escena[ui]}
+                  pronto
+                  prontoTexto={copy.pending}
+                />
+              );
+            })}
+          </div>
+          <div className="mx-auto mt-8 w-full max-w-6xl px-5 md:px-8">
+            <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
+          </div>
+        </section>
+        <section className="bg-[#F3ECDF] px-5 py-20 text-[#161310] md:px-8 md:py-28">
           <div className="mx-auto w-full max-w-6xl">
-            <p className="kicker text-[#8A6432]">{copy.ctaDays}</p>
-            <p className="font-display mt-4 text-6xl leading-none md:text-8xl">{PRECIO.mes}</p>
-            <p className="font-display mt-3 text-3xl text-[#5E564C] md:text-5xl">{PRECIO.anio}</p>
+            <Planes lang={lang} />
             <Ctas lang={lang} copy={copy} />
           </div>
         </section>
@@ -178,9 +201,7 @@ export function SitioMembresia({ lang }: { lang: string }) {
         <div>
           <p className="kicker">{copy.navMembership}</p>
           <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed">{copy.ctaDays}</p>
-          <p className="font-display mt-3 text-4xl">{PRECIO.mes}</p>
-          <p className="mt-1 text-muted">{PRECIO.anio}</p>
+          <Planes lang={lang} />
           <Link href="/escuchar" className="mt-8 inline-flex min-h-12 items-center rounded-full bg-primary px-6 text-primary-foreground">
             {copy.appLink}
           </Link>

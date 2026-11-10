@@ -14,19 +14,54 @@ type Copy = {
   ctaSign: string;
 };
 
-const PERIODO: Record<string, [string, string]> = {
-  es: ["mes", "año"],
-  en: ["mo", "yr"],
-  it: ["mese", "anno"],
-  pt: ["mês", "ano"],
-  fr: ["mois", "an"],
-  de: ["Monat", "Jahr"],
-  zh: ["月", "年"],
+const PERIODO: Record<string, { mes: string; anio: string; o: string; ahorro: string; gratis: string }> = {
+  es: { mes: "mes", anio: "año", o: "o", ahorro: "Ahorra un 66 %", gratis: "7 días gratis" },
+  en: { mes: "mo", anio: "yr", o: "or", ahorro: "Save 66%", gratis: "7 days free" },
+  it: { mes: "mese", anio: "anno", o: "o", ahorro: "Risparmi il 66 %", gratis: "7 giorni gratis" },
+  pt: { mes: "mês", anio: "ano", o: "ou", ahorro: "Poupa 66 %", gratis: "7 dias grátis" },
+  fr: { mes: "mois", anio: "an", o: "ou", ahorro: "Économise 66 %", gratis: "7 jours gratuits" },
+  de: { mes: "Monat", anio: "Jahr", o: "oder", ahorro: "66 % sparen", gratis: "7 Tage gratis" },
+  zh: { mes: "月", anio: "年", o: "或", ahorro: "省 66%", gratis: "免费 7 天" },
 };
 
+function periodo(lang: string) {
+  return PERIODO[lang] ?? PERIODO.es;
+}
+
 export function lineaPrecio(lang: string): string {
-  const [mes, anio] = PERIODO[lang] ?? PERIODO.es;
-  return `${PRECIO.mes}/${mes} · ${PRECIO.anio}/${anio}`;
+  const texto = periodo(lang);
+  return `${PRECIO.mes}/${texto.mes} ${texto.o} ${PRECIO.anio}/${texto.anio}`;
+}
+
+export function Planes({ lang }: { lang: string }) {
+  const texto = periodo(lang);
+  const [plan, setPlan] = useState<"anio" | "mes">("anio");
+  const anio = plan === "anio";
+  return (
+    <div className="mt-8">
+      <p className="font-display text-3xl md:text-4xl">{texto.gratis}</p>
+      <div className="mt-6 grid gap-4 md:grid-cols-[1.2fr_auto_1fr] md:items-stretch">
+        <button
+          type="button"
+          aria-pressed={anio}
+          onClick={() => setPlan("anio")}
+          className={`rounded-3xl border-2 px-6 py-8 text-left ${anio ? "border-[#C9A96E] bg-[#100E0C] text-[#F4ECE2]" : "border-transparent bg-[#F3ECDF] text-[#161310]"}`}
+        >
+          <span className={`inline-flex min-h-8 items-center rounded-full px-3 text-sm ${anio ? "bg-[#C9A96E] text-[#100E0C]" : "bg-[#E4D8C8] text-[#161310]"}`}>{texto.ahorro}</span>
+          <span className="font-display mt-4 block text-5xl leading-none md:text-6xl">{PRECIO.anio}/{texto.anio}</span>
+        </button>
+        <span className="self-center text-center text-lg">{texto.o}</span>
+        <button
+          type="button"
+          aria-pressed={!anio}
+          onClick={() => setPlan("mes")}
+          className={`rounded-3xl border-2 px-6 py-8 text-left ${anio ? "border-transparent bg-[#F3ECDF] text-[#161310]" : "border-[#C9A96E] bg-[#100E0C] text-[#F4ECE2]"}`}
+        >
+          <span className="font-display block text-4xl leading-none md:text-5xl">{PRECIO.mes}/{texto.mes}</span>
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export function tiendas(): { appStore: string; play: string } {
