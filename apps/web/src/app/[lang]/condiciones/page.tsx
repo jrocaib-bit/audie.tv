@@ -1,7 +1,6 @@
 import { PRECIO, textosAlta } from "@audite/domain";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SitioPie } from "@/components/sitio";
 import { BloqueTitular } from "@/components/titular";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
@@ -31,7 +30,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p className="mt-3">Usa Audite con respeto. Podemos actualizar estas condiciones. La ley aplicable es la de España.</p>
         <p className="mt-3">Contacto: <a className="underline" href="mailto:soporte@audite.tv">soporte@audite.tv</a>.</p>
       </main>
-      <SitioPie lang={lang} />
     </>
   );
 }

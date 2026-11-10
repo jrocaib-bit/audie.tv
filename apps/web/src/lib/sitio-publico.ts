@@ -39,13 +39,11 @@ export function entradasSitemap(base = origenSitio()): string[] {
     for (const ruta of RUTAS_IDIOMA) urls.add(`${base}/${lang}${ruta}`);
   }
   for (const id of RETOS_PUBLICADOS) urls.add(`${base}/reto/${id}`);
-  urls.add(`${base}/cuenta`);
   return [...urls];
 }
 
 export function rutaDeSitemapExiste(url: string, appDir = APP_DIR): boolean {
   const pathname = new URL(url).pathname.replace(/\/$/, "") || "/";
-  if (pathname === "/cuenta") return existsSync(path.join(appDir, "cuenta/page.tsx"));
   if (pathname.startsWith("/reto/")) {
     const id = pathname.slice("/reto/".length);
     return (RETOS_PUBLICADOS as readonly string[]).includes(id) && existsSync(path.join(appDir, "reto/[id]/page.tsx"));

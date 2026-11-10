@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { Esqueleto } from "@/components/v2/esqueleto";
+import { MarcoSitio } from "@/components/sitio";
 import { RetoV2 } from "@/components/v2/reto";
 import { RETOS } from "@/lib/retos";
 
@@ -39,11 +40,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const reto = RETOS.find((item) => item.id === id);
   if (!reto) notFound();
   return (
-    <>
+    <MarcoSitio lang="es">
       <h1 className="bg-[#100E0C] px-5 pt-16 font-display text-5xl leading-[0.92] text-[#F4ECE2] md:px-8 md:text-7xl">{reto.titulo.es}</h1>
       <Suspense fallback={<Esqueleto />}>
         <RetoV2 reto={reto} tituloServidor />
       </Suspense>
-    </>
+    </MarcoSitio>
   );
 }

@@ -2,6 +2,7 @@ import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
 import { creditoVisible, lineaIdiomas, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
 import recuento from "../../../../content/canon/recuento.json";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
@@ -20,6 +21,19 @@ import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
+}
+
+export async function MarcoSitio({ lang, children, sobreObra = false }: { lang: string; children: ReactNode; sobreObra?: boolean }) {
+  const copy = copiaSitio(lang);
+  if (!copy) return children;
+  const pie = await SitioPie({ lang });
+  return (
+    <>
+      <SitioHeader lang={lang} copy={copy} sobreObra={sobreObra} />
+      {children}
+      {pie}
+    </>
+  );
 }
 
 export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; copy: SitioCopy; sobreObra?: boolean }) {
@@ -109,7 +123,6 @@ export function SitioHome({ lang }: { lang: string }) {
   return (
     <>
       <RecordarIdioma />
-      <SitioHeader lang={lang} copy={copy} sobreObra />
       <main className="bg-[#100E0C] pb-28 text-[#F4ECE2] md:pb-0">
         <section id="hero" className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
           <div className="absolute inset-0 overflow-hidden">
@@ -218,7 +231,6 @@ export function SitioHome({ lang }: { lang: string }) {
           </section>
         ) : null}
       </main>
-      <SitioPie lang={lang} />
       <BarraFija lang={lang} copy={copy} />
     </>
   );
@@ -232,7 +244,6 @@ export function SitioCatalogo({ lang }: { lang: string }) {
   const obras = obrasVisibles();
   return (
     <>
-      <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
         <h1 className="font-display text-5xl md:text-6xl">{copy.catalogTitle}</h1>
         <p className="mt-4 text-lg">{copy.catalogIntro}</p>
@@ -273,7 +284,6 @@ export function SitioMembresia({ lang }: { lang: string }) {
   const ui = idiomaUi(lang);
   return (
     <>
-      <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
           <PaywallWeb lang={lang} />

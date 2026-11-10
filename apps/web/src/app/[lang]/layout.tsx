@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { MarcoSitio } from "@/components/sitio";
 import { canonicalPropio } from "@/lib/sitio-publico";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
@@ -27,5 +28,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function SitioLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!copiaSitio(lang)) notFound();
-  return <div lang={lang} className="lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]">{children}</div>;
+  const ruta = (await headers()).get("x-audite-path") || "";
+  const inicio = ruta === `/${lang}` || ruta === `/${lang}/`;
+  return (
+    <div lang={lang} className={`${inicio ? "relative " : ""}lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]`}>
+      <MarcoSitio lang={lang} sobreObra={inicio}>{children}</MarcoSitio>
+    </div>
+  );
 }
