@@ -190,6 +190,7 @@ export function SitioHome({ lang }: { lang: string }) {
             <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
             <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
             <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
+            <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
           </div>
         </div>
         <div className="px-5 md:px-8">

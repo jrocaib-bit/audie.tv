@@ -171,6 +171,9 @@ export function SiteFooter() {
         <Link href="/es/privacidad" className="underline decoration-border underline-offset-4">
           {locale === "en" ? "Privacy" : "Privacidad"}
         </Link>
+        <Link href="/aviso-legal" className="underline decoration-border underline-offset-4">
+          {locale === "en" ? "Legal notice" : "Aviso legal"}
+        </Link>
         <Link href="/membresia" className="underline decoration-border underline-offset-4">
           {t(locale, "navMembership")}
         </Link>
