@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { capituloDePrueba, describirFuente, estadoTiempos, tiemposDeManifiesto, versiculoEnTiempo } from "./lectura";
+import { capituloDePrueba, describirFuente, estadoTiempos, inicioDelPasaje, tiemposDeManifiesto, versiculoEnTiempo } from "./lectura";
 
 describe("lectura", () => {
   it("entrega un capítulo ficticio y marcado, nunca texto con licencia", () => {
@@ -23,5 +23,8 @@ describe("lectura", () => {
     expect(estadoTiempos(tiempos)).toBe("con-tiempos");
     expect(versiculoEnTiempo(tiempos, 5)?.versiculo).toBe(2);
     expect(versiculoEnTiempo([], 5)).toBeNull();
+    expect(inicioDelPasaje(tiempos, 1, 2)).toBe(4);
+    expect(inicioDelPasaje(tiempos, 1, 3, 3)).toBeNull();
+    expect(inicioDelPasaje(null, 1, 1)).toBeNull();
   });
 });

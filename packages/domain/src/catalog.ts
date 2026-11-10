@@ -26,6 +26,7 @@ export type Episode = {
   titulo?: { es: string | null; en: string | null } | null;
   tituloCorto?: { es: string | null; en: string | null } | null;
   etiqueta?: { es: string | null; en: string | null } | null;
+  tiempos?: { capitulo: number; versiculo: number; inicio: number; fin: number }[];
 };
 
 export type ArtworkCrop = {

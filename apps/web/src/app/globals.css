@@ -147,8 +147,32 @@ body {
 }
 
 .app-clear {
-  padding-bottom: calc(14rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(13rem + env(safe-area-inset-bottom));
 }
+
+.estante {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+}
+
+.tarjeta-mix {
+  width: min(22rem, calc(100vw - 3.25rem));
+}
+
+.tarjeta-par {
+  width: min(11rem, calc((100vw - 3.25rem) / 2));
+}
+
+.esqueleto {
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
+  animation: esqueleto 1.2s ease-in-out infinite;
+}
+
+@keyframes esqueleto {
+  50% { opacity: 0.45; }
+}
+.estante::-webkit-scrollbar { display: none; }
 
 html[data-reduce-motion="true"] .neo-card,
 html[data-reduce-motion="true"] .neo-chip {

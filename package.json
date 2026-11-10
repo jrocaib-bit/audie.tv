@@ -15,6 +15,7 @@
     "catalog": "tsx packages/content/src/cli.ts --write-catalog",
     "content:sync": "tsx scripts/sync-content.ts",
     "content:fixture": "tsx scripts/materializar-piloto.ts",
+    "calendario:export": "tsx scripts/calendario-export.ts",
     "lint": "npm run lint -w @audite/web"
   },
   "overrides": {

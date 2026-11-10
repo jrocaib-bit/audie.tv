@@ -54,7 +54,7 @@ type LibraryValue = {
   removeEpisode: (id: string) => void;
   moveEpisode: (index: number, direction: -1 | 1) => void;
   loadEpisode: (id: string) => void;
-  playEpisode: (id: string, fromStart?: boolean) => void;
+  playEpisode: (id: string, fromStart?: boolean, enSegundo?: number) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
   seekBy: (delta: number) => void;
@@ -146,7 +146,7 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
   const playerRef = useRef(player);
   const progressRef = useRef(progress);
   const dragging = useRef(false);
-  const pending = useRef<{ id: string; fromStart: boolean; autoplay: boolean } | null>(null);
+  const pending = useRef<{ id: string; fromStart: boolean; autoplay: boolean; enSegundo?: number } | null>(null);
   const lastSaved = useRef("");
   const ids = useMemo(() => playableIds(catalog), [catalog]);
 
@@ -189,11 +189,11 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
   }, []);
 
   const configure = useCallback(
-    (episodeId: string, fromStart: boolean) => {
+    (episodeId: string, fromStart: boolean, enSegundo?: number) => {
       const episode = episodeById(catalog, episodeId);
       const engine = engineRef.current;
       if (!episode || !engine) return false;
-      const resume = fromStart ? 0 : resumePosition(progressRef.current.episodes[episodeId], episode.durationSeconds);
+      const resume = enSegundo != null ? Math.max(0, enSegundo) : fromStart ? 0 : resumePosition(progressRef.current.episodes[episodeId], episode.durationSeconds);
       const rate = playerRef.current.rate;
       engine.configure(
         episode.segments.map((segment) => ({
@@ -247,14 +247,14 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
   );
 
   const playEpisode = useCallback(
-    (id: string, fromStart = false) => {
+    (id: string, fromStart = false, enSegundo?: number) => {
       if (!engineRef.current) {
-        pending.current = { id, fromStart, autoplay: true };
+        pending.current = { id, fromStart, autoplay: true, enSegundo };
         return;
       }
       const current = playerRef.current;
-      const same = current.episodeId === id && !fromStart && current.status !== "error" && current.status !== "idle";
-      if (!same) configure(id, fromStart);
+      const same = enSegundo == null && current.episodeId === id && !fromStart && current.status !== "error" && current.status !== "idle";
+      if (!same) configure(id, fromStart, enSegundo);
       else if (current.status === "ended") engineRef.current.seek(0, false);
       playWhenReady();
     },
@@ -296,7 +296,7 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
     const job = pending.current;
     if (!job) return;
     pending.current = null;
-    if (job.autoplay) playEpisode(job.id, job.fromStart);
+    if (job.autoplay) playEpisode(job.id, job.fromStart, job.enSegundo);
     else loadEpisode(job.id);
   }, [ports, loadEpisode, playEpisode]);
 

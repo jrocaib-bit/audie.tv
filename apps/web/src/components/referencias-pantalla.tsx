@@ -57,7 +57,6 @@ export function ReferenciasPantalla() {
   return (
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
       <h1 className="font-display text-4xl leading-none">{es ? "Al margen" : "Margin"}</h1>
-      <p className="mt-3 text-sm text-muted">{dataset.atribucion}</p>
       <p className="font-display-regular mt-4 text-3xl">{es ? "Génesis" : "Genesis"} {enCurso ?? "1:1"}</p>
       <ul className="mt-3 space-y-2">
         {relacionadas.map((referencia) => {

@@ -1,18 +1,19 @@
 "use client";
 
-import { formatClock, nombreCorto, playableEpisodes, t, type MessageKey } from "@audite/domain";
+import { COLOR_HEX, diaLiturgico, formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useRef } from "react";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Mark, Wordmark } from "@/components/brand";
 import { useLibrary } from "@/components/library";
+import { fechaDeCuando } from "@/lib/cuando";
 import { esRutaPublica } from "@/sitio/i18n";
 
-const links: Array<{ href: string; key: MessageKey }> = [
-  { href: "/escuchar", key: "navListen" },
-  { href: "/camino", key: "navPath" },
-  { href: "/biblioteca", key: "navLibrary" },
-  { href: "/ajustes", key: "navSettings" },
+const links = [
+  { href: "/escuchar", es: "Inicio", en: "Home" },
+  { href: "/buscar", es: "Buscar", en: "Search" },
+  { href: "/biblioteca", es: "Biblioteca", en: "Library" },
 ];
 
 function active(pathname: string, href: string): boolean {
@@ -48,7 +49,7 @@ export function SiteHeader() {
                 aria-current={current ? "page" : undefined}
                 className={`inline-flex min-h-11 items-center rounded-full px-3 text-sm ${current ? "bg-foreground text-background" : "text-muted"}`}
               >
-                {t(locale, link.key)}
+                {locale === "en" ? link.en : link.es}
               </Link>
             );
           })}
@@ -58,15 +59,21 @@ export function SiteHeader() {
   );
 }
 
+export function VeloCromo() {
+  const pathname = usePathname();
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
+  return <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-52 bg-gradient-to-t from-background from-35% via-background/80 to-transparent md:hidden" />;
+}
+
 export function TabBar() {
   const pathname = usePathname();
   const { settings } = useLibrary();
   const locale = settings.uiLocale;
-  if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
   return (
     <nav
       aria-label={t(locale, "wordmark")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
     >
       {links.map((link) => {
         const current = active(pathname, link.href);
@@ -78,7 +85,7 @@ export function TabBar() {
             className={`flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
             <span className={`h-0.5 w-4 rounded-full ${current ? "bg-acento" : "bg-transparent"}`} />
-            {t(locale, link.key)}
+            {locale === "en" ? link.en : link.es}
           </Link>
         );
       })}
@@ -90,15 +97,27 @@ export function MiniPlayer() {
   const pathname = usePathname();
   const { catalog, player, settings, toggle } = useLibrary();
   const locale = settings.uiLocale;
-  if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
+  const router = useRouter();
+  const cuando = useSearchParams().get("cuando");
+  const origen = useRef(0);
+  const colorDia = COLOR_HEX[diaLiturgico(useMemo(() => fechaDeCuando(cuando), [cuando])).color];
+  if (pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir" || esRutaPublica(pathname)) return null;
   const episode = catalog.episodes.find((item) => item.id === player.episodeId);
   const listo = playableEpisodes(catalog)[0] ?? null;
   const activo = Boolean(episode && player.episodeId && player.status !== "idle");
   const visible = episode ?? listo;
   const playing = player.status === "playing";
+  const fraccion = player.duration > 0 ? Math.min(1, player.globalTime / player.duration) : 0;
   return (
-    <div className="fixed inset-x-3 bottom-20 z-40 md:bottom-4">
-      <div className="neo-card mx-auto flex w-full max-w-lg items-center gap-3 bg-background/75 px-3 py-2 backdrop-blur-md">
+    <div
+      className="fixed inset-x-3 bottom-20 z-40 touch-none md:bottom-4"
+      onPointerDown={(event) => { origen.current = event.clientY; }}
+      onPointerUp={(event) => { if (origen.current - event.clientY > 42) router.push("/ahora"); }}
+    >
+      <div className="neo-card relative mx-auto flex w-full max-w-lg items-center gap-3 overflow-hidden bg-background/75 px-3 py-2 backdrop-blur-md">
+        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-foreground/10">
+          <span className="block h-full transition-[width] duration-300" style={{ width: `${fraccion * 100}%`, background: colorDia }} />
+        </span>
         <Link href="/ahora" className="flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -107,7 +126,7 @@ export function MiniPlayer() {
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}
           <span className="min-w-0">
-            <span className="font-display block truncate text-base leading-tight">{visible ? nombreCorto(visible, locale) : t(locale, "statusPreparing")}</span>
+            <span className="font-display block truncate text-base leading-tight">{visible ? nombreCorto(visible, locale) : (locale === "en" ? "Soon" : "Pronto")}</span>
             {activo || visible?.scriptureRangeLabel ? (
               <span className="tabular block truncate text-xs text-muted">
                 {activo ? `${formatClock(player.globalTime)} / ${formatClock(player.duration)}` : visible?.scriptureRangeLabel}

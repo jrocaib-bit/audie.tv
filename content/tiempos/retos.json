@@ -1,0 +1,3376 @@
+{
+  "retos": [
+    {
+      "id": "adviento-isaias",
+      "tiempo": "adviento",
+      "titulo": {
+        "es": "Adviento con Isaías",
+        "en": "Advent with Isaiah"
+      },
+      "insignia": {
+        "es": "Centinela",
+        "en": "Watch"
+      },
+      "obra": "gn-09",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Isaías",
+            "en": "Isaiah"
+          },
+          "obra": "gn-15",
+          "href": "/libro/is"
+        },
+        {
+          "titulo": {
+            "es": "Salmos de espera",
+            "en": "Psalms of waiting"
+          },
+          "obra": "gn-19",
+          "href": "/libro/sal"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "is",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 5,
+          "titulo": {
+            "es": "La montaña",
+            "en": "The mountain"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "is-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "is",
+          "capitulo": 6,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "Aquí estoy",
+            "en": "Here I am"
+          },
+          "minutos": 3,
+          "obra": "gn-11",
+          "episodio": "is-02"
+        },
+        {
+          "dia": 3,
+          "libroId": "is",
+          "capitulo": 7,
+          "versiculo": 10,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "El Enmanuel",
+            "en": "Enmanuel"
+          },
+          "minutos": 2,
+          "obra": "gn-12",
+          "episodio": "is-02"
+        },
+        {
+          "dia": 4,
+          "libroId": "is",
+          "capitulo": 9,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Un niño",
+            "en": "A child"
+          },
+          "minutos": 2,
+          "obra": "gn-13",
+          "episodio": "is-03"
+        },
+        {
+          "dia": 5,
+          "libroId": "is",
+          "capitulo": 11,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "El retoño",
+            "en": "The shoot"
+          },
+          "minutos": 3,
+          "obra": "gn-14",
+          "episodio": "is-04"
+        },
+        {
+          "dia": 6,
+          "libroId": "is",
+          "capitulo": 12,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "El cántico",
+            "en": "The song"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "is-04"
+        },
+        {
+          "dia": 7,
+          "libroId": "is",
+          "capitulo": 25,
+          "versiculo": 6,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "El banquete",
+            "en": "The banquet"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "is-07"
+        },
+        {
+          "dia": 8,
+          "libroId": "is",
+          "capitulo": 26,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Ciudad fuerte",
+            "en": "A strong city"
+          },
+          "minutos": 2,
+          "obra": "gn-17",
+          "episodio": "is-07"
+        },
+        {
+          "dia": 9,
+          "libroId": "is",
+          "capitulo": 35,
+          "versiculo": 1,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "El desierto florece",
+            "en": "The desert blooms"
+          },
+          "minutos": 3,
+          "obra": "gn-18",
+          "episodio": "is-09"
+        },
+        {
+          "dia": 10,
+          "libroId": "is",
+          "capitulo": 40,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Preparad el camino",
+            "en": "Prepare the way"
+          },
+          "minutos": 4,
+          "obra": "gn-19",
+          "episodio": "is-11"
+        },
+        {
+          "dia": 11,
+          "libroId": "is",
+          "capitulo": 40,
+          "versiculo": 27,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "Los que esperan",
+            "en": "Those who wait"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "is-11"
+        },
+        {
+          "dia": 12,
+          "libroId": "is",
+          "capitulo": 41,
+          "versiculo": 8,
+          "versiculoFin": 13,
+          "titulo": {
+            "es": "No temas",
+            "en": "Do not fear"
+          },
+          "minutos": 2,
+          "obra": "gn-21",
+          "episodio": "is-11"
+        },
+        {
+          "dia": 13,
+          "libroId": "is",
+          "capitulo": 42,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "El siervo",
+            "en": "The servant"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "is-12"
+        },
+        {
+          "dia": 14,
+          "libroId": "is",
+          "capitulo": 43,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Yo te redimí",
+            "en": "I have redeemed you"
+          },
+          "minutos": 2,
+          "obra": "gn-01",
+          "episodio": "is-12"
+        },
+        {
+          "dia": 15,
+          "libroId": "is",
+          "capitulo": 49,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Luz de las naciones",
+            "en": "A light to the nations"
+          },
+          "minutos": 2,
+          "obra": "gn-02",
+          "episodio": "is-14"
+        },
+        {
+          "dia": 16,
+          "libroId": "is",
+          "capitulo": 52,
+          "versiculo": 7,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "Qué hermosos los pies",
+            "en": "How beautiful"
+          },
+          "minutos": 2,
+          "obra": "gn-03",
+          "episodio": "is-15"
+        },
+        {
+          "dia": 17,
+          "libroId": "is",
+          "capitulo": 53,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "El siervo herido",
+            "en": "The wounded servant"
+          },
+          "minutos": 4,
+          "obra": "gn-04",
+          "episodio": "is-15"
+        },
+        {
+          "dia": 18,
+          "libroId": "is",
+          "capitulo": 54,
+          "versiculo": 1,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "Ensancha la tienda",
+            "en": "Enlarge the tent"
+          },
+          "minutos": 3,
+          "obra": "gn-05",
+          "episodio": "is-16"
+        },
+        {
+          "dia": 19,
+          "libroId": "is",
+          "capitulo": 55,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Venid a las aguas",
+            "en": "Come to the waters"
+          },
+          "minutos": 4,
+          "obra": "gn-06",
+          "episodio": "is-16"
+        },
+        {
+          "dia": 20,
+          "libroId": "is",
+          "capitulo": 58,
+          "versiculo": 6,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "El ayuno",
+            "en": "The fast"
+          },
+          "minutos": 2,
+          "obra": "gn-07",
+          "episodio": "is-17"
+        },
+        {
+          "dia": 21,
+          "libroId": "is",
+          "capitulo": 60,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Levántate",
+            "en": "Arise"
+          },
+          "minutos": 2,
+          "obra": "gn-08",
+          "episodio": "is-17"
+        },
+        {
+          "dia": 22,
+          "libroId": "is",
+          "capitulo": 61,
+          "versiculo": 1,
+          "versiculoFin": 4,
+          "titulo": {
+            "es": "El espíritu",
+            "en": "The spirit"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "is-18"
+        },
+        {
+          "dia": 23,
+          "libroId": "is",
+          "capitulo": 62,
+          "versiculo": 1,
+          "versiculoFin": 5,
+          "titulo": {
+            "es": "No callaré",
+            "en": "I will not keep silent"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "is-18"
+        },
+        {
+          "dia": 24,
+          "libroId": "is",
+          "capitulo": 66,
+          "versiculo": 10,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Alegraos",
+            "en": "Rejoice"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "is-19"
+        },
+        {
+          "dia": 25,
+          "libroId": "is",
+          "capitulo": 8,
+          "versiculo": 8,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "Dios con nosotros",
+            "en": "God with us"
+          },
+          "minutos": 2,
+          "obra": "gn-04",
+          "ancla": "12-23",
+          "episodio": "is-03"
+        },
+        {
+          "dia": 26,
+          "libroId": "is",
+          "capitulo": 62,
+          "versiculo": 11,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Ya llega",
+            "en": "He is coming"
+          },
+          "minutos": 2,
+          "obra": "gn-05",
+          "ancla": "12-24",
+          "episodio": "is-18"
+        },
+        {
+          "dia": 27,
+          "libroId": "is",
+          "capitulo": 33,
+          "versiculo": 17,
+          "versiculoFin": 24,
+          "titulo": {
+            "es": "Jerusalén segura",
+            "en": "Jerusalem secure"
+          },
+          "minutos": 3,
+          "obra": "gn-06",
+          "episodio": "is-09"
+        },
+        {
+          "dia": 28,
+          "libroId": "is",
+          "capitulo": 51,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "El consuelo",
+            "en": "Comfort"
+          },
+          "minutos": 2,
+          "obra": "gn-07",
+          "episodio": "is-15"
+        }
+      ]
+    },
+    {
+      "id": "navidad-infancia",
+      "tiempo": "navidad",
+      "titulo": {
+        "es": "Navidad: los relatos de la infancia",
+        "en": "Christmas: the infancy accounts"
+      },
+      "tituloCorto": {
+        "es": "La infancia",
+        "en": "The infancy"
+      },
+      "insignia": {
+        "es": "Belén",
+        "en": "Bethlehem"
+      },
+      "obra": "gn-06",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Lucas",
+            "en": "Luke"
+          },
+          "obra": "gn-12",
+          "href": "/libro/lc"
+        },
+        {
+          "titulo": {
+            "es": "Mateo",
+            "en": "Matthew"
+          },
+          "obra": "gn-16",
+          "href": "/libro/mt"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 5,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "Zacarías",
+            "en": "Zechariah"
+          },
+          "minutos": 7,
+          "obra": "gn-07",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 26,
+          "versiculoFin": 38,
+          "titulo": {
+            "es": "La anunciación",
+            "en": "The annunciation"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 39,
+          "versiculoFin": 45,
+          "titulo": {
+            "es": "La visitación",
+            "en": "The visitation"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 46,
+          "versiculoFin": 55,
+          "titulo": {
+            "es": "El cántico de María",
+            "en": "Mary's song"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 57,
+          "versiculoFin": 66,
+          "titulo": {
+            "es": "El nombre de Juan",
+            "en": "John's name"
+          },
+          "minutos": 3,
+          "obra": "gn-11",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 6,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 67,
+          "versiculoFin": 79,
+          "titulo": {
+            "es": "El cántico de Zacarías",
+            "en": "Zechariah's song"
+          },
+          "minutos": 4,
+          "obra": "gn-12",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 7,
+          "libroId": "mt",
+          "capitulo": 1,
+          "versiculo": 18,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "El sueño de José",
+            "en": "Joseph's dream"
+          },
+          "minutos": 3,
+          "obra": "gn-13",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 8,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Belén",
+            "en": "Bethlehem"
+          },
+          "minutos": 2,
+          "obra": "gn-14",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 9,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 8,
+          "versiculoFin": 20,
+          "titulo": {
+            "es": "Los pastores",
+            "en": "The shepherds"
+          },
+          "minutos": 4,
+          "obra": "gn-15",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 10,
+          "libroId": "mt",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Los magos",
+            "en": "The magi"
+          },
+          "minutos": 4,
+          "obra": "gn-16",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 11,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 22,
+          "versiculoFin": 38,
+          "titulo": {
+            "es": "Simeón y Ana",
+            "en": "Simeon and Anna"
+          },
+          "minutos": 6,
+          "obra": "gn-17",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 12,
+          "libroId": "mt",
+          "capitulo": 2,
+          "versiculo": 13,
+          "versiculoFin": 23,
+          "titulo": {
+            "es": "El camino de Egipto",
+            "en": "The road to Egypt"
+          },
+          "minutos": 4,
+          "obra": "gn-18",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 13,
+          "ancla": "01-06",
+          "libroId": "mt",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "La epifanía",
+            "en": "The epiphany"
+          },
+          "minutos": 4,
+          "obra": "gn-19",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 14,
+          "ancla": "01-07",
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 21,
+          "versiculoFin": 21,
+          "titulo": {
+            "es": "El nombre",
+            "en": "The name"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 15,
+          "ancla": "01-08",
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 41,
+          "versiculoFin": 52,
+          "titulo": {
+            "es": "Entre los doctores",
+            "en": "Among the teachers"
+          },
+          "minutos": 4,
+          "obra": "gn-21",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 16,
+          "ancla": "01-09",
+          "libroId": "jn",
+          "capitulo": 1,
+          "versiculo": 9,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "La luz",
+            "en": "The light"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "jn-01"
+        },
+        {
+          "dia": 17,
+          "ancla": "01-10",
+          "libroId": "mt",
+          "capitulo": 3,
+          "versiculo": 13,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "El bautismo",
+            "en": "The baptism"
+          },
+          "minutos": 2,
+          "obra": "gn-03",
+          "episodio": "mt-02"
+        }
+      ]
+    },
+    {
+      "id": "cuaresma-40",
+      "tiempo": "cuaresma",
+      "titulo": {
+        "es": "Cuaresma en 40 días",
+        "en": "Lent in 40 days"
+      },
+      "tituloCorto": {
+        "es": "Cuaresma 40",
+        "en": "Lent 40"
+      },
+      "insignia": {
+        "es": "Desierto",
+        "en": "Desert"
+      },
+      "obra": "gn-04",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Éxodo",
+            "en": "Exodus"
+          },
+          "obra": "gn-10",
+          "href": "/libro/ex"
+        },
+        {
+          "titulo": {
+            "es": "Mateo",
+            "en": "Matthew"
+          },
+          "obra": "gn-20",
+          "href": "/libro/mt"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "ex",
+          "capitulo": 1,
+          "versiculo": 8,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Un pueblo esclavo",
+            "en": "An enslaved people"
+          },
+          "minutos": 2,
+          "obra": "gn-05",
+          "episodio": "ex-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "ex",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "El niño del río",
+            "en": "The child of the river"
+          },
+          "minutos": 3,
+          "obra": "gn-06",
+          "episodio": "ex-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "ex",
+          "capitulo": 2,
+          "versiculo": 11,
+          "versiculoFin": 22,
+          "titulo": {
+            "es": "Moisés huye",
+            "en": "Moses flees"
+          },
+          "minutos": 4,
+          "obra": "gn-07",
+          "episodio": "ex-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "ex",
+          "capitulo": 3,
+          "versiculo": 1,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "La zarza ardiente",
+            "en": "The burning bush"
+          },
+          "minutos": 5,
+          "obra": "gn-08",
+          "episodio": "ex-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "ex",
+          "capitulo": 4,
+          "versiculo": 1,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "La vara",
+            "en": "The staff"
+          },
+          "minutos": 6,
+          "obra": "gn-09",
+          "episodio": "ex-02"
+        },
+        {
+          "dia": 6,
+          "libroId": "ex",
+          "capitulo": 5,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "Deja ir a mi pueblo",
+            "en": "Let my people go"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "ex-02"
+        },
+        {
+          "dia": 7,
+          "libroId": "ex",
+          "capitulo": 6,
+          "versiculo": 2,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "Yo soy el Señor",
+            "en": "I am the Lord"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "ex-02"
+        },
+        {
+          "dia": 8,
+          "libroId": "ex",
+          "capitulo": 7,
+          "versiculo": 14,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "El Nilo",
+            "en": "The Nile"
+          },
+          "minutos": 4,
+          "obra": "gn-12",
+          "episodio": "ex-03"
+        },
+        {
+          "dia": 9,
+          "libroId": "ex",
+          "capitulo": 12,
+          "versiculo": 1,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "La cena",
+            "en": "The meal"
+          },
+          "minutos": 5,
+          "obra": "gn-13",
+          "episodio": "ex-05"
+        },
+        {
+          "dia": 10,
+          "libroId": "ex",
+          "capitulo": 12,
+          "versiculo": 29,
+          "versiculoFin": 42,
+          "titulo": {
+            "es": "La salida",
+            "en": "The departure"
+          },
+          "minutos": 5,
+          "obra": "gn-14",
+          "episodio": "ex-05"
+        },
+        {
+          "dia": 11,
+          "libroId": "ex",
+          "capitulo": 13,
+          "versiculo": 17,
+          "versiculoFin": 22,
+          "titulo": {
+            "es": "La columna",
+            "en": "The column"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "ex-06"
+        },
+        {
+          "dia": 12,
+          "libroId": "ex",
+          "capitulo": 14,
+          "versiculo": 10,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "El mar",
+            "en": "The sea"
+          },
+          "minutos": 7,
+          "obra": "gn-16",
+          "episodio": "ex-06"
+        },
+        {
+          "dia": 13,
+          "libroId": "ex",
+          "capitulo": 15,
+          "versiculo": 1,
+          "versiculoFin": 18,
+          "titulo": {
+            "es": "El cántico",
+            "en": "The song"
+          },
+          "minutos": 6,
+          "obra": "gn-17",
+          "episodio": "ex-07"
+        },
+        {
+          "dia": 14,
+          "libroId": "ex",
+          "capitulo": 16,
+          "versiculo": 1,
+          "versiculoFin": 18,
+          "titulo": {
+            "es": "El maná",
+            "en": "The manna"
+          },
+          "minutos": 6,
+          "obra": "gn-18",
+          "episodio": "ex-07"
+        },
+        {
+          "dia": 15,
+          "libroId": "ex",
+          "capitulo": 17,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Agua de la roca",
+            "en": "Water from the rock"
+          },
+          "minutos": 2,
+          "obra": "gn-19",
+          "episodio": "ex-08"
+        },
+        {
+          "dia": 16,
+          "libroId": "ex",
+          "capitulo": 19,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "En el Sinaí",
+            "en": "At Sinai"
+          },
+          "minutos": 3,
+          "obra": "gn-20",
+          "episodio": "ex-08"
+        },
+        {
+          "dia": 17,
+          "libroId": "ex",
+          "capitulo": 20,
+          "versiculo": 1,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "Las diez palabras",
+            "en": "The ten words"
+          },
+          "minutos": 6,
+          "obra": "gn-21",
+          "episodio": "ex-09"
+        },
+        {
+          "dia": 18,
+          "libroId": "ex",
+          "capitulo": 24,
+          "versiculo": 3,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "La sangre de la alianza",
+            "en": "The blood of the covenant"
+          },
+          "minutos": 3,
+          "obra": "gn-22",
+          "episodio": "ex-10"
+        },
+        {
+          "dia": 19,
+          "libroId": "ex",
+          "capitulo": 32,
+          "versiculo": 1,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "El becerro",
+            "en": "The calf"
+          },
+          "minutos": 5,
+          "obra": "gn-01",
+          "episodio": "ex-14"
+        },
+        {
+          "dia": 20,
+          "libroId": "ex",
+          "capitulo": 34,
+          "versiculo": 4,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "El nombre",
+            "en": "The name"
+          },
+          "minutos": 2,
+          "obra": "gn-02",
+          "episodio": "ex-15"
+        },
+        {
+          "dia": 21,
+          "libroId": "mt",
+          "capitulo": 3,
+          "versiculo": 13,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "El bautismo",
+            "en": "The baptism"
+          },
+          "minutos": 2,
+          "obra": "gn-03",
+          "episodio": "mt-02"
+        },
+        {
+          "dia": 22,
+          "libroId": "mt",
+          "capitulo": 4,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Cuarenta días",
+            "en": "Forty days"
+          },
+          "minutos": 4,
+          "obra": "gn-04",
+          "episodio": "mt-02"
+        },
+        {
+          "dia": 23,
+          "libroId": "mt",
+          "capitulo": 5,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Bienaventuranzas",
+            "en": "The beatitudes"
+          },
+          "minutos": 4,
+          "obra": "gn-05",
+          "episodio": "mt-02"
+        },
+        {
+          "dia": 24,
+          "libroId": "mt",
+          "capitulo": 5,
+          "versiculo": 13,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "Sal y luz",
+            "en": "Salt and light"
+          },
+          "minutos": 2,
+          "obra": "gn-06",
+          "episodio": "mt-02"
+        },
+        {
+          "dia": 25,
+          "libroId": "mt",
+          "capitulo": 5,
+          "versiculo": 38,
+          "versiculoFin": 48,
+          "titulo": {
+            "es": "El enemigo",
+            "en": "The enemy"
+          },
+          "minutos": 4,
+          "obra": "gn-07",
+          "episodio": "mt-02"
+        },
+        {
+          "dia": 26,
+          "libroId": "mt",
+          "capitulo": 6,
+          "versiculo": 5,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "La oración",
+            "en": "The prayer"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "mt-03"
+        },
+        {
+          "dia": 27,
+          "libroId": "mt",
+          "capitulo": 6,
+          "versiculo": 25,
+          "versiculoFin": 34,
+          "titulo": {
+            "es": "Los pájaros",
+            "en": "The birds"
+          },
+          "minutos": 3,
+          "obra": "gn-09",
+          "episodio": "mt-03"
+        },
+        {
+          "dia": 28,
+          "libroId": "mt",
+          "capitulo": 7,
+          "versiculo": 24,
+          "versiculoFin": 29,
+          "titulo": {
+            "es": "La casa en la roca",
+            "en": "The house on rock"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "mt-03"
+        },
+        {
+          "dia": 29,
+          "libroId": "mt",
+          "capitulo": 8,
+          "versiculo": 23,
+          "versiculoFin": 27,
+          "titulo": {
+            "es": "La tempestad",
+            "en": "The storm"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "mt-04"
+        },
+        {
+          "dia": 30,
+          "libroId": "mt",
+          "capitulo": 9,
+          "versiculo": 9,
+          "versiculoFin": 13,
+          "titulo": {
+            "es": "La mesa",
+            "en": "The table"
+          },
+          "minutos": 2,
+          "obra": "gn-12",
+          "episodio": "mt-04"
+        },
+        {
+          "dia": 31,
+          "libroId": "mt",
+          "capitulo": 11,
+          "versiculo": 25,
+          "versiculoFin": 30,
+          "titulo": {
+            "es": "Venid a mí",
+            "en": "Come to me"
+          },
+          "minutos": 2,
+          "obra": "gn-13",
+          "episodio": "mt-05"
+        },
+        {
+          "dia": 32,
+          "libroId": "mt",
+          "capitulo": 13,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "El sembrador",
+            "en": "The sower"
+          },
+          "minutos": 3,
+          "obra": "gn-14",
+          "episodio": "mt-06"
+        },
+        {
+          "dia": 33,
+          "libroId": "mt",
+          "capitulo": 14,
+          "versiculo": 22,
+          "versiculoFin": 33,
+          "titulo": {
+            "es": "Sobre las aguas",
+            "en": "On the water"
+          },
+          "minutos": 4,
+          "obra": "gn-15",
+          "episodio": "mt-06"
+        },
+        {
+          "dia": 34,
+          "libroId": "mt",
+          "capitulo": 16,
+          "versiculo": 13,
+          "versiculoFin": 20,
+          "titulo": {
+            "es": "Tú eres Pedro",
+            "en": "You are Peter"
+          },
+          "minutos": 3,
+          "obra": "gn-16",
+          "episodio": "mt-07"
+        },
+        {
+          "dia": 35,
+          "libroId": "mt",
+          "capitulo": 17,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "El monte",
+            "en": "The mountain"
+          },
+          "minutos": 3,
+          "obra": "gn-17",
+          "episodio": "mt-07"
+        },
+        {
+          "dia": 36,
+          "libroId": "mt",
+          "capitulo": 18,
+          "versiculo": 21,
+          "versiculoFin": 35,
+          "titulo": {
+            "es": "Setenta veces",
+            "en": "Seventy times"
+          },
+          "minutos": 5,
+          "obra": "gn-18",
+          "episodio": "mt-08"
+        },
+        {
+          "dia": 37,
+          "libroId": "mt",
+          "capitulo": 20,
+          "versiculo": 1,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "Los jornaleros",
+            "en": "The workers"
+          },
+          "minutos": 5,
+          "obra": "gn-19",
+          "episodio": "mt-09"
+        },
+        {
+          "dia": 38,
+          "libroId": "mt",
+          "capitulo": 22,
+          "versiculo": 34,
+          "versiculoFin": 40,
+          "titulo": {
+            "es": "El gran mandamiento",
+            "en": "The great commandment"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "mt-10"
+        },
+        {
+          "dia": 39,
+          "libroId": "mt",
+          "capitulo": 25,
+          "versiculo": 31,
+          "versiculoFin": 46,
+          "titulo": {
+            "es": "Tuve hambre",
+            "en": "I was hungry"
+          },
+          "minutos": 5,
+          "obra": "gn-21",
+          "episodio": "mt-11"
+        },
+        {
+          "dia": 40,
+          "libroId": "mt",
+          "capitulo": 26,
+          "versiculo": 36,
+          "versiculoFin": 46,
+          "titulo": {
+            "es": "Getsemaní",
+            "en": "Gethsemane"
+          },
+          "minutos": 4,
+          "obra": "gn-22",
+          "episodio": "mt-12"
+        }
+      ]
+    },
+    {
+      "id": "semana-santa-pasion",
+      "tiempo": "semana-santa",
+      "titulo": {
+        "es": "Semana Santa: la Pasión",
+        "en": "Holy Week: the Passion"
+      },
+      "tituloCorto": {
+        "es": "La Pasión",
+        "en": "The Passion"
+      },
+      "insignia": {
+        "es": "Cruz",
+        "en": "Cross"
+      },
+      "obra": "gn-07",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Juan",
+            "en": "John"
+          },
+          "obra": "gn-13",
+          "href": "/libro/jn"
+        },
+        {
+          "titulo": {
+            "es": "Marcos",
+            "en": "Mark"
+          },
+          "obra": "gn-17",
+          "href": "/libro/mc"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "mt",
+          "capitulo": 21,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "La entrada",
+            "en": "The entry"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "mt-09"
+        },
+        {
+          "dia": 2,
+          "libroId": "mc",
+          "capitulo": 14,
+          "versiculo": 12,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "La cena",
+            "en": "The supper"
+          },
+          "minutos": 5,
+          "obra": "gn-09",
+          "episodio": "mc-07"
+        },
+        {
+          "dia": 3,
+          "libroId": "lc",
+          "capitulo": 22,
+          "versiculo": 39,
+          "versiculoFin": 46,
+          "titulo": {
+            "es": "El olivar",
+            "en": "The olive grove"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "lc-14"
+        },
+        {
+          "dia": 4,
+          "libroId": "jn",
+          "capitulo": 13,
+          "versiculo": 1,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "El lavatorio",
+            "en": "The washing"
+          },
+          "minutos": 5,
+          "obra": "gn-11",
+          "episodio": "jn-08"
+        },
+        {
+          "dia": 5,
+          "libroId": "mt",
+          "capitulo": 26,
+          "versiculo": 57,
+          "versiculoFin": 68,
+          "titulo": {
+            "es": "Ante el consejo",
+            "en": "Before the council"
+          },
+          "minutos": 4,
+          "obra": "gn-12",
+          "episodio": "mt-12"
+        },
+        {
+          "dia": 6,
+          "libroId": "mc",
+          "capitulo": 15,
+          "versiculo": 16,
+          "versiculoFin": 32,
+          "titulo": {
+            "es": "La cruz",
+            "en": "The cross"
+          },
+          "minutos": 6,
+          "obra": "gn-13",
+          "episodio": "mc-08"
+        },
+        {
+          "dia": 7,
+          "libroId": "lc",
+          "capitulo": 23,
+          "versiculo": 33,
+          "versiculoFin": 46,
+          "titulo": {
+            "es": "En tus manos",
+            "en": "Into your hands"
+          },
+          "minutos": 5,
+          "obra": "gn-14",
+          "episodio": "lc-15"
+        },
+        {
+          "dia": 8,
+          "libroId": "jn",
+          "capitulo": 19,
+          "versiculo": 28,
+          "versiculoFin": 37,
+          "titulo": {
+            "es": "Todo está cumplido",
+            "en": "It is finished"
+          },
+          "minutos": 3,
+          "obra": "gn-15",
+          "episodio": "jn-10"
+        }
+      ]
+    },
+    {
+      "id": "pascua-hechos",
+      "tiempo": "pascua",
+      "titulo": {
+        "es": "50 días de Pascua: Hechos",
+        "en": "50 days of Easter: Acts"
+      },
+      "tituloCorto": {
+        "es": "Pascua: Hechos",
+        "en": "Easter: Acts"
+      },
+      "insignia": {
+        "es": "Alba",
+        "en": "Dawn"
+      },
+      "obra": "gn-05",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Hechos",
+            "en": "Acts"
+          },
+          "obra": "gn-11",
+          "href": "/libro/hch"
+        },
+        {
+          "titulo": {
+            "es": "Pedro",
+            "en": "Peter"
+          },
+          "obra": "gn-21",
+          "href": "/personaje/pedro"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "hch",
+          "capitulo": 1,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "La espera",
+            "en": "The waiting"
+          },
+          "minutos": 4,
+          "obra": "gn-06",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "hch",
+          "capitulo": 1,
+          "versiculo": 12,
+          "versiculoFin": 26,
+          "titulo": {
+            "es": "Matías",
+            "en": "Matthias"
+          },
+          "minutos": 5,
+          "obra": "gn-07",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 13,
+          "titulo": {
+            "es": "El viento",
+            "en": "The wind"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 14,
+          "versiculoFin": 21,
+          "titulo": {
+            "es": "Pedro se levanta",
+            "en": "Peter stands"
+          },
+          "minutos": 3,
+          "obra": "gn-09",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 37,
+          "versiculoFin": 41,
+          "titulo": {
+            "es": "Qué hemos de hacer",
+            "en": "What shall we do"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 6,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 42,
+          "versiculoFin": 47,
+          "titulo": {
+            "es": "La casa común",
+            "en": "The common house"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 7,
+          "libroId": "hch",
+          "capitulo": 3,
+          "versiculo": 1,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "En su nombre",
+            "en": "In his name"
+          },
+          "minutos": 3,
+          "obra": "gn-12",
+          "episodio": "hch-02"
+        },
+        {
+          "dia": 8,
+          "libroId": "hch",
+          "capitulo": 4,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "La piedra",
+            "en": "The stone"
+          },
+          "minutos": 4,
+          "obra": "gn-13",
+          "episodio": "hch-02"
+        },
+        {
+          "dia": 9,
+          "libroId": "hch",
+          "capitulo": 4,
+          "versiculo": 23,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "La oración",
+            "en": "The prayer"
+          },
+          "minutos": 3,
+          "obra": "gn-14",
+          "episodio": "hch-02"
+        },
+        {
+          "dia": 10,
+          "libroId": "hch",
+          "capitulo": 4,
+          "versiculo": 32,
+          "versiculoFin": 37,
+          "titulo": {
+            "es": "Un solo corazón",
+            "en": "One heart"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "hch-02"
+        },
+        {
+          "dia": 11,
+          "libroId": "hch",
+          "capitulo": 5,
+          "versiculo": 12,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "Los pórticos",
+            "en": "The porticoes"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "hch-03"
+        },
+        {
+          "dia": 12,
+          "libroId": "hch",
+          "capitulo": 5,
+          "versiculo": 17,
+          "versiculoFin": 32,
+          "titulo": {
+            "es": "Hay que obedecer",
+            "en": "We must obey"
+          },
+          "minutos": 5,
+          "obra": "gn-17",
+          "episodio": "hch-03"
+        },
+        {
+          "dia": 13,
+          "libroId": "hch",
+          "capitulo": 6,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Los siete",
+            "en": "The seven"
+          },
+          "minutos": 2,
+          "obra": "gn-18",
+          "episodio": "hch-03"
+        },
+        {
+          "dia": 14,
+          "libroId": "hch",
+          "capitulo": 6,
+          "versiculo": 8,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "El rostro",
+            "en": "The face"
+          },
+          "minutos": 3,
+          "obra": "gn-19",
+          "episodio": "hch-03"
+        },
+        {
+          "dia": 15,
+          "libroId": "hch",
+          "capitulo": 7,
+          "versiculo": 54,
+          "versiculoFin": 60,
+          "titulo": {
+            "es": "Esteban",
+            "en": "Stephen"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "hch-04"
+        },
+        {
+          "dia": 16,
+          "libroId": "hch",
+          "capitulo": 8,
+          "versiculo": 4,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "Samaría",
+            "en": "Samaria"
+          },
+          "minutos": 2,
+          "obra": "gn-21",
+          "episodio": "hch-05"
+        },
+        {
+          "dia": 17,
+          "libroId": "hch",
+          "capitulo": 8,
+          "versiculo": 26,
+          "versiculoFin": 40,
+          "titulo": {
+            "es": "El camino de Gaza",
+            "en": "The Gaza road"
+          },
+          "minutos": 5,
+          "obra": "gn-22",
+          "episodio": "hch-05"
+        },
+        {
+          "dia": 18,
+          "libroId": "hch",
+          "capitulo": 9,
+          "versiculo": 1,
+          "versiculoFin": 19,
+          "titulo": {
+            "es": "Saulo",
+            "en": "Saul"
+          },
+          "minutos": 6,
+          "obra": "gn-01",
+          "episodio": "hch-05"
+        },
+        {
+          "dia": 19,
+          "libroId": "hch",
+          "capitulo": 9,
+          "versiculo": 26,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "En Jerusalén",
+            "en": "In Jerusalem"
+          },
+          "minutos": 2,
+          "obra": "gn-02",
+          "episodio": "hch-05"
+        },
+        {
+          "dia": 20,
+          "libroId": "hch",
+          "capitulo": 9,
+          "versiculo": 36,
+          "versiculoFin": 43,
+          "titulo": {
+            "es": "Tabita",
+            "en": "Tabitha"
+          },
+          "minutos": 3,
+          "obra": "gn-03",
+          "episodio": "hch-05"
+        },
+        {
+          "dia": 21,
+          "libroId": "hch",
+          "capitulo": 10,
+          "versiculo": 1,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "La visión",
+            "en": "The vision"
+          },
+          "minutos": 5,
+          "obra": "gn-04",
+          "episodio": "hch-06"
+        },
+        {
+          "dia": 22,
+          "libroId": "hch",
+          "capitulo": 10,
+          "versiculo": 34,
+          "versiculoFin": 43,
+          "titulo": {
+            "es": "Sin acepción",
+            "en": "No partiality"
+          },
+          "minutos": 3,
+          "obra": "gn-05",
+          "episodio": "hch-06"
+        },
+        {
+          "dia": 23,
+          "libroId": "hch",
+          "capitulo": 10,
+          "versiculo": 44,
+          "versiculoFin": 48,
+          "titulo": {
+            "es": "En casa de Cornelio",
+            "en": "In Cornelius's house"
+          },
+          "minutos": 2,
+          "obra": "gn-06",
+          "episodio": "hch-06"
+        },
+        {
+          "dia": 24,
+          "libroId": "hch",
+          "capitulo": 11,
+          "versiculo": 19,
+          "versiculoFin": 26,
+          "titulo": {
+            "es": "Antioquía",
+            "en": "Antioch"
+          },
+          "minutos": 3,
+          "obra": "gn-07",
+          "episodio": "hch-06"
+        },
+        {
+          "dia": 25,
+          "libroId": "hch",
+          "capitulo": 12,
+          "versiculo": 1,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "La puerta",
+            "en": "The gate"
+          },
+          "minutos": 6,
+          "obra": "gn-08",
+          "episodio": "hch-07"
+        },
+        {
+          "dia": 26,
+          "libroId": "hch",
+          "capitulo": 13,
+          "versiculo": 1,
+          "versiculoFin": 3,
+          "titulo": {
+            "es": "Enviados",
+            "en": "Sent"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "hch-07"
+        },
+        {
+          "dia": 27,
+          "libroId": "hch",
+          "capitulo": 13,
+          "versiculo": 16,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "El discurso",
+            "en": "The address"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "hch-07"
+        },
+        {
+          "dia": 28,
+          "libroId": "hch",
+          "capitulo": 13,
+          "versiculo": 44,
+          "versiculoFin": 52,
+          "titulo": {
+            "es": "Se vuelven a las naciones",
+            "en": "They turn to the nations"
+          },
+          "minutos": 3,
+          "obra": "gn-11",
+          "episodio": "hch-07"
+        },
+        {
+          "dia": 29,
+          "libroId": "hch",
+          "capitulo": 14,
+          "versiculo": 8,
+          "versiculoFin": 18,
+          "titulo": {
+            "es": "Listra",
+            "en": "Lystra"
+          },
+          "minutos": 4,
+          "obra": "gn-12",
+          "episodio": "hch-08"
+        },
+        {
+          "dia": 30,
+          "libroId": "hch",
+          "capitulo": 15,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "La gracia",
+            "en": "Grace"
+          },
+          "minutos": 4,
+          "obra": "gn-13",
+          "episodio": "hch-08"
+        },
+        {
+          "dia": 31,
+          "libroId": "hch",
+          "capitulo": 15,
+          "versiculo": 22,
+          "versiculoFin": 29,
+          "titulo": {
+            "es": "La carta",
+            "en": "The letter"
+          },
+          "minutos": 3,
+          "obra": "gn-14",
+          "episodio": "hch-08"
+        },
+        {
+          "dia": 32,
+          "libroId": "hch",
+          "capitulo": 16,
+          "versiculo": 6,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "Macedonia",
+            "en": "Macedonia"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "hch-09"
+        },
+        {
+          "dia": 33,
+          "libroId": "hch",
+          "capitulo": 16,
+          "versiculo": 11,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "Lidia",
+            "en": "Lydia"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "hch-09"
+        },
+        {
+          "dia": 34,
+          "libroId": "hch",
+          "capitulo": 16,
+          "versiculo": 25,
+          "versiculoFin": 34,
+          "titulo": {
+            "es": "El canto",
+            "en": "The song"
+          },
+          "minutos": 3,
+          "obra": "gn-17",
+          "episodio": "hch-09"
+        },
+        {
+          "dia": 35,
+          "libroId": "hch",
+          "capitulo": 17,
+          "versiculo": 16,
+          "versiculoFin": 28,
+          "titulo": {
+            "es": "El Areópago",
+            "en": "The Areopagus"
+          },
+          "minutos": 4,
+          "obra": "gn-18",
+          "episodio": "hch-09"
+        },
+        {
+          "dia": 36,
+          "libroId": "hch",
+          "capitulo": 17,
+          "versiculo": 32,
+          "versiculoFin": 34,
+          "titulo": {
+            "es": "Algunos creyeron",
+            "en": "Some believed"
+          },
+          "minutos": 2,
+          "obra": "gn-19",
+          "episodio": "hch-09"
+        },
+        {
+          "dia": 37,
+          "libroId": "hch",
+          "capitulo": 18,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Corinto",
+            "en": "Corinth"
+          },
+          "minutos": 4,
+          "obra": "gn-20",
+          "episodio": "hch-10"
+        },
+        {
+          "dia": 38,
+          "libroId": "hch",
+          "capitulo": 18,
+          "versiculo": 24,
+          "versiculoFin": 28,
+          "titulo": {
+            "es": "Apolo",
+            "en": "Apollos"
+          },
+          "minutos": 2,
+          "obra": "gn-21",
+          "episodio": "hch-10"
+        },
+        {
+          "dia": 39,
+          "libroId": "hch",
+          "capitulo": 19,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Éfeso",
+            "en": "Ephesus"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "hch-10"
+        },
+        {
+          "dia": 40,
+          "libroId": "hch",
+          "capitulo": 19,
+          "versiculo": 23,
+          "versiculoFin": 28,
+          "titulo": {
+            "es": "El alboroto",
+            "en": "The uproar"
+          },
+          "minutos": 2,
+          "obra": "gn-01",
+          "episodio": "hch-10"
+        },
+        {
+          "dia": 41,
+          "libroId": "hch",
+          "capitulo": 20,
+          "versiculo": 7,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Tróade",
+            "en": "Troas"
+          },
+          "minutos": 2,
+          "obra": "gn-02",
+          "episodio": "hch-11"
+        },
+        {
+          "dia": 42,
+          "libroId": "hch",
+          "capitulo": 20,
+          "versiculo": 17,
+          "versiculoFin": 27,
+          "titulo": {
+            "es": "El adiós",
+            "en": "The farewell"
+          },
+          "minutos": 4,
+          "obra": "gn-03",
+          "episodio": "hch-11"
+        },
+        {
+          "dia": 43,
+          "libroId": "hch",
+          "capitulo": 20,
+          "versiculo": 32,
+          "versiculoFin": 38,
+          "titulo": {
+            "es": "En la playa",
+            "en": "On the shore"
+          },
+          "minutos": 2,
+          "obra": "gn-04",
+          "episodio": "hch-11"
+        },
+        {
+          "dia": 44,
+          "libroId": "hch",
+          "capitulo": 21,
+          "versiculo": 10,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Ágabo",
+            "en": "Agabus"
+          },
+          "minutos": 2,
+          "obra": "gn-05",
+          "episodio": "hch-11"
+        },
+        {
+          "dia": 45,
+          "libroId": "hch",
+          "capitulo": 22,
+          "versiculo": 6,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "Cuenta el camino",
+            "en": "He tells the road"
+          },
+          "minutos": 4,
+          "obra": "gn-06",
+          "episodio": "hch-12"
+        },
+        {
+          "dia": 46,
+          "libroId": "hch",
+          "capitulo": 23,
+          "versiculo": 11,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Ánimo",
+            "en": "Take courage"
+          },
+          "minutos": 2,
+          "obra": "gn-07",
+          "episodio": "hch-12"
+        },
+        {
+          "dia": 47,
+          "libroId": "hch",
+          "capitulo": 26,
+          "versiculo": 12,
+          "versiculoFin": 23,
+          "titulo": {
+            "es": "Ante Agripa",
+            "en": "Before Agrippa"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "hch-13"
+        },
+        {
+          "dia": 48,
+          "libroId": "hch",
+          "capitulo": 27,
+          "versiculo": 21,
+          "versiculoFin": 26,
+          "titulo": {
+            "es": "La tormenta",
+            "en": "The storm"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "hch-14"
+        },
+        {
+          "dia": 49,
+          "libroId": "hch",
+          "capitulo": 28,
+          "versiculo": 1,
+          "versiculoFin": 10,
+          "titulo": {
+            "es": "Malta",
+            "en": "Malta"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "hch-14"
+        },
+        {
+          "dia": 50,
+          "libroId": "hch",
+          "capitulo": 28,
+          "versiculo": 23,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "Roma",
+            "en": "Rome"
+          },
+          "minutos": 3,
+          "obra": "gn-11",
+          "episodio": "hch-14"
+        }
+      ]
+    },
+    {
+      "id": "ordinario-evangelio",
+      "tiempo": "ordinario",
+      "titulo": {
+        "es": "Tiempo ordinario: un evangelio entero",
+        "en": "Ordinary Time: one whole Gospel"
+      },
+      "tituloCorto": {
+        "es": "Un evangelio entero",
+        "en": "A whole Gospel"
+      },
+      "insignia": {
+        "es": "Camino",
+        "en": "Way"
+      },
+      "obra": "gn-03",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Marcos",
+            "en": "Mark"
+          },
+          "obra": "gn-14",
+          "href": "/libro/mc"
+        },
+        {
+          "titulo": {
+            "es": "Los doce",
+            "en": "The twelve"
+          },
+          "obra": "gn-22",
+          "href": "/libro/mc"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "mc",
+          "capitulo": 1,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "El principio",
+            "en": "The beginning"
+          },
+          "minutos": 3,
+          "obra": "gn-04",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "mc",
+          "capitulo": 1,
+          "versiculo": 9,
+          "versiculoFin": 15,
+          "titulo": {
+            "es": "La hora",
+            "en": "The hour"
+          },
+          "minutos": 2,
+          "obra": "gn-05",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "mc",
+          "capitulo": 1,
+          "versiculo": 16,
+          "versiculoFin": 20,
+          "titulo": {
+            "es": "Venid conmigo",
+            "en": "Come with me"
+          },
+          "minutos": 2,
+          "obra": "gn-06",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "mc",
+          "capitulo": 1,
+          "versiculo": 40,
+          "versiculoFin": 45,
+          "titulo": {
+            "es": "El leproso",
+            "en": "The leper"
+          },
+          "minutos": 2,
+          "obra": "gn-07",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "mc",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Tus pecados",
+            "en": "Your sins"
+          },
+          "minutos": 4,
+          "obra": "gn-08",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 6,
+          "libroId": "mc",
+          "capitulo": 2,
+          "versiculo": 13,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "La mesa de Leví",
+            "en": "Levi's table"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 7,
+          "libroId": "mc",
+          "capitulo": 3,
+          "versiculo": 13,
+          "versiculoFin": 19,
+          "titulo": {
+            "es": "Los doce",
+            "en": "The twelve"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "mc-01"
+        },
+        {
+          "dia": 8,
+          "libroId": "mc",
+          "capitulo": 4,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "El sembrador",
+            "en": "The sower"
+          },
+          "minutos": 3,
+          "obra": "gn-11",
+          "episodio": "mc-02"
+        },
+        {
+          "dia": 9,
+          "libroId": "mc",
+          "capitulo": 4,
+          "versiculo": 35,
+          "versiculoFin": 41,
+          "titulo": {
+            "es": "Calla",
+            "en": "Be still"
+          },
+          "minutos": 2,
+          "obra": "gn-12",
+          "episodio": "mc-02"
+        },
+        {
+          "dia": 10,
+          "libroId": "mc",
+          "capitulo": 5,
+          "versiculo": 21,
+          "versiculoFin": 43,
+          "titulo": {
+            "es": "La niña",
+            "en": "The child"
+          },
+          "minutos": 8,
+          "obra": "gn-13",
+          "episodio": "mc-02"
+        },
+        {
+          "dia": 11,
+          "libroId": "mc",
+          "capitulo": 6,
+          "versiculo": 30,
+          "versiculoFin": 44,
+          "titulo": {
+            "es": "Los panes",
+            "en": "The loaves"
+          },
+          "minutos": 5,
+          "obra": "gn-14",
+          "episodio": "mc-03"
+        },
+        {
+          "dia": 12,
+          "libroId": "mc",
+          "capitulo": 8,
+          "versiculo": 27,
+          "versiculoFin": 33,
+          "titulo": {
+            "es": "Tú eres el Mesías",
+            "en": "You are the Messiah"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "mc-04"
+        },
+        {
+          "dia": 13,
+          "libroId": "mc",
+          "capitulo": 9,
+          "versiculo": 2,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "El monte",
+            "en": "The mountain"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "mc-04"
+        },
+        {
+          "dia": 14,
+          "libroId": "mc",
+          "capitulo": 10,
+          "versiculo": 17,
+          "versiculoFin": 22,
+          "titulo": {
+            "es": "El rico",
+            "en": "The rich man"
+          },
+          "minutos": 2,
+          "obra": "gn-17",
+          "episodio": "mc-05"
+        },
+        {
+          "dia": 15,
+          "libroId": "mc",
+          "capitulo": 10,
+          "versiculo": 46,
+          "versiculoFin": 52,
+          "titulo": {
+            "es": "Bartimeo",
+            "en": "Bartimaeus"
+          },
+          "minutos": 2,
+          "obra": "gn-18",
+          "episodio": "mc-05"
+        },
+        {
+          "dia": 16,
+          "libroId": "mc",
+          "capitulo": 16,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "El alba",
+            "en": "Dawn"
+          },
+          "minutos": 3,
+          "obra": "gn-19",
+          "episodio": "mc-08"
+        }
+      ]
+    },
+    {
+      "id": "ordinario-salmos",
+      "tiempo": "ordinario",
+      "titulo": {
+        "es": "Salmos",
+        "en": "Psalms"
+      },
+      "insignia": {
+        "es": "Arpa",
+        "en": "Harp"
+      },
+      "obra": "gn-08",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "El salterio",
+            "en": "The psalter"
+          },
+          "obra": "gn-02",
+          "href": "/libro/sal"
+        },
+        {
+          "titulo": {
+            "es": "La mañana",
+            "en": "Morning"
+          },
+          "obra": "gn-08",
+          "href": "/libro/sal"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "sal",
+          "capitulo": 1,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "El árbol",
+            "en": "The tree"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "sal-001"
+        },
+        {
+          "dia": 2,
+          "libroId": "sal",
+          "capitulo": 8,
+          "versiculo": 1,
+          "versiculoFin": 9,
+          "titulo": {
+            "es": "Qué es el hombre",
+            "en": "What is man"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "sal-001"
+        },
+        {
+          "dia": 3,
+          "libroId": "sal",
+          "capitulo": 19,
+          "versiculo": 1,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Los cielos",
+            "en": "The heavens"
+          },
+          "minutos": 5,
+          "obra": "gn-11",
+          "episodio": "sal-003"
+        },
+        {
+          "dia": 4,
+          "libroId": "sal",
+          "capitulo": 22,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Dios mío",
+            "en": "My God"
+          },
+          "minutos": 4,
+          "obra": "gn-12",
+          "episodio": "sal-003"
+        },
+        {
+          "dia": 5,
+          "libroId": "sal",
+          "capitulo": 23,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "El pastor",
+            "en": "The shepherd"
+          },
+          "minutos": 2,
+          "obra": "gn-13",
+          "episodio": "sal-003"
+        },
+        {
+          "dia": 6,
+          "libroId": "sal",
+          "capitulo": 27,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Mi luz",
+            "en": "My light"
+          },
+          "minutos": 2,
+          "obra": "gn-14",
+          "episodio": "sal-004"
+        },
+        {
+          "dia": 7,
+          "libroId": "sal",
+          "capitulo": 42,
+          "versiculo": 1,
+          "versiculoFin": 5,
+          "titulo": {
+            "es": "Como la cierva",
+            "en": "As a deer"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "sal-007"
+        },
+        {
+          "dia": 8,
+          "libroId": "sal",
+          "capitulo": 51,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Crea en mí",
+            "en": "Create in me"
+          },
+          "minutos": 4,
+          "obra": "gn-16",
+          "episodio": "sal-008"
+        },
+        {
+          "dia": 9,
+          "libroId": "sal",
+          "capitulo": 63,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "De madrugada",
+            "en": "At dawn"
+          },
+          "minutos": 3,
+          "obra": "gn-17",
+          "episodio": "sal-010"
+        },
+        {
+          "dia": 10,
+          "libroId": "sal",
+          "capitulo": 84,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Qué amables",
+            "en": "How lovely"
+          },
+          "minutos": 2,
+          "obra": "gn-18",
+          "episodio": "sal-014"
+        },
+        {
+          "dia": 11,
+          "libroId": "sal",
+          "capitulo": 90,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Nuestros años",
+            "en": "Our years"
+          },
+          "minutos": 4,
+          "obra": "gn-19",
+          "episodio": "sal-016"
+        },
+        {
+          "dia": 12,
+          "libroId": "sal",
+          "capitulo": 91,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "A su sombra",
+            "en": "In his shade"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "sal-016"
+        },
+        {
+          "dia": 13,
+          "libroId": "sal",
+          "capitulo": 103,
+          "versiculo": 1,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Bendice",
+            "en": "Bless"
+          },
+          "minutos": 5,
+          "obra": "gn-21",
+          "episodio": "sal-017"
+        },
+        {
+          "dia": 14,
+          "libroId": "sal",
+          "capitulo": 121,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "El guardián",
+            "en": "The keeper"
+          },
+          "minutos": 3,
+          "obra": "gn-22",
+          "episodio": "sal-022"
+        },
+        {
+          "dia": 15,
+          "libroId": "sal",
+          "capitulo": 130,
+          "versiculo": 1,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "Desde lo hondo",
+            "en": "Out of the depths"
+          },
+          "minutos": 3,
+          "obra": "gn-01",
+          "episodio": "sal-022"
+        },
+        {
+          "dia": 16,
+          "libroId": "sal",
+          "capitulo": 139,
+          "versiculo": 1,
+          "versiculoFin": 12,
+          "titulo": {
+            "es": "Tú me conoces",
+            "en": "You know me"
+          },
+          "minutos": 4,
+          "obra": "gn-02",
+          "episodio": "sal-023"
+        }
+      ]
+    },
+    {
+      "id": "ordinario-sabiduria",
+      "tiempo": "ordinario",
+      "titulo": {
+        "es": "Sabiduría",
+        "en": "Wisdom"
+      },
+      "insignia": {
+        "es": "Lámpara",
+        "en": "Lamp"
+      },
+      "obra": "gn-03",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Proverbios",
+            "en": "Proverbs"
+          },
+          "obra": "gn-10",
+          "href": "/libro/prov"
+        },
+        {
+          "titulo": {
+            "es": "El libro",
+            "en": "The book"
+          },
+          "obra": "gn-18",
+          "href": "/libro/sab"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "prov",
+          "capitulo": 1,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "El principio",
+            "en": "The beginning"
+          },
+          "minutos": 2,
+          "obra": "gn-04",
+          "episodio": "prov-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "prov",
+          "capitulo": 3,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "No te olvides",
+            "en": "Do not forget"
+          },
+          "minutos": 2,
+          "obra": "gn-05",
+          "episodio": "prov-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "prov",
+          "capitulo": 3,
+          "versiculo": 13,
+          "versiculoFin": 18,
+          "titulo": {
+            "es": "Dichoso",
+            "en": "Happy"
+          },
+          "minutos": 2,
+          "obra": "gn-06",
+          "episodio": "prov-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "prov",
+          "capitulo": 8,
+          "versiculo": 22,
+          "versiculoFin": 31,
+          "titulo": {
+            "es": "Antes de los montes",
+            "en": "Before the mountains"
+          },
+          "minutos": 3,
+          "obra": "gn-07",
+          "episodio": "prov-02"
+        },
+        {
+          "dia": 5,
+          "libroId": "prov",
+          "capitulo": 9,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "La casa de siete columnas",
+            "en": "The house of seven pillars"
+          },
+          "minutos": 2,
+          "obra": "gn-08",
+          "episodio": "prov-02"
+        },
+        {
+          "dia": 6,
+          "libroId": "sab",
+          "capitulo": 6,
+          "versiculo": 12,
+          "versiculoFin": 16,
+          "titulo": {
+            "es": "La que se deja hallar",
+            "en": "She who lets herself be found"
+          },
+          "minutos": 2,
+          "obra": "gn-09",
+          "episodio": "sab-02"
+        },
+        {
+          "dia": 7,
+          "libroId": "sab",
+          "capitulo": 7,
+          "versiculo": 22,
+          "versiculoFin": 30,
+          "titulo": {
+            "es": "Un hálito",
+            "en": "A breath"
+          },
+          "minutos": 3,
+          "obra": "gn-10",
+          "episodio": "sab-02"
+        },
+        {
+          "dia": 8,
+          "libroId": "sab",
+          "capitulo": 9,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Dame la sabiduría",
+            "en": "Give me wisdom"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "sab-02"
+        },
+        {
+          "dia": 9,
+          "libroId": "eclo",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 6,
+          "titulo": {
+            "es": "Prepárate",
+            "en": "Prepare yourself"
+          },
+          "minutos": 2,
+          "obra": "gn-12",
+          "episodio": "eclo-01"
+        },
+        {
+          "dia": 10,
+          "libroId": "eclo",
+          "capitulo": 6,
+          "versiculo": 18,
+          "versiculoFin": 27,
+          "titulo": {
+            "es": "Como el que ara",
+            "en": "Like one who ploughs"
+          },
+          "minutos": 3,
+          "obra": "gn-13",
+          "episodio": "eclo-02"
+        }
+      ]
+    },
+    {
+      "id": "ordinario-pablo",
+      "tiempo": "ordinario",
+      "titulo": {
+        "es": "Pablo",
+        "en": "Paul"
+      },
+      "insignia": {
+        "es": "Carta",
+        "en": "Letter"
+      },
+      "obra": "gn-14",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Romanos",
+            "en": "Romans"
+          },
+          "obra": "gn-06",
+          "href": "/libro/rom"
+        },
+        {
+          "titulo": {
+            "es": "Las cartas",
+            "en": "The letters"
+          },
+          "obra": "gn-21",
+          "href": "/libro/1cor"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "rom",
+          "capitulo": 5,
+          "versiculo": 1,
+          "versiculoFin": 5,
+          "titulo": {
+            "es": "La paz",
+            "en": "Peace"
+          },
+          "minutos": 2,
+          "obra": "gn-15",
+          "episodio": "rom-02"
+        },
+        {
+          "dia": 2,
+          "libroId": "rom",
+          "capitulo": 8,
+          "versiculo": 14,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "Hijos",
+            "en": "Children"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "rom-03"
+        },
+        {
+          "dia": 3,
+          "libroId": "rom",
+          "capitulo": 8,
+          "versiculo": 31,
+          "versiculoFin": 39,
+          "titulo": {
+            "es": "Nada nos separa",
+            "en": "Nothing separates us"
+          },
+          "minutos": 3,
+          "obra": "gn-17",
+          "episodio": "rom-03"
+        },
+        {
+          "dia": 4,
+          "libroId": "rom",
+          "capitulo": 12,
+          "versiculo": 1,
+          "versiculoFin": 2,
+          "titulo": {
+            "es": "Un culto vivo",
+            "en": "A living offering"
+          },
+          "minutos": 2,
+          "obra": "gn-18",
+          "episodio": "rom-05"
+        },
+        {
+          "dia": 5,
+          "libroId": "rom",
+          "capitulo": 12,
+          "versiculo": 9,
+          "versiculoFin": 18,
+          "titulo": {
+            "es": "El amor sin ficción",
+            "en": "Love without pretense"
+          },
+          "minutos": 3,
+          "obra": "gn-19",
+          "episodio": "rom-05"
+        },
+        {
+          "dia": 6,
+          "libroId": "1cor",
+          "capitulo": 1,
+          "versiculo": 18,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "La cruz",
+            "en": "The cross"
+          },
+          "minutos": 3,
+          "obra": "gn-20",
+          "episodio": "1cor-01"
+        },
+        {
+          "dia": 7,
+          "libroId": "1cor",
+          "capitulo": 12,
+          "versiculo": 4,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Los dones",
+            "en": "The gifts"
+          },
+          "minutos": 3,
+          "obra": "gn-21",
+          "episodio": "1cor-05"
+        },
+        {
+          "dia": 8,
+          "libroId": "1cor",
+          "capitulo": 13,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "Si no tengo amor",
+            "en": "If I have not love"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "1cor-05"
+        },
+        {
+          "dia": 9,
+          "libroId": "1cor",
+          "capitulo": 15,
+          "versiculo": 3,
+          "versiculoFin": 8,
+          "titulo": {
+            "es": "Lo que recibí",
+            "en": "What I received"
+          },
+          "minutos": 2,
+          "obra": "gn-01",
+          "episodio": "1cor-06"
+        },
+        {
+          "dia": 10,
+          "libroId": "gal",
+          "capitulo": 2,
+          "versiculo": 19,
+          "versiculoFin": 21,
+          "titulo": {
+            "es": "Ya no vivo yo",
+            "en": "It is no longer I"
+          },
+          "minutos": 2,
+          "obra": "gn-02",
+          "episodio": "gal-01"
+        },
+        {
+          "dia": 11,
+          "libroId": "gal",
+          "capitulo": 5,
+          "versiculo": 13,
+          "versiculoFin": 14,
+          "titulo": {
+            "es": "Servíos",
+            "en": "Serve one another"
+          },
+          "minutos": 2,
+          "obra": "gn-03",
+          "episodio": "gal-02"
+        },
+        {
+          "dia": 12,
+          "libroId": "gal",
+          "capitulo": 5,
+          "versiculo": 22,
+          "versiculoFin": 23,
+          "titulo": {
+            "es": "El fruto",
+            "en": "The fruit"
+          },
+          "minutos": 2,
+          "obra": "gn-04",
+          "episodio": "gal-02"
+        }
+      ]
+    },
+    {
+      "id": "maria",
+      "tiempo": "navidad",
+      "titulo": {
+        "es": "María",
+        "en": "Mary"
+      },
+      "insignia": {
+        "es": "Estrella",
+        "en": "Star"
+      },
+      "obra": "gn-05",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Lucas",
+            "en": "Luke"
+          },
+          "obra": "gn-12",
+          "href": "/libro/lc"
+        },
+        {
+          "titulo": {
+            "es": "El cántico",
+            "en": "The song"
+          },
+          "obra": "gn-16",
+          "href": "/libro/lc"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 26,
+          "versiculoFin": 38,
+          "titulo": {
+            "es": "Alégrate",
+            "en": "Rejoice"
+          },
+          "minutos": 4,
+          "obra": "gn-06",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 39,
+          "versiculoFin": 45,
+          "titulo": {
+            "es": "La subida",
+            "en": "The climb"
+          },
+          "minutos": 2,
+          "obra": "gn-07",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "lc",
+          "capitulo": 1,
+          "versiculo": 46,
+          "versiculoFin": 55,
+          "titulo": {
+            "es": "Proclama mi alma",
+            "en": "My soul proclaims"
+          },
+          "minutos": 3,
+          "obra": "gn-08",
+          "episodio": "lc-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "mt",
+          "capitulo": 1,
+          "versiculo": 18,
+          "versiculoFin": 25,
+          "titulo": {
+            "es": "José",
+            "en": "Joseph"
+          },
+          "minutos": 3,
+          "obra": "gn-09",
+          "episodio": "mt-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 7,
+          "titulo": {
+            "es": "El pesebre",
+            "en": "The manger"
+          },
+          "minutos": 2,
+          "obra": "gn-10",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 6,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 19,
+          "versiculoFin": 19,
+          "titulo": {
+            "es": "María guardaba",
+            "en": "Mary kept"
+          },
+          "minutos": 2,
+          "obra": "gn-11",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 7,
+          "libroId": "lc",
+          "capitulo": 2,
+          "versiculo": 22,
+          "versiculoFin": 35,
+          "titulo": {
+            "es": "La luz de las naciones",
+            "en": "A light to the nations"
+          },
+          "minutos": 5,
+          "obra": "gn-12",
+          "episodio": "lc-02"
+        },
+        {
+          "dia": 8,
+          "libroId": "jn",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 11,
+          "titulo": {
+            "es": "Las tinajas",
+            "en": "The jars"
+          },
+          "minutos": 4,
+          "obra": "gn-13",
+          "episodio": "jn-01"
+        },
+        {
+          "dia": 9,
+          "libroId": "jn",
+          "capitulo": 19,
+          "versiculo": 25,
+          "versiculoFin": 27,
+          "titulo": {
+            "es": "Ahí tienes a tu madre",
+            "en": "Here is your mother"
+          },
+          "minutos": 2,
+          "obra": "gn-14",
+          "episodio": "jn-10"
+        }
+      ]
+    },
+    {
+      "id": "pentecostes",
+      "tiempo": "pascua",
+      "titulo": {
+        "es": "Pentecostés",
+        "en": "Pentecost"
+      },
+      "insignia": {
+        "es": "Fuego",
+        "en": "Fire"
+      },
+      "obra": "gn-15",
+      "companeros": [
+        {
+          "titulo": {
+            "es": "Hechos",
+            "en": "Acts"
+          },
+          "obra": "gn-05",
+          "href": "/libro/hch"
+        },
+        {
+          "titulo": {
+            "es": "El viento",
+            "en": "The wind"
+          },
+          "obra": "gn-11",
+          "href": "/libro/hch"
+        }
+      ],
+      "pasos": [
+        {
+          "dia": 1,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 1,
+          "versiculoFin": 4,
+          "titulo": {
+            "es": "La casa",
+            "en": "The house"
+          },
+          "minutos": 2,
+          "obra": "gn-16",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 2,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 5,
+          "versiculoFin": 13,
+          "titulo": {
+            "es": "Las lenguas",
+            "en": "The tongues"
+          },
+          "minutos": 3,
+          "obra": "gn-17",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 3,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 14,
+          "versiculoFin": 21,
+          "titulo": {
+            "es": "Pedro",
+            "en": "Peter"
+          },
+          "minutos": 3,
+          "obra": "gn-18",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 4,
+          "libroId": "hch",
+          "capitulo": 2,
+          "versiculo": 37,
+          "versiculoFin": 41,
+          "titulo": {
+            "es": "El agua",
+            "en": "The water"
+          },
+          "minutos": 2,
+          "obra": "gn-19",
+          "episodio": "hch-01"
+        },
+        {
+          "dia": 5,
+          "libroId": "jn",
+          "capitulo": 20,
+          "versiculo": 19,
+          "versiculoFin": 23,
+          "titulo": {
+            "es": "Sopló",
+            "en": "He breathed"
+          },
+          "minutos": 2,
+          "obra": "gn-20",
+          "episodio": "jn-11"
+        },
+        {
+          "dia": 6,
+          "libroId": "jn",
+          "capitulo": 14,
+          "versiculo": 15,
+          "versiculoFin": 17,
+          "titulo": {
+            "es": "El defensor",
+            "en": "The advocate"
+          },
+          "minutos": 2,
+          "obra": "gn-21",
+          "episodio": "jn-08"
+        },
+        {
+          "dia": 7,
+          "libroId": "jn",
+          "capitulo": 7,
+          "versiculo": 37,
+          "versiculoFin": 39,
+          "titulo": {
+            "es": "Ríos",
+            "en": "Rivers"
+          },
+          "minutos": 2,
+          "obra": "gn-22",
+          "episodio": "jn-05"
+        }
+      ]
+    }
+  ]
+}

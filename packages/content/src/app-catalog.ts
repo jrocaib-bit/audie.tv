@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { AppCatalog, Artwork, Book, CaptionCue, Episode, ImageCue, PendingEpisode } from "@audite/domain";
-import { creditoTexto, idiomaReproducible, presentacionEpisodio, rutaSegura, type EpisodioManifiesto, type Manifiesto } from "@audite/domain";
+import { creditoTexto, idiomaReproducible, presentacionEpisodio, rutaSegura, tiemposDeManifiesto, type EpisodioManifiesto, type Manifiesto } from "@audite/domain";
 import { parseSrt } from "./srt";
 
 export type { AppCatalog };
@@ -90,6 +90,7 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
         continue;
       }
       const [codigo, idioma] = reproducible;
+      const tiempos = tiemposDeManifiesto(episodio.tiempos);
       const master = idioma.master ?? "";
       const archivo = path.join(raiz, master);
       const bytes = statSync(archivo).size;
@@ -116,6 +117,7 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
         ],
         summary: { es: texto(episodio.resumen?.es), en: texto(episodio.resumen?.en) },
         ...nombres(episodio),
+        ...(tiempos.length > 0 ? { tiempos } : {}),
       });
       if (idioma.subtitulos && existe(idioma.subtitulos)) {
         captions.push(...vttACues(readFileSync(path.join(raiz, idioma.subtitulos), "utf8")));

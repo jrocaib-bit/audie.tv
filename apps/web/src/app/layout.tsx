@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { LibraryProvider } from "@/components/library";
 import { RegisterServiceWorker } from "@/components/register-sw";
-import { AppFrame, MiniPlayer, TabBar } from "@/components/site-chrome";
+import { Suspense } from "react";
+import { AppFrame, MiniPlayer, TabBar, VeloCromo } from "@/components/site-chrome";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <style>{`body{margin:0;background:#100e0c;color:#f4ece2}:root[data-theme="light"] body{background:#f3ecdf;color:#161310}`}</style>
         <LibraryProvider catalog={catalog}>
           <AppFrame>{children}</AppFrame>
-          <MiniPlayer />
+          <VeloCromo />
+          <Suspense>
+            <MiniPlayer />
+          </Suspense>
           <TabBar />
           <RegisterServiceWorker />
         </LibraryProvider>

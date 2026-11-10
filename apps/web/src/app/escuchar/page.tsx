@@ -1,8 +1,14 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { NeoToday as TodayScreen } from "@/components/neo-app";
+import { InicioV2 } from "@/components/v2/inicio";
+import { Esqueleto } from "@/components/v2/esqueleto";
 
-export const metadata: Metadata = { title: "Hoy" };
+export const metadata: Metadata = { title: "Inicio" };
 
 export default function Page() {
-  return <TodayScreen />;
+  return (
+    <Suspense fallback={<Esqueleto />}>
+      <InicioV2 />
+    </Suspense>
+  );
 }
