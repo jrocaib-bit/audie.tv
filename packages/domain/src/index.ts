@@ -128,6 +128,25 @@ export {
   type Idioma,
 } from "./idioma";
 export { PRECIO } from "./precio";
+export {
+  EVENTOS,
+  decidirEscucha,
+  eliminarCuenta,
+  esEvento,
+  eventosDePaywall,
+  estadoEscuchaVacio,
+  hostDeReferrer,
+  limpiarPropiedades,
+  prepararMedicion,
+  scriptPlausible,
+  track,
+  type ContextoMedicion,
+  type Evento,
+  type FilaEvento,
+  type FilaReto,
+  type PropsDe,
+  type SumideroMedicion,
+} from "./medicion";
 export { pruebaSocial } from "./prueba-social";
 export { textosAlta, type TextosAlta } from "./alta-ui";
 export {

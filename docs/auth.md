@@ -1,8 +1,9 @@
 # Alta
 
 Proyecto Supabase `qdjowihivtqoelurvyke` (`https://qdjowihivtqoelurvyke.supabase.co`).
-Las migraciones y `supabase/config.toml` están escritas y no aplicadas.
-No hay cobro.
+Aplicadas en producción: listening, notas_favoritos, salas, auth_cuenta y endurecer.
+Escritas y sin aplicar: analytics, delete_my_account y email_preferencias.
+La web no cobra. La suscripción se contrata en la tienda.
 
 ## URLs
 

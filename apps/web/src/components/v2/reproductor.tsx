@@ -1,7 +1,7 @@
 "use client";
 
 import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, versiculoEnTiempo, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
-import { Download, Heart, ListMusic, Moon, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
+import { Heart, ListMusic, Moon, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
@@ -183,7 +183,6 @@ export function ReproductorV2() {
         </div>
         <div className="mt-4 flex items-center justify-between px-1">
           <button type="button" aria-label={es ? "Favorito" : "Favorite"} className={`audite-pulso inline-flex size-11 items-center justify-center ${favorito ? "text-[#C9A96E]" : ""}`} onClick={() => episode && tocar(() => alternar(episode.id))}><Heart strokeWidth={1.5} /></button>
-          <Link href="/descargas" aria-label={es ? "Descargar" : "Download"} className="audite-pulso inline-flex size-11 items-center justify-center"><Download strokeWidth={1.5} /></Link>
           <Link href={episode ? `/compartir?e=${episode.id}&t=${Math.floor(tiempo)}` : "/compartir"} aria-label={es ? "Compartir" : "Share"} className="audite-pulso inline-flex size-11 items-center justify-center"><Share2 strokeWidth={1.5} /></Link>
           <button type="button" aria-label={es ? "Cola" : "Queue"} className="audite-pulso inline-flex size-11 items-center justify-center" onClick={() => setHoja("cola")}><ListMusic strokeWidth={1.5} /></button>
         </div>

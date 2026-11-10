@@ -169,6 +169,10 @@ export function SiteFooter() {
         <Link href="/es" className="inline-flex min-h-11 items-center" aria-label="Audite">
           <Wordmark locale={locale} className="h-6 w-auto" />
         </Link>
+        <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
+        <Link href="/es/privacidad" className="underline decoration-border underline-offset-4">
+          {locale === "en" ? "Privacy" : "Privacidad"}
+        </Link>
         <Link href="/membresia" className="underline decoration-border underline-offset-4">
           {t(locale, "navMembership")}
         </Link>

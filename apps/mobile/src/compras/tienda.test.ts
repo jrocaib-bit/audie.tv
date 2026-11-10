@@ -32,14 +32,15 @@ describe("paywall de StoreKit", () => {
   });
 
   it("restaura y concede el derecho solo si la transacción sigue viva", async () => {
-    const viva: Transaccion = { productId: "audite.premium.anual", estado: "purchased", expira: ahora + 86_400_000, revocada: false };
-    const caducada: Transaccion = { productId: "audite.premium.mensual", estado: "purchased", expira: ahora - 1, revocada: false };
+    const viva: Transaccion = { productId: "audite.premium.anual", estado: "purchased", expira: ahora + 86_400_000, revocada: false, cuenta: "usuario-1" };
+    const caducada: Transaccion = { productId: "audite.premium.mensual", estado: "purchased", expira: ahora - 1, revocada: false, cuenta: "usuario-1" };
     const restaurar = vi.fn(async () => [caducada, viva]);
-    const resultado = await restaurarCompras({ restaurar }, ahora);
+    const resultado = await restaurarCompras({ restaurar }, ahora, undefined, "usuario-1");
     expect(restaurar).toHaveBeenCalledOnce();
     expect(resultado.derecho).toEqual({ activo: true, producto: "audite.premium.anual" });
-    expect(derechoLocal([caducada], ahora).activo).toBe(false);
-    expect(derechoLocal([{ ...viva, revocada: true }], ahora).activo).toBe(false);
-    expect(derechoLocal([{ ...viva, productId: "otro.producto" }], ahora).activo).toBe(false);
+    expect(derechoLocal([caducada], ahora, undefined, "usuario-1").activo).toBe(false);
+    expect(derechoLocal([{ ...viva, revocada: true }], ahora, undefined, "usuario-1").activo).toBe(false);
+    expect(derechoLocal([{ ...viva, cuenta: "otra" }], ahora, undefined, "usuario-1").activo).toBe(false);
+    expect(derechoLocal([viva], ahora, undefined, null).activo).toBe(false);
   });
 });

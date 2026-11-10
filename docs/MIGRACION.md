@@ -2,7 +2,7 @@
 
 Este repositorio (`jrocaib-bit/audie.tv`) es la casa del código. El proyecto de Supabase dedicado a Audite ya está creado. Este árbol no se conecta a él: no aplica migraciones, no guarda claves y no despliega.
 
-No hay pagos. La tabla `subscription_status` solo guarda un estado (`none`, `pending`, `active`, `inactive`). No conectes Stripe ni otro proveedor como parte de este traslado.
+La web no cobra. La app tiene StoreKit detrás de `PURCHASES_ENABLED`, apagado. La tabla `subscription_status` sigue siendo un estado (`none`, `pending`, `active`, `inactive`).
 
 ## GitHub
 
@@ -20,9 +20,13 @@ Proyecto nuevo, solo de Audite:
 - Región: `eu-west-1`
 - `project_id` en `supabase/config.toml`
 
-Cuando se decida conectar la base, y no antes:
+Ya aplicadas en producción: `20261109120000_listening.sql`, `20261109183000_notas_favoritos.sql`, `20261109190000_salas.sql`, `20261110120000_auth_cuenta.sql` y `20261110130000_endurecer.sql`.
 
-1. En el SQL editor de ese proyecto, ejecuta `supabase/migrations/20261109120000_listening.sql`. No reutilices otra base.
+Escritas y sin aplicar: `20261110220000_analytics.sql`, `20261110221000_delete_my_account.sql` y `20261110222000_email_preferencias.sql`.
+
+Cuando se decida aplicar una migración nueva, y no antes:
+
+1. En el SQL editor de ese proyecto, ejecuta el fichero que falte. No reutilices otra base.
 2. Copia la clave anónima a `NEXT_PUBLIC_SUPABASE_ANON_KEY`. La URL ya está en `.env.example`.
 3. La clave `service_role` queda solo en el servidor, en `SUPABASE_SERVICE_ROLE_KEY`. No la pongas en la web ni en Expo.
 4. El código de `@audite/data` sabe hablar con Supabase, pero la app todavía no lo llama. El avance sigue en el dispositivo.

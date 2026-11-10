@@ -14,6 +14,8 @@ export type Transaccion = {
   estado: "purchased" | "pending" | "unknown";
   expira: number | null;
   revocada: boolean;
+  /** appAccountToken: el uuid de Supabase de quien compró. */
+  cuenta: string | null;
 };
 
 export type LineaPrecio = {
@@ -78,11 +80,13 @@ export async function pedirCompra(
 }
 
 /**
- * Derecho calculado en el dispositivo con las transacciones de StoreKit.
+ * Derecho de la cuenta que ha iniciado sesión, leído de StoreKit.
  * TODO: validar el recibo en Supabase antes de fiarse de esta concesión local.
+ * TODO: sincronizar el resultado con public.subscription_status.
  */
-export function derechoLocal(transacciones: readonly Transaccion[], ahora: number, ids: readonly string[] = IDS_APPLE): { activo: boolean; producto: string | null } {
-  const vivas = transacciones.filter((item) => ids.includes(item.productId) && item.estado === "purchased" && !item.revocada && item.expira != null && item.expira > ahora);
+export function derechoLocal(transacciones: readonly Transaccion[], ahora: number, ids: readonly string[] = IDS_APPLE, userId: string | null = null): { activo: boolean; producto: string | null } {
+  if (!userId) return { activo: false, producto: null };
+  const vivas = transacciones.filter((item) => ids.includes(item.productId) && item.cuenta === userId && item.estado === "purchased" && !item.revocada && item.expira != null && item.expira > ahora);
   const mejor = [...vivas].sort((a, b) => (b.expira ?? 0) - (a.expira ?? 0))[0];
   return mejor ? { activo: true, producto: mejor.productId } : { activo: false, producto: null };
 }
@@ -91,7 +95,8 @@ export async function restaurarCompras(
   tienda: { restaurar: () => Promise<Transaccion[]> },
   ahora: number,
   ids: readonly string[] = IDS_APPLE,
+  userId: string | null = null,
 ): Promise<{ transacciones: Transaccion[]; derecho: { activo: boolean; producto: string | null } }> {
   const transacciones = await tienda.restaurar();
-  return { transacciones, derecho: derechoLocal(transacciones, ahora, ids) };
+  return { transacciones, derecho: derechoLocal(transacciones, ahora, ids, userId) };
 }

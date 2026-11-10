@@ -3,6 +3,7 @@
 import { PRECIO } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { medir } from "@/lib/medicion";
 
 type Copy = {
   homeCta: string;
@@ -50,7 +51,7 @@ export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesg
           <button type="button" aria-pressed={anual} className={`min-h-11 rounded-full px-4 ${anual ? "bg-[#C9A96E] text-[#100E0C]" : "text-[#F4ECE2]"}`} onClick={() => setPlan("anio")}>{PRECIO.anio}/{texto.anio}</button>
           <button type="button" aria-pressed={!anual} className={`min-h-11 rounded-full px-4 ${anual ? "text-[#B7AB9C]" : "bg-[#C9A96E] text-[#100E0C]"}`} onClick={() => setPlan("mes")}>{PRECIO.mes}/{texto.mes}</button>
         </div>
-        <Link href="/escuchar" className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{cta}</Link>
+        <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "planes" })} className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{cta}</Link>
         <p className="mt-3 text-base text-[#B7AB9C]">{riesgo}</p>
       </article>
     </div>
@@ -60,7 +61,7 @@ export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesg
 export function CtaPar({ lang, etiqueta, ghost }: { lang: string; etiqueta: string; ghost: string }) {
   return (
     <div className="mt-8 flex flex-wrap items-center gap-3">
-      <Link href="/escuchar" className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{etiqueta}</Link>
+      <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "sitio" })} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{etiqueta}</Link>
       <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">{ghost}</Link>
     </div>
   );
@@ -88,8 +89,8 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         </button>
       ) : (
         <>
-          {enlaces.appStore ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.appStore}>App Store</a> : null}
-          {enlaces.play ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.play}>Google Play</a> : null}
+          {enlaces.appStore ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.appStore} onClick={() => medir("store_click", { tienda: "apple" })}>App Store</a> : null}
+          {enlaces.play ? <a className="inline-flex min-h-12 items-center rounded-full border border-border px-6" href={enlaces.play} onClick={() => medir("store_click", { tienda: "google" })}>Google Play</a> : null}
         </>
       )}
       <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">

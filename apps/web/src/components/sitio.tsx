@@ -12,6 +12,7 @@ import { BarraFija, CtaPar, Planes } from "@/components/conversion";
 import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { HoyFranja } from "@/components/hoy";
+import { PaywallWeb } from "@/components/paywall-web";
 import { copiaSitio, idiomasPublicos, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
@@ -181,6 +182,8 @@ export function SitioHome({ lang }: { lang: string }) {
           <div className="grid content-start gap-2">
             <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
             <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
+            <Link href="/ayuda" className="inline-flex min-h-11 items-center">Ayuda</Link>
+            <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
             <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
           </div>
           <div className="grid content-start gap-2">
@@ -257,10 +260,7 @@ export function SitioMembresia({ lang }: { lang: string }) {
         <div>
           <p className="kicker">{copy.navMembership}</p>
           <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
-          <Planes lang={lang} cta={copy.homeCta} riesgo={copy.ctaRisk} />
-          <Link href="/escuchar" className="mt-8 inline-flex min-h-12 items-center rounded-full bg-primary px-6 text-primary-foreground">
-            {copy.appLink}
-          </Link>
+          <PaywallWeb lang={lang} />
         </div>
         <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">
           <ObraFoto obra={obra} className="h-full w-full object-cover" />

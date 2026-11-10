@@ -7,10 +7,10 @@ export async function leerTienda(skus: readonly string[]): Promise<OfertaStore[]
   return nativo.leerTienda(skus);
 }
 
-export async function comprarNativo(id: string): Promise<void> {
+export async function comprarNativo(id: string, userId: string): Promise<void> {
   if (Platform.OS === "web" || __DEV__) return;
   const nativo = await import("./storekit-nativo");
-  await nativo.comprar(id);
+  await nativo.comprar(id, userId);
 }
 
 export async function restaurarNativo(): Promise<Transaccion[]> {

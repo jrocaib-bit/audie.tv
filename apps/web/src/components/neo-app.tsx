@@ -401,11 +401,7 @@ export function NeoSettings() {
         <span className="font-display text-lg">{tx(locale, "Avisos", "Reminders")}</span>
         <span className="text-sm text-muted">{tx(locale, "Solo locales", "Local only")}</span>
       </Link>
-      <Link href="/descargas" className="neo-card mt-4 flex min-h-11 items-center justify-between px-4">
-        <span className="font-display text-lg">{tx(locale, "Descargas", "Downloads")}</span>
-        <span className="text-sm text-muted">{tx(locale, "Solo en la app", "App only")}</span>
-      </Link>
-      <Link href="/membresia" className="neo-card mt-4 flex min-h-14 items-center justify-between px-4">
+      <Link href="/es/suscripcion" className="neo-card mt-4 flex min-h-14 items-center justify-between px-4">
         <span>{t(locale, "navMembership")}</span>
         <span className="text-sm text-muted">{t(locale, "statusPreparing")}</span>
       </Link>

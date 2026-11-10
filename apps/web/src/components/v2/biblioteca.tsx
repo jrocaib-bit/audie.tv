@@ -24,7 +24,6 @@ const filtros = [
   { id: "todo", es: "Todo", en: "All" },
   { id: "pasajes", es: "Mis pasajes", en: "My passages" },
   { id: "favoritos", es: "Favoritos", en: "Favorites" },
-  { id: "descargas", es: "Descargas", en: "Downloads" },
   { id: "notas", es: "Notas", en: "Notes" },
   { id: "caminos", es: "Caminos", en: "Paths" },
 ] as const;
@@ -39,7 +38,7 @@ export function BibliotecaV2() {
   const marcadores = useSyncExternalStore(() => () => {}, leerMarcadores, () => marcadoresVacios);
   const caminos = library.path.steps;
   const favoritos = library.catalog.books.filter((libro) => esFavorito(marcadores, `${libro.id}-01`) || marcadores.favoritos.some((favorito) => favorito.episodeId.startsWith(`${libro.id}-`)));
-  const base = filtro === "notas" || filtro === "descargas" || filtro === "pasajes" ? [] : filtro === "favoritos" ? favoritos : filtro === "caminos" ? [] : library.catalog.books.slice(0, 18);
+  const base = filtro === "notas" || filtro === "pasajes" ? [] : filtro === "favoritos" ? favoritos : filtro === "caminos" ? [] : library.catalog.books.slice(0, 18);
   const visible = porNombre ? [...base].sort((a, b) => (a.name[idiomaContenido(locale)] || a.name.es).localeCompare(b.name[idiomaContenido(locale)] || b.name.es, locale)) : base;
 
   return (
@@ -58,7 +57,6 @@ export function BibliotecaV2() {
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3">
         <TarjetaCuadro href="/listas" episodioId="gn-04" titulo={es ? "Mis pasajes" : "My passages"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
-        <TarjetaCuadro href="/descargas" episodioId="gn-08" titulo={es ? "Descargas" : "Downloads"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
         <TarjetaCuadro href="/notas" episodioId="gn-12" titulo={es ? "Notas" : "Notes"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
         <TarjetaCuadro href="/camino" episodioId="gn-16" titulo={es ? "Caminos" : "Paths"} pronto={false} prontoTexto={es ? "Pronto" : "Soon"} lleno />
       </div>

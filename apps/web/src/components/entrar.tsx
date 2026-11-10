@@ -8,6 +8,7 @@ import { Wordmark } from "@/components/brand";
 import { BotonApple, BotonGoogle } from "@/components/botones-alta";
 import { ObraFoto } from "@/components/placa";
 import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
+import { medir } from "@/lib/medicion";
 import { correoValido } from "@audite/domain";
 
 export function Entrar({ lang }: { lang: string }) {
@@ -16,6 +17,7 @@ export function Entrar({ lang }: { lang: string }) {
   const obra = obraDeEpisodio("gn-01");
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
+  const [marketing, setMarketing] = useState(false);
 
   return (
     <main className="relative min-h-dvh bg-[#100E0C] text-[#F4ECE2]">
@@ -27,8 +29,12 @@ export function Entrar({ lang }: { lang: string }) {
         <Wordmark locale={ui} tono="blanco" className="h-8 w-auto" />
         <h1 className="font-display mt-8 max-w-sm text-5xl leading-[0.95]">{copy.titulo}</h1>
         <div className="mt-auto grid gap-3 pt-16">
-          <BotonApple etiqueta={copy.apple} onClick={() => void entrarOAuth("apple").catch(() => setEstado(""))} />
-          <BotonGoogle etiqueta={copy.google} onClick={() => void entrarOAuth("google").catch(() => setEstado(""))} />
+          <label className="flex min-h-11 items-center gap-3 text-sm text-[#B7AB9C]">
+            <input type="checkbox" checked={marketing} onChange={(event) => { setMarketing(event.target.checked); localStorage.setItem("audite.marketing.v1", event.target.checked ? "1" : "0"); }} />
+            Recibir correos de Audite
+          </label>
+          <BotonApple etiqueta={copy.apple} onClick={() => { localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); medir("signup_started", { proveedor: "apple" }); void entrarOAuth("apple").catch(() => setEstado("")); }} />
+          <BotonGoogle etiqueta={copy.google} onClick={() => { medir("signup_started", { proveedor: "google" }); void entrarOAuth("google").catch(() => setEstado("")); }} />
           <div className="flex items-center gap-3 py-1 text-sm text-[#B7AB9C]">
             <span className="h-px flex-1 bg-[#F4ECE2]/25" />
             {copy.o}
@@ -39,6 +45,8 @@ export function Entrar({ lang }: { lang: string }) {
             onSubmit={(event) => {
               event.preventDefault();
               if (!correoValido(correo)) return;
+              localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
+              medir("signup_started", { proveedor: "correo" });
               void entrarCorreo(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
             }}
           >

@@ -1,9 +1,12 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
+import { eventosDePaywall } from "@audite/domain";
+import { sesionApp } from "../auth";
 import { IDS_APPLE, PURCHASES_ENABLED } from "../compras/config";
 import { comprarNativo, leerTienda, restaurarNativo } from "../compras/storekit";
 import { TIENDA_DEMO, lineasDePaywall, pedirCompra, restaurarCompras, type EntornoPrecio, type LineaPrecio } from "../compras/tienda";
+import { medir } from "../medicion";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
 
@@ -40,14 +43,32 @@ export default function SuscripcionScreen() {
     return () => { vivo = false; };
   }, [demo]);
 
+  useEffect(() => {
+    if (eventosDePaywall(PURCHASES_ENABLED, "ver")) medir("paywall_view", { origen: "app" });
+  }, []);
+
+  function elegir(siguiente: LineaPrecio["plan"]) {
+    setPlan(siguiente);
+    if (eventosDePaywall(PURCHASES_ENABLED, "plan")) medir("plan_selected", { plan: siguiente });
+  }
+
   async function comprar() {
     if (!elegida) return;
-    const resultado = await pedirCompra(PURCHASES_ENABLED, elegida.id, { requestPurchase: comprarNativo });
+    const sesion = await sesionApp();
+    const resultado = await pedirCompra(PURCHASES_ENABLED, elegida.id, {
+      requestPurchase: async (id) => {
+        if (!sesion) return;
+        await comprarNativo(id, sesion.userId);
+      },
+    });
+    if (eventosDePaywall(PURCHASES_ENABLED, "probar")) medir("trial_started", { plan: elegida.plan });
+    if (resultado === "pedida" && eventosDePaywall(PURCHASES_ENABLED, "comprar")) medir("purchase_completed", { plan: elegida.plan });
     if (resultado === "pedida") setAviso(es ? "Pedido enviado." : "Request sent.");
   }
 
   async function restaurar() {
-    const resultado = await restaurarCompras({ restaurar: restaurarNativo }, Date.now());
+    const sesion = await sesionApp();
+    const resultado = await restaurarCompras({ restaurar: restaurarNativo }, Date.now(), undefined, sesion?.userId ?? null);
     setAviso(resultado.derecho.activo ? (es ? "Restaurada." : "Restored.") : (es ? "No hay compras." : "No purchases."));
   }
 
@@ -66,7 +87,7 @@ export default function SuscripcionScreen() {
           const activo = linea.plan === plan;
           const periodo = linea.plan === "anual" ? (es ? "año" : "year") : (es ? "mes" : "month");
           return (
-            <Pressable key={linea.id} accessibilityRole="button" accessibilityState={{ selected: activo }} onPress={() => setPlan(linea.plan)} style={{ borderWidth: 1, borderColor: activo ? oro : "#2E2924", borderRadius: 16, padding: 16, backgroundColor: "#1B1815" }}>
+            <Pressable key={linea.id} accessibilityRole="button" accessibilityState={{ selected: activo }} onPress={() => elegir(linea.plan)} style={{ borderWidth: 1, borderColor: activo ? oro : "#2E2924", borderRadius: 16, padding: 16, backgroundColor: "#1B1815" }}>
               <Text style={{ color: muted, fontSize: 14 }}>{linea.plan === "anual" ? (es ? "Anual" : "Yearly") : (es ? "Mensual" : "Monthly")}</Text>
               <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 36, lineHeight: 40, marginTop: 4 }}>{linea.precio ? `${linea.precio}/${periodo}` : "—"}</Text>
               {linea.pruebaDias ? <Text style={{ color: oro, marginTop: 6 }}>{es ? `${linea.pruebaDias} días gratis` : `${linea.pruebaDias} days free`}</Text> : null}

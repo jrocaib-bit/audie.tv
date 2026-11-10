@@ -19,11 +19,13 @@ function pruebaDe(producto: ProductSubscriptionIOS): OfertaStore["prueba"] {
 function transaccionDe(compra: Purchase): Transaccion {
   const expira = "expirationDateIOS" in compra ? compra.expirationDateIOS ?? null : null;
   const revocada = "revocationDateIOS" in compra ? Boolean(compra.revocationDateIOS) : false;
+  const cuenta = "appAccountToken" in compra && typeof compra.appAccountToken === "string" ? compra.appAccountToken : null;
   return {
     productId: compra.productId,
     estado: compra.purchaseState === "purchased" ? "purchased" : compra.purchaseState === "pending" ? "pending" : "unknown",
     expira,
     revocada,
+    cuenta,
   };
 }
 
@@ -37,11 +39,14 @@ export async function leerTienda(skus: readonly string[]): Promise<OfertaStore[]
   });
 }
 
-export async function comprar(id: string): Promise<void> {
-  if (!PURCHASES_ENABLED) return;
+export async function comprar(id: string, userId: string): Promise<void> {
+  if (!PURCHASES_ENABLED || !userId) return;
   await initConnection();
   await requestPurchase({
-    request: { apple: { sku: id }, google: { skus: [id] } },
+    request: {
+      apple: { sku: id, appAccountToken: userId },
+      google: { skus: [id], obfuscatedAccountId: userId },
+    },
     type: "subs",
   });
   const compras = await getAvailablePurchases({ onlyIncludeActiveItemsIOS: true });

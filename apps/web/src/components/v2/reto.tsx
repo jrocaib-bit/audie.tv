@@ -6,7 +6,8 @@ import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { medir } from "@/lib/medicion";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
 import { Candado } from "@/components/v2/fichas";
@@ -44,6 +45,9 @@ export function RetoV2({ reto }: { reto: Reto }) {
   const segundoPlay = fichaPlay && pasoSiguiente ? inicioDelPasaje(fichaPlay.tiempos, pasoSiguiente.capitulo, pasoSiguiente.versiculo, pasoSiguiente.versiculoFin) : null;
   const playHref = fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`;
   const otros = RETOS.filter((item) => item.id !== reto.id);
+  useEffect(() => {
+    medir("challenge_started", { reto_id: reto.id });
+  }, [reto.id]);
 
   return (
     <main id="contenido" className="app-clear bg-[#100E0C] text-[#F4ECE2]">
@@ -128,7 +132,13 @@ export function RetoV2({ reto }: { reto: Reto }) {
             return (
               <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
                 {oir ? <Link href={oir} aria-label={paso.titulo[idiomaContenido(locale)]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
-                <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => marcarDia(reto.id, paso.dia, hoy)}>
+                <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => {
+                  const estaba = estado.hechos.includes(paso.dia);
+                  marcarDia(reto.id, paso.dia, hoy);
+                  if (estaba) return;
+                  medir("challenge_day_completed", { reto_id: reto.id, dia: paso.dia, episode_id: paso.episodio ?? "" });
+                  if (estado.hechos.length + 1 >= reto.pasos.length) medir("challenge_completed", { reto_id: reto.id });
+                }}>
                   {hecho ? "✓" : ""}
                 </button>
               </li>
