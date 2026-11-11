@@ -152,7 +152,7 @@ export const MENSAJE_BAJA_ERROR = "No hemos podido darte de baja. Escríbenos a 
 export function esTokenUuid(token: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token);
 }
-export const MENSAJE_CONTACTO_OK = "Gracias. Hemos recibido tu mensaje. Te responderemos a tu correo. Si quieres, puedes seguir mirando la ayuda.";
+export const MENSAJE_CONTACTO_OK = "Gracias. Hemos recibido tu mensaje. Te responderemos a tu correo como máximo en 48 horas laborables; lo habitual es que contestemos en el día. Si quieres, puedes seguir mirando la ayuda.";
 export const MENSAJE_CONTACTO_RED = "No hemos podido enviar tu mensaje. Prueba de nuevo en un momento, o escríbenos a soporte@audite.tv.";
 export const MENSAJE_CORREO = "Escribe un correo válido para que podamos enviarte el enlace de confirmación.";
 export const MENSAJE_CONTACTO_CORREO = "Revisa el correo. Sin un email válido no podemos responderte.";

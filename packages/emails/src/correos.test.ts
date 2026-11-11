@@ -17,6 +17,17 @@ const datos = {
 };
 
 describe("correos de ciclo de vida", () => {
+  it("el acuse y la confirmación usan el texto de soporte v4", async () => {
+    const acuse = await componer("acuse_soporte", { nombre: "Ada", correo: "ada@audite.tv" });
+    expect(acuse.preheader).toBe("Gracias por escribirnos. Te responderemos como máximo en 48 horas laborables.");
+    expect(acuse.texto).toContain("de 9:00 a 18:00 (hora de Madrid)");
+    expect(acuse.texto).toContain("https://audite.tv/contacto");
+    expect(acuse.texto).not.toContain("ada@audite.tv\n\n");
+    const confirmar = await componer("confirmacion_boletin", { correo: "ada@audite.tv", token: datos.token });
+    expect(confirmar.preheader).toContain("«Confirmar suscripción»");
+    expect(confirmar.texto).toContain("abre este enlace y pulsa «Confirmar suscripción»");
+  });
+
   it("usa el saludo exacto y omite lo que no se sabe", async () => {
     expect(saludo(null)).toBe("Hola:");
     expect(saludo("Ada")).toBe("Hola, Ada:");

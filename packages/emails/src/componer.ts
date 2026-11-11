@@ -21,7 +21,7 @@ export function textoCompleto(id: IdCorreo, datos: DatosCorreo): string {
   const cta = `${base.cta}: ${base.ctaUrl}`;
   const secundario = base.ctaSecundario ? `${base.ctaSecundario.etiqueta}: ${base.ctaSecundario.url}` : "";
   const pieTexto = id === "acuse_soporte"
-    ? "—\nEste correo lo envía Audite desde no-reply@audite.tv.\nPara seguir el hilo, responde a este mensaje: llegará a soporte@audite.tv.\nhttps://audite.tv/ayuda\nhttps://audite.tv/privacidad"
+    ? "—\nEste correo lo envía Audite desde no-reply@audite.tv.\nPara seguir el hilo, responde a este mensaje: llegará a soporte@audite.tv.\nhttps://audite.tv/contacto\nhttps://audite.tv/ayuda\nhttps://audite.tv/privacidad"
     : id === "confirmacion_boletin" || id === "confirmacion_lanzamiento"
       ? "—\nEste correo lo envía Audite desde no-reply@audite.tv y no admite respuesta.\nAyuda: soporte@audite.tv\nhttps://audite.tv/privacidad"
       : id === "bienvenida_lista"

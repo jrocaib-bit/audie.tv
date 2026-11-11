@@ -265,6 +265,11 @@ const SECCIONES: SeccionFaq[] = [
         pregunta: "¿Cómo os escribo?",
         respuesta: "Estaremos encantados de ayudarte. Puedes escribirnos de estas dos formas:\n\n- Con el **formulario de contacto** en [audite.tv/contacto](https://audite.tv/contacto) (nombre, correo, mensaje y la casilla de privacidad).\n- Por correo, a **[soporte@audite.tv](mailto:soporte@audite.tv)**.\n\nEste centro de ayuda está también en [audite.tv/ayuda](https://audite.tv/ayuda). Cuéntanos, si puedes, si usas iPhone, Android o la web, y en qué podemos echarte una mano.\n\nEl correo `no-reply@audite.tv` es solo de envío (altas y avisos de cuenta): no leas ni contestes por esa dirección, porque no recibimos lo que llega ahí.",
       },
+      {
+        id: "horario-y-plazo",
+        pregunta: "Horario y plazo de respuesta",
+        respuesta: "Atendemos de lunes a viernes, de 9:00 a 18:00 (hora de Madrid), salvo festivos nacionales. Te responderemos como máximo en 48 horas laborables; lo habitual es que contestemos en el día.",
+      },
     ],
   },
 ];
