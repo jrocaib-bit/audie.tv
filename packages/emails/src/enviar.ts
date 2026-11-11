@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { REMITENTE, RESPUESTA, type IdCorreo } from "./textos";
 import { componer, type CorreoListo } from "./componer";
 import type { DatosCorreo } from "./textos";
+import { avisoBloqueo, decisionEnvio } from "./destinos";
 
 export type PreferenciaCorreo = {
   marketing_consent: boolean;
@@ -33,6 +34,15 @@ export async function enviarCorreo(opciones: {
 }): Promise<"omitido" | "sin-clave" | "listo"> {
   const correo = opciones.correo ?? await componer(opciones.id, opciones.datos ?? {});
   if (correo.tipo === "marketing" && !puedeEnviarMarketing(opciones.preferencia)) return "omitido";
+  if (decisionEnvio({
+    envioReal: process.env.CORREO_ENVIO_REAL === "true",
+    permitidos: process.env.CORREO_DESTINOS_PERMITIDOS,
+    produccion: process.env.VERCEL_ENV === "production",
+    destinatarios: { to: opciones.to },
+  }) === "bloqueado") {
+    console.info(avisoBloqueo(opciones.id));
+    return "omitido";
+  }
   const payload: PayloadCorreo = {
     from: REMITENTE,
     replyTo: RESPUESTA,

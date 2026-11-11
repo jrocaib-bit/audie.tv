@@ -13,6 +13,7 @@ Nombres, sin valores:
 - `SOPORTE_DESTINO`
 - `SOPORTE_ACUSE`
 - `CORREO_ENVIO_REAL`
+- `CORREO_DESTINOS_PERMITIDOS`
 - `IP_HASH_SALT`
 - `STORES_LIVE`
 - `GOOGLE_LOGIN_ENABLED`
@@ -20,6 +21,8 @@ Nombres, sin valores:
 - `GAZPACHO_FONTS_URL`
 
 `CORREO_ENVIO_REAL` tiene que ser `true` para enviar. Si no, el servidor anota el correo y responde como si hubiera salido.
+
+`CORREO_DESTINOS_PERMITIDOS` es una lista separada por comas de direcciones exactas o dominios (`@resend.dev`). Con el envío real encendido, cada correo sale solo si todos los destinatarios están en esa lista. Si la lista está vacía, fuera de producción no se envía nada; en producción se mantiene el envío de ahora.
 
 `STORES_LIVE` tiene que ser `true` para mostrar App Store y Google Play.
 

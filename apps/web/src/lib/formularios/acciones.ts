@@ -2,7 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
-import { enviarCorreo } from "@audite/emails";
+import { avisoBloqueo, decisionEnvio, enviarCorreo } from "@audite/emails";
 import { esquemaLanzamiento, esquemaLista, esquemaSoporte, textoErrorLista, textoErrorSoporte } from "./esquemas";
 import { POLITICA_VERSION, MENSAJE_BAJA_ERROR, MENSAJE_CONTACTO_OK, MENSAJE_CONTACTO_RED, MENSAJE_RED, correoNormalizado, crearToken, debeEnviarCorreo, esTokenUuid, filtrosLimite, firmarMarca, hashSecreto, mensajeLista, puedeContarLimite, resolverBaja, type ListaCorreo } from "./logica";
 
@@ -55,6 +55,15 @@ async function permitido(email: string, ip: string): Promise<boolean> {
   return true;
 }
 
+function saleA(destinatarios: string[]): boolean {
+  return decisionEnvio({
+    envioReal: debeEnviarCorreo(),
+    permitidos: process.env.CORREO_DESTINOS_PERMITIDOS,
+    produccion: process.env.VERCEL_ENV === "production",
+    destinatarios: { to: destinatarios },
+  }) === "enviar";
+}
+
 async function enviar(id: "confirmacion_boletin" | "confirmacion_lanzamiento" | "bienvenida_lista" | "acuse_soporte", to: string, datos: { token?: string; nombre?: string; correo?: string } = {}) {
   if (!debeEnviarCorreo()) {
     console.info(JSON.stringify({ correo: id, to, simulado: true }));
@@ -95,6 +104,9 @@ export async function enviarSoporte(datos: FormData): Promise<{ estado: "ok" | "
   }
   const destino = process.env.SOPORTE_DESTINO?.trim();
   if (destino && debeEnviarCorreo()) {
+    if (!saleA([destino])) {
+      console.info(avisoBloqueo("soporte"));
+    } else {
     const { Resend } = await import("resend");
     const clave = process.env.RESEND_API_KEY?.trim();
     if (clave) {
@@ -105,6 +117,7 @@ export async function enviarSoporte(datos: FormData): Promise<{ estado: "ok" | "
         subject: "Consulta",
         text: `${nombre}\n${email}\n\n${mensaje}`,
       });
+    }
     }
   } else {
     console.info(JSON.stringify({ correo: "soporte", to: destino ?? "", simulado: true }));
@@ -124,7 +137,7 @@ async function altaLista(datos: FormData, lista: ListaCorreo): Promise<{ estado:
   });
   const sal = process.env.IP_HASH_SALT?.trim() || "sin-sal";
   const ahora = Date.now();
-  const texto = mensajeLista(debeEnviarCorreo());
+  const texto = mensajeLista(saleA([correoNormalizado(String(datos.get("correo") ?? datos.get("email") ?? ""))]));
   if (miel.trim()) return { estado: "ok", texto, cuenta: false };
   if (!parsed.success) return { estado: "error", texto: textoErrorLista(parsed.error), cuenta: false };
   if (!puedeContarLimite({ miel, firma, sal, ahora, valido: true })) {
