@@ -9,7 +9,7 @@ describe("precio de lanzamiento", () => {
     expect(precioLanzamientoActivo("true")).toBe(true);
     expect(etiquetaDeLanzamiento("es", false)).toBeNull();
     expect(etiquetaDeLanzamiento("es", true)).toBe(ETIQUETA_LANZAMIENTO);
-    expect(etiquetaDeLanzamiento("es", true)).toBe("Precio de lanzamiento hasta el 6 de enero");
+    expect(etiquetaDeLanzamiento("es", true)).toBe("Precio de lanzamiento hasta el 9 de febrero");
   });
 
   it("Adviento no pide suscripción", () => {
