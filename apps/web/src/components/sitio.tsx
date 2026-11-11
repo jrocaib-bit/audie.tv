@@ -348,6 +348,7 @@ export function SitioHome({ lang }: { lang: string }) {
                 <p className="w-fit rounded-full bg-[#C9A96E] px-3 py-1 text-sm text-[#100E0C]">{copy.priceSave}</p>
                 <p className="font-display mt-3 text-5xl">{copy.priceYear}</p>
                 {etiquetaDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#C9A96E]">{etiquetaDeLanzamiento(ui)}</p> : null}
+                <p className="mt-3 text-sm text-[#B7AB9C]">{copy.priceAfter}</p>
                 <ListaIncluidos items={incluidos} />
                 <Link href={`/${lang}/entrar`} className="boton mt-6 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.homeCta}</Link>
               </article>

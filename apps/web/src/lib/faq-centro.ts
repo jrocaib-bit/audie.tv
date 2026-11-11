@@ -56,12 +56,17 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "cuanto-cuesta",
         pregunta: "¿Cuánto cuesta Audite?",
-        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.",
+        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027, el plan anual cuesta 12,99 € al año para las suscripciones nuevas. Si contratas el anual antes de esa fecha —o ya lo tienes—, mantienes los 8,00 € al año mientras sigas suscrito.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.\n\nEl reto **Adviento con Isaías** (desde el 29 de noviembre de 2026) es gratis y no hace falta suscripción. Lo explicamos más abajo, en [Retos](#retos).",
+      },
+      {
+        id: "sube-el-precio",
+        pregunta: "¿Va a subir el precio? ¿Si me suscribo ahora al anual mantengo los 8 €?",
+        respuesta: "El plan mensual sigue en 1,99 € al mes; no se ha anunciado un cambio de ese precio.\n\nEl plan anual cuesta 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027 pasa a 12,99 € al año, **solo para quien se suscriba al anual a partir de esa fecha**.\n\nSi contratas el plan anual antes del 6 de enero de 2027 —o ya lo tienes—, mantienes el precio de 8,00 € al año **mientras sigas suscrito**.",
       },
       {
         id: "que-incluye",
         pregunta: "¿Qué incluye la suscripción?",
-        respuesta: "Una sola suscripción, ligada a tu cuenta de Audite, te da acceso en el iPhone, en Android y en la web [audite.tv](https://audite.tv): la Biblia en audio según el catálogo publicado y los retos del tiempo litúrgico.\n\nAl principio, la suscripción se contrata solo en el App Store o en Google Play. La web sirve para escuchar con la misma cuenta, no para comprar.\n\nEl canal de YouTube [@auditetv](https://www.youtube.com/@auditetv) se puede ver sin suscripción, cuando haya vídeos publicados.",
+        respuesta: "Una sola suscripción, ligada a tu cuenta de Audite, te da acceso en el iPhone, en Android y en la web [audite.tv](https://audite.tv): la Biblia en audio según el catálogo publicado y los retos del tiempo litúrgico.\n\nEl reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es una excepción: es **gratis y no hace falta suscripción**.\n\nAl principio, la suscripción se contrata solo en el App Store o en Google Play. La web sirve para escuchar con la misma cuenta, no para comprar.\n\nEl canal de YouTube [@auditetv](https://www.youtube.com/@auditetv) se puede ver sin suscripción, cuando haya vídeos publicados.",
       },
       {
         id: "otros-planes",
@@ -77,7 +82,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "como-funciona-la-prueba",
         pregunta: "¿Cómo funciona la prueba de 7 días?",
-        respuesta: "Al suscribirte por primera vez puedes escuchar Audite durante 7 días sin coste. Si no cancelas antes de que termine la prueba, se cobra el plan que hayas elegido (1,99 € al mes u 8,00 € al año) y la suscripción se renueva sola hasta que la canceles.\n\nPara no ser cargado, cancela la prueba al menos 24 horas antes de que acabe, desde la cuenta de Apple o de Google con la que la contrataste (ver [Cancelar la suscripción](#cancelar-la-suscripción)).",
+        respuesta: "Al suscribirte por primera vez puedes escuchar Audite durante 7 días sin coste. Si no cancelas antes de que termine la prueba, se cobra el plan que hayas elegido (mensual o anual, a los precios indicados en [¿Cuánto cuesta Audite?](#suscripción-y-precios)) y la suscripción se renueva sola hasta que la canceles.\n\nPara no ser cargado, cancela la prueba al menos 24 horas antes de que acabe, desde la cuenta de Apple o de Google con la que la contrataste (ver [Cancelar la suscripción](#cancelar-la-suscripción)).",
       },
       {
         id: "prueba-mas-de-una-vez",
@@ -189,7 +194,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "varios-aparatos",
         pregunta: "¿Puedo escuchar Audite en la web o en varios aparatos?",
-        respuesta: "Sí. Con tu cuenta puedes escuchar en la web [audite.tv](https://audite.tv) y en la app para iOS y Android. La suscripción es la misma.",
+        respuesta: "Sí. Con tu cuenta puedes escuchar en la web [audite.tv](https://audite.tv) y en la app para iOS y Android. La suscripción es la misma. El reto Adviento con Isaías, que es gratis y no hace falta suscripción, también se puede seguir en la app y en la web.",
       },
     ],
   },
@@ -203,9 +208,14 @@ const SECCIONES: SeccionFaq[] = [
         respuesta: "Los retos son un camino de escucha para el tiempo litúrgico: un pasaje cada día, para acompañar Adviento, Navidad, Cuaresma, Semana Santa, Pascua o el Tiempo ordinario. No sustituyen la liturgia de la Iglesia: te invitan a escuchar la Escritura en el ritmo del año cristiano.",
       },
       {
+        id: "adviento-de-pago",
+        pregunta: "¿El reto de Adviento es de pago?",
+        respuesta: "No. El reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es **gratis y no hace falta suscripción**. Puedes seguirlo en la app y en [audite.tv](https://audite.tv).",
+      },
+      {
         id: "adviento-2026",
         pregunta: "¿Cuál es el reto de Adviento 2026?",
-        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Un rey justo* (Is 32,1–4).\n- 24 de diciembre: *Mira a tu salvador* (Is 62,10–12).",
+        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. Este reto es **gratis y no hace falta suscripción**. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Un rey justo* (Is 32,1–4).\n- 24 de diciembre: *Mira a tu salvador* (Is 62,10–12).",
       },
       {
         id: "navidad",
@@ -231,7 +241,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "no-se-oye",
         pregunta: "No se oye el episodio, se corta o no carga.",
-        respuesta: "De momento, Audite se escucha con conexión a internet. Prueba, por este orden:\n\n1. Comprueba la conexión.\n2. Cierra Audite y vuelve a abrirla, o reinicia el teléfono.\n3. Asegúrate de haber iniciado sesión y de que la prueba o la suscripción sigan activas.\n4. Actualiza la app (App Store o Google Play) o recarga la página en [audite.tv](https://audite.tv).\n5. Prueba con otro episodio: si solo falla uno, puede que ese audio aún no esté disponible.\n\nSi sigue sin ir, escríbenos a [soporte@audite.tv](mailto:soporte@audite.tv) e indica, si puedes, el aparato (iPhone o Android), el episodio y si estás en la app o en la web.",
+        respuesta: "De momento, Audite se escucha con conexión a internet. Prueba, por este orden:\n\n1. Comprueba la conexión.\n2. Cierra Audite y vuelve a abrirla, o reinicia el teléfono.\n3. Asegúrate de haber iniciado sesión. Si el episodio no forma parte del reto gratuito Adviento con Isaías, comprueba que la prueba o la suscripción sigan activas.\n4. Actualiza la app (App Store o Google Play) o recarga la página en [audite.tv](https://audite.tv).\n5. Prueba con otro episodio: si solo falla uno, puede que ese audio aún no esté disponible.\n\nSi sigue sin ir, escríbenos a [soporte@audite.tv](mailto:soporte@audite.tv) e indica, si puedes, el aparato (iPhone o Android), el episodio y si estás en la app o en la web.",
       },
       {
         id: "audio-y-texto",

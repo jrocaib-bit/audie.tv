@@ -32,9 +32,11 @@ describe("correos de ciclo de vida", () => {
     expect(veces(confirmar.html.replace(/<[^>]+>/g, " "), url)).toBe(1);
     expect(confirmar.html).toContain(`href="${url}"`);
     const bienvenida = await componer("bienvenida_lista", { token: datos.token });
+    const frase = "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv. Este reto es gratis y no hace falta suscripción.";
+    expect(bienvenida.texto).toContain(frase);
     const casa = (valor: string) => (valor.match(/https:\/\/audite\.tv(?!\/)/g) ?? []).length;
-    expect(casa(bienvenida.texto)).toBe(1);
-    expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(1);
+    expect(casa(bienvenida.texto)).toBe(2);
+    expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(2);
     expect(veces(acuse.texto, "https://audite.tv/ayuda")).toBe(1);
     expect(veces(acuse.html.replace(/<[^>]+>/g, " "), "https://audite.tv/ayuda")).toBe(1);
   });
@@ -85,6 +87,20 @@ describe("correos de ciclo de vida", () => {
     expect(payload.from).toBe("Audite <no-reply@audite.tv>");
     expect(payload.replyTo).toBe("soporte@audite.tv");
     expect(payload.headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
+  });
+
+  it("el 6A no pide prueba y el 6B anuncia el reto gratis", async () => {
+    const servicio = await componer("adviento_servicio", { nombre: "Ada" });
+    expect(servicio.texto).toContain("Este reto es gratis y no hace falta suscripción.");
+    expect(servicio.texto).not.toContain("con tu cuenta");
+    expect(servicio.texto).not.toContain("suscríbete");
+    const campana = await componer("adviento_campana", { nombre: "Ada", token: datos.token });
+    expect(campana.asuntoB).toBe("Adviento con Isaías, gratis, desde el 29 de noviembre");
+    expect(campana.texto).toContain("12,99 €");
+    expect(campana.texto).toContain("hasta el 5 de enero de 2027");
+    const fin = await componer("fin_prueba_sin_cobro", {});
+    expect(fin.texto).toContain("12,99 € al año para las suscripciones anuales nuevas");
+    expect(fin.texto).not.toMatch(/si cancelas y vuelves/i);
   });
 
   it("documenta los plazos y no los programa", () => {

@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p className="mt-3 text-[#B7AB9C]">{PRECIO.mes} · {PRECIO.anio}</p>
         <h2 className="font-display mt-10 text-3xl">Audite Premium</h2>
         <p className="mt-4">Incluye la escucha de la Biblia en la app, con la misma cuenta en la web. La voz y la música están generadas con IA.</p>
-        <p className="mt-3">El precio es 1,99 € al mes u 8,00 € al año, IVA incluido según la tienda. Hay 7 días gratis. Si no cancelas antes de que acaben, la suscripción se renueva sola en el App Store o en Google Play.</p>
+        <p className="mt-3">El precio es 1,99 € al mes. El anual es 8,00 € hasta el 5 de enero de 2027; desde el 6 de enero, 12,99 € al año para las suscripciones nuevas. IVA incluido según la tienda. Hay 7 días gratis. Si no cancelas antes de que acaben, la suscripción se renueva sola en el App Store o en Google Play. El reto Adviento con Isaías es gratis y no hace falta suscripción.</p>
         <p className="mt-3">Se cancela en los ajustes de suscripciones de Apple o de Google, no en la web. Borrar la app no cancela el cobro.</p>
         <p className="mt-3">Borrador para revisión: el desistimiento de 14 días del derecho de consumo europeo puede no aplicar al contenido digital cuando la persona ha empezado a usarlo con su consentimiento. Los reembolsos de un pago de la tienda los gestiona Apple o Google.</p>
         <p className="mt-3">La web solo sirve para escuchar. En ella no se vende nada.</p>

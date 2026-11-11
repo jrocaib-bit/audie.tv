@@ -1,3 +1,5 @@
+import { precioDeSuscripcion, type TipoAnual } from "@audite/domain";
+
 export const REMITENTE = "Audite <no-reply@audite.tv>";
 export const RESPUESTA = "soporte@audite.tv";
 
@@ -28,6 +30,8 @@ export type DatosCorreo = {
   reto_id?: string;
   token?: string;
   sin_prueba?: boolean;
+  cuando?: Date;
+  anualVigente?: boolean;
 };
 
 export type IdCorreo =
@@ -60,7 +64,8 @@ export function saludo(nombre?: string | null): string {
 
 function precioDe(datos: DatosCorreo): string {
   if (datos.precio) return datos.precio;
-  return datos.plan === "anual" ? PRECIO_ANIO : PRECIO_MES;
+  const tipo: TipoAnual = datos.anualVigente ? "vigente" : "nuevo";
+  return precioDeSuscripcion(datos.plan === "anual" ? "anual" : "mensual", datos.cuando ?? new Date(), tipo);
 }
 
 function campos(datos: DatosCorreo): Record<string, string> {
@@ -135,7 +140,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "7 días de prueba. La Biblia, de principio a fin.",
       cta: "Empezar a escuchar",
       ctaUrl: URL_APP,
-      cuerpo: [hola, "Bienvenido a Audite. Gracias por confiar en nosotros para escuchar la Biblia.", ...cobro, "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías: un pasaje para cada día, hasta Nochebuena. El audio, en este lanzamiento, está en español.", "Para entrar, usa el mismo método con el que te registraste (Apple, Google o el enlace que te enviamos al correo).", "Que esta escucha te haga bien.", "El equipo de Audite"].join("\n\n"),
+      cuerpo: [hola, "Bienvenido a Audite. Gracias por confiar en nosotros para escuchar la Biblia.", ...cobro, "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías: un pasaje para cada día, hasta Nochebuena. Este reto es gratis y no hace falta suscripción. El audio, en este lanzamiento, está en español.", "Para entrar, usa el mismo método con el que te registraste (Apple, Google o el enlace que te enviamos al correo).", "Que esta escucha te haga bien.", "El equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "aviso_fin_prueba") {
@@ -169,7 +174,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "No se ha hecho ningún cargo. Puedes volver cuando quieras.",
       cta: "Volver a Audite",
       ctaUrl: URL_WEB,
-      cuerpo: [hola, "Tu prueba de 7 días de Audite ha terminado y no se ha realizado ningún cargo.", "Si un día quieres volver a escuchar, nos encuentras en https://audite.tv y en la app. El plan es 1,99 € al mes u 8,00 € al año, otra vez con 7 días de prueba si tu cuenta de Apple o de Google aún lo permite.", "Gracias por habernos dado estos días.", "El equipo de Audite"].join("\n\n"),
+      cuerpo: [hola, "Tu prueba de 7 días de Audite ha terminado y no se ha realizado ningún cargo.", "Si un día quieres volver a escuchar, nos encuentras en https://audite.tv y en la app. El plan mensual es 1,99 € al mes. El anual cuesta 8,00 € al año hasta el 5 de enero de 2027; desde el 6 de enero, 12,99 € al año para las suscripciones anuales nuevas (si ya tenías el anual a 8,00 € y sigues suscrito, mantienes ese precio). Otra vez con 7 días de prueba si tu cuenta de Apple o de Google aún lo permite.", "El reto Adviento con Isaías es gratis y no hace falta suscripción.", "Gracias por habernos dado estos días.", "El equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "inactividad_7") {
@@ -218,7 +223,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "Un camino de escucha hasta Nochebuena, en Audite.",
       cta: "Abrir el reto de Adviento",
       ctaUrl: "https://audite.tv/reto/adviento-isaias",
-      cuerpo: [hola, "El 29 de noviembre comienza el Adviento. En Audite te invitamos a recorrerlo con el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español.", "No sustituye la liturgia de tu parroquia: es un acompañamiento para escuchar la Escritura en estos días de espera.", "El primer domingo puedes abrirlo en la app o en https://audite.tv, con tu cuenta. Si ese día se te pasa, puedes incorporarte cuando te vaya bien.", "Que este Adviento te encuentre en paz.", "El equipo de Audite"].join("\n\n"),
+      cuerpo: [hola, "El 29 de noviembre comienza el Adviento. En Audite te invitamos a recorrerlo con el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español. Este reto es gratis y no hace falta suscripción.", "No sustituye la liturgia de tu parroquia: es un acompañamiento para escuchar la Escritura en estos días de espera.", "El primer domingo puedes abrirlo en la app o en https://audite.tv. Si ese día se te pasa, puedes incorporarte cuando te vaya bien.", "Que este Adviento te encuentre en paz.", "El equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "confirmacion_boletin" || id === "confirmacion_lanzamiento") {
@@ -240,7 +245,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "Gracias por confirmar. Puedes darte de baja cuando quieras.",
       cta: "Ir a Audite",
       ctaUrl: URL_WEB,
-      cuerpo: ["Hola:", "Gracias por confirmar. A partir de ahora podrás recibir correos de Audite: avisos de la escucha y de los tiempos del año, sin prisa.", "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español.", f("Si no quieres seguir recibiéndolos, puedes darte de baja aquí: {url_baja}"), "El detalle de cómo tratamos tus datos está en https://audite.tv/privacidad.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
+      cuerpo: ["Hola:", "Gracias por confirmar. A partir de ahora podrás recibir correos de Audite: avisos de la escucha y de los tiempos del año, sin prisa.", "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv. Este reto es gratis y no hace falta suscripción.", f("Si no quieres seguir recibiéndolos, puedes darte de baja aquí: {url_baja}"), "El detalle de cómo tratamos tus datos está en https://audite.tv/privacidad.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "acuse_soporte") {
@@ -257,11 +262,11 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
   return {
     id: "adviento_campana", tipo: "marketing",
     asuntoA: "Te invitamos a escuchar el Adviento en Audite",
-    asuntoB: "Adviento con Isaías — 7 días de prueba",
-    preheader: "Un pasaje al día hasta Nochebuena. 7 días gratis; luego 1,99 € al mes u 8,00 € al año.",
-    cta: "Empezar 7 días gratis",
-    ctaUrl: URL_APP,
-    cuerpo: [hola, "El 29 de noviembre comienza el Adviento. Te invitamos a escucharlo con Audite, en el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español.", "Audite es la Biblia en audio, en el canon católico, para oírla de principio a fin, en la app y en la web. Puedes probarla 7 días gratis. Después, 1,99 € al mes u 8,00 € al año, y cancelas cuando quieras, desde el App Store o Google Play, que es donde se contrata la suscripción.", "Empieza, si te apetece, en https://audite.tv.", "Que este Adviento te haga bien.", "El equipo de Audite"].join("\n\n"),
+    asuntoB: "Adviento con Isaías, gratis, desde el 29 de noviembre",
+    preheader: "Un pasaje al día hasta Nochebuena. El reto de Adviento es gratis, sin suscripción.",
+    cta: "Abrir el reto de Adviento, gratis",
+    ctaUrl: URL_WEB,
+    cuerpo: [hola, "El 29 de noviembre comienza el Adviento. Te invitamos a escucharlo con Audite, en el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español. Este reto es gratis y no hace falta suscripción.", "Audite es también la Biblia en audio, en el canon católico, para oírla de principio a fin, en la app y en la web. Si más adelante quieres el catálogo completo, hay una prueba de 7 días y dos planes: 1,99 € al mes, o 8,00 € al año hasta el 5 de enero de 2027 (desde el 6 de enero, el anual es 12,99 € para las suscripciones nuevas; si contratas el anual antes de esa fecha, mantienes los 8,00 € mientras sigas suscrito). Cancelas cuando quieras, desde el App Store o Google Play.", "Empieza el reto, si te apetece, en https://audite.tv.", "Que este Adviento te haga bien.", "El equipo de Audite"].join("\n\n"),
   };
 }
 

@@ -5,13 +5,17 @@ import { seccionesAyuda, textoAyuda } from "./faq-centro";
 import { INTRO_CONTACTO, MENSAJE_AVISO, MENSAJE_CADUCADO, MENSAJE_CONFIRMADA, MENSAJE_CONTACTO_OK, MENSAJE_LISTA } from "./formularios/logica";
 
 describe("centro de ayuda", () => {
-  it("publica la v5 sin marcas pendientes y con el horario de soporte", () => {
+  it("publica la v6 sin marcas pendientes y con el horario de soporte", () => {
     const texto = textoAyuda(false);
     expect(texto).not.toContain("[PENDIENTE");
     expect(texto).not.toContain("<!--");
     expect(texto).toContain("https://audite.tv/contacto");
     expect(texto).toContain("Atendemos de lunes a viernes, de 9:00 a 18:00 (hora de Madrid), salvo festivos nacionales. Te responderemos como máximo en 48 horas laborables; lo habitual es que contestemos en el día.");
-    expect(texto).toContain("8,00 € al año");
+    expect(texto).toContain("8,00 € al año hasta el 5 de enero de 2027");
+    expect(texto).toContain("12,99 € al año");
+    expect(texto).toContain("gratis y no hace falta suscripción");
+    expect(texto).not.toMatch(/si cancelas y vuelves|cancelas el anual de 8/i);
+    expect(texto).not.toMatch(/hace falta (una )?cuenta|no hace falta cuenta|sin cuenta/i);
     expect(texto).toContain("La voz y la música están generadas con IA.");
     expect(texto).toContain("Disponible en español; más idiomas pronto.");
     expect(texto).not.toContain("Iniciar sesión con Google");

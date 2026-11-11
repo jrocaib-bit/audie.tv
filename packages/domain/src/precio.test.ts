@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ETIQUETA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, etiquetaDeLanzamiento, pideSuscripcion, precioLanzamientoActivo } from "./precio";
+import { ETIQUETA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, etiquetaDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo } from "./precio";
 
 describe("precio de lanzamiento", () => {
   it("está apagado salvo que el flag sea exactamente true", () => {
@@ -11,6 +11,16 @@ describe("precio de lanzamiento", () => {
     expect(etiquetaDeLanzamiento("es", true)).toBe(ETIQUETA_LANZAMIENTO);
     expect(etiquetaDeLanzamiento("es", true)).toBe("Precio de lanzamiento hasta el 5 de enero");
     expect(PRECIO_ANUAL_SIGUIENTE).toBe("12,99 €");
+  });
+
+  it("cambia el anual nuevo a las 00:00 del 6 de enero de 2027 en Madrid", () => {
+    const víspera = new Date("2027-01-05T22:59:00Z");
+    const corte = new Date("2027-01-05T23:00:00Z");
+    expect(precioDeSuscripcion("mensual", corte, "nuevo")).toBe("1,99 € al mes");
+    expect(precioDeSuscripcion("anual", víspera, "nuevo")).toBe("8,00 € al año");
+    expect(precioDeSuscripcion("anual", corte, "nuevo")).toBe("12,99 € al año");
+    expect(precioDeSuscripcion("anual", new Date("2027-06-01T12:00:00Z"), "vigente")).toBe("8,00 € al año");
+    expect(precioDeSuscripcion("anual", new Date("2026-12-31T23:00:00Z"), "nuevo")).toBe("8,00 € al año");
   });
 
   it("Adviento no pide suscripción", () => {
