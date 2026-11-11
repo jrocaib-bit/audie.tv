@@ -1,4 +1,5 @@
-import { obraAvif, obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
+import Image from "next/image";
+import { obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
 
 export function Placa({ obra, lang }: { obra: ObraVisible; lang: string }) {
   const ui = lang === "en" ? "en" : "es";
@@ -12,18 +13,14 @@ export function Placa({ obra, lang }: { obra: ObraVisible; lang: string }) {
           {obra.titulo[ui]}
           {marca(ui)}
         </p>
-        <p className="mt-1 text-sm text-[#F4ECE2]">
-          {obra.autor[ui]} · {obra.fecha}
-        </p>
-        <p className="text-sm text-[#B7AB9C]">{obra.ubicacion[ui]}</p>
+        <p className="mt-1 text-sm text-[#F4ECE2]">{[obra.autor[ui], obra.fecha.trim()].filter(Boolean).join(" · ")}</p>
+        {obra.ubicacion[ui].trim() ? <p className="text-sm text-[#B7AB9C]">{obra.ubicacion[ui]}</p> : null}
         <div className="my-3 h-px w-12 bg-[#C9A96E]" />
         <p className="text-sm italic text-[#F4ECE2]">
           {obra.titulo[otro]}
           {marca(otro)}
         </p>
-        <p className="text-sm text-[#B7AB9C]">
-          {obra.autor[otro]} · {obra.fecha} · {obra.ubicacion[otro]}
-        </p>
+        <p className="text-sm text-[#B7AB9C]">{[obra.autor[otro], obra.fecha.trim(), obra.ubicacion[otro].trim()].filter(Boolean).join(" · ")}</p>
       </figcaption>
     </figure>
   );
@@ -41,18 +38,13 @@ export function ObraFoto({
   mover?: boolean;
 }) {
   return (
-    <picture className="block h-full w-full">
-      <source type="image/avif" srcSet={obraAvif(obra)} />
-      <img
-        src={obraWebp(obra)}
-        alt=""
-        width={obra.ancho}
-        height={obra.alto}
-        fetchPriority={priority ? "high" : "auto"}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        className={`${className} ${mover ? "obra-drift" : ""}`}
-      />
-    </picture>
+    <Image
+      src={obraWebp(obra)}
+      alt=""
+      fill
+      sizes="(min-width: 1024px) 40vw, 100vw"
+      priority={priority}
+      className={`object-cover ${className} ${mover ? "obra-drift" : ""}`}
+    />
   );
 }

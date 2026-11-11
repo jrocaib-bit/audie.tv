@@ -41,6 +41,7 @@ function useColorDeObra(src: string | null): string {
     if (!src) return;
     let vivo = true;
     const imagen = new Image();
+    imagen.crossOrigin = "anonymous";
     imagen.onload = () => {
       if (!vivo) return;
       const lienzo = document.createElement("canvas");

@@ -1,5 +1,5 @@
 import creditos from "../../../content/obras/creditos.json";
-import { obraDeEpisodio, obraWebp } from "./obras-visibles";
+import { obraDeEpisodio, obrasVisibles, obraWebp } from "./obras-visibles";
 
 export type { ObraVisible } from "./obras-visibles";
 export { obraAvif, obraDeEpisodio, obraWebp, obrasVisibles, rotuloObra } from "./obras-visibles";
@@ -49,10 +49,7 @@ export function idsVisiblesEnCreditos(): string[] {
 }
 
 export function portadasCredito(): { id: string; episodio: string }[] {
-  return (archivo.obras ?? []).flatMap((obra) => {
-    if (!creditoDeObraVerificado(obra) || !obra.id || !obra.episodio) return [];
-    return [{ id: obra.id, episodio: obra.episodio }];
-  });
+  return obrasVisibles().map((obra) => ({ id: obra.id, episodio: obra.episodio }));
 }
 
 export function portadaPara(clave: string, evitar: readonly string[] = [], giro = 0): string | null {

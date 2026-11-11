@@ -1,28 +1,42 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { creditoDeObraVerificado, idsVisiblesEnCreditos, obraDeEpisodio, obrasVisibles, portadaDeReto, portadaPara, portadasDeRetos, textoVerificado } from "./obras";
+import { obraAvif, obraWebp, rotuloObra } from "./obras-visibles";
+import { creditoDeObraVerificado, obraDeEpisodio, obrasVisibles, portadaDeReto, portadaPara, portadasCredito, portadasDeRetos, textoVerificado } from "./obras";
 
 describe("obras con crédito", () => {
-  it("solo muestra principales cuyo crédito está verificado", () => {
+  it("publica las 516 obras, una por episodio, sin huecos de crédito", () => {
     const obras = obrasVisibles();
-    expect(obras.length).toBeGreaterThan(0);
-    expect(obras.map((obra) => obra.id)).toEqual(idsVisiblesEnCreditos());
+    expect(obras).toHaveLength(516);
+    expect(new Set(obras.map((obra) => obra.episodio)).size).toBe(516);
+    expect(portadasCredito()).toHaveLength(516);
     for (const obra of obras) {
       expect(textoVerificado(obra.titulo.es)).toBe(true);
       expect(textoVerificado(obra.titulo.en)).toBe(true);
       expect(textoVerificado(obra.autor.es)).toBe(true);
       expect(textoVerificado(obra.autor.en)).toBe(true);
-      expect(textoVerificado(obra.fecha)).toBe(true);
-      expect(textoVerificado(obra.ubicacion.es)).toBe(true);
-      expect(textoVerificado(obra.ubicacion.en)).toBe(true);
       expect(textoVerificado(obra.placa.es)).toBe(true);
       expect(textoVerificado(obra.placa.en)).toBe(true);
+      expect(obra.placa.es).not.toMatch(/pendiente/i);
+      expect(obra.placa.en).not.toMatch(/pendiente/i);
+      expect(obra.licencia).toMatch(/CC0|Public domain|Dominio público/);
       expect(obra.placa.es).toContain(obra.titulo.es);
       expect(obra.placa.es).toContain(obra.autor.es);
       expect(obra.ancho).toBeGreaterThan(0);
       expect(obra.alto).toBeGreaterThan(0);
+      if (obra.credito_completo) {
+        expect(textoVerificado(obra.fecha)).toBe(true);
+        expect(textoVerificado(obra.ubicacion.es)).toBe(true);
+      }
     }
+    const genesis = obraDeEpisodio("gn-01");
+    const corintios = obraDeEpisodio("1cor-01");
+    expect(obraWebp(genesis!)).toMatch(/\/gn-01_o5-detalle-960\.webp$/);
+    expect(obraWebp(corintios!)).toMatch(/\/1cor-01_o\d+-960\.webp$/);
+    expect(obraWebp(corintios!)).toContain(process.env.NEXT_PUBLIC_OBRAS_BASE?.replace(/\/$/, "") || "qdjowihivtqoelurvyke.supabase.co");
+    expect(obraAvif(genesis!)).toBeNull();
+    expect(rotuloObra(corintios!, "es")).toBe("1 Corintios · Episodio 1");
+    expect(rotuloObra(corintios!, "es")).not.toContain("Génesis");
   });
 
   it("rechaza una obra sin crédito o marcada como pendiente", () => {

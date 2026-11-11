@@ -44,14 +44,14 @@ export function Arte({ episodioId, className = "" }: { episodioId: string | null
   if (!obra) return <span className={`block bg-[#1B1815] ${className}`} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" className={`block object-cover ${className}`} />
+    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block object-cover ${className}`} />
   );
 }
 
 function Foto({ obra, className = "" }: { obra: ObraVisible; className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" className={`block h-full w-full object-cover ${className}`} />
+    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block h-full w-full object-cover ${className}`} />
   );
 }
 

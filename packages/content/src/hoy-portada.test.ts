@@ -15,7 +15,7 @@ describe("portada de Hoy", () => {
         const eleccion = elegirPortadaHoy({ retoId: reto.id, libroId: paso.libroId, episodio: paso.episodio });
         if (eleccion.tipo === "episodio") {
           expect(libroDeEpisodio(eleccion.episodio)).toBe(paso.libroId);
-          expect(eleccion.src).toContain(`/obras/${paso.libroId}-`);
+          expect(eleccion.src).toContain(`${paso.libroId}-`);
         }
         if (eleccion.tipo === "reto") {
           expect(eleccion.src).not.toMatch(/\/obras\/(?!reto-)/);
@@ -25,7 +25,7 @@ describe("portada de Hoy", () => {
     }
     const nina = retos.find((reto) => reto.id === "ordinario-evangelio")?.pasos.find((paso) => paso.titulo.es === "La niña");
     expect(nina?.libroId).toBe("mc");
-    expect(elegirPortadaHoy({ retoId: "ordinario-evangelio", libroId: "mc", episodio: nina?.episodio ?? "mc-02" })).toEqual({ tipo: "tiempo" });
+    expect(elegirPortadaHoy({ retoId: "ordinario-evangelio", libroId: "mc", episodio: nina?.episodio ?? "mc-02" })).toMatchObject({ tipo: "episodio", libroId: "mc", episodio: "mc-02" });
   });
 
   it("usa la obra verificada cuando el episodio es de ese libro", () => {
