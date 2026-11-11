@@ -2,31 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { loadAppCatalog } from "@audite/content/app-catalog";
-import { RETOS } from "@/lib/retos";
-import { etiquetaInicio, inicioDeReto, mesesAUnEpisodioAlDia, ordenarRetosEstacionales } from "@/lib/publico";
+import { etiquetaInicio, mesesAUnEpisodioAlDia } from "@/lib/publico";
+import { episodioDeCita, inicioDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
 export const metadata: Metadata = { title: "Retos", description: "Escucha la Biblia de principio a fin, y los retos del año." };
-
-const EXPLICA: Record<string, { es: string; en: string }> = {
-  "adviento-isaias": { es: "Un pasaje de Isaías cada día, hasta Nochebuena.", en: "A passage from Isaiah each day, until Christmas Eve." },
-  "navidad-infancia": { es: "Los relatos del nacimiento, día a día.", en: "The nativity accounts, day by day." },
-  "cuaresma-40": { es: "Cuarenta días de escucha hacia la Pascua.", en: "Forty days of listening toward Easter." },
-  "semana-santa-pasion": { es: "La Pasión, en los días de esa semana.", en: "The Passion, across that week." },
-  "pascua-hechos": { es: "Cincuenta días con el libro de los Hechos.", en: "Fifty days with the book of Acts." },
-};
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!esIdiomaPublico(lang)) notFound();
   const ui = lang === "en" ? "en" : "es";
-  const hoy = new Date().toISOString().slice(0, 10);
-  const estacionales = ordenarRetosEstacionales(RETOS, hoy);
   const catalogo = loadAppCatalog();
   const episodios = catalogo.rangos.length;
   const libros = catalogo.books.length;
   const meses = mesesAUnEpisodioAlDia(episodios);
-  const adviento = estacionales.find((reto) => reto.id === "adviento-isaias");
+  const temporada = retosDeTemporada();
+  const adviento = temporada[0];
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       <h1 className="font-display text-5xl leading-none">{ui === "en" ? "Challenges" : "Retos"}</h1>
@@ -47,11 +38,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <section className="mt-10">
           <h2 className="font-display text-3xl">{adviento.titulo[ui]}</h2>
           <ol className="mt-4 grid grid-cols-7 gap-2">
-            {adviento.pasos.map((paso, indice) => (
-              <li key={`${paso.ancla ?? "dia"}-${indice}`}>
-                <Link href={`/${lang}/${lang === "en" ? "advent" : "adviento"}`} className="calendario-dia" style={{ ["--i" as string]: indice }}>{indice + 1}</Link>
-              </li>
-            ))}
+            {adviento.dias.map((dia, indice) => {
+              const episodio = episodioDeCita(dia.cita, catalogo.rangos);
+              return (
+                <li key={`${adviento.id}-${indice}`}>
+                  <Link href={episodio ? `/${lang}/catalogo/${episodio}` : `/${lang}/retos/${adviento.id}`} className="calendario-dia" style={{ ["--i" as string]: indice }}>{indice + 1}</Link>
+                </li>
+              );
+            })}
           </ol>
         </section>
       ) : null}
@@ -68,20 +62,23 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       </ol>
       <h2 className="font-display mt-12 text-3xl">{ui === "en" ? "Through the year" : "En el año"}</h2>
       <ul className="mt-4 divide-y divide-[#2E2924] border-y border-[#2E2924]">
-        {estacionales.map((reto) => {
-          const inicio = inicioDeReto(reto.id);
-          const nota = EXPLICA[reto.id]?.[ui] ?? reto.titulo[ui];
+        {temporada.map((reto) => {
+          const inicio = inicioDeTemporada(reto.id);
           return (
             <li key={reto.id}>
-              <Link href={`/${lang}/${reto.tiempo === "adviento" && lang === "en" ? "advent" : reto.tiempo === "navidad" && lang === "en" ? "christmas" : reto.tiempo === "cuaresma" && lang === "en" ? "lent" : reto.tiempo === "pascua" && lang === "en" ? "easter" : reto.tiempo === "semana-santa" && lang === "en" ? "holy-week" : reto.tiempo}`} className="block py-4">
+              <Link href={`/${lang}/retos/${reto.id}`} className="block py-4">
                 <span className="font-display text-2xl">{reto.titulo[ui]}</span>
-                <span className="mt-1 block text-[#B7AB9C]">{nota}</span>
-                <span className="mt-1 block text-sm text-[#C9A96E]">{reto.pasos.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</span>
+                <span className="mt-1 block text-[#B7AB9C]">{reto.explica[ui]}</span>
+                <span className="mt-1 block text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</span>
               </Link>
             </li>
           );
         })}
       </ul>
+      <section className="mt-12">
+        <h2 className="font-display text-3xl">{ui === "en" ? "Feasts and the sanctoral" : "Fiestas y santoral"}</h2>
+        <p className="mt-3 text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
+      </section>
     </main>
   );
 }

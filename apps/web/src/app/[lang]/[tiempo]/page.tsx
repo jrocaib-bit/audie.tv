@@ -3,6 +3,9 @@ import { COLOR_HEX, referenciaPaso, type TiempoId } from "@audite/domain";
 import { obraDeEpisodio, obraWebp, obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { loadAppCatalog } from "@audite/content/app-catalog";
+import { VistaRetoAnio } from "@/components/reto-anio";
+import { retoDeTemporada } from "@/lib/retos-anio";
 import { RETOS } from "@/lib/retos";
 
 const SLUGS: Record<string, TiempoId> = {
@@ -42,6 +45,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const { lang, tiempo } = await params;
   const id = SLUGS[tiempo];
   if (!id) notFound();
+  const deAnio = retoDeTemporada(id);
+  if (deAnio) return <VistaRetoAnio lang={lang} reto={deAnio} rangos={loadAppCatalog().rangos} />;
   const ui = lang === "en" ? "en" : "es";
   const reto = RETOS.find((item) => item.tiempo === id);
   const obra = obrasVisibles().find((item) => item.episodio === reto?.obra) ?? obraDeEpisodio("gn-01");
