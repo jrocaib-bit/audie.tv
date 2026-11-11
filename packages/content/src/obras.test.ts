@@ -54,15 +54,20 @@ describe("obras con crédito", () => {
     expect(portadaDeReto("cuaresma-40")).toBeNull();
     const adviento = portadaDeReto("adviento-isaias");
     expect(adviento?.titulo.es).toBe("La Anunciación");
-    expect(adviento?.autor.es).toBe("Sandro Botticelli");
+    expect(adviento?.autor.es).toBe("Joos van Cleve");
+    expect(adviento?.ubicacion.es).toContain("Metropolitan Museum of Art");
     expect(adviento?.licencia).toMatch(/CC0/);
     expect(adviento?.src).toEqual({
       vertical: "/obras/reto-adviento_o2-9x16.webp",
       cuadrado: "/obras/reto-adviento_o2-1x1.webp",
       ancho: "/obras/reto-adviento_o2-16x9.webp",
     });
-    expect(portadaDeReto("navidad-infancia")?.titulo.es).toBe("La adoración de los Magos");
-    expect(portadaDeReto("navidad-infancia")?.src.ancho).toBe("/obras/reto-navidad_o2-16x9.webp");
+    const navidad = portadaDeReto("navidad-infancia");
+    expect(navidad?.titulo.es).toBe("La adoración de los pastores");
+    expect(navidad?.autor.es).toBe("Giorgione");
+    expect(navidad?.ubicacion.es).toBe("National Gallery of Art, Washington");
+    expect(navidad?.licencia).toMatch(/CC0/);
+    expect(navidad?.src.ancho).toBe("/obras/reto-navidad_o2-16x9.webp");
   });
 
   it("rota la portada de un día a otro sin repetirla en la misma pantalla", () => {
@@ -87,15 +92,10 @@ describe("obras con crédito", () => {
     const creditos = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../../content/obras/creditos.json"), "utf8")) as {
       retos?: { obras?: { id?: string; principal?: boolean; fuente?: { url_ficha?: string } }[] };
     };
-    const excepciones = new Map<string, string>([
-      ["reto-adviento_o2", "lc-01"],
-      ["reto-navidad_o2", "mt-01"],
-    ]);
     for (const portada of portadasDeRetos()) {
       const ficha = creditos.retos?.obras?.find((obra) => obra.id === portada.id)?.fuente?.url_ficha ?? "";
-      const episodio = porFicha.get(ficha);
-      if (!episodio) continue;
-      expect(excepciones.get(portada.id), portada.id).toBe(episodio);
+      expect(ficha, portada.id).not.toBe("");
+      expect(porFicha.has(ficha), portada.id).toBe(false);
     }
     const principales = new Set((creditos.retos?.obras ?? []).filter((obra) => obra.principal === true).map((obra) => obra.id));
     expect(principales.has("reto-adviento_o1")).toBe(true);

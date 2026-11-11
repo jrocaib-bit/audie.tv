@@ -4729,8 +4729,8 @@
       "estado": "propuesta — pendiente de aprobación de Javier"
     }
   ],
-"retos": {
-    "nota": "Portadas de retos para la app (vertical 9:16 y cuadrado). Créditos verificados; mismas fichas Met/Commons que las obras de episodio.",
+  "retos": {
+    "nota": "Portadas de retos para la app (9:16, 1:1 y 16:9). Los complementos _o2 de Adviento y Navidad son fichas propias, cerradas en v1.26.",
     "generado": "2026-11-09T22:15:49+01:00",
     "items": [
       {
@@ -4912,52 +4912,52 @@
           "en": "The Annunciation"
         },
         "autor": {
-          "es": "Sandro Botticelli",
-          "en": "Botticelli (Alessandro di Mariano Filipepi)"
+          "es": "Joos van Cleve",
+          "en": "Joos van Cleve"
         },
-        "fecha": "c. 1490",
+        "fecha": "c. 1525",
         "ubicacion": {
           "es": "The Metropolitan Museum of Art, Nueva York",
           "en": "The Metropolitan Museum of Art, New York"
         },
         "placa": {
-          "es": "La Anunciación · Sandro Botticelli · c. 1490 · The Metropolitan Museum of Art, Nueva York",
-          "en": "The Annunciation · Botticelli (Alessandro di Mariano Filipepi) · c. 1490 · The Metropolitan Museum of Art, New York"
+          "es": "La Anunciación · Joos van Cleve · c. 1525 · The Metropolitan Museum of Art, Nueva York",
+          "en": "The Annunciation · Joos van Cleve · c. 1525 · The Metropolitan Museum of Art, New York"
         },
         "fuente": {
           "fuente_tipo": "Met Open Access",
           "institucion_fuente": "The Metropolitan Museum of Art",
-          "url_ficha": "https://www.metmuseum.org/art/collection/search/459016",
-          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/459016",
-          "url_archivo": "https://images.metmuseum.org/CRDImages/rl/original/DP267397.jpg",
+          "url_ficha": "https://www.metmuseum.org/art/collection/search/436791",
+          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/436791",
+          "url_archivo": "https://images.metmuseum.org/CRDImages/ep/original/DP-19433-001.jpg",
           "titulo_catalogo": "The Annunciation",
-          "autor_catalogo": "Botticelli (Alessandro di Mariano Filipepi)",
-          "autor_bio": "Italian, Florence 1444/45–1510 Florence",
-          "fecha_catalogo": "ca. 1490",
-          "tecnica_catalogo": "Tempera and gold on wood",
-          "dimensiones_catalogo": "7 1/2 x 12 3/8 in. (19.1 x 31.4 cm)",
-          "inventario": "1975.1.74",
-          "linea_credito_museo": "Robert Lehman Collection, 1975",
+          "autor_catalogo": "Joos van Cleve",
+          "autor_bio": "Netherlandish, Cleve ca. 1485–1540/41 Antwerp",
+          "fecha_catalogo": "ca. 1525",
+          "tecnica_catalogo": "Oil on wood",
+          "dimensiones_catalogo": "34 x 31 1/2 in. (86.4 x 80 cm)",
+          "inventario": "32.100.60",
+          "linea_credito_museo": "The Friedsam Collection, Bequest of Michael Friedsam, 1931",
           "licencia": "CC0 1.0 (Met Open Access)",
           "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
           "evidencia": "API Met isPublicDomain=True",
           "dominio_publico_api": true
         },
-        "archivo_local": "retos/adviento/reto-adviento_o2_the_annunciation.jpg",
+        "archivo_local": "apps/web/public/obras/reto-adviento_o2-16x9.webp",
         "copia_de": null,
-        "origen": "Portada reto app · lc-01_o1 · 2026-11-09",
+        "origen": "Portada reto app · complemento propio · v1.26 · 2026-11-11",
         "resolucion": [
-          3913,
-          2571
+          1600,
+          900
         ],
-        "sha256": "054284b4a8e2e5d6cc89696f5ec6a9d7d3d8f44df0d23f08069fcc9d08ac1bf8",
-        "aviso_resolucion": null,
+        "sha256": "e80fa7364988e3630f534d70582794aa55053dd023ba8f9acbd3a5767682517a",
+        "aviso_resolucion": "Recortes cerrados v1.26: 16x9 1600×900, 1x1 800×800, 9x16 900×1600. El sha256 es el del webp 16x9 publicado.",
         "derechos": {
           "obra": "Dominio público (autor fallecido hace más de 100 años)",
           "reproduccion": "CC0 1.0 (Met Open Access)",
           "riesgo": "bajo",
-          "notas": "Met Open Access CC0. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
-          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de lc-01_o1 (misma ficha/licencia verificada)",
+          "notas": "Met Open Access CC0. Ficha propia 32.100.60; no es la obra de lc-01. Recortes publicados en 16x9, 1x1 y 9x16.",
+          "verificado": "2026-11-11T12:23:00+01:00 · API Met object 436791 isPublicDomain=True, accession 32.100.60",
           "dictamen_juridico": false
         },
         "recorte_16_9": {
@@ -4965,13 +4965,13 @@
           "caja_px": [
             0,
             0,
-            3913,
-            2201
+            1600,
+            900
           ],
-          "area_perdida": 0.14,
-          "nota": "Recorte 16:9 directo centrado en el foco indicado; movimiento máx. 1–3 %."
+          "area_perdida": null,
+          "nota": "Recorte 16:9 cerrado en el webp publicado. No reutilizar la caja de la ficha anterior."
         },
-        "estado": "propuesta — pendiente de aprobación de Javier",
+        "estado": "cerrada — v1.26",
         "reto": "adviento-isaias",
         "reto_titulo": {
           "id": "adviento-isaias",
@@ -4989,30 +4989,30 @@
         "recorte_app": {
           "vertical_9x16": {
             "caja_px": [
-              1233,
               0,
-              1446,
-              2571
+              0,
+              900,
+              1600
             ],
-            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 9x16, 900×1600."
           },
           "cuadrado_1x1": {
             "caja_px": [
-              671,
               0,
-              2571,
-              2571
+              0,
+              800,
+              800
             ],
-            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 1x1, 800×800."
           },
           "horizontal_16x9": {
             "caja_px": [
               0,
               0,
-              3913,
-              2201
+              1600,
+              900
             ],
-            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.4); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 16x9, 1600×900."
           }
         }
       },
@@ -5143,76 +5143,76 @@
         "episodio": null,
         "principal": false,
         "uso": "complementaria",
-        "pasaje": "Mt 2,1-12",
+        "pasaje": "Lc 2,8-20",
         "escena": {
-          "es": "Adoración de los Magos",
-          "en": "The Adoration of the Magi"
+          "es": "Adoración de los pastores",
+          "en": "The Adoration of the Shepherds"
         },
         "titulo": {
-          "es": "La adoración de los Magos",
-          "en": "The Adoration of the Magi"
+          "es": "La adoración de los pastores",
+          "en": "The Adoration of the Shepherds"
         },
         "autor": {
-          "es": "Giotto",
-          "en": "Giotto di Bondone"
+          "es": "Giorgione",
+          "en": "Giorgione"
         },
-        "fecha": "posiblemente c. 1320",
+        "fecha": "1505–1510",
         "ubicacion": {
-          "es": "The Metropolitan Museum of Art, Nueva York",
-          "en": "The Metropolitan Museum of Art, New York"
+          "es": "National Gallery of Art, Washington",
+          "en": "National Gallery of Art, Washington"
         },
         "placa": {
-          "es": "La adoración de los Magos · Giotto · posiblemente c. 1320 · The Metropolitan Museum of Art, Nueva York",
-          "en": "The Adoration of the Magi · Giotto di Bondone · posiblemente c. 1320 · The Metropolitan Museum of Art, New York"
+          "es": "La adoración de los pastores · Giorgione · 1505–1510 · National Gallery of Art, Washington",
+          "en": "The Adoration of the Shepherds · Giorgione · 1505–1510 · National Gallery of Art, Washington"
         },
         "fuente": {
-          "fuente_tipo": "Met Open Access",
-          "institucion_fuente": "The Metropolitan Museum of Art",
-          "url_ficha": "https://www.metmuseum.org/art/collection/search/436504",
-          "url_api": "https://collectionapi.metmuseum.org/public/collection/v1/objects/436504",
-          "url_archivo": "https://images.metmuseum.org/CRDImages/ep/original/DP-31416-001.jpg",
-          "titulo_catalogo": "The Adoration of the Magi",
-          "autor_catalogo": "Giotto di Bondone",
-          "autor_bio": "Italian, Florentine, 1266/76–1337",
-          "fecha_catalogo": "possibly ca. 1320",
-          "tecnica_catalogo": "Tempera on wood, gold ground",
-          "dimensiones_catalogo": "17 3/4 x 17 1/4 in. (45.1 x 43.8 cm)",
-          "inventario": "11.126.1",
-          "linea_credito_museo": "John Stewart Kennedy Fund, 1911",
-          "licencia": "CC0 1.0 (Met Open Access)",
+          "fuente_tipo": "NGA Open Access",
+          "institucion_fuente": "National Gallery of Art",
+          "url_ficha": "https://www.nga.gov/artworks/432-adoration-shepherds",
+          "url_api": null,
+          "url_archivo": "https://media.nga.gov/iiif/public/objects/4/3/2/432-primary-0-nativeres.ptif/full/full/0/default.jpg",
+          "titulo_catalogo": "The Adoration of the Shepherds",
+          "autor_catalogo": "Giorgione",
+          "autor_bio": "Venetian, 1477/1478–1510",
+          "fecha_catalogo": "1505/1510",
+          "tecnica_catalogo": "Oil on panel",
+          "dimensiones_catalogo": "overall: 90.8 x 110.5 cm (35 3/4 x 43 1/2 in.)",
+          "inventario": "1939.1.289",
+          "linea_credito_museo": "Samuel H. Kress Collection",
+          "licencia": "CC0",
           "licencia_url": "https://creativecommons.org/publicdomain/zero/1.0/",
-          "evidencia": "API Met isPublicDomain=True",
+          "evidencia": "NGA Open Access: la imagen de la obra es de dominio público (CC0). Acceso 1939.1.289.",
           "dominio_publico_api": true
         },
-        "archivo_local": "retos/navidad/reto-navidad_o2_the_adoration_of_the_magi.jpg",
+        "archivo_local": "apps/web/public/obras/reto-navidad_o2-16x9.webp",
         "copia_de": null,
-        "origen": "Portada reto app · mt-01_o1 · 2026-11-09",
+        "origen": "Portada reto app · complemento propio · v1.26 · 2026-11-11",
         "resolucion": [
-          3885,
-          4000
+          1600,
+          900
         ],
-        "sha256": "8ed5633c479f888836e38135c8080c6fe0c0f6d533b5a80348da06bbadc61044",
-        "aviso_resolucion": null,
+        "sha256": "6dfff51fe8ddf9afefae0e7193d4785bba5d15b41746d510a6c63ff164541b72",
+        "aviso_resolucion": "Recortes cerrados v1.26: 16x9 1600×900, 1x1 800×800, 9x16 900×1600. El sha256 es el del webp 16x9 publicado.",
         "derechos": {
           "obra": "Dominio público (autor fallecido hace más de 100 años)",
-          "reproduccion": "CC0 1.0 (Met Open Access)",
+          "reproduccion": "CC0",
           "riesgo": "bajo",
-          "notas": "Met Open Access CC0. Cubre Enmanuel/Mt 1–2; magos en Mt 2. · Portada de reto (app): apta 9:16 y cuadrado según recorte_app.",
-          "verificado": "2026-11-09T22:15:49+01:00 · reutilizado de mt-01_o1 (misma ficha/licencia verificada)",
+          "notas": "NGA Open Access CC0. Ficha propia 1939.1.289; no es la obra de mt-01. Recortes publicados en 16x9, 1x1 y 9x16.",
+          "verificado": "2026-11-11T12:23:00+01:00 · ficha NGA 1939.1.289, Open Access CC0",
           "dictamen_juridico": false
         },
         "recorte_16_9": {
-          "rama": "B_encaje_fondo",
+          "rama": "A_recorte_16x9",
           "caja_px": [
             0,
-            707,
-            3885,
-            2185
+            0,
+            1600,
+            900
           ],
-          "area_perdida": 0.45,
-          "nota": "Obra vertical/cuadrada: encajar completa a altura 1080 sobre fondo Galería #0C0B09 (o extensión desenfocada y oscurecida de la propia obra). La caja indicada sirve para un plano de detalle 16:9 lento, no para sustituir la obra completa."
+          "area_perdida": null,
+          "nota": "Recorte 16:9 cerrado en el webp publicado. No reutilizar la caja de la ficha anterior."
         },
-        "estado": "propuesta — pendiente de aprobación de Javier",
+        "estado": "cerrada — v1.26",
         "reto": "navidad-infancia",
         "reto_titulo": {
           "id": "navidad-infancia",
@@ -5231,30 +5231,30 @@
         "recorte_app": {
           "vertical_9x16": {
             "caja_px": [
-              818,
               0,
-              2250,
-              4000
+              0,
+              900,
+              1600
             ],
-            "nota": "Recorte vertical 9x16 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 9x16, 900×1600."
           },
           "cuadrado_1x1": {
             "caja_px": [
               0,
               0,
-              3885,
-              3885
+              800,
+              800
             ],
-            "nota": "Recorte cuadrado 1x1 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 1x1, 800×800."
           },
           "horizontal_16x9": {
             "caja_px": [
               0,
-              707,
-              3885,
-              2185
+              0,
+              1600,
+              900
             ],
-            "nota": "Recorte horizontal 16x9 centrado en foco (0.5, 0.45); movimiento máx. 1–3 %."
+            "nota": "Webp cerrado 16x9, 1600×900."
           }
         }
       }
