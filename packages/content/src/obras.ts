@@ -96,27 +96,44 @@ function textoDe(valor: { es?: string; en?: string } | undefined, lang: "es" | "
   return valor?.[lang]?.trim() || valor?.es?.trim() || "";
 }
 
+function fichaDePortada(obra: ObraReto): PortadaReto | null {
+  if (!obra.id || !obra.reto) return null;
+  const titulo = { es: textoDe(obra.titulo, "es"), en: textoDe(obra.titulo, "en") };
+  const autor = { es: textoDe(obra.autor, "es"), en: textoDe(obra.autor, "en") };
+  const ubicacion = { es: textoDe(obra.ubicacion, "es"), en: textoDe(obra.ubicacion, "en") };
+  if (!titulo.es || !autor.es || !ubicacion.es || !obra.fuente?.licencia) return null;
+  return {
+    id: obra.id,
+    retoId: obra.reto,
+    titulo,
+    autor,
+    ubicacion,
+    licencia: obra.fuente.licencia,
+    src: {
+      vertical: `/obras/${obra.id}-9x16.webp`,
+      cuadrado: `/obras/${obra.id}-1x1.webp`,
+      ancho: `/obras/${obra.id}-16x9.webp`,
+    },
+  };
+}
+
+/** El complemento _o2 es la imagen de la portada. La obra principal del reto no cambia de ficha. */
 export function portadasDeRetos(): PortadaReto[] {
-  return (retosArchivo.retos?.obras ?? []).flatMap((obra) => {
-    if (obra.principal !== true || obra.uso !== "principal" || !obra.id || !obra.reto) return [];
-    const titulo = { es: textoDe(obra.titulo, "es"), en: textoDe(obra.titulo, "en") };
-    const autor = { es: textoDe(obra.autor, "es"), en: textoDe(obra.autor, "en") };
-    const ubicacion = { es: textoDe(obra.ubicacion, "es"), en: textoDe(obra.ubicacion, "en") };
-    if (!titulo.es || !autor.es || !ubicacion.es || !obra.fuente?.licencia) return [];
-    return [{
-      id: obra.id,
-      retoId: obra.reto,
-      titulo,
-      autor,
-      ubicacion,
-      licencia: obra.fuente.licencia,
-      src: {
-        vertical: `/obras/${obra.id}-9x16.webp`,
-        cuadrado: `/obras/${obra.id}-1x1.webp`,
-        ancho: `/obras/${obra.id}-16x9.webp`,
-      },
-    }];
-  });
+  const grupos = new Map<string, ObraReto[]>();
+  for (const obra of retosArchivo.retos?.obras ?? []) {
+    if (!obra.reto) continue;
+    const lista = grupos.get(obra.reto) ?? [];
+    lista.push(obra);
+    grupos.set(obra.reto, lista);
+  }
+  const salida: PortadaReto[] = [];
+  for (const lista of grupos.values()) {
+    const complemento = lista.find((obra) => obra.uso === "complementaria" && obra.principal !== true);
+    const principal = lista.find((obra) => obra.principal === true && obra.uso === "principal");
+    const ficha = fichaDePortada(complemento ?? principal ?? {});
+    if (ficha) salida.push(ficha);
+  }
+  return salida;
 }
 
 export function portadaDeReto(retoId: string): PortadaReto | null {

@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: "Audite", template: "%s · Audite" },
     description: "La Biblia, de principio a fin.",
     robots: debeNoindex(host) ? { index: false, follow: false } : { index: true, follow: true },
-    openGraph: { title: "Audite", description: "La Biblia, de principio a fin.", images: [`${base}/obras/reto-adviento_o1-16x9.webp`] },
+    openGraph: { title: "Audite", description: "La Biblia, de principio a fin.", images: [`${base}/obras/reto-adviento_o2-16x9.webp`] },
     icons: {
     icon: [
       { url: "/marca/favicon.ico" },

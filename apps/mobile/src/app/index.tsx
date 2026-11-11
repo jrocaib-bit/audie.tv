@@ -24,8 +24,8 @@ const CAMINOS = [
 ];
 
 const RETOS = [
-  { titulo: "Adviento", src: "/obras/reto-adviento_o1-1x1.webp" },
-  { titulo: "Navidad", src: "/obras/reto-navidad_o1-1x1.webp" },
+  { titulo: "Adviento", src: "/obras/reto-adviento_o2-1x1.webp" },
+  { titulo: "Navidad", src: "/obras/reto-navidad_o2-1x1.webp" },
 ];
 
 function Rail({ titulo, items, ink, orden, alPulsar }: { titulo: string; items: { titulo: string; src: string }[]; ink: string; orden: number; alPulsar?: (titulo: string) => void }) {

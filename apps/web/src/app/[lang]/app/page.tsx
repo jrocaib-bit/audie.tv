@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title: "La app de Audite",
     description: "Avísame cuando la app esté disponible. Mientras, escucha en la web.",
     alternates: { canonical: canonicalPropio(`/${lang}/app`, lang) },
-    openGraph: { title: "La app de Audite", description: "Avísame cuando la app esté disponible.", url: `${base}/${lang}/app`, images: [`${base}/obras/reto-adviento_o1-16x9.webp`] },
+    openGraph: { title: "La app de Audite", description: "Avísame cuando la app esté disponible.", url: `${base}/${lang}/app`, images: [`${base}/obras/reto-adviento_o2-16x9.webp`] },
   };
 }
 

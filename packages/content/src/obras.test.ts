@@ -50,18 +50,19 @@ describe("obras con crédito", () => {
   it("usa solo la obra principal aprobada de cada reto", () => {
     const portadas = portadasDeRetos();
     expect(portadas.map((portada) => portada.retoId)).toEqual(["adviento-isaias", "navidad-infancia"]);
-    expect(portadas.every((portada) => portada.id.endsWith("_o1"))).toBe(true);
+    expect(portadas.every((portada) => portada.id.endsWith("_o2"))).toBe(true);
     expect(portadaDeReto("cuaresma-40")).toBeNull();
     const adviento = portadaDeReto("adviento-isaias");
-    expect(adviento?.titulo.es).toBe("El reino pacífico");
-    expect(adviento?.autor.es).toBe("Edward Hicks");
+    expect(adviento?.titulo.es).toBe("La Anunciación");
+    expect(adviento?.autor.es).toBe("Sandro Botticelli");
     expect(adviento?.licencia).toMatch(/CC0/);
     expect(adviento?.src).toEqual({
-      vertical: "/obras/reto-adviento_o1-9x16.webp",
-      cuadrado: "/obras/reto-adviento_o1-1x1.webp",
-      ancho: "/obras/reto-adviento_o1-16x9.webp",
+      vertical: "/obras/reto-adviento_o2-9x16.webp",
+      cuadrado: "/obras/reto-adviento_o2-1x1.webp",
+      ancho: "/obras/reto-adviento_o2-16x9.webp",
     });
-    expect(portadaDeReto("navidad-infancia")?.titulo.es).toBe("Madonna adorando al Niño");
+    expect(portadaDeReto("navidad-infancia")?.titulo.es).toBe("La adoración de los Magos");
+    expect(portadaDeReto("navidad-infancia")?.src.ancho).toBe("/obras/reto-navidad_o2-16x9.webp");
   });
 
   it("rota la portada de un día a otro sin repetirla en la misma pantalla", () => {
@@ -71,6 +72,34 @@ describe("obras con crédito", () => {
     expect(manana).toBeTruthy();
     expect(hoy).not.toBe(manana);
     expect(portadaPara("Marcos", hoy ? [hoy] : [], 190)).not.toBe(hoy);
+  });
+
+  it("no comparte la obra principal ni la presta como portada de reto", () => {
+    const obras = obrasVisibles();
+    const episodios = new Map<string, string[]>();
+    for (const obra of obras) {
+      const lista = episodios.get(obra.id) ?? [];
+      lista.push(obra.episodio);
+      episodios.set(obra.id, lista);
+    }
+    expect([...episodios.values()].filter((lista) => lista.length > 1)).toEqual([]);
+    const porFicha = new Map(obras.map((obra) => [obra.fuente_url, obra.episodio]));
+    const creditos = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../../content/obras/creditos.json"), "utf8")) as {
+      retos?: { obras?: { id?: string; principal?: boolean; fuente?: { url_ficha?: string } }[] };
+    };
+    const excepciones = new Map<string, string>([
+      ["reto-adviento_o2", "lc-01"],
+      ["reto-navidad_o2", "mt-01"],
+    ]);
+    for (const portada of portadasDeRetos()) {
+      const ficha = creditos.retos?.obras?.find((obra) => obra.id === portada.id)?.fuente?.url_ficha ?? "";
+      const episodio = porFicha.get(ficha);
+      if (!episodio) continue;
+      expect(excepciones.get(portada.id), portada.id).toBe(episodio);
+    }
+    const principales = new Set((creditos.retos?.obras ?? []).filter((obra) => obra.principal === true).map((obra) => obra.id));
+    expect(principales.has("reto-adviento_o1")).toBe(true);
+    expect(principales.has("reto-navidad_o1")).toBe(true);
   });
 
   it("no arrastra el texto bíblico dentro del catálogo visible", () => {
