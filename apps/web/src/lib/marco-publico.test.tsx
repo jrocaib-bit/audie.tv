@@ -44,8 +44,9 @@ describe("marco de las páginas públicas", () => {
     const inicio = renderToStaticMarkup(await SitioPie({ lang: "es", novedades: true }));
     expect(app).not.toContain("Recibir novedades");
     expect(inicio).toContain("Recibir novedades");
-    expect(inicio).toContain(">Entrar<");
-    expect(inicio).not.toContain("Entrar con Apple o Google");
+    expect(inicio).toContain("max-w-[520px]");
+    expect(inicio).not.toContain("Empieza 7 días gratis");
+    expect(inicio).not.toContain(">Entrar<");
   });
 
   it("la cuenta no se indexa", () => {
