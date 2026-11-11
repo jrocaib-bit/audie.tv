@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ETIQUETA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, etiquetaDeLanzamiento, hrefDePasoAdviento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo } from "./precio";
+import { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo } from "./precio";
 
 describe("precio de lanzamiento", () => {
   it("está apagado salvo que el flag sea exactamente true", () => {
@@ -8,8 +8,13 @@ describe("precio de lanzamiento", () => {
     expect(precioLanzamientoActivo("false")).toBe(false);
     expect(precioLanzamientoActivo("true")).toBe(true);
     expect(etiquetaDeLanzamiento("es", false)).toBeNull();
+    expect(letraDeLanzamiento("es", false)).toBeNull();
+    expect(letraDeLanzamiento("en", false)).toBeNull();
     expect(etiquetaDeLanzamiento("es", true)).toBe(ETIQUETA_LANZAMIENTO);
-    expect(etiquetaDeLanzamiento("es", true)).toBe("8 € al año mientras sigas suscrito, si entras antes del 6 de enero");
+    expect(etiquetaDeLanzamiento("es", true)).toBe("Precio de lanzamiento hasta el 5 de enero");
+    expect(etiquetaDeLanzamiento("en", true)).toBe("Launch price until 5 January");
+    expect(letraDeLanzamiento("es", true)).toBe(LETRA_LANZAMIENTO);
+    expect(letraDeLanzamiento("es", true)).toBe("Si te suscribes antes del 6 de enero, pagarás 8 € al año mientras mantengas tu suscripción activa.");
     expect(PRECIO_ANUAL_SIGUIENTE).toBe("12,99 €");
   });
 

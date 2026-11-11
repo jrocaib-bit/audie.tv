@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { etiquetaDeLanzamiento, eventosDePaywall, pideSuscripcion } from "@audite/domain";
+import { etiquetaDeLanzamiento, eventosDePaywall, letraDeLanzamiento, pideSuscripcion } from "@audite/domain";
 import { sesionApp } from "../auth";
 import { IDS_APPLE, PURCHASES_ENABLED } from "../compras/config";
 import { comprarNativo, leerTienda, restaurarNativo } from "../compras/storekit";
@@ -28,6 +28,7 @@ export default function SuscripcionScreen() {
   const es = useMobileLibrary().settings.uiLocale !== "en";
   const reto = Array.isArray(parametros.reto) ? parametros.reto[0] : parametros.reto;
   const etiqueta = etiquetaDeLanzamiento(es ? "es" : "en");
+  const letra = letraDeLanzamiento(es ? "es" : "en");
   const [plan, setPlan] = useState<LineaPrecio["plan"]>("anual");
   const [lineas, setLineas] = useState<LineaPrecio[]>(() => lineasDePaywall({
     entorno: demo ? "tienda" : entornoDe(),
@@ -104,6 +105,7 @@ export default function SuscripcionScreen() {
               <Text style={{ color: muted, fontSize: 14 }}>{linea.plan === "anual" ? (es ? "Anual" : "Yearly") : (es ? "Mensual" : "Monthly")}</Text>
               <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 36, lineHeight: 40, marginTop: 4 }}>{linea.precio ? `${linea.precio}/${periodo}` : "—"}</Text>
               {linea.plan === "anual" && etiqueta ? <Text style={{ color: oro, marginTop: 6 }}>{etiqueta}</Text> : null}
+              {linea.plan === "anual" && letra ? <Text style={{ color: muted, marginTop: 4 }}>{letra}</Text> : null}
               {linea.pruebaDias ? <Text style={{ color: oro, marginTop: 6 }}>{es ? `${linea.pruebaDias} días gratis` : `${linea.pruebaDias} days free`}</Text> : null}
             </Pressable>
           );

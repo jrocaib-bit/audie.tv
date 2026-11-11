@@ -1,6 +1,6 @@
 "use client";
 
-import { PRECIO, etiquetaDeLanzamiento, pideSuscripcion } from "@audite/domain";
+import { PRECIO, etiquetaDeLanzamiento, letraDeLanzamiento, pideSuscripcion } from "@audite/domain";
 import { useEffect, useState } from "react";
 import { medir } from "@/lib/medicion";
 import Link from "next/link";
@@ -15,7 +15,9 @@ export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: s
       </section>
     );
   }
-  const lanzamientoAnual = etiquetaDeLanzamiento(es ? "es" : "en", lanzamiento);
+  const idioma = es ? "es" : "en";
+  const lanzamientoAnual = etiquetaDeLanzamiento(idioma, lanzamiento);
+  const letraAnual = letraDeLanzamiento(idioma, lanzamiento);
   const [plan, setPlan] = useState<"anual" | "mensual">("anual");
   useEffect(() => {
     medir("paywall_view", { origen: "web" });
@@ -32,7 +34,6 @@ export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: s
   }
 
   const tiendas = tiendasVisibles();
-  const cifra = plan === "anual" ? `${PRECIO.anio}/${es ? "año" : "year"}` : `${PRECIO.mes}/${es ? "mes" : "month"}`;
 
   return (
     <section className="mx-auto w-full max-w-xl px-5 py-16 text-[#F4ECE2]">
@@ -44,13 +45,13 @@ export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: s
           <span className="block text-sm text-[#B7AB9C]">{es ? "Anual" : "Yearly"}</span>
           <span className="font-display mt-1 block text-4xl">{PRECIO.anio}/{es ? "año" : "year"}</span>
           {lanzamientoAnual ? <span className="mt-2 block text-sm text-[#C9A96E]">{lanzamientoAnual}</span> : null}
+          {letraAnual ? <span className="mt-1 block text-sm text-[#B7AB9C]">{letraAnual}</span> : null}
         </button>
         <button type="button" aria-pressed={plan === "mensual"} className={`rounded-2xl border px-5 py-4 text-left ${plan === "mensual" ? "border-[#C9A96E]" : "border-[#2E2924]"}`} onClick={() => elegir("mensual")}>
           <span className="block text-sm text-[#B7AB9C]">{es ? "Mensual" : "Monthly"}</span>
           <span className="font-display mt-1 block text-4xl">{PRECIO.mes}/{es ? "mes" : "month"}</span>
         </button>
       </div>
-      <p className="font-display mt-6 text-3xl">{cifra}</p>
       {tiendas ? (
         <div className="mt-6 grid gap-3">
           <button type="button" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" onClick={() => tienda("apple", tiendas.apple)}>App Store</button>

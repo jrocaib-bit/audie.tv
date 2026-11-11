@@ -1,7 +1,7 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { audioListo } from "@audite/content/audio-listo";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
-import { etiquetaDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
+import { etiquetaDeLanzamiento, letraDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
@@ -348,15 +348,19 @@ export function SitioHome({ lang }: { lang: string }) {
                 <p className="w-fit rounded-full bg-[#C9A96E] px-3 py-1 text-sm text-[#100E0C]">{copy.priceSave}</p>
                 <p className="font-display mt-3 text-5xl">{copy.priceYear}</p>
                 {etiquetaDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#C9A96E]">{etiquetaDeLanzamiento(ui)}</p> : null}
-                <p className="mt-3 text-sm text-[#B7AB9C]">{copy.priceAfter}</p>
+                {letraDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#B7AB9C]">{letraDeLanzamiento(ui)}</p> : null}
                 <ListaIncluidos items={incluidos} />
-                <Link href={`/${lang}/entrar`} className="boton mt-6 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.homeCta}</Link>
+                <div className="mt-auto pt-6">
+                  <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.homeCta}</Link>
+                </div>
               </article>
               <article className="flex h-full flex-col rounded-3xl border border-[#2E2924] px-6 py-6">
                 <p className="min-h-7" />
                 <p className="font-display mt-3 text-5xl">{copy.priceMonth}</p>
                 <ListaIncluidos items={incluidos} />
-                <Link href={`/${lang}/entrar`} className="boton mt-6 inline-flex min-h-12 w-fit items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
+                <div className="mt-auto pt-6">
+                  <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 w-fit items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
+                </div>
               </article>
             </div>
             <p className="mt-3 text-sm text-[#B7AB9C]">{copy.ctaRisk}</p>
