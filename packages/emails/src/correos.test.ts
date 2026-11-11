@@ -32,12 +32,12 @@ describe("correos de ciclo de vida", () => {
     expect(veces(confirmar.html.replace(/<[^>]+>/g, " "), url)).toBe(1);
     expect(confirmar.html).toContain(`href="${url}"`);
     const bienvenida = await componer("bienvenida_lista", { token: datos.token });
-    const frase = "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv. Este reto es gratis y no hace falta suscripción.";
+    const frase = "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español. Este reto es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.";
     expect(bienvenida.texto).toContain(frase);
-    expect(bienvenida.texto).toContain("En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.");
+    expect(frase).not.toContain("https://audite.tv");
     const casa = (valor: string) => (valor.match(/https:\/\/audite\.tv(?!\/)/g) ?? []).length;
-    expect(casa(bienvenida.texto)).toBe(2);
-    expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(2);
+    expect(casa(bienvenida.texto)).toBe(1);
+    expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(1);
     expect(veces(acuse.texto, "https://audite.tv/ayuda")).toBe(1);
     expect(veces(acuse.html.replace(/<[^>]+>/g, " "), "https://audite.tv/ayuda")).toBe(1);
   });
@@ -92,16 +92,32 @@ describe("correos de ciclo de vida", () => {
 
   it("el 6A no pide prueba y el 6B anuncia el reto gratis", async () => {
     const servicio = await componer("adviento_servicio", { nombre: "Ada" });
-    expect(servicio.texto).toContain("Este reto es gratis y no hace falta suscripción.");
-    expect(servicio.texto).not.toContain("con tu cuenta");
+    expect(servicio.texto).toContain("Este reto es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.");
+    expect(servicio.texto).toContain("El primer domingo puedes abrirlo en la app.");
     expect(servicio.texto).not.toContain("suscríbete");
     const campana = await componer("adviento_campana", { nombre: "Ada", token: datos.token });
     expect(campana.asuntoB).toBe("Adviento con Isaías, gratis, desde el 29 de noviembre");
+    expect(campana.preheader).toBe("Un pasaje al día hasta Nochebuena. El reto es gratis: descarga la app y crea tu cuenta.");
+    expect(campana.cta).toBe("Descargar la app y abrir el reto, gratis");
+    expect(campana.ctaUrl).toBe("https://audite.tv/app");
     expect(campana.texto).toContain("12,99 €");
     expect(campana.texto).toContain("hasta el 5 de enero de 2027");
-    const fin = await componer("fin_prueba_sin_cobro", {});
+    const fin = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-12-01T12:00:00Z") });
     expect(fin.texto).toContain("12,99 € al año para las suscripciones anuales nuevas");
+    expect(fin.texto).toContain("El reto Adviento con Isaías es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.");
     expect(fin.texto).not.toMatch(/si cancelas y vuelves/i);
+  });
+
+  it("el 3B nombra el Adviento solo del 29 de noviembre al 24 de diciembre", async () => {
+    const frase = "El reto Adviento con Isaías es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.";
+    const antes = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-11-28T22:59:00Z") });
+    const inicio = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-11-28T23:00:00Z") });
+    const ultimo = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-12-24T22:59:00Z") });
+    const despues = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-12-24T23:00:00Z") });
+    expect(antes.texto).not.toContain(frase);
+    expect(inicio.texto).toContain(frase);
+    expect(ultimo.texto).toContain(frase);
+    expect(despues.texto).not.toContain(frase);
   });
 
   it("documenta los plazos y no los programa", () => {

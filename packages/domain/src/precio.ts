@@ -69,3 +69,10 @@ export function accesosAdviento(conCuenta: boolean, dias: readonly unknown[]): A
 export function hrefDePasoAdviento(conCuenta: boolean, hrefOir: string, hrefCuenta: string): string {
   return accesoPasoAdviento(conCuenta) === "oir" ? hrefOir : hrefCuenta;
 }
+
+/** Inclusive: 29 de noviembre de 2026 a 24 de diciembre de 2026, Europe/Madrid. */
+export function advientoEnCurso(cuando: Date): boolean {
+  const dia = calendarioMadrid(cuando);
+  const clave = dia.y * 10000 + dia.m * 100 + dia.d;
+  return clave >= 20261129 && clave <= 20261224;
+}

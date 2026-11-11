@@ -127,7 +127,7 @@ export {
   idiomaResuelto,
   type Idioma,
 } from "./idioma";
-export { ETIQUETA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
+export { ETIQUETA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,
   decidirEscucha,
