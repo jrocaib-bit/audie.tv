@@ -39,3 +39,24 @@ export function ordenarRetosEstacionales<T extends { id: string; tiempo: string 
 export function inicioDeReto(id: string): string | null {
   return INICIO[id] ?? null;
 }
+
+const MESES_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const MESES_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+export function fechaLegible(iso: string, lang: "es" | "en"): string {
+  const [, mes, dia] = iso.split("-");
+  const indice = Number(mes) - 1;
+  const numero = Number(dia);
+  if (lang === "en") return `${numero} ${MESES_EN[indice] ?? ""}`;
+  return `${numero} de ${MESES_ES[indice] ?? ""}`;
+}
+
+export function etiquetaInicio(iso: string, lang: "es" | "en"): string {
+  const fecha = fechaLegible(iso, lang);
+  return lang === "en" ? `Starts ${fecha}` : `Empieza el ${fecha}`;
+}
+
+export function mesesAUnEpisodioAlDia(episodios: number): number {
+  if (episodios <= 0) return 0;
+  return Math.max(1, Math.round(episodios / 30));
+}

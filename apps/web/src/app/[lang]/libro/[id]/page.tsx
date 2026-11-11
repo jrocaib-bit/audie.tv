@@ -33,18 +33,18 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
       <h1 className="font-display mt-3 text-5xl leading-none">{nombre}</h1>
-      <p className="mt-3 text-[#B7AB9C]">{episodios.length} {ui === "en" ? "episodes" : "episodios"}</p>
+      <p className="mt-3 text-[#B7AB9C]">{episodios.length} {ui === "en" ? (episodios.length === 1 ? "episode" : "episodes") : (episodios.length === 1 ? "episodio" : "episodios")}</p>
       <ul className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
         {episodios.map((episodio) => {
           const obra = obraDeEpisodio(episodio.id);
           return (
             <li key={episodio.id}>
               <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-h-16 items-center gap-3 py-3">
-                <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
+                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]">
                   {obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
-                  ) : null}
+                  ) : <span className="absolute inset-0 flex items-center justify-center font-display text-lg text-[#C9A96E]" aria-hidden="true">{String(episodio.titulo).slice(0, 1)}</span>}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-lg leading-tight">{episodio.titulo}</span>

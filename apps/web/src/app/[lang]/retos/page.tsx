@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { RETOS } from "@/lib/retos";
-import { inicioDeReto, ordenarRetosEstacionales } from "@/lib/publico";
+import { etiquetaInicio, inicioDeReto, mesesAUnEpisodioAlDia, ordenarRetosEstacionales } from "@/lib/publico";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
 export const metadata: Metadata = { title: "Retos", description: "Escucha la Biblia de principio a fin, y los retos del año." };
@@ -23,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const hoy = new Date().toISOString().slice(0, 10);
   const estacionales = ordenarRetosEstacionales(RETOS, hoy);
   const episodios = loadAppCatalog().rangos.length;
+  const meses = mesesAUnEpisodioAlDia(episodios);
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       <h1 className="font-display text-5xl leading-none">{ui === "en" ? "Challenges" : "Retos"}</h1>
@@ -30,8 +31,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p className="text-sm text-[#C9A96E]">{ui === "en" ? "The main challenge" : "El reto principal"}</p>
         <h2 className="font-display mt-2 text-4xl leading-tight">{ui === "en" ? "Listen to the Bible from beginning to end" : "Escucha la Biblia de principio a fin"}</h2>
         <p className="mt-3 text-[#E7D7C3]">{ui === "en"
-          ? `Every episode, in order. ${episodios} episodes. You start at Genesis and the app keeps your place.`
-          : `Todos los episodios, en orden. ${episodios} episodios. Empiezas en el Génesis y la app guarda el punto.`}</p>
+          ? `${episodios} episodes · about ${meses} months at one a day. You start at Genesis and the app keeps your place.`
+          : `${episodios} episodios · unos ${meses} meses a uno al día. Empiezas en el Génesis y la app guarda el punto.`}</p>
         <Link href={`/${lang}/app`} className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Start in the app" : "Empezar en la app"}</Link>
       </section>
       <ol className="mt-10 grid gap-3 sm:grid-cols-3">
@@ -55,7 +56,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <Link href={`/${lang}/${reto.tiempo === "adviento" && lang === "en" ? "advent" : reto.tiempo === "navidad" && lang === "en" ? "christmas" : reto.tiempo === "cuaresma" && lang === "en" ? "lent" : reto.tiempo === "pascua" && lang === "en" ? "easter" : reto.tiempo === "semana-santa" && lang === "en" ? "holy-week" : reto.tiempo}`} className="block py-4">
                 <span className="font-display text-2xl">{reto.titulo[ui]}</span>
                 <span className="mt-1 block text-[#B7AB9C]">{nota}</span>
-                <span className="mt-1 block text-sm text-[#C9A96E]">{reto.pasos.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${inicio}` : ""}</span>
+                <span className="mt-1 block text-sm text-[#C9A96E]">{reto.pasos.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</span>
               </Link>
             </li>
           );

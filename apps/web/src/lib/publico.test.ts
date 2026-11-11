@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { agruparLibros, ordenarRetosEstacionales } from "./publico";
+import { loadAppCatalog } from "@audite/content/app-catalog";
+import { RETOS } from "./retos";
+import { agruparLibros, etiquetaInicio, mesesAUnEpisodioAlDia, ordenarRetosEstacionales } from "./publico";
 
 describe("catálogo y retos públicos", () => {
   it("agrupa los libros en orden canónico", () => {
@@ -28,5 +30,21 @@ describe("catálogo y retos públicos", () => {
       "pascua-hechos",
     ]);
     expect(ordenarRetosEstacionales(retos, "2026-12-26")[0]?.id).toBe("navidad-infancia");
+  });
+
+  it("escribe la fecha y los meses a partir del número de episodios", () => {
+    expect(etiquetaInicio("2026-11-29", "es")).toBe("Empieza el 29 de noviembre");
+    expect(etiquetaInicio("2026-11-29", "en")).toBe("Starts 29 November");
+    expect(mesesAUnEpisodioAlDia(516)).toBe(17);
+    expect(mesesAUnEpisodioAlDia(0)).toBe(0);
+  });
+
+  it("el catálogo publicado trae los 73 libros y Adviento sale de los datos", () => {
+    const grupos = agruparLibros(loadAppCatalog().books);
+    expect(grupos.at.length + grupos.nt.length).toBe(73);
+    expect(grupos.at.length).toBeGreaterThan(0);
+    expect(grupos.nt.length).toBeGreaterThan(0);
+    const adviento = RETOS.find((reto) => reto.id === "adviento-isaias");
+    expect(adviento?.pasos.length).toBe(26);
   });
 });

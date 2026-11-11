@@ -163,17 +163,23 @@ export function SitioCatalogo({ lang }: { lang: string }) {
       <h2 className="font-display text-3xl">{titulo}</h2>
       <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {libros.map((libro) => {
-          const obra = obraDeEpisodio(`${libro.id}-01`);
+          const primero = catalogo.rangos.find((episodio) => episodio.bookId === libro.id);
+          const obra = obraDeEpisodio(primero?.id ?? `${libro.id}-01`);
           const nombre = libro.name[ui] || libro.name.es;
+          const total = cuenta(libro.id);
           return (
-            <li key={libro.id}>
-              <Link href={`/${lang}/libro/${libro.id}`} className="block overflow-hidden rounded-2xl bg-[#1B1815]">
-                <span className="relative block aspect-[4/5] bg-[#100E0C]">
-                  {obra ? <ObraFoto obra={obra} className="h-full w-full object-cover" /> : null}
+            <li key={libro.id} className="h-full">
+              <Link href={`/${lang}/libro/${libro.id}`} className="flex h-full flex-col overflow-hidden rounded-2xl bg-[#1B1815]">
+                <span className="relative block w-full shrink-0 overflow-hidden bg-[#1B1815]" style={{ aspectRatio: "4 / 5" }}>
+                  {obra ? <ObraFoto obra={obra} className="absolute inset-0 h-full w-full object-cover" /> : (
+                    <span className="absolute inset-0 flex items-center justify-center bg-[#241F1A]">
+                      <span className="font-display text-4xl text-[#C9A96E]" aria-hidden="true">{nombre.replace(/^\d+\s*/, "").slice(0, 1)}</span>
+                    </span>
+                  )}
                 </span>
                 <span className="block px-3 py-3">
                   <span className="block font-display text-lg leading-tight">{nombre}</span>
-                  <span className="mt-1 block text-sm text-[#B7AB9C]">{cuenta(libro.id)} {ui === "en" ? "episodes" : "episodios"}</span>
+                  <span className="mt-1 block text-sm text-[#B7AB9C]">{total > 0 ? `${total} ${ui === "en" ? (total === 1 ? "episode" : "episodes") : (total === 1 ? "episodio" : "episodios")}` : (ui === "en" ? "Coming soon" : "Próximamente")}</span>
                 </span>
               </Link>
             </li>
