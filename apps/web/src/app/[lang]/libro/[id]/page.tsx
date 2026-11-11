@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { leerLibro, loadAppCatalog } from "@audite/content/app-catalog";
-import { obraDeEpisodio, obraWebp, obrasVisibles } from "@audite/content/obras";
+import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import Link from "next/link";
+import { esIdiomaPublico } from "@/sitio/i18n";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }): Promise<Metadata> {
   const { lang, id } = await params;
@@ -13,33 +15,47 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default async function Page({ params }: { params: Promise<{ lang: string; id: string }> }) {
   const { lang, id } = await params;
+  if (!esIdiomaPublico(lang)) notFound();
   const ui = lang === "en" ? "en" : "es";
   const catalogo = loadAppCatalog();
   const libro = catalogo.books.find((item) => item.id === id);
-  const lista = obrasVisibles();
-  const obra = obraDeEpisodio(`${id}-01`) ?? lista[id.split("").reduce((suma, signo) => suma + signo.charCodeAt(0), 0) % Math.max(1, lista.length)] ?? null;
-  const fuente = leerLibro(id);
-  const filas = (fuente.length > 0 ? fuente : catalogo.pendientes.filter((episodio) => episodio.bookId === id)).slice(0, 8);
-  const nombre = libro?.name[ui] || libro?.name.es || id;
+  if (!libro) notFound();
+  const listos = new Set(catalogo.episodes.filter((episodio) => episodio.bookId === id).map((episodio) => episodio.id));
+  const episodios = leerLibro(id).map((episodio) => ({
+    id: episodio.id,
+    orden: episodio.orden,
+    titulo: episodio.titulo?.[ui] || episodio.etiqueta?.[ui] || episodio.capitulos || episodio.id,
+    referencia: episodio.etiqueta?.[ui] || episodio.capitulos || "",
+    listo: listos.has(episodio.id),
+  })).sort((a, b) => a.orden - b.orden || a.id.localeCompare(b.id));
+  const nombre = libro.name[ui] || libro.name.es;
   return (
-    <main className="min-h-full bg-[#100E0C] text-[#F4ECE2]">
-      <div className="relative h-72 overflow-hidden bg-[#1B1815]">
-        {obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] to-transparent" />
-        <h1 className="font-display absolute right-5 bottom-5 left-5 text-[clamp(2.1rem,10vw,3.25rem)] leading-none whitespace-nowrap">{nombre}</h1>
-      </div>
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-3 px-5 py-6">
-        <a href={`audite://libro/${id}`} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]">{ui === "en" ? "Open in the app" : "Abrir en la app"}</a>
-        <ul>
-          {filas.map((episodio) => (
-            <li key={episodio.id} className="flex min-h-12 items-center border-b border-white/10 font-display text-xl">{episodio.etiqueta?.[ui] || episodio.capitulos}</li>
-          ))}
-        </ul>
-        <Link href={`/${ui}/creditos`} className="text-sm text-[#B7AB9C]">{ui === "en" ? "Credits" : "Créditos"}</Link>
-      </div>
+    <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
+      <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
+      <h1 className="font-display mt-3 text-5xl leading-none">{nombre}</h1>
+      <p className="mt-3 text-[#B7AB9C]">{episodios.length} {ui === "en" ? "episodes" : "episodios"}</p>
+      <ul className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
+        {episodios.map((episodio) => {
+          const obra = obraDeEpisodio(episodio.id);
+          return (
+            <li key={episodio.id}>
+              <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-h-16 items-center gap-3 py-3">
+                <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
+                  {obra ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
+                  ) : null}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-lg leading-tight">{episodio.titulo}</span>
+                  <span className="mt-0.5 block text-sm text-[#B7AB9C]">{episodio.referencia}</span>
+                </span>
+                <span className="shrink-0 text-sm text-[#C9A96E]">{episodio.listo ? (ui === "en" ? "Available" : "Disponible") : (ui === "en" ? "Upcoming" : "Próximamente")}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </main>
   );
 }

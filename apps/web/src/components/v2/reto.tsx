@@ -10,7 +10,6 @@ import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { medir } from "@/lib/medicion";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
-import { Candado } from "@/components/v2/fichas";
 import { leerRetos, marcarDia, suscribirRetos } from "@/components/v2/retos-local";
 
 const vacio = leerRetos();
@@ -125,9 +124,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
                     <svg viewBox="0 0 24 24" className="size-5"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
                   </span>
                 ) : (
-                  <span className="inline-flex size-11 shrink-0 items-center justify-center text-muted" aria-label={es ? "Pronto" : "Soon"}>
-                    <Candado />
-                  </span>
+                  <span className="shrink-0 text-xs text-muted">{es ? "Pronto" : "Soon"}</span>
                 )}
               </>
             );

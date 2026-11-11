@@ -24,7 +24,7 @@ export function robotsPara(host: string): string {
 
 export const IDIOMAS_PUBLICADOS = ["es"] as const;
 
-const RUTAS_IDIOMA = ["", "/membresia", "/ayuda", "/contacto", "/app", "/privacidad", "/aviso-legal", "/entrar", "/condiciones"] as const;
+const RUTAS_IDIOMA = ["", "/membresia", "/ayuda", "/contacto", "/app", "/retos", "/privacidad", "/aviso-legal", "/entrar", "/condiciones"] as const;
 const RETOS_PUBLICADOS = ["adviento-isaias", "navidad-infancia"] as const;
 
 export function muestraNovedades(ruta: string, lang: string): boolean {

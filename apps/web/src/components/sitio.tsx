@@ -1,18 +1,13 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
-import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { creditoVisible, lineaIdiomas, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
-import recuento from "../../../../content/canon/recuento.json";
+import { obraDeEpisodio } from "@audite/content/obras";
+import { textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
-import { ListaPorLibros } from "@/components/lista-libros";
 import { ObraFoto, Placa } from "@/components/placa";
-import { idsVisiblesEnCreditos, portadaDeReto } from "@audite/content/obras-creditos";
-import { RETOS } from "@/lib/retos";
-import { BarraFija, CtaPar, Planes } from "@/components/conversion";
-import { TarjetaCuadro } from "@/components/v2/fichas";
+import { CtaPar } from "@/components/conversion";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
-import { HoyFranja } from "@/components/hoy";
+import { agruparLibros } from "@/lib/publico";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
 import { FormularioBoletin } from "@/components/formularios";
@@ -49,14 +44,17 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
           <Wordmark locale={ui} tono="blanco" className="h-8 w-auto md:h-9" />
         </Link>
         <nav className="flex items-center gap-4 text-sm text-[#F4ECE2]">
-          <Link href={`/${lang}`} className="hidden min-h-11 items-center md:inline-flex">
+          <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
             {copy.navHome}
           </Link>
-          <Link href={`/${lang}/catalogo`} className="hidden min-h-11 items-center md:inline-flex">
+          <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">
             {copy.navCatalog}
           </Link>
-          <Link href={`/${lang}/membresia`} className="hidden min-h-11 items-center lg:inline-flex">
-            {copy.navMembership}
+          <Link href={`/${lang}/retos`} className="inline-flex min-h-11 items-center">
+            {ui === "en" ? "Challenges" : "Retos"}
+          </Link>
+          <Link href={`/${lang}/app`} className="hidden min-h-11 items-center md:inline-flex">
+            App
           </Link>
           <Link href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center">
             {etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)}
@@ -73,9 +71,7 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
   const marca = await marcaFormulario();
   const ui = idiomaUi(lang);
   const legal = textosAlta(lang);
-  const fuente = loadAppCatalog().fuenteTexto[ui];
   if (!copy) return null;
-  const credito = creditoVisible(fuente, "", "");
   return (
     <footer className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
@@ -85,8 +81,10 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
         </div>
         <div className="grid content-start gap-2">
           <p className="text-sm text-[#B7AB9C]">Audite</p>
-          <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
+          <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">{copy.navHome}</Link>
           <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
+          <Link href={`/${lang}/retos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Challenges" : "Retos"}</Link>
+          <Link href={`/${lang}/app`} className="inline-flex min-h-11 items-center">App</Link>
         </div>
         <div className="grid content-start gap-2">
           <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
@@ -107,7 +105,6 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
       <div className="px-5 md:px-8">
         {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
         <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
-        {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
       </div>
       <div className="mt-8 overflow-hidden">
         <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
@@ -120,122 +117,36 @@ export function SitioHome({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const ui = idiomaUi(lang);
   const portada = obraDeEpisodio("gn-01");
-  const obras = obrasVisibles();
-  const catalogo = loadAppCatalog();
-  const adviento = portadaDeReto("adviento-isaias");
+  const entrar = etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy?.ctaSign ?? "Entrar", copy?.ctaGhost ?? "Entrar");
   if (!copy || !portada) return null;
+  const lede = ui === "en"
+    ? "The whole Bible in audio, episode by episode, with the art in front."
+    : "La Biblia entera en audio, episodio a episodio, con el arte delante.";
+  const como = ui === "en"
+    ? "Start with a book, or with the Advent challenge. Listening continues in the app."
+    : "Empieza por un libro, o por el reto de Adviento. La escucha sigue en la app.";
   return (
     <>
       <RecordarIdioma />
-      <main className="bg-[#100E0C] pb-28 text-[#F4ECE2] md:pb-0">
-        <section id="hero" className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
+      <main className="bg-[#100E0C] text-[#F4ECE2]">
+        <section id="hero" className="relative min-h-[70svh] bg-[#100E0C]">
           <div className="absolute inset-0 overflow-hidden">
             <ObraFoto obra={portada} priority className="h-full w-full object-cover" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/10" />
-          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-32 pb-16 md:px-8">
-            <h1 className="font-display text-[clamp(2.75rem,8.6vw,7.25rem)] leading-[0.92] text-[#F4ECE2]">
-              {copy.homeTitle.split("\n").map((linea) => (
-                <span key={linea} className="block whitespace-nowrap">{linea}</span>
-              ))}
-            </h1>
-            <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
+          <div className="relative z-10 mx-auto flex min-h-[70svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
+            <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{ui === "en" ? "The Bible, from beginning to end." : "La Biblia, de principio a fin."}</h1>
+            <p className="mt-5 max-w-xl text-lg">{lede}</p>
+            <p className="mt-3 max-w-xl text-[#E7D7C3]">{como}</p>
             <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} href="/reto/adviento-isaias" />
-          </div>
-        </section>
-        <HoyFranja lang={lang} />
-        <p className="bg-[#100E0C] px-5 pb-2 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length }, lang)}</p>
-        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{lineaIdiomas(lang)}</p>
-        {obras.slice(1, 4).map((obra) => (
-          <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
-            <div className="absolute inset-0">
-              <ObraFoto obra={obra} className="h-full w-full object-cover" />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
+              <Link href={`/${lang}/retos`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{ui === "en" ? "Challenges" : "Retos"}</Link>
+              <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{entrar}</Link>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-[#100E0C]/10" />
-            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-16 md:px-8">
-              <h2 className="font-display max-w-3xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{obra.escena[ui]}</h2>
-              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
-            </div>
-          </section>
-        ))}
-        <section className="bg-[#100E0C] py-14">
-          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railBooks}</h2>
-          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
-            {obras.map((obra) => {
-              const episodio = catalogo.pendientes.find((item) => item.id === obra.episodio);
-              const corto = episodio?.tituloCorto?.[ui] || episodio?.etiqueta?.[ui] || obra.escena[ui];
-              return (
-                <TarjetaCuadro key={obra.id} href={`/${lang}/catalogo/${obra.episodio}`} episodioId={obra.episodio} titulo={corto || obra.escena[ui]} pronto prontoTexto={copy.pending} />
-              );
-            })}
-          </div>
-          <div className="px-5 md:px-8">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
           </div>
         </section>
-        <section className="bg-[#100E0C] py-10">
-          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railPaths}</h2>
-          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
-            {obras.filter((_, indice) => indice % 5 === 0).map((obra) => (
-              <TarjetaCuadro key={obra.id} href={`/${lang}/catalogo/${obra.episodio}`} episodioId={obra.episodio} titulo={obra.escena[ui]} pronto prontoTexto={copy.pending} />
-            ))}
-          </div>
-        </section>
-        <section className="bg-[#100E0C] py-10">
-          <h2 className="font-display px-5 text-3xl md:px-8 md:text-5xl">{copy.railChallenges}</h2>
-          <div className="estante mt-5 flex gap-3 overflow-x-auto px-5 pb-2 md:px-8">
-            {RETOS.map((reto) => {
-              const poster = portadaDeReto(reto.id);
-              const titulo = (reto.tituloCorto ?? reto.titulo)[ui];
-              return poster ? (
-                <Link key={reto.id} href={`/reto/${reto.id}`} className="w-44 shrink-0 snap-start">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={poster.src.cuadrado} alt="" className="aspect-square w-full object-cover" />
-                  <span className="mt-2 block font-display text-base leading-tight">{titulo}</span>
-                </Link>
-              ) : (
-                <TarjetaCuadro key={reto.id} href={`/reto/${reto.id}`} episodioId={reto.obra} titulo={titulo} pronto prontoTexto={copy.pending} />
-              );
-            })}
-          </div>
-        </section>
-        <section id="faq" className="bg-[#100E0C] px-5 py-16 md:px-8">
-          <dl className="mx-auto grid w-full max-w-6xl gap-8 md:grid-cols-2">
-            {([
-              ["faqPriceQ", "faqPriceA"],
-              ["faqTrialQ", "faqTrialA"],
-              ["faqCancelQ", "faqCancelA"],
-              ["faqLangQ", "faqLangA"],
-            ] as const).map(([pregunta, respuesta]) => (
-              <div key={pregunta}>
-                <dt className="font-display text-2xl">{copy[pregunta]}</dt>
-                <dd className="mt-2 text-[#B7AB9C]">{respuesta === "faqLangA" ? lineaIdiomas(lang) : copy[respuesta]}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mx-auto w-full max-w-6xl">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
-          </div>
-        </section>
-        <section id="precios" className="bg-[#100E0C] px-5 py-20 md:px-8">
-          <div className="mx-auto w-full max-w-6xl">
-            <Planes lang={lang} cta={copy.homeCta} riesgo={copy.ctaRisk} />
-          </div>
-        </section>
-        {adviento ? (
-          <section className="relative min-h-[88svh] bg-[#100E0C]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={adviento.src.ancho} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/40 to-transparent" />
-            <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 md:px-8">
-              <h2 className="font-display text-5xl text-[#F4ECE2] md:text-7xl">{copy.adventTitle}</h2>
-              <Link href="/reto/adviento-isaias" className="mt-8 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.ctaAdvent}</Link>
-            </div>
-          </section>
-        ) : null}
       </main>
-      <BarraFija lang={lang} copy={copy} />
     </>
   );
 }
@@ -245,39 +156,39 @@ export function SitioCatalogo({ lang }: { lang: string }) {
   const catalogo = loadAppCatalog();
   if (!copy) return null;
   const ui = idiomaUi(lang);
-  const obras = obrasVisibles();
+  const grupos = agruparLibros(catalogo.books);
+  const cuenta = (id: string) => catalogo.rangos.filter((episodio) => episodio.bookId === id).length;
+  const bloque = (titulo: string, libros: typeof grupos.at) => (
+    <section className="mt-10">
+      <h2 className="font-display text-3xl">{titulo}</h2>
+      <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {libros.map((libro) => {
+          const obra = obraDeEpisodio(`${libro.id}-01`);
+          const nombre = libro.name[ui] || libro.name.es;
+          return (
+            <li key={libro.id}>
+              <Link href={`/${lang}/libro/${libro.id}`} className="block overflow-hidden rounded-2xl bg-[#1B1815]">
+                <span className="relative block aspect-[4/5] bg-[#100E0C]">
+                  {obra ? <ObraFoto obra={obra} className="h-full w-full object-cover" /> : null}
+                </span>
+                <span className="block px-3 py-3">
+                  <span className="block font-display text-lg leading-tight">{nombre}</span>
+                  <span className="mt-1 block text-sm text-[#B7AB9C]">{cuenta(libro.id)} {ui === "en" ? "episodes" : "episodios"}</span>
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
   return (
-    <>
-      <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
-        <h1 className="font-display text-5xl md:text-6xl">{copy.catalogTitle}</h1>
-        <p className="mt-4 text-lg">{copy.catalogIntro}</p>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {obras.map((obra) => {
-            const episodio = catalogo.pendientes.find((item) => item.id === obra.episodio);
-            const titulo = episodio ? nombreEpisodio(episodio, ui) : obra.escena[ui];
-            const estado = episodio?.propuesta ? copy.proposed : episodio?.presentacion === "revision" ? copy.review : copy.pending;
-            return (
-              <li key={obra.id}>
-                <Link href={`/${lang}/catalogo/${obra.episodio}`} className="group block min-h-11 overflow-hidden bg-[#0C0B09] text-[#F4ECE2]">
-                  <span className="relative block aspect-[4/5] overflow-hidden">
-                    <ObraFoto obra={obra} className="h-full w-full object-cover" />
-                    <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/10 to-transparent" />
-                    <span className="absolute inset-x-0 bottom-0 p-4">
-                      <span className="kicker text-[#C9A96E]">{rotuloObra(obra, ui)}</span>
-                      <span className="mt-2 block font-serif text-3xl leading-tight">{textoOPendiente(titulo, copy.pending)}</span>
-                      <span className="mt-2 block text-sm text-[#B7AB9C]">{estado}</span>
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="mt-16">
-          <ListaPorLibros catalog={catalogo} locale={ui} />
-        </div>
-      </main>
-    </>
+    <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8">
+      <h1 className="font-display text-5xl">{copy.catalogTitle}</h1>
+      <p className="mt-4 max-w-xl text-lg text-[#B7AB9C]">{ui === "en" ? "Every book, in order. Open one to see its episodes." : "Cada libro, en orden. Ábrelo para ver sus episodios."}</p>
+      {bloque(ui === "en" ? "Old Testament" : "Antiguo Testamento", grupos.at)}
+      {bloque(ui === "en" ? "New Testament" : "Nuevo Testamento", grupos.nt)}
+    </main>
   );
 }
 

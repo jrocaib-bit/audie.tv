@@ -149,14 +149,9 @@ export function TarjetaCuadro({
     <Link href={href} className={`${lleno ? "w-full" : "tarjeta-par shrink-0 snap-start"}`}>
       <span className="relative block aspect-square overflow-hidden rounded-2xl" style={{ background: color }}>
         {obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
-        {pronto ? (
-          <span className="absolute top-2 right-2 inline-flex size-7 items-center justify-center rounded-full bg-[#100E0C]/75 text-[#F4ECE2]">
-            <Candado />
-            <span className="sr-only">{prontoTexto}</span>
-          </span>
-        ) : null}
       </span>
-      <span className={`mt-2 block text-center font-display leading-none whitespace-nowrap ${claseTitulo(titulo, false)}`}>{titulo}</span>
+      <span className="mt-2 line-clamp-2 block text-center font-display text-sm leading-tight">{titulo}</span>
+      {pronto ? <span className="sr-only">{prontoTexto}</span> : null}
     </Link>
   );
 }
