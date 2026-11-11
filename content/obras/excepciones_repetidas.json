@@ -1,6 +1,9 @@
 {
-  "nota": "sinObra: el episodio no se queda la obra; la pareja que se queda es la otra. portadaProvisional incluye esos 15 y cualquier otra copia que, si se mostrara, repetiría la misma obra (sha256, inventario o título y autor). Cuando Identidad mande la obra nueva, se quita de aquí.",
-  "sinObra": [
+  "criterio": "sha256, inventario y título ES normalizado + autor; las portadas reto-* cuentan como usos. Se comparan las 516 principales y las 4 obras de portada.",
+  "creditos": "audite.creditos/1.26",
+  "generado_creditos": "2026-11-11T13:35:34+01:00",
+  "coincide_con_identidad": true,
+  "pendientes": [
     "1cr-06",
     "1cr-10",
     "dt-08",
@@ -11,55 +14,195 @@
     "jos-08",
     "jos-09",
     "jos-10",
-    "nm-15",
-    "nm-16",
-    "nm-18",
     "jue-09",
-    "neh-05"
-  ],
-  "portadaProvisional": [
-    "1cr-01",
-    "dt-05",
-    "dt-15",
-    "nm-16",
-    "dt-04",
-    "dt-09",
-    "lv-13",
-    "jos-08",
-    "nm-02",
-    "dt-08",
-    "jos-10",
-    "nm-05",
-    "nm-06",
-    "nm-15",
-    "nm-04",
-    "dt-12",
-    "dt-02",
-    "jos-06",
-    "nm-18",
-    "jos-07",
-    "jos-02",
-    "dt-11",
-    "dt-10",
-    "dt-14",
-    "jos-09",
-    "jue-09",
-    "2sam-01",
-    "1cr-06",
-    "1cr-08",
-    "1cr-11",
-    "2re-14",
-    "2cr-11",
-    "is-10",
-    "1cr-10",
     "neh-05",
-    "neh-04",
-    "jer-18",
-    "jer-25",
-    "mc-06",
-    "mc-07",
-    "lc-07",
-    "jn-06",
-    "hch-12"
-  ]
+    "nm-15",
+    "nm-16",
+    "nm-18"
+  ],
+  "n_pendientes": 15,
+  "n_grupos": 14,
+  "otras_repeticiones": [],
+  "portadas_sin_coincidencia": true,
+  "grupos": [
+    {
+      "pendientes": [
+        "1cr-10"
+      ],
+      "se_queda": "1cr-03",
+      "titulo": "Los cantores",
+      "autor": "James Tissot",
+      "coincide": [
+        "sha256",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "1cr-06"
+      ],
+      "se_queda": "2sam-03",
+      "titulo": "David danza ante el arca",
+      "autor": "James Tissot",
+      "coincide": [
+        "sha256",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "neh-05"
+      ],
+      "se_queda": "2cr-06",
+      "titulo": "Interior de la mezquita del sultán el-Ghuri",
+      "autor": "David Roberts",
+      "coincide": [
+        "titulo+autor"
+      ],
+      "nota": "Inventario y sha256 distintos (1953.534 vs 2012.257)."
+    },
+    {
+      "pendientes": [
+        "jos-06"
+      ],
+      "se_queda": "dt-02",
+      "titulo": "Moisés contempla la Tierra Prometida (Dalziels' Bible Gallery)",
+      "autor": "Frederic, Lord Leighton",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "dt-11"
+      ],
+      "se_queda": "dt-03",
+      "titulo": "La entrega de la Ley en el monte Sinaí",
+      "autor": "Gustave Doré",
+      "coincide": [
+        "sha256",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "dt-08"
+      ],
+      "se_queda": "ex-12",
+      "titulo": "El sacerdote Aarón",
+      "autor": "Anónimo",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "dt-10"
+      ],
+      "se_queda": "jos-05",
+      "titulo": "Josué manda al sol detenerse sobre Gabaón",
+      "autor": "John Martin",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "nm-18"
+      ],
+      "se_queda": "dt-13",
+      "titulo": "La Tierra Prometida",
+      "autor": "Franklin Simmons",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "dt-14",
+        "jos-09"
+      ],
+      "se_queda": "jos-11",
+      "titulo": "Josué se dirige a los israelitas en Siquem",
+      "autor": "Rafael (Raffaello Sanzio)",
+      "coincide": [
+        "sha256",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "nm-16"
+      ],
+      "se_queda": "ex-09",
+      "titulo": "Moisés con las Tablas de la Ley",
+      "autor": "Rembrandt",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "jos-08"
+      ],
+      "se_queda": "ex-11",
+      "titulo": "Tabernáculo (esmalte de Limoges)",
+      "autor": "Anónimo",
+      "coincide": [
+        "inventario",
+        "titulo+autor"
+      ],
+      "nota": "Mismo inventario 41.100.184; sha256 distintos (recortes distintos de la misma obra)."
+    },
+    {
+      "pendientes": [
+        "jos-10"
+      ],
+      "se_queda": "ex-13",
+      "titulo": "Tabernáculo de Cherves",
+      "autor": "Anónimo",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "jue-09"
+      ],
+      "se_queda": "jue-01",
+      "titulo": "La profetisa Débora ordena a Barac tomar las armas contra Sísara",
+      "autor": "Francesco Solimena",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    },
+    {
+      "pendientes": [
+        "nm-15"
+      ],
+      "se_queda": "lv-01",
+      "titulo": "Tabernáculo",
+      "autor": "Anónimo",
+      "coincide": [
+        "sha256",
+        "inventario",
+        "titulo+autor"
+      ]
+    }
+  ],
+  "nota": "El conjunto de 15 pendientes coincide exactamente con el de Identidad."
 }

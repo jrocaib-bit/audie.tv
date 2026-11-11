@@ -178,7 +178,7 @@ function claveVacia(valor: string | null | undefined): string {
 
 /** Episodios que no pueden pintar su cuadro si queremos que cada obra salga una sola vez. */
 export function calcularPortadasProvisionales(): string[] {
-  const sinObra = new Set(excepciones.sinObra);
+  const sinObra = new Set(excepciones.pendientes);
   const fichas = creditos as { obras?: FichaIdentidad[]; retos?: { obras?: FichaIdentidad[] } };
   const porId = new Map((fichas.obras ?? []).map((obra) => [obra.id ?? "", obra]));
   const parent = new Map<string, string>();

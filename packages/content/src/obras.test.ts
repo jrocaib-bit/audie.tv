@@ -104,7 +104,7 @@ describe("obras con crédito", () => {
   });
 
   it("no pinta dos veces la misma obra, ni en portadas", () => {
-    const oficiales = ["1cr-06", "1cr-10", "dt-08", "dt-10", "dt-11", "dt-14", "jos-06", "jos-08", "jos-09", "jos-10", "nm-15", "nm-16", "nm-18", "jue-09", "neh-05"];
+    const oficiales = ["1cr-06", "1cr-10", "dt-08", "dt-10", "dt-11", "dt-14", "jos-06", "jos-08", "jos-09", "jos-10", "jue-09", "neh-05", "nm-15", "nm-16", "nm-18"];
     expect([...episodiosSinObra()]).toEqual(oficiales);
     const calculadas = calcularPortadasProvisionales();
     const pintadas = obrasVisibles().map((obra) => obra.episodio).filter((episodio) => esPortadaProvisional(episodio));

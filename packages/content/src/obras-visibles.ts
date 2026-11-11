@@ -2,7 +2,7 @@ import indice from "../../../content/canon/catalogo-indice.json";
 import excepciones from "../../../content/obras/excepciones_repetidas.json";
 import visibles from "../../../content/obras/visibles.json";
 
-const PROVISIONALES = new Set(excepciones.portadaProvisional);
+const PROVISIONALES = new Set(excepciones.pendientes);
 
 const OBRAS_BASE_DEFECTO = "https://qdjowihivtqoelurvyke.supabase.co/storage/v1/object/public/obras/0b6bac7d8587a7e050090142";
 
@@ -41,7 +41,7 @@ export function esPortadaProvisional(episodio: string): boolean {
 }
 
 export function episodiosSinObra(): readonly string[] {
-  return excepciones.sinObra;
+  return excepciones.pendientes;
 }
 
 export function obraDeEpisodio(episodio: string): ObraVisible | null {
