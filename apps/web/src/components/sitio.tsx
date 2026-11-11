@@ -163,8 +163,8 @@ export function SitioCatalogo({ lang }: { lang: string }) {
       <h2 className="font-display text-3xl">{titulo}</h2>
       <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {libros.map((libro) => {
-          const primero = catalogo.rangos.find((episodio) => episodio.bookId === libro.id);
-          const obra = obraDeEpisodio(primero?.id ?? `${libro.id}-01`);
+          const idPortada = libro.id === "sal" ? "sal-001" : `${libro.id}-01`;
+          const obra = obraDeEpisodio(idPortada);
           const nombre = libro.name[ui] || libro.name.es;
           const total = cuenta(libro.id);
           return (

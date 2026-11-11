@@ -35,7 +35,7 @@ const themeScript = `try{var s=JSON.parse(localStorage.getItem("audite.settings.
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const catalogoCompleto = loadAppCatalog();
-  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [] };
+  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [], fuenteTexto: { es: null, en: null } };
   const lang = (await headers()).get("x-audite-lang") || "es";
   const gazpacho = existsSync(path.join(process.cwd(), "public/fonts/gazpacho/faces.css"));
   return (

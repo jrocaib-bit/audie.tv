@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { creditoTexto, creditoVisible, idEpisodioValido, idiomaReproducible, idsEnOrden, nombreCorto, nombreEpisodio } from "@audite/domain";
+import { audioListo } from "./audio-listo";
 import { construirCatalogo } from "./app-catalog";
 import { informeDisponibilidad, validarManifiesto } from "./manifiesto";
 
@@ -172,6 +173,13 @@ describe("reproducible o pendiente", () => {
     expect(salmos.at(-1)).toBe("sal-024");
     expect(new Set(salmos).size).toBe(salmos.length);
     expect(catalogo.pendientes.find((episodio) => episodio.id === "gn-01")?.presentacion).toBe("preparacion");
+    const conAudio = construirCatalogo(manifiesto, canon, "/canon", audioListo());
+    expect(conAudio.episodes).toHaveLength(79);
+    expect(conAudio.pendientes).toHaveLength(437);
+    expect(conAudio.episodes.find((episodio) => episodio.id === "gn-01")?.segments[0]?.publicPath).toBe("/api/audio/gn-01");
+    expect(conAudio.episodes.find((episodio) => episodio.id === "gn-01")?.origen).toBe("remoto");
+    expect(conAudio.pendientes.find((episodio) => episodio.id === "nm-01")).toBeTruthy();
+    expect(conAudio.episodes.find((episodio) => episodio.id === "ex-13")).toBeUndefined();
     expect(catalogo.fuenteTexto.es).toBe(manifiesto.fuente_texto.es);
     expect(catalogo.fuenteTexto.en).toBeNull();
     const publicado = JSON.stringify(catalogo);

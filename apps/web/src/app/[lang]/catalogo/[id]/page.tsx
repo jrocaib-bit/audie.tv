@@ -64,15 +64,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       <div className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
         <p className="max-w-xl text-lg">{resumen.texto}</p>
         {listo ? (
-          <Link href="/escuchar" className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
+          <Link href={`/escuchar?e=${id}`} className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
         ) : (
-          <p className="mt-6 inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
+          <p className="mt-6 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
         )}
         {obra ? (
-          <details className="mt-8 max-w-xl text-sm text-[#B7AB9C]">
-            <summary className="min-h-11 cursor-pointer">{ui === "en" ? "About the artwork" : "Sobre la obra"}</summary>
-            <p className="mt-2">{obra.titulo[ui]} · {obra.autor[ui]} · {obra.ubicacion[ui]}</p>
-          </details>
+          <p className="mt-8 text-sm text-[#B7AB9C]">
+            {obra.titulo[ui]} · {obra.autor[ui]}
+            {" · "}
+            <Link href={`/${lang}/creditos`} className="underline">{ui === "en" ? "About the artwork" : "Sobre la obra"}</Link>
+          </p>
         ) : null}
       </div>
     </main>

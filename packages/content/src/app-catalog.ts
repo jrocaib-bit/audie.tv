@@ -5,6 +5,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "no
 import path from "node:path";
 import type { AppCatalog, Artwork, Book, CaptionCue, Episode, ImageCue, PendingEpisode } from "@audite/domain";
 import { creditoTexto, idiomaReproducible, presentacionEpisodio, rutaSegura, tiemposDeManifiesto, type EpisodioManifiesto, type Manifiesto } from "@audite/domain";
+import type { AudioListo } from "./audio-listo";
 import { parseSrt } from "./srt";
 
 export type { AppCatalog };
@@ -40,8 +41,28 @@ function marca(valor: string): number {
   return Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]) + Number(match[4].padEnd(3, "0").slice(0, 3)) / 1000;
 }
 
-export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico = "/canon"): AppCatalog {
+export function fichasManifiesto(manifiesto: Manifiesto): PendingEpisode[] {
+  const fichas: PendingEpisode[] = [];
+  for (const libro of manifiesto.libros) {
+    for (const episodio of libro.episodios.slice().sort((a, b) => a.orden - b.orden)) {
+      fichas.push({
+        id: episodio.id,
+        bookId: libro.id,
+        orden: episodio.orden,
+        capitulos: episodio.capitulos ?? null,
+        rango: episodio.rango ?? null,
+        ...nombres(episodio),
+        propuesta: episodio.propuesta === true,
+        presentacion: presentacionEpisodio(episodio),
+      });
+    }
+  }
+  return fichas;
+}
+
+export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico = "/canon", audio: AudioListo | null = null): AppCatalog {
   const existe = (ruta: string) => rutaSegura(ruta) && existsSync(path.join(raiz, ruta));
+  const listos = new Map((audio?.episodios ?? []).map((episodio) => [episodio.id, episodio]));
   const books: Book[] = manifiesto.libros
     .slice()
     .sort((a, b) => a.orden - b.orden)
@@ -51,7 +72,7 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
       order: libro.orden,
       name: { es: texto(libro.titulo?.es), en: texto(libro.titulo?.en) },
       status: libro.episodios.some((episodio) =>
-        Object.values(episodio.idiomas).some((idioma) => idiomaReproducible(idioma, Boolean(idioma.master && existe(idioma.master)))),
+        listos.has(episodio.id) || Object.values(episodio.idiomas).some((idioma) => idiomaReproducible(idioma, Boolean(idioma.master && existe(idioma.master)))),
       )
         ? "pilot"
         : "not_in_pilot",
@@ -70,6 +91,34 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
   for (const libro of manifiesto.libros) {
     for (const episodio of libro.episodios.slice().sort((a, b) => a.orden - b.orden)) {
       rangos.push({ id: episodio.id, bookId: libro.id, orden: episodio.orden, rango: episodio.rango ?? "" });
+      const remoto = listos.get(episodio.id);
+      if (remoto && remoto.duracion_s > 0) {
+        episodes.push({
+          id: episodio.id,
+          locale: "es",
+          bookId: libro.id,
+          number: episodio.orden,
+          title: texto(episodio.titulo?.es),
+          scriptureRangeLabel: [libro.titulo?.es, episodio.capitulos].filter(Boolean).join(" "),
+          status: "playable",
+          durationSeconds: remoto.duracion_s,
+          origen: "remoto",
+          segments: [
+            {
+              id: `${episodio.id}-audio`,
+              publicPath: `/api/audio/${episodio.id}`,
+              kitPath: "",
+              sha256: "",
+              startSeconds: 0,
+              durationSeconds: remoto.duracion_s,
+              bytes: remoto.bytes,
+            },
+          ],
+          summary: { es: texto(episodio.resumen?.es), en: texto(episodio.resumen?.en) },
+          ...nombres(episodio),
+        });
+        continue;
+      }
       const reproducible = Object.entries(episodio.idiomas).find(([, idioma]) =>
         idiomaReproducible(idioma, Boolean(idioma.master && existe(idioma.master))),
       );
@@ -175,7 +224,10 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
     if (!code || vistosIdioma.has(code)) return [];
     vistosIdioma.add(code);
     const conAudio = manifiesto.libros.some((libro) =>
-      libro.episodios.some((episodio) => idiomaReproducible(episodio.idiomas[codigo], Boolean(episodio.idiomas[codigo]?.master && existe(episodio.idiomas[codigo].master ?? "")))),
+      libro.episodios.some((episodio) =>
+        (codigo === "es" && listos.has(episodio.id))
+        || idiomaReproducible(episodio.idiomas[codigo], Boolean(episodio.idiomas[codigo]?.master && existe(episodio.idiomas[codigo].master ?? ""))),
+      ),
     );
     return [{
       code: code as "es" | "en" | "it",
@@ -198,15 +250,19 @@ function nombres(episodio: EpisodioManifiesto) {
   };
 }
 
-export function volcarCatalogo(catalogo: AppCatalog, destino: string): void {
-  const indice = { ...catalogo, episodes: [], pendientes: [], artworks: [], cues: [], captions: [] };
+export function volcarCatalogo(catalogo: AppCatalog, destino: string, fichas?: PendingEpisode[]): void {
+  const indice = { ...catalogo, pendientes: [], artworks: [], cues: [], captions: [] };
   writeFileSync(path.join(destino, "catalogo-indice.json"), JSON.stringify(indice));
   const carpeta = path.join(destino, "libros");
   mkdirSync(carpeta, { recursive: true });
+  const lista = fichas ?? catalogo.pendientes;
+  const porLibro: Record<string, number> = {};
   for (const libro of catalogo.books) {
-    const episodios = catalogo.pendientes.filter((episodio) => episodio.bookId === libro.id);
+    const episodios = lista.filter((episodio) => episodio.bookId === libro.id).sort((a, b) => a.orden - b.orden || a.id.localeCompare(b.id));
+    porLibro[libro.id] = episodios.length;
     writeFileSync(path.join(carpeta, `${libro.id}.json`), JSON.stringify({ id: libro.id, episodios }));
   }
+  writeFileSync(path.join(destino, "recuento.json"), `${JSON.stringify({ total: lista.length, porLibro }, null, 2)}\n`);
 }
 
 function tonoDemo(): string {

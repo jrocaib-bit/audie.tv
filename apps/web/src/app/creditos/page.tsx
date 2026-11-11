@@ -14,7 +14,7 @@ export default function Page() {
         {portadasDeRetos().map((portada) => (
           <li key={portada.id} className="text-sm text-muted">{portada.titulo.es} · {portada.autor.es} · {portada.ubicacion.es} · {portada.licencia}</li>
         ))}
-        {obras.slice(0, 12).map((obra) => (
+        {obras.map((obra) => (
           <li key={obra.id} className="text-sm text-muted">{obra.placa.es}</li>
         ))}
       </ul>

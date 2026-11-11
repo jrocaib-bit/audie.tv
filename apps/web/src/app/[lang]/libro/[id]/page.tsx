@@ -20,42 +20,56 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const catalogo = loadAppCatalog();
   const libro = catalogo.books.find((item) => item.id === id);
   if (!libro) notFound();
-  const listos = new Set(catalogo.episodes.filter((episodio) => episodio.bookId === id).map((episodio) => episodio.id));
+  const duraciones = new Map(catalogo.episodes.filter((episodio) => episodio.bookId === id).map((episodio) => [episodio.id, episodio.durationSeconds]));
   const episodios = leerLibro(id).map((episodio) => ({
     id: episodio.id,
     orden: episodio.orden,
-    titulo: episodio.titulo?.[ui] || episodio.etiqueta?.[ui] || episodio.capitulos || episodio.id,
+    titulo: episodio.tituloCorto?.[ui] || episodio.titulo?.[ui] || episodio.etiqueta?.[ui] || episodio.capitulos || episodio.id,
     referencia: episodio.etiqueta?.[ui] || episodio.capitulos || "",
-    listo: listos.has(episodio.id),
+    duracion: duraciones.get(episodio.id) ?? null,
   })).sort((a, b) => a.orden - b.orden || a.id.localeCompare(b.id));
   const nombre = libro.name[ui] || libro.name.es;
+  const disponibles = episodios.filter((episodio) => episodio.duracion != null).length;
+  const cuenta = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
       <h1 className="font-display mt-3 text-5xl leading-none">{nombre}</h1>
-      <p className="mt-3 text-[#B7AB9C]">{episodios.length} {ui === "en" ? (episodios.length === 1 ? "episode" : "episodes") : (episodios.length === 1 ? "episodio" : "episodios")}</p>
+      <p className="mt-3 text-sm text-[#B7AB9C]">{ui === "en"
+        ? `${cuenta(episodios.length, "episode", "episodes")} · ${cuenta(disponibles, "available", "available")}`
+        : `${cuenta(episodios.length, "episodio", "episodios")} · ${cuenta(disponibles, "disponible", "disponibles")}`}</p>
       <ul className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
         {episodios.map((episodio) => {
           const obra = obraDeEpisodio(episodio.id);
+          const listo = episodio.duracion != null;
           return (
-            <li key={episodio.id}>
-              <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-h-16 items-center gap-3 py-3">
+            <li key={episodio.id} className="flex min-h-16 items-center gap-3 py-3">
+              <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-w-0 flex-1 items-center gap-3">
                 <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]">
                   {obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
-                  ) : <span className="absolute inset-0 flex items-center justify-center font-display text-lg text-[#C9A96E]" aria-hidden="true">{String(episodio.titulo).slice(0, 1)}</span>}
+                    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                  ) : <span className="absolute inset-0 flex items-center justify-center font-display text-lg text-[#C9A96E]" aria-hidden="true">{String(episodio.titulo).replace(/^\d+\s*/, "").slice(0, 1)}</span>}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-lg leading-tight">{episodio.titulo}</span>
-                  <span className="mt-0.5 block text-sm text-[#B7AB9C]">{episodio.referencia}</span>
+                  <span className="mt-0.5 block text-sm text-[#B7AB9C]">{episodio.referencia}{listo ? ` · ${reloj(episodio.duracion ?? 0)}` : ""}</span>
                 </span>
-                <span className="shrink-0 text-sm text-[#C9A96E]">{episodio.listo ? (ui === "en" ? "Available" : "Disponible") : (ui === "en" ? "Upcoming" : "Próximamente")}</span>
               </Link>
+              {listo ? (
+                <Link href={`/escuchar?e=${episodio.id}`} className="shrink-0 text-sm text-[#C9A96E]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
+              ) : (
+                <span className="shrink-0 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</span>
+              )}
             </li>
           );
         })}
       </ul>
     </main>
   );
+}
+
+function reloj(segundos: number): string {
+  const total = Math.max(0, Math.round(segundos));
+  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
 }
