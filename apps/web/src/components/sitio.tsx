@@ -1,5 +1,6 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
-import { obraDeEpisodio } from "@audite/content/obras";
+import { audioListo } from "@audite/content/audio-listo";
+import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -10,6 +11,10 @@ import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { agruparLibros } from "@/lib/publico";
 import { palabras } from "@/lib/movimiento";
 import { BarraPersistente, CompactarCabecera, FiltroCatalogo } from "@/components/movimiento";
+import { BotonProbar, ProbarAudio } from "@/components/probar";
+import { etiquetaInicio } from "@/lib/publico";
+import { idsDePrueba, inicioDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
+import { tiendasVisibles } from "@/lib/tiendas-app";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
 import { FormularioBoletin } from "@/components/formularios";
@@ -117,55 +122,165 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
   );
 }
 
+function tituloDe(id: string, ui: "es" | "en"): string {
+  const catalogo = loadAppCatalog();
+  const episodio = catalogo.episodes.find((item) => item.id === id) ?? catalogo.pendientes.find((item) => item.id === id);
+  return episodio?.tituloCorto?.[ui] || episodio?.titulo?.[ui] || obraDeEpisodio(id)?.titulo[ui] || id;
+}
+
+function Ctas({ lang, copy, ficha }: { lang: string; copy: NonNullable<ReturnType<typeof copiaSitio>>; ficha: { id: string; titulo: string } }) {
+  return (
+    <div className="mt-8 flex flex-wrap gap-3">
+      <BotonProbar ficha={ficha} etiqueta={copy.listenFree} className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" />
+      <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
+    </div>
+  );
+}
+
 export function SitioHome({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const ui = idiomaUi(lang);
   const portada = obraDeEpisodio("gn-01");
-  const entrar = etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy?.ctaSign ?? "Entrar", copy?.ctaGhost ?? "Entrar");
+  const catalogo = loadAppCatalog();
   if (!copy || !portada) return null;
-  const titulo = ui === "en" ? "The Bible, from beginning to end." : "La Biblia, de principio a fin.";
-  const lede = ui === "en"
-    ? "The whole Bible in audio, episode by episode, with the art in front."
-    : "La Biblia entera en audio, episodio a episodio, con el arte delante.";
-  const como = ui === "en"
-    ? "Start with a book, or with the Advent challenge. Listening continues in the app."
-    : "Empieza por un libro, o por el reto de Adviento. La escucha sigue en la app.";
-  const escenas = ["ex-01", "is-01", "mt-01", "lc-01", "ap-01"].flatMap((id) => {
-    const obra = obraDeEpisodio(id);
-    return obra ? [obra] : [];
-  });
+  const listos = new Set(audioListo().episodios.map((episodio) => episodio.id));
+  const prueba = idsDePrueba(catalogo.rangos, listos).map((id) => ({ id, titulo: tituloDe(id, ui), src: obraDeEpisodio(id) ? obraWebp(obraDeEpisodio(id)!) : "" }));
+  const genesis = prueba.find((episodio) => episodio.id === "gn-01") ?? { id: "gn-01", titulo: tituloDe("gn-01", ui) };
+  const adviento = retosDeTemporada().find((reto) => reto.id === "adviento-isaias");
+  const inicioAdviento = adviento ? inicioDeTemporada(adviento.id) : null;
+  const tiendas = tiendasVisibles();
+  const funciones = [copy.appPaths, copy.appStreak, copy.appReminder, copy.appDownloads, copy.appLanguages];
+  const preguntas = [
+    [copy.faqWhatQ, copy.faqWhatA],
+    [copy.faqPriceQ, copy.faqPriceA],
+    [copy.faqTrialQ, copy.faqTrialA],
+    [copy.faqCancelQ, copy.faqCancelA],
+    [copy.faqLangQ, copy.faqLangA],
+  ] as const;
+  const cifras = [
+    [`${catalogo.rangos.length}`, copy.statEpisodes],
+    [`${catalogo.books.length}`, copy.statBooks],
+    ["10", copy.statMinutes],
+    ["2026", copy.statYear],
+  ];
   return (
     <>
       <RecordarIdioma />
-      <main className="bg-[#100E0C] text-[#F4ECE2]">
-        <section id="hero" className="relative min-h-[100svh] snap-start bg-[#100E0C]">
-          <div className="absolute inset-0 overflow-hidden">
-            <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
-          </div>
-          <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
-          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
-            <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{palabras(titulo).map((palabra, indice) => <span key={`${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</h1>
-            <p className="mt-5 max-w-xl text-lg">{lede}</p>
-            <p className="mt-3 max-w-xl text-[#E7D7C3]">{como}</p>
-            <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={`/${lang}/catalogo`} className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
-              <Link href={`/${lang}/retos`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{ui === "en" ? "Challenges" : "Retos"}</Link>
-              <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{entrar}</Link>
+      <ProbarAudio>
+        <main className="bg-[#100E0C] text-[#F4ECE2]">
+          <section id="hero" className="relative min-h-[100svh] bg-[#100E0C]">
+            <div className="absolute inset-0 overflow-hidden">
+              <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
             </div>
-          </div>
-        </section>
-        {escenas.map((obra) => (
-          <section key={obra.id} className="relative min-h-[100svh] snap-start overflow-hidden">
-            <ObraFoto obra={obra} className="parallax-obra absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/30 to-transparent" />
-            <div className="relative z-10 flex min-h-[100svh] items-end px-5 pb-16 md:px-8">
-              <h2 className="font-display max-w-3xl text-[clamp(2.4rem,7vw,5rem)] leading-[0.95]">{obra.titulo[ui]}</h2>
+            <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/20" />
+            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-16 md:px-8">
+              <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
+              <p className="mt-5 max-w-xl text-lg">{copy.homeWhat}</p>
+              <Ctas lang={lang} copy={copy} ficha={genesis} />
             </div>
           </section>
-        ))}
-      </main>
+          <section className="mx-auto grid w-full max-w-6xl gap-4 px-5 py-16 sm:grid-cols-2 lg:grid-cols-4 md:px-8">
+            {cifras.map(([numero, etiqueta], indice) => (
+              <article key={etiqueta} className="aparecer rounded-3xl border border-[#2E2924] px-5 py-6" style={{ ["--i" as string]: indice }}>
+                <p className="font-display text-5xl leading-none text-[#C9A96E] tabular-nums">{numero}</p>
+                <p className="mt-3 text-[#E7D7C3]">{etiqueta}</p>
+              </article>
+            ))}
+            <p className="text-sm text-[#B7AB9C] sm:col-span-2 lg:col-span-4">{copy.voiceAi}</p>
+          </section>
+          <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
+            <h2 className="font-display text-4xl">{copy.tryTitle}</h2>
+            <ul className="carrusel mt-6">
+              {prueba.map((episodio) => (
+                <li key={episodio.id} className="overflow-hidden rounded-3xl bg-[#1B1815]">
+                  <span className="relative block aspect-[4/5] overflow-hidden">
+                    {episodio.src ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={episodio.src} alt="" width={960} height={1200} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                    ) : null}
+                  </span>
+                  <span className="block px-4 py-4">
+                    <span className="block font-display text-xl leading-tight">{episodio.titulo}</span>
+                    <BotonProbar ficha={episodio} etiqueta={copy.listenFree} className="boton mt-3 inline-flex min-h-11 items-center text-sm text-[#C9A96E]" />
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <Ctas lang={lang} copy={copy} ficha={genesis} />
+          </section>
+          <section className="mx-auto grid w-full max-w-6xl gap-4 px-5 py-12 md:grid-cols-2 md:px-8">
+            <article className="rounded-3xl bg-[#1B1815] px-6 py-8">
+              <h2 className="font-display text-4xl leading-tight">{copy.mainChallenge}</h2>
+              <p className="mt-3 text-[#E7D7C3]">{catalogo.rangos.length} {copy.statEpisodes}</p>
+              <Link href={`/${lang}/retos`} className="boton mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.ctaAdvent}</Link>
+            </article>
+            {adviento ? (
+              <article className="rounded-3xl border border-[#2E2924] px-6 py-8">
+                <h2 className="font-display text-4xl leading-tight">{adviento.titulo[ui]}</h2>
+                <p className="mt-3 text-[#E7D7C3]">{adviento.explica[ui]}</p>
+                {inicioAdviento ? <p className="mt-2 text-sm text-[#C9A96E]">{etiquetaInicio(inicioAdviento, ui)}</p> : null}
+                <Link href={`/${lang}/retos/${adviento.id}`} className="boton mt-6 inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.ctaAdvent}</Link>
+              </article>
+            ) : null}
+          </section>
+          <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 py-12 md:grid-cols-[16rem_1fr] md:px-8">
+            <div className="telefono mx-auto" aria-hidden="true">
+              <div className="pantalla relative aspect-[9/16]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={obraWebp(portada)} alt="" className="ken-burns absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#100E0C] p-4">
+                  <p className="font-display text-2xl">{copy.appStreak}</p>
+                  <p className="font-display text-5xl text-[#C9A96E]">7</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h2 className="font-display text-4xl">{copy.appTitle}</h2>
+              <ul className="mt-6 grid gap-3">
+                {funciones.map((funcion) => <li key={funcion} className="rounded-2xl border border-[#2E2924] px-4 py-3">{funcion}</li>)}
+              </ul>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {tiendas ? (
+                  <>
+                    <a className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" href={tiendas.apple}>App Store</a>
+                    <a className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6" href={tiendas.google}>Google Play</a>
+                  </>
+                ) : (
+                  <>
+                    <Link href={`/${lang}/app#aviso`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">App Store · {copy.storeSoon}</Link>
+                    <Link href={`/${lang}/app#aviso`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">Google Play · {copy.storeSoon}</Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </section>
+          <section className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8">
+            <div className="grid gap-3 md:grid-cols-[1.4fr_0.8fr]">
+              <article className="rounded-3xl border border-[#C9A96E] px-6 py-8">
+                <p className="text-sm text-[#C9A96E]">{copy.priceSave}</p>
+                <p className="font-display mt-2 text-6xl">{copy.priceYear}</p>
+              </article>
+              <article className="rounded-3xl border border-[#2E2924] px-6 py-8">
+                <p className="font-display mt-6 text-4xl">{copy.priceMonth}</p>
+              </article>
+            </div>
+            <p className="mt-4 text-[#B7AB9C]">{copy.ctaRisk}</p>
+            <Ctas lang={lang} copy={copy} ficha={genesis} />
+          </section>
+          <section className="mx-auto w-full max-w-3xl px-5 py-12 md:px-8">
+            {preguntas.map(([pregunta, respuesta]) => (
+              <details key={pregunta} className="border-b border-[#2E2924] py-4">
+                <summary className="min-h-11 cursor-pointer font-display text-2xl">{pregunta}</summary>
+                <p className="mt-3 text-[#E7D7C3]">{respuesta}</p>
+              </details>
+            ))}
+            <div className="mt-10">
+              <Ctas lang={lang} copy={copy} ficha={genesis} />
+            </div>
+          </section>
+        </main>
+      </ProbarAudio>
     </>
   );
 }

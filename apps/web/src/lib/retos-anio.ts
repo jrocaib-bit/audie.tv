@@ -84,6 +84,16 @@ function esPortadaDeCatalogo(episodio: string): boolean {
   return episodio === "sal-001" || /-01$/.test(episodio);
 }
 
+export function idsDePrueba(rangos: readonly RangoEpisodio[], listos: ReadonlySet<string>): string[] {
+  const adviento = RETOS_ANIO.find((reto) => reto.id === "adviento-isaias");
+  const ids = ["gn-01"];
+  for (const dia of adviento?.dias ?? []) {
+    const episodio = episodioDeCita(dia.cita, rangos);
+    if (episodio?.startsWith("is-") && listos.has(episodio) && !ids.includes(episodio)) ids.push(episodio);
+  }
+  return ids.filter((id) => listos.has(id));
+}
+
 export function portadasDeTemporada(rangos: readonly RangoEpisodio[]): Record<string, PortadaTemporada | null> {
   const usadas = new Set<string>();
   const salida: Record<string, PortadaTemporada | null> = {};

@@ -147,6 +147,39 @@
   letter-spacing: -0.06em;
 }
 
+.carrusel {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+
+.carrusel > * {
+  flex: 0 0 16rem;
+  scroll-snap-align: start;
+}
+
+.telefono {
+  width: min(100%, 16rem);
+  border: 1px solid #2e2924;
+  border-radius: 2rem;
+  background: #100e0c;
+  padding: 0.6rem;
+}
+
+.pantalla {
+  overflow: hidden;
+  border-radius: 1.4rem;
+  background: #1b1815;
+}
+
+.progreso {
+  display: block;
+  height: 100%;
+  background: #c9a96e;
+}
+
 .calendario-dia {
   display: grid;
   min-height: 3.25rem;
@@ -256,6 +289,11 @@
     .velo-luz {
       animation: respirar 9s ease-in-out infinite;
     }
+
+    .pantalla-b,
+    .pantalla-c {
+      animation: aparecer 10s infinite;
+    }
   }
 }
 
@@ -268,6 +306,8 @@
   .avance,
   .camino-trazo,
   .calendario-dia,
+  .pantalla-b,
+  .pantalla-c,
   .velo-luz,
   .cabecera-interior,
   .tarjeta-libro,

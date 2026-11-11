@@ -141,7 +141,10 @@ export function ReproductorV2() {
       <div className="pointer-events-none fixed inset-0" style={{ background: `linear-gradient(180deg, ${fondo} 0%, #100E0C 52%, #000000 100%)` }} />
       <div className="relative flex min-h-dvh flex-col">
       <header className="flex items-center justify-between px-4 py-3">
-        <Link href="/escuchar" aria-label={es ? "Cerrar" : "Close"} className="inline-flex size-11 items-center justify-center text-xl">↓</Link>
+        <span className="flex items-center gap-1">
+          <Link href="/escuchar" aria-label={es ? "Cerrar" : "Close"} className="inline-flex size-11 items-center justify-center text-xl">↓</Link>
+          <Link href={es ? "/es" : "/en"} className="inline-flex min-h-11 items-center text-sm text-[#B7AB9C]">← audite.tv</Link>
+        </span>
         <p className="kicker text-[#F4ECE2]/80">{es ? "Escuchando" : "Playing"}</p>
         <button type="button" aria-label={es ? "Letras" : "Lyrics"} className="inline-flex size-11 items-center justify-center text-xl" onClick={() => subir(80)}>↑</button>
       </header>
