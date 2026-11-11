@@ -1,0 +1,435 @@
+{
+ "version": 1,
+ "generado": "2026-11-11T11:15:00+01:00",
+ "idioma": "es",
+ "bucket": "audio",
+ "prefijo": "cf98bba075769db78d8c239b/es",
+ "formato": "mp3 64 kbps mono 44,1 kHz (derivado de streaming del máster v2)",
+ "episodios": [
+  {
+   "id": "gn-01",
+   "duracion_s": 524.4,
+   "bytes": 4195552
+  },
+  {
+   "id": "gn-02",
+   "duracion_s": 684.3,
+   "bytes": 5474298
+  },
+  {
+   "id": "gn-03",
+   "duracion_s": 846.0,
+   "bytes": 6768509
+  },
+  {
+   "id": "gn-04",
+   "duracion_s": 636.1,
+   "bytes": 5089358
+  },
+  {
+   "id": "gn-05",
+   "duracion_s": 586.9,
+   "bytes": 4695640
+  },
+  {
+   "id": "gn-06",
+   "duracion_s": 747.4,
+   "bytes": 5979402
+  },
+  {
+   "id": "gn-07",
+   "duracion_s": 600.9,
+   "bytes": 4807444
+  },
+  {
+   "id": "gn-08",
+   "duracion_s": 702.3,
+   "bytes": 5618703
+  },
+  {
+   "id": "gn-09",
+   "duracion_s": 668.1,
+   "bytes": 5344731
+  },
+  {
+   "id": "gn-10",
+   "duracion_s": 616.9,
+   "bytes": 4935758
+  },
+  {
+   "id": "gn-11",
+   "duracion_s": 696.7,
+   "bytes": 5574190
+  },
+  {
+   "id": "gn-12",
+   "duracion_s": 694.5,
+   "bytes": 5556218
+  },
+  {
+   "id": "gn-13",
+   "duracion_s": 538.8,
+   "bytes": 4310491
+  },
+  {
+   "id": "gn-14",
+   "duracion_s": 490.5,
+   "bytes": 3924087
+  },
+  {
+   "id": "gn-15",
+   "duracion_s": 869.1,
+   "bytes": 6953455
+  },
+  {
+   "id": "gn-16",
+   "duracion_s": 661.3,
+   "bytes": 5291023
+  },
+  {
+   "id": "gn-17",
+   "duracion_s": 456.9,
+   "bytes": 3655549
+  },
+  {
+   "id": "gn-18",
+   "duracion_s": 551.3,
+   "bytes": 4410383
+  },
+  {
+   "id": "gn-19",
+   "duracion_s": 762.1,
+   "bytes": 6096848
+  },
+  {
+   "id": "gn-20",
+   "duracion_s": 614.6,
+   "bytes": 4917367
+  },
+  {
+   "id": "gn-21",
+   "duracion_s": 681.3,
+   "bytes": 5450474
+  },
+  {
+   "id": "gn-22",
+   "duracion_s": 789.4,
+   "bytes": 6315859
+  },
+  {
+   "id": "ex-01",
+   "duracion_s": 697.0,
+   "bytes": 5576071
+  },
+  {
+   "id": "ex-02",
+   "duracion_s": 816.8,
+   "bytes": 6534451
+  },
+  {
+   "id": "ex-03",
+   "duracion_s": 640.5,
+   "bytes": 5124257
+  },
+  {
+   "id": "ex-04",
+   "duracion_s": 728.5,
+   "bytes": 5827891
+  },
+  {
+   "id": "ex-05",
+   "duracion_s": 657.3,
+   "bytes": 5259049
+  },
+  {
+   "id": "ex-06",
+   "duracion_s": 615.0,
+   "bytes": 4920293
+  },
+  {
+   "id": "ex-07",
+   "duracion_s": 649.1,
+   "bytes": 5193220
+  },
+  {
+   "id": "ex-08",
+   "duracion_s": 737.3,
+   "bytes": 5898318
+  },
+  {
+   "id": "ex-09",
+   "duracion_s": 557.3,
+   "bytes": 4458657
+  },
+  {
+   "id": "ex-10",
+   "duracion_s": 756.8,
+   "bytes": 6054843
+  },
+  {
+   "id": "ex-11",
+   "duracion_s": 654.2,
+   "bytes": 5233762
+  },
+  {
+   "id": "ex-12",
+   "duracion_s": 644.5,
+   "bytes": 5156440
+  },
+  {
+   "id": "ex-14",
+   "duracion_s": 536.1,
+   "bytes": 4288757
+  },
+  {
+   "id": "ex-15",
+   "duracion_s": 639.3,
+   "bytes": 5115062
+  },
+  {
+   "id": "ex-16",
+   "duracion_s": 684.5,
+   "bytes": 5476597
+  },
+  {
+   "id": "ex-17",
+   "duracion_s": 603.1,
+   "bytes": 4825416
+  },
+  {
+   "id": "ex-18",
+   "duracion_s": 715.5,
+   "bytes": 5724238
+  },
+  {
+   "id": "lv-01",
+   "duracion_s": 538.1,
+   "bytes": 4305057
+  },
+  {
+   "id": "lv-02",
+   "duracion_s": 741.9,
+   "bytes": 5935098
+  },
+  {
+   "id": "lv-03",
+   "duracion_s": 659.3,
+   "bytes": 5274722
+  },
+  {
+   "id": "lv-04",
+   "duracion_s": 653.6,
+   "bytes": 5228956
+  },
+  {
+   "id": "lv-05",
+   "duracion_s": 795.8,
+   "bytes": 6366432
+  },
+  {
+   "id": "lv-06",
+   "duracion_s": 650.8,
+   "bytes": 5206386
+  },
+  {
+   "id": "lv-07",
+   "duracion_s": 630.6,
+   "bytes": 5045054
+  },
+  {
+   "id": "lv-08",
+   "duracion_s": 752.2,
+   "bytes": 6018272
+  },
+  {
+   "id": "lv-09",
+   "duracion_s": 779.8,
+   "bytes": 6238327
+  },
+  {
+   "id": "lv-10",
+   "duracion_s": 544.9,
+   "bytes": 4359601
+  },
+  {
+   "id": "lv-11",
+   "duracion_s": 803.5,
+   "bytes": 6428290
+  },
+  {
+   "id": "lv-12",
+   "duracion_s": 776.2,
+   "bytes": 6209906
+  },
+  {
+   "id": "is-01",
+   "duracion_s": 790.5,
+   "bytes": 6324427
+  },
+  {
+   "id": "is-02",
+   "duracion_s": 700.4,
+   "bytes": 5603865
+  },
+  {
+   "id": "is-03",
+   "duracion_s": 766.4,
+   "bytes": 6131539
+  },
+  {
+   "id": "is-04",
+   "duracion_s": 778.9,
+   "bytes": 6231849
+  },
+  {
+   "id": "is-07",
+   "duracion_s": 779.3,
+   "bytes": 6234566
+  },
+  {
+   "id": "is-09",
+   "duracion_s": 713.4,
+   "bytes": 5707101
+  },
+  {
+   "id": "is-11",
+   "duracion_s": 616.1,
+   "bytes": 4928861
+  },
+  {
+   "id": "is-12",
+   "duracion_s": 533.8,
+   "bytes": 4270367
+  },
+  {
+   "id": "is-14",
+   "duracion_s": 707.9,
+   "bytes": 5663215
+  },
+  {
+   "id": "is-15",
+   "duracion_s": 702.9,
+   "bytes": 5623718
+  },
+  {
+   "id": "is-16",
+   "duracion_s": 685.6,
+   "bytes": 5485374
+  },
+  {
+   "id": "is-17",
+   "duracion_s": 685.2,
+   "bytes": 5482239
+  },
+  {
+   "id": "is-18",
+   "duracion_s": 630.4,
+   "bytes": 5043382
+  },
+  {
+   "id": "is-19",
+   "duracion_s": 617.3,
+   "bytes": 4938683
+  },
+  {
+   "id": "mt-01",
+   "duracion_s": 454.3,
+   "bytes": 3634651
+  },
+  {
+   "id": "mt-02",
+   "duracion_s": 783.4,
+   "bytes": 6267375
+  },
+  {
+   "id": "mt-03",
+   "duracion_s": 570.7,
+   "bytes": 4565655
+  },
+  {
+   "id": "mt-04",
+   "duracion_s": 979.6,
+   "bytes": 7836812
+  },
+  {
+   "id": "mt-05",
+   "duracion_s": 716.8,
+   "bytes": 5734895
+  },
+  {
+   "id": "mt-06",
+   "duracion_s": 781.4,
+   "bytes": 6251493
+  },
+  {
+   "id": "mt-07",
+   "duracion_s": 836.9,
+   "bytes": 6695784
+  },
+  {
+   "id": "mt-08",
+   "duracion_s": 606.4,
+   "bytes": 4851748
+  },
+  {
+   "id": "mt-09",
+   "duracion_s": 727.1,
+   "bytes": 5817233
+  },
+  {
+   "id": "mt-10",
+   "duracion_s": 694.0,
+   "bytes": 5552038
+  },
+  {
+   "id": "mt-11",
+   "duracion_s": 785.8,
+   "bytes": 6286811
+  },
+  {
+   "id": "lc-01",
+   "duracion_s": 606.8,
+   "bytes": 4854464
+  },
+  {
+   "id": "lc-02",
+   "duracion_s": 452.3,
+   "bytes": 3618350
+  },
+  {
+   "id": "jn-01",
+   "duracion_s": 627.8,
+   "bytes": 5022902
+  }
+ ],
+ "en_revision": [
+  "lv-13",
+  "nm-01",
+  "nm-02",
+  "nm-03",
+  "nm-04",
+  "nm-05",
+  "nm-06",
+  "nm-07",
+  "nm-08",
+  "nm-09",
+  "nm-10",
+  "nm-11",
+  "nm-12",
+  "nm-13",
+  "nm-14",
+  "nm-15",
+  "nm-16",
+  "nm-17",
+  "nm-18",
+  "dt-01",
+  "dt-02",
+  "dt-03",
+  "dt-04",
+  "dt-05",
+  "dt-06"
+ ],
+ "bloqueados": [
+  "ex-13"
+ ]
+}
