@@ -1,5 +1,5 @@
 import { adviento1, bautismoDelSenor, miercolesCeniza, pascua, pentecostes } from "@audite/domain";
-import { obraDeEpisodio } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS_ANIO, type RetoAnioDato } from "./retos-anio-datos";
 
@@ -82,6 +82,15 @@ export type PortadaTemporada =
 
 function esPortadaDeCatalogo(episodio: string): boolean {
   return episodio === "sal-001" || /-01$/.test(episodio);
+}
+
+/** Primer episodio del recorrido cuya obra no está ya en pantalla. */
+export function episodioConObraLibre(candidatos: readonly string[], evitar: ReadonlySet<string>): string | null {
+  for (const id of candidatos) {
+    const obra = obraDeEpisodio(id);
+    if (obra && !esPortadaProvisional(id) && !evitar.has(obra.id)) return id;
+  }
+  return null;
 }
 
 export function idsDePrueba(rangos: readonly RangoEpisodio[], listos: ReadonlySet<string>): string[] {

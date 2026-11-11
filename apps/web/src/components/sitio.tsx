@@ -12,7 +12,7 @@ import { palabras } from "@/lib/movimiento";
 import { BarraPersistente, CompactarCabecera, FiltroCatalogo } from "@/components/movimiento";
 import { Acordeon, BotonProbar, Contador, ProbarAudio, Telefono } from "@/components/probar";
 import { etiquetaInicio } from "@/lib/publico";
-import { episodioDeCita, idsDePrueba, inicioDeTemporada, portadasDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
+import { episodioConObraLibre, episodioDeCita, idsDePrueba, inicioDeTemporada, portadasDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
 import { tiendasVisibles } from "@/lib/tiendas-app";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
@@ -202,6 +202,50 @@ export function SitioHome({ lang }: { lang: string }) {
     : portadaAdviento?.tipo === "episodio" && obraDeEpisodio(portadaAdviento.episodio)
       ? obraWebp(obraDeEpisodio(portadaAdviento.episodio)!)
       : obraWebp(portada);
+  const usadas = new Set<string>();
+  const marcar = (id: string | null) => {
+    const obra = id ? obraDeEpisodio(id) : null;
+    if (obra) usadas.add(obra.id);
+  };
+  marcar("gn-01");
+  const candidatosDe = (reto: { dias: { cita: string }[] }) => reto.dias.flatMap((dia) => {
+    const id = episodioDeCita(dia.cita, catalogo.rangos);
+    return id ? [id] : [];
+  });
+  const bibliaId = episodioConObraLibre(catalogo.rangos.map((rango) => rango.id), usadas);
+  marcar(bibliaId);
+  const advientoId = adviento ? episodioConObraLibre(candidatosDe(adviento), usadas) : null;
+  marcar(advientoId);
+  const cuaresma = retosDeTemporada().find((reto) => reto.id === "cuaresma-40");
+  const cuaresmaId = cuaresma ? episodioConObraLibre(candidatosDe(cuaresma), usadas) : null;
+  const reservados = new Set([bibliaId, advientoId, cuaresmaId].filter((id): id is string => Boolean(id)));
+  const ejemplos = [
+    bibliaId ? {
+      id: "biblia",
+      href: `/${lang}/retos`,
+      titulo: ui === "en" ? "The Bible from beginning to end" : "La Biblia de principio a fin",
+      meta: `${catalogo.rangos.length} ${ui === "en" ? "episodes" : "episodios"}`,
+      episodio: bibliaId,
+    } : null,
+    adviento && advientoId ? {
+      id: adviento.id,
+      href: `/${lang}/retos/${adviento.id}`,
+      titulo: adviento.titulo[ui],
+      meta: `${adviento.dias.length} ${ui === "en" ? "days" : "días"}`,
+      episodio: advientoId,
+    } : null,
+    cuaresma && cuaresmaId ? {
+      id: cuaresma.id,
+      href: `/${lang}/retos/${cuaresma.id}`,
+      titulo: cuaresma.titulo[ui],
+      meta: `${cuaresma.dias.length} ${ui === "en" ? "days" : "días"}`,
+      episodio: cuaresmaId,
+    } : null,
+  ].flatMap((item) => {
+    if (!item) return [];
+    const obra = obraDeEpisodio(item.episodio);
+    return obra ? [{ ...item, obra }] : [];
+  });
   const tiendas = tiendasVisibles();
   const aviso = `/${lang}/app#aviso`;
   const funciones = [
@@ -246,7 +290,16 @@ export function SitioHome({ lang }: { lang: string }) {
             <h2 className="font-display text-4xl">{copy.howTitle}</h2>
             <ol className="mt-6 grid gap-4 md:grid-cols-3">
               <li>
-                <div className="paso paso-elige" aria-hidden="true"><span /><span /><span /></div>
+                <div className="paso paso-elige">
+                  {ejemplos.map((item) => (
+                    <Link key={item.id} href={item.href} className="mini-reto">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={obraWebp(item.obra)} alt="" />
+                      <span className="font-display">{item.titulo}</span>
+                      <span className="mini-reto-meta">{item.meta}</span>
+                    </Link>
+                  ))}
+                </div>
                 <p className="mt-3 font-display text-2xl leading-tight">{copy.stepChoose}</p>
               </li>
               <li>
@@ -276,7 +329,7 @@ export function SitioHome({ lang }: { lang: string }) {
           <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
             <h2 className="font-display text-4xl">{copy.tryTitle}</h2>
             <ul className="carrusel mt-5">
-              {prueba.map((episodio, indice) => (
+              {prueba.filter((episodio) => !reservados.has(episodio.id)).map((episodio, indice) => (
                 <li key={episodio.id} className="overflow-hidden rounded-3xl bg-[#1B1815]">
                   <span className="relative block aspect-[4/5] overflow-hidden" style={{ background: episodio.tono }}>
                     {episodio.provisional ? (

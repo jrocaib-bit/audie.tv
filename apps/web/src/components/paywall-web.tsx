@@ -15,13 +15,17 @@ export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: s
       </section>
     );
   }
-  const idioma = es ? "es" : "en";
-  const lanzamientoAnual = etiquetaDeLanzamiento(idioma, lanzamiento);
-  const letraAnual = letraDeLanzamiento(idioma, lanzamiento);
+  return <PaywallDePago lanzamiento={lanzamiento} es={es} />;
+}
+
+function PaywallDePago({ lanzamiento, es }: { lanzamiento: boolean; es: boolean }) {
   const [plan, setPlan] = useState<"anual" | "mensual">("anual");
   useEffect(() => {
     medir("paywall_view", { origen: "web" });
   }, []);
+  const idioma = es ? "es" : "en";
+  const lanzamientoAnual = etiquetaDeLanzamiento(idioma, lanzamiento);
+  const letraAnual = letraDeLanzamiento(idioma, lanzamiento);
 
   function elegir(siguiente: "anual" | "mensual") {
     setPlan(siguiente);

@@ -2,7 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadAppCatalog } from "@audite/content/app-catalog";
-import { episodioDeCita, finDePascua, inicioDeTemporada, portadasDeTemporada, retosDeTemporada } from "./retos-anio";
+import { episodioConObraLibre, episodioDeCita, finDePascua, inicioDeTemporada, portadasDeTemporada, retosDeTemporada } from "./retos-anio";
+import { obraDeEpisodio } from "@audite/content/obras";
 
 describe("retos del año", () => {
   it("sigue el orden y los días del documento, sin texto bíblico", () => {
@@ -50,5 +51,21 @@ describe("retos del año", () => {
     expect(portadas["navidad-infancia"]?.tipo).toBe("reto");
     expect(portadas["cuaresma-40"]).toMatchObject({ tipo: "episodio" });
     expect(portadas["cuaresma-40"]?.tipo === "episodio" ? portadas["cuaresma-40"].episodio : "").not.toBe("ex-01");
+  });
+
+  it("elige el primer episodio cuyo cuadro no está ya en la home", () => {
+    const rangos = loadAppCatalog().rangos;
+    const genesis = obraDeEpisodio("gn-01")?.id;
+    const evitar = new Set(genesis ? [genesis] : []);
+    const biblia = episodioConObraLibre(rangos.map((rango) => rango.id), evitar);
+    const pasajes = (id: string) => retosDeTemporada().find((reto) => reto.id === id)?.dias.flatMap((dia) => {
+      const episodio = episodioDeCita(dia.cita, rangos);
+      return episodio ? [episodio] : [];
+    }) ?? [];
+    const deAdviento = episodioConObraLibre(pasajes("adviento-isaias"), new Set([...evitar, obraDeEpisodio(biblia ?? "")?.id].filter((id): id is string => Boolean(id))));
+    const deCuaresma = episodioConObraLibre(pasajes("cuaresma-40"), new Set([...evitar, obraDeEpisodio(biblia ?? "")?.id, obraDeEpisodio(deAdviento ?? "")?.id].filter((id): id is string => Boolean(id))));
+    expect(biblia).toBe("gn-02");
+    expect(deAdviento).toBe("is-01");
+    expect(deCuaresma).toBe("ex-01");
   });
 });
