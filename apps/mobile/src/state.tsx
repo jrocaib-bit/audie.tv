@@ -152,7 +152,11 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       const archivos = await leerDescargas();
       const fuentes = urisDeReproduccion(
         episode.id,
-        episode.segments.map((segment) => ({ id: segment.id, remoto: `${contentBase}${segment.publicPath}` })),
+        episode.segments.map((segment) => ({
+          id: segment.id,
+          // TODO: el audio remoto vive en /api/audio/{id}. Hay que pedirlo con Authorization: Bearer <access_token> y usar la URL firmada. Mientras, no se rompe: esa ruta no se trata como archivo local.
+          remoto: segment.publicPath.startsWith("/api/audio/") ? segment.publicPath : `${contentBase}${segment.publicPath}`,
+        })),
         archivos,
       );
       if (fuentes.origen === "local") {

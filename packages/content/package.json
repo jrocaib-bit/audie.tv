@@ -11,6 +11,7 @@
     "./build": "./src/build-catalog.ts",
     "./manifiesto": "./src/manifiesto.ts",
     "./app-catalog": "./src/app-catalog.ts",
+    "./audio-listo": "./src/audio-listo.ts",
     "./sync": "./src/sync.ts",
     "./obras": "./src/obras-visibles.ts",
     "./obras-creditos": "./src/obras.ts"
