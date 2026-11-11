@@ -229,7 +229,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "Abre el enlace y pulsa «Confirmar suscripción». Si no has sido tú, ignora este mensaje.",
       cta: "Confirmar suscripción",
       ctaUrl: f("{url_confirmar}"),
-      cuerpo: ["Hola:", f("Hemos recibido una petición para enviarte correos de Audite a {correo}."), "Si has sido tú, abre este enlace y pulsa «Confirmar suscripción»:", f("{url_confirmar}"), "Si no has sido tú, ignora este mensaje y no te apuntaremos.", "En esos correos te hablaremos de la escucha y de los tiempos litúrgicos, con calma. Puedes darte de baja cuando quieras. Más detalle en https://audite.tv/privacidad.", "El equipo de Audite"].join("\n\n"),
+      cuerpo: ["Hola:", f("Hemos recibido una petición para enviarte correos de Audite a {correo}."), "Si has sido tú, abre este enlace y pulsa «Confirmar suscripción».", "Si no has sido tú, ignora este mensaje y no te apuntaremos.", "En esos correos te hablaremos de la escucha y de los tiempos litúrgicos, con calma. Puedes darte de baja cuando quieras. Más detalle en https://audite.tv/privacidad.", "El equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "bienvenida_lista") {
@@ -240,7 +240,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "Gracias por confirmar. Puedes darte de baja cuando quieras.",
       cta: "Ir a Audite",
       ctaUrl: URL_WEB,
-      cuerpo: ["Hola:", "Gracias por confirmar. A partir de ahora podrás recibir correos de Audite: avisos de la escucha y de los tiempos del año, sin prisa.", "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv.", f("Si no quieres seguir recibiéndolos, puedes darte de baja aquí: {url_baja}"), "El detalle de cómo tratamos tus datos está en https://audite.tv/privacidad.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
+      cuerpo: ["Hola:", "Gracias por confirmar. A partir de ahora podrás recibir correos de Audite: avisos de la escucha y de los tiempos del año, sin prisa.", "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español.", f("Si no quieres seguir recibiéndolos, puedes darte de baja aquí: {url_baja}"), "El detalle de cómo tratamos tus datos está en https://audite.tv/privacidad.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "acuse_soporte") {
@@ -251,7 +251,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "Gracias por escribirnos. Te responderemos como máximo en 48 horas laborables.",
       cta: "Ver la ayuda",
       ctaUrl: URL_AYUDA,
-      cuerpo: [hola, "Hemos recibido tu mensaje y te damos las gracias por escribirnos.", "Atendemos de lunes a viernes, de 9:00 a 18:00 (hora de Madrid), salvo festivos nacionales. Te responderemos a este mismo correo como máximo en 48 horas laborables; lo habitual es que contestemos en el día. Mientras tanto, puede que encuentres respuesta en https://audite.tv/ayuda.", "Si nos has escrito por un cargo, una cancelación o un acceso, ten a mano si te suscribiste en el App Store o en Google Play.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
+      cuerpo: [hola, "Hemos recibido tu mensaje y te damos las gracias por escribirnos.", "Atendemos de lunes a viernes, de 9:00 a 18:00 (hora de Madrid), salvo festivos nacionales. Te responderemos a este mismo correo como máximo en 48 horas laborables; lo habitual es que contestemos en el día. Mientras tanto, puede que encuentres respuesta en la ayuda.", "Si nos has escrito por un cargo, una cancelación o un acceso, ten a mano si te suscribiste en el App Store o en Google Play.", "Un abrazo,\nEl equipo de Audite"].join("\n\n"),
     };
   }
   return {

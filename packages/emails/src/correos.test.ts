@@ -26,6 +26,17 @@ describe("correos de ciclo de vida", () => {
     const confirmar = await componer("confirmacion_boletin", { correo: "ada@audite.tv", token: datos.token });
     expect(confirmar.preheader).toContain("«Confirmar suscripción»");
     expect(confirmar.texto).toContain("abre este enlace y pulsa «Confirmar suscripción»");
+    const veces = (valor: string, aguja: string) => valor.split(aguja).length - 1;
+    const url = `https://audite.tv/correo/confirmar?t=${datos.token}`;
+    expect(veces(confirmar.texto, url)).toBe(1);
+    expect(veces(confirmar.html.replace(/<[^>]+>/g, " "), url)).toBe(1);
+    expect(confirmar.html).toContain(`href="${url}"`);
+    const bienvenida = await componer("bienvenida_lista", { token: datos.token });
+    const casa = (valor: string) => (valor.match(/https:\/\/audite\.tv(?!\/)/g) ?? []).length;
+    expect(casa(bienvenida.texto)).toBe(1);
+    expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(1);
+    expect(veces(acuse.texto, "https://audite.tv/ayuda")).toBe(1);
+    expect(veces(acuse.html.replace(/<[^>]+>/g, " "), "https://audite.tv/ayuda")).toBe(1);
   });
 
   it("usa el saludo exacto y omite lo que no se sabe", async () => {
