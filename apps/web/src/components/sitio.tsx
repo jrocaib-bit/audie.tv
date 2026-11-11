@@ -8,6 +8,8 @@ import { ObraFoto, Placa } from "@/components/placa";
 import { CtaPar } from "@/components/conversion";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { agruparLibros } from "@/lib/publico";
+import { palabras } from "@/lib/movimiento";
+import { BarraPersistente, CompactarCabecera, FiltroCatalogo } from "@/components/movimiento";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
 import { FormularioBoletin } from "@/components/formularios";
@@ -31,6 +33,7 @@ export async function MarcoSitio({ lang, children, sobreObra = false, novedades 
       <SitioHeader lang={lang} copy={copy} sobreObra={sobreObra} />
       {children}
       {pie}
+      <BarraPersistente />
     </>
   );
 }
@@ -38,8 +41,9 @@ export async function MarcoSitio({ lang, children, sobreObra = false, novedades 
 export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; copy: SitioCopy; sobreObra?: boolean }) {
   const ui = idiomaUi(lang);
   return (
-    <header className={sobreObra ? "absolute inset-x-0 top-0 z-20" : "bg-[#100E0C]"}>
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
+    <header data-cabecera="" className={sobreObra ? "cabecera cabecera-obra inset-x-0 top-0 z-20" : "cabecera"}>
+      <CompactarCabecera />
+      <div className="cabecera-interior mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
           <Wordmark locale={ui} tono="blanco" className="h-8 w-auto md:h-9" />
         </Link>
@@ -106,8 +110,8 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
         {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
         <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
       </div>
-      <div className="mt-8 overflow-hidden">
-        <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
+      <div className="wordmark-sangre" aria-hidden="true">
+        <p className="font-display text-[#F4ECE2]">AUDITE</p>
       </div>
     </footer>
   );
@@ -119,33 +123,48 @@ export function SitioHome({ lang }: { lang: string }) {
   const portada = obraDeEpisodio("gn-01");
   const entrar = etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy?.ctaSign ?? "Entrar", copy?.ctaGhost ?? "Entrar");
   if (!copy || !portada) return null;
+  const titulo = ui === "en" ? "The Bible, from beginning to end." : "La Biblia, de principio a fin.";
   const lede = ui === "en"
     ? "The whole Bible in audio, episode by episode, with the art in front."
     : "La Biblia entera en audio, episodio a episodio, con el arte delante.";
   const como = ui === "en"
     ? "Start with a book, or with the Advent challenge. Listening continues in the app."
     : "Empieza por un libro, o por el reto de Adviento. La escucha sigue en la app.";
+  const escenas = ["ex-01", "is-01", "mt-01", "lc-01", "ap-01"].flatMap((id) => {
+    const obra = obraDeEpisodio(id);
+    return obra ? [obra] : [];
+  });
   return (
     <>
       <RecordarIdioma />
       <main className="bg-[#100E0C] text-[#F4ECE2]">
-        <section id="hero" className="relative min-h-[70svh] bg-[#100E0C]">
+        <section id="hero" className="relative min-h-[100svh] snap-start bg-[#100E0C]">
           <div className="absolute inset-0 overflow-hidden">
-            <ObraFoto obra={portada} priority className="h-full w-full object-cover" />
+            <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
           </div>
+          <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
-          <div className="relative z-10 mx-auto flex min-h-[70svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
-            <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{ui === "en" ? "The Bible, from beginning to end." : "La Biblia, de principio a fin."}</h1>
+          <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
+            <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{palabras(titulo).map((palabra, indice) => <span key={`${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</h1>
             <p className="mt-5 max-w-xl text-lg">{lede}</p>
             <p className="mt-3 max-w-xl text-[#E7D7C3]">{como}</p>
             <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={`/${lang}/catalogo`} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
-              <Link href={`/${lang}/retos`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{ui === "en" ? "Challenges" : "Retos"}</Link>
-              <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{entrar}</Link>
+              <Link href={`/${lang}/catalogo`} className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.navCatalog}</Link>
+              <Link href={`/${lang}/retos`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{ui === "en" ? "Challenges" : "Retos"}</Link>
+              <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{entrar}</Link>
             </div>
           </div>
         </section>
+        {escenas.map((obra) => (
+          <section key={obra.id} className="relative min-h-[100svh] snap-start overflow-hidden">
+            <ObraFoto obra={obra} className="parallax-obra absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/30 to-transparent" />
+            <div className="relative z-10 flex min-h-[100svh] items-end px-5 pb-16 md:px-8">
+              <h2 className="font-display max-w-3xl text-[clamp(2.4rem,7vw,5rem)] leading-[0.95]">{obra.titulo[ui]}</h2>
+            </div>
+          </section>
+        ))}
       </main>
     </>
   );
@@ -158,19 +177,19 @@ export function SitioCatalogo({ lang }: { lang: string }) {
   const ui = idiomaUi(lang);
   const grupos = agruparLibros(catalogo.books);
   const cuenta = (id: string) => catalogo.rangos.filter((episodio) => episodio.bookId === id).length;
-  const bloque = (titulo: string, libros: typeof grupos.at) => (
-    <section className="mt-10">
+  const bloque = (titulo: string, testamento: "at" | "nt", libros: typeof grupos.at) => (
+    <section className="mt-10" data-bloque="" data-testamento={testamento}>
       <h2 className="font-display text-3xl">{titulo}</h2>
       <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {libros.map((libro) => {
+        {libros.map((libro, indice) => {
           const idPortada = libro.id === "sal" ? "sal-001" : `${libro.id}-01`;
           const obra = obraDeEpisodio(idPortada);
           const nombre = libro.name[ui] || libro.name.es;
           const total = cuenta(libro.id);
           return (
-            <li key={libro.id} className="h-full">
-              <Link href={`/${lang}/libro/${libro.id}`} className="flex h-full flex-col overflow-hidden rounded-2xl bg-[#1B1815]">
-                <span className="relative block w-full shrink-0 overflow-hidden bg-[#1B1815]" style={{ aspectRatio: "4 / 5" }}>
+            <li key={libro.id} className="aparecer h-full" data-libro="" data-nombre={nombre} data-testamento={testamento} style={{ ["--i" as string]: indice }}>
+              <Link href={`/${lang}/libro/${libro.id}`} className="tarjeta-libro flex h-full flex-col overflow-hidden rounded-2xl bg-[#1B1815]" style={{ viewTransitionName: `libro-${libro.id}` }}>
+                <span className="marco-obra relative block w-full shrink-0 overflow-hidden bg-[#1B1815]" style={{ aspectRatio: "4 / 5" }}>
                   {obra ? <ObraFoto obra={obra} className="absolute inset-0 h-full w-full object-cover" /> : (
                     <span className="absolute inset-0 flex items-center justify-center bg-[#241F1A]">
                       <span className="font-display text-4xl text-[#C9A96E]" aria-hidden="true">{nombre.replace(/^\d+\s*/, "").slice(0, 1)}</span>
@@ -179,7 +198,7 @@ export function SitioCatalogo({ lang }: { lang: string }) {
                 </span>
                 <span className="block px-3 py-3">
                   <span className="block font-display text-lg leading-tight">{nombre}</span>
-                  <span className="mt-1 block text-sm text-[#B7AB9C]">{total > 0 ? `${total} ${ui === "en" ? (total === 1 ? "episode" : "episodes") : (total === 1 ? "episodio" : "episodios")}` : (ui === "en" ? "Coming soon" : "Próximamente")}</span>
+                  <span className="mt-1 block text-sm text-[#B7AB9C] tabular-nums">{total > 0 ? `${total} ${ui === "en" ? (total === 1 ? "episode" : "episodes") : (total === 1 ? "episodio" : "episodios")}` : (ui === "en" ? "Coming soon" : "Próximamente")}</span>
                 </span>
               </Link>
             </li>
@@ -192,8 +211,16 @@ export function SitioCatalogo({ lang }: { lang: string }) {
     <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8">
       <h1 className="font-display text-5xl">{copy.catalogTitle}</h1>
       <p className="mt-4 max-w-xl text-lg text-[#B7AB9C]">{ui === "en" ? "Every book, in order. Open one to see its episodes." : "Cada libro, en orden. Ábrelo para ver sus episodios."}</p>
-      {bloque(ui === "en" ? "Old Testament" : "Antiguo Testamento", grupos.at)}
-      {bloque(ui === "en" ? "New Testament" : "Nuevo Testamento", grupos.nt)}
+      <FiltroCatalogo
+        etiqueta={ui === "en" ? "Testament" : "Testamento"}
+        todos={ui === "en" ? "All" : "Todos"}
+        antiguo={ui === "en" ? "Old Testament" : "Antiguo Testamento"}
+        nuevo={ui === "en" ? "New Testament" : "Nuevo Testamento"}
+        buscar={ui === "en" ? "Find a book" : "Buscar un libro"}
+      >
+        {bloque(ui === "en" ? "Old Testament" : "Antiguo Testamento", "at", grupos.at)}
+        {bloque(ui === "en" ? "New Testament" : "Nuevo Testamento", "nt", grupos.nt)}
+      </FiltroCatalogo>
     </main>
   );
 }

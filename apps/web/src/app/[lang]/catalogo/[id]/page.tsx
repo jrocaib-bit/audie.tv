@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ObraFoto } from "@/components/placa";
+import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
 import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
 
@@ -52,8 +53,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const obra = obraDeEpisodio(id);
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
-      <div className="relative min-h-[46svh] bg-[#1B1815]">
-        {obra ? <ObraFoto obra={obra} priority className="absolute inset-0 h-full w-full object-cover" /> : null}
+      <div className="relative min-h-[46svh] overflow-hidden bg-[#1B1815]" style={{ viewTransitionName: `ep-${id}` }}>
+        {obra ? <ObraFoto obra={obra} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />
         <div className="relative z-10 mx-auto flex min-h-[46svh] w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8">
           <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`}>{libro?.name[ui] || libro?.name.es}</Link></p>
@@ -64,7 +65,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       <div className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
         <p className="max-w-xl text-lg">{resumen.texto}</p>
         {listo ? (
-          <Link href={`/escuchar?e=${id}`} className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
+          <div className="mt-6"><BotonEscucha href={`/escuchar?e=${id}`} id={id} titulo={titulo} etiqueta={ui === "en" ? "Listen" : "Escuchar"} /></div>
         ) : (
           <p className="mt-6 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
         )}

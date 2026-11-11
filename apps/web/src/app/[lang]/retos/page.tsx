@@ -22,8 +22,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const ui = lang === "en" ? "en" : "es";
   const hoy = new Date().toISOString().slice(0, 10);
   const estacionales = ordenarRetosEstacionales(RETOS, hoy);
-  const episodios = loadAppCatalog().rangos.length;
+  const catalogo = loadAppCatalog();
+  const episodios = catalogo.rangos.length;
+  const libros = catalogo.books.length;
   const meses = mesesAUnEpisodioAlDia(episodios);
+  const adviento = estacionales.find((reto) => reto.id === "adviento-isaias");
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       <h1 className="font-display text-5xl leading-none">{ui === "en" ? "Challenges" : "Retos"}</h1>
@@ -33,8 +36,25 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p className="mt-3 text-[#E7D7C3]">{ui === "en"
           ? `${episodios} episodes · about ${meses} months at one a day. You start at Genesis and the app keeps your place.`
           : `${episodios} episodios · unos ${meses} meses a uno al día. Empiezas en el Génesis y la app guarda el punto.`}</p>
-        <Link href={`/${lang}/app`} className="mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Start in the app" : "Empezar en la app"}</Link>
+        <svg className="camino mt-6" viewBox="0 0 600 72" role="img" aria-label={`${episodios} · ${libros}`}>
+          <path className="camino-base" pathLength={1} d="M12 36 C 120 8, 200 64, 300 36 S 480 8, 588 36" />
+          <path className="camino-trazo" pathLength={1} d="M12 36 C 120 8, 200 64, 300 36 S 480 8, 588 36" />
+        </svg>
+        <p className="mt-2 text-sm text-[#C9A96E]">{episodios} {ui === "en" ? "episodes" : "episodios"} · {libros} {ui === "en" ? "books" : "libros"}</p>
+        <Link href={`/${lang}/app`} className="boton mt-6 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{ui === "en" ? "Start in the app" : "Empezar en la app"}</Link>
       </section>
+      {adviento ? (
+        <section className="mt-10">
+          <h2 className="font-display text-3xl">{adviento.titulo[ui]}</h2>
+          <ol className="mt-4 grid grid-cols-7 gap-2">
+            {adviento.pasos.map((paso, indice) => (
+              <li key={`${paso.ancla ?? "dia"}-${indice}`}>
+                <Link href={`/${lang}/${lang === "en" ? "advent" : "adviento"}`} className="calendario-dia" style={{ ["--i" as string]: indice }}>{indice + 1}</Link>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
       <ol className="mt-10 grid gap-3 sm:grid-cols-3">
         {(ui === "en"
           ? ["Choose a challenge", "Listen each day", "The app stays with you"]

@@ -52,7 +52,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       <div className="relative h-72 overflow-hidden" style={{ background: color }}>
         {obra ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
+          <img src={obraWebp(obra)} alt="" className="ken-burns h-full w-full object-cover" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/25 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />

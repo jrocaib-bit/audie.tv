@@ -29,10 +29,18 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     duracion: duraciones.get(episodio.id) ?? null,
   })).sort((a, b) => a.orden - b.orden || a.id.localeCompare(b.id));
   const nombre = libro.name[ui] || libro.name.es;
+  const portadaId = id === "sal" ? "sal-001" : `${id}-01`;
+  const portada = obraDeEpisodio(portadaId);
   const disponibles = episodios.filter((episodio) => episodio.duracion != null).length;
   const cuenta = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
+      {portada ? (
+        <div className="relative mb-8 h-64 overflow-hidden rounded-3xl" style={{ viewTransitionName: `libro-${id}` }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={obraWebp(portada)} alt="" width={portada.ancho} height={portada.alto} className="parallax-obra h-full w-full object-cover" />
+        </div>
+      ) : null}
       <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
       <h1 className="font-display mt-3 text-5xl leading-none">{nombre}</h1>
       <p className="mt-3 text-sm text-[#B7AB9C]">{ui === "en"
@@ -45,7 +53,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           return (
             <li key={episodio.id} className="flex min-h-16 items-center gap-3 py-3">
               <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-w-0 flex-1 items-center gap-3">
-                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]">
+                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]" style={{ viewTransitionName: `ep-${episodio.id}` }}>
                   {obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className="h-full w-full object-cover" />
@@ -56,11 +64,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                   <span className="mt-0.5 block text-sm text-[#B7AB9C]">{episodio.referencia}{listo ? ` · ${reloj(episodio.duracion ?? 0)}` : ""}</span>
                 </span>
               </Link>
-              {listo ? (
-                <Link href={`/escuchar?e=${episodio.id}`} className="shrink-0 text-sm text-[#C9A96E]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
-              ) : (
-                <span className="shrink-0 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</span>
-              )}
+              <span className="flex shrink-0 items-center gap-2 text-sm">
+                <span className="estado-punto" data-listo={listo ? "1" : "0"} aria-hidden="true" />
+                {listo ? (
+                  <Link href={`/escuchar?e=${episodio.id}`} className="text-[#C9A96E]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
+                ) : (
+                  <span className="text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</span>
+                )}
+              </span>
             </li>
           );
         })}
