@@ -3,21 +3,27 @@
 import { esIdioma, textosAlta } from "@audite/domain";
 import { obraDeEpisodio } from "@audite/content/obras";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/brand";
 import { BotonApple, BotonGoogle } from "@/components/botones-alta";
 import { ObraFoto } from "@/components/placa";
 import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
 import { correoValido } from "@audite/domain";
+import { guardarVuelta } from "@/lib/vuelta";
 
-export function Entrar({ lang, google = false }: { lang: string; google?: boolean }) {
+export function Entrar({ lang, google = false, siguiente = "", oir = "", aviso = "" }: { lang: string; google?: boolean; siguiente?: string; oir?: string; aviso?: string }) {
   const copy = textosAlta(lang);
   const ui = esIdioma(lang) ? lang : "es";
   const obra = obraDeEpisodio("gn-01");
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
   const [marketing, setMarketing] = useState(false);
+  const deReto = aviso === "reto";
+
+  useEffect(() => {
+    guardarVuelta(siguiente, deReto ? oir : null);
+  }, [siguiente, oir, deReto]);
 
   return (
     <main className="relative min-h-dvh bg-[#100E0C] text-[#F4ECE2]">
@@ -28,6 +34,7 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-md flex-col px-6 pt-16 pb-8">
         <Wordmark locale={ui} tono="blanco" className="h-8 w-auto" />
         <h1 className="font-display mt-8 max-w-sm text-5xl leading-[0.95]">{copy.titulo}</h1>
+        {deReto ? <p className="mt-4 text-[#C9A96E]">{ui === "en" ? "Free. You only need an account." : "Gratis. Solo necesitas una cuenta."}</p> : null}
         <div className="mt-auto grid gap-3 pt-16">
           <label className="flex min-h-11 items-center gap-3 text-sm text-[#B7AB9C]">
             <input type="checkbox" checked={marketing} onChange={(event) => { setMarketing(event.target.checked); localStorage.setItem("audite.marketing.v1", event.target.checked ? "1" : "0"); }} />

@@ -5,6 +5,8 @@ import { MarcoSitio } from "@/components/sitio";
 import { canonicalPropio, muestraNovedades } from "@/lib/sitio-publico";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
+const TIEMPOS_DE_RETO = new Set(["adviento", "advent", "navidad", "christmas", "cuaresma", "lent", "pascua", "easter", "ordinario", "ordinary", "semana-santa", "holy-week"]);
+
 export function generateStaticParams() {
   return idiomasPublicos.map((lang) => ({ lang }));
 }
@@ -30,9 +32,11 @@ export default async function SitioLayout({ children, params }: { children: Reac
   if (!copiaSitio(lang)) notFound();
   const ruta = (await headers()).get("x-audite-path") || "";
   const inicio = ruta === `/${lang}` || ruta === `/${lang}/`;
+  const resto = ruta.startsWith(`/${lang}/`) ? ruta.slice(lang.length + 2) : "";
+  const sobreObra = inicio || new RegExp(`^${lang}/retos/[^/]+$`).test(ruta.slice(1)) || TIEMPOS_DE_RETO.has(resto);
   return (
-    <div lang={lang} className={`${inicio ? "relative " : ""}lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]`}>
-      <MarcoSitio lang={lang} sobreObra={inicio} novedades={muestraNovedades(ruta, lang)}>{children}</MarcoSitio>
+    <div lang={lang} className={`${sobreObra ? "relative " : ""}lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]`}>
+      <MarcoSitio lang={lang} sobreObra={sobreObra} novedades={muestraNovedades(ruta, lang)}>{children}</MarcoSitio>
     </div>
   );
 }

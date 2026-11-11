@@ -63,10 +63,25 @@ describe("ruta de audio", () => {
     expect(respuesta.status).toBe(401);
   });
 
-  it("deja oír Adviento entero sin suscripción", async () => {
+  it("no entrega un episodio de Adviento sin sesión", async () => {
+    process.env.AUDIO_GRATIS = "gn-01,is-02";
+    const respuesta = await pedir("is-02");
+    expect(respuesta.status).toBe(401);
+    expect(await respuesta.text()).not.toContain("cdn.example");
+  });
+
+  it("deja oír Adviento con sesión y sin suscripción", async () => {
     process.env.AUDIO_GRATIS = "";
     process.env.AUDIO_ACCESO = "suscripcion";
-    const respuesta = await pedir("is-02");
+    doble.status = "none";
+    doble.email = "persona@correo.test";
+    const respuesta = await pedir("is-02", "token");
+    expect(respuesta.status).toBe(200);
+  });
+
+  it("deja oír Adviento con sesión aunque el correo no esté en la lista interna", async () => {
+    doble.email = "persona@correo.test";
+    const respuesta = await pedir("is-01", "token");
     expect(respuesta.status).toBe(200);
   });
 

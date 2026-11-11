@@ -437,8 +437,14 @@
     border-color: #c9a96e;
   }
 
+  .dia-reto img {
+    transition: transform 420ms ease;
+  }
+
   .mini-reto:hover img,
-  .mini-reto:focus-visible img {
+  .mini-reto:focus-visible img,
+  .dia-reto:hover img,
+  .dia-reto:focus-within img {
     transform: scale(1.06);
   }
 
@@ -507,10 +513,16 @@
   .paso-elige span,
   .paso-onda i,
   .mini-reto,
-  .mini-reto img {
+  .mini-reto img,
+  .dia-reto img {
     animation: none;
     transition: none;
   }
+}
+
+.dia-hoy {
+  background: rgb(201 169 110 / 0.08);
+  box-shadow: inset 2px 0 0 #c9a96e;
 }
 
 @keyframes elegir {

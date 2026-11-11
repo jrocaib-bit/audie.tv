@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { rutaAudio } from "@audite/content/audio-listo";
-import { esAudioGratis, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
+import { esAudioGratis, esRetoConCuenta, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +38,8 @@ export async function GET(request: Request, contexto: { params: Promise<{ id: st
   const { id } = await contexto.params;
   const ruta = rutaAudio(id);
   if (!ruta) return respuesta(404, { error: "no-encontrado" });
-  const gratis = esAudioGratis(id, process.env.AUDIO_GRATIS);
+  const deReto = esRetoConCuenta(id);
+  const gratis = !deReto && esAudioGratis(id, process.env.AUDIO_GRATIS);
   const token = request.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1]?.trim() ?? "";
   if (!gratis && !token) return respuesta(401, { error: "sin-sesion" });
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
@@ -50,14 +51,15 @@ export async function GET(request: Request, contexto: { params: Promise<{ id: st
     const sesion = await cliente.auth.getUser(token);
     const user = sesion.data.user;
     if (sesion.error || !user) return respuesta(401, { error: "sin-sesion" });
-    let subscriptionStatus: string | null = null;
-    if ((process.env.AUDIO_ACCESO ?? "").trim().toLowerCase() === "suscripcion") {
-      const fila = await cliente.from("subscription_status").select("status").eq("user_id", user.id).maybeSingle();
-      subscriptionStatus = typeof fila.data?.status === "string" ? fila.data.status : null;
-    }
-    usuario = { email: user.email ?? null, subscriptionStatus };
-    if (!puedeEscuchar(usuario, process.env.AUDIO_ACCESO, process.env.AUDIO_EMAILS_PERMITIDOS)) {
-      return respuesta(403, { error: "sin-permiso" });
+    usuario = { email: user.email ?? null, subscriptionStatus: null };
+    if (!deReto) {
+      if ((process.env.AUDIO_ACCESO ?? "").trim().toLowerCase() === "suscripcion") {
+        const fila = await cliente.from("subscription_status").select("status").eq("user_id", user.id).maybeSingle();
+        usuario = { email: usuario.email, subscriptionStatus: typeof fila.data?.status === "string" ? fila.data.status : null };
+      }
+      if (!puedeEscuchar(usuario, process.env.AUDIO_ACCESO, process.env.AUDIO_EMAILS_PERMITIDOS)) {
+        return respuesta(403, { error: "sin-permiso" });
+      }
     }
   }
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "0";

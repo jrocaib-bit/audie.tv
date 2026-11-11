@@ -1,8 +1,12 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { supabaseWeb } from "@/lib/auth-web";
+import { guardarVuelta, hrefEntrar, idDeEpisodio, rutaDeVuelta } from "@/lib/vuelta";
 
 export type FichaPrueba = { id: string; titulo: string };
+export type CambioAudio = { id: string; segundo: number; fin: boolean };
 
 type Estado = {
   id: string | null;
@@ -12,7 +16,16 @@ type Estado = {
 
 const Probar = createContext<Estado | null>(null);
 
-export function ProbarAudio({ children }: { children: ReactNode }) {
+export function useProbar(): Estado | null {
+  return useContext(Probar);
+}
+
+function idiomaDePagina(): "es" | "en" {
+  return document.documentElement.lang === "en" ? "en" : "es";
+}
+
+export function ProbarAudio({ children, onCambio }: { children: ReactNode; onCambio?: (evento: CambioAudio) => void }) {
+  const router = useRouter();
   const audio = useRef<HTMLAudioElement>(null);
   const [actual, setActual] = useState<FichaPrueba | null>(null);
   const [fraccion, setFraccion] = useState(0);
@@ -28,12 +41,55 @@ export function ProbarAudio({ children }: { children: ReactNode }) {
     }
     setActual(ficha);
     setFraccion(0);
-    const respuesta = await fetch(`/api/audio/${ficha.id}`, { cache: "no-store" });
-    if (!respuesta.ok) return;
+    let token = "";
+    try {
+      token = (await supabaseWeb()?.auth.getSession())?.data.session?.access_token ?? "";
+    } catch {
+      token = "";
+    }
+    const headers = new Headers();
+    if (token) headers.set("Authorization", `Bearer ${token}`);
+    const respuesta = await fetch(`/api/audio/${encodeURIComponent(ficha.id)}`, { headers, cache: "no-store" });
+    if (!respuesta.ok) {
+      setActual((previo) => previo?.id === ficha.id ? null : previo);
+      const lang = idiomaDePagina();
+      if (respuesta.status === 401) {
+        const aqui = `${window.location.pathname}${window.location.search}`;
+        guardarVuelta(aqui, ficha.id);
+        router.push(hrefEntrar(lang, rutaDeVuelta(aqui) ?? `/${lang}`, ficha.id));
+      } else if (respuesta.status === 403) {
+        router.push(`/${lang}/membresia`);
+      }
+      return;
+    }
     const dato = await respuesta.json() as { url?: string };
     if (!dato.url) return;
     elemento.src = dato.url;
     await elemento.play().catch(() => undefined);
+  }
+
+  const reproducirRef = useRef(reproducir);
+  useEffect(() => {
+    reproducirRef.current = reproducir;
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const oir = idDeEpisodio(params.get("oir"));
+    if (!oir) return;
+    const nodo = document.querySelector<HTMLElement>(`[data-episodio="${oir}"]`);
+    const titulo = nodo?.dataset.titulo || oir;
+    params.delete("oir");
+    const resto = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${resto ? `?${resto}` : ""}`);
+    void reproducirRef.current({ id: oir, titulo });
+  }, []);
+
+  function avisar(fin: boolean) {
+    const elemento = audio.current;
+    if (!actual || !elemento) return;
+    if (!fin && elemento.currentTime < 1) return;
+    onCambio?.({ id: actual.id, segundo: elemento.currentTime || 0, fin });
   }
 
   return (
@@ -48,7 +104,8 @@ export function ProbarAudio({ children }: { children: ReactNode }) {
           setFraccion(elemento.duration ? elemento.currentTime / elemento.duration : 0);
         }}
         onPlay={() => setSonando(true)}
-        onPause={() => setSonando(false)}
+        onPause={() => { setSonando(false); avisar(false); }}
+        onEnded={() => { setSonando(false); avisar(true); }}
       />
       {actual ? (
         <div className="barra-fija" role="region" aria-label={actual.titulo}>
@@ -67,7 +124,7 @@ export function BotonProbar({ ficha, etiqueta, className, icono = false }: { fic
   const estado = useContext(Probar);
   const activo = estado?.id === ficha.id && estado.sonando;
   return (
-    <button type="button" className={className} aria-label={etiqueta} aria-pressed={activo} onClick={() => estado?.reproducir(ficha)}>
+    <button type="button" className={className} aria-label={etiqueta} aria-pressed={activo} data-episodio={ficha.id} data-titulo={ficha.titulo} onClick={() => estado?.reproducir(ficha)}>
       {icono ? (activo ? <Onda /> : <Play />) : etiqueta}
     </button>
   );

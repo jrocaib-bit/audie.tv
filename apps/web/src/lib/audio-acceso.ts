@@ -11,8 +11,14 @@ export function idsGratis(valor: string | undefined): Set<string> {
   return new Set((valor ?? "").split(",").map((id) => id.trim()).filter(Boolean));
 }
 
+/** Muestra libre de la home, la que liste AUDIO_GRATIS. Un reto no entra aquí. */
 export function esAudioGratis(id: string, valor: string | undefined): boolean {
-  return idsGratis(valor).has(id) || idsDeAdviento().has(id);
+  return idsGratis(valor).has(id);
+}
+
+/** El reto gratis se oye con cuenta y sin suscripción. */
+export function esRetoConCuenta(id: string): boolean {
+  return idsDeAdviento().has(id);
 }
 
 export function puedeEscuchar(usuario: UsuarioAudio, modo: string | undefined, permitidos: string | undefined): boolean {

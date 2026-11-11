@@ -4,6 +4,7 @@ import { AUTH_URLS, filaPreferenciaCorreo } from "@audite/domain";
 import { useEffect } from "react";
 import { migrarWeb, supabaseWeb } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
+import { destinoTrasEntrar, leerVuelta } from "@/lib/vuelta";
 
 export default function Page() {
   useEffect(() => {
@@ -22,7 +23,8 @@ export default function Page() {
         await remoto.from("email_preferencias").upsert(filaPreferenciaCorreo(userId, consentimiento));
       }
       await migrarWeb();
-      window.location.replace("/escuchar");
+      const vuelta = leerVuelta();
+      window.location.replace(destinoTrasEntrar(vuelta.ruta, vuelta.episodio));
     })();
   }, []);
   return <main className="grid min-h-dvh place-items-center bg-[#100E0C] text-[#F4ECE2]"><p className="font-display text-3xl">{AUTH_URLS.sitio}</p></main>;
