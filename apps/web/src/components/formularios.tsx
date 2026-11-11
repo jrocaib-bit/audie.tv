@@ -48,7 +48,7 @@ export function FormularioSoporte({ marca, idioma, ubicacion = "contacto" }: { m
       <Privacidad />
       <button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" type="submit">Enviar</button>
       {estado === "ok" ? (
-        <p className="text-[#C9A96E]">Gracias. Hemos recibido tu mensaje. Te responderemos a tu correo como máximo en 48 horas laborables; lo habitual es que contestemos en el día. Si quieres, puedes seguir mirando la <Link className="underline" href="/ayuda">ayuda</Link>.</p>
+        <p className="text-[#C9A96E]">Gracias, hemos recibido tu mensaje. Te responderemos a tu correo en menos de 48 horas laborables. Mientras tanto, puedes consultar la <Link className="underline" href="/ayuda">ayuda</Link>.</p>
       ) : <Aviso estado={estado} texto={texto} />}
     </form>
   );
