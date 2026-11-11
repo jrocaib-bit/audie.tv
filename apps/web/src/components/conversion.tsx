@@ -92,7 +92,7 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         </>
       )}
       <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">
-        {copy.ctaGhost}
+        {process.env.GOOGLE_LOGIN_ENABLED === "true" ? copy.ctaGhost : copy.ctaSign}
       </Link>
       {precio ? <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span> : null}
       {aviso ? <Avisame lang={lang} copy={copy} onClose={() => setAviso(false)} /> : null}

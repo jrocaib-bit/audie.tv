@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { MarcoSitio } from "@/components/sitio";
-import { canonicalPropio } from "@/lib/sitio-publico";
+import { canonicalPropio, muestraNovedades } from "@/lib/sitio-publico";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
 export function generateStaticParams() {
@@ -32,7 +32,7 @@ export default async function SitioLayout({ children, params }: { children: Reac
   const inicio = ruta === `/${lang}` || ruta === `/${lang}/`;
   return (
     <div lang={lang} className={`${inicio ? "relative " : ""}lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]`}>
-      <MarcoSitio lang={lang} sobreObra={inicio}>{children}</MarcoSitio>
+      <MarcoSitio lang={lang} sobreObra={inicio} novedades={muestraNovedades(ruta, lang)}>{children}</MarcoSitio>
     </div>
   );
 }

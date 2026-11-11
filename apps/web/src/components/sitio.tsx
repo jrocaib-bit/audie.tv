@@ -23,10 +23,14 @@ function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
 }
 
-export async function MarcoSitio({ lang, children, sobreObra = false }: { lang: string; children: ReactNode; sobreObra?: boolean }) {
+export function etiquetaEntrar(google: boolean, corta: string, conGoogle: string): string {
+  return google ? conGoogle : corta;
+}
+
+export async function MarcoSitio({ lang, children, sobreObra = false, novedades = true }: { lang: string; children: ReactNode; sobreObra?: boolean; novedades?: boolean }) {
   const copy = copiaSitio(lang);
   if (!copy) return children;
-  const pie = await SitioPie({ lang });
+  const pie = await SitioPie({ lang, novedades });
   return (
     <>
       <SitioHeader lang={lang} copy={copy} sobreObra={sobreObra} />
@@ -55,7 +59,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
             {copy.navMembership}
           </Link>
           <Link href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center">
-            {copy.ctaSign}
+            {etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)}
           </Link>
           <SelectorIdioma lang={lang} claro={sobreObra} />
         </nav>
@@ -64,7 +68,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
   );
 }
 
-export async function SitioPie({ lang }: { lang: string }) {
+export async function SitioPie({ lang, novedades = true }: { lang: string; novedades?: boolean }) {
   const copy = copiaSitio(lang);
   const marca = await marcaFormulario();
   const ui = idiomaUi(lang);
@@ -101,8 +105,8 @@ export async function SitioPie({ lang }: { lang: string }) {
         </div>
       </div>
       <div className="px-5 md:px-8">
-        <FormularioBoletin marca={marca} idioma={lang} />
-        <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+        {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
+        <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
         {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
       </div>
       <div className="mt-8 overflow-hidden">
@@ -137,7 +141,7 @@ export function SitioHome({ lang }: { lang: string }) {
             </h1>
             <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
             <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} href="/reto/adviento-isaias" />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} href="/reto/adviento-isaias" />
           </div>
         </section>
         <HoyFranja lang={lang} />
@@ -151,7 +155,7 @@ export function SitioHome({ lang }: { lang: string }) {
             <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-[#100E0C]/10" />
             <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-16 md:px-8">
               <h2 className="font-display max-w-3xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{obra.escena[ui]}</h2>
-              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
             </div>
           </section>
         ))}
@@ -167,7 +171,7 @@ export function SitioHome({ lang }: { lang: string }) {
             })}
           </div>
           <div className="px-5 md:px-8">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
           </div>
         </section>
         <section className="bg-[#100E0C] py-10">
@@ -211,7 +215,7 @@ export function SitioHome({ lang }: { lang: string }) {
             ))}
           </dl>
           <div className="mx-auto w-full max-w-6xl">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
           </div>
         </section>
         <section id="precios" className="bg-[#100E0C] px-5 py-20 md:px-8">

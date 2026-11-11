@@ -8,7 +8,7 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/es",
   useSearchParams: () => new URLSearchParams(),
 }));
-import { MarcoSitio } from "@/components/sitio";
+import { MarcoSitio, SitioPie } from "@/components/sitio";
 import { metadata as metadataCuenta } from "@/app/cuenta/layout";
 import { entradasSitemap } from "@/lib/sitio-publico";
 
@@ -37,6 +37,15 @@ describe("marco de las páginas públicas", () => {
       }));
       tieneMarco(html, ruta);
     }
+  });
+
+  it("el pie de la app no ofrece recibir novedades", async () => {
+    const app = renderToStaticMarkup(await SitioPie({ lang: "es", novedades: false }));
+    const inicio = renderToStaticMarkup(await SitioPie({ lang: "es", novedades: true }));
+    expect(app).not.toContain("Recibir novedades");
+    expect(inicio).toContain("Recibir novedades");
+    expect(inicio).toContain(">Entrar<");
+    expect(inicio).not.toContain("Entrar con Apple o Google");
   });
 
   it("la cuenta no se indexa", () => {

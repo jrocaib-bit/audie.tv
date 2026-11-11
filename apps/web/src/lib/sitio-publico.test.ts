@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { canonicalPropio, debeNoindex, entradasSitemap, origenSitio, robotsPara, rutaDeSitemapExiste } from "./sitio-publico";
+import { canonicalPropio, debeNoindex, entradasSitemap, muestraNovedades, origenSitio, robotsPara, rutaDeSitemapExiste } from "./sitio-publico";
+import { etiquetaEntrar } from "@/components/sitio";
 
 describe("sitio público", () => {
   it("usa audite.tv y nunca el bucle local", () => {
@@ -33,5 +34,13 @@ describe("sitio público", () => {
     expect(canonicalPropio("/es", "es")).toBe("/es");
     expect(canonicalPropio("/es/contacto", "es")).toBe("/es/contacto");
     expect(canonicalPropio("/", "es")).toBe("/es");
+  });
+
+  it("en la app no hay boletín y, sin Google, entrar no nombra la tienda", () => {
+    expect(muestraNovedades("/es/app", "es")).toBe(false);
+    expect(muestraNovedades("/app", "es")).toBe(false);
+    expect(muestraNovedades("/es", "es")).toBe(true);
+    expect(etiquetaEntrar(false, "Entrar", "Entrar con Apple o Google")).toBe("Entrar");
+    expect(etiquetaEntrar(true, "Entrar", "Entrar con Apple o Google")).toContain("Google");
   });
 });

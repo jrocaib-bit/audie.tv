@@ -94,7 +94,7 @@ export function FormularioLanzamiento({ marca, idioma }: { marca: string; idioma
         <option value="ambas">iOS y Android</option>
       </select>
       <Privacidad />
-      <button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" type="submit">Avísame</button>
+      <button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" type="submit">Avísame cuando salga</button>
       <Aviso estado={estado} texto={texto} />
     </form>
   );

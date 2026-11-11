@@ -25,6 +25,12 @@ describe("centro de ayuda", () => {
     const vista = readFileSync(path.resolve("apps/web/src/components/formularios.tsx"), "utf8");
     expect(vista).toContain("Gracias, hemos recibido tu mensaje. Te responderemos a tu correo en menos de 48 horas laborables. Mientras tanto, puedes consultar la");
     expect(vista).toContain('href="/ayuda"');
+    const app = readFileSync(path.resolve("apps/web/src/app/app/pagina.tsx"), "utf8");
+    expect(app).toContain("Escucha la Biblia cada día en tu móvil. Empezamos el 29 de noviembre con el reto de Adviento. Déjanos tu correo y te avisamos el primer día.");
+    expect(app).not.toContain("Próximamente en el móvil");
+    expect(app).toContain("border-[#F4ECE2]/30");
+    expect(vista).toContain("Avísame cuando salga");
+    expect(vista.match(/Próximamente/g)).toHaveLength(1);
     expect(MENSAJE_LISTA).toContain("no-reply@audite.tv");
     expect(MENSAJE_CONFIRMADA).toContain("Ya estás en la lista");
     expect(MENSAJE_CADUCADO).toContain("Este enlace ya no vale");
