@@ -111,6 +111,7 @@ describe("obras con crédito", () => {
     expect(new Set(pintadas)).toEqual(new Set(calculadas));
     for (const episodio of oficiales) expect(calculadas, episodio).toContain(episodio);
     expect(esPortadaProvisional("gn-01")).toBe(false);
+    expect(calculadas).toHaveLength(oficiales.length);
     const repetidos = (clave: "sha256" | "inventario" | "tituloAutor") => {
       const vistos = new Map<string, string>();
       const choques: string[] = [];
@@ -126,6 +127,20 @@ describe("obras con crédito", () => {
     expect(repetidos("sha256")).toEqual([]);
     expect(repetidos("inventario")).toEqual([]);
     expect(repetidos("tituloAutor")).toEqual([]);
+  });
+
+  it("los títulos de la portada de marca salen del canon, sin leer el disco en el cliente", () => {
+    const titulos = JSON.parse(readFileSync(path.resolve(import.meta.dirname, "../../../content/obras/titulos-portada.json"), "utf8")) as Record<string, { es: string; en: string }>;
+    expect(Object.keys(titulos).sort()).toEqual([...episodiosSinObra()].sort());
+    for (const [id, texto] of Object.entries(titulos)) {
+      const libro = id.slice(0, id.lastIndexOf("-"));
+      const canon = JSON.parse(readFileSync(path.resolve(import.meta.dirname, `../../../content/canon/libros/${libro}.json`), "utf8")) as { episodios: { id: string; titulo?: { es?: string }; titulo_corto?: { es?: string }; tituloCorto?: { es?: string } }[] };
+      const episodio = canon.episodios.find((item) => item.id === id);
+      const corto = episodio?.titulo_corto?.es || episodio?.tituloCorto?.es || episodio?.titulo?.es;
+      expect(texto.es, id).toBe(corto);
+    }
+    const componente = readFileSync(path.resolve(import.meta.dirname, "../../../apps/web/src/components/portada-marca.tsx"), "utf8");
+    expect(componente).not.toMatch(/app-catalog|node:fs|loadAppCatalog/);
   });
 
   it("no arrastra el texto bíblico dentro del catálogo visible", () => {

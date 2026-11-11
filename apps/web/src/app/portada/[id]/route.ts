@@ -1,11 +1,9 @@
-import { loadAppCatalog } from "@audite/content/app-catalog";
 import { esPortadaProvisional } from "@audite/content/obras";
 import { tituloDeEpisodio } from "@/components/portada-marca";
 
 export function GET(_solicitud: Request, contexto: { params: Promise<{ id: string }> }) {
   return contexto.params.then(({ id }) => {
     if (!esPortadaProvisional(id)) return new Response(null, { status: 404 });
-    loadAppCatalog();
     const titulo = escapar(tituloDeEpisodio(id, "es"));
     const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500">
