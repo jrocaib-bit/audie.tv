@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { loadAppCatalog } from "@audite/content/app-catalog";
-import { obrasVisibles } from "@audite/content/obras";
+import { esPortadaProvisional, obrasVisibles } from "@audite/content/obras";
 import { portadasDeRetos } from "@audite/content/obras-creditos";
 import { creditoVisible } from "@audite/domain";
 
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         {portadasDeRetos().map((portada) => <li key={portada.id}>{[portada.titulo[ui], portada.autor[ui], portada.ubicacion[ui], portada.licencia].filter(Boolean).join(" · ")}</li>)}
       </ul>
       {libros.map((libro) => {
-        const delLibro = obras.filter((obra) => obra.libro === libro.id).sort((a, b) => a.numero - b.numero);
+        const delLibro = obras.filter((obra) => obra.libro === libro.id && !esPortadaProvisional(obra.episodio)).sort((a, b) => a.numero - b.numero);
         if (delLibro.length === 0) return null;
         return (
           <section key={libro.id} className="mt-8">

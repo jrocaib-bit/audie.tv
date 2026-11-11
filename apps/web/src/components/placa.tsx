@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
+import { esPortadaProvisional, obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
+import { PortadaMarca } from "@/components/portada-marca";
 
 export function Placa({ obra, lang }: { obra: ObraVisible; lang: string }) {
+  if (esPortadaProvisional(obra.episodio)) return null;
   const ui = lang === "en" ? "en" : "es";
   const otro = ui === "en" ? "es" : "en";
   const marca = (codigo: "es" | "en") => (obra.detalle ? (codigo === "es" ? " (detalle)" : " (detail)") : "");
@@ -31,12 +33,17 @@ export function ObraFoto({
   priority = false,
   className = "h-full w-full object-cover",
   mover = false,
+  lang = "es",
 }: {
   obra: ObraVisible;
   priority?: boolean;
   className?: string;
   mover?: boolean;
+  lang?: "es" | "en";
 }) {
+  if (esPortadaProvisional(obra.episodio)) {
+    return <PortadaMarca episodioId={obra.episodio} lang={lang} className={className} />;
+  }
   return (
     <Image
       src={obraWebp(obra)}

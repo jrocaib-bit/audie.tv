@@ -1,5 +1,5 @@
 import { leerLibro, loadAppCatalog } from "@audite/content/app-catalog";
-import { obraDeEpisodio } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,6 +7,7 @@ import { ObraFoto } from "@/components/placa";
 import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
 import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
+import { origenSitio } from "@/lib/sitio-publico";
 
 export const dynamicParams = true;
 
@@ -21,6 +22,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title: { absolute: `${titulo ?? copy?.comingSoon ?? "Audite"} · Audite` },
     description: copy?.episodeDescription,
     alternates: { canonical: `/${lang}/catalogo/${id}`, languages: { ...languages, "x-default": `/es/catalogo/${id}` } },
+    openGraph: {
+      title: titulo ?? "Audite",
+      images: esPortadaProvisional(id)
+        ? [`${origenSitio()}/portada/${id}`]
+        : obraDeEpisodio(id)
+          ? [obraWebp(obraDeEpisodio(id)!)]
+          : undefined,
+    },
   };
 }
 
@@ -54,7 +63,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative min-h-[46svh] overflow-hidden bg-[#1B1815]" style={{ viewTransitionName: `ep-${id}` }}>
-        {obra ? <ObraFoto obra={obra} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
+        {obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />
         <div className="relative z-10 mx-auto flex min-h-[46svh] w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8">
           <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`}>{libro?.name[ui] || libro?.name.es}</Link></p>
@@ -69,7 +78,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         ) : (
           <p className="mt-6 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
         )}
-        {obra ? (
+        {obra && !esPortadaProvisional(id) ? (
           <p className="mt-8 text-sm text-[#B7AB9C]">
             {obra.titulo[ui]} · {obra.autor[ui]}
             {" · "}

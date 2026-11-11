@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { leerLibro, loadAppCatalog } from "@audite/content/app-catalog";
-import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import Link from "next/link";
+import { PortadaMarca } from "@/components/portada-marca";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }): Promise<Metadata> {
@@ -37,8 +38,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       {portada ? (
         <div className="relative mb-8 h-64 overflow-hidden rounded-3xl" style={{ viewTransitionName: `libro-${id}` }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={obraWebp(portada)} alt="" width={portada.ancho} height={portada.alto} className="parallax-obra h-full w-full object-cover" />
+          {esPortadaProvisional(portada.episodio) ? (
+            <PortadaMarca episodioId={portada.episodio} lang={ui} className="absolute inset-0" />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={obraWebp(portada)} alt="" width={portada.ancho} height={portada.alto} className="parallax-obra h-full w-full object-cover" />
+          )}
         </div>
       ) : null}
       <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
@@ -54,7 +59,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             <li key={episodio.id} className="flex min-h-16 items-center gap-3 py-3">
               <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-w-0 flex-1 items-center gap-3">
                 <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]" style={{ viewTransitionName: `ep-${episodio.id}` }}>
-                  {obra ? (
+                  {obra && esPortadaProvisional(obra.episodio) ? (
+                    <PortadaMarca episodioId={obra.episodio} lang={ui} className="absolute inset-0" />
+                  ) : obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                   ) : <span className="absolute inset-0 flex items-center justify-center font-display text-lg text-[#C9A96E]" aria-hidden="true">{String(episodio.titulo).replace(/^\d+\s*/, "").slice(0, 1)}</span>}

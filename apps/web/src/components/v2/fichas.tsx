@@ -1,6 +1,7 @@
 "use client";
 
-import { obraDeEpisodio, obraWebp, obrasVisibles, type ObraVisible } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio, obraWebp, obrasVisibles, type ObraVisible } from "@audite/content/obras";
+import { PortadaMarca } from "@/components/portada-marca";
 import Link from "next/link";
 
 const PALETA = ["#1C3328", "#3A2418", "#2C3348", "#4A2C3A", "#1E3A34", "#5A4632", "#243044", "#3D2B1F", "#1F2A24", "#3A2A18", "#2A3330", "#4A3828"];
@@ -40,8 +41,11 @@ export function obrasPara(clave: string, cantidad: number): ObraVisible[] {
 }
 
 export function Arte({ episodioId, className = "" }: { episodioId: string | null; className?: string }) {
+  if (episodioId && esPortadaProvisional(episodioId)) return <PortadaMarca episodioId={episodioId} className={className} />;
   const obra = (episodioId ? obraDeEpisodio(episodioId) : null) ?? obrasPara(episodioId || "audite", 1)[0] ?? null;
-  if (!obra) return <span className={`block bg-[#1B1815] ${className}`} />;
+  if (!obra || esPortadaProvisional(obra.episodio)) {
+    return obra ? <PortadaMarca episodioId={obra.episodio} className={className} /> : <span className={`block bg-[#1B1815] ${className}`} />;
+  }
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block object-cover ${className}`} />
@@ -49,6 +53,7 @@ export function Arte({ episodioId, className = "" }: { episodioId: string | null
 }
 
 function Foto({ obra, className = "" }: { obra: ObraVisible; className?: string }) {
+  if (esPortadaProvisional(obra.episodio)) return <PortadaMarca episodioId={obra.episodio} className={className} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block h-full w-full object-cover ${className}`} />

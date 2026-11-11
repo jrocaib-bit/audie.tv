@@ -2,7 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { obraAvif, obraWebp, rotuloObra } from "./obras-visibles";
-import { creditoDeObraVerificado, obraDeEpisodio, obrasVisibles, portadaDeReto, portadaPara, portadasCredito, portadasDeRetos, textoVerificado } from "./obras";
+import { calcularPortadasProvisionales, creditoDeObraVerificado, identidadesRenderizadas, obraDeEpisodio, obrasVisibles, portadaDeReto, portadaPara, portadasCredito, portadasDeRetos, textoVerificado } from "./obras";
+import { episodiosSinObra, esPortadaProvisional } from "./obras-visibles";
 
 describe("obras con crédito", () => {
   it("publica las 516 obras, una por episodio, sin huecos de crédito", () => {
@@ -100,6 +101,31 @@ describe("obras con crédito", () => {
     const principales = new Set((creditos.retos?.obras ?? []).filter((obra) => obra.principal === true).map((obra) => obra.id));
     expect(principales.has("reto-adviento_o1")).toBe(true);
     expect(principales.has("reto-navidad_o1")).toBe(true);
+  });
+
+  it("no pinta dos veces la misma obra, ni en portadas", () => {
+    const oficiales = ["1cr-06", "1cr-10", "dt-08", "dt-10", "dt-11", "dt-14", "jos-06", "jos-08", "jos-09", "jos-10", "nm-15", "nm-16", "nm-18", "jue-09", "neh-05"];
+    expect([...episodiosSinObra()]).toEqual(oficiales);
+    const calculadas = calcularPortadasProvisionales();
+    const pintadas = obrasVisibles().map((obra) => obra.episodio).filter((episodio) => esPortadaProvisional(episodio));
+    expect(new Set(pintadas)).toEqual(new Set(calculadas));
+    for (const episodio of oficiales) expect(calculadas, episodio).toContain(episodio);
+    expect(esPortadaProvisional("gn-01")).toBe(false);
+    const repetidos = (clave: "sha256" | "inventario" | "tituloAutor") => {
+      const vistos = new Map<string, string>();
+      const choques: string[] = [];
+      for (const obra of identidadesRenderizadas()) {
+        const valor = obra[clave];
+        if (!valor) continue;
+        const previo = vistos.get(valor);
+        if (previo) choques.push(`${clave} ${valor}: ${previo} y ${obra.id}`);
+        else vistos.set(valor, obra.id);
+      }
+      return choques;
+    };
+    expect(repetidos("sha256")).toEqual([]);
+    expect(repetidos("inventario")).toEqual([]);
+    expect(repetidos("tituloAutor")).toEqual([]);
   });
 
   it("no arrastra el texto bíblico dentro del catálogo visible", () => {

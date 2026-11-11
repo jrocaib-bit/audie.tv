@@ -1,8 +1,9 @@
 import creditos from "../../../content/obras/creditos.json";
-import { obraDeEpisodio, obrasVisibles, obraWebp } from "./obras-visibles";
+import excepciones from "../../../content/obras/excepciones_repetidas.json";
+import { esPortadaProvisional, obraDeEpisodio, obrasVisibles, obraWebp } from "./obras-visibles";
 
 export type { ObraVisible } from "./obras-visibles";
-export { obraAvif, obraDeEpisodio, obraWebp, obrasVisibles, rotuloObra } from "./obras-visibles";
+export { esPortadaProvisional, episodiosSinObra, obraAvif, obraDeEpisodio, obraEnPantalla, obraWebp, obrasVisibles, rotuloObra } from "./obras-visibles";
 
 type CreditoObra = {
   id?: string;
@@ -160,4 +161,106 @@ export function elegirPortadaHoy(datos: { retoId: string; libroId: string; episo
     }
   }
   return { tipo: "tiempo" };
+}
+
+type FichaIdentidad = {
+  id?: string;
+  sha256?: string;
+  titulo?: { es?: string };
+  autor?: { es?: string };
+  fuente?: { inventario?: string | null };
+};
+
+function claveVacia(valor: string | null | undefined): string {
+  const texto = valor?.trim() ?? "";
+  return texto.toLowerCase() === "null" ? "" : texto;
+}
+
+/** Episodios que no pueden pintar su cuadro si queremos que cada obra salga una sola vez. */
+export function calcularPortadasProvisionales(): string[] {
+  const sinObra = new Set(excepciones.sinObra);
+  const fichas = creditos as { obras?: FichaIdentidad[]; retos?: { obras?: FichaIdentidad[] } };
+  const porId = new Map((fichas.obras ?? []).map((obra) => [obra.id ?? "", obra]));
+  const parent = new Map<string, string>();
+  const find = (id: string): string => {
+    if (!parent.has(id)) parent.set(id, id);
+    let cursor = id;
+    while (parent.get(cursor) !== cursor) cursor = parent.get(cursor) ?? cursor;
+    parent.set(id, cursor);
+    return cursor;
+  };
+  const union = (a: string, b: string) => {
+    const ra = find(a);
+    const rb = find(b);
+    if (ra !== rb) parent.set(rb, ra);
+  };
+  const grupos = new Map<string, string>();
+  const unir = (clave: string, id: string) => {
+    const previo = grupos.get(clave);
+    if (previo) union(previo, id);
+    grupos.set(clave, id);
+  };
+  const obras = obrasVisibles();
+  for (const obra of obras) {
+    const ficha = porId.get(obra.id);
+    unir(`ta:${obra.titulo.es.trim().toLowerCase()}|${obra.autor.es.trim().toLowerCase()}`, obra.episodio);
+    const sha = claveVacia(ficha?.sha256);
+    const inventario = claveVacia(ficha?.fuente?.inventario);
+    if (sha) unir(`sha:${sha}`, obra.episodio);
+    if (inventario) unir(`inv:${inventario}`, obra.episodio);
+  }
+  for (const portada of portadasDeRetos()) {
+    const ficha = (fichas.retos?.obras ?? []).find((obra) => obra.id === portada.id);
+    const nodo = `cover:${portada.id}`;
+    unir(`ta:${portada.titulo.es.trim().toLowerCase()}|${portada.autor.es.trim().toLowerCase()}`, nodo);
+    const sha = claveVacia(ficha?.sha256);
+    const inventario = claveVacia(ficha?.fuente?.inventario);
+    if (sha) unir(`sha:${sha}`, nodo);
+    if (inventario) unir(`inv:${inventario}`, nodo);
+  }
+  const porRaiz = new Map<string, string[]>();
+  for (const obra of obras) {
+    const raiz = find(obra.episodio);
+    const lista = porRaiz.get(raiz) ?? [];
+    if (!lista.includes(obra.episodio)) lista.push(obra.episodio);
+    porRaiz.set(raiz, lista);
+  }
+  const provisional: string[] = [];
+  for (const grupo of porRaiz.values()) {
+    if (grupo.length === 1 && !sinObra.has(grupo[0] ?? "")) continue;
+    const keeper = grupo.find((episodio) => !sinObra.has(episodio));
+    for (const episodio of grupo) {
+      if (episodio !== keeper) provisional.push(episodio);
+    }
+  }
+  return provisional;
+}
+
+export type IdentidadRenderizada = { id: string; sha256: string; inventario: string; tituloAutor: string };
+
+/** Obras que de verdad se pintan: episodios que conservan su cuadro y portadas de reto. */
+export function identidadesRenderizadas(): IdentidadRenderizada[] {
+  const fichas = creditos as { obras?: FichaIdentidad[]; retos?: { obras?: FichaIdentidad[] } };
+  const porId = new Map((fichas.obras ?? []).map((obra) => [obra.id ?? "", obra]));
+  const salida: IdentidadRenderizada[] = [];
+  for (const obra of obrasVisibles()) {
+    if (esPortadaProvisional(obra.episodio)) continue;
+    const ficha = porId.get(obra.id);
+    salida.push({
+      id: obra.episodio,
+      sha256: claveVacia(ficha?.sha256),
+      inventario: claveVacia(ficha?.fuente?.inventario),
+      tituloAutor: `${obra.titulo.es.trim().toLowerCase()}|${obra.autor.es.trim().toLowerCase()}`,
+    });
+  }
+  for (const portada of portadasDeRetos()) {
+    const ficha = (fichas.retos?.obras ?? []).find((obra) => obra.id === portada.id);
+    salida.push({
+      id: portada.id,
+      sha256: claveVacia(ficha?.sha256),
+      inventario: claveVacia(ficha?.fuente?.inventario),
+      tituloAutor: `${portada.titulo.es.trim().toLowerCase()}|${portada.autor.es.trim().toLowerCase()}`,
+    });
+  }
+  return salida;
 }

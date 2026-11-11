@@ -1,6 +1,6 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { audioListo } from "@audite/content/audio-listo";
-import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { etiquetaDeLanzamiento, letraDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -16,6 +16,7 @@ import { episodioDeCita, idsDePrueba, inicioDeTemporada, portadasDeTemporada, re
 import { tiendasVisibles } from "@/lib/tiendas-app";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
+import { PortadaMarca } from "@/components/portada-marca";
 import { FormularioBoletin } from "@/components/formularios";
 import { marcaFormulario } from "@/lib/formularios/acciones";
 import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
@@ -185,7 +186,8 @@ export function SitioHome({ lang }: { lang: string }) {
     return {
       id,
       titulo: tituloDe(id, ui),
-      src: obra ? obraWebp(obra) : "",
+      provisional: esPortadaProvisional(id),
+      src: obra && !esPortadaProvisional(id) ? obraWebp(obra) : "",
       tono: tonoDe(id),
       cita: citas.get(id) || (rango ? citaDeRango(rango.bookId, rango.rango) : ""),
       duracion: segundos > 0 ? reloj(segundos) : "",
@@ -277,7 +279,9 @@ export function SitioHome({ lang }: { lang: string }) {
               {prueba.map((episodio, indice) => (
                 <li key={episodio.id} className="overflow-hidden rounded-3xl bg-[#1B1815]">
                   <span className="relative block aspect-[4/5] overflow-hidden" style={{ background: episodio.tono }}>
-                    {episodio.src ? (
+                    {episodio.provisional ? (
+                      <PortadaMarca episodioId={episodio.id} lang={ui} className="absolute inset-0" />
+                    ) : episodio.src ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={episodio.src} alt="" width={960} height={1200} loading={indice < 4 ? "eager" : "lazy"} fetchPriority="low" decoding="async" className="absolute inset-0 h-full w-full object-cover object-[center_28%]" />
                     ) : null}

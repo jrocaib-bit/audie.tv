@@ -1,5 +1,8 @@
 import indice from "../../../content/canon/catalogo-indice.json";
+import excepciones from "../../../content/obras/excepciones_repetidas.json";
 import visibles from "../../../content/obras/visibles.json";
+
+const PROVISIONALES = new Set(excepciones.portadaProvisional);
 
 const OBRAS_BASE_DEFECTO = "https://qdjowihivtqoelurvyke.supabase.co/storage/v1/object/public/obras/0b6bac7d8587a7e050090142";
 
@@ -33,11 +36,26 @@ export function obrasVisibles(): ObraVisible[] {
   return visibles as ObraVisible[];
 }
 
+export function esPortadaProvisional(episodio: string): boolean {
+  return PROVISIONALES.has(episodio);
+}
+
+export function episodiosSinObra(): readonly string[] {
+  return excepciones.sinObra;
+}
+
 export function obraDeEpisodio(episodio: string): ObraVisible | null {
   return obrasVisibles().find((obra) => obra.episodio === episodio) ?? null;
 }
 
+/** Obra que sí se pinta. Las copias repetidas no llevan cuadro ni crédito de museo. */
+export function obraEnPantalla(episodio: string): ObraVisible | null {
+  if (esPortadaProvisional(episodio)) return null;
+  return obraDeEpisodio(episodio);
+}
+
 export function obraWebp(obra: ObraVisible): string {
+  if (esPortadaProvisional(obra.episodio)) return `/portada/${obra.episodio}`;
   const sufijo = obra.detalle ? "-detalle-960.webp" : "-960.webp";
   return `${obrasBase()}/${obra.id}${sufijo}`;
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { obrasVisibles } from "@audite/content/obras";
+import { esPortadaProvisional, obrasVisibles } from "@audite/content/obras";
 import { portadasDeRetos } from "@audite/content/obras-creditos";
 
 export const metadata: Metadata = { title: "Créditos" };
@@ -14,7 +14,7 @@ export default function Page() {
         {portadasDeRetos().map((portada) => (
           <li key={portada.id} className="text-sm text-muted">{portada.titulo.es} · {portada.autor.es} · {portada.ubicacion.es} · {portada.licencia}</li>
         ))}
-        {obras.map((obra) => (
+        {obras.filter((obra) => !esPortadaProvisional(obra.episodio)).map((obra) => (
           <li key={obra.id} className="text-sm text-muted">{obra.placa.es}</li>
         ))}
       </ul>
