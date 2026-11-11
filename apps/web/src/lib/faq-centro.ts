@@ -205,7 +205,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "adviento-2026",
         pregunta: "¿Cuál es el reto de Adviento 2026?",
-        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Dios con nosotros* (Is 8,8–10).\n- 24 de diciembre: *Ya llega* (Is 62,11–12).",
+        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Un rey justo* (Is 32,1–4).\n- 24 de diciembre: *Mira a tu salvador* (Is 62,10–12).",
       },
       {
         id: "navidad",
