@@ -1,6 +1,6 @@
 "use client";
 
-import { elegirPortadaHoy } from "@audite/content/obras-creditos";
+import { elegirPortadaHoy, portadaDeReto } from "@audite/content/obras-creditos";
 import { COLOR_HEX, diaLiturgico, pasoDelDia, referenciaPaso, retosDelDia } from "@audite/domain";
 import Link from "next/link";
 import { RETOS } from "@/lib/retos";
@@ -9,11 +9,12 @@ import { copiaSitio } from "@/sitio/i18n";
 export function HoyFranja({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const dia = diaLiturgico(new Date());
-  const reto = retosDelDia(dia, RETOS)[0];
-  const paso = pasoDelDia(dia, RETOS);
+  const reto = RETOS.find((item) => item.id === "adviento-isaias") ?? retosDelDia(dia, RETOS)[0];
+  const paso = reto ? (reto.pasos[0] ?? pasoDelDia(dia, RETOS)) : pasoDelDia(dia, RETOS);
   const ui = lang === "en" ? "en" : "es";
   if (!copy || !reto || !paso) return null;
-  const portada = elegirPortadaHoy({ retoId: reto.id, libroId: paso.libroId, episodio: paso.episodio });
+  const fija = portadaDeReto(reto.id)?.src.ancho;
+  const portada = fija ? { tipo: "imagen" as const, src: fija } : elegirPortadaHoy({ retoId: reto.id, libroId: paso.libroId, episodio: paso.episodio });
   const titulo = (reto.tituloCorto ?? reto.titulo)[ui];
   const tinta = dia.color === "blanco" || dia.color === "rosa" ? "text-[#100E0C]" : "text-[#F4ECE2]";
   return (

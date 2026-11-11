@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, limpiarPropiedades, prepararMedicion, scriptPlausible, track, type ContextoMedicion } from "./medicion";
+import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, plataformaCliente, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
 
 const ctx: ContextoMedicion = {
   platform: "web",
@@ -24,6 +24,31 @@ describe("medición", () => {
     });
     expect(limpio).toEqual({ path: "/es", referrer: "ejemplo.test" });
     expect(JSON.stringify(limpio)).not.toMatch(/ada@|Ada|203\.0\.113/);
+  });
+
+  it("los eventos de formulario llevan el nombre exacto y ningún dato personal", () => {
+    expect(esEvento("cta_clicked")).toBe(true);
+    expect(esEvento("form_submitted")).toBe(true);
+    expect(esEvento("signup_confirmed")).toBe(true);
+    const props = propsFormulario({
+      form_id: "soporte",
+      cta_id: "mailto_soporte",
+      ubicacion: "ayuda",
+      idioma: "es",
+      plataforma: "web",
+      email: "ada@audite.tv",
+      nombre: "Ada",
+    } as PropsFormulario);
+    expect(props).toEqual({ form_id: "soporte", cta_id: "mailto_soporte", ubicacion: "ayuda", idioma: "es", plataforma: "web" });
+    expect(JSON.stringify(props)).not.toMatch(/ada@|Ada/);
+    expect(plataformaCliente("ios")).toBe("ios");
+    expect(plataformaCliente("android")).toBe("android");
+    expect(plataformaCliente("app")).toBe("web");
+    expect(utmDeBusqueda("?utm_source=ig&utm_medium=cpc&utm_campaign=adviento&email=ada@audite.tv")).toEqual({
+      utm_source: "ig",
+      utm_medium: "cpc",
+      utm_campaign: "adviento",
+    });
   });
 
   it("solo acepta nombres del catálogo", () => {
@@ -74,6 +99,11 @@ describe("medición", () => {
     expect(tercero.eventos.map((item) => item.nombre)).toEqual(["episode_completed"]);
   });
 
+  it("el alta solo escribe las columnas concedidas", () => {
+    expect(Object.keys(filaPreferenciaCorreo("usuario", true, "2026-11-10T00:00:00.000Z"))).toEqual(["user_id", "marketing_consent", "consent_at"]);
+    expect(filaPreferenciaCorreo("usuario", false, "2026-11-10T00:00:00.000Z").consent_at).toBeNull();
+  });
+
   it("carga Plausible solo con dominio", () => {
     expect(scriptPlausible(undefined)).toBeNull();
     expect(scriptPlausible("  ")).toBeNull();
@@ -113,6 +143,11 @@ describe("migración de medición", () => {
     expect(sql).not.toMatch(/for select[\s\S]*analytics_events/);
     expect(sql).toContain("grant select, insert, update on table public.reto_progreso to authenticated");
     expect(sql).not.toContain("grant delete");
+  });
+
+  it("retira el borrado antiguo", () => {
+    const baja = readFileSync(new URL("../../../supabase/migrations/20261110223000_drop_delete_own_account.sql", import.meta.url), "utf8");
+    expect(baja).toContain("drop function if exists public.delete_own_account()");
   });
 
   it("borra la cuenta solo como authenticated y con search_path vacío", () => {

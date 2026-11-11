@@ -1,8 +1,8 @@
 # Alta
 
 Proyecto Supabase `qdjowihivtqoelurvyke` (`https://qdjowihivtqoelurvyke.supabase.co`).
-Aplicadas en producción: listening, notas_favoritos, salas, auth_cuenta y endurecer.
-Escritas y sin aplicar: analytics, delete_my_account y email_preferencias.
+Aplicadas en producción: listening, notas_favoritos, salas, auth_cuenta, endurecer, analytics, delete_my_account y email_preferencias.
+Escrita y sin aplicar: drop_delete_own_account. El borrado de la cuenta usa `delete_my_account`.
 La web no cobra. La suscripción se contrata en la tienda.
 
 ## URLs
@@ -49,6 +49,6 @@ Authentication → Emails → SMTP (Resend):
 
 - Web: OAuth de Apple y Google, y `signInWithOtp` al correo.
 - App: `expo-apple-authentication` y el `id_token` de Google entran con `signInWithIdToken`.
-- La sesión se guarda. Hay cierre y borrado de cuenta (`delete_own_account`).
+- La sesión se guarda. Hay cierre y borrado de cuenta (`delete_my_account`).
 - El primer login sube favoritos, notas y progreso locales.
 - Sin cuenta la app se usa igual. El muro de suscripción no está.

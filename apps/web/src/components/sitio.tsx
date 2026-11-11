@@ -1,7 +1,8 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obrasVisibles, rotuloObra } from "@audite/content/obras";
-import { creditoVisible, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
+import { creditoVisible, lineaIdiomas, nombreEpisodio, pruebaSocial, textoOPendiente, textosAlta } from "@audite/domain";
 import recuento from "../../../../content/canon/recuento.json";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
 import { ListaPorLibros } from "@/components/lista-libros";
@@ -13,10 +14,30 @@ import { TarjetaCuadro } from "@/components/v2/fichas";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { HoyFranja } from "@/components/hoy";
 import { PaywallWeb } from "@/components/paywall-web";
-import { copiaSitio, idiomasPublicos, type SitioCopy } from "@/sitio/i18n";
+import { EnlaceSoporte } from "@/components/enlace-soporte";
+import { FormularioBoletin } from "@/components/formularios";
+import { marcaFormulario } from "@/lib/formularios/acciones";
+import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
+}
+
+export function etiquetaEntrar(google: boolean, corta: string, conGoogle: string): string {
+  return google ? conGoogle : corta;
+}
+
+export async function MarcoSitio({ lang, children, sobreObra = false, novedades = true }: { lang: string; children: ReactNode; sobreObra?: boolean; novedades?: boolean }) {
+  const copy = copiaSitio(lang);
+  if (!copy) return children;
+  const pie = await SitioPie({ lang, novedades });
+  return (
+    <>
+      <SitioHeader lang={lang} copy={copy} sobreObra={sobreObra} />
+      {children}
+      {pie}
+    </>
+  );
 }
 
 export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; copy: SitioCopy; sobreObra?: boolean }) {
@@ -38,7 +59,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
             {copy.navMembership}
           </Link>
           <Link href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center">
-            {copy.ctaSign}
+            {etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)}
           </Link>
           <SelectorIdioma lang={lang} claro={sobreObra} />
         </nav>
@@ -47,21 +68,65 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
   );
 }
 
-export function SitioHome({ lang }: { lang: string }) {
+export async function SitioPie({ lang, novedades = true }: { lang: string; novedades?: boolean }) {
   const copy = copiaSitio(lang);
+  const marca = await marcaFormulario();
   const ui = idiomaUi(lang);
   const legal = textosAlta(lang);
   const fuente = loadAppCatalog().fuenteTexto[ui];
+  if (!copy) return null;
+  const credito = creditoVisible(fuente, "", "");
+  return (
+    <footer className="bg-[#100E0C] text-[#F4ECE2]">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
+        <div>
+          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
+          <SelectorIdioma lang={lang} claro />
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">Audite</p>
+          <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
+          <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
+          <Link href="/ayuda" className="inline-flex min-h-11 items-center">{ui === "en" ? "Help" : "Ayuda"}</Link>
+          <Link href={`/${lang}/contacto`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Contact" : "Contacto"}</Link>
+          <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
+          <EnlaceSoporte idioma={lang} className="inline-flex min-h-11 items-center">soporte@audite.tv</EnlaceSoporte>
+          <p className="text-sm text-[#B7AB9C]">La voz y la música están generadas con IA.</p>
+          <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
+        </div>
+        <div className="grid content-start gap-2">
+          <p className="text-sm text-[#B7AB9C]">Legal</p>
+          <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
+          <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
+          <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
+        </div>
+      </div>
+      <div className="px-5 md:px-8">
+        {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
+        <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
+        {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
+      </div>
+      <div className="mt-8 overflow-hidden">
+        <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
+      </div>
+    </footer>
+  );
+}
+
+export function SitioHome({ lang }: { lang: string }) {
+  const copy = copiaSitio(lang);
+  const ui = idiomaUi(lang);
   const portada = obraDeEpisodio("gn-01");
   const obras = obrasVisibles();
   const catalogo = loadAppCatalog();
   const adviento = portadaDeReto("adviento-isaias");
   if (!copy || !portada) return null;
-  const credito = creditoVisible(fuente, "", "");
   return (
     <>
       <RecordarIdioma />
-      <SitioHeader lang={lang} copy={copy} sobreObra />
       <main className="bg-[#100E0C] pb-28 text-[#F4ECE2] md:pb-0">
         <section id="hero" className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
           <div className="absolute inset-0 overflow-hidden">
@@ -75,11 +140,13 @@ export function SitioHome({ lang }: { lang: string }) {
               ))}
             </h1>
             <p className="mt-5 max-w-md text-lg text-[#F4ECE2]">{copy.homeLede}</p>
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <p className="mt-4 text-sm text-[#C9A96E]">La voz y la música están generadas con IA.</p>
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} href="/reto/adviento-isaias" />
           </div>
         </section>
         <HoyFranja lang={lang} />
-        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length, idiomas: idiomasPublicos.length }, lang)}</p>
+        <p className="bg-[#100E0C] px-5 pb-2 text-sm text-[#B7AB9C] md:px-8">{pruebaSocial({ episodios: recuento.total, obras: idsVisiblesEnCreditos().length }, lang)}</p>
+        <p className="bg-[#100E0C] px-5 pb-8 text-sm text-[#B7AB9C] md:px-8">{lineaIdiomas(lang)}</p>
         {obras.slice(1, 4).map((obra) => (
           <section key={obra.id} className="camino-tramo relative min-h-[100svh] bg-[#100E0C]">
             <div className="absolute inset-0">
@@ -88,7 +155,7 @@ export function SitioHome({ lang }: { lang: string }) {
             <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-[#100E0C]/10" />
             <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-16 md:px-8">
               <h2 className="font-display max-w-3xl text-5xl leading-[0.95] text-[#F4ECE2] md:text-7xl">{obra.escena[ui]}</h2>
-              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+              <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
             </div>
           </section>
         ))}
@@ -104,7 +171,7 @@ export function SitioHome({ lang }: { lang: string }) {
             })}
           </div>
           <div className="px-5 md:px-8">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
           </div>
         </section>
         <section className="bg-[#100E0C] py-10">
@@ -143,12 +210,12 @@ export function SitioHome({ lang }: { lang: string }) {
             ] as const).map(([pregunta, respuesta]) => (
               <div key={pregunta}>
                 <dt className="font-display text-2xl">{copy[pregunta]}</dt>
-                <dd className="mt-2 text-[#B7AB9C]">{copy[respuesta]}</dd>
+                <dd className="mt-2 text-[#B7AB9C]">{respuesta === "faqLangA" ? lineaIdiomas(lang) : copy[respuesta]}</dd>
               </div>
             ))}
           </dl>
           <div className="mx-auto w-full max-w-6xl">
-            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
+            <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)} />
           </div>
         </section>
         <section id="precios" className="bg-[#100E0C] px-5 py-20 md:px-8">
@@ -168,38 +235,6 @@ export function SitioHome({ lang }: { lang: string }) {
           </section>
         ) : null}
       </main>
-      <footer className="bg-[#100E0C] text-[#F4ECE2]">
-        <div className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
-          <div>
-            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
-            <SelectorIdioma lang={lang} claro />
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">Audite</p>
-            <Link href="/escuchar" className="inline-flex min-h-11 items-center">{copy.appLink}</Link>
-            <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
-            <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
-            <Link href="/ayuda" className="inline-flex min-h-11 items-center">Ayuda</Link>
-            <a href="mailto:soporte@audite.tv" className="inline-flex min-h-11 items-center">soporte@audite.tv</a>
-            <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
-          </div>
-          <div className="grid content-start gap-2">
-            <p className="text-sm text-[#B7AB9C]">{legal.condiciones}</p>
-            <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
-            <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
-          </div>
-        </div>
-        <div className="px-5 md:px-8">
-          <CtaPar lang={lang} etiqueta={copy.homeCta} ghost={copy.ctaGhost} />
-          {credito ? <p className="mt-8 max-w-xl text-sm text-[#B7AB9C]">{credito}</p> : null}
-        </div>
-        <div className="mt-8 overflow-hidden">
-          <p className="font-display px-2 text-[28vw] leading-[0.78] tracking-[-0.05em] text-[#F4ECE2]" aria-hidden="true">AUDITE</p>
-        </div>
-      </footer>
       <BarraFija lang={lang} copy={copy} />
     </>
   );
@@ -213,10 +248,8 @@ export function SitioCatalogo({ lang }: { lang: string }) {
   const obras = obrasVisibles();
   return (
     <>
-      <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
-        <p className="kicker">{copy.navCatalog}</p>
-        <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.catalogTitle}</h1>
+        <h1 className="font-display text-5xl md:text-6xl">{copy.catalogTitle}</h1>
         <p className="mt-4 text-lg">{copy.catalogIntro}</p>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {obras.map((obra) => {
@@ -255,11 +288,8 @@ export function SitioMembresia({ lang }: { lang: string }) {
   const ui = idiomaUi(lang);
   return (
     <>
-      <SitioHeader lang={lang} copy={copy} />
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
-          <p className="kicker">{copy.navMembership}</p>
-          <h1 className="font-display mt-3 text-5xl md:text-6xl">{copy.membershipTitle}</h1>
           <PaywallWeb lang={lang} />
         </div>
         <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">

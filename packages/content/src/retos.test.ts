@@ -30,7 +30,7 @@ describe("retos del tiempo", () => {
     expect(texto).not.toMatch(/En el principio creó|Sagrada Biblia|leccionario/i);
     expect(texto).not.toMatch(/Emmanuel/);
     expect(archivo.retos.map((reto) => [reto.id, reto.pasos.length])).toEqual([
-      ["adviento-isaias", 28],
+      ["adviento-isaias", 26],
       ["navidad-infancia", 17],
       ["cuaresma-40", 40],
       ["semana-santa-pasion", 8],
@@ -56,6 +56,35 @@ describe("retos del tiempo", () => {
       });
       expect(reto.pasos.every((paso) => paso.versiculo === 1 && paso.versiculoFin === 1)).toBe(false);
     }
+    const adviento = archivo.retos.find((reto) => reto.id === "adviento-isaias");
+    expect(adviento?.pasos.map((paso) => [paso.dia, paso.ancla ?? "", paso.titulo.es, paso.episodio, `${paso.capitulo},${paso.versiculo}-${paso.versiculoFin}`])).toEqual([
+      [1, "", "La montaña", "is-01", "2,1-5"],
+      [2, "", "Aquí estoy", "is-02", "6,1-8"],
+      [3, "", "El Enmanuel", "is-02", "7,10-14"],
+      [4, "", "Un niño", "is-03", "9,1-6"],
+      [5, "", "El retoño", "is-04", "11,1-9"],
+      [6, "", "El cántico", "is-04", "12,1-6"],
+      [7, "", "El banquete", "is-07", "25,6-9"],
+      [8, "", "Ciudad fuerte", "is-07", "26,1-6"],
+      [9, "", "El desierto florece", "is-09", "35,1-10"],
+      [10, "", "Preparad el camino", "is-11", "40,1-11"],
+      [11, "", "Los que esperan", "is-11", "40,27-31"],
+      [12, "", "No temas", "is-11", "41,8-13"],
+      [13, "", "El siervo", "is-12", "42,1-7"],
+      [14, "", "Yo te redimí", "is-12", "43,1-7"],
+      [15, "", "Luz de las naciones", "is-14", "49,1-6"],
+      [16, "", "Qué hermosos los pies", "is-15", "52,7-10"],
+      [17, "", "El siervo herido", "is-15", "53,1-12"],
+      [18, "", "Ensancha la tienda", "is-16", "54,1-10"],
+      [19, "", "Venid a las aguas", "is-16", "55,1-11"],
+      [20, "", "El ayuno", "is-17", "58,6-12"],
+      [21, "", "Levántate", "is-17", "60,1-6"],
+      [22, "", "El espíritu", "is-18", "61,1-4"],
+      [23, "", "No callaré", "is-18", "62,1-5"],
+      [24, "", "Alegraos", "is-19", "66,10-14"],
+      [25, "12-23", "Un rey justo", "is-09", "32,1-4"],
+      [26, "12-24", "Mira a tu salvador", "is-18", "62,10-12"],
+    ]);
     const navidad = archivo.retos.find((reto) => reto.id === "navidad-infancia");
     expect(navidad?.pasos.map((paso) => [paso.dia, paso.ancla ?? "", paso.titulo.es, paso.episodio, paso.capitulo])).toEqual([
       [1, "", "Zacarías", "lc-01", 1],

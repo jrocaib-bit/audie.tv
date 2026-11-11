@@ -14,6 +14,7 @@ tsconfig.tsbuildinfo
 apps/web/tsconfig.tsbuildinfo
 apps/mobile/.expo
 apps/mobile/dist
+apps/web/public/fonts/gazpacho
 
 # Kit privado. El texto bíblico, los másteres y las imágenes grandes no se versionan.
 content/pilot/audio/*.mp3

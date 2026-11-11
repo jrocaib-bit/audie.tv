@@ -446,9 +446,9 @@ export function NeoMembership() {
       <article className="neo-card relative mt-4 overflow-hidden text-[#F4ECE2]">
         <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-70" /> : null}</div>
         <div className="relative bg-gradient-to-t from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/20 p-5">
-          <p className="kicker text-[#C9A96E]">{t(locale, "statusPreparing")}</p>
-          <h2 className="font-display mt-2 text-3xl leading-tight">{tx(locale, "Plan anual", "Annual plan")}</h2>
-          <p className="font-display-regular mt-2 text-2xl text-[#F4ECE2]">{t(locale, "membershipNoPrice")}</p>
+          <p className="kicker text-[#C9A96E]">Audite Premium</p>
+          <h2 className="font-display mt-2 text-3xl leading-tight">{tx(locale, "1,99 €/mes · 8,00 €/año", "€1.99/mo · €8.00/yr")}</h2>
+          <p className="font-display-regular mt-2 text-2xl text-[#F4ECE2]">{tx(locale, "7 días gratis. Cancela cuando quieras.", "7 days free. Cancel anytime.")}</p>
         </div>
       </article>
       <p className="mt-4 text-sm text-muted">{t(locale, "membershipBody")}</p>

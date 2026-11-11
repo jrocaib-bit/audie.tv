@@ -17,7 +17,7 @@ describe("paywall de StoreKit", () => {
     for (const entorno of ["web", "dev"] as const) {
       const lineas = lineasDePaywall({ entorno, tienda: TIENDA_DEMO });
       expect(lineas.every((linea) => linea.origen === "estatico")).toBe(true);
-      expect(lineas.find((linea) => linea.plan === "anual")?.precio).toBe("8 €");
+      expect(lineas.find((linea) => linea.plan === "anual")?.precio).toBe("8,00 €");
     }
     const vacia = lineasDePaywall({ entorno: "tienda", tienda: null });
     expect(vacia.every((linea) => linea.precio === "" && linea.pruebaDias === null)).toBe(true);

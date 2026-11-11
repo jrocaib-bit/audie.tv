@@ -19,7 +19,7 @@ function portada(id: string | null) {
   return obrasVisibles().find((obra) => obra.episodio === id) ?? null;
 }
 
-export function RetoV2({ reto }: { reto: Reto }) {
+export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloServidor?: boolean }) {
   const library = useLibrary();
   const { settings } = library;
   const locale = settings.uiLocale;
@@ -33,6 +33,8 @@ export function RetoV2({ reto }: { reto: Reto }) {
   const avance = fraccionReto(estado.hechos, reto.pasos.length);
   const dias = racha(estado.fechas, hoy);
   const siguiente = reto.pasos.find((paso) => !estado.hechos.includes(paso.dia))?.dia ?? 1;
+  const antesDeAdviento = reto.id === "adviento-isaias" && hoy < "2026-11-29";
+  const marcaDia = antesDeAdviento ? (es ? "Empieza el 29 de noviembre" : "Starts 29 November") : `${es ? "Día" : "Day"} ${siguiente}`;
   const propia = portadaDeReto(reto.id);
   const obra = propia ? null : portada(reto.obra) ?? portada(reto.pasos[0]?.obra ?? null);
   const mismo = dia.tiempo === reto.tiempo || (dia.tiempo === "triduo" && reto.tiempo === "semana-santa");
@@ -58,8 +60,8 @@ export function RetoV2({ reto }: { reto: Reto }) {
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
         <div className="relative z-10 flex min-h-[78svh] flex-col justify-end px-5 pb-8">
-          <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-7xl">{reto.titulo[ui]}</h1>
-          <p className="mt-4 text-base text-[#F4ECE2]">{({ adviento: es ? "Adviento" : "Advent", navidad: es ? "Navidad" : "Christmas", ordinario: es ? "Tiempo ordinario" : "Ordinary Time", cuaresma: es ? "Cuaresma" : "Lent", "semana-santa": es ? "Semana Santa" : "Holy Week", pascua: es ? "Pascua" : "Easter", triduo: es ? "Triduo" : "Triduum" } as Record<string, string>)[reto.tiempo] ?? reto.tiempo} · {es ? "Día" : "Day"} {siguiente} · {minutos} min</p>
+          {tituloServidor ? null : <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-7xl">{reto.titulo[ui]}</h1>}
+          <p className="mt-4 text-base text-[#F4ECE2]">{({ adviento: es ? "Adviento" : "Advent", navidad: es ? "Navidad" : "Christmas", ordinario: es ? "Tiempo ordinario" : "Ordinary Time", cuaresma: es ? "Cuaresma" : "Lent", "semana-santa": es ? "Semana Santa" : "Holy Week", pascua: es ? "Pascua" : "Easter", triduo: es ? "Triduo" : "Triduum" } as Record<string, string>)[reto.tiempo] ?? reto.tiempo} · {marcaDia} · {minutos} min</p>
           <Link href={playHref} className="mt-6 inline-flex size-16 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" aria-label={es ? "Oír" : "Play"}>
             <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
           </Link>

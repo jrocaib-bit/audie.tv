@@ -18,12 +18,16 @@ export type CorreoListo = {
 
 export function textoCompleto(id: IdCorreo, datos: DatosCorreo): string {
   const base = borrador(id, datos);
-  const ayuda = id === "primer_cobro"
-    ? "Si este cargo no te encaja, escribe a soporte@audite.tv. El reembolso de un pago de la tienda lo gestiona Apple o Google, en la tienda donde compraste."
-    : undefined;
   const cta = `${base.cta}: ${base.ctaUrl}`;
   const secundario = base.ctaSecundario ? `${base.ctaSecundario.etiqueta}: ${base.ctaSecundario.url}` : "";
-  return [base.cuerpo, cta, secundario, pie(base.tipo, datos, ayuda)].filter(Boolean).join("\n\n");
+  const pieTexto = id === "acuse_soporte"
+    ? "—\nEste correo lo envía Audite desde no-reply@audite.tv.\nPara seguir el hilo, responde a este mensaje: llegará a soporte@audite.tv.\nhttps://audite.tv/contacto\nhttps://audite.tv/privacidad"
+    : id === "confirmacion_boletin" || id === "confirmacion_lanzamiento"
+      ? "—\nEste correo lo envía Audite desde no-reply@audite.tv y no admite respuesta.\nAyuda: soporte@audite.tv\nhttps://audite.tv/privacidad"
+      : id === "bienvenida_lista"
+        ? `—\nEste correo lo envía Audite desde no-reply@audite.tv y no admite respuesta.\nAyuda: soporte@audite.tv\nSi prefieres no recibir este tipo de correos: https://audite.tv/correo/baja?t=${datos.token ?? ""}\nhttps://audite.tv/privacidad`
+        : pie(base.tipo, datos, id === "primer_cobro" ? "Si este cargo no te encaja, escribe a soporte@audite.tv. El reembolso de un pago de la tienda lo gestiona Apple o Google, en la tienda donde compraste." : undefined);
+  return [base.cuerpo, cta, secundario, pieTexto].filter(Boolean).join("\n\n");
 }
 
 export async function componer(id: IdCorreo, datos: DatosCorreo = {}): Promise<CorreoListo> {

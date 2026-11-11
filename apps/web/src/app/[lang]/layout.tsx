@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { MarcoSitio } from "@/components/sitio";
+import { canonicalPropio, muestraNovedades } from "@/lib/sitio-publico";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
 export function generateStaticParams() {
@@ -10,13 +13,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   const copy = copiaSitio(lang);
   if (!copy) return {};
-  const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, `/${idioma}`]));
+  const ruta = (await headers()).get("x-audite-path") || `/${lang}`;
+  const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, canonicalPropio(ruta.replace(`/${lang}`, `/${idioma}`) || `/${idioma}`, idioma)]));
   return {
-    title: copy.metaTitle,
+    title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
     alternates: {
-      canonical: `/${lang}`,
-      languages: { ...languages, "x-default": "/es" },
+      canonical: canonicalPropio(ruta, lang),
+      languages: { ...languages, "x-default": canonicalPropio(ruta.replace(`/${lang}`, "/es") || "/es", "es") },
     },
   };
 }
@@ -24,5 +28,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function SitioLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!copiaSitio(lang)) notFound();
-  return <div lang={lang} className="lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]">{children}</div>;
+  const ruta = (await headers()).get("x-audite-path") || "";
+  const inicio = ruta === `/${lang}` || ruta === `/${lang}/`;
+  return (
+    <div lang={lang} className={`${inicio ? "relative " : ""}lienzo min-h-dvh bg-[#100E0C] text-[#F4ECE2]`}>
+      <MarcoSitio lang={lang} sobreObra={inicio} novedades={muestraNovedades(ruta, lang)}>{children}</MarcoSitio>
+    </div>
+  );
 }

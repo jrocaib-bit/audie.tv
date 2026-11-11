@@ -370,60 +370,32 @@
         {
           "dia": 25,
           "libroId": "is",
-          "capitulo": 8,
-          "versiculo": 8,
-          "versiculoFin": 10,
+          "capitulo": 32,
+          "versiculo": 1,
+          "versiculoFin": 4,
           "titulo": {
-            "es": "Dios con nosotros",
-            "en": "God with us"
+            "es": "Un rey justo",
+            "en": "A righteous king"
           },
           "minutos": 2,
           "obra": "gn-04",
           "ancla": "12-23",
-          "episodio": "is-03"
+          "episodio": "is-09"
         },
         {
           "dia": 26,
           "libroId": "is",
           "capitulo": 62,
-          "versiculo": 11,
+          "versiculo": 10,
           "versiculoFin": 12,
           "titulo": {
-            "es": "Ya llega",
-            "en": "He is coming"
+            "es": "Mira a tu salvador",
+            "en": "Look to your savior"
           },
           "minutos": 2,
           "obra": "gn-05",
           "ancla": "12-24",
           "episodio": "is-18"
-        },
-        {
-          "dia": 27,
-          "libroId": "is",
-          "capitulo": 33,
-          "versiculo": 17,
-          "versiculoFin": 24,
-          "titulo": {
-            "es": "Jerusalén segura",
-            "en": "Jerusalem secure"
-          },
-          "minutos": 3,
-          "obra": "gn-06",
-          "episodio": "is-09"
-        },
-        {
-          "dia": 28,
-          "libroId": "is",
-          "capitulo": 51,
-          "versiculo": 1,
-          "versiculoFin": 6,
-          "titulo": {
-            "es": "El consuelo",
-            "en": "Comfort"
-          },
-          "minutos": 2,
-          "obra": "gn-07",
-          "episodio": "is-15"
         }
       ]
     },

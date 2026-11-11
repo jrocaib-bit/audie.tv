@@ -16,6 +16,9 @@ export const EVENTOS = [
   "challenge_day_completed",
   "challenge_completed",
   "playback_progress",
+  "cta_clicked",
+  "form_submitted",
+  "signup_confirmed",
 ] as const;
 
 export type Evento = (typeof EVENTOS)[number];
@@ -38,6 +41,22 @@ export type PropsDe = {
   challenge_day_completed: { reto_id: string; dia: number; episode_id: string };
   challenge_completed: { reto_id: string };
   playback_progress: { episode_id: string; marca: 25 | 50 | 75 };
+  cta_clicked: PropsFormulario;
+  form_submitted: PropsFormulario;
+  signup_confirmed: PropsFormulario;
+};
+
+export type PropsFormulario = {
+  form_id: string;
+  cta_id: string;
+  ubicacion: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  idioma: string;
+  plataforma: string;
+  metodo?: string;
+  opt_in_correo?: boolean;
 };
 
 export type Plataforma = "web" | "ios" | "android";
@@ -179,6 +198,32 @@ export function prepararMedicion<E extends Evento>(nombre: E, propiedades: Props
   return { evento, progreso };
 }
 
+const CLAVES_FORMULARIO = ["form_id", "cta_id", "ubicacion", "utm_source", "utm_medium", "utm_campaign", "idioma", "plataforma", "metodo", "opt_in_correo"] as const;
+
+export function propsFormulario(entrada: PropsFormulario): PropsFormulario {
+  const limpio = limpiarPropiedades(entrada);
+  const salida = {} as PropsFormulario;
+  for (const clave of CLAVES_FORMULARIO) {
+    if (clave in limpio) (salida as Record<string, unknown>)[clave] = limpio[clave];
+  }
+  return salida;
+}
+
+export function plataformaCliente(sistema: string): "ios" | "android" | "web" {
+  if (sistema === "ios" || sistema === "android") return sistema;
+  return "web";
+}
+
+export function utmDeBusqueda(busqueda: string): Pick<PropsFormulario, "utm_source" | "utm_medium" | "utm_campaign"> {
+  const params = new URLSearchParams(busqueda.startsWith("?") ? busqueda.slice(1) : busqueda);
+  const salida: Pick<PropsFormulario, "utm_source" | "utm_medium" | "utm_campaign"> = {};
+  for (const clave of ["utm_source", "utm_medium", "utm_campaign"] as const) {
+    const valor = params.get(clave)?.trim();
+    if (valor) salida[clave] = valor.slice(0, 80);
+  }
+  return salida;
+}
+
 export function track<E extends Evento>(nombre: E, propiedades: PropsDe[E], ctx: ContextoMedicion, sumidero: SumideroMedicion, ahora = new Date()): void {
   try {
     const preparado = prepararMedicion(nombre, propiedades, ctx, ahora);
@@ -191,6 +236,14 @@ export function track<E extends Evento>(nombre: E, propiedades: PropsDe[E], ctx:
   } catch {
     return;
   }
+}
+
+export function filaPreferenciaCorreo(userId: string, consentimiento: boolean, ahora = new Date().toISOString()) {
+  return {
+    user_id: userId,
+    marketing_consent: consentimiento,
+    consent_at: consentimiento ? ahora : null,
+  };
 }
 
 export function scriptPlausible(dominio: string | null | undefined): { src: string; domain: string } | null {

@@ -3,6 +3,7 @@
 import { PRECIO } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { enviarLanzamiento, marcaFormulario } from "@/lib/formularios/acciones";
 import { medir } from "@/lib/medicion";
 
 type Copy = {
@@ -58,20 +59,17 @@ export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesg
   );
 }
 
-export function CtaPar({ lang, etiqueta, ghost }: { lang: string; etiqueta: string; ghost: string }) {
+export function CtaPar({ lang, etiqueta, ghost, href }: { lang: string; etiqueta: string; ghost: string; href?: string }) {
   return (
     <div className="mt-8 flex flex-wrap items-center gap-3">
-      <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "sitio" })} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{etiqueta}</Link>
+      <Link href={href ?? "/app#aviso"} onClick={() => medir("cta_click", { cta: "prueba", lugar: "sitio" })} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{etiqueta}</Link>
       <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">{ghost}</Link>
     </div>
   );
 }
 
 export function tiendas(): { appStore: string; play: string } {
-  return {
-    appStore: process.env.NEXT_PUBLIC_AUDITE_APP_STORE_URL?.trim() ?? "",
-    play: process.env.NEXT_PUBLIC_AUDITE_PLAY_URL?.trim() ?? "",
-  };
+  return { appStore: "", play: "" };
 }
 
 export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: string; copy: Copy; invertido?: boolean; precio?: boolean }) {
@@ -84,7 +82,7 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         {copy.homeCta}
       </Link>
       {vacias ? (
-        <button type="button" className={`inline-flex min-h-12 items-center rounded-full border px-6 ${invertido ? "border-[#F4ECE2]/40 text-[#F4ECE2]" : "border-border"}`} onClick={() => setAviso(true)}>
+        <button type="button" className={`inline-flex min-h-12 items-center rounded-full border px-6 ${invertido ? "border-[#F4ECE2]/40 text-[#F4ECE2]" : "border-border"}`} onClick={() => { setAviso(true); medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_abrir", ubicacion: "descarga", idioma: lang, plataforma: "web" }); }}>
           {copy.ctaDownload}
         </button>
       ) : (
@@ -94,38 +92,43 @@ export function Ctas({ lang, copy, invertido = false, precio = false }: { lang: 
         </>
       )}
       <Link href={`/${lang}/entrar`} className="inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6 text-[#F4ECE2]">
-        {copy.ctaGhost}
+        {process.env.GOOGLE_LOGIN_ENABLED === "true" ? copy.ctaGhost : copy.ctaSign}
       </Link>
       {precio ? <span className={`text-sm ${invertido ? "text-[#E7D7C3]" : "text-muted"}`}>{lineaPrecio(lang)}</span> : null}
-      {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
+      {aviso ? <Avisame lang={lang} copy={copy} onClose={() => setAviso(false)} /> : null}
     </div>
   );
 }
 
-export function Avisame({ copy, onClose }: { copy: Copy; onClose: () => void }) {
-  const [correo, setCorreo] = useState("");
-  const [listo, setListo] = useState(false);
+export function Avisame({ copy, lang, onClose }: { copy: Copy; lang: string; onClose: () => void }) {
+  const [marca, setMarca] = useState("");
+  const [estado, setEstado] = useState<"idle" | "ok" | "error">("idle");
+  const [texto, setTexto] = useState("");
+  useEffect(() => { void marcaFormulario().then(setMarca); }, []);
   return (
     <form
-      className="mt-3 flex w-full max-w-md flex-wrap gap-2"
-      onSubmit={(event) => {
-        event.preventDefault();
-        // TODO: enviar el correo cuando haya un destino. No hay backend.
-        if (!correo.trim()) return;
-        setListo(true);
+      className="relative mt-3 grid w-full max-w-md gap-2"
+      action={async (datos) => {
+        medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: lang, plataforma: "web", opt_in_correo: true });
+        const respuesta = await enviarLanzamiento(datos);
+        if (respuesta.cuenta) medir("form_submitted", { form_id: "avisame_app", cta_id: "avisame_enviar", ubicacion: "descarga", idioma: lang, plataforma: "web", opt_in_correo: true });
+        setEstado(respuesta.estado);
+        setTexto(respuesta.texto);
       }}
     >
-      <input
-        type="email"
-        required
-        value={correo}
-        aria-label={copy.ctaEmail}
-        placeholder={copy.ctaEmail}
-        onChange={(event) => setCorreo(event.target.value)}
-        className="min-h-12 min-w-0 flex-1 rounded-full border border-border bg-transparent px-4"
-      />
-      <button type="submit" className="inline-flex min-h-12 items-center rounded-full bg-primary px-5 text-primary-foreground">{listo ? copy.ctaReady : copy.ctaNotify}</button>
-      <button type="button" className="inline-flex min-h-12 items-center px-3" onClick={onClose}>×</button>
+      <input type="text" name="compania" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
+      <input type="hidden" name="marca" value={marca} />
+      <input type="hidden" name="plataforma" value="ambas" />
+      <input type="email" name="correo" required aria-label={copy.ctaEmail} placeholder={copy.ctaEmail} className="min-h-12 min-w-0 flex-1 rounded-full border border-border bg-transparent px-4" />
+      <label className="flex min-h-11 items-center gap-3 text-sm">
+        <input type="checkbox" name="privacidad" required />
+        <span>Acepto recibir avisos de la app y la privacidad.</span>
+      </label>
+      <div className="flex gap-2">
+        <button type="submit" className="inline-flex min-h-12 items-center rounded-full bg-primary px-5 text-primary-foreground">{copy.ctaNotify}</button>
+        <button type="button" className="inline-flex min-h-12 items-center px-3" onClick={onClose}>×</button>
+      </div>
+      {estado === "idle" ? null : <p className={estado === "ok" ? "text-[#C9A96E]" : "text-[#E7D7C3]"}>{texto}</p>}
     </form>
   );
 }
@@ -145,14 +148,14 @@ export function BarraFija({ lang, copy }: { lang: string; copy: Copy }) {
   const vacias = !enlaces.appStore && !enlaces.play;
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 py-3 md:hidden">
-      {aviso ? <Avisame copy={copy} onClose={() => setAviso(false)} /> : null}
+      {aviso ? <Avisame lang={lang} copy={copy} onClose={() => setAviso(false)} /> : null}
       <p className="mb-2 text-center text-sm">{lineaPrecio(lang)}</p>
       <div className="flex gap-2">
         <Link href="/escuchar" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-[#C9A96E] px-4 text-[#100E0C]">
           {copy.homeCta}
         </Link>
         {vacias ? (
-          <button type="button" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-border px-4" onClick={() => setAviso(true)}>
+          <button type="button" className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-border px-4" onClick={() => { setAviso(true); medir("cta_clicked", { form_id: "avisame_app", cta_id: "avisame_abrir", ubicacion: "barra", idioma: lang, plataforma: "web" }); }}>
             {copy.ctaDownload}
           </button>
         ) : (

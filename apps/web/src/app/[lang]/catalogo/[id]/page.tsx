@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ObraFoto, Placa } from "@/components/placa";
-import { SitioHeader } from "@/components/sitio";
 import { copiaSitio, idiomasPublicos } from "@/sitio/i18n";
 
 export const dynamicParams = true;
@@ -48,7 +47,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const estado = episodio.propuesta ? copy.proposed : episodio.presentacion === "revision" ? copy.review : copy.pending;
   return (
     <>
-      <SitioHeader lang={lang} copy={copy} sobreObra={Boolean(obra)} />
       <main>
         {obra ? (
           <section className="relative min-h-[78svh] bg-[#0C0B09] text-[#F4ECE2]">

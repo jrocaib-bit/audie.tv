@@ -8,5 +8,5 @@ export const metadata: Metadata = { title: "Entrar" };
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!esIdiomaPublico(lang)) notFound();
-  return <Entrar lang={lang} />;
+  return <Entrar lang={lang} google={process.env.GOOGLE_LOGIN_ENABLED === "true"} />;
 }
