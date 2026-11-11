@@ -1,7 +1,18 @@
+import { RETOS } from "@/lib/retos";
+
 export type UsuarioAudio = { email: string | null; subscriptionStatus: string | null };
+
+export function idsDeAdviento(): Set<string> {
+  const reto = RETOS.find((item) => item.id === "adviento-isaias");
+  return new Set(reto?.pasos.flatMap((paso) => (paso.episodio ? [paso.episodio] : [])) ?? []);
+}
 
 export function idsGratis(valor: string | undefined): Set<string> {
   return new Set((valor ?? "").split(",").map((id) => id.trim()).filter(Boolean));
+}
+
+export function esAudioGratis(id: string, valor: string | undefined): boolean {
+  return idsGratis(valor).has(id) || idsDeAdviento().has(id);
 }
 
 export function puedeEscuchar(usuario: UsuarioAudio, modo: string | undefined, permitidos: string | undefined): boolean {

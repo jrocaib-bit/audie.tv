@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
-import { eventosDePaywall } from "@audite/domain";
+import { etiquetaDeLanzamiento, eventosDePaywall, pideSuscripcion } from "@audite/domain";
 import { sesionApp } from "../auth";
 import { IDS_APPLE, PURCHASES_ENABLED } from "../compras/config";
 import { comprarNativo, leerTienda, restaurarNativo } from "../compras/storekit";
@@ -23,8 +23,11 @@ function entornoDe(): EntornoPrecio {
 
 export default function SuscripcionScreen() {
   const router = useRouter();
-  const demo = useLocalSearchParams<{ tienda?: string }>().tienda === "demo";
+  const parametros = useLocalSearchParams<{ tienda?: string; reto?: string }>();
+  const demo = parametros.tienda === "demo";
   const es = useMobileLibrary().settings.uiLocale !== "en";
+  const reto = Array.isArray(parametros.reto) ? parametros.reto[0] : parametros.reto;
+  const etiqueta = etiquetaDeLanzamiento(es ? "es" : "en");
   const [plan, setPlan] = useState<LineaPrecio["plan"]>("anual");
   const [lineas, setLineas] = useState<LineaPrecio[]>(() => lineasDePaywall({
     entorno: demo ? "tienda" : entornoDe(),
@@ -74,6 +77,16 @@ export default function SuscripcionScreen() {
 
   const prueba = elegida?.pruebaDias;
   const cta = prueba ? (es ? `Empieza ${prueba} días gratis` : `Start ${prueba} days free`) : (es ? "Suscribirme" : "Subscribe");
+  if (!pideSuscripcion(reto)) {
+    return (
+      <View style={{ flex: 1, backgroundColor: noche, paddingHorizontal: 22, paddingTop: 28 }}>
+        <Pressable accessibilityRole="button" accessibilityLabel={es ? "Cerrar" : "Close"} onPress={() => router.back()} style={{ minHeight: 44, justifyContent: "center", alignSelf: "flex-start" }}>
+          <Text style={{ color: crema, fontSize: 22 }}>↓</Text>
+        </Pressable>
+        <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 40, lineHeight: 44, marginTop: 24 }}>{es ? "Este reto es gratis." : "This challenge is free."}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: noche, paddingHorizontal: 22, paddingTop: 28, paddingBottom: 28 }}>
@@ -90,6 +103,7 @@ export default function SuscripcionScreen() {
             <Pressable key={linea.id} accessibilityRole="button" accessibilityState={{ selected: activo }} onPress={() => elegir(linea.plan)} style={{ borderWidth: 1, borderColor: activo ? oro : "#2E2924", borderRadius: 16, padding: 16, backgroundColor: "#1B1815" }}>
               <Text style={{ color: muted, fontSize: 14 }}>{linea.plan === "anual" ? (es ? "Anual" : "Yearly") : (es ? "Mensual" : "Monthly")}</Text>
               <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 36, lineHeight: 40, marginTop: 4 }}>{linea.precio ? `${linea.precio}/${periodo}` : "—"}</Text>
+              {linea.plan === "anual" && etiqueta ? <Text style={{ color: oro, marginTop: 6 }}>{etiqueta}</Text> : null}
               {linea.pruebaDias ? <Text style={{ color: oro, marginTop: 6 }}>{es ? `${linea.pruebaDias} días gratis` : `${linea.pruebaDias} days free`}</Text> : null}
             </Pressable>
           );

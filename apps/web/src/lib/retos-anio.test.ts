@@ -17,7 +17,9 @@ describe("retos del año", () => {
     ]);
     expect(retos.map((reto) => reto.dias.length)).toEqual([26, 17, 40, 8, 50, 16]);
     expect(retos[0]?.dias[0]).toMatchObject({ es: "La montaña", cita: "Is 2,1–5" });
-    expect(retos[0]?.dias[24]?.cita).toBe("Is 32,1–4");
+    expect(retos[0]?.dias[2]).toMatchObject({ es: "El Enmanuel", en: "Emmanuel", cita: "Is 7,10–14" });
+    expect(retos[0]?.dias[24]).toMatchObject({ es: "Un rey justo", en: "A righteous king", cita: "Is 32,1–4" });
+    expect(retos[0]?.dias[25]).toMatchObject({ es: "Mira a tu salvador", en: "See your savior", cita: "Is 62,10–12" });
     const archivo = readFileSync(path.resolve("apps/web/src/lib/retos-anio-datos.ts"), "utf8");
     expect(archivo).not.toContain("Al principio creó");
     expect(archivo).not.toContain("Conferencia Episcopal");

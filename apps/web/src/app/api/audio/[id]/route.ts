@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { rutaAudio } from "@audite/content/audio-listo";
-import { idsGratis, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
+import { esAudioGratis, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +38,7 @@ export async function GET(request: Request, contexto: { params: Promise<{ id: st
   const { id } = await contexto.params;
   const ruta = rutaAudio(id);
   if (!ruta) return respuesta(404, { error: "no-encontrado" });
-  const gratis = idsGratis(process.env.AUDIO_GRATIS).has(id);
+  const gratis = esAudioGratis(id, process.env.AUDIO_GRATIS);
   const token = request.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1]?.trim() ?? "";
   if (!gratis && !token) return respuesta(401, { error: "sin-sesion" });
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";

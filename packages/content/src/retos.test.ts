@@ -28,7 +28,6 @@ describe("retos del tiempo", () => {
   it("guarda títulos propios y pasajes con rango, sin texto bíblico", () => {
     const texto = JSON.stringify(archivo);
     expect(texto).not.toMatch(/En el principio creó|Sagrada Biblia|leccionario/i);
-    expect(texto).not.toMatch(/Emmanuel/);
     expect(archivo.retos.map((reto) => [reto.id, reto.pasos.length])).toEqual([
       ["adviento-isaias", 26],
       ["navidad-infancia", 17],
@@ -85,6 +84,9 @@ describe("retos del tiempo", () => {
       [25, "12-23", "Un rey justo", "is-09", "32,1-4"],
       [26, "12-24", "Mira a tu salvador", "is-18", "62,10-12"],
     ]);
+    expect(adviento?.pasos[2]?.titulo).toEqual({ es: "El Enmanuel", en: "Emmanuel" });
+    expect(adviento?.pasos[24]?.titulo.es).toBe("Un rey justo");
+    expect(adviento?.pasos[25]?.titulo.es).toBe("Mira a tu salvador");
     const navidad = archivo.retos.find((reto) => reto.id === "navidad-infancia");
     expect(navidad?.pasos.map((paso) => [paso.dia, paso.ancla ?? "", paso.titulo.es, paso.episodio, paso.capitulo])).toEqual([
       [1, "", "Zacarías", "lc-01", 1],

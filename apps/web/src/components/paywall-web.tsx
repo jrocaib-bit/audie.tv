@@ -1,13 +1,21 @@
 "use client";
 
-import { PRECIO } from "@audite/domain";
+import { PRECIO, etiquetaDeLanzamiento, pideSuscripcion } from "@audite/domain";
 import { useEffect, useState } from "react";
 import { medir } from "@/lib/medicion";
 import Link from "next/link";
 import { tiendasVisibles } from "@/lib/tiendas-app";
 
-export function PaywallWeb({ lang }: { lang: string }) {
+export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: string; lanzamiento?: boolean; reto?: string | null }) {
   const es = lang !== "en";
+  if (!pideSuscripcion(reto)) {
+    return (
+      <section className="mx-auto w-full max-w-xl px-5 py-16 text-[#F4ECE2]">
+        <p className="font-display text-5xl leading-none">{es ? "Este reto es gratis." : "This challenge is free."}</p>
+      </section>
+    );
+  }
+  const lanzamientoAnual = etiquetaDeLanzamiento(es ? "es" : "en", lanzamiento);
   const [plan, setPlan] = useState<"anual" | "mensual">("anual");
   useEffect(() => {
     medir("paywall_view", { origen: "web" });
@@ -35,6 +43,7 @@ export function PaywallWeb({ lang }: { lang: string }) {
         <button type="button" aria-pressed={plan === "anual"} className={`rounded-2xl border px-5 py-4 text-left ${plan === "anual" ? "border-[#C9A96E]" : "border-[#2E2924]"}`} onClick={() => elegir("anual")}>
           <span className="block text-sm text-[#B7AB9C]">{es ? "Anual" : "Yearly"}</span>
           <span className="font-display mt-1 block text-4xl">{PRECIO.anio}/{es ? "año" : "year"}</span>
+          {lanzamientoAnual ? <span className="mt-2 block text-sm text-[#C9A96E]">{lanzamientoAnual}</span> : null}
         </button>
         <button type="button" aria-pressed={plan === "mensual"} className={`rounded-2xl border px-5 py-4 text-left ${plan === "mensual" ? "border-[#C9A96E]" : "border-[#2E2924]"}`} onClick={() => elegir("mensual")}>
           <span className="block text-sm text-[#B7AB9C]">{es ? "Mensual" : "Monthly"}</span>

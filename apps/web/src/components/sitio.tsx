@@ -1,7 +1,7 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { audioListo } from "@audite/content/audio-listo";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
-import { textosAlta } from "@audite/domain";
+import { etiquetaDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
@@ -347,6 +347,7 @@ export function SitioHome({ lang }: { lang: string }) {
               <article className="flex h-full flex-col rounded-3xl border border-[#C9A96E] px-6 py-6">
                 <p className="w-fit rounded-full bg-[#C9A96E] px-3 py-1 text-sm text-[#100E0C]">{copy.priceSave}</p>
                 <p className="font-display mt-3 text-5xl">{copy.priceYear}</p>
+                {etiquetaDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#C9A96E]">{etiquetaDeLanzamiento(ui)}</p> : null}
                 <ListaIncluidos items={incluidos} />
                 <Link href={`/${lang}/entrar`} className="boton mt-6 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.homeCta}</Link>
               </article>
@@ -480,7 +481,7 @@ export function SitioMembresia({ lang }: { lang: string }) {
     <>
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
-          <PaywallWeb lang={lang} />
+          <PaywallWeb lang={lang} lanzamiento={precioLanzamientoActivo()} />
         </div>
         <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">
           <ObraFoto obra={obra} className="h-full w-full object-cover" />

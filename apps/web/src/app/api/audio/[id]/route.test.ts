@@ -63,6 +63,13 @@ describe("ruta de audio", () => {
     expect(respuesta.status).toBe(401);
   });
 
+  it("deja oír Adviento entero sin suscripción", async () => {
+    process.env.AUDIO_GRATIS = "";
+    process.env.AUDIO_ACCESO = "suscripcion";
+    const respuesta = await pedir("is-02");
+    expect(respuesta.status).toBe(200);
+  });
+
   it("deja oír un episodio gratis sin sesión", async () => {
     const respuesta = await pedir("gn-01");
     expect(respuesta.status).toBe(200);

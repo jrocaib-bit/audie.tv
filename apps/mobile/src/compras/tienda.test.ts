@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { PURCHASES_ENABLED } from "./config";
+import { PRODUCTOS, PURCHASES_ENABLED } from "./config";
 import { TIENDA_DEMO, derechoLocal, lineasDePaywall, pedirCompra, restaurarCompras, type Transaccion } from "./tienda";
 
 const ahora = Date.parse("2026-11-10T12:00:00Z");
@@ -21,6 +21,11 @@ describe("paywall de StoreKit", () => {
     }
     const vacia = lineasDePaywall({ entorno: "tienda", tienda: null });
     expect(vacia.every((linea) => linea.precio === "" && linea.pruebaDias === null)).toBe(true);
+  });
+
+  it("usa los identificadores de producto de Audite Premium", () => {
+    expect(PRODUCTOS.mensual.apple).toBe("audite.premium.mensual");
+    expect(PRODUCTOS.anual.apple).toBe("audite.premium.anual");
   });
 
   it("con el flag apagado no llama a requestPurchase", async () => {

@@ -166,7 +166,11 @@ describe("reproducible o pendiente", () => {
     expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "job")).toHaveLength(11);
     expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "jer")).toHaveLength(25);
     expect(catalogo.pendientes.filter((episodio) => episodio.bookId === "dn")).toHaveLength(9);
+    expect(manifiesto.actualizado).toBe("2026-11-11T12:50:00+01:00");
+    expect(manifiesto.idiomas).toEqual(["es", "en", "pt", "fr", "it", "de", "zh"]);
+    expect(manifiesto.idiomas).not.toContain("la");
     expect(catalogo.pendientes.filter((episodio) => episodio.propuesta)).toHaveLength(0);
+    expect(catalogo.pendientes.every((episodio) => (episodio.titulo?.en ?? "").length > 0)).toBe(true);
     const salmos = catalogo.pendientes.filter((episodio) => episodio.bookId === "sal").map((episodio) => episodio.id);
     expect(salmos).toHaveLength(24);
     expect(salmos[0]).toBe("sal-001");
@@ -183,6 +187,8 @@ describe("reproducible o pendiente", () => {
     expect(catalogo.fuenteTexto.es).toBe(manifiesto.fuente_texto.es);
     expect(catalogo.fuenteTexto.en).toBeNull();
     const publicado = JSON.stringify(catalogo);
+    expect(publicado).not.toMatch(/propuesto/i);
+    expect(conAudio.episodes.every((episodio) => (episodio.titulo?.en ?? "").length > 0)).toBe(true);
     expect(publicado).not.toContain("Mahalalel");
     expect(publicado).not.toContain("CEE");
     expect(informeDisponibilidad(manifiesto, () => false).reproducibles).toEqual([]);

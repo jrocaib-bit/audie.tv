@@ -70,7 +70,6 @@ export default function LibraryScreen() {
       }
       renderItem={({ item }) => (
         <View style={{ marginHorizontal: 22, marginBottom: 10, padding: 16, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card }}>
-          {item.propuesta ? <Text style={[ui.kicker, { color: colors.muted }]}>{t(locale, "statusProposed")}</Text> : null}
           <Text style={{ color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 34 }}>{rotuloEpisodio(item, locale) ?? t(locale, "comingSoon")}</Text>
           <Text style={[ui.body, { color: colors.muted }]}>
             {item.capitulos ?? ""}

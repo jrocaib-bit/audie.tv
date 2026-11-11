@@ -320,7 +320,6 @@ export function NeoLibrary() {
             ["nt", tx(locale, "Nuevo", "New")],
             ["preparacion", t(locale, "statusPreparing")],
             ["revision", t(locale, "statusReview")],
-            ["propuesto", t(locale, "statusProposed")],
           ] as const
         ).map(([id, label]) => {
           const activo = id === "ot" || id === "nt" || id === "todos" ? testamento === id : estado === id;

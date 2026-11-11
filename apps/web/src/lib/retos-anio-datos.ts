@@ -31,7 +31,7 @@ export const RETOS_ANIO: RetoAnioDato[] = [
       },
       {
         "es": "El Enmanuel",
-        "en": "The Emmanuel",
+        "en": "Emmanuel",
         "cita": "Is 7,10–14"
       },
       {

@@ -98,7 +98,6 @@ export function ListaPorLibros({
           <ul className="mt-4 max-h-[32rem] space-y-3 overflow-y-auto pr-1">
           {episodios.map((episodio) => (
             <li key={episodio.id} className={neo ? "flex min-h-14 items-center justify-between gap-3 border-b border-border py-2" : "border border-border bg-card px-4 py-4"}>
-              {episodio.propuesta && !neo ? <p className="text-xs uppercase tracking-[0.16em] text-muted">{t(locale, "statusProposed")}</p> : null}
               {neo ? (
                 <>
                   <Link href={`/${locale}/catalogo/${episodio.id}`} className="font-display block min-w-0 flex-1 truncate text-lg leading-tight">
@@ -106,7 +105,7 @@ export function ListaPorLibros({
                   </Link>
                   <p className="shrink-0 text-right text-xs text-muted">
                     <span className="block">{episodio.capitulos ?? episodio.rango ?? ""}</span>
-                    <span className="block">{episodio.presentacion === "revision" ? t(locale, "statusReview") : episodio.propuesta ? t(locale, "statusProposed") : t(locale, "statusPreparing")}</span>
+                    <span className="block">{episodio.presentacion === "revision" ? t(locale, "statusReview") : t(locale, "statusPreparing")}</span>
                   </p>
                 </>
               ) : (
