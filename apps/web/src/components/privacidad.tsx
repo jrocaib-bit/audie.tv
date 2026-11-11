@@ -4,10 +4,8 @@ import { BloqueTitular } from "@/components/titular";
 export function Privacidad({ inicio = "/es" }: { inicio?: string }) {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-2xl bg-[#100E0C] px-6 py-16 text-[#F4ECE2]">
-      <p className="text-sm tracking-[0.16em] text-[#C9A96E] uppercase">Borrador</p>
-      <h1 className="font-display mt-3 text-5xl leading-none">Privacidad</h1>
-      <p className="mt-4 text-[#C9A96E]">BORRADOR. Pendiente de revisión legal.</p>
-      <p className="mt-2 text-[#B7AB9C]">Última actualización: 10 de noviembre de 2026.</p>
+      <h1 className="font-display text-5xl leading-none">Privacidad</h1>
+      <p className="mt-4 text-[#B7AB9C]">Última actualización: 11 de noviembre de 2026.</p>
       <BloqueTitular />
 
       <h2 className="font-display mt-10 text-3xl">Para qué</h2>
@@ -22,7 +20,6 @@ export function Privacidad({ inicio = "/es" }: { inicio?: string }) {
       </ul>
 
       <h2 className="font-display mt-10 text-3xl">Bases</h2>
-      <p className="mt-4 text-[#B7AB9C]">Propuesta de este borrador, pendiente de revisión.</p>
       <ul className="mt-4 grid gap-3">
         <li>La cuenta, la escucha, las notas, los favoritos, los retos y el estado de la suscripción: para prestar el servicio pedido.</li>
         <li>Los correos que no son el enlace de acceso: solo con la casilla marcada.</li>
