@@ -14,8 +14,9 @@ describe("centro de ayuda", () => {
     expect(texto).toContain("8,00 € al año hasta el 5 de enero de 2027");
     expect(texto).toContain("12,99 € al año");
     expect(texto).toContain("gratis y no hace falta suscripción");
+    expect(texto).toContain("En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.");
     expect(texto).not.toMatch(/si cancelas y vuelves|cancelas el anual de 8/i);
-    expect(texto).not.toMatch(/hace falta (una )?cuenta|no hace falta cuenta|sin cuenta/i);
+    expect(texto).not.toMatch(/no hace falta cuenta|sin cuenta/i);
     expect(texto).toContain("La voz y la música están generadas con IA.");
     expect(texto).toContain("Disponible en español; más idiomas pronto.");
     expect(texto).not.toContain("Iniciar sesión con Google");

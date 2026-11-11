@@ -1,12 +1,13 @@
 "use client";
 
-import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { sesionWeb } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
@@ -44,7 +45,13 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
   const pasoSiguiente = reto.pasos.find((paso) => paso.dia === siguiente) ?? reto.pasos[0];
   const fichaPlay = pasoSiguiente?.episodio ? library.catalog.episodes.find((episodio) => episodio.id === pasoSiguiente.episodio) : undefined;
   const segundoPlay = fichaPlay && pasoSiguiente ? inicioDelPasaje(fichaPlay.tiempos, pasoSiguiente.capitulo, pasoSiguiente.versiculo, pasoSiguiente.versiculoFin) : null;
-  const playHref = fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`;
+  const [conCuenta, setConCuenta] = useState(reto.id !== "adviento-isaias");
+  useEffect(() => {
+    if (reto.id !== "adviento-isaias") return;
+    void sesionWeb().then((sesion) => setConCuenta(Boolean(sesion)));
+  }, [reto.id]);
+  const destino = (href: string) => reto.id === "adviento-isaias" ? hrefDePasoAdviento(conCuenta, href, "/es/entrar") : href;
+  const playHref = destino(fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`);
   const otros = RETOS.filter((item) => item.id !== reto.id);
   useEffect(() => {
     medir("challenge_started", { reto_id: reto.id });
@@ -61,6 +68,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
         <div className="relative z-10 flex min-h-[78svh] flex-col justify-end px-5 pb-8">
           {tituloServidor ? null : <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-7xl">{reto.titulo[ui]}</h1>}
           <p className="mt-4 text-base text-[#F4ECE2]">{({ adviento: es ? "Adviento" : "Advent", navidad: es ? "Navidad" : "Christmas", ordinario: es ? "Tiempo ordinario" : "Ordinary Time", cuaresma: es ? "Cuaresma" : "Lent", "semana-santa": es ? "Semana Santa" : "Holy Week", pascua: es ? "Pascua" : "Easter", triduo: es ? "Triduo" : "Triduum" } as Record<string, string>)[reto.tiempo] ?? reto.tiempo} · {marcaDia} · {minutos} min</p>
+          {reto.id === "adviento-isaias" && !conCuenta ? <p className="mt-4 max-w-xl text-[#F4ECE2]">{es ? "Es gratis. Hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba." : "It is free. You need an account: sign up or sign in. There is no subscription and no trial."}</p> : null}
           <Link href={playHref} className="mt-6 inline-flex size-16 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" aria-label={es ? "Oír" : "Play"}>
             <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
           </Link>
@@ -106,7 +114,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
             const mini = portada(paso.obra);
             const ficha = paso.episodio ? library.catalog.episodes.find((episodio) => episodio.id === paso.episodio) : undefined;
             const segundo = ficha ? inicioDelPasaje(ficha.tiempos, paso.capitulo, paso.versiculo, paso.versiculoFin) : null;
-            const oir = ficha ? `/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}` : null;
+            const oir = ficha ? destino(`/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}`) : null;
             const cuerpo = (
               <>
                 <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">

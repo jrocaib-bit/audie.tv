@@ -28,7 +28,7 @@ const RETOS = [
   { titulo: "Navidad", src: "/obras/reto-navidad_o1-1x1.webp" },
 ];
 
-function Rail({ titulo, items, ink, orden }: { titulo: string; items: { titulo: string; src: string }[]; ink: string; orden: number }) {
+function Rail({ titulo, items, ink, orden, alPulsar }: { titulo: string; items: { titulo: string; src: string }[]; ink: string; orden: number; alPulsar?: (titulo: string) => void }) {
   const opacidad = useRef(new Animated.Value(1)).current;
   const subir = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -49,10 +49,10 @@ function Rail({ titulo, items, ink, orden }: { titulo: string; items: { titulo: 
       <Text style={{ color: ink, fontFamily: fonts.serif, fontSize: 28 }}>{titulo}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingVertical: 12 }}>
         {items.map((item) => (
-          <View key={item.titulo} style={{ width: 132 }}>
+          <Pressable key={item.titulo} accessibilityRole="button" onPress={() => alPulsar?.(item.titulo)} style={{ width: 132 }}>
             <Image source={{ uri: `${base}${item.src}` }} style={{ width: 132, height: 132, backgroundColor: "#1B1815" }} />
             <Text numberOfLines={1} style={{ color: ink, marginTop: 8 }}>{item.titulo}</Text>
-          </View>
+          </Pressable>
         ))}
       </ScrollView>
     </Animated.View>
@@ -73,7 +73,7 @@ export default function Today() {
       </Pressable>
       <Rail titulo={library.settings.uiLocale === "en" ? "Books" : "Libros"} items={LIBROS} ink={colors.ink} orden={0} />
       <Rail titulo={library.settings.uiLocale === "en" ? "Paths" : "Caminos"} items={CAMINOS} ink={colors.ink} orden={1} />
-      <Rail titulo={library.settings.uiLocale === "en" ? "Challenges" : "Retos"} items={RETOS} ink={colors.ink} orden={2} />
+      <Rail titulo={library.settings.uiLocale === "en" ? "Challenges" : "Retos"} items={RETOS} ink={colors.ink} orden={2} alPulsar={(titulo) => { if (titulo === "Adviento") router.push("/reto-adviento"); }} />
     </ScrollView>
   );
 }

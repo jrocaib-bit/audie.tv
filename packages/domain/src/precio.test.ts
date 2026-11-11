@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ETIQUETA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, etiquetaDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo } from "./precio";
+import { ETIQUETA_LANZAMIENTO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, etiquetaDeLanzamiento, hrefDePasoAdviento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo } from "./precio";
 
 describe("precio de lanzamiento", () => {
   it("está apagado salvo que el flag sea exactamente true", () => {
@@ -27,5 +27,17 @@ describe("precio de lanzamiento", () => {
     expect(pideSuscripcion("adviento-isaias")).toBe(false);
     expect(pideSuscripcion("cuaresma-40")).toBe(true);
     expect(pideSuscripcion(null)).toBe(true);
+  });
+
+  it("los 26 pasos de Adviento piden cuenta y nunca suscripción ni prueba", () => {
+    const dias = Array.from({ length: 26 }, (_, indice) => indice + 1);
+    const sinCuenta = accesosAdviento(false, dias);
+    const conCuenta = accesosAdviento(true, dias);
+    expect(sinCuenta).toHaveLength(26);
+    expect(new Set(sinCuenta)).toEqual(new Set(["entrar"]));
+    expect(new Set(conCuenta)).toEqual(new Set(["oir"]));
+    expect([...sinCuenta, ...conCuenta].join(" ")).not.toMatch(/suscripcion|prueba/);
+    expect(hrefDePasoAdviento(false, "/ahora?e=is-02", "/entrar")).toBe("/entrar");
+    expect(hrefDePasoAdviento(true, "/ahora?e=is-02", "/entrar")).toBe("/ahora?e=is-02");
   });
 });

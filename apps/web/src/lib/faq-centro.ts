@@ -56,7 +56,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "cuanto-cuesta",
         pregunta: "¿Cuánto cuesta Audite?",
-        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027, el plan anual cuesta 12,99 € al año para las suscripciones nuevas. Si contratas el anual antes de esa fecha —o ya lo tienes—, mantienes los 8,00 € al año mientras sigas suscrito.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.\n\nEl reto **Adviento con Isaías** (desde el 29 de noviembre de 2026) es gratis y no hace falta suscripción. Lo explicamos más abajo, en [Retos](#retos).",
+        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027, el plan anual cuesta 12,99 € al año para las suscripciones nuevas. Si contratas el anual antes de esa fecha —o ya lo tienes—, mantienes los 8,00 € al año mientras sigas suscrito.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.\n\nEl reto **Adviento con Isaías** (desde el 29 de noviembre de 2026) es gratis y no hace falta suscripción. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. Lo explicamos más abajo, en [Retos](#retos).",
       },
       {
         id: "sube-el-precio",
@@ -66,7 +66,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "que-incluye",
         pregunta: "¿Qué incluye la suscripción?",
-        respuesta: "Una sola suscripción, ligada a tu cuenta de Audite, te da acceso en el iPhone, en Android y en la web [audite.tv](https://audite.tv): la Biblia en audio según el catálogo publicado y los retos del tiempo litúrgico.\n\nEl reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es una excepción: es **gratis y no hace falta suscripción**.\n\nAl principio, la suscripción se contrata solo en el App Store o en Google Play. La web sirve para escuchar con la misma cuenta, no para comprar.\n\nEl canal de YouTube [@auditetv](https://www.youtube.com/@auditetv) se puede ver sin suscripción, cuando haya vídeos publicados.",
+        respuesta: "Una sola suscripción, ligada a tu cuenta de Audite, te da acceso en el iPhone, en Android y en la web [audite.tv](https://audite.tv): la Biblia en audio según el catálogo publicado y los retos del tiempo litúrgico.\n\nEl reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es una excepción: es **gratis y no hace falta suscripción**. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.\n\nAl principio, la suscripción se contrata solo en el App Store o en Google Play. La web sirve para escuchar con la misma cuenta, no para comprar.\n\nEl canal de YouTube [@auditetv](https://www.youtube.com/@auditetv) se puede ver sin suscripción, cuando haya vídeos publicados.",
       },
       {
         id: "otros-planes",
@@ -194,7 +194,7 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "varios-aparatos",
         pregunta: "¿Puedo escuchar Audite en la web o en varios aparatos?",
-        respuesta: "Sí. Con tu cuenta puedes escuchar en la web [audite.tv](https://audite.tv) y en la app para iOS y Android. La suscripción es la misma. El reto Adviento con Isaías, que es gratis y no hace falta suscripción, también se puede seguir en la app y en la web.",
+        respuesta: "Sí. Con tu cuenta puedes escuchar en la web [audite.tv](https://audite.tv) y en la app para iOS y Android. La suscripción es la misma. El reto Adviento con Isaías es gratis y no hace falta suscripción. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. También se puede seguir en la web.",
       },
     ],
   },
@@ -210,12 +210,12 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "adviento-de-pago",
         pregunta: "¿El reto de Adviento es de pago?",
-        respuesta: "No. El reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es **gratis y no hace falta suscripción**. Puedes seguirlo en la app y en [audite.tv](https://audite.tv).",
+        respuesta: "No. El reto **Adviento con Isaías**, que empieza el 29 de noviembre de 2026, es **gratis y no hace falta suscripción**. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. Puedes seguirlo en la app y en [audite.tv](https://audite.tv).",
       },
       {
         id: "adviento-2026",
         pregunta: "¿Cuál es el reto de Adviento 2026?",
-        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. Este reto es **gratis y no hace falta suscripción**. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Un rey justo* (Is 32,1–4).\n- 24 de diciembre: *Mira a tu salvador* (Is 62,10–12).",
+        respuesta: "El 29 de noviembre de 2026, primer domingo de Adviento, empieza el reto **Adviento con Isaías**: un pasaje de Isaías para cada día, hasta Nochebuena. Este reto es **gratis y no hace falta suscripción**. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. La insignia prevista de este reto se llama **Centinela**.\n\nLos dos últimos días, según el calendario del reto en la app, son:\n\n- 23 de diciembre: *Un rey justo* (Is 32,1–4).\n- 24 de diciembre: *Mira a tu salvador* (Is 62,10–12).",
       },
       {
         id: "navidad",

@@ -54,3 +54,18 @@ export function etiquetaDeLanzamiento(lang: "es" | "en", activo = precioLanzamie
 export function pideSuscripcion(retoId: string | null | undefined): boolean {
   return retoId !== "adviento-isaias";
 }
+
+export type AccesoPasoAdviento = "entrar" | "oir";
+
+/** En la app, Adviento es gratis y pide cuenta. Nunca devuelve suscripción ni prueba. */
+export function accesoPasoAdviento(conCuenta: boolean): AccesoPasoAdviento {
+  return conCuenta ? "oir" : "entrar";
+}
+
+export function accesosAdviento(conCuenta: boolean, dias: readonly unknown[]): AccesoPasoAdviento[] {
+  return dias.map(() => accesoPasoAdviento(conCuenta));
+}
+
+export function hrefDePasoAdviento(conCuenta: boolean, hrefOir: string, hrefCuenta: string): string {
+  return accesoPasoAdviento(conCuenta) === "oir" ? hrefOir : hrefCuenta;
+}

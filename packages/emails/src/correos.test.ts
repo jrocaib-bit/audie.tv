@@ -34,6 +34,7 @@ describe("correos de ciclo de vida", () => {
     const bienvenida = await componer("bienvenida_lista", { token: datos.token });
     const frase = "El 29 de noviembre empieza el Adviento. Si te viene bien, ese día abre el reto Adviento con Isaías, en español, en https://audite.tv. Este reto es gratis y no hace falta suscripción.";
     expect(bienvenida.texto).toContain(frase);
+    expect(bienvenida.texto).toContain("En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.");
     const casa = (valor: string) => (valor.match(/https:\/\/audite\.tv(?!\/)/g) ?? []).length;
     expect(casa(bienvenida.texto)).toBe(2);
     expect(casa(bienvenida.html.replace(/<[^>]+>/g, " "))).toBe(2);

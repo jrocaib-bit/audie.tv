@@ -53,6 +53,7 @@ function Shell() {
         <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
         <Stack.Screen name="ahora" options={{ headerShown: false }} />
         <Stack.Screen name="catalogo" options={{ headerShown: false }} />
+        <Stack.Screen name="reto-adviento" options={{ title: t(locale, "navPath") }} />
       </Stack>
       {immersive ? null : (
         <View style={{ flexDirection: "row", borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.bg }}>
