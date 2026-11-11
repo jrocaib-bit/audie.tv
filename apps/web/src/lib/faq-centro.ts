@@ -56,12 +56,12 @@ const SECCIONES: SeccionFaq[] = [
       {
         id: "cuanto-cuesta",
         pregunta: "¿Cuánto cuesta Audite?",
-        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027, el plan anual cuesta 12,99 € al año para las suscripciones nuevas. Si contratas el anual antes de esa fecha —o ya lo tienes—, mantienes los 8,00 € al año mientras sigas suscrito.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.\n\nEl reto **Adviento con Isaías** (desde el 29 de noviembre de 2026) es gratis y no hace falta suscripción. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. Lo explicamos más abajo, en [Retos](#retos).",
+        respuesta: "Hay dos planes:\n\n- **Mensual:** 1,99 € al mes.\n- **Anual:** 8,00 € al año si te suscribes antes del 6 de enero de 2027. Quien se suscriba antes de esa fecha —o ya lo tenga— mantiene 8,00 € al año mientras siga suscrito. Desde el 6 de enero de 2027, el plan anual cuesta 12,99 € al año para las suscripciones nuevas.\n\nLos dos incluyen 7 días de prueba gratis. Puedes cancelar cuando quieras.\n\nEl reto **Adviento con Isaías** (desde el 29 de noviembre de 2026) es gratis y no hace falta suscripción. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba. Lo explicamos más abajo, en [Retos](#retos).",
       },
       {
         id: "sube-el-precio",
         pregunta: "¿Va a subir el precio? ¿Si me suscribo ahora al anual mantengo los 8 €?",
-        respuesta: "El plan mensual sigue en 1,99 € al mes; no se ha anunciado un cambio de ese precio.\n\nEl plan anual cuesta 8,00 € al año hasta el 5 de enero de 2027. Desde el 6 de enero de 2027 pasa a 12,99 € al año, **solo para quien se suscriba al anual a partir de esa fecha**.\n\nSi contratas el plan anual antes del 6 de enero de 2027 —o ya lo tienes—, mantienes el precio de 8,00 € al año **mientras sigas suscrito**.",
+        respuesta: "El plan mensual sigue en 1,99 € al mes; no se ha anunciado un cambio de ese precio.\n\nHasta el 5 de enero de 2027 puedes suscribirte al anual por 8,00 € al año. Quien lo haga —o ya lo tenga— mantiene 8,00 € al año mientras siga suscrito. Ese precio no es solo el primer año.\n\nDesde el 6 de enero de 2027, el anual pasa a 12,99 € al año **solo para quien se suscriba a partir de esa fecha**.",
       },
       {
         id: "que-incluye",

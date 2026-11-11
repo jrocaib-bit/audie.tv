@@ -175,7 +175,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
       preheader: "No se ha hecho ningún cargo. Puedes volver cuando quieras.",
       cta: "Volver a Audite",
       ctaUrl: URL_WEB,
-      cuerpo: [hola, "Tu prueba de 7 días de Audite ha terminado y no se ha realizado ningún cargo.", "Si un día quieres volver a escuchar, nos encuentras en https://audite.tv y en la app. El plan mensual es 1,99 € al mes. El anual cuesta 8,00 € al año hasta el 5 de enero de 2027; desde el 6 de enero, 12,99 € al año para las suscripciones anuales nuevas (si ya tenías el anual a 8,00 € y sigues suscrito, mantienes ese precio). Otra vez con 7 días de prueba si tu cuenta de Apple o de Google aún lo permite.", ...fraseAdviento, "Gracias por habernos dado estos días.", "El equipo de Audite"].join("\n\n"),
+      cuerpo: [hola, "Tu prueba de 7 días de Audite ha terminado y no se ha realizado ningún cargo.", "Si un día quieres volver a escuchar, nos encuentras en https://audite.tv y en la app. El plan mensual es 1,99 € al mes. Quien se suscriba al anual antes del 6 de enero de 2027 mantiene 8,00 € al año mientras siga suscrito. Desde esa fecha, el anual para suscripciones nuevas es 12,99 € al año. Otra vez con 7 días de prueba si tu cuenta de Apple o de Google aún lo permite.", ...fraseAdviento, "Gracias por habernos dado estos días.", "El equipo de Audite"].join("\n\n"),
     };
   }
   if (id === "inactividad_7") {
@@ -267,7 +267,7 @@ export function borrador(id: IdCorreo, datos: DatosCorreo): Borrador {
     preheader: "Un pasaje al día hasta Nochebuena. El reto es gratis: descarga la app y crea tu cuenta.",
     cta: "Descargar la app y abrir el reto, gratis",
     ctaUrl: URL_APP,
-    cuerpo: [hola, "El 29 de noviembre comienza el Adviento. Te invitamos a escucharlo con Audite, en el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español. Este reto es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.", "Audite es también la Biblia en audio, en el canon católico, para oírla de principio a fin. Si más adelante quieres el catálogo completo, hay una prueba de 7 días y dos planes: 1,99 € al mes, o 8,00 € al año hasta el 5 de enero de 2027 (desde el 6 de enero, el anual es 12,99 € para las suscripciones nuevas; si contratas el anual antes de esa fecha, mantienes los 8,00 € mientras sigas suscrito). Cancelas cuando quieras, desde el App Store o Google Play.", "Empieza el reto, si te apetece, descargando la app y creando tu cuenta.", "Que este Adviento te haga bien.", "El equipo de Audite"].join("\n\n"),
+    cuerpo: [hola, "El 29 de noviembre comienza el Adviento. Te invitamos a escucharlo con Audite, en el reto Adviento con Isaías: un pasaje del profeta para cada día, hasta Nochebuena, en español. Este reto es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.", "Audite es también la Biblia en audio, en el canon católico, para oírla de principio a fin. Si más adelante quieres el catálogo completo, hay una prueba de 7 días y dos planes: 1,99 € al mes, o 8,00 € al año si te suscribes antes del 6 de enero de 2027. Quien lo haga mantiene 8,00 € al año mientras siga suscrito. Desde esa fecha, el anual para suscripciones nuevas es 12,99 € al año. Cancelas cuando quieras, desde el App Store o Google Play.", "Empieza el reto, si te apetece, descargando la app y creando tu cuenta.", "Que este Adviento te haga bien.", "El equipo de Audite"].join("\n\n"),
   };
 }
 

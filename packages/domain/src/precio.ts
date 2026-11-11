@@ -5,7 +5,7 @@ export const PRECIO = {
   anio: "8,00 €",
 } as const;
 
-export const ETIQUETA_LANZAMIENTO = "Precio de lanzamiento hasta el 5 de enero";
+export const ETIQUETA_LANZAMIENTO = "8 € al año mientras sigas suscrito, si entras antes del 6 de enero";
 
 /** Desde el 6 de enero de 2027, para una suscripción anual nueva. */
 export const PRECIO_ANUAL_SIGUIENTE = "12,99 €";
@@ -47,7 +47,7 @@ export function precioLanzamientoActivo(valor: string | undefined = process.env.
 
 export function etiquetaDeLanzamiento(lang: "es" | "en", activo = precioLanzamientoActivo()): string | null {
   if (!activo) return null;
-  return lang === "en" ? "Launch price until 5 January" : ETIQUETA_LANZAMIENTO;
+  return lang === "en" ? "€8 a year for as long as you stay subscribed, if you join before 6 January" : ETIQUETA_LANZAMIENTO;
 }
 
 /** El reto de Adviento no pide suscripción. */

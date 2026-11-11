@@ -11,7 +11,9 @@ describe("centro de ayuda", () => {
     expect(texto).not.toContain("<!--");
     expect(texto).toContain("https://audite.tv/contacto");
     expect(texto).toContain("Atendemos de lunes a viernes, de 9:00 a 18:00 (hora de Madrid), salvo festivos nacionales. Te responderemos como máximo en 48 horas laborables; lo habitual es que contestemos en el día.");
-    expect(texto).toContain("8,00 € al año hasta el 5 de enero de 2027");
+    expect(texto).toContain("mantiene 8,00 € al año mientras siga suscrito");
+    expect(texto).toContain("no es solo el primer año");
+    expect(texto).not.toMatch(/primer año para quien|8,00 € al año hasta el 5 de enero/i);
     expect(texto).toContain("12,99 € al año");
     expect(texto).toContain("gratis y no hace falta suscripción");
     expect(texto).toContain("En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.");

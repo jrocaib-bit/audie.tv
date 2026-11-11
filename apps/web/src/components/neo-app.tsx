@@ -446,8 +446,8 @@ export function NeoMembership() {
         <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-70" /> : null}</div>
         <div className="relative bg-gradient-to-t from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/20 p-5">
           <p className="kicker text-[#C9A96E]">Audite Premium</p>
-          <h2 className="font-display mt-2 text-3xl leading-tight">{tx(locale, "1,99 €/mes · 8,00 €/año hasta el 5 de enero", "€1.99/mo · €8.00/yr until 5 January")}</h2>
-          <p className="mt-2 text-sm text-[#E7D7C3]">{tx(locale, "Desde el 6 de enero, 12,99 € al año para las suscripciones nuevas. El reto Adviento con Isaías es gratis. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.", "From 6 January, €12.99 a year for new annual subscriptions. Advent with Isaiah is free. In the app you need an account: sign up or sign in. There is no subscription and no trial.")}</p>
+          <h2 className="font-display mt-2 text-3xl leading-tight">{tx(locale, "1,99 €/mes · 8,00 €/año", "€1.99/mo · €8.00/yr")}</h2>
+          <p className="mt-2 text-sm text-[#E7D7C3]">{tx(locale, "Si te suscribes al anual antes del 6 de enero, mantienes 8,00 € al año mientras sigas suscrito. Desde esa fecha, el anual nuevo es 12,99 € al año. El reto Adviento con Isaías es gratis. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba.", "If you subscribe yearly before 6 January, you keep €8 a year for as long as you stay subscribed. From that date, a new yearly plan is €12.99 a year. Advent with Isaiah is free. In the app you need an account: sign up or sign in. There is no subscription and no trial.")}</p>
           <p className="font-display-regular mt-2 text-2xl text-[#F4ECE2]">{tx(locale, "7 días gratis. Cancela cuando quieras.", "7 days free. Cancel anytime.")}</p>
         </div>
       </article>

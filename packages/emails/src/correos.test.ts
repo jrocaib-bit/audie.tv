@@ -100,10 +100,12 @@ describe("correos de ciclo de vida", () => {
     expect(campana.preheader).toBe("Un pasaje al día hasta Nochebuena. El reto es gratis: descarga la app y crea tu cuenta.");
     expect(campana.cta).toBe("Descargar la app y abrir el reto, gratis");
     expect(campana.ctaUrl).toBe("https://audite.tv/app");
+    expect(campana.texto).toContain("mantiene 8,00 € al año mientras siga suscrito");
     expect(campana.texto).toContain("12,99 €");
-    expect(campana.texto).toContain("hasta el 5 de enero de 2027");
+    expect(campana.texto).not.toMatch(/primer año|8,00 € al año hasta el 5 de enero/i);
     const fin = await componer("fin_prueba_sin_cobro", { cuando: new Date("2026-12-01T12:00:00Z") });
-    expect(fin.texto).toContain("12,99 € al año para las suscripciones anuales nuevas");
+    expect(fin.texto).toContain("mantiene 8,00 € al año mientras siga suscrito");
+    expect(fin.texto).toContain("el anual para suscripciones nuevas es 12,99 € al año");
     expect(fin.texto).toContain("El reto Adviento con Isaías es gratis: solo tienes que descargar la app y crear tu cuenta, sin suscripción.");
     expect(fin.texto).not.toMatch(/si cancelas y vuelves/i);
   });

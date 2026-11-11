@@ -54,7 +54,7 @@ export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesg
         </div>
         <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "planes" })} className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{cta}</Link>
         <p className="mt-3 text-base text-[#B7AB9C]">{riesgo}</p>
-        <p className="mt-3 text-sm text-[#B7AB9C]">{lang === "en" ? "Launch price until 5 January 2027. From 6 January, €12.99 a year for new annual subscriptions." : "Precio de lanzamiento hasta el 5 de enero de 2027. Desde el 6 de enero, 12,99 € al año para las suscripciones nuevas."}</p>
+        <p className="mt-3 text-sm text-[#B7AB9C]">{lang === "en" ? "If you subscribe yearly before 6 January 2027, you keep €8 a year for as long as you stay subscribed. From that date, a new yearly plan is €12.99 a year." : "Si te suscribes al anual antes del 6 de enero de 2027, mantienes 8,00 € al año mientras sigas suscrito. Desde esa fecha, el anual nuevo es 12,99 € al año."}</p>
       </article>
     </div>
   );
