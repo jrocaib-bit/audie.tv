@@ -127,7 +127,7 @@ export {
   idiomaResuelto,
   type Idioma,
 } from "./idioma";
-export { ETIQUETA_LANZAMIENTO, PRECIO, etiquetaDeLanzamiento, pideSuscripcion, precioLanzamientoActivo } from "./precio";
+export { ETIQUETA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, etiquetaDeLanzamiento, pideSuscripcion, precioLanzamientoActivo } from "./precio";
 export {
   EVENTOS,
   decidirEscucha,
