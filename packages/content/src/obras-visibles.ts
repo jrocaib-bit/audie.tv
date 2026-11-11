@@ -2,7 +2,7 @@ import indice from "../../../content/canon/catalogo-indice.json";
 import excepciones from "../../../content/obras/excepciones_repetidas.json";
 import visibles from "../../../content/obras/visibles.json";
 
-const PROVISIONALES = new Set(excepciones.pendientes);
+const PROVISIONALES = new Set<string>(excepciones.pendientes);
 
 const OBRAS_BASE_DEFECTO = "https://qdjowihivtqoelurvyke.supabase.co/storage/v1/object/public/obras/0b6bac7d8587a7e050090142";
 
@@ -36,8 +36,10 @@ export function obrasVisibles(): ObraVisible[] {
   return visibles as ObraVisible[];
 }
 
+/** La marca solo sustituye al cuadro cuando el episodio no tiene obra. */
 export function esPortadaProvisional(episodio: string): boolean {
-  return PROVISIONALES.has(episodio);
+  if (PROVISIONALES.has(episodio)) return true;
+  return !visibles.some((obra) => (obra as ObraVisible).episodio === episodio);
 }
 
 export function episodiosSinObra(): readonly string[] {

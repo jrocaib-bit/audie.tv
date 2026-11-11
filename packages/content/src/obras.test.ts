@@ -104,14 +104,13 @@ describe("obras con crédito", () => {
   });
 
   it("no pinta dos veces la misma obra, ni en portadas", () => {
-    const oficiales = ["1cr-06", "1cr-10", "dt-08", "dt-10", "dt-11", "dt-14", "jos-06", "jos-08", "jos-09", "jos-10", "jue-09", "neh-05", "nm-15", "nm-16", "nm-18"];
-    expect([...episodiosSinObra()]).toEqual(oficiales);
+    expect([...episodiosSinObra()]).toEqual([]);
     const calculadas = calcularPortadasProvisionales();
+    expect(calculadas).toEqual([]);
     const pintadas = obrasVisibles().map((obra) => obra.episodio).filter((episodio) => esPortadaProvisional(episodio));
-    expect(new Set(pintadas)).toEqual(new Set(calculadas));
-    for (const episodio of oficiales) expect(calculadas, episodio).toContain(episodio);
+    expect(pintadas).toEqual([]);
+    expect(esPortadaProvisional("1cr-06")).toBe(false);
     expect(esPortadaProvisional("gn-01")).toBe(false);
-    expect(calculadas).toHaveLength(oficiales.length);
     const repetidos = (clave: "sha256" | "inventario" | "tituloAutor") => {
       const vistos = new Map<string, string>();
       const choques: string[] = [];

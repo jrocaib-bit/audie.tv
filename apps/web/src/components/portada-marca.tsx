@@ -1,15 +1,6 @@
-import titulos from "../../../../content/obras/titulos-portada.json";
-
-const TEXTOS = titulos as Record<string, { es: string; en: string }>;
-
-export function tituloDeEpisodio(id: string, lang: "es" | "en"): string {
-  const ficha = TEXTOS[id];
-  return ficha?.[lang]?.trim() || ficha?.es?.trim() || id;
-}
-
-/** Portada sin cuadro: fondo de marca, símbolo y título del episodio. */
-export function PortadaMarca({ episodioId, lang = "es", titulo, className = "" }: { episodioId: string; lang?: "es" | "en"; titulo?: string; className?: string }) {
-  const texto = titulo?.trim() || tituloDeEpisodio(episodioId, lang);
+/** Portada sin cuadro, solo si el episodio no tiene obra. El título llega por props. */
+export function PortadaMarca({ episodioId, titulo, className = "" }: { episodioId: string; titulo?: string; lang?: "es" | "en"; className?: string }) {
+  const texto = titulo?.trim() || episodioId;
   return (
     <div className={`relative flex h-full min-h-full w-full flex-col items-center justify-center overflow-hidden bg-[#100E0C] px-5 text-center ${className}`}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgb(201_169_110/0.34),transparent_62%)]" aria-hidden="true" />

@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                   ) : obra ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                  ) : <span className="absolute inset-0 flex items-center justify-center font-display text-lg text-[#C9A96E]" aria-hidden="true">{String(episodio.titulo).replace(/^\d+\s*/, "").slice(0, 1)}</span>}
+                  ) : <PortadaMarca episodioId={episodio.id} titulo={episodio.titulo} className="absolute inset-0" />}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-lg leading-tight">{episodio.titulo}</span>
