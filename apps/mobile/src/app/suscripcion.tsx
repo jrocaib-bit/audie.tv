@@ -111,7 +111,8 @@ export default function SuscripcionScreen() {
           );
         })}
       </View>
-      <Text style={{ color: muted, marginTop: 16 }}>{es ? "Si te suscribes al anual antes del 6 de enero, mantienes 8,00 € al año mientras sigas suscrito. Desde esa fecha, el anual nuevo es 12,99 € al año. El reto Adviento con Isaías es gratis. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba." : "If you subscribe yearly before 6 January, you keep €8 a year for as long as you stay subscribed. From that date, a new yearly plan is €12.99 a year. Advent with Isaiah is free. In the app you need an account: sign up or sign in. There is no subscription and no trial."}</Text>
+      <Text style={{ color: muted, marginTop: 16 }}>{es ? "7 días gratis. Cancela cuando quieras." : "7 days free. Cancel anytime."}</Text>
+      <Text style={{ color: muted, marginTop: 6 }}>{es ? "Adviento con Isaías: gratis con tu cuenta." : "Advent with Isaiah: free with your account."}</Text>
       <View style={{ marginTop: "auto", gap: 12 }}>
         {aviso ? <Text style={{ color: muted, textAlign: "center" }}>{aviso}</Text> : null}
         <Pressable accessibilityRole="button" onPress={() => void comprar()} style={{ minHeight: 52, borderRadius: 999, backgroundColor: oro, alignItems: "center", justifyContent: "center" }}>

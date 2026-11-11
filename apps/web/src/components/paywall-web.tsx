@@ -39,7 +39,8 @@ export function PaywallWeb({ lang, lanzamiento = false, reto = null }: { lang: s
     <section className="mx-auto w-full max-w-xl px-5 py-16 text-[#F4ECE2]">
       <p className="text-sm tracking-[0.16em] text-[#C9A96E] uppercase">Audite Premium</p>
       <p className="font-display mt-3 text-5xl leading-none">Audite Premium</p>
-      <p className="mt-4 text-[#B7AB9C]">{es ? "1,99 € al mes. Quien se suscriba al anual antes del 6 de enero de 2027 mantiene 8,00 € al año mientras siga suscrito. Desde esa fecha, el anual nuevo es 12,99 € al año. 7 días gratis. Cancela cuando quieras. El reto Adviento con Isaías es gratis y no hace falta suscripción. En la app hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba." : "€1.99 a month. If you subscribe yearly before 6 January 2027, you keep €8 a year for as long as you stay subscribed. From that date, a new yearly plan is €12.99 a year. 7 days free. Cancel anytime. Advent with Isaiah is free and does not need a subscription. In the app you need an account: sign up or sign in. There is no subscription and no trial."}</p>
+      <p className="mt-4 text-[#B7AB9C]">{es ? "7 días gratis. Cancela cuando quieras." : "7 days free. Cancel anytime."}</p>
+      <p className="mt-2 text-sm text-[#B7AB9C]">{es ? "Adviento con Isaías: gratis con tu cuenta." : "Advent with Isaiah: free with your account."}</p>
       <div className="mt-8 grid gap-3">
         <button type="button" aria-pressed={plan === "anual"} className={`rounded-2xl border px-5 py-4 text-left ${plan === "anual" ? "border-[#C9A96E]" : "border-[#2E2924]"}`} onClick={() => elegir("anual")}>
           <span className="block text-sm text-[#B7AB9C]">{es ? "Anual" : "Yearly"}</span>
