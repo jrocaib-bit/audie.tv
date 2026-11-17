@@ -1,5 +1,5 @@
 /** @vitest-environment jsdom */
-import { cleanup, render } from "@testing-library/react";
+import { act, cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { BucleCuadro } from "./bucle-cuadro";
@@ -82,7 +82,13 @@ describe("BucleCuadro", () => {
     const { container } = render(<BucleCuadro bucle={bucle} priority />);
     await new Promise((resolver) => setTimeout(resolver, 0));
     const video = container.querySelector("video");
+    const sources = [...(video?.querySelectorAll("source") ?? [])];
     expect(video).not.toBeNull();
+    expect(sources.map((source) => source.getAttribute("src"))).toEqual([
+      "https://cdn.example/hero.webm",
+      "https://cdn.example/hero.mp4",
+    ]);
+    expect(sources.every((source) => !source.hasAttribute("media"))).toBe(true);
     expect(video?.muted).toBe(true);
     expect(video?.loop).toBe(true);
     expect(video?.hasAttribute("controls")).toBe(false);
@@ -90,6 +96,40 @@ describe("BucleCuadro", () => {
     expect(video?.getAttribute("aria-hidden")).toBe("true");
     expect(video?.querySelector("track")).toBeNull();
     expect(container.querySelector("img")?.getAttribute("fetchpriority")).toBe("high");
+  });
+
+  it("un error en un source no desmonta el vídeo si otro puede reproducirse", async () => {
+    medio(false);
+    datos(false);
+    vi.stubGlobal("requestIdleCallback", (callback: () => void) => {
+      callback();
+      return 1;
+    });
+    vi.stubGlobal("cancelIdleCallback", () => undefined);
+    class Observador {
+      constructor(private callback: (entradas: { isIntersecting: boolean }[]) => void) {}
+      observe() { this.callback([{ isIntersecting: true }]); }
+      disconnect() {}
+      unobserve() {}
+    }
+    vi.stubGlobal("IntersectionObserver", Observador);
+    HTMLMediaElement.prototype.play = () => Promise.resolve();
+    HTMLMediaElement.prototype.pause = () => undefined;
+    const { container } = render(<BucleCuadro bucle={bucle} priority />);
+    await new Promise((resolver) => setTimeout(resolver, 0));
+    const video = container.querySelector("video");
+    const primero = video?.querySelector("source");
+    expect(video).not.toBeNull();
+    expect(primero).not.toBeNull();
+    await act(async () => {
+      primero?.dispatchEvent(new Event("error", { bubbles: true }));
+    });
+    expect(container.querySelector("video")).not.toBeNull();
+    await act(async () => {
+      video?.dispatchEvent(new Event("error"));
+    });
+    expect(container.querySelector("video")).toBeNull();
+    expect(container.querySelector("img")?.getAttribute("src")).toBe("https://cdn.example/hero.webp");
   });
 });
 

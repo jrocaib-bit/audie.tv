@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Bucle } from "@/lib/bucles";
+import { CONSULTA_MOVIL, fuentesParaAncho, type Bucle, type FuenteVideo } from "@/lib/bucles";
 
 type Red = { saveData?: boolean };
 
@@ -17,6 +17,12 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
   const video = useRef<HTMLVideoElement>(null);
   const [montar, setMontar] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [fuentes, setFuentes] = useState<FuenteVideo[]>([]);
+
+  const mp4 = bucle.mp4;
+  const webm = bucle.webm;
+  const mp4Movil = bucle.mp4Movil;
+  const webmMovil = bucle.webmMovil;
 
   useEffect(() => {
     if (quiereQuieto()) return;
@@ -24,13 +30,18 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
     let observador: IntersectionObserver | undefined;
     let idle = 0;
     let espera: ReturnType<typeof setTimeout> | null = null;
+    const elegir = () => {
+      const estrecho = window.matchMedia?.(CONSULTA_MOVIL).matches === true;
+      setFuentes(fuentesParaAncho({ mp4, webm, poster: "", mp4Movil, webmMovil, posterMovil: "", alt: "" }, estrecho));
+      setMontar(true);
+    };
     const armar = () => {
       if (!nodo || typeof IntersectionObserver === "undefined") {
-        setMontar(true);
+        elegir();
         return;
       }
       observador = new IntersectionObserver(([entrada]) => {
-        if (entrada?.isIntersecting) setMontar(true);
+        if (entrada?.isIntersecting) elegir();
       });
       observador.observe(nodo);
     };
@@ -42,7 +53,7 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
       else if (espera) globalThis.clearTimeout(espera);
       observador?.disconnect();
     };
-  }, []);
+  }, [mp4, webm, mp4Movil, webmMovil]);
 
   useEffect(() => {
     const elemento = video.current;
@@ -79,7 +90,7 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
         {bucle.posterMovil ? <source media="(max-width: 1280px)" srcSet={bucle.posterMovil} /> : null}
         <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster h-full w-full object-cover" />
       </picture>
-      {montar ? (
+      {montar && fuentes.length > 0 ? (
         <video
           ref={video}
           className={`bucle-video absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
@@ -91,12 +102,13 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
           controls={false}
           aria-hidden="true"
           onCanPlayThrough={() => setVisible(true)}
-          onError={() => { setVisible(false); setMontar(false); }}
+          onError={(evento) => {
+            if (evento.target !== evento.currentTarget) return;
+            setVisible(false);
+            setMontar(false);
+          }}
         >
-          {bucle.webmMovil ? <source src={bucle.webmMovil} type="video/webm" media="(max-width: 1280px)" /> : null}
-          {bucle.mp4Movil ? <source src={bucle.mp4Movil} type="video/mp4" media="(max-width: 1280px)" /> : null}
-          {bucle.webm ? <source src={bucle.webm} type="video/webm" /> : null}
-          {bucle.mp4 ? <source src={bucle.mp4} type="video/mp4" /> : null}
+          {fuentes.map((fuente) => <source key={fuente.src} src={fuente.src} type={fuente.type} />)}
         </video>
       ) : null}
     </div>

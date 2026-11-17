@@ -44,6 +44,23 @@ function armar(fila: BucleCrudo | undefined, alt = ""): Bucle | null {
   };
 }
 
+export const CONSULTA_MOVIL = "(max-width: 1280px)";
+
+export type FuenteVideo = { src: string; type: string };
+
+/** Elige el par webm/mp4 de ese ancho. En el vídeo no va el atributo media. */
+export function fuentesParaAncho(bucle: Bucle, estrecho: boolean): FuenteVideo[] {
+  const tomar = (webm: string, mp4: string) => [
+    webm ? { src: webm, type: "video/webm" } : null,
+    mp4 ? { src: mp4, type: "video/mp4" } : null,
+  ].filter((fuente): fuente is FuenteVideo => Boolean(fuente));
+  const movil = tomar(bucle.webmMovil, bucle.mp4Movil);
+  const escritorio = tomar(bucle.webm, bucle.mp4);
+  if (estrecho && movil.length > 0) return movil;
+  if (escritorio.length > 0) return escritorio;
+  return movil;
+}
+
 export function bucleDeEpisodio(id: string): Bucle | null {
   const fila = (tabla as Record<string, BucleCrudo>)[id];
   return armar(fila);
