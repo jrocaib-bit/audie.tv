@@ -5,7 +5,9 @@ import { etiquetaDeLanzamiento, letraDeLanzamiento, precioLanzamientoActivo, tex
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
+import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto, Placa } from "@/components/placa";
+import { bucleDeHero } from "@/lib/bucles";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { agruparLibros } from "@/lib/publico";
 import { palabras } from "@/lib/movimiento";
@@ -169,6 +171,8 @@ export function SitioHome({ lang }: { lang: string }) {
   const copy = copiaSitio(lang);
   const ui = idiomaUi(lang);
   const portada = obraDeEpisodio("gn-01");
+  const bucleHero = bucleDeHero("gn-01");
+  const posterHero = bucleHero ? bucleHero.poster || (portada ? obraWebp(portada) : "") : "";
   const catalogo = loadAppCatalog();
   if (!copy || !portada) return null;
   const listos = audioListo().episodios;
@@ -275,8 +279,13 @@ export function SitioHome({ lang }: { lang: string }) {
       <ProbarAudio>
         <main className="bg-[#100E0C] text-[#F4ECE2]">
           <section id="hero" className="relative min-h-[100svh] bg-[#100E0C]">
+            {posterHero ? <link rel="preload" as="image" href={posterHero} fetchPriority="high" /> : null}
             <div className="absolute inset-0 overflow-hidden">
-              <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
+              {bucleHero ? (
+                <BucleCuadro bucle={{ ...bucleHero, poster: posterHero, alt: bucleHero.alt || portada.titulo[ui] }} priority className="parallax-obra h-full w-full" />
+              ) : (
+                <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
+              )}
             </div>
             <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/20" />

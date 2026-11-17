@@ -1,6 +1,8 @@
 import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, creditoVisible, formatClock, frameAt, playableEpisodes, t } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { bucleDe } from "../bucles";
+import { BucleCuadro } from "../bucle-cuadro";
 import { useMobileLibrary } from "../state";
 
 export default function NowPlaying() {
@@ -13,6 +15,8 @@ export default function NowPlaying() {
   const artwork = library.catalog.artworks.find((item) => item.id === frame.artworkId) ?? null;
   const base = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
   const image = artwork ? { uri: `${base}${artwork.publicPath}` } : null;
+  const bucle = bucleDe(episode.id);
+  const alt = `${artwork?.title.es ?? ""}. ${artwork?.artist.es ?? ""}`.trim();
   return (
     <View style={{ flex: 1, backgroundColor: "#0c0b09" }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 16 }}>
@@ -22,8 +26,10 @@ export default function NowPlaying() {
         <Text style={{ color: "#b7ab9c" }}>{t(locale, "nowKicker")}</Text>
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        {image != null ? (
-          <Image source={image} resizeMode="contain" accessibilityLabel={`${artwork?.title.es}. ${artwork?.artist.es}`} style={{ width: "100%", height: "100%" }} />
+        {bucle && (bucle.poster || image) ? (
+          <BucleCuadro bucle={bucle} poster={bucle.poster || image?.uri || ""} alt={bucle.alt || alt} />
+        ) : image != null ? (
+          <Image source={image} resizeMode="contain" accessibilityLabel={alt} style={{ width: "100%", height: "100%" }} />
         ) : null}
       </View>
       <View style={{ backgroundColor: "#171512", padding: 16, gap: 8 }}>

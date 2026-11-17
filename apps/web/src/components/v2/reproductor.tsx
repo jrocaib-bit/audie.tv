@@ -7,7 +7,9 @@ import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
+import { BucleCuadro } from "@/components/bucle-cuadro";
 import { Placa } from "@/components/placa";
+import { bucleDeEpisodio } from "@/lib/bucles";
 import { formatoNumero } from "@/lib/numeros";
 
 function colorDominante(datos: Uint8ClampedArray): string | null {
@@ -84,6 +86,7 @@ export function ReproductorV2() {
   const pedido = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("e") : null;
   const episode = library.catalog.episodes.find((item) => item.id === (library.player.episodeId || pedido)) ?? playableEpisodes(library.catalog)[0] ?? null;
   const obra = obraDeEpisodio(episode?.id ?? "gn-01");
+  const bucle = episode ? bucleDeEpisodio(episode.id) : null;
   const titulo = episode ? nombreCorto(episode, locale) : obra ? rotuloObra(obra, locale) : "Audite";
   const duracion = episode?.durationSeconds ?? 0;
   const tiempo = library.player.episodeId === episode?.id ? library.player.globalTime : 0;
@@ -154,7 +157,11 @@ export function ReproductorV2() {
         onPointerUp={(event) => subir(origen.current - event.clientY)}
       >
         <div className="overflow-hidden rounded-2xl">
-          {obra ? (
+          {bucle && obra ? (
+            <div className={`relative aspect-square w-full transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`}>
+              <BucleCuadro bucle={{ ...bucle, poster: bucle.poster || obraWebp(obra), alt: bucle.alt }} priority className="h-full w-full" />
+            </div>
+          ) : obra ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={obraWebp(obra)} alt="" className={`audite-portada audite-portada-entra aspect-square w-full object-cover transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`} />
           ) : <div className="aspect-square bg-[#0C0B09]" />}

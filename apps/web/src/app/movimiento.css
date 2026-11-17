@@ -514,9 +514,14 @@
   .paso-onda i,
   .mini-reto,
   .mini-reto img,
-  .dia-reto img {
+  .dia-reto img,
+  .bucle-video {
     animation: none;
     transition: none;
+  }
+
+  .bucle-video {
+    display: none;
   }
 }
 
