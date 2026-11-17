@@ -14,6 +14,7 @@ const bucle: Bucle = {
   webmMovil: "",
   posterMovil: "https://cdn.example/hero-1280.webp",
   alt: "La creación",
+  aspect: "",
 };
 
 function medio(reduce: boolean) {
@@ -40,6 +41,9 @@ afterEach(() => {
 describe("BucleCuadro", () => {
   it("el póster lleva priority y el vídeo no está en el HTML inicial", () => {
     const html = renderToStaticMarkup(<BucleCuadro bucle={bucle} priority />);
+    expect(html).toContain("object-contain");
+    expect(html).toContain("bucle-fondo");
+    expect(html).toContain('aria-hidden="true"');
     expect(html.toLowerCase()).toContain('fetchpriority="high"');
     expect(html).toContain('src="https://cdn.example/hero.webp"');
     expect(html).toContain('media="(max-width: 1280px)"');
@@ -66,7 +70,7 @@ describe("BucleCuadro", () => {
     const { container } = render(<BucleCuadro bucle={bucle} priority />);
     await new Promise((resolver) => setTimeout(resolver, 20));
     expect(container.querySelector("video")).toBeNull();
-    expect(container.querySelector("img")?.getAttribute("fetchpriority")).toBe("high");
+    expect(container.querySelector(".bucle-poster")?.getAttribute("fetchpriority")).toBe("high");
 
     cleanup();
     medio(false);
@@ -109,7 +113,7 @@ describe("BucleCuadro", () => {
     expect(video?.getAttribute("preload")).toBe("none");
     expect(video?.getAttribute("aria-hidden")).toBe("true");
     expect(video?.querySelector("track")).toBeNull();
-    expect(container.querySelector("img")?.getAttribute("fetchpriority")).toBe("high");
+    expect(container.querySelector(".bucle-poster")?.getAttribute("fetchpriority")).toBe("high");
   });
 
   it("un error en un source no desmonta el vídeo si otro puede reproducirse", async () => {

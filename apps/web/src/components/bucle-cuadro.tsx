@@ -32,7 +32,7 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
     let espera: ReturnType<typeof setTimeout> | null = null;
     const elegir = () => {
       const estrecho = window.matchMedia?.(CONSULTA_MOVIL).matches === true;
-      setFuentes(fuentesParaAncho({ mp4, webm, poster: "", mp4Movil, webmMovil, posterMovil: "", alt: "" }, estrecho));
+      setFuentes(fuentesParaAncho({ mp4, webm, poster: "", mp4Movil, webmMovil, posterMovil: "", alt: "", aspect: "" }, estrecho));
       setMontar(true);
     };
     const armar = () => {
@@ -86,15 +86,18 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
   const cajaClase = ["bucle-cuadro", "absolute", "inset-0", "overflow-hidden", ...className.split(/\s+/).filter((token) => token && token !== "h-full" && token !== "w-full")].join(" ");
 
   return (
-    <div ref={caja} className={cajaClase}>
+    <div ref={caja} className={cajaClase} style={{ backgroundColor: "#100E0C" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={poster} alt="" aria-hidden="true" className="bucle-fondo pointer-events-none absolute inset-0 scale-110 object-cover opacity-60 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 bg-[#100E0C]/55" aria-hidden="true" />
       <picture className="absolute inset-0 block">
         {bucle.posterMovil ? <source media="(max-width: 1280px)" srcSet={bucle.posterMovil} /> : null}
-        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster absolute inset-0 object-cover" />
+        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster absolute inset-0 object-contain" />
       </picture>
       {montar && fuentes.length > 0 ? (
         <video
           ref={video}
-          className={`bucle-video absolute inset-0 object-cover transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
+          className={`bucle-video absolute inset-0 object-contain transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
           muted
           autoPlay
           loop

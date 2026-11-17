@@ -297,7 +297,7 @@ export function SitioHome({ lang }: { lang: string }) {
               )}
             </div>
             <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/20" />
+            <div className={`absolute inset-0 bg-gradient-to-t ${bucleHero ? "from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/30" : "from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/20"}`} />
             <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
               <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
               <p className="mt-5 max-w-xl text-lg">{copy.homeWhat}</p>

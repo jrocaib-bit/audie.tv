@@ -34,7 +34,7 @@ function VideoMudo({ src }: { src: string }) {
     <VideoView
       player={player}
       nativeControls={false}
-      contentFit="cover"
+      contentFit="contain"
       allowsPictureInPicture={false}
       style={[StyleSheet.absoluteFill, { opacity: visible ? 1 : 0 }]}
     />
@@ -58,8 +58,10 @@ export function BucleCuadro({ bucle, poster, alt }: { bucle: BucleMovil; poster:
   }, []);
 
   return (
-    <View style={{ width: "100%", height: "100%" }}>
-      <Image source={{ uri: poster }} accessibilityLabel={alt} resizeMode="cover" style={StyleSheet.absoluteFill} />
+    <View style={{ width: "100%", height: "100%", backgroundColor: "#100E0C" }}>
+      <Image source={{ uri: poster }} accessibilityElementsHidden blurRadius={28} resizeMode="cover" style={[StyleSheet.absoluteFill, { opacity: 0.55 }]} />
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(16,14,12,0.5)" }]} />
+      <Image source={{ uri: poster }} accessibilityLabel={alt} resizeMode="contain" style={StyleSheet.absoluteFill} />
       {src && !reduce ? <VideoMudo src={src} /> : null}
     </View>
   );

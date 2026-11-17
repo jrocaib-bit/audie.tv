@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { bucleDeEpisodio, bucleDeHero, bucleDeReto, fusionarBucles, fuentesParaAncho, type Bucle } from "./bucles";
+import { aspectoDe, bucleDeEpisodio, bucleDeHero, bucleDeReto, estiloDeHueco, fusionarBucles, fuentesParaAncho, type Bucle } from "./bucles";
 
 const vacio = {
   NEXT_PUBLIC_BUCLE_HERO_MP4: "",
@@ -19,6 +19,7 @@ const ejemplo: Bucle = {
   webmMovil: "https://cdn.example/hero-1280.webm",
   posterMovil: "https://cdn.example/hero-1280.webp",
   alt: "",
+  aspect: "",
 };
 
 describe("bucles", () => {
@@ -52,6 +53,7 @@ describe("bucles", () => {
       webmMovil: "",
       posterMovil: "https://cdn.example/hero-1280.webp",
       alt: "",
+      aspect: "",
     });
   });
 
@@ -106,5 +108,19 @@ describe("bucles", () => {
     });
     expect(bucleDeReto("adviento-isaias", "reto-adviento_o2", json)?.alt).toBe("Anunciación");
     expect(bucleDeReto("adviento-isaias", "reto-adviento_o1", json)?.alt).toBe("El reino pacífico");
+  });
+
+  it("guarda la proporción ancho/alto y reserva el hueco", () => {
+    expect(aspectoDe("16/9")).toBe("16/9");
+    expect(aspectoDe(1.5)).toBe("1.5");
+    expect(aspectoDe("no")).toBe("");
+    expect(aspectoDe(0)).toBe("");
+    const json = JSON.stringify({ "gn-02": { mp4: "https://signed.example/a.mp4", aspect: "4/5" } });
+    expect(bucleDeEpisodio("gn-02", json)?.aspect).toBe("4/5");
+    const hueco = estiloDeHueco("4/5");
+    expect(hueco.aspectRatio).toBe("4/5");
+    expect(hueco.maxHeight).toBe("70svh");
+    expect(hueco.width).toBe("min(100%, calc(70svh * 0.8))");
+    expect(estiloDeHueco("").maxHeight).toBe("70svh");
   });
 });

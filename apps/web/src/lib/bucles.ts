@@ -13,6 +13,7 @@ export type BucleCrudo = {
   webm_1280?: string;
   poster_1280?: string;
   alt?: string;
+  aspect?: string;
 };
 
 export type Bucle = {
@@ -23,6 +24,7 @@ export type Bucle = {
   webmMovil: string;
   posterMovil: string;
   alt: string;
+  aspect: string;
 };
 
 const CLAVES = ["mp4", "webm", "poster", "mp4_1280", "webm_1280", "poster_1280", "alt"] as const;
@@ -39,7 +41,45 @@ function filaValida(valor: unknown): BucleCrudo | null {
     const campo = origen[clave];
     if (typeof campo === "string") fila[clave] = campo;
   }
+  const aspecto = aspectoDe(origen.aspect);
+  if (aspecto) fila.aspect = aspecto;
   return fila;
+}
+
+/** Ancho/alto. Acepta un número o una fracción «16/9». */
+export function aspectoDe(valor: unknown): string {
+  if (typeof valor === "number" && Number.isFinite(valor) && valor > 0) return String(valor);
+  if (typeof valor !== "string") return "";
+  const limpio = valor.trim().replace(/\s+/g, "");
+  const fraccion = limpio.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+  if (fraccion) {
+    const ancho = Number(fraccion[1]);
+    const alto = Number(fraccion[2]);
+    if (ancho > 0 && alto > 0) return `${ancho}/${alto}`;
+  }
+  const numero = Number(limpio);
+  return numero > 0 ? String(numero) : "";
+}
+
+export function relacionDeAspecto(aspect: string): number {
+  const propio = aspectoDe(aspect);
+  if (!propio) return 16 / 9;
+  if (propio.includes("/")) {
+    const [ancho, alto] = propio.split("/").map(Number);
+    return ancho / alto;
+  }
+  return Number(propio);
+}
+
+/** Reserva el hueco de la ficha y de /ahora. En móvil el alto no pasa de 70svh. */
+export function estiloDeHueco(aspect: string): { aspectRatio: string; width: string; maxHeight: string } {
+  const relacion = relacionDeAspecto(aspect);
+  const ratio = aspectoDe(aspect) || "16/9";
+  return {
+    aspectRatio: ratio,
+    width: `min(100%, calc(70svh * ${relacion}))`,
+    maxHeight: "70svh",
+  };
 }
 
 /** El JSON de entorno pisa el del repo. Si no es un objeto válido, se ignora. */
@@ -81,6 +121,7 @@ function armar(fila: BucleCrudo | undefined, alt = ""): Bucle | null {
     webmMovil: texto(fila?.webm_1280),
     posterMovil: texto(fila?.poster_1280),
     alt: texto(fila?.alt) || alt,
+    aspect: aspectoDe(fila?.aspect),
   };
 }
 
@@ -136,5 +177,6 @@ export function bucleDeHero(id: string, env: Record<string, string | undefined> 
     webm_1280: webmMovil || base.webm_1280,
     poster_1280: posterMovil || base.poster_1280,
     alt: hayHero ? texto(env.NEXT_PUBLIC_BUCLE_HERO_ALT) : base.alt,
+    aspect: base.aspect,
   });
 }

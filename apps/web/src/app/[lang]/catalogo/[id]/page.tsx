@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto } from "@/components/placa";
-import { bucleDeEpisodio } from "@/lib/bucles";
+import { bucleDeEpisodio, estiloDeHueco } from "@/lib/bucles";
 import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
 import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
@@ -66,14 +66,15 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
-      <div className="relative min-h-[46svh] overflow-hidden bg-[#1B1815]" style={{ viewTransitionName: `ep-${id}` }}>
+      <div className={bucle && poster ? "bg-[#100E0C]" : "relative min-h-[46svh] overflow-hidden bg-[#1B1815]"} style={{ viewTransitionName: `ep-${id}` }}>
         {bucle && poster ? (
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="relative mx-auto w-full" style={estiloDeHueco(bucle.aspect)}>
             <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority className="ken-burns" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#100E0C] to-transparent" />
           </div>
         ) : obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />
-        <div className="relative z-10 mx-auto flex min-h-[46svh] w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8">
+        {bucle && poster ? null : <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />}
+        <div className={`relative z-10 mx-auto flex w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8 ${bucle && poster ? "-mt-16" : "min-h-[46svh]"}`}>
           <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`}>{libro?.name[ui] || libro?.name.es}</Link></p>
           <h1 className="font-display mt-2 max-w-3xl text-4xl leading-tight md:text-6xl">{titulo}</h1>
           <p className="mt-2 text-[#E7D7C3]">{referencia}</p>

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { Placa } from "@/components/placa";
-import { bucleDeEpisodio } from "@/lib/bucles";
+import { bucleDeEpisodio, estiloDeHueco } from "@/lib/bucles";
 import { formatoNumero } from "@/lib/numeros";
 
 function colorDominante(datos: Uint8ClampedArray): string | null {
@@ -152,13 +152,13 @@ export function ReproductorV2() {
         <button type="button" aria-label={es ? "Letras" : "Lyrics"} className="inline-flex size-11 items-center justify-center text-xl" onClick={() => subir(80)}>↑</button>
       </header>
       <div
-        className="relative mx-auto w-[min(100%,16.5rem)] px-2"
+        className={`relative mx-auto px-2 ${bucle && obra ? "w-full max-w-lg" : "w-[min(100%,16.5rem)]"}`}
         onPointerDown={(event) => { origen.current = event.clientY; }}
         onPointerUp={(event) => subir(origen.current - event.clientY)}
       >
         <div className="overflow-hidden rounded-2xl">
           {bucle && obra ? (
-            <div className={`relative aspect-square w-full transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`}>
+            <div className={`relative mx-auto transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`} style={estiloDeHueco(bucle.aspect)}>
               <BucleCuadro bucle={{ ...bucle, poster: bucle.poster || obraWebp(obra), alt: bucle.alt }} priority />
             </div>
           ) : obra ? (
