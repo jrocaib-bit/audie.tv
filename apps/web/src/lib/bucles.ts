@@ -25,8 +25,45 @@ export type Bucle = {
   alt: string;
 };
 
+const CLAVES = ["mp4", "webm", "poster", "mp4_1280", "webm_1280", "poster_1280", "alt"] as const;
+
 function texto(valor: string | undefined): string {
   return (valor ?? "").trim();
+}
+
+function filaValida(valor: unknown): BucleCrudo | null {
+  if (!valor || typeof valor !== "object" || Array.isArray(valor)) return null;
+  const origen = valor as Record<string, unknown>;
+  const fila: BucleCrudo = {};
+  for (const clave of CLAVES) {
+    const campo = origen[clave];
+    if (typeof campo === "string") fila[clave] = campo;
+  }
+  return fila;
+}
+
+/** El JSON de entorno pisa el del repo. Si no es un objeto válido, se ignora. */
+export function fusionarBucles(base: Record<string, BucleCrudo>, crudo: string | undefined): Record<string, BucleCrudo> {
+  const salida: Record<string, BucleCrudo> = { ...base };
+  const plano = (crudo ?? "").trim();
+  if (!plano) return salida;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(plano);
+  } catch {
+    return salida;
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return salida;
+  for (const [id, valor] of Object.entries(parsed)) {
+    const fila = filaValida(valor);
+    if (!id.trim() || !fila) continue;
+    salida[id] = { ...salida[id], ...fila };
+  }
+  return salida;
+}
+
+function mapa(env: Record<string, string | undefined>): Record<string, BucleCrudo> {
+  return fusionarBucles(tabla as Record<string, BucleCrudo>, env.NEXT_PUBLIC_BUCLES_JSON);
 }
 
 function armar(fila: BucleCrudo | undefined, alt = ""): Bucle | null {
@@ -61,14 +98,13 @@ export function fuentesParaAncho(bucle: Bucle, estrecho: boolean): FuenteVideo[]
   return movil;
 }
 
-export function bucleDeEpisodio(id: string): Bucle | null {
-  const fila = (tabla as Record<string, BucleCrudo>)[id];
-  return armar(fila);
+export function bucleDeEpisodio(id: string, env: Record<string, string | undefined> = process.env): Bucle | null {
+  return armar(mapa(env)[id]);
 }
 
 /** El hero puede sustituir el cuadro de gn-01 con variables NEXT_PUBLIC_BUCLE_HERO_*. */
 export function bucleDeHero(id: string, env: Record<string, string | undefined> = process.env): Bucle | null {
-  const base = (tabla as Record<string, BucleCrudo>)[id] ?? {};
+  const base = mapa(env)[id] ?? {};
   return armar({
     mp4: texto(env.NEXT_PUBLIC_BUCLE_HERO_MP4) || base.mp4,
     webm: texto(env.NEXT_PUBLIC_BUCLE_HERO_WEBM) || base.webm,

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
+import { BucleCuadro } from "@/components/bucle-cuadro";
+import { bucleDeEpisodio } from "@/lib/bucles";
 import { etiquetaInicio, fechaLegible } from "@/lib/publico";
 import { episodioDeCita, fechaDeDia, inicioDeTemporada, portadasDeTemporada, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
 
@@ -9,10 +11,15 @@ export function VistaRetoAnio({ lang, reto, rangos }: { lang: string; reto: Reto
   const portada = portadasDeTemporada(rangos)[reto.id];
   const obra = portada?.tipo === "episodio" ? obraDeEpisodio(portada.episodio) : null;
   const src = portada?.tipo === "reto" ? portada.src : obra ? obraWebp(obra) : null;
+  const episodioPortada = portada?.tipo === "episodio" ? portada.episodio : null;
+  const bucle = episodioPortada ? bucleDeEpisodio(episodioPortada) : null;
+  const poster = bucle?.poster || src || "";
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative h-72 overflow-hidden bg-[#1B1815] md:h-96">
-        {src ? (
+        {bucle && poster ? (
+          <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt }} priority className="h-full w-full" />
+        ) : src ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={src} alt="" className="ken-burns h-full w-full object-cover" />
         ) : null}

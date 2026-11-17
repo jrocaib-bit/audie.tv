@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bucleDeEpisodio, bucleDeHero, fuentesParaAncho, type Bucle } from "./bucles";
+import { bucleDeEpisodio, bucleDeHero, fusionarBucles, fuentesParaAncho, type Bucle } from "./bucles";
 
 const vacio = {
   NEXT_PUBLIC_BUCLE_HERO_MP4: "",
@@ -52,5 +52,28 @@ describe("bucles", () => {
       posterMovil: "https://cdn.example/hero-1280.webp",
       alt: "",
     });
+  });
+
+  it("funde un JSON válido y deja el del repo si viene vacío o roto", () => {
+    const base = { "gn-01": { mp4: "https://repo.example/gn.mp4", poster: "https://repo.example/gn.webp", alt: "Repo" } };
+    const valido = JSON.stringify({
+      "gn-01": { mp4: "https://signed.example/gn.mp4" },
+      "is-01": { webm: "https://signed.example/is.webm", poster: "https://signed.example/is.webp", alt: "Isaías" },
+    });
+    const fundido = fusionarBucles(base, valido);
+    expect(fundido["gn-01"]).toEqual({ mp4: "https://signed.example/gn.mp4", poster: "https://repo.example/gn.webp", alt: "Repo" });
+    expect(fundido["is-01"]).toEqual({ webm: "https://signed.example/is.webm", poster: "https://signed.example/is.webp", alt: "Isaías" });
+    expect(base["gn-01"]?.mp4).toBe("https://repo.example/gn.mp4");
+    expect(bucleDeEpisodio("is-01", { NEXT_PUBLIC_BUCLES_JSON: valido })?.webm).toBe("https://signed.example/is.webm");
+    expect(bucleDeEpisodio("gn-02", { NEXT_PUBLIC_BUCLES_JSON: valido })).toBeNull();
+
+    expect(fusionarBucles(base, "")).toEqual(base);
+    expect(fusionarBucles(base, "   ")).toEqual(base);
+    expect(fusionarBucles(base, undefined)).toEqual(base);
+    expect(fusionarBucles(base, "{}")).toEqual(base);
+    expect(fusionarBucles(base, "{")).toEqual(base);
+    expect(fusionarBucles(base, "null")).toEqual(base);
+    expect(fusionarBucles(base, "[]")).toEqual(base);
+    expect(bucleDeEpisodio("is-01", { NEXT_PUBLIC_BUCLES_JSON: "{" })).toBeNull();
   });
 });

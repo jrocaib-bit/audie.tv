@@ -13,7 +13,7 @@ import { IDIOMAS, idiomaContenido,
   type PendingEpisode,
   type UiLocale,
 } from "@audite/domain";
-import { obraDeEpisodio, rotuloObra } from "@audite/content/obras";
+import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import recuento from "../../../../content/canon/recuento.json";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
@@ -21,7 +21,9 @@ import { Mark, Wordmark } from "@/components/brand";
 import { Cuenta } from "@/components/cuenta";
 import { ListaPorLibros } from "@/components/lista-libros";
 import { useLibrary } from "@/components/library";
+import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto, Placa } from "@/components/placa";
+import { bucleDeEpisodio } from "@/lib/bucles";
 import { Switch } from "@/components/ui/switch";
 import { formatoNumero } from "@/lib/numeros";
 
@@ -128,6 +130,8 @@ export function NeoToday() {
   }, [primero]);
   const id = episode?.id ?? primero?.id ?? "gn-01";
   const obra = obraDeEpisodio(id);
+  const bucle = bucleDeEpisodio(id);
+  const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
   const dias = listeningDayCount(library.progress.listenedOn ?? []);
   const oidos = oidosEnTotal(library.progress.episodes);
   const oidosGenesis = oidosDeLibro("gn", library.progress.episodes);
@@ -154,7 +158,7 @@ export function NeoToday() {
       </div>
       <article className="neo-card relative mt-3 overflow-hidden text-[#F4ECE2]">
         <div className="absolute inset-0 bg-[#0C0B09]">
-          {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+          {bucle && poster ? <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || (obra ? rotuloObra(obra, locale) : "") }} priority className="h-full w-full" /> : obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C]/95 via-[#100E0C]/25 to-[#100E0C]/10" />
         </div>
         <div className="relative flex flex-col justify-end px-4 pt-3 pb-3">

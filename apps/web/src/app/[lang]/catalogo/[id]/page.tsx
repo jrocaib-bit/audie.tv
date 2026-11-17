@@ -3,7 +3,9 @@ import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto } from "@/components/placa";
+import { bucleDeEpisodio } from "@/lib/bucles";
 import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
 import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
@@ -60,10 +62,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const listo = catalogo.episodes.some((item) => item.id === id);
   const resumen = resumenPublico(id, titulo, referencia || libro?.name[ui] || "", ui);
   const obra = obraDeEpisodio(id);
+  const bucle = bucleDeEpisodio(id);
+  const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative min-h-[46svh] overflow-hidden bg-[#1B1815]" style={{ viewTransitionName: `ep-${id}` }}>
-        {obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
+        {bucle && poster ? (
+          <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority className="ken-burns absolute inset-0 h-full w-full" />
+        ) : obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />
         <div className="relative z-10 mx-auto flex min-h-[46svh] w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8">
           <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`}>{libro?.name[ui] || libro?.name.es}</Link></p>
