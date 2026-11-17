@@ -507,9 +507,14 @@
   .paso-elige span,
   .paso-onda i,
   .mini-reto,
-  .mini-reto img {
+  .mini-reto img,
+  .bucle-video {
     animation: none;
     transition: none;
+  }
+
+  .bucle-video {
+    display: none;
   }
 }
 
