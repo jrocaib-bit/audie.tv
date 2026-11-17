@@ -173,6 +173,15 @@ export function SitioHome({ lang }: { lang: string }) {
   const portada = obraDeEpisodio("gn-01");
   const bucleHero = bucleDeHero("gn-01");
   const posterHero = bucleHero ? bucleHero.poster || (portada ? obraWebp(portada) : "") : "";
+  const hayHeroExterno = [
+    process.env.NEXT_PUBLIC_BUCLE_HERO_MP4,
+    process.env.NEXT_PUBLIC_BUCLE_HERO_WEBM,
+    process.env.NEXT_PUBLIC_BUCLE_HERO_POSTER,
+    process.env.NEXT_PUBLIC_BUCLE_HERO_MP4_1280,
+    process.env.NEXT_PUBLIC_BUCLE_HERO_WEBM_1280,
+    process.env.NEXT_PUBLIC_BUCLE_HERO_POSTER_1280,
+  ].some((valor) => valor?.trim());
+  const altHero = bucleHero ? (hayHeroExterno ? (process.env.NEXT_PUBLIC_BUCLE_HERO_ALT?.trim() ?? "") : (bucleHero.alt || (portada ? portada.titulo[ui] : ""))) : "";
   const catalogo = loadAppCatalog();
   if (!copy || !portada) return null;
   const listos = audioListo().episodios;
@@ -282,7 +291,7 @@ export function SitioHome({ lang }: { lang: string }) {
             {posterHero ? <link rel="preload" as="image" href={posterHero} fetchPriority="high" /> : null}
             <div className="absolute inset-0 overflow-hidden">
               {bucleHero ? (
-                <BucleCuadro bucle={{ ...bucleHero, poster: posterHero, alt: bucleHero.alt || portada.titulo[ui] }} priority className="parallax-obra h-full w-full" />
+                <BucleCuadro bucle={{ ...bucleHero, poster: posterHero, alt: altHero }} priority className="parallax-obra" />
               ) : (
                 <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
               )}

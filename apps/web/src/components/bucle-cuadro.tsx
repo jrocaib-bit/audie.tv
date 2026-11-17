@@ -83,17 +83,18 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
   }, [montar]);
 
   const poster = bucle.poster || bucle.posterMovil;
+  const cajaClase = ["bucle-cuadro", "absolute", "inset-0", "overflow-hidden", ...className.split(/\s+/).filter((token) => token && token !== "h-full" && token !== "w-full")].join(" ");
 
   return (
-    <div ref={caja} className={`relative h-full w-full overflow-hidden ${className}`}>
-      <picture className="absolute inset-0 block h-full w-full">
+    <div ref={caja} className={cajaClase}>
+      <picture className="absolute inset-0 block">
         {bucle.posterMovil ? <source media="(max-width: 1280px)" srcSet={bucle.posterMovil} /> : null}
-        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster h-full w-full object-cover" />
+        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster absolute inset-0 object-cover" />
       </picture>
       {montar && fuentes.length > 0 ? (
         <video
           ref={video}
-          className={`bucle-video absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
+          className={`bucle-video absolute inset-0 object-cover transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
           muted
           autoPlay
           loop

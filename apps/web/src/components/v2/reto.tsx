@@ -3,7 +3,7 @@
 import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
-import { bucleDeEpisodio } from "@/lib/bucles";
+import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
 import Link from "next/link";
@@ -40,8 +40,8 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
   const propia = portadaDeReto(reto.id);
   const idObra = propia ? null : reto.obra || reto.pasos[0]?.obra || null;
   const obra = propia ? null : portada(idObra) ?? portada(reto.pasos[0]?.obra ?? null);
-  const bucle = idObra ? bucleDeEpisodio(idObra) : null;
-  const posterBucle = bucle?.poster || (obra ? obraWebp(obra) : "");
+  const bucle = propia ? bucleDeReto(reto.id, propia.id) : idObra ? bucleDeEpisodio(idObra) : null;
+  const posterBucle = bucle?.poster || (propia ? propia.src.vertical : obra ? obraWebp(obra) : "");
   const mismo = dia.tiempo === reto.tiempo || (dia.tiempo === "triduo" && reto.tiempo === "semana-santa");
   const base = reto.tiempo === "adviento" || reto.tiempo === "cuaresma" ? "morado" : reto.tiempo === "semana-santa" ? "rojo" : reto.tiempo === "ordinario" ? "verde" : "blanco";
   const color = COLOR_HEX[mismo ? dia.color : base];
@@ -66,7 +66,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
     <main id="contenido" className="app-clear bg-[#100E0C] text-[#F4ECE2]">
       <section className="relative min-h-[78svh] overflow-hidden bg-[#100E0C]">
         {bucle && posterBucle ? (
-          <BucleCuadro bucle={{ ...bucle, poster: posterBucle, alt: bucle.alt }} priority className="absolute inset-0 h-full w-full" />
+          <BucleCuadro bucle={{ ...bucle, poster: posterBucle, alt: bucle.alt }} priority />
         ) : propia || obra ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="absolute inset-0 h-full w-full object-cover" />

@@ -159,7 +159,7 @@ export function ReproductorV2() {
         <div className="overflow-hidden rounded-2xl">
           {bucle && obra ? (
             <div className={`relative aspect-square w-full transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`}>
-              <BucleCuadro bucle={{ ...bucle, poster: bucle.poster || obraWebp(obra), alt: bucle.alt }} priority className="h-full w-full" />
+              <BucleCuadro bucle={{ ...bucle, poster: bucle.poster || obraWebp(obra), alt: bucle.alt }} priority />
             </div>
           ) : obra ? (
             // eslint-disable-next-line @next/next/no-img-element

@@ -46,6 +46,20 @@ describe("BucleCuadro", () => {
     expect(html).not.toContain("<video");
   });
 
+  it("el contenedor se estira con inset y no con height 100%", () => {
+    const html = renderToStaticMarkup(
+      <div className="relative min-h-[46svh]">
+        <BucleCuadro bucle={bucle} priority className="ken-burns absolute inset-0 h-full w-full" />
+      </div>,
+    );
+    const clase = html.match(/class="([^"]*bucle-cuadro[^"]*)"/)?.[1] ?? "";
+    const tokens = clase.split(/\s+/);
+    expect(tokens).toContain("absolute");
+    expect(tokens).toContain("inset-0");
+    expect(tokens).not.toContain("h-full");
+    expect(tokens).toContain("ken-burns");
+  });
+
   it("con reduced-motion o Save-Data se queda en el póster", async () => {
     medio(true);
     datos(false);

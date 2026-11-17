@@ -62,8 +62,11 @@ export function fusionarBucles(base: Record<string, BucleCrudo>, crudo: string |
   return salida;
 }
 
-function mapa(env: Record<string, string | undefined>): Record<string, BucleCrudo> {
-  return fusionarBucles(tabla as Record<string, BucleCrudo>, env.NEXT_PUBLIC_BUCLES_JSON);
+/** Acceso literal: Next solo incrusta process.env.NEXT_PUBLIC_* escrito así. */
+const JSON_PUBLICO = process.env.NEXT_PUBLIC_BUCLES_JSON;
+
+function mapa(json: string | undefined = JSON_PUBLICO): Record<string, BucleCrudo> {
+  return fusionarBucles(tabla as Record<string, BucleCrudo>, json);
 }
 
 function armar(fila: BucleCrudo | undefined, alt = ""): Bucle | null {
@@ -98,20 +101,40 @@ export function fuentesParaAncho(bucle: Bucle, estrecho: boolean): FuenteVideo[]
   return movil;
 }
 
-export function bucleDeEpisodio(id: string, env: Record<string, string | undefined> = process.env): Bucle | null {
-  return armar(mapa(env)[id]);
+export function bucleDeEpisodio(id: string, json: string | undefined = JSON_PUBLICO): Bucle | null {
+  return armar(mapa(json)[id]);
+}
+
+/** Portada del reto: el sufijo de la obra (_o1, _o2) gana; si no hay, vale reto:<id>. */
+export function bucleDeReto(retoId: string, obraId?: string | null, json: string | undefined = JSON_PUBLICO): Bucle | null {
+  const sufijo = obraId?.match(/_(o\d+)$/)?.[1];
+  if (sufijo) {
+    const propio = bucleDeEpisodio(`reto:${retoId}:${sufijo}`, json);
+    if (propio) return propio;
+  }
+  return bucleDeEpisodio(`reto:${retoId}`, json);
 }
 
 /** El hero puede sustituir el cuadro de gn-01 con variables NEXT_PUBLIC_BUCLE_HERO_*. */
 export function bucleDeHero(id: string, env: Record<string, string | undefined> = process.env): Bucle | null {
-  const base = mapa(env)[id] ?? {};
+  const json = Object.prototype.hasOwnProperty.call(env, "NEXT_PUBLIC_BUCLES_JSON")
+    ? env["NEXT_PUBLIC_BUCLES_JSON"]
+    : JSON_PUBLICO;
+  const base = mapa(json)[id] ?? {};
+  const mp4 = texto(env.NEXT_PUBLIC_BUCLE_HERO_MP4);
+  const webm = texto(env.NEXT_PUBLIC_BUCLE_HERO_WEBM);
+  const poster = texto(env.NEXT_PUBLIC_BUCLE_HERO_POSTER);
+  const mp4Movil = texto(env.NEXT_PUBLIC_BUCLE_HERO_MP4_1280);
+  const webmMovil = texto(env.NEXT_PUBLIC_BUCLE_HERO_WEBM_1280);
+  const posterMovil = texto(env.NEXT_PUBLIC_BUCLE_HERO_POSTER_1280);
+  const hayHero = Boolean(mp4 || webm || poster || mp4Movil || webmMovil || posterMovil);
   return armar({
-    mp4: texto(env.NEXT_PUBLIC_BUCLE_HERO_MP4) || base.mp4,
-    webm: texto(env.NEXT_PUBLIC_BUCLE_HERO_WEBM) || base.webm,
-    poster: texto(env.NEXT_PUBLIC_BUCLE_HERO_POSTER) || base.poster,
-    mp4_1280: texto(env.NEXT_PUBLIC_BUCLE_HERO_MP4_1280) || base.mp4_1280,
-    webm_1280: texto(env.NEXT_PUBLIC_BUCLE_HERO_WEBM_1280) || base.webm_1280,
-    poster_1280: texto(env.NEXT_PUBLIC_BUCLE_HERO_POSTER_1280) || base.poster_1280,
-    alt: base.alt,
+    mp4: mp4 || base.mp4,
+    webm: webm || base.webm,
+    poster: poster || base.poster,
+    mp4_1280: mp4Movil || base.mp4_1280,
+    webm_1280: webmMovil || base.webm_1280,
+    poster_1280: posterMovil || base.poster_1280,
+    alt: hayHero ? texto(env.NEXT_PUBLIC_BUCLE_HERO_ALT) : base.alt,
   });
 }

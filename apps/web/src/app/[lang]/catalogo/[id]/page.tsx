@@ -68,7 +68,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative min-h-[46svh] overflow-hidden bg-[#1B1815]" style={{ viewTransitionName: `ep-${id}` }}>
         {bucle && poster ? (
-          <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority className="ken-burns absolute inset-0 h-full w-full" />
+          <div className="absolute inset-0 overflow-hidden">
+            <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority className="ken-burns" />
+          </div>
         ) : obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />
         <div className="relative z-10 mx-auto flex min-h-[46svh] w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8">
