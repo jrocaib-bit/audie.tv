@@ -7,13 +7,12 @@ import { fuenteGazpacho } from "../gazpacho";
 import { MobileProvider } from "../state";
 import { tx } from "../textos";
 import { MiniPlayer } from "../ui/MiniPlayer";
+import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
 import { useCola } from "../ui/useCola";
 import { useReproducir } from "../ui/useReproducir";
-
-const RUTAS_PESTANAS = ["/", "/camino", "/retos", "/biblioteca", "/ajustes"];
 
 function Shell() {
   const { c, lang, library } = useTema();
@@ -73,9 +72,10 @@ function Shell() {
         <Stack.Screen name="cola" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
-      {enPestana && cargado && empezado && !repetido ? (
+      {debeMostrarMini({ path, cargado: Boolean(cargado), empezado, repetido }) && cargado ? (
         <MiniPlayer
           c={c}
+          sobrePestanas={enPestana}
           src={cargado.info.src}
           titulo={cargado.info.titulo}
           subtitulo={[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}
