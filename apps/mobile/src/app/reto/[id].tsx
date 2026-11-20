@@ -95,12 +95,23 @@ export default function RetoDetalle() {
                     </View>
                     <View style={{ flex: 1, gap: 2 }}>
                       <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
-                      <Text numberOfLines={1} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{paso.profecia} → {paso.cumplimiento}</Text>
+                      {paso.diaLiturgico ? <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{paso.diaLiturgico}</Text> : null}
+                      <Text numberOfLines={1} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{paso.profecia} → {paso.cumplimiento}{(paso.referencias?.length ?? 0) > 1 ? `  +${(paso.referencias?.length ?? 1) - 1}` : ""}</Text>
                     </View>
-                    <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
+                    <View style={{ alignItems: "flex-end", gap: 4 }}>
+                      <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
+                      {paso.minutos ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12 }}>{paso.minutos} min</Text> : null}
+                    </View>
                   </Pulsable>
                   {expandido ? (
                     <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 12 }}>
+                      {(paso.referencias?.length ?? 0) > 1 ? (
+                        <View style={{ gap: 6 }}>
+                          {(paso.referencias ?? []).map((r) => (
+                            <Text key={`${r.profecia}-${r.cumplimiento}`} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14 }}>{r.profecia} → {r.cumplimiento}</Text>
+                          ))}
+                        </View>
+                      ) : null}
                       {paso.nota ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{paso.nota}</Text> : null}
                       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
                         {(paso.relacionados ?? []).map((rel) => {

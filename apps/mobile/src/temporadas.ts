@@ -32,7 +32,7 @@ export function ventanaDeReto(id: string, ciclo = CICLO): { inicio: string; fin:
     case "cuaresma-40":
       return { inicio: miercolesCeniza(sig), fin: sumar(pascuaSig, -8) };
     case PROFECIAS_ID:
-      return { inicio: "2027-03-13", fin: "2027-03-28" };
+      return { inicio: "2027-03-21", fin: "2027-03-28" };
     case "semana-santa-pasion":
       return { inicio: sumar(pascuaSig, -7), fin: sumar(pascuaSig, -1) };
     case "pascua-hechos":

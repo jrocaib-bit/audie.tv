@@ -1,5 +1,6 @@
 {
  "id": "profecias-pasion",
+ "version": 2,
  "nombre": {
   "es": "Profecías de la Pasión"
  },
@@ -7,249 +8,238 @@
   {
    "id": "pp-01",
    "dia": 1,
-   "fecha": "2027-03-13",
-   "profecia": "Is 53,1–5",
-   "cumplimiento": "Jn 12,37–41",
-   "nota": "Umbral de la Pasión: al final de los signos, Juan lee la incredulidad con Isaías 53.",
+   "fecha": "2027-03-21",
+   "dia_liturgico": "Domingo de Ramos",
+   "titulo": {
+    "es": "Viene tu rey"
+   },
+   "referencias": [
+    {
+     "profecia": "Za 9,9–10",
+     "cumplimiento": "Mt 21,1–17"
+    },
+    {
+     "profecia": "Sal 118,19–29",
+     "cumplimiento": "Mt 21,33–46"
+    },
+    {
+     "profecia": "Is 53,1–3",
+     "cumplimiento": "Jn 12,37–41"
+    }
+   ],
+   "nota": "Día de la entrada en Jerusalén. Se lee el relato de Mateo completo hasta la purificación del templo.",
    "episodios_relacionados": [
     "is-15",
-    "jn-07"
+    "jn-07",
+    "mt-09",
+    "sal-020",
+    "zac-02"
    ],
-   "titulo": {
-    "es": "¿Quién creyó?"
-   }
+   "minutos": 8
   },
   {
    "id": "pp-02",
    "dia": 2,
-   "fecha": "2027-03-14",
-   "profecia": "Za 9,9",
-   "cumplimiento": "Mt 21,1–11",
-   "nota": "Entrada en Jerusalén.",
-   "episodios_relacionados": [
-    "mt-09",
-    "zac-02"
-   ],
+   "fecha": "2027-03-22",
+   "dia_liturgico": "Lunes Santo",
    "titulo": {
-    "es": "Viene tu rey"
-   }
+    "es": "Treinta monedas de plata"
+   },
+   "referencias": [
+    {
+     "profecia": "Za 11,4–14",
+     "cumplimiento": "Mt 26,1–16"
+    },
+    {
+     "profecia": "Jr 18,1–6; 32,6–15",
+     "cumplimiento": "Mt 27,3–10"
+    }
+   ],
+   "nota": "Mt 27,9 dice «Jeremías»: se lee tal cual. Las frases de enlace explican la cita combinada sin corregir el texto.",
+   "episodios_relacionados": [
+    "jer-09",
+    "jer-15",
+    "mt-12",
+    "mt-13",
+    "zac-03"
+   ],
+   "minutos": 9
   },
   {
    "id": "pp-03",
    "dia": 3,
-   "fecha": "2027-03-15",
-   "profecia": "Sal 118,22–23",
-   "cumplimiento": "Mt 21,33–46",
-   "nota": "Jesús se aplica el salmo ante los que lo rechazan.",
-   "episodios_relacionados": [
-    "mt-09",
-    "sal-020"
-   ],
+   "fecha": "2027-03-23",
+   "dia_liturgico": "Martes Santo",
    "titulo": {
-    "es": "La piedra desechada"
-   }
+    "es": "El que compartía mi pan"
+   },
+   "referencias": [
+    {
+     "profecia": "Sal 41,2–14",
+     "cumplimiento": "Mt 26,17–25; Jn 13,1–30"
+    },
+    {
+     "profecia": "Is 53,12",
+     "cumplimiento": "Lc 22,35–38"
+    }
+   ],
+   "nota": "La traición anunciada en la cena: Mateo y Juan. Lc 22,35–38 es la última palabra de la cena antes de Getsemaní.",
+   "episodios_relacionados": [
+    "is-15",
+    "jn-08",
+    "lc-14",
+    "mt-12",
+    "sal-006"
+   ],
+   "minutos": 9
   },
   {
    "id": "pp-04",
    "dia": 4,
-   "fecha": "2027-03-16",
-   "profecia": "Za 11,12–13",
-   "cumplimiento": "Mt 26,14–16; 27,3–10",
-   "nota": "Mateo atribuye la cita a «Jeremías»: es una cita combinada (Za 11,12–13 con ecos de Jr 18–19 y 32). Se lee tal cual; no se corrige.",
+   "fecha": "2027-03-24",
+   "dia_liturgico": "Miércoles Santo",
+   "titulo": {
+    "es": "Hiere al pastor"
+   },
+   "referencias": [
+    {
+     "profecia": "Za 13,7–9",
+     "cumplimiento": "Mt 26,30–56"
+    },
+    {
+     "profecia": "Is 50,4–11",
+     "cumplimiento": "Mc 14,53–65"
+    }
+   ],
+   "nota": "Getsemaní, prendimiento y juicio ante el sanedrín.",
    "episodios_relacionados": [
+    "is-15",
+    "mc-07",
     "mt-12",
-    "mt-13",
     "zac-03"
    ],
-   "titulo": {
-    "es": "Treinta monedas"
-   }
+   "minutos": 9
   },
   {
    "id": "pp-05",
    "dia": 5,
-   "fecha": "2027-03-17",
-   "profecia": "Sal 41,10",
-   "cumplimiento": "Jn 13,18–30",
-   "nota": "La traición en la última cena.",
-   "episodios_relacionados": [
-    "jn-08",
-    "sal-006"
-   ],
+   "fecha": "2027-03-25",
+   "dia_liturgico": "Jueves Santo",
    "titulo": {
-    "es": "El que compartía mi pan"
-   }
+    "es": "Como cordero llevado al matadero"
+   },
+   "referencias": [
+    {
+     "profecia": "Is 52,13–15; 53,1–6",
+     "cumplimiento": "Jn 19,1–16"
+    },
+    {
+     "profecia": "Is 53,7–8",
+     "cumplimiento": "Mc 15,1–20"
+    },
+    {
+     "profecia": "Sab 2,12–20",
+     "cumplimiento": "Mt 27,15–26"
+    }
+   ],
+   "nota": "El juicio ante Pilato. Sab 2,12–20 empieza a mitad del discurso de los impíos (las comillas se abren en Sab 2,1); se lee desde el v. 12. Is 52,13–53,12 se lee completo, repartido entre los días 5 y 6, como el Viernes Santo.",
+   "episodios_relacionados": [
+    "is-15",
+    "jn-10",
+    "mc-08",
+    "mt-13",
+    "sab-01"
+   ],
+   "minutos": 10
   },
   {
    "id": "pp-06",
    "dia": 6,
-   "fecha": "2027-03-18",
-   "profecia": "Za 13,7",
-   "cumplimiento": "Mt 26,31–35.47–56",
-   "nota": "Huida de los discípulos.",
-   "episodios_relacionados": [
-    "mt-12",
-    "zac-03"
-   ],
+   "fecha": "2027-03-26",
+   "dia_liturgico": "Viernes Santo",
    "titulo": {
-    "es": "Hiere al pastor"
-   }
+    "es": "Dios mío, ¿por qué me has abandonado?"
+   },
+   "referencias": [
+    {
+     "profecia": "Sal 22,2–32",
+     "cumplimiento": "Jn 19,16–24; Mt 27,39–46"
+    },
+    {
+     "profecia": "Is 53,9–12",
+     "cumplimiento": "Lc 23,32–43"
+    },
+    {
+     "profecia": "Sal 69,20–22",
+     "cumplimiento": "Jn 19,25–30"
+    }
+   ],
+   "nota": "Is 53,9 dice en la CEE «con los malvados… con los malhechores»; se lee tal cual, sin forzar el cumplimiento literal.",
+   "episodios_relacionados": [
+    "is-15",
+    "jn-10",
+    "lc-15",
+    "mt-13",
+    "sal-003",
+    "sal-011"
+   ],
+   "minutos": 11
   },
   {
    "id": "pp-07",
    "dia": 7,
-   "fecha": "2027-03-19",
-   "profecia": "Is 53,7–8",
-   "cumplimiento": "Mt 26,59–63; 27,12–14",
-   "nota": "El silencio de Jesús ante el sanedrín y ante Pilato.",
-   "episodios_relacionados": [
-    "is-15",
-    "mt-12",
-    "mt-13"
-   ],
+   "fecha": "2027-03-27",
+   "dia_liturgico": "Sábado Santo",
    "titulo": {
-    "es": "No abría la boca"
-   }
+    "es": "Mirarán al que traspasaron"
+   },
+   "referencias": [
+    {
+     "profecia": "Sal 31,2–6",
+     "cumplimiento": "Lc 23,44–56"
+    },
+    {
+     "profecia": "Ex 12,43–47; Sal 34,16–23; Za 12,10–14; 13,1",
+     "cumplimiento": "Jn 19,31–42"
+    }
+   ],
+   "nota": "Jn 19,36 cita a la vez el cordero pascual (Ex 12,46) y el Sal 34,21; por eso se leen los dos.",
+   "episodios_relacionados": [
+    "ex-05",
+    "jn-10",
+    "lc-15",
+    "sal-004",
+    "sal-005",
+    "zac-03"
+   ],
+   "minutos": 8
   },
   {
    "id": "pp-08",
    "dia": 8,
-   "fecha": "2027-03-20",
-   "profecia": "Is 50,6–7",
-   "cumplimiento": "Mc 14,65; 15,16–20",
-   "nota": "Salivazos y golpes; Is 50,4–7 es la primera lectura del Domingo de Ramos.",
-   "episodios_relacionados": [
-    "is-15",
-    "mc-07",
-    "mc-08"
-   ],
-   "titulo": {
-    "es": "No escondí el rostro"
-   }
-  },
-  {
-   "id": "pp-09",
-   "dia": 9,
-   "fecha": "2027-03-21",
-   "profecia": "Is 53,12",
-   "cumplimiento": "Lc 22,35–38; 23,32–34",
-   "nota": "Domingo de Ramos.",
-   "episodios_relacionados": [
-    "is-15",
-    "lc-14",
-    "lc-15"
-   ],
-   "titulo": {
-    "es": "Contado entre los pecadores"
-   }
-  },
-  {
-   "id": "pp-10",
-   "dia": 10,
-   "fecha": "2027-03-22",
-   "profecia": "Sal 22,17–19",
-   "cumplimiento": "Jn 19,16–24",
-   "nota": "La crucifixión.",
-   "episodios_relacionados": [
-    "jn-10",
-    "sal-003"
-   ],
-   "titulo": {
-    "es": "Se reparten mi ropa"
-   }
-  },
-  {
-   "id": "pp-11",
-   "dia": 11,
-   "fecha": "2027-03-23",
-   "profecia": "Sal 22,7–9",
-   "cumplimiento": "Mt 27,39–44",
-   "nota": "Las burlas al pie de la cruz.",
-   "episodios_relacionados": [
-    "mt-13",
-    "sal-003"
-   ],
-   "titulo": {
-    "es": "Que lo libre"
-   }
-  },
-  {
-   "id": "pp-12",
-   "dia": 12,
-   "fecha": "2027-03-24",
-   "profecia": "Sal 22,2",
-   "cumplimiento": "Mt 27,45–47",
-   "nota": "El grito de la hora nona.",
-   "episodios_relacionados": [
-    "mt-13",
-    "sal-003"
-   ],
-   "titulo": {
-    "es": "¿Por qué me has abandonado?"
-   }
-  },
-  {
-   "id": "pp-13",
-   "dia": 13,
-   "fecha": "2027-03-25",
-   "profecia": "Sal 69,22",
-   "cumplimiento": "Jn 19,28–30",
-   "nota": "Jueves Santo.",
-   "episodios_relacionados": [
-    "jn-10",
-    "sal-011"
-   ],
-   "titulo": {
-    "es": "Tengo sed"
-   }
-  },
-  {
-   "id": "pp-14",
-   "dia": 14,
-   "fecha": "2027-03-26",
-   "profecia": "Sal 31,6",
-   "cumplimiento": "Lc 23,44–49",
-   "nota": "Viernes Santo: muerte de Jesús. El Sal 31 es el salmo responsorial del Viernes Santo.",
-   "episodios_relacionados": [
-    "lc-15",
-    "sal-004"
-   ],
-   "titulo": {
-    "es": "A tus manos"
-   }
-  },
-  {
-   "id": "pp-15",
-   "dia": 15,
-   "fecha": "2027-03-27",
-   "profecia": "Ex 12,46; Sal 34,20–21; Za 12,10",
-   "cumplimiento": "Jn 19,31–37",
-   "nota": "Sábado Santo. Jn 19,36 cita a la vez el cordero pascual (Ex 12,46) y el Sal 34,21; por eso se leen los dos.",
-   "episodios_relacionados": [
-    "ex-05",
-    "jn-10",
-    "sal-005",
-    "zac-03"
-   ],
-   "titulo": {
-    "es": "Mirarán al que traspasaron"
-   }
-  },
-  {
-   "id": "pp-16",
-   "dia": 16,
    "fecha": "2027-03-28",
-   "profecia": "Sal 16,8–11",
-   "cumplimiento": "Hch 2,22–32; Lc 24,44–48",
-   "nota": "Domingo de Pascua: la resurrección y «todo lo escrito en los Salmos acerca de mí».",
+   "dia_liturgico": "Domingo de Pascua",
+   "titulo": {
+    "es": "Al tercer día"
+   },
+   "referencias": [
+    {
+     "profecia": "Sal 16,1–11",
+     "cumplimiento": "Hch 2,22–36"
+    },
+    {
+     "profecia": "Os 6,1–3",
+     "cumplimiento": "Lc 24,13–35.44–48"
+    }
+   ],
+   "nota": "Domingo de Pascua: Emaús y «lo escrito en la ley de Moisés y en los profetas y salmos».",
    "episodios_relacionados": [
     "hch-01",
     "lc-15",
+    "os-02",
     "sal-002"
    ],
-   "titulo": {
-    "es": "El sendero de la vida"
-   }
+   "minutos": 9
   }
  ]
 }

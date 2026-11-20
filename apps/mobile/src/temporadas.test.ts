@@ -42,14 +42,14 @@ describe("temporadas litúrgicas 2026-27", () => {
 describe("Profecías de la Pasión", () => {
   const catalogo = new Set((indice.episodes as { id: string }[]).map((e) => e.id));
   const rangoIds = new Set(rangos.map((r) => r.id));
-  it("está en Semana Santa, del 13 al 28 de marzo, con 16 días", () => {
+  it("está en Semana Santa, del 21 al 28 de marzo (Ramos a Pascua), con 8 días", () => {
     const reto = RETOS_APP.find((r) => r.id === PROFECIAS_ID)!;
     expect(reto.tiempo).toBe("semana-santa");
-    expect(reto.pasos).toHaveLength(16);
-    expect(ventanaDeReto(PROFECIAS_ID)).toEqual({ inicio: "2027-03-13", fin: "2027-03-28" });
+    expect(reto.pasos).toHaveLength(8);
+    expect(ventanaDeReto(PROFECIAS_ID)).toEqual({ inicio: "2027-03-21", fin: "2027-03-28" });
     const m = modeloRetos({ lang: "es", hoyIso: "2026-11-20", rangos, progress: { episodes: {} } });
     const t = m.temporadas.find((x) => x.id === PROFECIAS_ID)!;
-    expect(t).toMatchObject({ estado: "empieza", total: 16, hechos: 0, sinObra: true, fechas: "13 mar – 28 mar", src: "" });
+    expect(t).toMatchObject({ estado: "empieza", total: 8, hechos: 0, sinObra: true, fechas: "21 mar – 28 mar", src: "" });
     const ids = m.temporadas.map((x) => x.id);
     expect(ids.indexOf(PROFECIAS_ID)).toBeGreaterThan(ids.indexOf("cuaresma-40"));
     expect(ids.indexOf(PROFECIAS_ID)).toBeLessThan(ids.indexOf("pascua-hechos"));
@@ -57,17 +57,30 @@ describe("Profecías de la Pasión", () => {
   });
   it("todos los días pp-NN son Próximamente y llevan profecía, cumplimiento y nota", () => {
     const pasos = pasosDeReto(PROFECIAS_ID);
-    expect(pasos.map((p) => p.dia)).toEqual(Array.from({ length: 16 }, (_, i) => i + 1));
+    expect(pasos.map((p) => p.dia)).toEqual(Array.from({ length: 8 }, (_, i) => i + 1));
     for (const p of pasos) {
       expect(p.episodio).toMatch(/^pp-\d\d$/);
       expect(catalogo.has(p.episodio!)).toBe(false);
       expect(p.profecia && p.cumplimiento && p.nota).toBeTruthy();
     }
-    expect(pasos[0]).toMatchObject({ profecia: "Is 53,1–5", cumplimiento: "Jn 12,37–41", relacionados: ["is-15", "jn-07"] });
+    expect(pasos.map((p) => p.titulo.es)).toEqual([
+      "Viene tu rey",
+      "Treinta monedas de plata",
+      "El que compartía mi pan",
+      "Hiere al pastor",
+      "Como cordero llevado al matadero",
+      "Dios mío, ¿por qué me has abandonado?",
+      "Mirarán al que traspasaron",
+      "Al tercer día",
+    ]);
+    expect(pasos[0]).toMatchObject({ profecia: "Za 9,9–10", cumplimiento: "Mt 21,1–17", diaLiturgico: "Domingo de Ramos" });
+    expect(pasos[0].referencias).toHaveLength(3);
+    for (const p of pasos) expect(p.minutos).toBeGreaterThanOrEqual(8);
+    for (const p of pasos) expect(p.minutos).toBeLessThanOrEqual(11);
   });
   it("los episodios relacionados existen en el canon y algunos ya tienen audio", () => {
     const relacionados = pasosDeReto(PROFECIAS_ID).flatMap((p) => p.relacionados ?? []);
-    expect(relacionados.length).toBeGreaterThan(16);
+    expect(relacionados.length).toBeGreaterThan(8);
     for (const id of relacionados) expect(rangoIds.has(id)).toBe(true);
     expect(relacionados.some((id) => catalogo.has(id))).toBe(true);
     expect(catalogo.has("is-15") || rangoIds.has("is-15")).toBe(true);
