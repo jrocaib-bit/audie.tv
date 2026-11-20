@@ -16,6 +16,7 @@ function sumar(iso: string, dias: number): string {
 
 afterEach(() => {
   delete process.env.NEXT_PUBLIC_RETO_PROFECIAS_PORTADA;
+  delete process.env.NEXT_PUBLIC_RETO_PROFECIAS_MINIATURAS_BASE;
 });
 
 describe("Profecías de la Pasión", () => {
@@ -101,8 +102,19 @@ describe("Profecías de la Pasión", () => {
     expect(html).not.toContain("/escuchar");
     expect(html).not.toContain("Conferencia Episcopal");
     process.env.NEXT_PUBLIC_RETO_PROFECIAS_PORTADA = "https://cdn.example/profecias.webp";
+    process.env.NEXT_PUBLIC_RETO_PROFECIAS_MINIATURAS_BASE = "https://cdn.example/pp";
     const conectada = renderToStaticMarkup(<VistaRetoAnio lang="es" reto={retoDeTemporada("profecias-pasion")!} rangos={[]} />);
     expect(conectada).toContain("https://cdn.example/profecias.webp");
+    expect(conectada).toContain("El cordero sacrificial");
+    expect(conectada).toContain("Josefa de Ayala");
+    expect(conectada).toContain("https://cdn.example/pp/pp-01_es_miniatura_v1.webp");
+    expect(conectada).toContain("https://cdn.example/pp/pp-08_es_miniatura_v1.webp");
+    expect(conectada).toContain("Roslin");
     expect(conectada).not.toContain("data-hueco=\"marca\"");
+    const ingles = renderToStaticMarkup(<VistaRetoAnio lang="en" reto={retoDeTemporada("profecias-pasion")!} rangos={[]} />);
+    expect(ingles).toContain("Prophecies of the Passion");
+    expect(ingles).toContain("The Sacrificial Lamb");
+    expect(ingles).toContain("Coming soon");
+    expect((ingles.match(/Coming soon/g) ?? []).length).toBe(8);
   });
 });

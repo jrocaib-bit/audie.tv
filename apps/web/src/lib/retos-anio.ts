@@ -77,6 +77,57 @@ export function portadaConectada(reto: RetoAnioDato, env = process.env.NEXT_PUBL
   return (env ?? propia).trim();
 }
 
+/** Base de miniaturas del reto, solo si el entorno la define (p. ej. Preview). */
+export function baseMiniaturasProfecias(env = process.env.NEXT_PUBLIC_RETO_PROFECIAS_MINIATURAS_BASE): string {
+  return (env ?? "").trim().replace(/\/+$/, "");
+}
+
+export function miniaturaDePieza(pieza: string | undefined, env = process.env.NEXT_PUBLIC_RETO_PROFECIAS_MINIATURAS_BASE): string {
+  const base = baseMiniaturasProfecias(env);
+  if (!base || !pieza) return "";
+  return `${base}/${pieza}_es_miniatura_v1.webp`;
+}
+
+export const CREDITO_PORTADA_PROFECIAS = {
+  es: "El cordero sacrificial · Josefa de Ayala (Josefa de Óbidos) · c. 1670–1684 · Walters Art Museum, Baltimore",
+  en: "The Sacrificial Lamb · Josefa de Ayala (Josefa de Óbidos) · c. 1670–1684 · Walters Art Museum, Baltimore",
+} as const;
+
+export const CREDITOS_DIAS_PROFECIAS: Record<string, { es: string; en: string }> = {
+  "pp-01": {
+    es: "La entrada en Jerusalén · T'oros Roslin · 1262 · Walters Art Museum, Baltimore",
+    en: "Entry into Jerusalem · T'oros Roslin · 1262 · Walters Art Museum, Baltimore",
+  },
+  "pp-02": {
+    es: "Judas recibe las treinta monedas de plata · Augustin Hirschvogel · 1547 · The Metropolitan Museum of Art, Nueva York",
+    en: "Judas Being Paid the 30 Pieces of Silver · Augustin Hirschvogel · 1547 · The Metropolitan Museum of Art, New York",
+  },
+  "pp-03": {
+    es: "La Última Cena · Círculo del Maestro de la Muerte de la Virgen de Ámsterdam · c. 1485–1500 · Rijksmuseum, Ámsterdam",
+    en: "The Last Supper · Circle of the Master of the Amsterdam Death of the Virgin · c. 1485–1500 · Rijksmuseum, Amsterdam",
+  },
+  "pp-04": {
+    es: "El beso de Judas · Maestro del Primer Libro de Oraciones de Maximiliano · c. 1500 · Cleveland Museum of Art",
+    en: "The Kiss of Judas · Master of the First Prayer Book of Maximilian · c. 1500 · Cleveland Museum of Art",
+  },
+  "pp-05": {
+    es: "Cristo ante Pilato · Mihály Munkácsy · 1881 · Déri Múzeum, Debrecen",
+    en: "Christ before Pilate · Mihály Munkácsy · 1881 · Déri Museum, Debrecen",
+  },
+  "pp-06": {
+    es: "Cristo en la cruz · Eugène Delacroix · 1846 · Walters Art Museum, Baltimore",
+    en: "Christ on the Cross · Eugène Delacroix · 1846 · Walters Art Museum, Baltimore",
+  },
+  "pp-07": {
+    es: "Placa con la Crucifixión · Anónimo alemán (Westfalia) · c. 1200 · The Metropolitan Museum of Art, Nueva York",
+    en: "Plaque with the Crucifixion · Anonymous German (Westphalia) · c. 1200 · The Metropolitan Museum of Art, New York",
+  },
+  "pp-08": {
+    es: "Descenso a los infiernos (Anástasis) · Anónimo bizantino · principios del siglo XV · The Metropolitan Museum of Art, Nueva York",
+    en: "The Descent into Hell (Anastasis) · Anonymous Byzantine · early 15th century · The Metropolitan Museum of Art, New York",
+  },
+};
+
 export function parsearCita(cita: string): Cita | null {
   const limpia = cita.replace(/[–—]/g, "-").trim();
   const match = limpia.match(/^([A-Za-z]+)\s+(\d+),(\d+)(?:-(\d+))?$/);

@@ -5,7 +5,7 @@ import { Mark } from "@/components/brand";
 import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
 import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { etiquetaInicio, fechaLegible } from "@/lib/publico";
-import { episodioDeCita, fechaDeDia, inicioDeTemporada, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
+import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
 
 function reloj(segundos: number): string {
   const minutos = Math.floor(segundos / 60);
@@ -91,10 +91,28 @@ export function VistaRetoAnio({ lang, reto, rangos }: { lang: string; reto: Reto
         <p className="mt-3 text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}{fin ? (ui === "en" ? ` · until ${fechaLegible(fin, ui)}` : ` · hasta el ${fechaLegible(fin, ui)}`) : ""}</p>
         {!reto.fijo ? <p className="mt-2 text-sm text-[#B7AB9C]">{ui === "en" ? "It can be walked in any stretch of Ordinary Time." : "Se puede recorrer en cualquier tramo de Tiempo ordinario."}</p> : null}
         {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
+        {conectada ? <p className="mt-3 text-sm text-[#8A8175]">{CREDITO_PORTADA_PROFECIAS[ui]}</p> : null}
         <ol className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
           {reto.dias.map((dia, indice) => {
             const fecha = dia.fecha ?? fechaDeDia(reto.id, indice);
-            if (dia.pieza) return <li key={dia.pieza} className="aparecer py-3" style={{ ["--i" as string]: indice % 12 }}>{diaPieza(lang, ui, dia, indice + 1, fecha, rangos)}</li>;
+            if (dia.pieza) {
+              const mini = reto.id === "profecias-pasion" ? miniaturaDePieza(dia.pieza) : "";
+              const creditoDia = CREDITOS_DIAS_PROFECIAS[dia.pieza]?.[ui];
+              return (
+                <li key={dia.pieza} className="aparecer py-3" style={{ ["--i" as string]: indice % 12 }}>
+                  <div className={mini ? "flex gap-3" : undefined}>
+                    {mini ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={mini} alt="" className="mt-0.5 h-16 w-28 shrink-0 rounded-md object-cover" />
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      {diaPieza(lang, ui, dia, indice + 1, fecha, rangos)}
+                      {mini && creditoDia ? <span className="mt-1 block text-xs text-[#8A8175]">{creditoDia}</span> : null}
+                    </div>
+                  </div>
+                </li>
+              );
+            }
             const episodio = episodioDeCita(dia.cita, rangos);
             const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.cita].filter(Boolean).join(" · ");
             const cuerpo = (
