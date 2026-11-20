@@ -1,14 +1,12 @@
 import { adviento1, bautismoDelSenor, miercolesCeniza, pascua, pentecostes } from "@audite/domain";
-import retosJson from "../../../content/tiempos/retos.json";
 import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-visibles";
+import { PROFECIAS_ID, RETOS_APP, type Paso, type RetoJson } from "./retos-app";
 import { CAMINOS, idsDeCamino, portadaDeCamino, progresoCamino, type Rango } from "./caminos";
 
 type Idioma = "es" | "en";
-type Paso = { dia: number; episodio?: string; obra?: string; minutos?: number; titulo: { es: string; en: string } };
-type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; obra: string; pasos: Paso[] };
 
 export const CICLO = 2026;
-const RETOS = retosJson.retos as RetoJson[];
+const RETOS: RetoJson[] = RETOS_APP;
 export const ADVIENTO_ID = "adviento-isaias";
 const ADVIENTO_SRC = "/obras/reto-adviento_o2-1x1.webp";
 
@@ -33,6 +31,8 @@ export function ventanaDeReto(id: string, ciclo = CICLO): { inicio: string; fin:
       return { inicio: sumar(bautismoDelSenor(sig), 1), fin: sumar(miercolesCeniza(sig), -1) };
     case "cuaresma-40":
       return { inicio: miercolesCeniza(sig), fin: sumar(pascuaSig, -8) };
+    case PROFECIAS_ID:
+      return { inicio: "2027-03-13", fin: "2027-03-28" };
     case "semana-santa-pasion":
       return { inicio: sumar(pascuaSig, -7), fin: sumar(pascuaSig, -1) };
     case "pascua-hechos":
@@ -80,6 +80,8 @@ export type TarjetaReto = {
   inicio: string;
   destacado: boolean;
   siguiente: string | null;
+  /** Sin pintura todavía: se pinta una placa de marca. */
+  sinObra: boolean;
 };
 
 export type ModeloRetos = {
@@ -111,6 +113,7 @@ function portadasSinRepetir(ocupadas: Set<string>): Map<string, string> {
       ocupadas.add(ADVIENTO_SRC);
       continue;
     }
+    if (reto.sinObra) continue;
     const candidatas = [reto.obra, ...reto.pasos.map((p) => p.obra ?? "")].filter(Boolean).map(srcDeEpisodio).filter(Boolean);
     const libre = candidatas.find((src) => !ocupadas.has(src));
     if (libre) {
@@ -144,6 +147,7 @@ export function modeloRetos(ctx: { lang: Idioma; hoyIso: string; progress: Avanc
       inicio: v.inicio,
       destacado: reto.id === ADVIENTO_ID,
       siguiente: episodios.find((id) => !ctx.progress.episodes[id]?.completed) ?? null,
+      sinObra: Boolean(reto.sinObra),
     };
   }).sort((a, b) => a.inicio.localeCompare(b.inicio));
   return {

@@ -1,6 +1,6 @@
 import { localIsoDate } from "@audite/domain";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { tipoAcceso } from "../../acceso";
@@ -16,6 +16,9 @@ import { Entrada } from "../../ui/Entrada";
 import { Icono } from "../../ui/Icono";
 import { ObraMarco } from "../../ui/ObraMarco";
 import { Pulsable } from "../../ui/Pulsable";
+import { PlacaMarca, monogramaDe } from "../../ui/PlacaMarca";
+import { infoEpisodio } from "../../hoy";
+import { useContextoCatalogo } from "../../ui/useHoy";
 import { ChipEstado } from "../../ui/RetoCard";
 import { Ring } from "../../ui/Ring";
 import { useTema } from "../../ui/tema";
@@ -30,6 +33,8 @@ export default function RetoDetalle() {
   const insets = useSafeAreaInsets();
   const ventana = useWindowDimensions();
   const reproducirId = useReproducir();
+  const base = useContextoCatalogo();
+  const [abierto, setAbierto] = useState<number | null>(null);
   const datos = datosDeReto(id);
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(() => modeloRetos({ lang, hoyIso, progress: library.progress, rangos: library.catalog.rangos }), [hoyIso, lang, library.catalog.rangos, library.progress]);
@@ -59,7 +64,7 @@ export default function RetoDetalle() {
             <BucleCuadro bucle={hicks} poster={hicks.poster} alt={hicks.alt} />
           </View>
         ) : (
-          <ObraMarco src={tarjeta.src} style={{ height: 240, borderRadius: 24 }} />
+          tarjeta.sinObra ? <PlacaMarca monograma={monogramaDe(datos.titulo[lang])} size={88} style={{ height: 240, borderRadius: 24 }} /> : <ObraMarco src={tarjeta.src} style={{ height: 240, borderRadius: 24 }} />
         )}
       </Entrada>
 
@@ -79,6 +84,44 @@ export default function RetoDetalle() {
         {pasos.map((paso, i) => {
           const grabado = Boolean(paso.episodio && grabados.has(paso.episodio));
           const hecho = Boolean(paso.episodio && library.progress.episodes[paso.episodio]?.completed);
+          if (paso.profecia) {
+            const expandido = abierto === i;
+            return (
+              <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
+                <View style={{ borderRadius: 20, backgroundColor: c.card, borderWidth: 1, borderColor: expandido ? c.accent : c.line, overflow: "hidden" }}>
+                  <Pulsable onPress={() => setAbierto(expandido ? null : i)} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}. ${paso.profecia} → ${paso.cumplimiento}`} selected={expandido} escala={0.99} style={{ minHeight: 72, paddingHorizontal: 14, paddingVertical: 10, flexDirection: "row", alignItems: "center", gap: 14, opacity: grabado ? 1 : 0.85 }}>
+                    <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: c.line }}>
+                      <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{paso.dia}</Text>
+                    </View>
+                    <View style={{ flex: 1, gap: 2 }}>
+                      <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
+                      <Text numberOfLines={1} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{paso.profecia} → {paso.cumplimiento}</Text>
+                    </View>
+                    <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
+                  </Pulsable>
+                  {expandido ? (
+                    <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 12 }}>
+                      {paso.nota ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{paso.nota}</Text> : null}
+                      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                        {(paso.relacionados ?? []).map((rel) => {
+                          const info = infoEpisodio(rel, base);
+                          const disponible = grabados.has(rel);
+                          const libro = base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn";
+                          return (
+                            <Pulsable key={rel} onPress={disponible ? () => reproducirId(rel, { contexto: { tipo: "libro", id: libro } }) : undefined} disabled={!disponible} label={`${info.titulo}${disponible ? "" : `. ${t.proximamente}`}`} escala={0.96} style={{ minHeight: 44, paddingHorizontal: 14, borderRadius: 22, flexDirection: "row", alignItems: "center", gap: 8, borderWidth: 1, borderColor: c.line, backgroundColor: "rgba(244,236,226,0.05)", opacity: disponible ? 1 : 0.6 }}>
+                              {disponible ? <Icono nombre="play" size={14} color={c.accent} /> : null}
+                              <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 14, maxWidth: 200 }}>{info.titulo}</Text>
+                              {disponible ? null : <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 11 }}>{t.proximamente}</Text>}
+                            </Pulsable>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  ) : null}
+                </View>
+              </Entrada>
+            );
+          }
           return (
             <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
               <Pulsable onPress={grabado && paso.episodio ? () => jugar(paso.episodio!, i) : undefined} disabled={!grabado} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}`} escala={0.985} style={{ minHeight: 64, paddingHorizontal: 14, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, opacity: grabado ? 1 : 0.7 }}>

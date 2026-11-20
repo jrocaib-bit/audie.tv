@@ -79,6 +79,7 @@ export default function Retos() {
               fechas={reto.fechas}
               chip={chipDeReto(reto, lang)}
               destacado={reto.destacado}
+              sinObra={reto.sinObra}
               onPress={() => router.push(`/reto/${reto.id}`)}
             />
           </Entrada>

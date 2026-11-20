@@ -1,12 +1,10 @@
-import retosJson from "../../../content/tiempos/retos.json";
-
-type Reto = { id: string; pasos: { episodio?: string }[] };
+import { RETOS_APP } from "./retos-app";
 
 /** Gratis con cuenta gratuita, hoy: gn-01 (refleja AUDIO_GRATIS del servidor) y el Adviento. El resto, Premium. */
 export const GRATIS_BASE: readonly string[] = ["gn-01"];
 
 export function episodiosDeReto(retoId: string): string[] {
-  const reto = (retosJson.retos as Reto[]).find((item) => item.id === retoId);
+  const reto = RETOS_APP.find((item) => item.id === retoId);
   return (reto?.pasos ?? []).map((paso) => paso.episodio).filter((id): id is string => Boolean(id));
 }
 

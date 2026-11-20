@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import { fonts } from "../theme";
 import { ObraMarco } from "./ObraMarco";
+import { PlacaMarca, monogramaDe } from "./PlacaMarca";
 import { ProgressBar } from "./ProgressBar";
 import { Pulsable } from "./Pulsable";
 import type { Paleta } from "./tema";
@@ -16,6 +17,7 @@ type Props = {
   fechas: string;
   chip: { texto: string; activo: boolean };
   destacado?: boolean;
+  sinObra?: boolean;
   onPress: () => void;
 };
 
@@ -28,11 +30,11 @@ export function ChipEstado({ c, texto, activo }: { c: Paleta; texto: string; act
 }
 
 /** Meta de temporada. La destacada lleva la obra arriba; el resto, en miniatura. */
-export function RetoCard({ c, titulo, src, hechos, total, fraccion, de, fechas, chip, destacado, onPress }: Props) {
+export function RetoCard({ c, titulo, src, hechos, total, fraccion, de, fechas, chip, destacado, sinObra, onPress }: Props) {
   if (destacado) {
     return (
       <Pulsable onPress={onPress} label={titulo} haptica escala={0.985} style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1.5, borderColor: c.accent, overflow: "hidden" }}>
-        <ObraMarco src={src} style={{ height: 180 }} />
+        {sinObra ? <PlacaMarca monograma={monogramaDe(titulo)} size={64} style={{ height: 180 }} /> : <ObraMarco src={src} style={{ height: 180 }} />}
         <View style={{ padding: 20, gap: 10 }}>
           <ChipEstado c={c} {...chip} />
           <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 }}>{titulo}</Text>
@@ -48,7 +50,7 @@ export function RetoCard({ c, titulo, src, hechos, total, fraccion, de, fechas, 
   }
   return (
     <Pulsable onPress={onPress} label={titulo} haptica style={{ borderRadius: 24, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, padding: 12, minHeight: 108, flexDirection: "row", gap: 14, alignItems: "center" }}>
-      <ObraMarco src={src} style={{ width: 84, height: 84, borderRadius: 16 }} />
+      {sinObra ? <PlacaMarca monograma={monogramaDe(titulo)} size={34} style={{ width: 84, height: 84, borderRadius: 16 }} /> : <ObraMarco src={src} style={{ width: 84, height: 84, borderRadius: 16 }} />}
       <View style={{ flex: 1, gap: 5 }}>
         <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{titulo}</Text>
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{fechas} · {hechos} {de} {total}</Text>
