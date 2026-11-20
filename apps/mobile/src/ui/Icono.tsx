@@ -1,10 +1,10 @@
 import Svg, { Circle, Path, Rect, Text as SvgText } from "react-native-svg";
 
 export type NombreIcono =
-  | "hoy" | "caminos" | "biblioteca" | "ajustes"
+  | "hoy" | "caminos" | "retos" | "sala" | "biblioteca" | "ajustes"
   | "play" | "pause" | "atras" | "adelante" | "chevron" | "abajo" | "cerrar" | "info"
   | "llama" | "check" | "candado" | "reloj" | "luna" | "texto" | "usuario" | "campana"
-  | "anterior" | "siguiente" | "retos" | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro";
+  | "anterior" | "siguiente" | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro";
 
 type Props = { nombre: NombreIcono; size?: number; color: string; trazo?: number; segundos?: number };
 
@@ -13,6 +13,9 @@ export function Icono({ nombre, size = 24, color, trazo = 1.8, segundos = 15 }: 
   const linea = { stroke: color, strokeWidth: trazo, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" };
   let dibujo: React.ReactNode = null;
   switch (nombre) {
+    case "sala":
+      dibujo = (<><Rect x={4} y={4.5} width={16} height={15} rx={2} {...linea} /><Rect x={7.5} y={8} width={9} height={8} rx={0.8} {...linea} /></>);
+      break;
     case "hoy":
       dibujo = (<><Circle cx={12} cy={12} r={4} {...linea} /><Path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4" {...linea} /></>);
       break;

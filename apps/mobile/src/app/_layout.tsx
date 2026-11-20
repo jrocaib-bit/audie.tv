@@ -30,6 +30,7 @@ function Shell() {
     { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
     { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
     { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
+    { href: "/sala", icono: "sala", etiqueta: t.tabSala },
   ];
 
   useEffect(() => {

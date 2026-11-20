@@ -84,6 +84,10 @@ type MobileLibrary = {
   removeEpisode: (id: string) => void;
   /** Episodio cargado en el reproductor. */
   currentEpisode: Episode | null;
+  /** Episodio cuyo audio se ha cargado en esta sesión. */
+  cargadoId: string | null;
+  /** True si hay un episodio explícitamente guardado o seleccionado por el usuario. */
+  tieneActualGuardado: boolean;
   /** Sesión de la cuenta (null si no se ha entrado). */
   sesion: Sesion | null;
   /** Episodio que se quiso escuchar sin cuenta; arranca solo al entrar. */
@@ -145,6 +149,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const [sleepUntil, setSleepUntil] = useState<number | null>(null);
   const [clock, setClock] = useState(() => Date.now());
   const [currentId, setCurrentId] = useState<string | null>(primero?.id ?? null);
+  const [tieneActualGuardado, setTieneActualGuardado] = useState(false);
   /** Episodio cuyo audio está de verdad en la lista de reproducción. */
   const [loadedId, setLoadedId] = useState<string | null>(null);
   const [estadoAudio, setEstadoAudio] = useState<"inactivo" | "cargando" | "listo" | "error">("inactivo");
@@ -352,6 +357,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       }
       currentIdRef.current = target.id;
       setCurrentId(target.id);
+      setTieneActualGuardado(true);
       void AsyncStorage.setItem(STORAGE_KEYS.current, target.id);
       // En la app escuchar pide cuenta, también lo gratis: sin sesión no se pide audio.
       if (decidirReproduccion({ id: target.id, grabado: true, haySesion: Boolean(sesionRef.current) }) === "cuenta") {
@@ -425,6 +431,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       loadedIdRef.current = id;
       setCurrentId(id);
       setLoadedId(id);
+      setTieneActualGuardado(true);
       void AsyncStorage.setItem(STORAGE_KEYS.current, id);
       playedSinceLoad.current = true;
       setErrorAudio(null);
@@ -478,7 +485,9 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       const rangos = catalog.rangos ?? [];
       const nextProgress = migrarProgreso(parseProgress(storedProgress), rangos);
       const nextPath = sanitizePath(migrarCamino(parsePath(storedPath), rangos), ids, new Date().toISOString());
-      const actualId = parseEpisodioActual(storedCurrent, ids, primero?.id ?? null);
+      const actualGuardado = parseEpisodioActual(storedCurrent, ids, null);
+      const actualId = actualGuardado ?? (primero?.id ?? null);
+      setTieneActualGuardado(Boolean(actualGuardado));
       progressRef.current = nextProgress;
       settingsRef.current = nextSettings;
       setSettings(nextSettings);
@@ -665,6 +674,8 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     pendiente,
     setPendiente,
     currentEpisode: episode,
+    cargadoId: loadedId,
+    tieneActualGuardado,
     estadoAudio,
     errorAudio,
     contexto,

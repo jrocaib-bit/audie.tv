@@ -1,6 +1,7 @@
 /** Microcopy de la app. Corto, sin explicaciones. Español primero, inglés detrás. */
 const es = {
   tabHoy: "Hoy",
+  tabSala: "La sala",
   tabCaminos: "Caminos",
   tabRetos: "Retos",
   enCurso: "En curso",
@@ -54,6 +55,8 @@ const es = {
   sinTemporizador: "Sin",
   texto: "Texto",
   creditos: "Créditos",
+  zoomObra: "Ampliar obra",
+  zoomRestablecer: "Volver a 1×",
   entrarParaEscuchar: "Entra para escuchar",
   entrar: "Entrar",
   dias: "días",
@@ -118,6 +121,7 @@ type Textos = typeof es;
 
 const en: Textos = {
   tabHoy: "Today",
+  tabSala: "The gallery",
   tabCaminos: "Paths",
   tabRetos: "Challenges",
   enCurso: "In progress",
@@ -171,6 +175,8 @@ const en: Textos = {
   sinTemporizador: "Off",
   texto: "Text",
   creditos: "Credits",
+  zoomObra: "Zoom artwork",
+  zoomRestablecer: "Reset 1×",
   entrarParaEscuchar: "Sign in to listen",
   entrar: "Sign in",
   dias: "days",

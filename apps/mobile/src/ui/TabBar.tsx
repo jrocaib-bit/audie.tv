@@ -17,7 +17,7 @@ export function TabBar({ c, pestanas, actual, onElegir }: { c: Paleta; pestanas:
         return (
           <Pulsable key={p.href} role="tab" selected={activa} label={p.etiqueta} onPress={() => onElegir(p.href)} escala={0.9} style={{ flex: 1, minHeight: 52, alignItems: "center", justifyContent: "center", gap: 3 }}>
             <Icono nombre={p.icono} size={25} color={color} trazo={activa ? 2.1 : 1.7} />
-            <Text style={{ color, fontFamily: fonts.medium, fontSize: 11, fontWeight: activa ? "600" : "400" }}>{p.etiqueta}</Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={{ color, fontFamily: fonts.medium, fontSize: 10.5, fontWeight: activa ? "600" : "400" }}>{p.etiqueta}</Text>
             <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: activa ? c.accent : "transparent" }} />
           </Pulsable>
         );
