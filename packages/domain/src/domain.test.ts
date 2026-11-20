@@ -268,6 +268,20 @@ describe("settings parsing", () => {
   });
 });
 
+describe("settings migration", () => {
+  it("rellena camino y bienvenida en ajustes antiguos", () => {
+    const antiguo = parseSettings({ version: 1, theme: "dark", rate: 1.25, uiLocale: "es" });
+    expect(antiguo.caminoActivo).toBe("biblia");
+    expect(antiguo.bienvenidaHecha).toBe(false);
+    expect(antiguo.rate).toBe(1.25);
+  });
+  it("conserva camino y bienvenida y descarta ids raros", () => {
+    expect(parseSettings({ caminoActivo: "salmos", bienvenidaHecha: true })).toMatchObject({ caminoActivo: "salmos", bienvenidaHecha: true });
+    expect(parseSettings({ caminoActivo: "../x", bienvenidaHecha: "si" })).toMatchObject({ caminoActivo: "biblia", bienvenidaHecha: false });
+    expect(parseSettings(null).caminoActivo).toBe("biblia");
+  });
+});
+
 describe("clock", () => {
   it("formats the pilot length", () => {
     expect(formatClock(498.050563)).toBe("8:18");

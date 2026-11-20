@@ -43,3 +43,79 @@ describe("Hoy y la base de contenido", () => {
     expect(familiaSerif(false, "ios")).not.toBe("Georgia");
   });
 });
+
+import indice from "../../../content/canon/catalogo-indice.json";
+import { modeloHoy, saludo, semanaDe, type CtxHoy } from "./hoy";
+import type { Rango } from "./caminos";
+
+function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
+  return {
+    lang: "es",
+    hoyIso: "2026-11-20",
+    hora: 9,
+    progress: { episodes: {}, listenedOn: [] },
+    caminoId: "biblia",
+    rangos: indice.rangos as Rango[],
+    libros: indice.books,
+    titulos: { "gn-01": { es: "En el principio", en: "In the Beginning" } },
+    duraciones: { "gn-01": 524.4 },
+    cargado: "gn-01",
+    pasosAdviento: [{ dia: 1, episodio: "is-01" }, { dia: 2, episodio: "is-02" }],
+    ...extra,
+  };
+}
+
+describe("modelo de Hoy", () => {
+  it("no pinta la misma obra dos veces, ni con hero en Génesis", () => {
+    const m = modeloHoy(ctxBase());
+    expect(m.hero?.id).toBe("gn-01");
+    const pintadas = [
+      m.hero?.src,
+      m.adviento.src,
+      ...m.explorar.libros.map((i) => i.src),
+      ...m.explorar.caminos.map((i) => i.src),
+      ...m.explorar.retos.map((i) => i.src),
+    ].filter(Boolean);
+    expect(new Set(pintadas).size).toBe(pintadas.length);
+    expect(m.obras).toHaveLength(new Set(m.obras).size);
+    // El paraíso es el hero: ya no sale en el carril de libros.
+    expect(m.explorar.libros.find((i) => i.id === "gn-01")).toBeUndefined();
+    expect(m.explorar.retos.find((i) => i.id === "adviento")).toBeUndefined();
+  });
+
+  it("avanza el hero al siguiente episodio y cuenta el camino", () => {
+    const m = modeloHoy(ctxBase({ progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true } }, listenedOn: [] } }));
+    expect(m.hero?.id).toBe("gn-02");
+    expect(m.camino).toMatchObject({ hechos: 1, total: 516 });
+    expect(m.explorar.libros.find((i) => i.id === "gn-01")).toBeDefined();
+    expect(m.hero?.reproducible).toBe(false);
+  });
+
+  it("marca retomar y fila continuar según el episodio a medias", () => {
+    const a = modeloHoy(ctxBase({ progress: { episodes: { "gn-01": { positionSeconds: 262.2, completed: false } }, listenedOn: [] } }));
+    expect(a.hero).toMatchObject({ retomar: true });
+    expect(a.hero?.fraccion).toBeCloseTo(0.5);
+    expect(a.continuar).toBeNull();
+    const b = modeloHoy(ctxBase({ caminoId: "evangelios", progress: { episodes: { "gn-01": { positionSeconds: 100, completed: false } }, listenedOn: [] } }));
+    expect(b.hero?.id).not.toBe("gn-01");
+    expect(b.continuar?.id).toBe("gn-01");
+  });
+
+  it("calcula racha y los siete días de la semana", () => {
+    const dias = ["2026-11-17", "2026-11-18", "2026-11-19", "2026-11-20"];
+    const m = modeloHoy(ctxBase({ progress: { episodes: {}, listenedOn: dias } }));
+    expect(m.racha).toBe(4);
+    expect(m.semana.map((d) => d.iso)[0]).toBe("2026-11-16");
+    expect(m.semana.map((d) => d.hecho)).toEqual([false, true, true, true, true, false, false]);
+    expect(m.semana.find((d) => d.hoy)?.iso).toBe("2026-11-20");
+    expect(m.semana.filter((d) => d.futuro)).toHaveLength(2);
+  });
+
+  it("semana en domingo y saludo por hora", () => {
+    expect(semanaDe([], "2026-11-22")[6]).toMatchObject({ iso: "2026-11-22", hoy: true, letra: "D" });
+    expect(semanaDe([], "2026-11-22")[0]?.iso).toBe("2026-11-16");
+    expect(saludo(8)).toBe("Buenos días");
+    expect(saludo(15)).toBe("Buenas tardes");
+    expect(saludo(23, "en")).toBe("Good evening");
+  });
+});

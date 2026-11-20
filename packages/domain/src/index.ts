@@ -197,8 +197,10 @@ export {
 } from "./progress";
 export { episodeDuration, rangeDiscontinuities, segmentAt, type MediaSegment, type TimeRange } from "./segments";
 export {
+  CAMINO_DEFECTO,
   STORAGE_KEYS,
   defaultSettings,
+  idCaminoValido,
   parseSettings,
   type DailyMinutes,
   type Settings,

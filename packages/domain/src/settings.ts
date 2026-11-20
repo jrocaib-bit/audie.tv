@@ -16,6 +16,10 @@ export type Settings = {
   dailyMinutes: DailyMinutes;
   uiLocale: UiLocale;
   localeElegido: boolean;
+  /** Camino activo (id corto). Los ajustes antiguos no lo traen: vale "biblia". */
+  caminoActivo: string;
+  /** La bienvenida solo se enseña la primera vez. */
+  bienvenidaHecha: boolean;
 };
 
 export const STORAGE_KEYS = {
@@ -23,6 +27,12 @@ export const STORAGE_KEYS = {
   progress: "audite.progress.v1",
   path: "audite.path.v1",
 } as const;
+
+export const CAMINO_DEFECTO = "biblia";
+
+export function idCaminoValido(value: unknown): value is string {
+  return typeof value === "string" && /^[a-z0-9-]{1,32}$/.test(value);
+}
 
 export function defaultSettings(): Settings {
   return {
@@ -35,6 +45,8 @@ export function defaultSettings(): Settings {
     dailyMinutes: 15,
     uiLocale: "es",
     localeElegido: false,
+    caminoActivo: CAMINO_DEFECTO,
+    bienvenidaHecha: false,
   };
 }
 
@@ -60,5 +72,7 @@ export function parseSettings(value: unknown): Settings {
     dailyMinutes: isDailyMinutes(record.dailyMinutes) ? record.dailyMinutes : defaults.dailyMinutes,
     uiLocale: esIdioma(typeof record.uiLocale === "string" ? record.uiLocale : null) ? record.uiLocale as Settings["uiLocale"] : defaults.uiLocale,
     localeElegido: record.localeElegido === true,
+    caminoActivo: idCaminoValido(record.caminoActivo) ? record.caminoActivo : defaults.caminoActivo,
+    bienvenidaHecha: record.bienvenidaHecha === true,
   };
 }
