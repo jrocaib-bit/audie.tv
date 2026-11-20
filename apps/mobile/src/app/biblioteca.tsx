@@ -14,6 +14,8 @@ import { Pulsable } from "../ui/Pulsable";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
 import { useContextoCatalogo } from "../ui/useHoy";
+import { useSesion } from "../ui/useSesion";
+import { bloqueadoPorSesion } from "../audio-gratis";
 
 export default function Biblioteca() {
   const { c, lang, library } = useTema();
@@ -21,6 +23,7 @@ export default function Biblioteca() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const ctx = useContextoCatalogo();
+  const sesion = useSesion();
   const libros = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
   const [abierto, setAbierto] = useState(libros.some((libro) => libro.id === "gn") ? "gn" : libros[0]?.id ?? "");
   const [remotos, setRemotos] = useState<{ libro: string; episodios: PendingEpisode[] } | null>(null);
@@ -81,7 +84,7 @@ export default function Biblioteca() {
               <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{[item.capitulos, meta].filter(Boolean).join(" · ")}</Text>
             </View>
             {grabado ? (
-              <Icono nombre={actual ? "ondas" : "play"} size={actual ? 22 : 20} color={c.accent} />
+              <Icono nombre={actual ? "ondas" : bloqueadoPorSesion(item.id, Boolean(sesion)) ? "candado" : "play"} size={actual ? 22 : 20} color={bloqueadoPorSesion(item.id, Boolean(sesion)) && !actual ? c.muted : c.accent} />
             ) : (
               <View style={{ paddingHorizontal: 10, minHeight: 26, borderRadius: 13, justifyContent: "center", borderWidth: 1, borderColor: c.line }}>
                 <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{t.proximamente}</Text>

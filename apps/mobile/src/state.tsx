@@ -38,6 +38,10 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocales } from "expo-localization";
 import { parseEpisodioActual } from "./actual";
+import { bloqueadoPorSesion } from "./audio-gratis";
+import { crearCacheAudio, resolverAudio, type ErrorAudio } from "./audio-url";
+import { tokenAcceso } from "./auth";
+import { caminoPorId, idsDeCamino, progresoCamino } from "./caminos";
 import { leerDescargas } from "./descargas";
 import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-visibles";
 import { baseDeContenido, uriDeObra } from "./entorno";
@@ -66,8 +70,13 @@ type MobileLibrary = {
   removeEpisode: (id: string) => void;
   /** Episodio cargado en el reproductor. */
   currentEpisode: Episode | null;
+  /** Estado de la carga del audio del episodio actual. */
+  estadoAudio: "inactivo" | "cargando" | "listo" | "error";
+  errorAudio: ErrorAudio | null;
   /** Carga el episodio y lo reproduce. Si ya es el actual, solo reanuda. */
   playEpisode: (id: string) => void;
+  /** Vuelve a pedir el audio del episodio actual. */
+  reintentar: () => void;
   toggle: () => void;
   seekBy: (delta: number) => void;
   restart: () => void;
@@ -96,11 +105,8 @@ async function readJson(key: string): Promise<unknown> {
 
 export function MobileProvider({ children }: { children: React.ReactNode }) {
   const primero = reproducibles[0] ?? null;
-  const sources = useMemo(
-    () => (primero ? primero.segments.map((segment) => ({ uri: `${contentBase}${segment.publicPath}` })) : []),
-    [],
-  );
-  const playlist = useAudioPlaylist({ sources, loop: "none", updateInterval: 250 });
+  // La lista empieza vacía: el audio se pide (URL firmada) solo cuando se pulsa play.
+  const playlist = useAudioPlaylist({ sources: [], loop: "none", updateInterval: 250 });
   const status = useAudioPlaylistStatus(playlist);
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [progress, setProgress] = useState<ProgressState>(emptyProgress);
@@ -111,6 +117,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const [currentId, setCurrentId] = useState<string | null>(primero?.id ?? null);
   /** Episodio cuyo audio está de verdad en la lista de reproducción. */
   const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [estadoAudio, setEstadoAudio] = useState<"inactivo" | "cargando" | "listo" | "error">("inactivo");
+  const [errorAudio, setErrorAudio] = useState<ErrorAudio | null>(null);
+  const cacheAudio = useRef(crearCacheAudio());
+  const haySesion = useRef(false);
   const ids = useMemo(() => playableIds(catalog), []);
   const episode = (currentId ? episodiosPorId.get(currentId) : null) ?? primero;
   const progressRef = useRef(progress);
@@ -118,68 +128,107 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
   const loadToken = useRef(0);
+  const ultimoTerminado = useRef<string | null>(null);
+  const currentIdRef = useRef<string | null>(null);
+  const loadedIdRef = useRef<string | null>(null);
+  currentIdRef.current = currentId;
+  loadedIdRef.current = loadedId;
   /** Hasta que no suena, la posición del reproductor puede ser la del episodio anterior. */
   const playedSinceLoad = useRef(false);
 
+  const fallar = useCallback((error: ErrorAudio) => {
+    console.warn(`[audio] ${error}`);
+    setErrorAudio(error);
+    setEstadoAudio("error");
+  }, []);
+
   const loadEpisode = useCallback(
-    async (target: Episode, play: boolean) => {
+    async (target: Episode) => {
       const token = ++loadToken.current;
       playedSinceLoad.current = false;
+      ultimoTerminado.current = null;
       setLoadedId(null);
+      setErrorAudio(null);
+      setEstadoAudio("cargando");
       try {
         playlist.pause();
       } catch {
         // Sin nada cargado todavía.
       }
+      await setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true, interruptionMode: "doNotMix" }).catch(() => undefined);
       const archivos = await leerDescargas();
       if (token !== loadToken.current) return;
-      const fuentes = urisDeReproduccion(
+      const local = urisDeReproduccion(
         target.id,
-        target.segments.map((segment) => ({
-          id: segment.id,
-          // TODO: el audio remoto vive en /api/audio/{id}. Hay que pedirlo con Authorization: Bearer <access_token> y usar la URL firmada. Mientras, no se rompe: esa ruta no se trata como archivo local.
-          remoto: segment.publicPath.startsWith("/api/audio/") ? segment.publicPath : `${contentBase}${segment.publicPath}`,
-        })),
+        target.segments.map((segment) => ({ id: segment.id, remoto: `${contentBase}${segment.publicPath}` })),
         archivos,
       );
-      const uris = fuentes.origen === "local" ? fuentes.uris : target.segments.map((segment) => `${contentBase}${segment.publicPath}`);
-      playlist.clear();
-      for (const uri of uris) playlist.add({ uri });
-      playlist.playbackRate = settingsRef.current.rate;
-      const resume = resumePosition(progressRef.current.episodes[target.id], target.durationSeconds);
-      const resolved = segmentAt(
-        target.segments.map((segment) => ({
-          id: segment.id,
-          url: segment.publicPath,
-          startSeconds: segment.startSeconds,
-          durationSeconds: segment.durationSeconds,
-        })),
-        resume,
-      );
-      if (resolved) {
-        const index = target.segments.findIndex((segment) => segment.id === resolved.segment.id);
-        if (index > 0) playlist.skipTo(index);
-        if (resolved.localSeconds > 0) void playlist.seekTo(resolved.localSeconds);
+      let uris: string[];
+      if (local.origen === "local") {
+        uris = local.uris;
+      } else {
+        const acceso = await tokenAcceso();
+        haySesion.current = Boolean(acceso);
+        const resultado = await resolverAudio(target.id, {
+          base: contentBase,
+          token: acceso,
+          fetch: (url, init) => fetch(url, init),
+          cache: cacheAudio.current,
+        });
+        if (token !== loadToken.current) return;
+        if (!resultado.ok) {
+          fallar(resultado.error);
+          return;
+        }
+        uris = [resultado.url];
       }
-      const obra = obraDeEpisodio(target.id);
-      playlist.setActiveForLockScreen(
-        true,
-        {
-          title: target.tituloCorto?.es || target.title,
-          artist: "Audite",
-          albumTitle: target.scriptureRangeLabel,
-          artworkUrl: obra ? uriDeObra(obraWebp(obra)) : undefined,
-        },
-        { showSeekBackward: true, showSeekForward: true, seekBackwardIntervalSeconds: 15, seekForwardIntervalSeconds: 15 },
-      );
-      setLoadedId(target.id);
-      if (play) {
+      try {
+        playlist.clear();
+        for (const uri of uris) playlist.add({ uri });
+        playlist.playbackRate = settingsRef.current.rate;
+        const resume = resumePosition(progressRef.current.episodes[target.id], target.durationSeconds);
+        if (resume > 0) void playlist.seekTo(resume);
+        const obra = obraDeEpisodio(target.id);
+        playlist.setActiveForLockScreen(
+          true,
+          {
+            title: target.tituloCorto?.es || target.title,
+            artist: "Audite",
+            albumTitle: target.scriptureRangeLabel,
+            artworkUrl: obra ? uriDeObra(obraWebp(obra)) : undefined,
+          },
+          { showSeekBackward: true, showSeekForward: true, seekBackwardIntervalSeconds: 15, seekForwardIntervalSeconds: 15 },
+        );
+        setLoadedId(target.id);
         playedSinceLoad.current = true;
         playlist.play();
+      } catch (error) {
+        console.warn("[audio] reproductor", error);
+        fallar("reproductor");
       }
     },
-    [playlist],
+    [fallar, playlist],
   );
+
+  const playEpisodeRef = useRef<(id: string) => void>(() => undefined);
+  const reproducirEpisodio = useCallback(
+    (id: string, forzar = false) => {
+      const target = episodiosPorId.get(id);
+      if (!target) return;
+      if (!forzar && target.id === currentIdRef.current && loadedIdRef.current === target.id) {
+        playlist.play();
+        return;
+      }
+      currentIdRef.current = target.id;
+      setCurrentId(target.id);
+      setEstadoAudio("cargando");
+      setErrorAudio(null);
+      void AsyncStorage.setItem(STORAGE_KEYS.current, target.id);
+      void loadEpisode(target);
+    },
+    [loadEpisode, playlist],
+  );
+  playEpisodeRef.current = (id) => reproducirEpisodio(id);
 
   useEffect(() => {
     void setAudioModeAsync({
@@ -217,14 +266,12 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       setProgress(nextProgress);
       setPath(nextPath);
       setCurrentId(actualId);
-      const target = actualId ? episodiosPorId.get(actualId) : null;
-      if (target) await loadEpisode(target, false);
-      if (active) setHydrated(true);
+      setHydrated(true);
     })();
     return () => {
       active = false;
     };
-  }, [ids, loadEpisode, primero]);
+  }, [ids, primero]);
 
   const cargado = Boolean(episode) && loadedId === episode?.id;
   const index = episode ? Math.min(status.currentIndex, Math.max(episode.segments.length - 1, 0)) : 0;
@@ -253,6 +300,29 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     // Persist about once a second. globalTime is read from the render that crossed that second.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated, cargado, episode?.id, index, status.didJustFinish, status.playing, wholeSecond]);
+
+  useEffect(() => {
+    if (estadoAudio !== "cargando" || loadedId !== episode?.id) return;
+    if (status.playing) setEstadoAudio("listo");
+  }, [estadoAudio, loadedId, episode?.id, status.playing]);
+
+  useEffect(() => {
+    if (estadoAudio !== "cargando") return;
+    const espera = setTimeout(() => fallar("reproductor"), 15000);
+    return () => clearTimeout(espera);
+  }, [estadoAudio, fallar, currentId]);
+
+  useEffect(() => {
+    if (!episode || !cargado || !status.didJustFinish || status.playing) return;
+    if (index !== episode.segments.length - 1 || ultimoTerminado.current === episode.id) return;
+    ultimoTerminado.current = episode.id;
+    const def = caminoPorId(settingsRef.current.caminoActivo, catalog.rangos);
+    const hechos = { ...progressRef.current.episodes, [episode.id]: { positionSeconds: episode.durationSeconds, updatedAt: "", completed: true } };
+    const siguiente = progresoCamino(idsDeCamino(def, catalog.rangos), { episodes: hechos }).siguiente;
+    if (!siguiente || siguiente === episode.id || !episodiosPorId.has(siguiente)) return;
+    if (bloqueadoPorSesion(siguiente, haySesion.current)) return;
+    playEpisodeRef.current(siguiente);
+  }, [cargado, episode, index, status.didJustFinish, status.playing]);
 
   const updateSettings = (patch: Partial<Settings>) => {
     setSettings((current) => {
@@ -330,19 +400,18 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     addEpisode: (id) => writePath(addToPath(path, id, ids, new Date().toISOString()).path),
     removeEpisode: (id) => writePath(removeFromPath(path, id, new Date().toISOString()).path),
     currentEpisode: episode,
-    playEpisode: (id) => {
-      const target = episodiosPorId.get(id);
-      if (!target) return;
-      if (target.id === episode?.id && loadedId === target.id) {
-        playlist.play();
-        return;
-      }
-      setCurrentId(target.id);
-      void AsyncStorage.setItem(STORAGE_KEYS.current, target.id);
-      void loadEpisode(target, true);
+    estadoAudio,
+    errorAudio,
+    playEpisode: (id) => reproducirEpisodio(id),
+    reintentar: () => {
+      if (episode) reproducirEpisodio(episode.id, true);
     },
     toggle: () => {
-      if (!episode || !cargado) return;
+      if (!episode) return;
+      if (!cargado) {
+        reproducirEpisodio(episode.id, true);
+        return;
+      }
       if (status.playing) playlist.pause();
       else playlist.play();
     },

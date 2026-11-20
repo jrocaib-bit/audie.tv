@@ -106,3 +106,15 @@ async function migrarApp(userId: string): Promise<void> {
   }
   await AsyncStorage.setItem(clave, "1");
 }
+
+/** Token de acceso de la sesión actual (Supabase lo renueva si hace falta), o null sin sesión. */
+export async function tokenAcceso(): Promise<string | null> {
+  const remoto = supabaseApp();
+  if (!remoto) return null;
+  try {
+    const { data } = await remoto.auth.getSession();
+    return data.session?.access_token ?? null;
+  } catch {
+    return null;
+  }
+}

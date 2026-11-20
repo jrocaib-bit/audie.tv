@@ -32,7 +32,7 @@ function Shell() {
   }, [library.hydrated, library.settings.bienvenidaHecha, path, router]);
 
   const avance = cargado ? library.progress.episodes[cargado.episodio.id] : undefined;
-  const empezado = Boolean(cargado && (library.playing || (avance && !avance.completed && avance.positionSeconds >= 1)));
+  const empezado = Boolean(cargado && (library.playing || library.estadoAudio === "cargando" || library.estadoAudio === "error" || (avance && !avance.completed && avance.positionSeconds >= 1)));
   // En Hoy, si la tarjeta principal ya es este episodio y no suena, no se repite abajo.
   const repetido = path === "/" && hoy.hero?.id === cargado?.episodio.id && !library.playing;
   const cabecera = { headerShown: true, title: "", headerBackButtonDisplayMode: "minimal" as const, headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerShadowVisible: false };
@@ -61,8 +61,10 @@ function Shell() {
           subtitulo={[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}
           fraccion={Math.min(1, library.globalTime / Math.max(1, cargado.episodio.durationSeconds))}
           jugando={library.playing}
+          cargando={library.estadoAudio === "cargando"}
+          error={library.errorAudio ? (library.errorAudio === "entrar" ? t.entrarParaEscuchar : library.errorAudio === "premium" ? t.conPremium : library.errorAudio === "proximamente" ? t.proximamente : t.noCargo) : undefined}
           etiquetaPlay={library.playing ? t.pausar : t.reproducir}
-          onToggle={library.toggle}
+          onToggle={library.errorAudio ? library.reintentar : library.toggle}
           onAbrir={() => router.push("/ahora")}
         />
       ) : null}
