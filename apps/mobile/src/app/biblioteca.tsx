@@ -1,6 +1,7 @@
 import { idiomaContenido, booksOnTheWay, creditoVisible, episodiosDeLibro, playableEpisodes, rotuloEpisodio, t, type PendingEpisode } from "@audite/domain";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, Pressable, Text, useColorScheme, View } from "react-native";
+import { baseDeContenido } from "../entorno";
 import { useMobileLibrary } from "../state";
 import { dark, fonts, light, ui } from "../theme";
 
@@ -14,7 +15,7 @@ export default function LibraryScreen() {
   const [remotos, setRemotos] = useState<{ libro: string; episodios: PendingEpisode[] } | null>(null);
   useEffect(() => {
     if (library.catalog.pendientes.some((episodio) => episodio.bookId === abierto)) return;
-    const base = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
+    const base = baseDeContenido();
     let cancelado = false;
     void fetch(`${base}/api/libro/${abierto}`)
       .then((respuesta) => (respuesta.ok ? respuesta.json() : null))

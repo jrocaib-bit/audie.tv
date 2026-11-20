@@ -82,7 +82,7 @@ Validation fails closed when a playable file is missing, a checksum or duration 
 
 ## Mobile scaffold
 
-`apps/mobile` is an Expo Router app (SDK 58) that imports `@audite/domain` and the canon catalog. Playback uses `expo-audio` and asks the web app for the master. Bundle identifiers `es.audite.pilot` are placeholders. See `docs/DEVICE_TESTING.md`. `eas.json` has development and preview profiles only; do not run `eas build` or `eas submit` from this draft.
+`apps/mobile` is an Expo Router app (SDK 58) that imports `@audite/domain` and the canon catalog. Playback uses `expo-audio` and asks the web app for the master. The bundle id is `tv.audite.app`. See `docs/DEVICE_TESTING.md`. `eas.json` includes a `production` profile for TestFlight; the App Store Connect key and `EAS_PROJECT_ID` stay outside the repo.
 
 ```bash
 cd apps/mobile

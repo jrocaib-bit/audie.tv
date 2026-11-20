@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Linking, Platform, Pressable, Text, View } from "react-native";
 import { etiquetaDeLanzamiento, eventosDePaywall, letraDeLanzamiento, pideSuscripcion } from "@audite/domain";
 import { sesionApp } from "../auth";
 import { IDS_APPLE, PURCHASES_ENABLED } from "../compras/config";
 import { comprarNativo, leerTienda, restaurarNativo } from "../compras/storekit";
-import { TIENDA_DEMO, lineasDePaywall, pedirCompra, restaurarCompras, type EntornoPrecio, type LineaPrecio } from "../compras/tienda";
+import { TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type EntornoPrecio, type LineaPrecio } from "../compras/tienda";
 import { medir } from "../medicion";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
@@ -113,6 +113,15 @@ export default function SuscripcionScreen() {
       </View>
       <Text style={{ color: muted, marginTop: 16 }}>{es ? "7 días gratis. Cancela cuando quieras." : "7 days free. Cancel anytime."}</Text>
       <Text style={{ color: muted, marginTop: 6 }}>{es ? "Adviento con Isaías: gratis con tu cuenta." : "Advent with Isaiah: free with your account."}</Text>
+      {elegida ? <Text style={{ color: muted, marginTop: 8, fontSize: 13, lineHeight: 18 }}>{textoRenovacion(es ? "es" : "en", elegida.plan, elegida.precio)}</Text> : null}
+      <View style={{ flexDirection: "row", gap: 16, marginTop: 8 }}>
+        <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(URL_CONDICIONES)} style={{ minHeight: 44, justifyContent: "center" }}>
+          <Text style={{ color: oro, fontSize: 13 }}>{es ? "Términos" : "Terms"}</Text>
+        </Pressable>
+        <Pressable accessibilityRole="link" onPress={() => void Linking.openURL(URL_PRIVACIDAD)} style={{ minHeight: 44, justifyContent: "center" }}>
+          <Text style={{ color: oro, fontSize: 13 }}>{es ? "Privacidad" : "Privacy"}</Text>
+        </Pressable>
+      </View>
       <View style={{ marginTop: "auto", gap: 12 }}>
         {aviso ? <Text style={{ color: muted, textAlign: "center" }}>{aviso}</Text> : null}
         <Pressable accessibilityRole="button" onPress={() => void comprar()} style={{ minHeight: 52, borderRadius: 999, backgroundColor: oro, alignItems: "center", justifyContent: "center" }}>

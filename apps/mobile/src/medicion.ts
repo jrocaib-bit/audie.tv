@@ -2,7 +2,7 @@ import { track, type ContextoMedicion, type Evento, type FilaEvento, type FilaRe
 import { Platform } from "react-native";
 import { supabaseApp } from "./auth";
 
-const VERSION = "0.1.0";
+const VERSION = "1.0.0";
 let sesion = "";
 
 function sesionId(): string {

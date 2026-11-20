@@ -2,6 +2,7 @@ import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, creditoVisible, formatC
 import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { bucleDe } from "../bucles";
+import { baseDeContenido } from "../entorno";
 import { BucleCuadro } from "../bucle-cuadro";
 import { useMobileLibrary } from "../state";
 
@@ -13,7 +14,7 @@ export default function NowPlaying() {
   if (!episode) return null;
   const frame = frameAt(library.catalog.cues, library.catalog.captions, library.globalTime, true);
   const artwork = library.catalog.artworks.find((item) => item.id === frame.artworkId) ?? null;
-  const base = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
+  const base = baseDeContenido();
   const image = artwork ? { uri: `${base}${artwork.publicPath}` } : null;
   const bucle = bucleDe(episode.id);
   const alt = `${artwork?.title.es ?? ""}. ${artwork?.artist.es ?? ""}`.trim();

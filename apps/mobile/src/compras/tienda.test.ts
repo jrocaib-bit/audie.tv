@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { PRODUCTOS, PURCHASES_ENABLED } from "./config";
-import { TIENDA_DEMO, derechoLocal, lineasDePaywall, pedirCompra, restaurarCompras, type Transaccion } from "./tienda";
+import { TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, derechoLocal, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type Transaccion } from "./tienda";
 
 const ahora = Date.parse("2026-11-10T12:00:00Z");
 
@@ -47,5 +47,20 @@ describe("paywall de StoreKit", () => {
     expect(derechoLocal([{ ...viva, revocada: true }], ahora, undefined, "usuario-1").activo).toBe(false);
     expect(derechoLocal([{ ...viva, cuenta: "otra" }], ahora, undefined, "usuario-1").activo).toBe(false);
     expect(derechoLocal([viva], ahora, undefined, null).activo).toBe(false);
+  });
+
+  it("dice el precio, el periodo y que se cancela en Ajustes", () => {
+    const es = textoRenovacion("es", "anual", "8,00 €");
+    expect(es).toContain("8,00 €");
+    expect(es).toContain("año");
+    expect(es).toContain("24 h");
+    expect(es).toContain("Ajustes");
+    const en = textoRenovacion("en", "mensual", "");
+    expect(en).toContain("1,99 €");
+    expect(en).toContain("month");
+    expect(en).toContain("24 hours");
+    expect(en).toContain("Settings");
+    expect(URL_CONDICIONES).toBe("https://audite.tv/es/condiciones");
+    expect(URL_PRIVACIDAD).toBe("https://audite.tv/es/privacidad");
   });
 });

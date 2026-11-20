@@ -7,6 +7,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, Pressable, Text, TextInput, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
+import { uriDeObra } from "../entorno";
+import { tarjetasHoy } from "../hoy";
 import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
@@ -15,7 +17,8 @@ import { fonts } from "../theme";
 const noche = "#100E0C";
 const crema = "#F4ECE2";
 const oro = "#C9A96E";
-const obra = `${process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123"}/obras/gn-01_o5-detalle-960.webp`;
+const paraiso = tarjetasHoy("es").libros.find((item) => item.id === "gn-01");
+const obra = paraiso ? uriDeObra(paraiso.src) : "";
 
 const boton = {
   height: 48,

@@ -64,6 +64,20 @@ export function lineasDePaywall(opciones: {
   });
 }
 
+export const URL_CONDICIONES = "https://audite.tv/es/condiciones";
+export const URL_PRIVACIDAD = "https://audite.tv/es/privacidad";
+
+/** Letra que Apple pide junto al precio: periodo, renovación y dónde se cancela. */
+export function textoRenovacion(lang: "es" | "en", plan: Plan, precio: string): string {
+  const limpio = precio.trim() || (plan === "anual" ? PRECIO.anio : PRECIO.mes);
+  if (lang === "en") {
+    const periodo = plan === "anual" ? "year" : "month";
+    return `${limpio} per ${periodo}. Renews unless you cancel at least 24 hours before the period ends. Manage in Settings.`;
+  }
+  const periodo = plan === "anual" ? "año" : "mes";
+  return `${limpio} al ${periodo}. Se renueva salvo que canceles al menos 24 h antes. Gestión en Ajustes.`;
+}
+
 export const TIENDA_DEMO: OfertaStore[] = [
   { id: PRODUCTOS.mensual.apple, displayPrice: "1,99 €", prueba: { modo: "free-trial", unidad: "week", valor: 1 } },
   { id: PRODUCTOS.anual.apple, displayPrice: "8,00 €", prueba: { modo: "free-trial", unidad: "week", valor: 1 } },

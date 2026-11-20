@@ -36,9 +36,10 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocales } from "expo-localization";
 import { leerDescargas } from "./descargas";
+import { baseDeContenido } from "./entorno";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-const contentBase = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
+const contentBase = baseDeContenido();
 
 const indice = indiceJson as AppCatalog;
 const genesis = genesisJson as { episodios: AppCatalog["pendientes"] };
