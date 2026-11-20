@@ -13,40 +13,56 @@ const CICLO = 2026;
 export type RangoEpisodio = { id: string; bookId: string; rango: string };
 export type Cita = { libro: string; capitulo: number; versiculo: number; versiculoFin: number };
 
+type ParProfecia = { profecia: string; cumplimiento: string };
+
 type DiaProfecia = {
   id: string;
   dia: number;
   fecha: string;
   titulo: { es: string; en: string };
-  profecia: string;
-  cumplimiento: string;
+  dia_liturgico?: { es: string; en: string };
+  profecias?: ParProfecia[];
+  profecia?: string;
+  cumplimiento?: string;
   nota: { es: string; en: string };
   episodios_relacionados: string[];
   duracion_estimada_s: number;
 };
 
+function paresDeDia(dia: DiaProfecia): ParProfecia[] {
+  if (dia.profecias && dia.profecias.length > 0) return dia.profecias;
+  if (dia.profecia && dia.cumplimiento) return [{ profecia: dia.profecia, cumplimiento: dia.cumplimiento }];
+  return [];
+}
+
 function retoProfecias(): RetoAnioDato {
   const archivo = profeciasJson as Omit<RetoAnioDato, "dias"> & { dias: DiaProfecia[] };
-  const dias: DiaAnio[] = archivo.dias.map((dia) => ({
-    es: dia.titulo.es,
-    en: dia.titulo.en,
-    cita: `${dia.profecia} → ${dia.cumplimiento}`,
-    profecia: dia.profecia,
-    cumplimiento: dia.cumplimiento,
-    nota: dia.nota,
-    relacionados: dia.episodios_relacionados,
-    pieza: dia.id,
-    fecha: dia.fecha,
-    duracion_s: dia.duracion_estimada_s,
-  }));
+  const dias: DiaAnio[] = archivo.dias.map((dia) => {
+    const pares = paresDeDia(dia);
+    const primero = pares[0];
+    return {
+      es: dia.titulo.es,
+      en: dia.titulo.en,
+      cita: pares.map((par) => `${par.profecia} → ${par.cumplimiento}`).join(" · "),
+      profecia: primero?.profecia,
+      cumplimiento: primero?.cumplimiento,
+      profecias: pares,
+      diaLiturgico: dia.dia_liturgico,
+      nota: dia.nota,
+      relacionados: dia.episodios_relacionados,
+      pieza: dia.id,
+      fecha: dia.fecha,
+      duracion_s: dia.duracion_estimada_s,
+    };
+  });
   return { ...archivo, dias };
 }
 
-/** Los retos del año, con Profecías entre Cuaresma y la Pasión. */
+/** Los retos del año, con Profecías dentro de Semana Santa. */
 export function retosDeTemporada(): RetoAnioDato[] {
   const lista = [...RETOS_ANIO];
   const hueco = lista.findIndex((reto) => reto.id === "semana-santa-pasion");
-  lista.splice(hueco < 0 ? lista.length : hueco, 0, retoProfecias());
+  lista.splice(hueco < 0 ? lista.length : hueco + 1, 0, retoProfecias());
   return lista;
 }
 
@@ -99,7 +115,7 @@ export function inicioDeTemporada(id: string, ciclo = CICLO): string | null {
   if (reto.id === "adviento-isaias") return adviento1(ciclo);
   if (reto.id === "navidad-infancia") return `${ciclo}-12-25`;
   if (reto.id === "cuaresma-40") return miercolesCeniza(ciclo + 1);
-  if (reto.id === "profecias-pasion") return sumarIso(pascua(ciclo + 1), -15);
+  if (reto.id === "profecias-pasion") return sumarIso(pascua(ciclo + 1), -7);
   if (reto.id === "semana-santa-pasion") return sumarIso(pascua(ciclo + 1), -7);
   if (reto.id === "pascua-hechos") return pascua(ciclo + 1);
   if (reto.id === "ordinario-evangelio") return sumarIso(bautismoDelSenor(ciclo + 1), 1);

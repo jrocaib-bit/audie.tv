@@ -62,17 +62,27 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       </ol>
       <h2 className="font-display mt-12 text-3xl">{ui === "en" ? "Through the year" : "En el año"}</h2>
       <ul className="mt-4 divide-y divide-[#2E2924] border-y border-[#2E2924]">
-        {temporada.map((reto) => {
+        {temporada.flatMap((reto, indice) => {
           const inicio = inicioDeTemporada(reto.id);
-          return (
+          const abreSemanaSanta = reto.tiempo === "semana-santa" && temporada[indice - 1]?.tiempo !== "semana-santa";
+          const filas = [];
+          if (abreSemanaSanta) {
+            filas.push(
+              <li key="tiempo-semana-santa" className="pt-5 pb-1">
+                <span className="text-sm text-[#C9A96E]">{ui === "en" ? "Holy Week" : "Semana Santa"}</span>
+              </li>,
+            );
+          }
+          filas.push(
             <li key={reto.id}>
               <Link href={`/${lang}/retos/${reto.id}`} className="block py-4">
                 <span className="font-display text-2xl">{reto.titulo[ui]}</span>
                 <span className="mt-1 block text-[#B7AB9C]">{reto.explica[ui]}</span>
                 <span className="mt-1 block text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</span>
               </Link>
-            </li>
+            </li>,
           );
+          return filas;
         })}
       </ul>
       <section className="mt-12">

@@ -13,13 +13,30 @@ function reloj(segundos: number): string {
   return `${minutos}:${String(resto).padStart(2, "0")}`;
 }
 
+function paresDeCitas(dia: DiaAnio): string[] {
+  if (dia.profecias && dia.profecias.length > 0) {
+    return dia.profecias.map((par) => `${par.profecia} → ${par.cumplimiento}`);
+  }
+  if (dia.profecia && dia.cumplimiento) return [`${dia.profecia} → ${dia.cumplimiento}`];
+  return dia.cita ? [dia.cita] : [];
+}
+
 function diaPieza(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, fecha: string | null, rangos: readonly RangoEpisodio[]) {
   const pronto = ui === "en" ? "Coming soon" : "Próximamente";
   const duracion = dia.duracion_s ? reloj(dia.duracion_s) : "";
+  const pares = paresDeCitas(dia);
+  const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.diaLiturgico?.[ui]].filter(Boolean).join(" · ");
   return (
     <>
       <span className="font-display text-xl leading-tight">{numero}. {dia[ui]}</span>
-      <span className="mt-1 block text-sm text-[#B7AB9C]">{[fecha ? fechaLegible(fecha, ui) : null, dia.profecia && dia.cumplimiento ? `${dia.profecia} → ${dia.cumplimiento}` : dia.cita].filter(Boolean).join(" · ")}</span>
+      {meta ? <span className="mt-1 block text-sm text-[#B7AB9C]">{meta}</span> : null}
+      {pares.length > 0 ? (
+        <span className="mt-1 block text-sm text-[#B7AB9C]">
+          {pares.map((par) => (
+            <span key={par} className="block">{par}</span>
+          ))}
+        </span>
+      ) : null}
       {dia.nota ? <span className="mt-1 block text-sm text-[#E7D7C3]">{dia.nota[ui]}</span> : null}
       {dia.relacionados && dia.relacionados.length > 0 ? (
         <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
