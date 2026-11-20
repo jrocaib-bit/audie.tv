@@ -10,7 +10,6 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "tv.audite.app",
-      "buildNumber": "1",
       "usesAppleSignIn": true,
       "config": {
         "usesNonExemptEncryption": false

@@ -3,17 +3,23 @@ import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 
 const require = createRequire(import.meta.url);
+const PROYECTO = "5bdd4443-d992-4072-bb67-6920b260db4e";
 const app = require("../app.json").expo as {
   version: string;
-  ios: { supportsTablet: boolean; bundleIdentifier: string; buildNumber: string; config: { usesNonExemptEncryption: boolean } };
+  ios: { supportsTablet: boolean; bundleIdentifier: string; buildNumber?: string; config: { usesNonExemptEncryption: boolean } };
   android: { package: string; versionCode: number };
   plugins: unknown[];
 };
 const eas = require("../eas.json") as {
   cli: { appVersionSource: string };
-  build: { production: { distribution: string; autoIncrement: boolean; channel: string; ios: { distribution: string }; installCommand: string } };
+  build: {
+    development: { env: { EAS_PROJECT_ID: string }; installCommand?: string; channel?: string };
+    preview: { env: { EAS_PROJECT_ID: string }; installCommand?: string; channel?: string };
+    production: { distribution: string; autoIncrement: boolean; ios: { distribution: string }; env: { EAS_PROJECT_ID: string }; channel?: string; installCommand?: string };
+  };
   submit: { production: { ios: { ascAppId: string; bundleIdentifier: string; ascApiKeyPath: string } } };
 };
+const paquete = require("../package.json") as { scripts: Record<string, string> };
 const { proyectoEas } = require("../app.config.js") as { proyectoEas: (env?: Record<string, string | undefined>) => { projectId?: string } };
 
 describe("preparación de TestFlight", () => {
@@ -21,7 +27,7 @@ describe("preparación de TestFlight", () => {
     expect(app.version).toBe("1.0.0");
     expect(app.ios.bundleIdentifier).toBe("tv.audite.app");
     expect(app.android.package).toBe("tv.audite.app");
-    expect(app.ios.buildNumber).toBe("1");
+    expect(app.ios.buildNumber).toBeUndefined();
     expect(app.android.versionCode).toBe(1);
     expect(app.ios.supportsTablet).toBe(false);
     expect(app.ios.config.usesNonExemptEncryption).toBe(false);
@@ -37,8 +43,16 @@ describe("preparación de TestFlight", () => {
     expect(eas.build.production.distribution).toBe("store");
     expect(eas.build.production.ios.distribution).toBe("store");
     expect(eas.build.production.autoIncrement).toBe(true);
-    expect(eas.build.production.channel).toBe("production");
-    expect(eas.build.production.installCommand).toContain("npm ci --prefix ../..");
+    expect(eas.build.production.channel).toBeUndefined();
+    expect(eas.build.production.installCommand).toBeUndefined();
+    expect(eas.build.development.installCommand).toBeUndefined();
+    expect(eas.build.preview.installCommand).toBeUndefined();
+    expect(eas.build.development.channel).toBeUndefined();
+    expect(eas.build.preview.channel).toBeUndefined();
+    expect(eas.build.development.env.EAS_PROJECT_ID).toBe(PROYECTO);
+    expect(eas.build.preview.env.EAS_PROJECT_ID).toBe(PROYECTO);
+    expect(eas.build.production.env.EAS_PROJECT_ID).toBe(PROYECTO);
+    expect(paquete.scripts["eas-build-pre-install"]).toBe("npm ci --prefix ../..");
     expect(eas.submit.production.ios.ascAppId).toBe("6833136641");
     expect(eas.submit.production.ios.bundleIdentifier).toBe("tv.audite.app");
     expect(eas.submit.production.ios.ascApiKeyPath).toBe("$ASC_API_KEY_PATH");

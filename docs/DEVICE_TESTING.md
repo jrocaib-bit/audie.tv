@@ -40,7 +40,7 @@ Sustituye esa IP por la de tu máquina. El modo demo (`EXPO_PUBLIC_AUDITE_DEMO=1
 
 ## Build de desarrollo
 
-`eas.json` tiene `development`, `preview` y `production`. El perfil `production` es el de TestFlight (tienda, `autoIncrement`, canal `production`). El submit de iOS apunta a la ficha `6833136641` y al bundle `tv.audite.app`. La clave de App Store Connect no va en el repo: `ASC_API_KEY_PATH`, `ASC_API_KEY_ID` y `ASC_API_KEY_ISSUER_ID` se leen al enviar. `EAS_PROJECT_ID` rellena `extra.eas.projectId` si existe. Cada build instala primero la raíz del monorepo, porque `apps/mobile` no está en los workspaces.
+`eas.json` tiene `development`, `preview` y `production`. El perfil `production` es el de TestFlight (tienda, `autoIncrement`, sin canal porque no hay `expo-updates`). El submit de iOS apunta a la ficha `6833136641` y al bundle `tv.audite.app`. La clave de App Store Connect no va en el repo: `ASC_API_KEY_PATH`, `ASC_API_KEY_ID` y `ASC_API_KEY_ISSUER_ID` se leen al enviar. `EAS_PROJECT_ID` rellena `extra.eas.projectId` si existe. Cada build instala primero la raíz del monorepo con el hook `eas-build-pre-install` (`npm ci --prefix ../..`), porque `apps/mobile` no está en los workspaces.
 
 `development` se abre con el cliente de desarrollo. `preview` es una instalación interna. `production` es el build de tienda que se envía a TestFlight.
 
