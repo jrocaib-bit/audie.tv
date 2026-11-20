@@ -33,7 +33,7 @@ export function DiaDetalle({ c, lang, datos, etiquetaDia, etiquetaProximamente, 
       {(datos.referencias?.length ?? 0) > 0 ? (
         <View style={{ gap: 6 }}>
           {(datos.referencias ?? []).map((r) => (
-            <Text key={`${r.profecia}-${r.cumplimiento}`} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 15 }}>{r.profecia} → {r.cumplimiento}</Text>
+            <Text key={`${r.profecia}-${r.cumplimiento}`} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 15 }}>{r.cumplimiento && r.cumplimiento !== "—" ? `${r.profecia} → ${r.cumplimiento}` : r.profecia}</Text>
           ))}
         </View>
       ) : null}

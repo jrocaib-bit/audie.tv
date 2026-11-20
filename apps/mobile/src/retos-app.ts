@@ -30,7 +30,7 @@ type DiaPP = {
   minutos?: number | null;
 };
 
-/** Profecías de la Pasión: solo en español, sin audio y sin pintura todavía (placa de marca). */
+/** Profecías de la Pasión: solo en español, sin audio todavía. Portada e imágenes de cada día van en el bundle. */
 export const PROFECIAS_ID = "profecias-pasion";
 const RETO_PROFECIAS: RetoJson = {
   id: PROFECIAS_ID,

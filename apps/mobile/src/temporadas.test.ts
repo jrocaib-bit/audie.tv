@@ -75,8 +75,15 @@ describe("Profecías de la Pasión", () => {
     ]);
     expect(pasos[0]).toMatchObject({ profecia: "Za 9,9–10", cumplimiento: "Mt 21,1–17", diaLiturgico: "Domingo de Ramos" });
     expect(pasos[0].referencias).toHaveLength(3);
-    for (const p of pasos) expect(p.minutos).toBeGreaterThanOrEqual(8);
-    for (const p of pasos) expect(p.minutos).toBeLessThanOrEqual(11);
+    for (const p of pasos) expect(p.minutos).toBeGreaterThanOrEqual(10);
+    for (const p of pasos) expect(p.minutos).toBeLessThanOrEqual(13);
+    expect(pasos.reduce((suma, p) => suma + (p.minutos ?? 0), 0)).toBe(93);
+    const refs = pasos.flatMap((p) => (p.referencias ?? []).map((r) => `${r.profecia} → ${r.cumplimiento}`));
+    expect(refs.some((r) => r.includes("Jr 11,18–20"))).toBe(true);
+    expect(refs.some((r) => r.includes("Am 8,9–10"))).toBe(true);
+    expect(refs.some((r) => r.includes("Dt 21,22–23"))).toBe(true);
+    expect(refs.some((r) => r.startsWith("Gn 22,1–18"))).toBe(true);
+    expect(refs.some((r) => r.includes("Jon 2,1–11") && r.includes("Mt 12,38–40"))).toBe(true);
   });
   it("los episodios relacionados existen en el canon y algunos ya tienen audio", () => {
     const relacionados = pasosDeReto(PROFECIAS_ID).flatMap((p) => p.relacionados ?? []);
