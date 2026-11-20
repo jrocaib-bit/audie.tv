@@ -8,6 +8,7 @@ import { Image, Platform, Pressable, Text, TextInput, View } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { confirmarCodigoApp, entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
 import { uriDeObra } from "../entorno";
+import { ObraMarco } from "../ui/ObraMarco";
 import { tarjetasHoy } from "../hoy";
 import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
@@ -79,7 +80,7 @@ export default function EntrarScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: noche }}>
-      <Image source={{ uri: obra }} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }} resizeMode="cover" />
+      <ObraMarco src={obra} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560, backgroundColor: noche }} />
       <LinearGradient
         colors={["rgba(16,14,12,0.15)", "rgba(16,14,12,0.35)", "rgba(16,14,12,0.72)", noche]}
         locations={[0, 0.42, 0.72, 1]}

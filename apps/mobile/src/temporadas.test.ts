@@ -139,5 +139,6 @@ describe("listado de retos: héroe, rail y cuadrícula", () => {
     expect(leer("./ui/ObraMarco.tsx")).toContain('resizeMode="contain"');
     expect(leer("./ui/RetoCard.tsx")).not.toContain('"cover"');
     expect(leer("./app/retos.tsx")).not.toContain('"cover"');
+    for (const f of ["./app/entrar.tsx", "./app/bienvenida.tsx", "./ui/HeroCard.tsx"]) expect(leer(f)).not.toContain('"cover"');
   });
 });

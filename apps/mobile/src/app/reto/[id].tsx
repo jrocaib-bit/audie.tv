@@ -104,7 +104,7 @@ export default function RetoDetalle() {
           <ChipEstado c={c} {...chipDeReto(tarjeta, lang)} />
           {cuentaAtras ? <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "700" }}>{cuentaAtras}</Text> : null}
           {datos.insignia ? (
-            <View style={{ paddingHorizontal: 10, minHeight: 28, borderRadius: 14, justifyContent: "center", borderWidth: 1, borderColor: c.accent }}>
+            <View accessible accessibilityLabel={datos.insignia[lang]} style={{ paddingHorizontal: 10, minHeight: 28, borderRadius: 14, justifyContent: "center", borderWidth: 1, borderColor: c.accent }}>
               <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{datos.insignia[lang]}</Text>
             </View>
           ) : null}

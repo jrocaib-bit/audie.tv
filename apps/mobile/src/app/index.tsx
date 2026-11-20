@@ -95,14 +95,14 @@ export default function Hoy() {
         {m.continuar ? (
           <Entrada orden={3}>
             <Pulsable onPress={() => { reproducirId(m.continuar!.id); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(244,236,226,0.1)", alignItems: "center", justifyContent: "center" }}>
-                <Icono nombre="play" size={20} color={c.ink} />
-              </View>
+              <ObraMarco src={m.continuar.src} style={{ width: 56, height: 56, borderRadius: 12 }} />
               <View style={{ flex: 1, gap: 8 }}>
                 <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{m.continuar.titulo}</Text>
                 <ProgressBar fraccion={m.continuar.fraccion} color={c.accent} pista={c.line} alto={4} />
               </View>
-              <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.continuar}</Text>
+              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+                <Icono nombre="play" size={20} color={c.accentInk} />
+              </View>
             </Pulsable>
           </Entrada>
         ) : null}

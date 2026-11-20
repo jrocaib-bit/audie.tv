@@ -52,7 +52,7 @@ export default function ACola() {
               </Pulsable>
             </View>
             <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{cola.largo}</Text>
-            <ProgressBar fraccion={cola.info.fraccion} color={c.accent} pista="rgba(244,236,226,0.16)" alto={5} />
+            <ProgressBar fraccion={cola.info.fraccion} color={c.accent} pista="#2E2924" alto={5} />
           </View>
         }
         renderItem={({ item, index }) => {
@@ -67,7 +67,7 @@ export default function ACola() {
                 disabled={!grabado}
                 label={info.titulo}
                 escala={0.985}
-                style={{ marginBottom: 8, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: actual ? "rgba(224,196,138,0.1)" : "rgba(244,236,226,0.05)", borderWidth: 1, borderColor: actual ? c.accent : "transparent", opacity: grabado ? 1 : 0.65 }}
+                style={{ marginBottom: 8, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: "#1B1815", borderWidth: 1, borderColor: actual ? "#E0C48A" : "#2E2924", opacity: grabado ? 1 : 0.65 }}
               >
                 <ObraMarco src={info.src} style={{ width: 60, height: 60, borderRadius: 12 }} desenfoque={12} />
                 <View style={{ flex: 1, gap: 2 }}>

@@ -10,7 +10,7 @@ import { MiniPlayer } from "../ui/MiniPlayer";
 import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
-import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
+import { useEpisodioCargado } from "../ui/useHoy";
 import { useCola } from "../ui/useCola";
 import { useAuthEnlace } from "../ui/useAuthEnlace";
 import { useReproducir } from "../ui/useReproducir";
@@ -21,7 +21,6 @@ function Shell() {
   const path = usePathname();
   const router = useRouter();
   const cargado = useEpisodioCargado();
-  const hoy = useModeloHoy();
   const reproducir = useReproducir();
   const cola = useCola();
   const listoPendiente = pendienteListo(library.pendiente, Boolean(library.sesion));
@@ -50,10 +49,6 @@ function Shell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listoPendiente]);
 
-  const avance = cargado ? library.progress.episodes[cargado.episodio.id] : undefined;
-  const empezado = Boolean(cargado && (library.playing || library.estadoAudio === "cargando" || library.estadoAudio === "error" || (avance && !avance.completed && avance.positionSeconds >= 1)));
-  // En Hoy, si la tarjeta principal ya es este episodio y no suena, no se repite abajo.
-  const repetido = path === "/" && hoy.hero?.id === cargado?.episodio.id && !library.playing;
   const cabecera = { headerShown: true, title: "", headerBackButtonDisplayMode: "minimal" as const, headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerShadowVisible: false };
 
   return (
@@ -75,7 +70,7 @@ function Shell() {
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
       </View>
-      {debeMostrarMini({ path, cargado: Boolean(cargado), empezado, repetido }) && cargado ? (
+      {debeMostrarMini({ path, cargado: Boolean(cargado) }) && cargado ? (
         <MiniPlayer
           c={c}
           sobrePestanas={enPestana}
