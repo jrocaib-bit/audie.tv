@@ -23,7 +23,7 @@ export default function Cuenta() {
     <ScrollView style={{ flex: 1, backgroundColor: c.gallery }} contentContainerStyle={{ padding: 20, paddingTop: 20, paddingBottom: insets.bottom + 20, gap: 20 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
       <ObraMarco src={PORTADA} style={{ height: 200, borderRadius: 24 }} />
       <View style={{ gap: 8 }}>
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34, lineHeight: 38 }}>{tituloCuenta(lang)}</Text>
+        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 36 }}>{tituloCuenta(lang)}</Text>
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16 }}>{subCuenta(lang)}</Text>
       </View>
       <CuentaForm lang={lang} ubicacion="cuenta" />

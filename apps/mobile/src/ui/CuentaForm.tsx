@@ -68,7 +68,7 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
           <Text style={{ color: "#1F1F1F", fontSize: 17, fontWeight: "500" }}>{copy.google}</Text>
         </Pressable>
       ) : null}
-      <View style={{ flexDirection: "row", gap: 8 }}>
+      <View style={{ gap: 10 }}>
         <TextInput
           value={correo}
           onChangeText={setCorreo}
@@ -77,7 +77,7 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
           accessibilityLabel={copy.correo}
           placeholder={copy.correo}
           placeholderTextColor={c.muted}
-          style={{ flex: 1, height: 52, borderRadius: 14, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: c.ink, paddingHorizontal: 16, fontFamily: fonts.sans, fontSize: 16 }}
+          style={{ height: 52, borderRadius: 14, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: c.ink, paddingHorizontal: 16, fontFamily: fonts.sans, fontSize: 16 }}
         />
         <Pressable
           accessibilityRole="button"
@@ -88,7 +88,7 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
             medir("form_submitted", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
             void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
           }}
-          style={{ height: 52, paddingHorizontal: 18, borderRadius: 14, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}
+          style={{ height: 52, borderRadius: 14, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}
         >
           <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{copy.enviar}</Text>
         </Pressable>
