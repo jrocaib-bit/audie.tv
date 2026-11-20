@@ -2,16 +2,15 @@ import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { bucleDe } from "../bucles";
 import { BucleCuadro } from "../bucle-cuadro";
-import { baseDeContenido } from "../entorno";
+import { baseDeContenido, uriDeObra } from "../entorno";
 import { dark, fonts } from "../theme";
 import { tx } from "../textos";
 import { Chip } from "../ui/Basicos";
 import { Icono } from "../ui/Icono";
-import { ObraMarco } from "../ui/ObraMarco";
 import { Pulsable } from "../ui/Pulsable";
 import { Scrubber } from "../ui/Scrubber";
 import { useTema } from "../ui/tema";
@@ -26,6 +25,7 @@ export default function NowPlaying() {
   const insets = useSafeAreaInsets();
   const cargado = useEpisodioCargado();
   const [sleepIdx, setSleepIdx] = useState(-1);
+  const [hueco, setHueco] = useState({ w: 0, h: 0 });
   const pedido = useLocalSearchParams<{ e?: string }>().e;
   useEffect(() => {
     if (pedido && pedido !== library.currentEpisode?.id && library.hydrated) library.playEpisode(pedido);
@@ -39,6 +39,9 @@ export default function NowPlaying() {
   const src = artwork ? artwork.publicPath : cargado.info.src;
   const poster = artwork ? `${baseDeContenido()}${artwork.publicPath}` : "";
   const alt = `${artwork?.title[lang] ?? ""}. ${artwork?.artist[lang] ?? ""}`.trim();
+  const ratio = cargado.info.ratio;
+  const caja = hueco.w / Math.max(hueco.h, 1) > ratio ? { w: Math.round(hueco.h * ratio), h: hueco.h } : { w: hueco.w, h: Math.round(hueco.w / ratio) };
+  const hayTexto = library.catalog.captions.length > 0;
   const cuando = library.settings.captions && frame.captionText ? frame.captionText : "";
 
   const ciclarVelocidad = () => {
@@ -54,7 +57,8 @@ export default function NowPlaying() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.gallery }}>
-      <LinearGradient colors={["#241E18", c.gallery]} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 420 }} pointerEvents="none" />
+      {src ? <Image source={{ uri: uriDeObra(src) }} blurRadius={40} resizeMode="cover" accessibilityElementsHidden style={[StyleSheet.absoluteFill, { opacity: 0.35 }]} /> : null}
+      <LinearGradient colors={["rgba(12,11,9,0.2)", "rgba(12,11,9,0.7)", c.gallery]} locations={[0, 0.55, 0.85]} style={StyleSheet.absoluteFill} pointerEvents="none" />
       <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
         <Pulsable onPress={() => router.back()} label={t.cerrar} hitSlop={8} escala={0.9} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}>
           <Icono nombre="abajo" size={30} color={c.ink} />
@@ -65,12 +69,16 @@ export default function NowPlaying() {
         </Pulsable>
       </View>
 
-      <View style={{ flex: 1, minHeight: 180, marginHorizontal: 16, marginVertical: 8, borderRadius: 24, overflow: "hidden" }}>
+      <View onLayout={(e) => setHueco({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })} style={{ flex: 1, minHeight: 180, marginHorizontal: 16, marginVertical: 8, alignItems: "center", justifyContent: "center" }}>
         {bucle && (bucle.poster || poster) ? (
-          <BucleCuadro bucle={bucle} poster={bucle.poster || poster} alt={bucle.alt || alt} />
-        ) : (
-          <ObraMarco src={src} alt={alt} style={{ flex: 1 }} />
-        )}
+          <View style={{ width: "100%", height: "100%", borderRadius: 16, overflow: "hidden" }}>
+            <BucleCuadro bucle={bucle} poster={bucle.poster || poster} alt={bucle.alt || alt} />
+          </View>
+        ) : caja.w > 0 ? (
+          <View style={{ width: caja.w, height: caja.h, borderRadius: 14, overflow: "hidden", backgroundColor: "#0C0B09", shadowColor: "#000", shadowOpacity: 0.55, shadowRadius: 24, shadowOffset: { width: 0, height: 12 }, elevation: 12 }}>
+            <Image source={{ uri: uriDeObra(src) }} resizeMode="contain" accessibilityLabel={alt || cargado.info.titulo} style={StyleSheet.absoluteFill} />
+          </View>
+        ) : null}
       </View>
 
       <View style={{ paddingHorizontal: 24, gap: 4 }}>
@@ -103,7 +111,7 @@ export default function NowPlaying() {
       <View style={{ flexDirection: "row", justifyContent: "center", gap: 10, paddingTop: 12, paddingBottom: insets.bottom + 16 }}>
         <Chip c={c} icono="velocidad" texto={`${library.settings.rate}×`} onPress={ciclarVelocidad} />
         <Chip c={c} icono="luna" texto={sueno} activo={library.sleepLabel != null} onPress={ciclarSueno} />
-        <Chip c={c} icono="texto" texto={t.texto} activo={library.settings.captions} onPress={() => library.updateSettings({ captions: !library.settings.captions })} />
+        {hayTexto ? <Chip c={c} icono="texto" texto={t.texto} activo={library.settings.captions} onPress={() => library.updateSettings({ captions: !library.settings.captions })} /> : null}
       </View>
     </View>
   );

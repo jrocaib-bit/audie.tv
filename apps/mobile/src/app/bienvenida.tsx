@@ -12,6 +12,7 @@ import { dark, fonts } from "../theme";
 import { tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
+import { Interruptor } from "../ui/Fila";
 import { Icono } from "../ui/Icono";
 import { uriDeObra } from "../entorno";
 import { Pulsable } from "../ui/Pulsable";
@@ -32,6 +33,7 @@ export default function Bienvenida() {
   const hoy = useModeloHoy();
   const [paso, setPaso] = useState(0);
   const [hora, setHora] = useState(8);
+  const [avisar, setAvisar] = useState(true);
   const caminos = caminosDisponibles(library.catalog.rangos);
 
   const terminar = (escuchar: boolean) => {
@@ -44,7 +46,7 @@ export default function Bienvenida() {
   };
   const recordar = () => {
     const texto = textoAviso(library.settings.uiLocale, hoy.hero?.libro || "Audite", 1);
-    void guardarRecordatorio(planDiario(hora, true), texto);
+    void guardarRecordatorio(planDiario(hora, avisar), texto);
     setPaso(2);
   };
 
@@ -59,7 +61,7 @@ export default function Bienvenida() {
       </View>
       <View style={{ flex: 1 }} />
       <Entrada key={paso} style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 24, gap: 20 }}>
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 46, lineHeight: 50 }}>{[t.b1, t.b2, t.b3][paso]}</Text>
+        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 46, lineHeight: 50 }}>{[t.b1, t.b2, t.todoListo][paso]}</Text>
 
         {paso === 0 ? (
           <ScrollView style={{ maxHeight: 280 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
@@ -76,23 +78,27 @@ export default function Bienvenida() {
         ) : null}
 
         {paso === 1 ? (
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-            {HORAS_RECORDATORIO.map((h) => (
-              <Chip key={h} c={c} texto={horaTexto(h)} activo={hora === h} onPress={() => setHora(h)} />
-            ))}
+          <View style={{ gap: 16 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 56, paddingHorizontal: 20, borderRadius: 20, backgroundColor: "rgba(244,236,226,0.08)" }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+                <Icono nombre="campana" size={22} color={c.accent} />
+                <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 17 }}>{t.recordarme}</Text>
+              </View>
+              <Interruptor c={c} activo={avisar} onCambiar={setAvisar} label={t.recordarme} />
+            </View>
+            {avisar ? (
+              <Entrada style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+                {HORAS_RECORDATORIO.map((h) => (
+                  <Chip key={h} c={c} texto={horaTexto(h)} activo={hora === h} onPress={() => setHora(h)} />
+                ))}
+              </Entrada>
+            ) : null}
           </View>
         ) : null}
 
         {paso === 0 ? <Boton c={c} texto={t.siguiente} onPress={() => setPaso(1)} /> : null}
-        {paso === 1 ? (
-          <View style={{ gap: 8 }}>
-            <Boton c={c} texto={t.recordarme} icono="campana" onPress={recordar} />
-            <Pulsable onPress={() => setPaso(2)} label={t.sinAviso} style={{ minHeight: 48, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 15 }}>{t.sinAviso}</Text>
-            </Pulsable>
-          </View>
-        ) : null}
-        {paso === 2 ? <Boton c={c} texto={t.escuchar} icono="play" onPress={() => terminar(true)} /> : null}
+        {paso === 1 ? <Boton c={c} texto={t.siguiente} onPress={recordar} /> : null}
+        {paso === 2 ? <Boton c={c} texto={t.empezarEscuchar} icono="play" onPress={() => terminar(true)} /> : null}
 
         <View style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}>
           {[0, 1, 2].map((i) => (
