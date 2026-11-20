@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { esPortadaProvisional, obraWebp, rotuloObra, type ObraVisible } from "@audite/content/obras";
 import { PortadaMarca } from "@/components/portada-marca";
 
@@ -28,10 +27,14 @@ export function Placa({ obra, lang }: { obra: ObraVisible; lang: string }) {
   );
 }
 
+/**
+ * Obra completa: contain sobre su propio fondo desenfocado. Nunca recorta la pintura.
+ * Se coloca de forma absoluta en el contenedor posicionado del llamador.
+ */
 export function ObraFoto({
   obra,
   priority = false,
-  className = "h-full w-full object-cover",
+  className = "h-full w-full",
   mover = false,
   lang = "es",
 }: {
@@ -42,16 +45,24 @@ export function ObraFoto({
   lang?: "es" | "en";
 }) {
   if (esPortadaProvisional(obra.episodio)) {
-    return <PortadaMarca episodioId={obra.episodio} lang={lang} className={className} />;
+    return <PortadaMarca episodioId={obra.episodio} lang={lang} className={className.replace(/\bobject-cover\b/g, "")} />;
   }
+  const src = obraWebp(obra);
+  const clase = className.replace(/\bobject-(cover|contain)\b/g, "").replace(/\b(absolute|inset-0|h-full|w-full)\b/g, "").trim();
   return (
-    <Image
-      src={obraWebp(obra)}
-      alt=""
-      fill
-      sizes="(min-width: 1024px) 40vw, 100vw"
-      priority={priority}
-      className={`object-cover ${className} ${mover ? "obra-drift" : ""}`}
-    />
+    <div data-obra={obra.id} className="sala-lienzo absolute inset-0 overflow-hidden bg-[#0C0B09]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" aria-hidden="true" loading="lazy" decoding="async" className="bucle-fondo pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 bg-[#100E0C]/45" aria-hidden="true" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        fetchPriority={priority ? "high" : "auto"}
+        loading={priority ? "eager" : "lazy"}
+        decoding={priority ? "sync" : "async"}
+        className={`sala-obra absolute inset-0 h-full w-full object-contain ${clase} ${mover ? "obra-drift" : ""}`}
+      />
+    </div>
   );
 }

@@ -11,7 +11,7 @@ import { etiquetaInicio, fechaLegible } from "@/lib/publico";
 import { estadoDeReto, hoyMadrid } from "@/lib/sala";
 import { copiaSitio } from "@/sitio/i18n";
 import { portadaDeReto } from "@audite/content/obras-creditos";
-import { episodioDeCita, fechaDeDia, inicioDeTemporada, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
+import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
 
 function reloj(segundos: number): string {
   const minutos = Math.floor(segundos / 60);
@@ -19,13 +19,26 @@ function reloj(segundos: number): string {
   return `${minutos}:${String(resto).padStart(2, "0")}`;
 }
 
+function paresDeCitas(dia: DiaAnio): string[] {
+  if (dia.profecias && dia.profecias.length > 0) return dia.profecias.map((par) => `${par.profecia} → ${par.cumplimiento}`);
+  if (dia.profecia && dia.cumplimiento) return [`${dia.profecia} → ${dia.cumplimiento}`];
+  return dia.cita ? [dia.cita] : [];
+}
+
 function diaPieza(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, fecha: string | null, rangos: readonly RangoEpisodio[]) {
   const pronto = ui === "en" ? "Coming soon" : "Próximamente";
   const duracion = dia.duracion_s ? reloj(dia.duracion_s) : "";
+  const pares = paresDeCitas(dia);
+  const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.diaLiturgico?.[ui]].filter(Boolean).join(" · ");
   return (
     <>
       <span className="font-display text-xl leading-tight">{numero}. {dia[ui]}</span>
-      <span className="mt-1 block text-sm text-[#B7AB9C]">{[fecha ? fechaLegible(fecha, ui) : null, dia.profecia && dia.cumplimiento ? `${dia.profecia} → ${dia.cumplimiento}` : dia.cita].filter(Boolean).join(" · ")}</span>
+      {meta ? <span className="t-meta mt-1 block">{meta}</span> : null}
+      {pares.length > 0 ? (
+        <span className="mt-1 block text-sm text-[#B7AB9C]">
+          {pares.map((par) => <span key={par} className="block">{par}</span>)}
+        </span>
+      ) : null}
       {dia.nota ? <span className="mt-1 block text-sm text-[#E7D7C3]">{dia.nota[ui]}</span> : null}
       {dia.relacionados && dia.relacionados.length > 0 ? (
         <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
@@ -96,7 +109,9 @@ export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang:
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#100E0C] to-transparent" />
       </div>
       <div className="mx-auto w-full max-w-4xl px-5 pb-16 md:px-8">
-        <h1 className="font-display t-display mt-6">{reto.titulo[ui]}</h1>
+        {reto.insignia ? <p className="t-rotulo mt-6 text-[#C9A96E]" data-insignia="">{reto.insignia[ui]}</p> : null}
+        {conectada ? <h1 className="sr-only">{reto.titulo[ui]}</h1> : <h1 className={`font-display t-display ${reto.insignia ? "mt-2" : "mt-6"}`}>{reto.titulo[ui]}</h1>}
+        {conectada ? <p className="t-meta mt-3" data-credito-portada="">{CREDITO_PORTADA_PROFECIAS[ui]}</p> : null}
         <p className="t-rotulo mt-3 text-[#B7AB9C]">{[`${total} ${ui === "en" ? "days" : "días"}`, inicio ? etiquetaInicio(inicio, ui) : "", fin ? (ui === "en" ? `until ${fechaLegible(fin, ui)}` : `hasta el ${fechaLegible(fin, ui)}`) : ""].filter(Boolean).join(" · ")}</p>
         <div className="mt-6" data-progreso="">
           <p className="font-display t-cifra">{hechos} <span className="text-xl text-[#B7AB9C]">{ui === "en" ? "of" : "de"} {total}</span></p>
@@ -108,40 +123,62 @@ export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang:
         <p className="mt-8 text-[#E7D7C3]">{reto.explica[ui]}</p>
         {!reto.fijo ? <p className="mt-2 text-sm text-[#B7AB9C]">{ui === "en" ? "It can be walked in any stretch of Ordinary Time." : "Se puede recorrer en cualquier tramo de Tiempo ordinario."}</p> : null}
         {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
-        <ol className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" data-calendario="">
-          {reto.dias.map((dia, indice) => {
-            const fecha = dia.fecha ?? fechaDeDia(reto.id, indice);
-            const episodio = episodios[indice] ?? null;
-            const miniatura = miniaturas[indice] ?? null;
-            const estadoDia = indice < hechos ? "hecho" : estado === "en-curso" && indice === hechos ? "hoy" : !episodio ? "pronto" : premium ? "candado" : "futuro";
-            const etiqueta = { hecho: ui === "en" ? "Done" : "Hecho", hoy: ui === "en" ? "Today" : "Hoy", pronto, candado: "Premium", futuro: "" }[estadoDia];
-            const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.cita].filter(Boolean).join(" · ");
-            const cuerpo = (
-              <>
-                {miniatura ? (
-                  <span data-obra={miniatura.obraId} className="block aspect-[4/3] bg-[#0C0B09]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={miniatura.src} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
+        {reto.dias.some((dia) => dia.pieza) ? null : (
+          <ol className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" data-calendario="">
+            {reto.dias.map((dia, indice) => {
+              const fecha = dia.fecha ?? fechaDeDia(reto.id, indice);
+              const episodio = episodios[indice] ?? null;
+              const miniatura = miniaturas[indice] ?? null;
+              const estadoDia = indice < hechos ? "hecho" : estado === "en-curso" && indice === hechos ? "hoy" : !episodio ? "pronto" : premium ? "candado" : "futuro";
+              const etiqueta = { hecho: ui === "en" ? "Done" : "Hecho", hoy: ui === "en" ? "Today" : "Hoy", pronto, candado: "Premium", futuro: "" }[estadoDia];
+              const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.cita].filter(Boolean).join(" · ");
+              const cuerpo = (
+                <>
+                  {miniatura ? (
+                    <span data-obra={miniatura.obraId} className="block aspect-[4/3] bg-[#0C0B09]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={miniatura.src} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
+                    </span>
+                  ) : null}
+                  <span className="block p-3">
+                    {etiqueta ? <span className="t-rotulo mb-1 flex items-center gap-1 text-[#B7AB9C]">{estadoDia === "candado" ? <svg viewBox="0 0 24 24" className="size-3.5" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" strokeWidth="1.75" /></svg> : null}{etiqueta}</span> : null}
+                    <span className="font-display block text-lg leading-tight">{indice + 1}. {dia[ui]}</span>
+                    <span className="t-meta mt-1 block">{meta}</span>
                   </span>
-                ) : null}
-                <span className="block p-3">
-                  {etiqueta ? <span className="t-rotulo mb-1 flex items-center gap-1 text-[#B7AB9C]">{estadoDia === "candado" ? <svg viewBox="0 0 24 24" className="size-3.5" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12v9H6z" fill="none" stroke="currentColor" strokeWidth="1.75" /></svg> : null}{etiqueta}</span> : null}
-                  <span className="font-display block text-lg leading-tight">{indice + 1}. {dia[ui]}</span>
-                  <span className="t-meta mt-1 block">{meta}</span>
-                </span>
-              </>
-            );
-            const clase = `block overflow-hidden rounded-2xl border bg-[#1B1815] ${estadoDia === "hoy" ? "border-[#E0C48A]" : "border-[#2E2924]"} ${estadoDia === "hecho" ? "opacity-70" : ""}`;
-            return (
-              <li key={`${reto.id}-${indice}`} data-dia={indice + 1} data-estado={estadoDia} className="aparecer" style={{ ["--i" as string]: indice % 12 }}>
-                {episodio ? <Link href={`/${lang}/catalogo/${episodio}`} className={clase}>{cuerpo}</Link> : <div className={clase}>{cuerpo}</div>}
-              </li>
-            );
-          })}
-        </ol>
+                </>
+              );
+              const clase = `block overflow-hidden rounded-2xl border bg-[#1B1815] ${estadoDia === "hoy" ? "border-[#E0C48A]" : "border-[#2E2924]"} ${estadoDia === "hecho" ? "opacity-70" : ""}`;
+              return (
+                <li key={`${reto.id}-${indice}`} data-dia={indice + 1} data-estado={estadoDia} className="aparecer" style={{ ["--i" as string]: indice % 12 }}>
+                  {episodio ? <Link href={`/${lang}/catalogo/${episodio}`} className={clase}>{cuerpo}</Link> : <div className={clase}>{cuerpo}</div>}
+                </li>
+              );
+            })}
+          </ol>
+        )}
         {reto.dias.some((dia) => dia.pieza) ? (
           <ol className="mt-10 divide-y divide-[#2E2924] border-y border-[#2E2924]">
-            {reto.dias.map((dia, indice) => dia.pieza ? <li key={dia.pieza} className="py-3">{diaPieza(lang, ui, dia, indice + 1, dia.fecha ?? fechaDeDia(reto.id, indice), rangos)}</li> : null)}
+            {reto.dias.map((dia, indice) => {
+              if (!dia.pieza) return null;
+              const mini = miniaturaDePieza(dia.pieza);
+              const creditoDia = mini ? CREDITOS_DIAS_PROFECIAS[dia.pieza]?.[ui] : undefined;
+              return (
+                <li key={dia.pieza} className="py-3">
+                  <div className={mini ? "flex gap-3" : undefined}>
+                    {mini ? (
+                      <span data-obra={`${dia.pieza}-miniatura`} className="block h-16 w-28 shrink-0 overflow-hidden rounded-md bg-[#0C0B09]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={mini} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
+                      </span>
+                    ) : null}
+                    <div className="min-w-0 flex-1">
+                      {diaPieza(lang, ui, dia, indice + 1, dia.fecha ?? fechaDeDia(reto.id, indice), rangos)}
+                      {creditoDia ? <span className="t-meta mt-1 block">{creditoDia}</span> : null}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         ) : null}
         {obra && !oficial ? <div className="mt-10 max-w-sm"><Placa obra={obra} lang={ui} /></div> : null}

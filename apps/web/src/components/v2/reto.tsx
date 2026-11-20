@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
@@ -69,8 +70,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
         {bucle && posterBucle ? (
           <BucleCuadro bucle={{ ...bucle, poster: posterBucle, alt: bucle.alt }} priority />
         ) : propia || obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <Lienzo src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} priority className="absolute inset-0" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
         <div className="relative z-10 flex min-h-[78svh] flex-col justify-end px-5 pb-8">
@@ -89,8 +89,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
           return (
             <Link key={item.id} href={`/reto/${item.id}`} className="w-36 shrink-0 snap-start">
               {poster ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={poster.src.cuadrado} alt="" className="aspect-square w-full object-cover" />
+                <Lienzo src={poster.src.cuadrado} className="aspect-square w-full" />
               ) : <span className="block aspect-square bg-[#1B1815]" />}
               <span className="mt-2 block font-display text-sm leading-tight">{titulo}</span>
             </Link>
@@ -126,10 +125,9 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
             const oir = ficha ? destino(`/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}`) : null;
             const cuerpo = (
               <>
-                <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
+                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
                   {mini ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(mini)} alt="" className="h-full w-full object-cover" />
+                    <Lienzo src={obraWebp(mini)} className="absolute inset-0" />
                   ) : null}
                 </span>
                 <span className="min-w-0 flex-1">

@@ -1,11 +1,17 @@
 {
   "id": "profecias-pasion",
   "tiempo": "semana-santa",
-  "slug": { "es": "profecias-pasion", "en": "passion-prophecies" },
-  "titulo": { "es": "Profecías de la Pasión", "en": "Prophecies of the Passion" },
+  "slug": {
+    "es": "profecias-pasion",
+    "en": "passion-prophecies"
+  },
+  "titulo": {
+    "es": "Profecías de la Pasión",
+    "en": "Prophecies of the Passion"
+  },
   "explica": {
-    "es": "Dieciséis días, una profecía por día: lo que anunciaron los profetas y cómo se cumplió en la Pasión de Jesús, hasta el Domingo de Pascua.",
-    "en": "Sixteen days, one prophecy a day: what the prophets announced and how it was fulfilled in the Passion of Jesus, through Easter Sunday."
+    "es": "Ocho días, del Domingo de Ramos al Domingo de Pascua: cada día hila las profecías con su contexto y su cumplimiento en la Pasión de Jesús.",
+    "en": "Eight days, from Palm Sunday to Easter Sunday: each day weaves the prophecies with their context and their fulfillment in the Passion of Jesus."
   },
   "fijo": true,
   "portada": "",
@@ -14,202 +20,298 @@
     {
       "id": "pp-01",
       "dia": 1,
-      "fecha": "2027-03-13",
-      "titulo": { "es": "¿Quién creyó?", "en": "Who has believed?" },
-      "profecia": "Is 53,1–5",
-      "cumplimiento": "Jn 12,37–41",
-      "nota": {
-        "es": "Umbral de la Pasión: al final de los signos, Juan lee la incredulidad con Isaías 53.",
-        "en": "Threshold of the Passion: at the end of the signs, John reads the unbelief with Isaiah 53."
+      "fecha": "2027-03-21",
+      "dia_liturgico": {
+        "es": "Domingo de Ramos",
+        "en": "Palm Sunday"
       },
-      "episodios_relacionados": ["is-15", "jn-07"],
-      "duracion_estimada_s": 88
+      "titulo": {
+        "es": "Viene tu rey",
+        "en": "Your king is coming"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 9,9–10",
+          "cumplimiento": "Mt 21,1–17"
+        },
+        {
+          "profecia": "Sal 118,19–29",
+          "cumplimiento": "Mt 21,33–46"
+        },
+        {
+          "profecia": "Is 53,1–3",
+          "cumplimiento": "Jn 12,37–41"
+        }
+      ],
+      "nota": {
+        "es": "Día de la entrada en Jerusalén. Se lee el relato de Mateo completo hasta la purificación del templo.",
+        "en": "The day of the entry into Jerusalem. Matthew’s account is read in full, through the cleansing of the temple."
+      },
+      "episodios_relacionados": [
+        "is-15",
+        "jn-07",
+        "mt-09",
+        "sal-020",
+        "zac-02"
+      ],
+      "duracion_estimada_s": 500
     },
     {
       "id": "pp-02",
       "dia": 2,
-      "fecha": "2027-03-14",
-      "titulo": { "es": "Viene tu rey", "en": "Your king is coming" },
-      "profecia": "Za 9,9",
-      "cumplimiento": "Mt 21,1–11",
-      "nota": { "es": "Entrada en Jerusalén.", "en": "The entry into Jerusalem." },
-      "episodios_relacionados": ["mt-09", "zac-02"],
-      "duracion_estimada_s": 102
+      "fecha": "2027-03-22",
+      "dia_liturgico": {
+        "es": "Lunes Santo",
+        "en": "Monday of Holy Week"
+      },
+      "titulo": {
+        "es": "Treinta monedas de plata",
+        "en": "Thirty pieces of silver"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 11,4–14",
+          "cumplimiento": "Mt 26,1–16"
+        },
+        {
+          "profecia": "Jr 18,1–6; 32,6–15",
+          "cumplimiento": "Mt 27,3–10"
+        }
+      ],
+      "nota": {
+        "es": "Mt 27,9 dice «Jeremías»: se lee tal cual. Las frases de enlace explican la cita combinada sin corregir el texto.",
+        "en": "Matthew 27:9 says “Jeremiah”: it is read as it stands. The linking phrases explain the combined quotation without correcting the text."
+      },
+      "episodios_relacionados": [
+        "jer-09",
+        "jer-15",
+        "mt-12",
+        "mt-13",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 527
     },
     {
       "id": "pp-03",
       "dia": 3,
-      "fecha": "2027-03-15",
-      "titulo": { "es": "La piedra desechada", "en": "The stone rejected" },
-      "profecia": "Sal 118,22–23",
-      "cumplimiento": "Mt 21,33–46",
-      "nota": {
-        "es": "Jesús se aplica el salmo ante los que lo rechazan.",
-        "en": "Jesus applies the psalm to those who reject him."
+      "fecha": "2027-03-23",
+      "dia_liturgico": {
+        "es": "Martes Santo",
+        "en": "Tuesday of Holy Week"
       },
-      "episodios_relacionados": ["mt-09", "sal-020"],
-      "duracion_estimada_s": 141
+      "titulo": {
+        "es": "El que compartía mi pan",
+        "en": "The one who shared my bread"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 41,2–14",
+          "cumplimiento": "Mt 26,17–25; Jn 13,1–30"
+        },
+        {
+          "profecia": "Is 53,12",
+          "cumplimiento": "Lc 22,35–38"
+        }
+      ],
+      "nota": {
+        "es": "La traición anunciada en la cena: Mateo y Juan. Lc 22,35–38 es la última palabra de la cena antes de Getsemaní.",
+        "en": "The betrayal announced at the supper, in Matthew and John. Luke 22:35–38 is the last word of the supper before Gethsemane."
+      },
+      "episodios_relacionados": [
+        "is-15",
+        "jn-08",
+        "lc-14",
+        "mt-12",
+        "sal-006"
+      ],
+      "duracion_estimada_s": 543
     },
     {
       "id": "pp-04",
       "dia": 4,
-      "fecha": "2027-03-16",
-      "titulo": { "es": "Treinta monedas", "en": "Thirty pieces" },
-      "profecia": "Za 11,12–13",
-      "cumplimiento": "Mt 26,14–16; 27,3–10",
-      "nota": {
-        "es": "Mateo atribuye la cita a «Jeremías»: es una cita combinada (Za 11,12–13 con ecos de Jr 18–19 y 32). Se lee tal cual; no se corrige.",
-        "en": "Matthew attributes the quotation to “Jeremiah”: it is a combined quotation (Zech 11:12–13 with echoes of Jer 18–19 and 32). It is read as it stands; it is not corrected."
+      "fecha": "2027-03-24",
+      "dia_liturgico": {
+        "es": "Miércoles Santo",
+        "en": "Wednesday of Holy Week"
       },
-      "episodios_relacionados": ["mt-12", "mt-13", "zac-03"],
-      "duracion_estimada_s": 117
+      "titulo": {
+        "es": "Hiere al pastor",
+        "en": "Strike the shepherd"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 13,7–9",
+          "cumplimiento": "Mt 26,30–56"
+        },
+        {
+          "profecia": "Is 50,4–11",
+          "cumplimiento": "Mc 14,53–65"
+        }
+      ],
+      "nota": {
+        "es": "Getsemaní, prendimiento y juicio ante el sanedrín.",
+        "en": "Gethsemane, the arrest, and the trial before the Sanhedrin."
+      },
+      "episodios_relacionados": [
+        "is-15",
+        "mc-07",
+        "mt-12",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 529
     },
     {
       "id": "pp-05",
       "dia": 5,
-      "fecha": "2027-03-17",
-      "titulo": { "es": "El que compartía mi pan", "en": "The one who shared my bread" },
-      "profecia": "Sal 41,10",
-      "cumplimiento": "Jn 13,18–30",
-      "nota": { "es": "La traición en la última cena.", "en": "The betrayal at the Last Supper." },
-      "episodios_relacionados": ["jn-08", "sal-006"],
-      "duracion_estimada_s": 126
+      "fecha": "2027-03-25",
+      "dia_liturgico": {
+        "es": "Jueves Santo",
+        "en": "Maundy Thursday"
+      },
+      "titulo": {
+        "es": "Como cordero llevado al matadero",
+        "en": "Like a lamb led to the slaughter"
+      },
+      "profecias": [
+        {
+          "profecia": "Is 52,13–15; 53,1–6",
+          "cumplimiento": "Jn 19,1–16"
+        },
+        {
+          "profecia": "Is 53,7–8",
+          "cumplimiento": "Mc 15,1–20"
+        },
+        {
+          "profecia": "Sab 2,12–20",
+          "cumplimiento": "Mt 27,15–26"
+        }
+      ],
+      "nota": {
+        "es": "El juicio ante Pilato. Sab 2,12–20 se lee desde el v. 12.",
+        "en": "The trial before Pilate. Wisdom 2:12–20 is read from verse 12."
+      },
+      "episodios_relacionados": [
+        "is-15",
+        "jn-10",
+        "mc-08",
+        "mt-13",
+        "sab-01"
+      ],
+      "duracion_estimada_s": 622
     },
     {
       "id": "pp-06",
       "dia": 6,
-      "fecha": "2027-03-18",
-      "titulo": { "es": "Hiere al pastor", "en": "Strike the shepherd" },
-      "profecia": "Za 13,7",
-      "cumplimiento": "Mt 26,31–35.47–56",
-      "nota": { "es": "Huida de los discípulos.", "en": "The flight of the disciples." },
-      "episodios_relacionados": ["mt-12", "zac-03"],
-      "duracion_estimada_s": 153
+      "fecha": "2027-03-26",
+      "dia_liturgico": {
+        "es": "Viernes Santo",
+        "en": "Good Friday"
+      },
+      "titulo": {
+        "es": "Dios mío, ¿por qué me has abandonado?",
+        "en": "My God, why have you forsaken me?"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 22,2–32",
+          "cumplimiento": "Jn 19,16–24; Mt 27,39–46"
+        },
+        {
+          "profecia": "Is 53,9–12",
+          "cumplimiento": "Lc 23,32–43"
+        },
+        {
+          "profecia": "Sal 69,20–22",
+          "cumplimiento": "Jn 19,25–30"
+        }
+      ],
+      "nota": {
+        "es": "Viernes Santo: la crucifixión. Is 53,9 se lee tal cual, sin forzar el cumplimiento literal.",
+        "en": "Good Friday: the crucifixion. Isaiah 53:9 is read as it stands, without forcing a literal fulfillment."
+      },
+      "episodios_relacionados": [
+        "is-15",
+        "jn-10",
+        "lc-15",
+        "mt-13",
+        "sal-003",
+        "sal-011"
+      ],
+      "duracion_estimada_s": 672
     },
     {
       "id": "pp-07",
       "dia": 7,
-      "fecha": "2027-03-19",
-      "titulo": { "es": "No abría la boca", "en": "He did not open his mouth" },
-      "profecia": "Is 53,7–8",
-      "cumplimiento": "Mt 26,59–63; 27,12–14",
-      "nota": {
-        "es": "El silencio de Jesús ante el sanedrín y ante Pilato.",
-        "en": "Jesus’ silence before the Sanhedrin and before Pilate."
+      "fecha": "2027-03-27",
+      "dia_liturgico": {
+        "es": "Sábado Santo",
+        "en": "Holy Saturday"
       },
-      "episodios_relacionados": ["is-15", "mt-12", "mt-13"],
-      "duracion_estimada_s": 93
+      "titulo": {
+        "es": "Mirarán al que traspasaron",
+        "en": "They will look on the one they pierced"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 31,2–6",
+          "cumplimiento": "Lc 23,44–56"
+        },
+        {
+          "profecia": "Ex 12,43–47; Sal 34,16–23; Za 12,10–14; 13,1",
+          "cumplimiento": "Jn 19,31–42"
+        }
+      ],
+      "nota": {
+        "es": "Jn 19,36 cita a la vez el cordero pascual (Ex 12,46) y el Sal 34,21; por eso se leen los dos.",
+        "en": "John 19:36 cites both the Passover lamb (Ex 12:46) and Psalm 34:21; that is why both are read."
+      },
+      "episodios_relacionados": [
+        "ex-05",
+        "jn-10",
+        "lc-15",
+        "sal-004",
+        "sal-005",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 477
     },
     {
       "id": "pp-08",
       "dia": 8,
-      "fecha": "2027-03-20",
-      "titulo": { "es": "No escondí el rostro", "en": "I did not hide my face" },
-      "profecia": "Is 50,6–7",
-      "cumplimiento": "Mc 14,65; 15,16–20",
-      "nota": {
-        "es": "Salivazos y golpes; Is 50,4–7 es la primera lectura del Domingo de Ramos.",
-        "en": "Spitting and blows; Isaiah 50:4–7 is the first reading on Palm Sunday."
-      },
-      "episodios_relacionados": ["is-15", "mc-07", "mc-08"],
-      "duracion_estimada_s": 72
-    },
-    {
-      "id": "pp-09",
-      "dia": 9,
-      "fecha": "2027-03-21",
-      "titulo": { "es": "Contado entre los pecadores", "en": "Numbered with the transgressors" },
-      "profecia": "Is 53,12",
-      "cumplimiento": "Lc 22,35–38; 23,32–34",
-      "nota": { "es": "Domingo de Ramos.", "en": "Palm Sunday." },
-      "episodios_relacionados": ["is-15", "lc-14", "lc-15"],
-      "duracion_estimada_s": 88
-    },
-    {
-      "id": "pp-10",
-      "dia": 10,
-      "fecha": "2027-03-22",
-      "titulo": { "es": "Se reparten mi ropa", "en": "They divide my garments" },
-      "profecia": "Sal 22,17–19",
-      "cumplimiento": "Jn 19,16–24",
-      "nota": { "es": "La crucifixión.", "en": "The crucifixion." },
-      "episodios_relacionados": ["jn-10", "sal-003"],
-      "duracion_estimada_s": 113
-    },
-    {
-      "id": "pp-11",
-      "dia": 11,
-      "fecha": "2027-03-23",
-      "titulo": { "es": "Que lo libre", "en": "Let him deliver him" },
-      "profecia": "Sal 22,7–9",
-      "cumplimiento": "Mt 27,39–44",
-      "nota": { "es": "Las burlas al pie de la cruz.", "en": "The mockery at the foot of the cross." },
-      "episodios_relacionados": ["mt-13", "sal-003"],
-      "duracion_estimada_s": 71
-    },
-    {
-      "id": "pp-12",
-      "dia": 12,
-      "fecha": "2027-03-24",
-      "titulo": { "es": "¿Por qué me has abandonado?", "en": "Why have you forsaken me?" },
-      "profecia": "Sal 22,2",
-      "cumplimiento": "Mt 27,45–47",
-      "nota": { "es": "El grito de la hora nona.", "en": "The cry at the ninth hour." },
-      "episodios_relacionados": ["mt-13", "sal-003"],
-      "duracion_estimada_s": 39
-    },
-    {
-      "id": "pp-13",
-      "dia": 13,
-      "fecha": "2027-03-25",
-      "titulo": { "es": "Tengo sed", "en": "I thirst" },
-      "profecia": "Sal 69,22",
-      "cumplimiento": "Jn 19,28–30",
-      "nota": { "es": "Jueves Santo.", "en": "Maundy Thursday." },
-      "episodios_relacionados": ["jn-10", "sal-011"],
-      "duracion_estimada_s": 38
-    },
-    {
-      "id": "pp-14",
-      "dia": 14,
-      "fecha": "2027-03-26",
-      "titulo": { "es": "A tus manos", "en": "Into your hands" },
-      "profecia": "Sal 31,6",
-      "cumplimiento": "Lc 23,44–49",
-      "nota": {
-        "es": "Viernes Santo: muerte de Jesús. El Sal 31 es el salmo responsorial del Viernes Santo.",
-        "en": "Good Friday: the death of Jesus. Psalm 31 is the responsorial psalm of Good Friday."
-      },
-      "episodios_relacionados": ["lc-15", "sal-004"],
-      "duracion_estimada_s": 60
-    },
-    {
-      "id": "pp-15",
-      "dia": 15,
-      "fecha": "2027-03-27",
-      "titulo": { "es": "Mirarán al que traspasaron", "en": "They will look on the one they pierced" },
-      "profecia": "Ex 12,46; Sal 34,20–21; Za 12,10",
-      "cumplimiento": "Jn 19,31–37",
-      "nota": {
-        "es": "Sábado Santo. Jn 19,36 cita a la vez el cordero pascual (Ex 12,46) y el Sal 34,21; por eso se leen los dos.",
-        "en": "Holy Saturday. John 19:36 cites both the Passover lamb (Ex 12:46) and Psalm 34:21; that is why both are read."
-      },
-      "episodios_relacionados": ["ex-05", "jn-10", "sal-005", "zac-03"],
-      "duracion_estimada_s": 110
-    },
-    {
-      "id": "pp-16",
-      "dia": 16,
       "fecha": "2027-03-28",
-      "titulo": { "es": "El sendero de la vida", "en": "The path of life" },
-      "profecia": "Sal 16,8–11",
-      "cumplimiento": "Hch 2,22–32; Lc 24,44–48",
-      "nota": {
-        "es": "Domingo de Pascua: la resurrección y «todo lo escrito en los Salmos acerca de mí».",
-        "en": "Easter Sunday: the resurrection and “everything written about me in the Psalms.”"
+      "dia_liturgico": {
+        "es": "Domingo de Pascua",
+        "en": "Easter Sunday"
       },
-      "episodios_relacionados": ["hch-01", "lc-15", "sal-002"],
-      "duracion_estimada_s": 182
+      "titulo": {
+        "es": "Al tercer día",
+        "en": "On the third day"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 16,1–11",
+          "cumplimiento": "Hch 2,22–36"
+        },
+        {
+          "profecia": "Os 6,1–3",
+          "cumplimiento": "Lc 24,13–35.44–48"
+        }
+      ],
+      "nota": {
+        "es": "Domingo de Pascua: Emaús y «lo escrito en la ley de Moisés y en los profetas y salmos».",
+        "en": "Easter Sunday: Emmaus and “everything written about me in the law of Moses, the prophets and the psalms.”"
+      },
+      "episodios_relacionados": [
+        "hch-01",
+        "lc-15",
+        "os-02",
+        "sal-002"
+      ],
+      "duracion_estimada_s": 540
     }
-  ]
+  ],
+  "insignia": {
+    "es": "Cordero",
+    "en": "Lamb"
+  }
 }

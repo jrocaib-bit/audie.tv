@@ -1,6 +1,7 @@
 "use client";
 
 import { esPortadaProvisional, obraDeEpisodio, obraWebp, obrasVisibles, type ObraVisible } from "@audite/content/obras";
+import { Lienzo } from "@/components/sala/lienzo";
 import { PortadaMarca } from "@/components/portada-marca";
 import Link from "next/link";
 
@@ -46,18 +47,12 @@ export function Arte({ episodioId, className = "" }: { episodioId: string | null
   if (!obra || esPortadaProvisional(obra.episodio)) {
     return obra ? <PortadaMarca episodioId={obra.episodio} className={className} /> : <span className={`block bg-[#1B1815] ${className}`} />;
   }
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block object-cover ${className}`} />
-  );
+  return <Lienzo src={obraWebp(obra)} obraId={obra.id} className={`block ${className}`} />;
 }
 
 function Foto({ obra, className = "" }: { obra: ObraVisible; className?: string }) {
   if (esPortadaProvisional(obra.episodio)) return <PortadaMarca episodioId={obra.episodio} className={className} />;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className={`block h-full w-full object-cover ${className}`} />
-  );
+  return <Lienzo src={obraWebp(obra)} obraId={obra.id} className={`block h-full w-full ${className}`} />;
 }
 
 export function Candado() {
@@ -91,8 +86,7 @@ export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario,
     <div className="relative mx-4 mt-5">
       <Link href={href} className={`relative block overflow-hidden rounded-2xl ${poster ? "mx-auto aspect-[9/16] w-[min(100%,calc((100dvh-16rem)*9/16))]" : "h-44"}`} style={{ background: color }}>
         {poster ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <Lienzo src={poster} className="absolute inset-0" />
         ) : obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
         <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5 shadow-[0_1px_0_rgba(16,14,12,0.35)]" style={{ background: color }} />

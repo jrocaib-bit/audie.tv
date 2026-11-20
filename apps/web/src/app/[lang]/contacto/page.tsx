@@ -10,8 +10,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   const languages = Object.fromEntries(idiomasPublicos.map((idioma) => [idioma, `/${idioma}/contacto`]));
   return {
-    title: "Contacto",
-    description: "Escribe a Audite: nombre, correo y mensaje.",
+    title: lang === "en" ? "Contact" : "Contacto",
+    description: lang === "en" ? "Write to Audite: name, email and message." : "Escribe a Audite: nombre, correo y mensaje.",
     alternates: { canonical: `/${lang}/contacto`, languages: { ...languages, "x-default": "/es/contacto" } },
   };
 }
@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const marca = await marcaFormulario();
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-xl flex-col bg-[#100E0C] px-6 py-16 text-[#F4ECE2]">
-      <h1 className="font-display text-5xl">Contacto</h1>
+      <h1 className="font-display t-h1">{lang === "en" ? "Contact" : "Contacto"}</h1>
       <p className="mt-4 text-[#B7AB9C]">{INTRO_CONTACTO}</p>
       <FormularioSoporte marca={marca} idioma={lang} ubicacion="contacto" />
       <p className="mt-8">

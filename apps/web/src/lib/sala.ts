@@ -12,6 +12,7 @@ function esPortadaDeCatalogo(episodio: string): boolean {
 
 /**
  * Una portada por reto sin repetir obra entre ellos ni con las que ya están en pantalla (`evitar`).
+ * Una portada conectada (apaisada) nunca es oficial vertical: se enmarca entera con Lienzo.
  * Portada oficial si existe; si no, la primera pintura libre del recorrido. Sin portada: null.
  */
 export function portadasSinRepetir(retos: readonly RetoAnioDato[], rangos: readonly RangoEpisodio[], evitar: Iterable<string> = []): Map<string, PortadaSala | null> {
@@ -20,7 +21,7 @@ export function portadasSinRepetir(retos: readonly RetoAnioDato[], rangos: reado
   for (const reto of retos) {
     const conectada = portadaConectada(reto);
     if (conectada) {
-      salida.set(reto.id, { src: conectada, obraId: `reto-${reto.id}`, oficial: true });
+      salida.set(reto.id, { src: conectada, obraId: `reto-${reto.id}`, oficial: false });
       continue;
     }
     if (reto.sinCuadro) {

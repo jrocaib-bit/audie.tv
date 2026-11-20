@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BucleCuadro } from "@/components/bucle-cuadro";
-import { ObraFoto } from "@/components/placa";
+import { PortadaMarca } from "@/components/portada-marca";
+import { ObraFoto, Placa } from "@/components/placa";
 import { bucleDeEpisodio, estiloDeHueco } from "@/lib/bucles";
 import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
@@ -64,35 +65,39 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const obra = obraDeEpisodio(id);
   const bucle = bucleDeEpisodio(id);
   const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
+  const portadaProvisional = esPortadaProvisional(id);
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
-      <div className={bucle && poster ? "bg-[#100E0C]" : "relative min-h-[46svh] overflow-hidden bg-[#1B1815]"} style={{ viewTransitionName: `ep-${id}` }}>
+      <div className="bg-[#0C0B09]" style={{ viewTransitionName: `ep-${id}` }}>
         {bucle && poster ? (
           <div className="relative mx-auto w-full" style={estiloDeHueco(bucle.aspect)}>
-            <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority className="ken-burns" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#100E0C] to-transparent" />
+            <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || obra?.titulo[ui] || "" }} priority />
           </div>
-        ) : obra ? <ObraFoto obra={obra} lang={ui} priority className="ken-burns absolute inset-0 h-full w-full object-cover" /> : null}
-        {bucle && poster ? null : <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/35 to-transparent" />}
-        <div className={`relative z-10 mx-auto flex w-full max-w-3xl flex-col justify-end px-5 pb-8 md:px-8 ${bucle && poster ? "-mt-16" : "min-h-[46svh]"}`}>
-          <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`}>{libro?.name[ui] || libro?.name.es}</Link></p>
-          <h1 className="font-display mt-2 max-w-3xl text-4xl leading-tight md:text-6xl">{titulo}</h1>
-          <p className="mt-2 text-[#E7D7C3]">{referencia}</p>
-        </div>
+        ) : obra && !portadaProvisional ? (
+          <div className="relative mx-auto aspect-[4/3] max-h-[64svh] w-full md:aspect-[16/9]">
+            <ObraFoto obra={obra} lang={ui} priority />
+          </div>
+        ) : (
+          <div className="relative mx-auto aspect-[16/9] max-h-[46svh] w-full">
+            <PortadaMarca episodioId={id} titulo={titulo} lang={ui} className="absolute inset-0" />
+          </div>
+        )}
       </div>
       <div className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
-        <p className="max-w-xl text-lg">{resumen.texto}</p>
+        <nav aria-label={ui === "en" ? "Breadcrumb" : "Migas"} className="t-rotulo text-[#C9A96E]"><Link href={`/${lang}/libro/${episodio.bookId}`} className="inline-flex min-h-11 items-center">{libro?.name[ui] || libro?.name.es}</Link></nav>
+        <h1 className="font-display t-display mt-1">{titulo}</h1>
+        {referencia ? <p className="t-meta mt-3">{referencia}</p> : null}
+        <p className="mt-6 max-w-xl text-lg text-[#E7D7C3]">{resumen.texto}</p>
         {listo ? (
           <div className="mt-6"><BotonEscucha href={`/escuchar?e=${id}`} id={id} titulo={titulo} etiqueta={ui === "en" ? "Listen" : "Escuchar"} /></div>
         ) : (
-          <p className="mt-6 text-sm text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
+          <p className="t-rotulo mt-6 text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
         )}
-        {obra && !esPortadaProvisional(id) ? (
-          <p className="mt-8 text-sm text-[#B7AB9C]">
-            {obra.titulo[ui]} · {obra.autor[ui]}
-            {" · "}
-            <Link href={`/${lang}/creditos`} className="underline">{ui === "en" ? "About the artwork" : "Sobre la obra"}</Link>
-          </p>
+        {obra && !portadaProvisional ? (
+          <div className="mt-8">
+            <Placa obra={obra} lang={ui} />
+            <Link href={`/${lang}/creditos`} className="mt-3 inline-flex min-h-11 items-center text-sm text-[#B7AB9C] underline">{ui === "en" ? "About the artwork" : "Sobre la obra"}</Link>
+          </div>
         ) : null}
       </div>
     </main>

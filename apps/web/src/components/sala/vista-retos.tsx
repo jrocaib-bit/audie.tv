@@ -50,6 +50,7 @@ export function VistaRetos({ lang, hoy = hoyMadrid() }: { lang: string; hoy?: st
       <RetoCartel
         href={`/${lang}/retos/${reto.id}`}
         titulo={reto.titulo[ui]}
+        insignia={reto.insignia?.[ui]}
         chip={chipDeReto(reto, hoy, ui)}
         meta={`${reto.dias.length} ${dias}`}
         src={portada?.src ?? null}

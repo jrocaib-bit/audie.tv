@@ -88,16 +88,16 @@ export function BucleCuadro({ bucle, className = "", priority = false }: { bucle
   return (
     <div ref={caja} className={cajaClase} style={{ backgroundColor: "#100E0C" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={poster} alt="" aria-hidden="true" className="bucle-fondo pointer-events-none absolute inset-0 scale-110 object-cover opacity-60 blur-3xl" />
+      <img src={poster} alt="" aria-hidden="true" className="bucle-fondo pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-3xl" />
       <div className="pointer-events-none absolute inset-0 bg-[#100E0C]/55" aria-hidden="true" />
       <picture className="absolute inset-0 block">
         {bucle.posterMovil ? <source media="(max-width: 1280px)" srcSet={bucle.posterMovil} /> : null}
-        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster absolute inset-0 object-contain" />
+        <img src={poster} alt={bucle.alt} fetchPriority={priority ? "high" : "auto"} decoding={priority ? "sync" : "async"} className="bucle-poster absolute inset-0 h-full w-full object-contain" />
       </picture>
       {montar && fuentes.length > 0 ? (
         <video
           ref={video}
-          className={`bucle-video absolute inset-0 object-contain transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
+          className={`bucle-video absolute inset-0 h-full w-full object-contain transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
           muted
           autoPlay
           loop

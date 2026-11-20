@@ -106,7 +106,7 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
         </div>
         <div className="grid content-start gap-1">
           <p className={titulo}>{ui === "en" ? "Help" : "Ayuda"}</p>
-          <Link href="/ayuda" className={enlace}>{ui === "en" ? "Help" : "Ayuda"}</Link>
+          <Link href={`/${lang}/ayuda`} className={enlace}>{ui === "en" ? "Help" : "Ayuda"}</Link>
           <Link href={`/${lang}/contacto`} className={enlace}>{ui === "en" ? "Contact" : "Contacto"}</Link>
           <Link href={`/${lang}/creditos`} className={enlace}>{ui === "en" ? "Credits" : "Créditos"}</Link>
           <EnlaceSoporte idioma={lang} className={enlace}>soporte@audite.tv</EnlaceSoporte>
@@ -116,11 +116,11 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
           <p className={titulo}>Legal</p>
           <Link href={`/${lang}/condiciones`} className={enlace}>{legal.condiciones}</Link>
           <Link href={`/${lang}/privacidad`} className={enlace}>{legal.privacidad}</Link>
-          <Link href="/aviso-legal" className={enlace}>Aviso legal</Link>
+          <Link href={`/${lang}/aviso-legal`} className={enlace}>{ui === "en" ? "Legal notice" : "Aviso legal"}</Link>
         </div>
       </div>
       <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
-        <p className="t-meta">La voz y la música están generadas con IA.</p>
+        <p className="t-meta">{ui === "en" ? "The voice and the music are AI-generated." : "La voz y la música están generadas con IA."}</p>
       </div>
       <div className="mx-auto w-full max-w-[520px] px-5">
         {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
@@ -362,9 +362,9 @@ export function SitioCatalogo({ lang }: { lang: string }) {
             <li key={libro.id} className="aparecer h-full" data-libro="" data-nombre={nombre} data-testamento={testamento} style={{ ["--i" as string]: indice }}>
               <Link href={`/${lang}/libro/${libro.id}`} className="tarjeta-libro flex h-full flex-col overflow-hidden rounded-2xl bg-[#1B1815]" style={{ viewTransitionName: `libro-${libro.id}` }}>
                 <span className="marco-obra relative block w-full shrink-0 overflow-hidden bg-[#1B1815]" style={{ aspectRatio: "4 / 5" }}>
-                  {obra ? <ObraFoto obra={obra} className="absolute inset-0 h-full w-full object-cover" /> : (
-                    <span className="absolute inset-0 flex items-center justify-center bg-[#241F1A]">
-                      <span className="font-display text-4xl text-[#C9A96E]" aria-hidden="true">{nombre.replace(/^\d+\s*/, "").slice(0, 1)}</span>
+                  {obra && !esPortadaProvisional(obra.episodio) ? <ObraFoto obra={obra} /> : (
+                    <span className="absolute inset-0 flex items-center justify-center bg-[#1B1815]" data-monograma="">
+                      <span className="font-display text-5xl text-[#C9A96E]" aria-hidden="true">{nombre.replace(/^\d+\s*/, "").slice(0, 1)}</span>
                     </span>
                   )}
                 </span>

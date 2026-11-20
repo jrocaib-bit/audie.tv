@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Lienzo } from "@/components/sala/lienzo";
 import { COLOR_HEX, referenciaPaso, type TiempoId } from "@audite/domain";
 import { obraDeEpisodio, obraWebp, obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
@@ -56,8 +57,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <main className="min-h-full bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative h-72 overflow-hidden" style={{ background: color }}>
         {obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="ken-burns h-full w-full object-cover" />
+          <Lienzo src={obraWebp(obra)} className="absolute inset-0" imgClassName="ken-burns" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/25 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: color }} />

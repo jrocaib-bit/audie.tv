@@ -16,7 +16,7 @@ describe("catálogo público", () => {
     const grupos = agruparLibros(catalogo.books);
     expect(grupos.at.length + grupos.nt.length).toBe(73);
     const exodo = renderToStaticMarkup(await Libro({ params: Promise.resolve({ lang: "es", id: "ex" }) }));
-    expect(exodo.match(/href="\/es\/catalogo\/ex-/g)).toHaveLength(18);
+    expect(exodo.match(/href="\/es\/catalogo\/ex-/g)).toHaveLength(19); // 18 episodios + el botón «Empezar»
     expect(exodo).toContain("18 episodios · 17 disponibles");
     const inicio = exodo.indexOf('href="/es/catalogo/ex-13"');
     const bloqueado = exodo.slice(inicio, exodo.indexOf("</li>", inicio));

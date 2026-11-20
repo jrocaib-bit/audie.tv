@@ -59,14 +59,14 @@ export function FiltroCatalogo({ etiqueta, todos, antiguo, nuevo, buscar, childr
   return (
     <div ref={ref}>
       <div className="mt-8 flex flex-wrap items-end gap-6">
-        <div className="relative flex gap-4" role="tablist" aria-label={etiqueta} onKeyDown={(evento) => {
+        <div className="relative flex flex-wrap gap-2" role="tablist" aria-label={etiqueta} onKeyDown={(evento) => {
           const orden = ["todos", "at", "nt"] as const;
           const actual = orden.indexOf(tab);
           if (evento.key === "ArrowRight") elegir(orden[(actual + 1) % orden.length] ?? "todos");
           if (evento.key === "ArrowLeft") elegir(orden[(actual + 2) % orden.length] ?? "todos");
         }}>
           {([["todos", todos], ["at", antiguo], ["nt", nuevo]] as const).map(([id, rotulo]) => (
-            <button key={id} id={`${base}-${id}`} type="button" role="tab" aria-selected={tab === id} aria-controls={`${base}-panel`} className={`boton min-h-11 border-b px-1 text-sm text-[#F4ECE2] ${tab === id ? "border-[#C9A96E]" : "border-transparent"}`} onClick={() => elegir(id)}>
+            <button key={id} id={`${base}-${id}`} type="button" role="tab" aria-selected={tab === id} aria-controls={`${base}-panel`} className={`boton min-h-11 rounded-full border px-4 text-sm ${tab === id ? "border-[#E0C48A] bg-[#E0C48A] text-[#100E0C]" : "border-[#2E2924] bg-[#1B1815] text-[#F4ECE2] hover:bg-[#2E2924]/60"}`} onClick={() => elegir(id)}>
               {rotulo}
             </button>
           ))}
@@ -74,7 +74,7 @@ export function FiltroCatalogo({ etiqueta, todos, antiguo, nuevo, buscar, childr
         </div>
         <label className="text-sm text-[#B7AB9C]">
           {buscar}
-          <input value={texto} onChange={(evento) => setTexto(evento.target.value)} className="mt-1 block min-h-11 rounded-full border border-[#2E2924] bg-transparent px-4 text-[#F4ECE2]" />
+          <input value={texto} onChange={(evento) => setTexto(evento.target.value)} className="mt-1 block min-h-11 rounded-full border border-[#2E2924] bg-[#1B1815] px-4 text-[#F4ECE2] focus:border-[#E0C48A] focus:outline-none" />
         </label>
       </div>
       <div id={`${base}-panel`} role="tabpanel">{children}</div>

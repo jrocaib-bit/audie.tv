@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { Lienzo } from "@/components/sala/lienzo";
 
 export type FichaPrueba = { id: string; titulo: string };
 
@@ -123,14 +124,12 @@ export function Telefono({ saludo, dia, racha, caminos, obra }: { saludo: string
           <div className="capa-pantalla" style={{ opacity: indice === 0 ? 1 : 0 }} aria-hidden={indice !== 0}>
             <p className="px-4 pt-10 font-display text-2xl">{saludo}</p>
             <div className="mx-3 mt-4 overflow-hidden rounded-2xl bg-[#1B1815]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={obra} alt="" loading="lazy" decoding="async" className="h-28 w-full object-cover" />
+              <Lienzo src={obra} className="h-28 w-full" />
               <p className="px-3 py-3 text-sm">{dia}</p>
             </div>
           </div>
           <div className="capa-pantalla flex flex-col items-center px-4 pt-12" style={{ opacity: indice === 1 ? 1 : 0 }} aria-hidden={indice !== 1}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={obra} alt="" loading="lazy" decoding="async" className="size-28 rounded-2xl object-cover" />
+            <Lienzo src={obra} className="size-28 rounded-2xl" />
             <p className="mt-4 text-center font-display text-xl">{dia}</p>
             <span className="pista mt-6 block h-1 w-4/5 overflow-hidden rounded-full bg-[#2E2924]"><span className="progreso" style={{ width: "42%" }} /></span>
             <span className="mt-5 inline-flex size-12 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]"><Play /></span>

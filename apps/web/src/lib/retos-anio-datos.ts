@@ -4,6 +4,8 @@ export type DiaAnio = {
   cita: string;
   profecia?: string;
   cumplimiento?: string;
+  profecias?: { profecia: string; cumplimiento: string }[];
+  diaLiturgico?: { es: string; en: string };
   nota?: { es: string; en: string };
   relacionados?: string[];
   pieza?: string;
@@ -15,6 +17,7 @@ export type RetoAnioDato = {
   tiempo: string;
   slug: { es: string; en: string };
   titulo: { es: string; en: string };
+  insignia?: { es: string; en: string };
   explica: { es: string; en: string };
   fijo: boolean;
   dias: DiaAnio[];

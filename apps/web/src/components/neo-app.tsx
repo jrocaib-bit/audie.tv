@@ -158,7 +158,7 @@ export function NeoToday() {
       </div>
       <article className="neo-card relative mt-3 overflow-hidden text-[#F4ECE2]">
         <div className="absolute inset-0 bg-[#0C0B09]">
-          {bucle && poster ? <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || (obra ? rotuloObra(obra, locale) : "") }} priority /> : obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+          {bucle && poster ? <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt || (obra ? rotuloObra(obra, locale) : "") }} priority /> : obra ? <ObraFoto obra={obra} priority className="h-full w-full" /> : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C]/95 via-[#100E0C]/25 to-[#100E0C]/10" />
         </div>
         <div className="relative flex flex-col justify-end px-4 pt-3 pb-3">
@@ -447,7 +447,7 @@ export function NeoMembership() {
     <main id="contenido" className="app-clear mx-auto w-full max-w-lg px-4 pt-4">
       <Cabecera locale={locale} titulo={t(locale, "navMembership")} />
       <article className="neo-card relative mt-4 overflow-hidden text-[#F4ECE2]">
-        <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full object-cover opacity-70" /> : null}</div>
+        <div className="absolute inset-0 bg-[#100E0C]">{obra ? <ObraFoto obra={obra} className="h-full w-full opacity-70" /> : null}</div>
         <div className="relative bg-gradient-to-t from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/20 p-5">
           <p className="kicker text-[#C9A96E]">Audite Premium</p>
           <h2 className="font-display mt-2 text-3xl leading-tight">{tx(locale, "1,99 €/mes · 8,00 €/año", "€1.99/mo · €8.00/yr")}</h2>

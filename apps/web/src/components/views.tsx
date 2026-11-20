@@ -70,7 +70,7 @@ export function TodayScreen() {
       <section className="relative min-h-[calc(100svh-7.5rem)] bg-[#0C0B09] text-[#F4ECE2]">
         {obra ? (
           <div className="absolute inset-0 overflow-hidden">
-            <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full object-cover" />
+            <ObraFoto obra={obra} priority mover={!library.reduceMotion} className="h-full w-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/72 to-transparent" />
           </div>
         ) : null}
@@ -198,8 +198,8 @@ export function PathScreen() {
         {obrasVisibles().map((obra) => (
           <li key={obra.id} className="w-36 shrink-0">
             <Link href={`/${locale}/catalogo/${obra.episodio}`} className="block min-h-11">
-              <span className="block aspect-[3/4] overflow-hidden bg-[#0C0B09]">
-                <ObraFoto obra={obra} className="h-full w-full object-cover" />
+              <span className="relative block aspect-[3/4] overflow-hidden bg-[#0C0B09]">
+                <ObraFoto obra={obra} className="h-full w-full" />
               </span>
               <span className="mt-2 block text-[11px] tracking-[0.14em] text-brand uppercase">{obra.numero}</span>
             </Link>

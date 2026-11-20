@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, COLOR_HEX, diaLiturgico, textoDiaLiturgico, tramosDelAnio, type TiempoId, type TramoLiturgico } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -111,8 +112,7 @@ function TarjetaTiempo({ tramo, hoy, locale, obra }: { tramo: TramoLiturgico; ho
       <Link href={reto ? `/reto/${reto.id}?cuando=${hoy}` : "/calendario"} className="flex overflow-hidden rounded-2xl bg-card">
         <span className="relative w-24 shrink-0 self-stretch bg-[#1B1815]">
           {portada ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(portada)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <Lienzo src={obraWebp(portada)} className="absolute inset-0" />
           ) : null}
           <span className="absolute inset-y-0 left-0 w-1.5" style={{ background: COLOR_HEX[tramo.color] }} />
         </span>

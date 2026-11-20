@@ -4,7 +4,7 @@ import { BloqueTitular } from "@/components/titular";
 export function Privacidad({ inicio = "/es" }: { inicio?: string }) {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-2xl bg-[#100E0C] px-6 py-16 text-[#F4ECE2]">
-      <h1 className="font-display text-5xl leading-none">Privacidad</h1>
+      <h1 className="font-display t-h1">Privacidad</h1>
       <p className="mt-4 text-[#B7AB9C]">Última actualización: 11 de noviembre de 2026.</p>
       <BloqueTitular />
 

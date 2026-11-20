@@ -8,11 +8,12 @@ import { esIdiomaPublico } from "@/sitio/i18n";
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const base = origenSitio();
+  const en = lang === "en";
   return {
-    title: "La app de Audite",
-    description: "Avísame cuando la app esté disponible. Mientras, escucha en la web.",
+    title: en ? "The Audite app" : "La app de Audite",
+    description: en ? "Tell me when the app is available. Meanwhile, listen on the web." : "Avísame cuando la app esté disponible. Mientras, escucha en la web.",
     alternates: { canonical: canonicalPropio(`/${lang}/app`, lang) },
-    openGraph: { title: "La app de Audite", description: "Avísame cuando la app esté disponible.", url: `${base}/${lang}/app`, images: [`${base}/obras/reto-adviento_o2-16x9.webp`] },
+    openGraph: { title: en ? "The Audite app" : "La app de Audite", description: en ? "Tell me when the app is available." : "Avísame cuando la app esté disponible.", url: `${base}/${lang}/app`, images: [`${base}/obras/reto-adviento_o2-16x9.webp`] },
   };
 }
 

@@ -23,6 +23,7 @@ export function PuntosDia({ total, hechos = 0, className }: { total: number; hec
 export function RetoCartel({
   href,
   titulo,
+  insignia,
   chip,
   meta,
   src,
@@ -37,6 +38,7 @@ export function RetoCartel({
 }: {
   href: string;
   titulo: string;
+  insignia?: string;
   chip: string;
   meta?: string;
   src: string | null;
@@ -70,6 +72,7 @@ export function RetoCartel({
           <span className="t-rotulo absolute top-3 left-3 rounded-full bg-[#100E0C]/85 px-3 py-2 text-[#F4ECE2]">{chip}</span>
         </div>
         <div className="px-5 pt-4 pb-5">
+          {insignia ? <p className="t-rotulo mb-1 text-[#C9A96E]" data-insignia="">{insignia}</p> : null}
           <h3 className={cn("font-display leading-tight", heroe ? "t-h1" : "t-h3 text-2xl")}>{titulo}</h3>
           {meta ? <p className="t-meta mt-1 tabular-nums">{meta}</p> : null}
           <PuntosDia total={dias} hechos={hechos} className="mt-3" />

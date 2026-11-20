@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, versiculoEnTiempo, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { Heart, ListMusic, Moon, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
@@ -140,8 +141,8 @@ export function ReproductorV2() {
   }
 
   return (
-    <main className="relative min-h-full bg-black text-[#F4ECE2]">
-      <div className="pointer-events-none fixed inset-0" style={{ background: `linear-gradient(180deg, ${fondo} 0%, #100E0C 52%, #000000 100%)` }} />
+    <main className="relative min-h-full bg-[#0C0B09] text-[#F4ECE2]">
+      <div className="pointer-events-none fixed inset-0" style={{ background: `linear-gradient(180deg, ${fondo} 0%, #100E0C 52%, #0C0B09 100%)` }} />
       <div className="relative flex min-h-dvh flex-col">
       <header className="flex items-center justify-between px-4 py-3">
         <span className="flex items-center gap-1">
@@ -162,8 +163,7 @@ export function ReproductorV2() {
               <BucleCuadro bucle={{ ...bucle, poster: bucle.poster || obraWebp(obra), alt: bucle.alt }} priority />
             </div>
           ) : obra ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obra)} alt="" className={`audite-portada audite-portada-entra aspect-square w-full object-cover transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`} />
+            <Lienzo src={obraWebp(obra)} obraId={obra.id} priority className={`audite-portada audite-portada-entra aspect-square w-full transition-opacity duration-500 ${fundido ? "opacity-40" : "opacity-100"}`} />
           ) : <div className="aspect-square bg-[#0C0B09]" />}
         </div>
       </div>
@@ -173,7 +173,7 @@ export function ReproductorV2() {
         {marca ? <p className="font-display mt-4 text-6xl leading-none">{marca.capitulo},{marca.versiculo}</p> : null}
         <label className="relative mt-4 block h-11">
           <span className="sr-only">{es ? "Posición" : "Position"}</span>
-          <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/25">
+          <span className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-[#2E2924]">
             <span className="block h-full bg-[#C9A96E]" style={{ width: `${fraccion * 100}%` }} />
             {episode?.segments.map((segmento) => (
               <span key={segmento.id} className="absolute top-1/2 h-2 w-px -translate-y-1/2 bg-[#F4ECE2]/80" style={{ left: `${duracion ? (segmento.startSeconds / duracion) * 100 : 0}%` }} />
@@ -198,8 +198,8 @@ export function ReproductorV2() {
           <button type="button" aria-label={es ? "Cola" : "Queue"} className="audite-pulso inline-flex size-11 items-center justify-center" onClick={() => setHoja("cola")}><ListMusic strokeWidth={1.5} /></button>
         </div>
         <div className="mt-1 flex items-center justify-center gap-2">
-          <button type="button" className="audite-pulso inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-3 text-sm" onClick={() => setHoja("sueno")}><Moon strokeWidth={1.5} className="size-5" />{sueno === "fin" ? (es ? "Fin" : "End") : sueno ? `${sueno} min` : (es ? "Sueño" : "Sleep")}</button>
-          <button type="button" className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-3 text-sm tabular-nums" onClick={() => setHoja("velocidad")}>{formatoNumero(locale, library.settings.rate)}×</button>
+          <button type="button" className="audite-pulso inline-flex min-h-11 items-center gap-2 rounded-full border border-[#2E2924] bg-[#1B1815] px-3 text-sm" onClick={() => setHoja("sueno")}><Moon strokeWidth={1.5} className="size-5" />{sueno === "fin" ? (es ? "Fin" : "End") : sueno ? `${sueno} min` : (es ? "Sueño" : "Sleep")}</button>
+          <button type="button" className="inline-flex min-h-11 items-center rounded-full border border-[#2E2924] bg-[#1B1815] px-3 text-sm tabular-nums" onClick={() => setHoja("velocidad")}>{formatoNumero(locale, library.settings.rate)}×</button>
         </div>
       </div>
       </div>
@@ -231,7 +231,7 @@ export function ReproductorV2() {
               const dentro = Boolean(episode && referencia.hacia.libroId === episode.bookId && segundoDeCita(episode.scriptureRangeLabel, citaDestino, duracion) != null);
               return (
                 <li key={`${referencia.orden}-${citaDestino}`}>
-                  <button type="button" className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl bg-white/10 px-3 text-left" onClick={() => {
+                  <button type="button" className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl bg-[#1B1815] px-3 text-left" onClick={() => {
                     if (!episode || !dentro) return;
                     const segundo = segundoDeCita(episode.scriptureRangeLabel, citaDestino, duracion);
                     if (segundo != null) library.seek(segundo);

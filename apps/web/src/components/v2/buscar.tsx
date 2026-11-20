@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, IDIOMAS, PERSONAJES, TEMAS, buscar, mixesDeHora } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraWebp } from "@audite/content/obras";
 import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
@@ -81,8 +82,7 @@ export function BuscarV2() {
                 <button key={item.id} type="button" className="relative grid h-28 grid-cols-[minmax(0,1fr)_2.75rem] overflow-hidden rounded-2xl p-3 text-left" style={{ background: item.color }} onClick={() => setCategoria(item.id)}>
                   <span className="font-display text-base leading-tight text-[#F4ECE2]">{titulo}</span>
                   {obra ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(obra)} alt="" className="absolute right-3 bottom-3 size-11 rotate-[14deg] rounded-md object-cover shadow-md" />
+                    <Lienzo src={obraWebp(obra)} className="absolute right-3 bottom-3 size-11 rotate-[14deg] rounded-md shadow-md" />
                   ) : null}
                 </button>
               );

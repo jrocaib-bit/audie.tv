@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, COLOR_HEX, capitulosAMedias, diaLiturgico, estantes, inicioDelPasaje, pasajeDelDia, referenciaPaso, retosDelDia, type FiltroInicio } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obrasVisibles } from "@audite/content/obras";
 import { portadaDeReto, portadaPara } from "@audite/content/obras-creditos";
 import Link from "next/link";
@@ -117,8 +118,7 @@ export function InicioV2() {
             <Link key={ficha.id} href={ficha.href} className="w-[10.5rem] shrink-0 snap-start">
               <span className={`relative block overflow-hidden rounded-2xl bg-[#1B1815] ${ficha.src ? "aspect-square" : "h-28"}`}>
                 {ficha.src ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={ficha.src} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  <Lienzo src={ficha.src} className="absolute inset-0" />
                 ) : <Arte episodioId={ficha.obra} className="absolute inset-0 h-full w-full" />}
                 <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-transparent" />
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: COLOR_HEX[liturgia.color] }} />

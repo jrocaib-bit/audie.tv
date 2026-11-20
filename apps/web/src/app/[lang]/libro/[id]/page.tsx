@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { leerLibro, loadAppCatalog } from "@audite/content/app-catalog";
 import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import Link from "next/link";
+import { BotonOro } from "@/components/sala/boton-oro";
+import { Lienzo } from "@/components/sala/lienzo";
 import { PortadaMarca } from "@/components/portada-marca";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
@@ -34,49 +36,52 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const portada = obraDeEpisodio(portadaId);
   const disponibles = episodios.filter((episodio) => episodio.duracion != null).length;
   const cuenta = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
+  const primero = episodios.find((episodio) => episodio.duracion != null);
+  const ordenados = [...episodios.filter((episodio) => episodio.duracion != null), ...episodios.filter((episodio) => episodio.duracion == null)];
+  const pronto = ui === "en" ? "Coming soon" : "Próximamente";
   return (
     <main className="mx-auto w-full max-w-3xl px-5 py-12 text-[#F4ECE2] md:px-8">
       {portada ? (
-        <div className="relative mb-8 h-64 overflow-hidden rounded-3xl" style={{ viewTransitionName: `libro-${id}` }}>
+        <div className="relative mb-8 aspect-[4/3] overflow-hidden rounded-3xl bg-[#1B1815] md:aspect-[16/10]" style={{ viewTransitionName: `libro-${id}` }}>
           {esPortadaProvisional(portada.episodio) ? (
             <PortadaMarca episodioId={portada.episodio} lang={ui} className="absolute inset-0" />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(portada)} alt="" width={portada.ancho} height={portada.alto} className="parallax-obra h-full w-full object-cover" />
+            <Lienzo src={obraWebp(portada)} obraId={portada.id} priority className="absolute inset-0" />
           )}
         </div>
       ) : null}
-      <p className="text-sm text-[#C9A96E]"><Link href={`/${lang}/catalogo`}>{ui === "en" ? "Catalogue" : "Catálogo"}</Link></p>
-      <h1 className="font-display mt-3 text-5xl leading-none">{nombre}</h1>
-      <p className="mt-3 text-sm text-[#B7AB9C]">{ui === "en"
+      <nav aria-label={ui === "en" ? "Breadcrumb" : "Migas"} className="t-rotulo text-[#C9A96E]"><Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Catalogue" : "Catálogo"}</Link></nav>
+      <h1 className="font-display t-h1 mt-1">{nombre}</h1>
+      <p className="t-meta mt-3 tabular-nums">{ui === "en"
         ? `${cuenta(episodios.length, "episode", "episodes")} · ${cuenta(disponibles, "available", "available")}`
         : `${cuenta(episodios.length, "episodio", "episodios")} · ${cuenta(disponibles, "disponible", "disponibles")}`}</p>
+      {primero ? (
+        <BotonOro asChild className="mt-6 w-full md:w-auto"><Link href={`/${lang}/catalogo/${primero.id}`}>{ui === "en" ? "Start" : "Empezar"}</Link></BotonOro>
+      ) : null}
       <ul className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
-        {episodios.map((episodio) => {
+        {ordenados.map((episodio) => {
           const obra = obraDeEpisodio(episodio.id);
           const listo = episodio.duracion != null;
           return (
-            <li key={episodio.id} className="flex min-h-16 items-center gap-3 py-3">
-              <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-w-0 flex-1 items-center gap-3">
-                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#241F1A]" style={{ viewTransitionName: `ep-${episodio.id}` }}>
+            <li key={episodio.id} className={`flex min-h-16 items-center gap-3 py-3 ${listo ? "" : "opacity-60"}`}>
+              <Link href={`/${lang}/catalogo/${episodio.id}`} className="flex min-h-11 min-w-0 flex-1 items-center gap-3">
+                <span className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-md bg-[#1B1815]" style={{ viewTransitionName: `ep-${episodio.id}` }}>
                   {obra && esPortadaProvisional(obra.episodio) ? (
                     <PortadaMarca episodioId={obra.episodio} lang={ui} className="absolute inset-0" />
                   ) : obra ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(obra)} alt="" width={obra.ancho} height={obra.alto} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                    <Lienzo src={obraWebp(obra)} obraId={obra.id} className="absolute inset-0" />
                   ) : <PortadaMarca episodioId={episodio.id} titulo={episodio.titulo} className="absolute inset-0" />}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-lg leading-tight">{episodio.titulo}</span>
-                  <span className="mt-0.5 block text-sm text-[#B7AB9C]">{episodio.referencia}{listo ? ` · ${reloj(episodio.duracion ?? 0)}` : ""}</span>
+                  <span className="t-meta mt-0.5 block tabular-nums">{episodio.referencia}{listo ? ` · ${reloj(episodio.duracion ?? 0)}` : ""}</span>
                 </span>
               </Link>
               <span className="flex shrink-0 items-center gap-2 text-sm">
-                <span className="estado-punto" data-listo={listo ? "1" : "0"} aria-hidden="true" />
                 {listo ? (
-                  <Link href={`/escuchar?e=${episodio.id}`} className="text-[#C9A96E]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
+                  <Link href={`/escuchar?e=${episodio.id}`} className="inline-flex min-h-11 items-center text-[#C9A96E]">{ui === "en" ? "Listen" : "Escuchar"}</Link>
                 ) : (
-                  <span className="text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</span>
+                  <span className="t-rotulo text-[#8A8175]">{pronto}</span>
                 )}
               </span>
             </li>

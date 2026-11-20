@@ -1,6 +1,7 @@
 "use client";
 
 import { COLOR_HEX, diaLiturgico, formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -124,8 +125,7 @@ export function MiniPlayer() {
         </span>
         <Link href="/ahora" className="audite-pulso flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")} onClick={(event) => { event.preventDefault(); irAlReproductor(router.push); }}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} alt="" className="audite-portada size-11 shrink-0 rounded-2xl object-cover" />
+            <Lienzo src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} className="audite-portada size-11 shrink-0 rounded-2xl" />
           ) : (
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}

@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   return (
     <>
       <main className="mx-auto min-h-dvh w-full max-w-2xl bg-[#100E0C] px-6 py-16 text-[#F4ECE2]">
-        <h1 className="font-display text-5xl">{copy.condiciones}</h1>
+        <h1 className="font-display t-h1">{copy.condiciones}</h1>
         <p className="mt-4 text-[#B7AB9C]">Última actualización: 11 de noviembre de 2026.</p>
         <BloqueTitular />
         <p className="mt-8 text-lg">{copy.titulo}</p>
