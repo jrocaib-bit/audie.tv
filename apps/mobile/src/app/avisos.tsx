@@ -4,12 +4,12 @@ import { Pressable, Text } from "react-native";
 import { ScrollView } from "react-native";
 import { programarAvisosLocales } from "../avisos";
 import { useMobileLibrary } from "../state";
-import { dark, light, ui } from "../theme";
+import { dark, ui } from "../theme";
 
 export default function Avisos() {
   const library = useMobileLibrary();
   const locale = library.settings.uiLocale;
-  const colors = library.settings.theme === "light" ? light : dark;
+  const colors = dark;
   const [plan, setPlan] = useState<PlanAviso>({ activo: false, hora: 8, minuto: 0, dias: [1, 2, 3, 4, 5] });
   const [cuantos, setCuantos] = useState<number | null>(null);
   const texto = textoAviso(locale, locale === "en" ? "Genesis" : "Génesis", 3);

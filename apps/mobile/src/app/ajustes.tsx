@@ -1,4 +1,4 @@
-import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes, type Sesion, type ThemeChoice } from "@audite/domain";
+import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes, type Sesion } from "@audite/domain";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -23,9 +23,9 @@ import { textoAviso } from "@audite/domain";
 
 function FilaChips({ c, children }: { c: ReturnType<typeof useTema>["c"]; children: React.ReactNode }) {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingVertical: 12 }} style={{ borderBottomWidth: 1, borderBottomColor: c.line }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.line }}>
       {children}
-    </ScrollView>
+    </View>
   );
 }
 
@@ -48,11 +48,7 @@ export default function Ajustes() {
     const texto = textoAviso(library.settings.uiLocale, cargado?.info.libro || "Audite", 1);
     void guardarRecordatorio(planDiario(hora, activo), texto);
   };
-  const temas: { id: ThemeChoice; texto: string }[] = [
-    { id: "system", texto: t.sistema },
-    { id: "light", texto: t.claro },
-    { id: "dark", texto: t.oscuro },
-  ];
+  const [idiomaAbierto, setIdiomaAbierto] = useState(false);
   const minutos: DailyMinutes[] = [10, 15, 20, 30];
 
   return (
@@ -79,33 +75,34 @@ export default function Ajustes() {
 
         <Grupo c={c}>
           <Fila c={c} icono="campana" titulo={t.recordatorio} valor={aviso.activo ? horaTexto(aviso.hora) : undefined} derecha={<Interruptor c={c} label={t.recordatorio} activo={aviso.activo} onCambiar={(v) => fijarAviso(v, aviso.hora)} />} />
-          <FilaChips c={c}>
-            {HORAS_RECORDATORIO.map((hora) => (
-              <Chip key={hora} c={c} texto={horaTexto(hora)} activo={aviso.activo && aviso.hora === hora} onPress={() => fijarAviso(true, hora)} />
-            ))}
-          </FilaChips>
-          <Fila c={c} icono="reloj" titulo={t.minDia} valor={`${library.settings.dailyMinutes} min`} ultima derecha={<View />} />
-          <FilaChips c={c}>
-            {minutos.map((m) => (
-              <Chip key={m} c={c} texto={`${m} min`} activo={library.settings.dailyMinutes === m} onPress={() => library.updateSettings({ dailyMinutes: m })} />
-            ))}
-          </FilaChips>
+          {aviso.activo ? (
+            <Entrada>
+              <FilaChips c={c}>
+                {HORAS_RECORDATORIO.map((hora) => (
+                  <Chip key={hora} c={c} texto={horaTexto(hora)} activo={aviso.hora === hora} onPress={() => fijarAviso(true, hora)} />
+                ))}
+              </FilaChips>
+            </Entrada>
+          ) : null}
+          <Fila c={c} icono="reloj" titulo={t.minDia} valor={`${library.settings.dailyMinutes} min`} ultima={false} derecha={<View />} />
+          <View style={{ paddingHorizontal: 16, paddingBottom: 14 }}>
+            <Segmentos c={c} lleno valor={library.settings.dailyMinutes} opciones={minutos.map((m) => ({ id: m, texto: `${m}` }))} onElegir={(m) => library.updateSettings({ dailyMinutes: m })} />
+          </View>
         </Grupo>
 
         <Grupo c={c} titulo={t.tabBiblioteca}>
           <Fila c={c} icono="velocidad" titulo={t.velocidadAj} valor={`${library.settings.rate}×`} derecha={<View />} />
-          <FilaChips c={c}>
-            {PLAYBACK_RATES.map((rate) => (
-              <Chip key={rate} c={c} texto={`${rate}×`} activo={library.settings.rate === rate} onPress={() => library.setRate(rate)} />
-            ))}
-          </FilaChips>
-          <Fila c={c} icono="idioma" titulo={t.idioma} valor={library.settings.uiLocale.toUpperCase()} derecha={<View />} />
-          <FilaChips c={c}>
-            {IDIOMAS.map((id) => (
-              <Chip key={id} c={c} texto={id.toUpperCase()} activo={library.settings.uiLocale === id} onPress={() => library.updateSettings({ uiLocale: id, localeElegido: true })} />
-            ))}
-          </FilaChips>
-          <Fila c={c} icono="luna" titulo={t.apariencia} derecha={<Segmentos c={c} valor={library.settings.theme} opciones={temas} onElegir={(theme) => library.updateSettings({ theme })} />} />
+          <View style={{ paddingHorizontal: 16, paddingBottom: 14 }}>
+            <Segmentos c={c} lleno valor={library.settings.rate} opciones={PLAYBACK_RATES.map((r) => ({ id: r, texto: `${r}×` }))} onElegir={(r) => library.setRate(r)} />
+          </View>
+          <Fila c={c} icono="idioma" titulo={t.idioma} valor={library.settings.uiLocale.toUpperCase()} onPress={() => setIdiomaAbierto((v) => !v)} derecha={<View style={{ transform: [{ rotate: idiomaAbierto ? "90deg" : "0deg" }] }}><Icono nombre="chevron" size={18} color={c.muted} /></View>} />
+          {idiomaAbierto ? (
+            <FilaChips c={c}>
+              {IDIOMAS.map((id) => (
+                <Chip key={id} c={c} texto={id.toUpperCase()} activo={library.settings.uiLocale === id} onPress={() => { library.updateSettings({ uiLocale: id, localeElegido: true }); setIdiomaAbierto(false); }} />
+              ))}
+            </FilaChips>
+          ) : null}
           <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Interruptor c={c} label={t.subtitulos} activo={library.settings.captions} onCambiar={(v) => library.updateSettings({ captions: v })} />} />
           <Fila c={c} icono="descarga" titulo={t.descargas} onPress={() => router.push("/descargas")} />
           <Fila c={c} icono="libro" titulo={t.lectura} onPress={() => router.push("/leer")} />

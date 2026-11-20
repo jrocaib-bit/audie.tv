@@ -31,13 +31,13 @@ export function Fila({ c, icono, titulo, valor, onPress, derecha, ultima, peligr
 }
 
 /** Selector segmentado. */
-export function Segmentos<T extends string | number>({ c, opciones, valor, onElegir }: { c: Paleta; opciones: { id: T; texto: string }[]; valor: T; onElegir: (id: T) => void }) {
+export function Segmentos<T extends string | number>({ c, opciones, valor, onElegir, lleno }: { c: Paleta; opciones: { id: T; texto: string }[]; valor: T; onElegir: (id: T) => void; lleno?: boolean }) {
   return (
-    <View style={{ flexDirection: "row", backgroundColor: c.bg, borderRadius: 999, padding: 3 }}>
+    <View style={{ flexDirection: "row", backgroundColor: c.bg, borderRadius: 999, padding: 3, alignSelf: lleno ? "stretch" : undefined }}>
       {opciones.map((o) => {
         const activo = o.id === valor;
         return (
-          <Pulsable key={String(o.id)} onPress={() => onElegir(o.id)} selected={activo} label={o.texto} escala={0.94} style={{ minHeight: 38, minWidth: 44, paddingHorizontal: 12, borderRadius: 999, alignItems: "center", justifyContent: "center", backgroundColor: activo ? c.accent : "transparent" }}>
+          <Pulsable key={String(o.id)} onPress={() => onElegir(o.id)} selected={activo} label={o.texto} escala={0.94} style={{ flex: lleno ? 1 : undefined, minHeight: 44, minWidth: 44, paddingHorizontal: lleno ? 4 : 12, borderRadius: 999, alignItems: "center", justifyContent: "center", backgroundColor: activo ? c.accent : "transparent" }}>
             <Text style={{ color: activo ? c.accentInk : c.ink, fontFamily: fonts.medium, fontSize: 14 }}>{o.texto}</Text>
           </Pulsable>
         );

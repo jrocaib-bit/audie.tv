@@ -3,14 +3,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput } from "react-native";
 import { useMobileLibrary } from "../state";
-import { dark, light, ui } from "../theme";
+import { dark, ui } from "../theme";
 
 const CLAVE = "audite.marcadores.v1";
 
 export default function Notas() {
   const library = useMobileLibrary();
   const locale = library.settings.uiLocale;
-  const colors = library.settings.theme === "light" ? light : dark;
+  const colors = dark;
   const [datos, setDatos] = useState<Marcadores>(marcadoresVacios);
   const [texto, setTexto] = useState("");
   const episodio = library.catalog.episodes[0]?.id ?? "gn-01";

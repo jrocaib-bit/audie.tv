@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { AccessibilityInfo, Platform, useColorScheme } from "react-native";
+import { AccessibilityInfo, Platform } from "react-native";
 import { useMobileLibrary } from "../state";
-import { dark, light } from "../theme";
+import { dark } from "../theme";
 
 export type Paleta = typeof dark;
 
-/** Colores, idioma y biblioteca de la pantalla. */
+/** Colores, idioma y biblioteca de la pantalla. La app es siempre oscura: es la marca. */
 export function useTema() {
   const library = useMobileLibrary();
-  const scheme = useColorScheme();
-  const oscuro = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme !== "light");
-  const c: Paleta = oscuro ? dark : light;
+  const c: Paleta = dark;
   const lang: "es" | "en" = library.settings.uiLocale === "en" ? "en" : "es";
-  return { c, lang, library, oscuro };
+  return { c, lang, library, oscuro: true };
 }
 
 /** Respeta «reducir movimiento» del sistema. Empieza en true para no animar de más. */
