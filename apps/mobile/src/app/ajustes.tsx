@@ -78,7 +78,7 @@ export default function Ajustes() {
         </Grupo>
 
         <Grupo c={c} titulo={t.recordatorio}>
-          <Fila c={c} icono="campana" titulo={t.recordatorio} valor={aviso.activo ? horaTexto(aviso.hora) : t.desactivado} derecha={<Segmentos c={c} valor={aviso.activo ? 1 : 0} opciones={[{ id: 0, texto: t.desactivado }, { id: 1, texto: t.activado }]} onElegir={(v) => fijarAviso(v === 1, aviso.hora)} />} />
+          <Fila c={c} icono="campana" titulo={t.hora} derecha={<Segmentos c={c} valor={aviso.activo ? 1 : 0} opciones={[{ id: 0, texto: "Off" }, { id: 1, texto: "On" }]} onElegir={(v) => fijarAviso(v === 1, aviso.hora)} />} />
           <FilaChips c={c}>
             {HORAS_RECORDATORIO.map((hora) => (
               <Chip key={hora} c={c} texto={horaTexto(hora)} activo={aviso.activo && aviso.hora === hora} onPress={() => fijarAviso(true, hora)} />
@@ -99,9 +99,14 @@ export default function Ajustes() {
               <Chip key={rate} c={c} texto={`${rate}×`} activo={library.settings.rate === rate} onPress={() => library.setRate(rate)} />
             ))}
           </FilaChips>
-          <Fila c={c} icono="idioma" titulo={t.idioma} derecha={<Segmentos c={c} valor={library.settings.uiLocale} opciones={IDIOMAS.map((id) => ({ id, texto: id.toUpperCase() }))} onElegir={(id) => library.updateSettings({ uiLocale: id, localeElegido: true })} />} />
+          <Fila c={c} icono="idioma" titulo={t.idioma} valor={library.settings.uiLocale.toUpperCase()} derecha={<View />} />
+          <FilaChips c={c}>
+            {IDIOMAS.map((id) => (
+              <Chip key={id} c={c} texto={id.toUpperCase()} activo={library.settings.uiLocale === id} onPress={() => library.updateSettings({ uiLocale: id, localeElegido: true })} />
+            ))}
+          </FilaChips>
           <Fila c={c} icono="luna" titulo={t.apariencia} derecha={<Segmentos c={c} valor={library.settings.theme} opciones={temas} onElegir={(theme) => library.updateSettings({ theme })} />} />
-          <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Segmentos c={c} valor={library.settings.captions ? 1 : 0} opciones={[{ id: 0, texto: t.desactivado }, { id: 1, texto: t.activado }]} onElegir={(v) => library.updateSettings({ captions: v === 1 })} />} />
+          <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Segmentos c={c} valor={library.settings.captions ? 1 : 0} opciones={[{ id: 0, texto: "Off" }, { id: 1, texto: "On" }]} onElegir={(v) => library.updateSettings({ captions: v === 1 })} />} />
           <Fila c={c} icono="descarga" titulo={t.descargas} onPress={() => router.push("/descargas")} />
           <Fila c={c} icono="libro" titulo={t.lectura} onPress={() => router.push("/leer")} />
           <Fila c={c} icono="libro" titulo={t.notas} onPress={() => router.push("/notas")} ultima />

@@ -2,7 +2,7 @@ import { textoAviso } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { obraDeEpisodio, obraWebp } from "../../../../packages/content/src/obras-visibles";
 import { caminosDisponibles } from "../caminos";
@@ -13,7 +13,7 @@ import { tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { Icono } from "../ui/Icono";
-import { ObraMarco } from "../ui/ObraMarco";
+import { uriDeObra } from "../entorno";
 import { Pulsable } from "../ui/Pulsable";
 import { haptico, useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
@@ -50,7 +50,7 @@ export default function Bienvenida() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.gallery }}>
-      <ObraMarco src={FONDOS[paso] ?? ""} style={StyleSheet.absoluteFill} desenfoque={40} />
+      <Image source={{ uri: uriDeObra(FONDOS[paso] ?? "") }} resizeMode="cover" accessibilityElementsHidden style={StyleSheet.absoluteFill} />
       <LinearGradient colors={["rgba(12,11,9,0.2)", "rgba(12,11,9,0.55)", "rgba(12,11,9,0.97)"]} locations={[0, 0.35, 0.72]} style={StyleSheet.absoluteFill} pointerEvents="none" />
       <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 20, flexDirection: "row", justifyContent: "flex-end" }}>
         <Pulsable onPress={() => terminar(false)} label={t.saltar} hitSlop={8} style={{ minHeight: 44, paddingHorizontal: 14, justifyContent: "center", borderRadius: 999, backgroundColor: "rgba(12,11,9,0.55)" }}>

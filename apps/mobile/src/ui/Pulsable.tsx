@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Animated, Pressable, type AccessibilityRole, type StyleProp, type ViewStyle } from "react-native";
+import { Animated, Pressable, StyleSheet, type AccessibilityRole, type StyleProp, type ViewStyle } from "react-native";
 import { haptico, useMovimientoReducido } from "./tema";
 
 type Props = {
@@ -24,8 +24,10 @@ export function Pulsable({ onPress, children, style, escala = 0.97, haptica = fa
     if (reducir) return;
     Animated.spring(valor, { toValue: a, useNativeDriver: true, speed: 40, bounciness: 6 }).start();
   };
+  const plano = StyleSheet.flatten(style) ?? {};
   return (
     <Pressable
+      style={{ flex: plano.flex, flexGrow: plano.flexGrow, flexShrink: plano.flexShrink, alignSelf: plano.alignSelf }}
       accessibilityRole={role}
       accessibilityLabel={label}
       accessibilityState={{ selected, disabled }}
