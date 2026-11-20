@@ -27,20 +27,28 @@ export function Carrusel({ n, indice, onCambia, ancho, alto, vista, separacion =
   const temporizador = useRef<ReturnType<typeof setTimeout> | null>(null);
   const primera = useRef(true);
   const claveAnterior = useRef(clave);
+  const programando = useRef(false);
+  const suelta = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     // Si el contenido se rehízo (otra clave), se recoloca de golpe: es la misma imagen en otro sitio.
     const rehecho = claveAnterior.current !== clave;
+    programando.current = true;
+    if (suelta.current) clearTimeout(suelta.current);
     ref.current?.scrollTo({ x: indice * paso, animated: !primera.current && !rehecho && !reducir });
     claveAnterior.current = clave;
     primera.current = false;
+    // Mientras dura el scroll programado no se interpreta el desplazamiento como un gesto.
+    suelta.current = setTimeout(() => { programando.current = false; }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [indice, clave, paso]);
   useEffect(() => () => {
     if (temporizador.current) clearTimeout(temporizador.current);
+    if (suelta.current) clearTimeout(suelta.current);
   }, []);
 
   const asentar = (x: number) => {
+    if (programando.current) return;
     const i = Math.min(n - 1, Math.max(0, Math.round(x / paso)));
     if (i !== indiceRef.current) {
       onCambia(i);

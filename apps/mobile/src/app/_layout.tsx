@@ -57,6 +57,7 @@ function Shell() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
+      <View style={{ flex: 1 }}>
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: Platform.OS === "web" ? "none" : "default" }}>
         <Stack.Screen name="descargas" options={cabecera} />
         <Stack.Screen name="notas" options={cabecera} />
@@ -72,6 +73,7 @@ function Shell() {
         <Stack.Screen name="cola" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
+      </View>
       {debeMostrarMini({ path, cargado: Boolean(cargado), empezado, repetido }) && cargado ? (
         <MiniPlayer
           c={c}
