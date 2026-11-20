@@ -49,11 +49,11 @@ describe("Profecías de la Pasión", () => {
     expect(ventanaDeReto(PROFECIAS_ID)).toEqual({ inicio: "2027-03-21", fin: "2027-03-28" });
     const m = modeloRetos({ lang: "es", hoyIso: "2026-11-20", rangos, progress: { episodes: {} } });
     const t = m.temporadas.find((x) => x.id === PROFECIAS_ID)!;
-    expect(t).toMatchObject({ estado: "empieza", total: 8, hechos: 0, sinObra: true, fechas: "21 mar – 28 mar", src: "" });
+    expect(t).toMatchObject({ estado: "empieza", total: 8, hechos: 0, sinObra: false, fechas: "21 mar – 28 mar", src: "/obras/reto-profecias_o1-1x1.webp" });
     const ids = m.temporadas.map((x) => x.id);
     expect(ids.indexOf(PROFECIAS_ID)).toBeGreaterThan(ids.indexOf("cuaresma-40"));
     expect(ids.indexOf(PROFECIAS_ID)).toBeLessThan(ids.indexOf("pascua-hechos"));
-    expect(modeloRetos({ lang: "en", hoyIso: "2026-11-20", rangos, progress: { episodes: {} } }).temporadas.find((x) => x.id === PROFECIAS_ID)?.titulo).toBe("Profecías de la Pasión");
+    expect(modeloRetos({ lang: "en", hoyIso: "2026-11-20", rangos, progress: { episodes: {} } }).temporadas.find((x) => x.id === PROFECIAS_ID)?.titulo).toBe("Prophecies of the Passion");
   });
   it("todos los días pp-NN son Próximamente y llevan profecía, cumplimiento y nota", () => {
     const pasos = pasosDeReto(PROFECIAS_ID);

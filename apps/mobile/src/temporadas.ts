@@ -1,5 +1,6 @@
 import { adviento1, bautismoDelSenor, miercolesCeniza, pascua, pentecostes } from "@audite/domain";
 import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-visibles";
+import { portadaDeRetoApp } from "./reto-dias";
 import { PROFECIAS_ID, RETOS_APP, type Paso, type RetoJson } from "./retos-app";
 import { CAMINOS, idsDeCamino, portadaDeCamino, progresoCamino, type Rango } from "./caminos";
 
@@ -8,8 +9,6 @@ type Idioma = "es" | "en";
 export const CICLO = 2026;
 const RETOS: RetoJson[] = RETOS_APP;
 export const ADVIENTO_ID = "adviento-isaias";
-const ADVIENTO_SRC = "/obras/reto-adviento_o2-1x1.webp";
-
 function sumar(iso: string, dias: number): string {
   const [a, m, d] = iso.split("-").map(Number);
   const f = new Date(Date.UTC(a ?? 1970, (m ?? 1) - 1, d ?? 1));
@@ -104,13 +103,14 @@ function srcDeEpisodio(ep: string): string {
   return obra ? obraWebp(obra) : "";
 }
 
-/** Una obra por tarjeta: si la del reto ya salió, se toma la de alguno de sus días. */
+/** Una obra por tarjeta: portada del reto si la hay; si no, una de sus días que no esté repetida. */
 function portadasSinRepetir(ocupadas: Set<string>): Map<string, string> {
   const salida = new Map<string, string>();
   for (const reto of RETOS) {
-    if (reto.id === ADVIENTO_ID) {
-      salida.set(reto.id, ADVIENTO_SRC);
-      ocupadas.add(ADVIENTO_SRC);
+    const portada = portadaDeRetoApp(reto.id);
+    if (portada && !ocupadas.has(portada)) {
+      salida.set(reto.id, portada);
+      ocupadas.add(portada);
       continue;
     }
     if (reto.sinObra) continue;

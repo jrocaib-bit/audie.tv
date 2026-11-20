@@ -1,11 +1,11 @@
-import { localIsoDate, racha as calcularRacha } from "@audite/domain";
+import { localIsoDate } from "@audite/domain";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { tipoAcceso } from "../../acceso";
 import { infoEpisodio } from "../../hoy";
-import { diasParaEmpezar, indiceDeHoy, pinturasDeReto } from "../../reto-dias";
+import { diasParaEmpezar, indiceDeHoy, pinturasDeReto, portadaDeRetoApp, rachaDeReto } from "../../reto-dias";
 import { datosDeReto, modeloRetos, pasosDeReto, ventanaDeReto } from "../../temporadas";
 import { tx } from "../../textos";
 import { fonts } from "../../theme";
@@ -44,9 +44,12 @@ export default function RetoDetalle() {
   const ventanaReto = ventanaDeReto(id);
   const hoyPos = indiceDeHoy(ventanaReto.inicio, hoyIso, pasos.length);
   const hechosN = tarjeta?.hechos ?? 0;
-  const primerPendiente = pasos.findIndex((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
-  const [elegido, setElegido] = useState<number | null>(null);
-  const seleccionado = Math.min(Math.max(0, elegido ?? hoyPos ?? (primerPendiente < 0 ? 0 : primerPendiente)), Math.max(0, pasos.length - 1));
+  const portada = datos ? portadaDeRetoApp(id) : "";
+  const desfase = portada ? 1 : 0;
+  // null = portada del reto (primera tarjeta). Si el reto está en curso, se abre en el día de hoy.
+  const [elegido, setElegido] = useState<number | null>(hoyPos);
+  const seleccionado = elegido == null ? null : Math.min(Math.max(0, elegido), Math.max(0, pasos.length - 1));
+  const indiceCarrusel = seleccionado == null ? 0 : seleccionado + desfase;
 
   // Un pulso de éxito cuando un día pasa a completado (no al abrir la pantalla).
   const hechosPrevios = useRef(hechosN);
@@ -57,7 +60,7 @@ export default function RetoDetalle() {
 
   if (!datos || !tarjeta || pasos.length === 0) return null;
 
-  const racha = calcularRacha(library.progress.listenedOn, hoyIso);
+  const racha = rachaDeReto(pasos, library.progress, hoyIso);
   const completado = (episodio?: string) => Boolean(episodio && library.progress.episodes[episodio]?.completed);
   const jugable = (episodio?: string) => Boolean(episodio && grabados.has(episodio));
   const jugar = (i: number) => {
@@ -79,8 +82,8 @@ export default function RetoDetalle() {
     quieto: !jugable(p.episodio),
     etiqueta: `${t.dia} ${p.dia}. ${p.titulo[lang]}`,
   }));
-  const paso = pasos[seleccionado]!;
-  const detalle: DatosDia = {
+  const paso = seleccionado != null ? pasos[seleccionado] : undefined;
+  const detalle: DatosDia | undefined = paso ? {
     dia: paso.dia,
     titulo: paso.titulo[lang],
     minutos: paso.minutos,
@@ -89,7 +92,7 @@ export default function RetoDetalle() {
     referencias: paso.referencias,
     nota: paso.nota,
     relacionados: (paso.relacionados ?? []).map((rel) => ({ id: rel, titulo: infoEpisodio(rel, base).titulo, disponible: grabados.has(rel) })),
-  };
+  } : undefined;
   const ancho = Math.min(ventana.width - 96, 340);
   const alto = Math.min(ancho, ventana.height * 0.36);
   const porcentaje = Math.round((hechosN / pasos.length) * 100);
@@ -100,6 +103,11 @@ export default function RetoDetalle() {
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <ChipEstado c={c} {...chipDeReto(tarjeta, lang)} />
           {cuentaAtras ? <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "700" }}>{cuentaAtras}</Text> : null}
+          {datos.insignia ? (
+            <View style={{ paddingHorizontal: 10, minHeight: 28, borderRadius: 14, justifyContent: "center", borderWidth: 1, borderColor: c.accent }}>
+              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{datos.insignia[lang]}</Text>
+            </View>
+          ) : null}
         </View>
         <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34, lineHeight: 38 }}>{titulo}</Text>
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{tarjeta.fechas}</Text>
@@ -107,24 +115,33 @@ export default function RetoDetalle() {
 
       <Entrada orden={1}>
         <Carrusel
-          n={pasos.length}
-          indice={seleccionado}
-          onCambia={setElegido}
+          n={pasos.length + desfase}
+          indice={indiceCarrusel}
+          onCambia={(i) => setElegido(i < desfase ? null : i - desfase)}
           ancho={ancho}
           alto={alto}
           vista={ventana.width}
+          clave={id}
           render={(i, activo) => {
-            const p = pasos[i]!;
+            if (desfase && i === 0) {
+              return (
+                <View accessible accessibilityLabel={titulo} style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09" }}>
+                  <ObraMarco src={portada} alt={titulo} style={{ width: ancho, height: alto }} />
+                </View>
+              );
+            }
+            const dia = i - desfase;
+            const p = pasos[dia]!;
             const puedo = jugable(p.episodio);
             return (
               <Pulsable
-                onPress={activo ? (puedo ? () => jugar(i) : undefined) : () => setElegido(i)}
+                onPress={activo ? (puedo ? () => jugar(dia) : undefined) : () => setElegido(dia)}
                 disabled={activo && !puedo}
                 label={activo ? `${t.dia} ${p.dia}. ${p.titulo[lang]}${puedo ? `. ${t.reproducir}` : `. ${t.proximamente}`}` : `${t.dia} ${p.dia}`}
                 escala={0.98}
                 style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09" }}
               >
-                {pinturas[i] ? <ObraMarco src={pinturas[i]!} style={{ width: ancho, height: alto }} /> : <PlacaMarca monograma={monograma} size={88} style={{ width: ancho, height: alto }} />}
+                {pinturas[dia] ? <ObraMarco src={pinturas[dia]!} style={{ width: ancho, height: alto }} /> : <PlacaMarca monograma={monograma} size={88} style={{ width: ancho, height: alto }} />}
                 {completado(p.episodio) ? (
                   <View style={{ position: "absolute", top: 12, right: 12, width: 30, height: 30, borderRadius: 15, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
                     <Icono nombre="check" size={16} color={c.accentInk} trazo={3} />
@@ -141,23 +158,27 @@ export default function RetoDetalle() {
         />
       </Entrada>
 
-      <Entrada orden={2} style={{ paddingHorizontal: 20 }}>
-        <DiaDetalle c={c} lang={lang} datos={detalle} etiquetaDia={t.dia} etiquetaProximamente={t.proximamente} onRelacionado={(rel) => reproducirId(rel, { contexto: { tipo: "libro", id: base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn" } })} />
-      </Entrada>
+      {detalle ? (
+        <Entrada orden={2} style={{ paddingHorizontal: 20 }}>
+          <DiaDetalle c={c} lang={lang} datos={detalle} etiquetaDia={t.dia} etiquetaProximamente={t.proximamente} onRelacionado={(rel) => reproducirId(rel, { contexto: { tipo: "libro", id: base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn" } })} />
+        </Entrada>
+      ) : null}
 
       <Entrada orden={3} style={{ marginHorizontal: 20, flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 22, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
         <Ring fraccion={hechosN / pasos.length} size={52} trazo={6} color={c.accent} pista={c.line}>
           <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 12 }}>{porcentaje}%</Text>
         </Ring>
         <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 24 }}>{hechosN} {t.de} {pasos.length}</Text>
-        <View accessible accessibilityLabel={`${racha} ${t.racha}`} style={{ flexDirection: "row", alignItems: "center", gap: 6, minHeight: 36, paddingHorizontal: 12, borderRadius: 18, backgroundColor: racha > 0 ? "rgba(224,196,138,0.14)" : "transparent", borderWidth: racha > 0 ? 0 : 1, borderColor: c.line }}>
-          <Icono nombre="llama" size={16} color={racha > 0 ? c.accent : c.muted} />
-          <Text style={{ color: racha > 0 ? c.accent : c.muted, fontFamily: fonts.medium, fontSize: 15, fontWeight: "700" }}>{racha}</Text>
-        </View>
+        {racha > 0 ? (
+          <View accessible accessibilityLabel={`${racha} ${t.racha}`} style={{ flexDirection: "row", alignItems: "center", gap: 6, minHeight: 36, paddingHorizontal: 12, borderRadius: 18, backgroundColor: "rgba(224,196,138,0.14)" }}>
+            <Icono nombre="llama" size={16} color={c.accent} />
+            <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 15, fontWeight: "700" }}>{racha}</Text>
+          </View>
+        ) : null}
       </Entrada>
 
       <Entrada orden={4}>
-        <CaminoDias c={c} nodos={nodos} seleccionado={seleccionado} onElegir={setElegido} vista={ventana.width} monograma={monograma} etiquetaHoy={t.hoy} etiqueta={t.caminoDias} />
+        <CaminoDias c={c} nodos={nodos} seleccionado={seleccionado ?? -1} onElegir={setElegido} vista={ventana.width} monograma={monograma} etiquetaHoy={t.hoy} etiqueta={t.caminoDias} />
       </Entrada>
 
       {siguienteGrabado ? (

@@ -17,7 +17,7 @@ export type Paso = {
   nota?: string;
   relacionados?: string[];
 };
-export type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; obra: string; pasos: Paso[]; sinObra?: boolean };
+export type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; insignia?: { es: string; en: string }; obra: string; pasos: Paso[]; sinObra?: boolean };
 
 type DiaPP = {
   id: string;
@@ -35,9 +35,9 @@ export const PROFECIAS_ID = "profecias-pasion";
 const RETO_PROFECIAS: RetoJson = {
   id: PROFECIAS_ID,
   tiempo: "semana-santa",
-  titulo: { es: profecias.nombre.es, en: profecias.nombre.es },
+  titulo: { es: profecias.nombre.es, en: "Prophecies of the Passion" },
+  insignia: { es: "Cordero", en: "Lamb" },
   obra: "",
-  sinObra: true,
   pasos: (profecias.dias as DiaPP[]).map((d) => ({
     dia: d.dia,
     episodio: d.id,

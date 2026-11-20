@@ -39,10 +39,10 @@ function Nodo({ c, nodo, seleccionado, monograma, etiquetaHoy, primero, ultimo, 
         {ultimo ? null : <View style={{ position: "absolute", right: 0, width: ANCHO / 2, height: 2, backgroundColor: linea(nodo.hecho && siguienteHecho) }} />}
         <View style={{ width: lado, height: lado, borderRadius: 14, borderWidth: trazoBorde, borderColor: borde, overflow: "hidden", backgroundColor: "#0C0B09" }}>
           {nodo.src ? <ObraMarco src={nodo.src} desenfoque={8} style={{ width: "100%", height: "100%" }} /> : <PlacaMarca monograma={monograma} size={lado * 0.4} style={{ width: "100%", height: "100%" }} />}
+          <Animated.View pointerEvents="none" style={{ position: "absolute", right: 3, bottom: 3, width: 20, height: 20, borderRadius: 10, backgroundColor: c.accent, borderWidth: 2, borderColor: c.bg, alignItems: "center", justifyContent: "center", opacity: pop, transform: [{ scale: pop }] }}>
+            <Icono nombre="check" size={11} color={c.accentInk} trazo={3} />
+          </Animated.View>
         </View>
-        <Animated.View pointerEvents="none" style={{ position: "absolute", right: 4, bottom: -2, width: 22, height: 22, borderRadius: 11, backgroundColor: c.accent, borderWidth: 2, borderColor: c.bg, alignItems: "center", justifyContent: "center", opacity: pop, transform: [{ scale: pop }] }}>
-          <Icono nombre="check" size={12} color={c.accentInk} trazo={3} />
-        </Animated.View>
       </View>
       <Text style={{ marginTop: 6, color: nodo.hoy ? c.accent : seleccionado ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 12, fontWeight: nodo.hoy || seleccionado ? "700" : "400" }}>{nodo.hoy ? etiquetaHoy : nodo.dia}</Text>
     </Pulsable>
