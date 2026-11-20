@@ -12,11 +12,12 @@ describe("retos del año", () => {
       "adviento-isaias",
       "navidad-infancia",
       "cuaresma-40",
+      "profecias-pasion",
       "semana-santa-pasion",
       "pascua-hechos",
       "ordinario-evangelio",
     ]);
-    expect(retos.map((reto) => reto.dias.length)).toEqual([26, 17, 40, 8, 50, 16]);
+    expect(retos.map((reto) => reto.dias.length)).toEqual([26, 17, 40, 16, 8, 50, 16]);
     expect(retos[0]?.dias[0]).toMatchObject({ es: "La montaña", cita: "Is 2,1–5" });
     expect(retos[0]?.dias[2]).toMatchObject({ es: "El Enmanuel", en: "Emmanuel", cita: "Is 7,10–14" });
     expect(retos[0]?.dias[24]).toMatchObject({ es: "Un rey justo", en: "A righteous king", cita: "Is 32,1–4" });
@@ -31,6 +32,7 @@ describe("retos del año", () => {
     expect(inicioDeTemporada("navidad-infancia")).toBe("2026-12-25");
     expect(inicioDeTemporada("ordinario-evangelio")).toBe("2027-01-11");
     expect(inicioDeTemporada("cuaresma-40")).toBe("2027-02-10");
+    expect(inicioDeTemporada("profecias-pasion")).toBe("2027-03-13");
     expect(inicioDeTemporada("semana-santa-pasion")).toBe("2027-03-21");
     expect(inicioDeTemporada("pascua-hechos")).toBe("2027-03-28");
     expect(finDePascua()).toBe("2027-05-16");
@@ -49,6 +51,7 @@ describe("retos del año", () => {
     expect(new Set(obras).size).toBe(obras.length);
     expect(portadas["adviento-isaias"]?.tipo).toBe("reto");
     expect(portadas["navidad-infancia"]?.tipo).toBe("reto");
+    expect(portadas["profecias-pasion"]).toBeNull();
     expect(portadas["cuaresma-40"]).toMatchObject({ tipo: "episodio" });
     expect(portadas["cuaresma-40"]?.tipo === "episodio" ? portadas["cuaresma-40"].episodio : "").not.toBe("ex-01");
   });

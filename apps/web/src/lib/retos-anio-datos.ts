@@ -1,5 +1,26 @@
-export type DiaAnio = { es: string; en: string; cita: string };
-export type RetoAnioDato = { id: string; tiempo: string; slug: { es: string; en: string }; titulo: { es: string; en: string }; explica: { es: string; en: string }; fijo: boolean; dias: DiaAnio[] };
+export type DiaAnio = {
+  es: string;
+  en: string;
+  cita: string;
+  profecia?: string;
+  cumplimiento?: string;
+  nota?: { es: string; en: string };
+  relacionados?: string[];
+  pieza?: string;
+  fecha?: string;
+  duracion_s?: number;
+};
+export type RetoAnioDato = {
+  id: string;
+  tiempo: string;
+  slug: { es: string; en: string };
+  titulo: { es: string; en: string };
+  explica: { es: string; en: string };
+  fijo: boolean;
+  dias: DiaAnio[];
+  portada?: string;
+  sinCuadro?: boolean;
+};
 
 export const RETOS_ANIO: RetoAnioDato[] = [
   {

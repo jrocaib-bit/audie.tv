@@ -1,9 +1,10 @@
 import { adviento1, bautismoDelSenor, miercolesCeniza, pascua, pentecostes } from "@audite/domain";
 import { esPortadaProvisional, obraDeEpisodio } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
-import { RETOS_ANIO, type RetoAnioDato } from "./retos-anio-datos";
+import profeciasJson from "../../../../content/tiempos/profecias-pasion.json";
+import { RETOS_ANIO, type DiaAnio, type RetoAnioDato } from "./retos-anio-datos";
 
-export type { RetoAnioDato };
+export type { DiaAnio, RetoAnioDato };
 export { RETOS_ANIO };
 
 const LIBROS: Record<string, string> = { Is: "is", Lc: "lc", Mt: "mt", Jn: "jn", Ex: "ex", Mc: "mc", Hch: "hch" };
@@ -12,12 +13,52 @@ const CICLO = 2026;
 export type RangoEpisodio = { id: string; bookId: string; rango: string };
 export type Cita = { libro: string; capitulo: number; versiculo: number; versiculoFin: number };
 
+type DiaProfecia = {
+  id: string;
+  dia: number;
+  fecha: string;
+  titulo: { es: string; en: string };
+  profecia: string;
+  cumplimiento: string;
+  nota: { es: string; en: string };
+  episodios_relacionados: string[];
+  duracion_estimada_s: number;
+};
+
+function retoProfecias(): RetoAnioDato {
+  const archivo = profeciasJson as Omit<RetoAnioDato, "dias"> & { dias: DiaProfecia[] };
+  const dias: DiaAnio[] = archivo.dias.map((dia) => ({
+    es: dia.titulo.es,
+    en: dia.titulo.en,
+    cita: `${dia.profecia} → ${dia.cumplimiento}`,
+    profecia: dia.profecia,
+    cumplimiento: dia.cumplimiento,
+    nota: dia.nota,
+    relacionados: dia.episodios_relacionados,
+    pieza: dia.id,
+    fecha: dia.fecha,
+    duracion_s: dia.duracion_estimada_s,
+  }));
+  return { ...archivo, dias };
+}
+
+/** Los retos del año, con Profecías entre Cuaresma y la Pasión. */
 export function retosDeTemporada(): RetoAnioDato[] {
-  return RETOS_ANIO;
+  const lista = [...RETOS_ANIO];
+  const hueco = lista.findIndex((reto) => reto.id === "semana-santa-pasion");
+  lista.splice(hueco < 0 ? lista.length : hueco, 0, retoProfecias());
+  return lista;
 }
 
 export function retoDeTemporada(id: string): RetoAnioDato | null {
-  return RETOS_ANIO.find((reto) => reto.id === id || reto.slug.es === id || reto.slug.en === id) ?? null;
+  return retosDeTemporada().find((reto) => reto.id === id || reto.slug.es === id || reto.slug.en === id) ?? null;
+}
+
+/** Imagen futura del reto. Vacío: la página reserva el hueco de marca. */
+export function portadaConectada(reto: RetoAnioDato, env = process.env.NEXT_PUBLIC_RETO_PROFECIAS_PORTADA): string {
+  const propia = (reto.portada ?? "").trim();
+  if (reto.id !== "profecias-pasion") return propia;
+  return (env ?? propia).trim();
 }
 
 export function parsearCita(cita: string): Cita | null {
@@ -58,6 +99,7 @@ export function inicioDeTemporada(id: string, ciclo = CICLO): string | null {
   if (reto.id === "adviento-isaias") return adviento1(ciclo);
   if (reto.id === "navidad-infancia") return `${ciclo}-12-25`;
   if (reto.id === "cuaresma-40") return miercolesCeniza(ciclo + 1);
+  if (reto.id === "profecias-pasion") return sumarIso(pascua(ciclo + 1), -15);
   if (reto.id === "semana-santa-pasion") return sumarIso(pascua(ciclo + 1), -7);
   if (reto.id === "pascua-hechos") return pascua(ciclo + 1);
   if (reto.id === "ordinario-evangelio") return sumarIso(bautismoDelSenor(ciclo + 1), 1);
@@ -106,7 +148,11 @@ export function idsDePrueba(rangos: readonly RangoEpisodio[], listos: ReadonlySe
 export function portadasDeTemporada(rangos: readonly RangoEpisodio[]): Record<string, PortadaTemporada | null> {
   const usadas = new Set<string>();
   const salida: Record<string, PortadaTemporada | null> = {};
-  for (const reto of RETOS_ANIO) {
+  for (const reto of retosDeTemporada()) {
+    if (reto.sinCuadro) {
+      salida[reto.id] = null;
+      continue;
+    }
     const propia = portadaDeReto(reto.id);
     if (propia) {
       usadas.add(propia.id);

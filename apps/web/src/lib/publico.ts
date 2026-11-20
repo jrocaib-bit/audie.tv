@@ -4,6 +4,7 @@ const INICIO: Record<string, string> = {
   "adviento-isaias": "2026-11-29",
   "navidad-infancia": "2026-12-25",
   "cuaresma-40": "2027-02-10",
+  "profecias-pasion": "2027-03-13",
   "semana-santa-pasion": "2027-03-21",
   "pascua-hechos": "2027-03-28",
 };
@@ -12,6 +13,7 @@ const FIN: Record<string, string> = {
   "adviento-isaias": "2026-12-24",
   "navidad-infancia": "2027-01-10",
   "cuaresma-40": "2027-03-21",
+  "profecias-pasion": "2027-03-28",
   "semana-santa-pasion": "2027-03-28",
   "pascua-hechos": "2027-05-16",
 };
