@@ -59,9 +59,10 @@ describe("Profecías de la Pasión", () => {
       { profecia: "Sal 118,19–29", cumplimiento: "Mt 21,33–46" },
       { profecia: "Is 53,1–3", cumplimiento: "Jn 12,37–41" },
     ]);
-    expect(reto?.dias[5]?.nota?.es.startsWith("Viernes Santo")).toBe(true);
-    expect(reto?.dias[6]?.nota?.es.startsWith("Dt 21,22")).toBe(true);
-    expect(reto?.dias[7]?.nota?.es.startsWith("Domingo de Pascua")).toBe(true);
+    expect(reto?.dias[5]?.descripcion?.es.startsWith("Es Viernes Santo")).toBe(true);
+    expect(reto?.dias[6]?.descripcion?.es.startsWith("Jesús ha muerto")).toBe(true);
+    expect(reto?.dias[7]?.descripcion?.es.startsWith("Es Domingo de Pascua")).toBe(true);
+    expect(reto?.explica.es).toContain("Te invitamos a escuchar");
   });
 
   it("enlaza episodios del catálogo y no activa las piezas pp", () => {
@@ -77,6 +78,9 @@ describe("Profecías de la Pasión", () => {
     expect(piezas.every((id) => id && !rangos.has(id) && !conAudio.has(id))).toBe(true);
     const texto = readFileSync(new URL("../../../../content/tiempos/profecias-pasion.json", import.meta.url), "utf8");
     expect(texto).not.toMatch(/Conferencia Episcopal|Sagrada Biblia/i);
+    expect(texto).not.toMatch(/"nota"/);
+    expect(texto).not.toMatch(/la narración presenta|cita combinada|tipolog/i);
+    expect(reto?.dias.every((dia) => dia.descripcion && !("nota" in dia))).toBe(true);
     expect(reto?.dias.map((dia) => dia.duracion_s)).toEqual([660, 629, 625, 615, 753, 784, 785, 762]);
     expect(reto?.dias.reduce((suma, dia) => suma + (dia.duracion_s ?? 0), 0)).toBe(5613);
     expect(texto).not.toMatch(/malhechores|con los malvados/i);
@@ -107,6 +111,10 @@ describe("Profecías de la Pasión", () => {
     expect(html).toContain("Sal 118,19–29 → Mt 21,33–46");
     expect(html).toContain("Is 53,1–3 → Jn 12,37–41");
     expect(html).toContain("Viene tu rey");
+    expect(html).toContain("Es Domingo de Ramos, y Jesús entra en Jerusalén");
+    expect(html).toContain("Te invitamos a escuchar");
+    expect(html).not.toContain("La narración presenta");
+    expect(html).not.toContain("se lee tal cual");
     expect(html).toContain("Domingo de Ramos");
     expect(html).toContain("Treinta monedas de plata");
     expect(html).toContain("Al tercer día");
@@ -141,6 +149,9 @@ describe("Profecías de la Pasión", () => {
     expect(conectada).not.toContain("data-hueco=\"marca\"");
     const ingles = renderToStaticMarkup(<VistaRetoAnio lang="en" reto={retoDeTemporada("profecias-pasion")!} rangos={[]} />);
     expect(ingles).toContain("Prophecies of the Passion");
+    expect(ingles).toContain("It is Palm Sunday, and Jesus enters Jerusalem");
+    expect(ingles).toContain("We invite you to listen");
+    expect(ingles).not.toContain("The narration");
     expect(ingles).toContain("Lamb");
     expect(ingles).toContain("The Sacrificial Lamb");
     expect(ingles).toContain("Coming soon");

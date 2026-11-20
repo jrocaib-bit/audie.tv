@@ -6,7 +6,7 @@ export type DiaAnio = {
   cumplimiento?: string;
   profecias?: { profecia: string; cumplimiento?: string }[];
   diaLiturgico?: { es: string; en: string };
-  nota?: { es: string; en: string };
+  descripcion?: { es: string; en: string };
   relacionados?: string[];
   pieza?: string;
   fecha?: string;

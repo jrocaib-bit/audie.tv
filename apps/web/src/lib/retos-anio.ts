@@ -31,7 +31,7 @@ type DiaProfecia = {
   profecias?: ParProfecia[];
   profecia?: string;
   cumplimiento?: string;
-  nota: { es: string; en: string };
+  descripcion: { es: string; en: string };
   episodios_relacionados: string[];
   duracion_estimada_s: number;
 };
@@ -55,7 +55,7 @@ function retoProfecias(): RetoAnioDato {
       cumplimiento: primero?.cumplimiento,
       profecias: pares,
       diaLiturgico: dia.dia_liturgico,
-      nota: dia.nota,
+      descripcion: dia.descripcion,
       relacionados: dia.episodios_relacionados,
       pieza: dia.id,
       fecha: dia.fecha,

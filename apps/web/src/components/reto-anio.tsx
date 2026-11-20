@@ -37,7 +37,7 @@ function diaPieza(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, f
           ))}
         </span>
       ) : null}
-      {dia.nota ? <span className="mt-1 block text-sm text-[#E7D7C3]">{dia.nota[ui]}</span> : null}
+      {dia.descripcion ? <span className="mt-1 block text-sm text-[#E7D7C3]">{dia.descripcion[ui]}</span> : null}
       {dia.relacionados && dia.relacionados.length > 0 ? (
         <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
           {dia.relacionados.map((id) => {
