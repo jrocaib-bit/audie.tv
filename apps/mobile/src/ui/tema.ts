@@ -37,3 +37,11 @@ export function haptico(): void {
     .then((mod) => mod.impactAsync(mod.ImpactFeedbackStyle.Light))
     .catch(() => undefined);
 }
+
+/** Pulso de éxito: unirse a un reto o completar un día. No hace nada en web. */
+export function hapticoExito(): void {
+  if (Platform.OS === "web") return;
+  void import("expo-haptics")
+    .then((mod) => mod.notificationAsync(mod.NotificationFeedbackType.Success))
+    .catch(() => undefined);
+}

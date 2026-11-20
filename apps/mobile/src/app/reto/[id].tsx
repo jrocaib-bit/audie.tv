@@ -1,27 +1,28 @@
-import { localIsoDate } from "@audite/domain";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useMemo, useState } from "react";
+import { localIsoDate, racha as calcularRacha } from "@audite/domain";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { tipoAcceso } from "../../acceso";
-import { Insignia } from "../../ui/Insignia";
-import { useReproducir } from "../../ui/useReproducir";
-import { BucleCuadro } from "../../bucle-cuadro";
-import { bucleDe, medidasHueco } from "../../bucles";
-import { datosDeReto, modeloRetos, pasosDeReto } from "../../temporadas";
-import { fonts } from "../../theme";
+import { infoEpisodio } from "../../hoy";
+import { diasParaEmpezar, indiceDeHoy, pinturasDeReto } from "../../reto-dias";
+import { datosDeReto, modeloRetos, pasosDeReto, ventanaDeReto } from "../../temporadas";
 import { tx } from "../../textos";
+import { fonts } from "../../theme";
 import { Boton } from "../../ui/Basicos";
+import { CaminoDias, type NodoDia } from "../../ui/CaminoDias";
+import { Carrusel } from "../../ui/Carrusel";
+import { DiaDetalle, type DatosDia } from "../../ui/DiaDetalle";
 import { Entrada } from "../../ui/Entrada";
 import { Icono } from "../../ui/Icono";
 import { ObraMarco } from "../../ui/ObraMarco";
-import { Pulsable } from "../../ui/Pulsable";
 import { PlacaMarca, monogramaDe } from "../../ui/PlacaMarca";
-import { infoEpisodio } from "../../hoy";
-import { useContextoCatalogo } from "../../ui/useHoy";
+import { Pulsable } from "../../ui/Pulsable";
 import { ChipEstado } from "../../ui/RetoCard";
 import { Ring } from "../../ui/Ring";
-import { useTema } from "../../ui/tema";
+import { hapticoExito, useTema } from "../../ui/tema";
+import { useContextoCatalogo } from "../../ui/useHoy";
+import { useReproducir } from "../../ui/useReproducir";
 import { chipDeReto } from "../retos";
 
 export default function RetoDetalle() {
@@ -29,126 +30,150 @@ export default function RetoDetalle() {
   const id = Array.isArray(parametro) ? parametro[0] ?? "" : parametro ?? "";
   const { c, lang, library } = useTema();
   const t = tx(lang);
-  const router = useRouter();
   const insets = useSafeAreaInsets();
   const ventana = useWindowDimensions();
   const reproducirId = useReproducir();
   const base = useContextoCatalogo();
-  const [abierto, setAbierto] = useState<number | null>(null);
   const datos = datosDeReto(id);
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(() => modeloRetos({ lang, hoyIso, progress: library.progress, rangos: library.catalog.rangos }), [hoyIso, lang, library.catalog.rangos, library.progress]);
   const tarjeta = m.temporadas.find((item) => item.id === id);
   const pasos = pasosDeReto(id);
   const grabados = useMemo(() => new Set(library.catalog.episodes.map((e) => e.id)), [library.catalog.episodes]);
-  const hicks = id === "adviento-isaias" ? bucleDe("reto:adviento-isaias:o1") : null;
-  const caja = hicks && hicks.poster ? medidasHueco(hicks.aspect, ventana.width - 40, ventana.height * 0.4) : null;
-  if (!datos || !tarjeta) return null;
+  const pinturas = useMemo(() => (datos ? pinturasDeReto(datos) : []), [datos]);
+  const ventanaReto = ventanaDeReto(id);
+  const hoyPos = indiceDeHoy(ventanaReto.inicio, hoyIso, pasos.length);
+  const hechosN = tarjeta?.hechos ?? 0;
+  const primerPendiente = pasos.findIndex((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
+  const [elegido, setElegido] = useState<number | null>(null);
+  const seleccionado = Math.min(Math.max(0, elegido ?? hoyPos ?? (primerPendiente < 0 ? 0 : primerPendiente)), Math.max(0, pasos.length - 1));
 
-  const hechos = tarjeta.hechos;
-  const porcentaje = pasos.length ? Math.round((hechos / pasos.length) * 100) : 0;
-  const siguiente = pasos.find((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
-  const jugar = (episodio: string, pos: number) => {
-    reproducirId(episodio, { contexto: { tipo: "reto", id }, pos });
+  // Un pulso de éxito cuando un día pasa a completado (no al abrir la pantalla).
+  const hechosPrevios = useRef(hechosN);
+  useEffect(() => {
+    if (hechosN > hechosPrevios.current) hapticoExito();
+    hechosPrevios.current = hechosN;
+  }, [hechosN]);
+
+  if (!datos || !tarjeta || pasos.length === 0) return null;
+
+  const racha = calcularRacha(library.progress.listenedOn, hoyIso);
+  const completado = (episodio?: string) => Boolean(episodio && library.progress.episodes[episodio]?.completed);
+  const jugable = (episodio?: string) => Boolean(episodio && grabados.has(episodio));
+  const jugar = (i: number) => {
+    const episodio = pasos[i]?.episodio;
+    if (!episodio || !jugable(episodio)) return;
+    reproducirId(episodio, { contexto: { tipo: "reto", id }, pos: i });
   };
+  const titulo = datos.titulo[lang];
+  const monograma = monogramaDe(titulo);
   const siguienteGrabado = tarjeta.siguiente && grabados.has(tarjeta.siguiente) ? tarjeta.siguiente : null;
+  const faltan = tarjeta.estado === "empieza" ? diasParaEmpezar(ventanaReto.inicio, hoyIso) : 0;
+  const cuentaAtras = faltan > 0 ? (faltan === 1 ? t.faltaUnDia : t.faltanDias.replace("{n}", String(faltan))) : null;
+
+  const nodos: NodoDia[] = pasos.map((p, i) => ({
+    dia: p.dia,
+    src: pinturas[i] ?? "",
+    hecho: completado(p.episodio),
+    hoy: hoyPos === i,
+    quieto: !jugable(p.episodio),
+    etiqueta: `${t.dia} ${p.dia}. ${p.titulo[lang]}`,
+  }));
+  const paso = pasos[seleccionado]!;
+  const detalle: DatosDia = {
+    dia: paso.dia,
+    titulo: paso.titulo[lang],
+    minutos: paso.minutos,
+    tipo: tipoAcceso(paso.episodio ?? "", jugable(paso.episodio)),
+    diaLiturgico: paso.diaLiturgico,
+    referencias: paso.referencias,
+    nota: paso.nota,
+    relacionados: (paso.relacionados ?? []).map((rel) => ({ id: rel, titulo: infoEpisodio(rel, base).titulo, disponible: grabados.has(rel) })),
+  };
+  const ancho = Math.min(ventana.width - 96, 340);
+  const alto = Math.min(ancho, ventana.height * 0.36);
+  const porcentaje = Math.round((hechosN / pasos.length) * 100);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 + insets.bottom, gap: 20 }} showsVerticalScrollIndicator={false}>
-      <Entrada style={{ gap: 12 }}>
-        <ChipEstado c={c} {...chipDeReto(tarjeta, lang)} />
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34, lineHeight: 38 }}>{datos.titulo[lang]}</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom, gap: 20 }} showsVerticalScrollIndicator={false}>
+      <Entrada style={{ paddingHorizontal: 20, gap: 10 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <ChipEstado c={c} {...chipDeReto(tarjeta, lang)} />
+          {cuentaAtras ? <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "700" }}>{cuentaAtras}</Text> : null}
+        </View>
+        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34, lineHeight: 38 }}>{titulo}</Text>
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{tarjeta.fechas}</Text>
-        {caja && hicks ? (
-          <View style={{ alignSelf: "center", width: caja.width, height: caja.height, borderRadius: 24, overflow: "hidden" }}>
-            <BucleCuadro bucle={hicks} poster={hicks.poster} alt={hicks.alt} />
-          </View>
-        ) : (
-          tarjeta.sinObra ? <PlacaMarca monograma={monogramaDe(datos.titulo[lang])} size={88} style={{ height: 240, borderRadius: 24 }} /> : <ObraMarco src={tarjeta.src} style={{ height: 240, borderRadius: 24 }} />
-        )}
       </Entrada>
 
-      <Entrada orden={1} style={{ flexDirection: "row", alignItems: "center", gap: 20, padding: 20, borderRadius: 24, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-        <Ring fraccion={pasos.length ? hechos / pasos.length : 0} size={104} trazo={9} color={c.accent} pista={c.line}>
-          <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28 }}>{porcentaje}%</Text>
+      <Entrada orden={1}>
+        <Carrusel
+          n={pasos.length}
+          indice={seleccionado}
+          onCambia={setElegido}
+          ancho={ancho}
+          alto={alto}
+          vista={ventana.width}
+          render={(i, activo) => {
+            const p = pasos[i]!;
+            const puedo = jugable(p.episodio);
+            return (
+              <Pulsable
+                onPress={activo ? (puedo ? () => jugar(i) : undefined) : () => setElegido(i)}
+                disabled={activo && !puedo}
+                label={activo ? `${t.dia} ${p.dia}. ${p.titulo[lang]}${puedo ? `. ${t.reproducir}` : `. ${t.proximamente}`}` : `${t.dia} ${p.dia}`}
+                escala={0.98}
+                style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09" }}
+              >
+                {pinturas[i] ? <ObraMarco src={pinturas[i]!} style={{ width: ancho, height: alto }} /> : <PlacaMarca monograma={monograma} size={88} style={{ width: ancho, height: alto }} />}
+                {completado(p.episodio) ? (
+                  <View style={{ position: "absolute", top: 12, right: 12, width: 30, height: 30, borderRadius: 15, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+                    <Icono nombre="check" size={16} color={c.accentInk} trazo={3} />
+                  </View>
+                ) : null}
+                {activo && puedo ? (
+                  <View style={{ position: "absolute", right: 12, bottom: 12, width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+                    <Icono nombre="play" size={20} color={c.accentInk} />
+                  </View>
+                ) : null}
+              </Pulsable>
+            );
+          }}
+        />
+      </Entrada>
+
+      <Entrada orden={2} style={{ paddingHorizontal: 20 }}>
+        <DiaDetalle c={c} lang={lang} datos={detalle} etiquetaDia={t.dia} etiquetaProximamente={t.proximamente} onRelacionado={(rel) => reproducirId(rel, { contexto: { tipo: "libro", id: base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn" } })} />
+      </Entrada>
+
+      <Entrada orden={3} style={{ marginHorizontal: 20, flexDirection: "row", alignItems: "center", gap: 14, padding: 14, borderRadius: 22, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+        <Ring fraccion={hechosN / pasos.length} size={52} trazo={6} color={c.accent} pista={c.line}>
+          <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 12 }}>{porcentaje}%</Text>
         </Ring>
-        <View style={{ flex: 1, gap: 4 }}>
-          <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30 }}>{hechos} {t.de} {pasos.length}</Text>
-          {siguiente ? <Text numberOfLines={2} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{t.dia} {siguiente.dia} · {siguiente.titulo[lang]}</Text> : null}
+        <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 24 }}>{hechosN} {t.de} {pasos.length}</Text>
+        <View accessible accessibilityLabel={`${racha} ${t.racha}`} style={{ flexDirection: "row", alignItems: "center", gap: 6, minHeight: 36, paddingHorizontal: 12, borderRadius: 18, backgroundColor: racha > 0 ? "rgba(224,196,138,0.14)" : "transparent", borderWidth: racha > 0 ? 0 : 1, borderColor: c.line }}>
+          <Icono nombre="llama" size={16} color={racha > 0 ? c.accent : c.muted} />
+          <Text style={{ color: racha > 0 ? c.accent : c.muted, fontFamily: fonts.medium, fontSize: 15, fontWeight: "700" }}>{racha}</Text>
         </View>
       </Entrada>
 
-      {siguienteGrabado ? <Boton c={c} texto={hechos > 0 ? t.continuar : t.unirme} icono="play" onPress={() => jugar(siguienteGrabado, Math.max(0, pasos.findIndex((p) => p.episodio === siguienteGrabado && !(library.progress.episodes[siguienteGrabado]?.completed))))} /> : null}
+      <Entrada orden={4}>
+        <CaminoDias c={c} nodos={nodos} seleccionado={seleccionado} onElegir={setElegido} vista={ventana.width} monograma={monograma} etiquetaHoy={t.hoy} etiqueta={t.caminoDias} />
+      </Entrada>
 
-      <View style={{ gap: 8 }}>
-        {pasos.map((paso, i) => {
-          const grabado = Boolean(paso.episodio && grabados.has(paso.episodio));
-          const hecho = Boolean(paso.episodio && library.progress.episodes[paso.episodio]?.completed);
-          if (paso.profecia) {
-            const expandido = abierto === i;
-            return (
-              <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
-                <View style={{ borderRadius: 20, backgroundColor: c.card, borderWidth: 1, borderColor: expandido ? c.accent : c.line, overflow: "hidden" }}>
-                  <Pulsable onPress={() => setAbierto(expandido ? null : i)} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}. ${paso.profecia} → ${paso.cumplimiento}`} selected={expandido} escala={0.99} style={{ minHeight: 72, paddingHorizontal: 14, paddingVertical: 10, flexDirection: "row", alignItems: "center", gap: 14, opacity: grabado ? 1 : 0.85 }}>
-                    <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: c.line }}>
-                      <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{paso.dia}</Text>
-                    </View>
-                    <View style={{ flex: 1, gap: 2 }}>
-                      <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
-                      {paso.diaLiturgico ? <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{paso.diaLiturgico}</Text> : null}
-                      <Text numberOfLines={1} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{paso.profecia} → {paso.cumplimiento}{(paso.referencias?.length ?? 0) > 1 ? `  +${(paso.referencias?.length ?? 1) - 1}` : ""}</Text>
-                    </View>
-                    <View style={{ alignItems: "flex-end", gap: 4 }}>
-                      <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
-                      {paso.minutos ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12 }}>{paso.minutos} min</Text> : null}
-                    </View>
-                  </Pulsable>
-                  {expandido ? (
-                    <View style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 12 }}>
-                      {(paso.referencias?.length ?? 0) > 1 ? (
-                        <View style={{ gap: 6 }}>
-                          {(paso.referencias ?? []).map((r) => (
-                            <Text key={`${r.profecia}-${r.cumplimiento}`} style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14 }}>{r.profecia} → {r.cumplimiento}</Text>
-                          ))}
-                        </View>
-                      ) : null}
-                      {paso.nota ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{paso.nota}</Text> : null}
-                      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-                        {(paso.relacionados ?? []).map((rel) => {
-                          const info = infoEpisodio(rel, base);
-                          const disponible = grabados.has(rel);
-                          const libro = base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn";
-                          return (
-                            <Pulsable key={rel} onPress={disponible ? () => reproducirId(rel, { contexto: { tipo: "libro", id: libro } }) : undefined} disabled={!disponible} label={`${info.titulo}${disponible ? "" : `. ${t.proximamente}`}`} escala={0.96} style={{ minHeight: 44, paddingHorizontal: 14, borderRadius: 22, flexDirection: "row", alignItems: "center", gap: 8, borderWidth: 1, borderColor: c.line, backgroundColor: "rgba(244,236,226,0.05)", opacity: disponible ? 1 : 0.6 }}>
-                              {disponible ? <Icono nombre="play" size={14} color={c.accent} /> : null}
-                              <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 14, maxWidth: 200 }}>{info.titulo}</Text>
-                              {disponible ? null : <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 11 }}>{t.proximamente}</Text>}
-                            </Pulsable>
-                          );
-                        })}
-                      </View>
-                    </View>
-                  ) : null}
-                </View>
-              </Entrada>
-            );
-          }
-          return (
-            <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
-              <Pulsable onPress={grabado && paso.episodio ? () => jugar(paso.episodio!, i) : undefined} disabled={!grabado} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}`} escala={0.985} style={{ minHeight: 64, paddingHorizontal: 14, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, opacity: grabado ? 1 : 0.7 }}>
-                <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", backgroundColor: hecho ? c.accent : "transparent", borderWidth: hecho ? 0 : 1, borderColor: c.line }}>
-                  {hecho ? <Icono nombre="check" size={18} color={c.accentInk} trazo={2.4} /> : <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{paso.dia}</Text>}
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
-                  {grabado && paso.minutos ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{paso.minutos} min</Text> : null}
-                </View>
-                <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
-              </Pulsable>
-            </Entrada>
-          );
-        })}
-      </View>
+      {siguienteGrabado ? (
+        <Entrada orden={5} style={{ paddingHorizontal: 20 }}>
+          <Boton
+            c={c}
+            texto={hechosN > 0 ? t.continuar : t.unirme}
+            icono="play"
+            onPress={() => {
+              if (hechosN === 0) hapticoExito();
+              const pos = Math.max(0, pasos.findIndex((p) => p.episodio === siguienteGrabado && !completado(p.episodio)));
+              reproducirId(siguienteGrabado, { contexto: { tipo: "reto", id }, pos });
+            }}
+          />
+        </Entrada>
+      ) : null}
     </ScrollView>
   );
 }
