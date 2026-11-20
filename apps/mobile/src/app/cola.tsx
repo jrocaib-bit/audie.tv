@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { tipoAcceso } from "../acceso";
+import { sinRepetidosSeguidos } from "../cola";
 import { infoEpisodio } from "../hoy";
 import { dark, fonts } from "../theme";
 import { tx } from "../textos";
@@ -30,7 +31,7 @@ export default function ACola() {
   const base = useContextoCatalogo();
   const reproducir = useReproducir();
   const [limite, setLimite] = useState(LOTE);
-  const filas = useMemo(() => cola.ids.slice(cola.pos, cola.pos + limite).map((id, i) => ({ id, pos: cola.pos + i })), [cola.ids, cola.pos, limite]);
+  const filas = useMemo(() => sinRepetidosSeguidos(cola.ids.slice(cola.pos, cola.pos + limite).map((id, i) => ({ id, pos: cola.pos + i }))), [cola.ids, cola.pos, limite]);
 
   return (
     <View style={{ flex: 1, backgroundColor: c.gallery }}>

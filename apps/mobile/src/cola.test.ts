@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import indice from "../../../content/canon/catalogo-indice.json";
 import type { Rango } from "./caminos";
-import { construirCola, infoPaso, nombreContexto, parseContexto, planVentana, posicionEn, siguientes, textoContexto, vecino, type FuentesCola, type NombresCola } from "./cola";
+import { construirCola, infoPaso, sinRepetidosSeguidos, nombreContexto, parseContexto, planVentana, posicionEn, siguientes, textoContexto, vecino, type FuentesCola, type NombresCola } from "./cola";
 import { decidirReproduccion } from "./acceso";
 import { episodiosDeReto } from "./acceso";
 
@@ -71,6 +71,14 @@ describe("navegación", () => {
     expect(siguientes(["gn-01", "gn-02"], 0, permitido, 2)).toEqual([]);
     const conCuenta = (id: string) => decidirReproduccion({ id, grabado: true, haySesion: true }) === "play";
     expect(siguientes(["is-01", "is-02", "is-03"], 0, conCuenta, 2).map((s) => s.id)).toEqual(["is-02", "is-03"]);
+  });
+});
+
+describe("lista a continuación", () => {
+  it("quita los repetidos seguidos pero no los que vuelven más tarde", () => {
+    const items = ["is-01", "is-02", "is-02", "is-03", "is-09", "is-09", "is-03"].map((id, pos) => ({ id, pos }));
+    expect(sinRepetidosSeguidos(items).map((i) => i.id)).toEqual(["is-01", "is-02", "is-03", "is-09", "is-03"]);
+    expect(sinRepetidosSeguidos([])).toEqual([]);
   });
 });
 

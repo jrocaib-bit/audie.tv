@@ -122,3 +122,8 @@ export function textoContexto(ctx: ContextoCola, info: InfoPaso, lang: Idioma, n
   if (!opciones.faltan) return base;
   return lang === "en" ? `${base} · ${info.faltan} to go` : `${base} · faltan ${info.faltan}`;
 }
+
+/** Para listar «a continuación»: un episodio repetido en pasos seguidos sale una sola vez. */
+export function sinRepetidosSeguidos<T extends { id: string }>(items: readonly T[]): T[] {
+  return items.filter((item, i) => i === 0 || item.id !== items[i - 1]!.id);
+}
