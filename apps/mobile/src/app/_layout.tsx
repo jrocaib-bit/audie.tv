@@ -44,7 +44,11 @@ function Shell() {
         <Stack.Screen name="leer" options={cabecera} />
         <Stack.Screen name="creditos" options={cabecera} />
         <Stack.Screen name="reto-adviento" options={{ ...cabecera, headerTransparent: false }} />
-        <Stack.Screen name="ahora" options={{ presentation: "modal", animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
+        <Stack.Screen name="bienvenida" options={{ contentStyle: { backgroundColor: "#0C0B09" }, animation: "fade" }} />
+        <Stack.Screen name="entrar" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
+        <Stack.Screen name="suscripcion" options={{ contentStyle: { backgroundColor: "#100E0C" } }} />
+        <Stack.Screen name="eliminar-cuenta" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
+        <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
       {enPestana && cargado && empezado ? (
         <MiniPlayer

@@ -1,107 +1,124 @@
-import { IDIOMAS, PLAYBACK_RATES, t, textosAlta, type DailyMinutes, type Sesion, type ThemeChoice } from "@audite/domain";
-import { restaurarCompras } from "../compras/tienda";
-import { restaurarNativo } from "../compras/storekit";
+import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes, type Sesion, type ThemeChoice } from "@audite/domain";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
-import { Pressable, ScrollView, Text } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { cerrarApp, sesionApp } from "../auth";
-import { useMobileLibrary } from "../state";
-import { dark, light, ui } from "../theme";
+import { restaurarNativo } from "../compras/storekit";
+import { URL_CONDICIONES, URL_PRIVACIDAD, restaurarCompras } from "../compras/tienda";
+import { guardarRecordatorio, leerPlan } from "../recordatorio";
+import { HORAS_RECORDATORIO, horaTexto, planDiario } from "../recordatorio-plan";
+import { fonts } from "../theme";
+import { tx } from "../textos";
+import { Chip } from "../ui/Basicos";
+import { Entrada } from "../ui/Entrada";
+import { Fila, Grupo, Segmentos } from "../ui/Fila";
+import { Pulsable } from "../ui/Pulsable";
+import { ScreenHeader } from "../ui/ScreenHeader";
+import { Icono } from "../ui/Icono";
+import { useTema } from "../ui/tema";
+import { useEpisodioCargado } from "../ui/useHoy";
+import { textoAviso } from "@audite/domain";
 
-export default function SettingsScreen() {
-  const library = useMobileLibrary();
+function FilaChips({ c, children }: { c: ReturnType<typeof useTema>["c"]; children: React.ReactNode }) {
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingVertical: 12 }} style={{ borderBottomWidth: 1, borderBottomColor: c.line }}>
+      {children}
+    </ScrollView>
+  );
+}
+
+export default function Ajustes() {
+  const { c, lang, library } = useTema();
+  const t = tx(lang);
+  const copy = textosAlta(library.settings.uiLocale);
   const router = useRouter();
-  const scheme = useColorScheme();
-  const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
-  const locale = library.settings.uiLocale;
-  const themes: ThemeChoice[] = ["system", "light", "dark"];
-  const minutes: DailyMinutes[] = [10, 15, 20, 30];
-  const languages = IDIOMAS;
-  const copy = textosAlta(locale);
+  const insets = useSafeAreaInsets();
+  const cargado = useEpisodioCargado();
   const [sesion, setSesion] = useState<Sesion | null>(null);
+  const [aviso, setAviso] = useState<{ activo: boolean; hora: number }>({ activo: false, hora: 8 });
   useEffect(() => {
     void sesionApp().then(setSesion);
+    void leerPlan().then((plan) => setAviso({ activo: plan.activo, hora: plan.hora }));
   }, []);
+
+  const fijarAviso = (activo: boolean, hora: number) => {
+    setAviso({ activo, hora });
+    const texto = textoAviso(library.settings.uiLocale, cargado?.info.libro || "Audite", 1);
+    void guardarRecordatorio(planDiario(hora, activo), texto);
+  };
+  const temas: { id: ThemeChoice; texto: string }[] = [
+    { id: "system", texto: t.sistema },
+    { id: "light", texto: t.claro },
+    { id: "dark", texto: t.oscuro },
+  ];
+  const minutos: DailyMinutes[] = [10, 15, 20, 30];
+
   return (
-    <ScrollView contentContainerStyle={[ui.screen, { backgroundColor: colors.bg }]}>
-      <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "settingsTitle")}</Text>
-      <Text style={[ui.body, { color: colors.ink }]}>{copy.cuenta}</Text>
-      {sesion ? (
-        <>
-          <Pressable onPress={() => void cerrarApp().then(() => setSesion(null))} style={[ui.button, { backgroundColor: colors.card }]}>
-            <Text style={{ color: colors.ink }}>{copy.salir}</Text>
-          </Pressable>
-        </>
-      ) : (
-        <Pressable onPress={() => router.push("/entrar")} style={[ui.button, { backgroundColor: colors.card }]}>
-          <Text style={{ color: colors.ink }}>{copy.entrar}</Text>
-        </Pressable>
-      )}
-      <Pressable onPress={() => router.push("/suscripcion")} style={[ui.button, { backgroundColor: colors.accent }]}>
-        <Text style={{ color: colors.accentInk }}>Audite Premium</Text>
-      </Pressable>
-      <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsTheme")}</Text>
-      <ScrollView horizontal contentContainerStyle={ui.row}>
-        {themes.map((theme) => (
-          <Pressable key={theme} onPress={() => library.updateSettings({ theme })} style={[ui.button, { backgroundColor: library.settings.theme === theme ? colors.accent : colors.card }]}>
-            <Text style={{ color: library.settings.theme === theme ? colors.accentInk : colors.ink }}>{theme}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-      <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsSpeed")}</Text>
-      <ScrollView horizontal contentContainerStyle={ui.row}>
-        {PLAYBACK_RATES.map((rate) => (
-          <Pressable key={rate} onPress={() => library.setRate(rate)} style={[ui.button, { backgroundColor: library.settings.rate === rate ? colors.accent : colors.card }]}>
-            <Text style={{ color: library.settings.rate === rate ? colors.accentInk : colors.ink }}>{rate}×</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-      <Text style={[ui.body, { color: colors.ink }]}>{t(locale, "settingsDaily")}</Text>
-      <ScrollView horizontal contentContainerStyle={ui.row}>
-        {minutes.map((value) => (
-          <Pressable key={value} onPress={() => library.updateSettings({ dailyMinutes: value })} style={[ui.button, { backgroundColor: library.settings.dailyMinutes === value ? colors.accent : colors.card }]}>
-            <Text style={{ color: library.settings.dailyMinutes === value ? colors.accentInk : colors.ink }}>{value} min</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-      <Text style={[ui.body, { color: colors.ink }]}>Idioma</Text>
-      <ScrollView horizontal contentContainerStyle={ui.row}>
-        {languages.map((value) => (
-          <Pressable key={value} onPress={() => library.updateSettings({ uiLocale: value, localeElegido: true })} style={[ui.button, { backgroundColor: library.settings.uiLocale === value ? colors.accent : colors.card }]}>
-            <Text style={{ color: library.settings.uiLocale === value ? colors.accentInk : colors.ink }}>{value}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-      <Pressable onPress={() => library.updateSettings({ captions: !library.settings.captions })} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>
-          {t(locale, "settingsCaptions")}: {library.settings.captions ? "on" : "off"}
-        </Text>
-      </Pressable>
-      <Pressable onPress={() => router.push("/leer")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>{locale === "es" ? "Lectura" : "Reading"}</Text>
-      </Pressable>
-      <Pressable onPress={() => router.push("/notas")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>{locale === "es" ? "Notas" : "Notes"}</Text>
-      </Pressable>
-      <Pressable onPress={() => router.push("/avisos")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>{locale === "es" ? "Avisos" : "Reminders"}</Text>
-      </Pressable>
-      <Pressable onPress={() => void restaurarCompras({ restaurar: restaurarNativo }, Date.now(), undefined, sesion?.userId ?? null)} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>Restaurar compras</Text>
-      </Pressable>
-      <Text style={[ui.body, { color: colors.ink }]}>Ayuda</Text>
-      <Pressable onPress={() => void Linking.openURL("mailto:soporte@audite.tv")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>soporte@audite.tv</Text>
-      </Pressable>
-      <Pressable onPress={() => void Linking.openURL("https://audite.tv/privacidad")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>Privacidad</Text>
-      </Pressable>
-      <Pressable onPress={() => router.push("/eliminar-cuenta")} style={[ui.button, { backgroundColor: colors.card }]}>
-        <Text style={{ color: colors.ink }}>Eliminar cuenta</Text>
-      </Pressable>
-      <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "settingsAboutBody")}</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+      <ScreenHeader
+        c={c}
+        titulo={t.tabAjustes}
+        derecha={
+          <Pulsable onPress={() => router.push("/suscripcion")} label={t.premium} haptica escala={0.94} style={{ minHeight: 44, paddingHorizontal: 16, borderRadius: 999, flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: c.accent }}>
+            <Icono nombre="estrella" size={16} color={c.accentInk} />
+            <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.premium}</Text>
+          </Pulsable>
+        }
+      />
+      <Entrada style={{ paddingHorizontal: 20, gap: 20, paddingTop: 8 }}>
+        <Grupo c={c} titulo={t.cuenta}>
+          {sesion ? (
+            <Fila c={c} icono="usuario" titulo={t.salir} onPress={() => void cerrarApp().then(() => setSesion(null))} />
+          ) : (
+            <Fila c={c} icono="usuario" titulo={copy.entrar} onPress={() => router.push("/entrar")} />
+          )}
+          <Fila c={c} icono="estrella" titulo="Audite Premium" onPress={() => router.push("/suscripcion")} ultima />
+        </Grupo>
+
+        <Grupo c={c} titulo={t.recordatorio}>
+          <Fila c={c} icono="campana" titulo={t.recordatorio} valor={aviso.activo ? horaTexto(aviso.hora) : t.desactivado} derecha={<Segmentos c={c} valor={aviso.activo ? 1 : 0} opciones={[{ id: 0, texto: t.desactivado }, { id: 1, texto: t.activado }]} onElegir={(v) => fijarAviso(v === 1, aviso.hora)} />} />
+          <FilaChips c={c}>
+            {HORAS_RECORDATORIO.map((hora) => (
+              <Chip key={hora} c={c} texto={horaTexto(hora)} activo={aviso.activo && aviso.hora === hora} onPress={() => fijarAviso(true, hora)} />
+            ))}
+          </FilaChips>
+          <Fila c={c} icono="reloj" titulo={t.minDia} valor={`${library.settings.dailyMinutes} min`} ultima derecha={<View />} />
+          <FilaChips c={c}>
+            {minutos.map((m) => (
+              <Chip key={m} c={c} texto={`${m} min`} activo={library.settings.dailyMinutes === m} onPress={() => library.updateSettings({ dailyMinutes: m })} />
+            ))}
+          </FilaChips>
+        </Grupo>
+
+        <Grupo c={c} titulo={t.tabBiblioteca}>
+          <Fila c={c} icono="velocidad" titulo={t.velocidadAj} valor={`${library.settings.rate}×`} derecha={<View />} />
+          <FilaChips c={c}>
+            {PLAYBACK_RATES.map((rate) => (
+              <Chip key={rate} c={c} texto={`${rate}×`} activo={library.settings.rate === rate} onPress={() => library.setRate(rate)} />
+            ))}
+          </FilaChips>
+          <Fila c={c} icono="idioma" titulo={t.idioma} derecha={<Segmentos c={c} valor={library.settings.uiLocale} opciones={IDIOMAS.map((id) => ({ id, texto: id.toUpperCase() }))} onElegir={(id) => library.updateSettings({ uiLocale: id, localeElegido: true })} />} />
+          <Fila c={c} icono="luna" titulo={t.apariencia} derecha={<Segmentos c={c} valor={library.settings.theme} opciones={temas} onElegir={(theme) => library.updateSettings({ theme })} />} />
+          <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Segmentos c={c} valor={library.settings.captions ? 1 : 0} opciones={[{ id: 0, texto: t.desactivado }, { id: 1, texto: t.activado }]} onElegir={(v) => library.updateSettings({ captions: v === 1 })} />} />
+          <Fila c={c} icono="descarga" titulo={t.descargas} onPress={() => router.push("/descargas")} />
+          <Fila c={c} icono="libro" titulo={t.lectura} onPress={() => router.push("/leer")} />
+          <Fila c={c} icono="libro" titulo={t.notas} onPress={() => router.push("/notas")} ultima />
+        </Grupo>
+
+        <Grupo c={c} titulo={t.legal}>
+          <Fila c={c} icono="info" titulo={t.creditos} onPress={() => router.push("/creditos")} />
+          <Fila c={c} icono="info" titulo={t.privacidad} onPress={() => void Linking.openURL(URL_PRIVACIDAD)} />
+          <Fila c={c} icono="info" titulo={t.terminos} onPress={() => void Linking.openURL(URL_CONDICIONES)} />
+          <Fila c={c} icono="estrella" titulo={t.restaurar} onPress={() => void restaurarCompras({ restaurar: restaurarNativo }, Date.now(), undefined, sesion?.userId ?? null)} />
+          <Fila c={c} icono="ayuda" titulo={t.ayuda} valor="soporte@audite.tv" onPress={() => void Linking.openURL("mailto:soporte@audite.tv")} ultima />
+        </Grupo>
+
+        <Grupo c={c}>
+          <Fila c={c} icono="borrar" titulo={t.eliminar} onPress={() => router.push("/eliminar-cuenta")} peligro ultima />
+        </Grupo>
+      </Entrada>
     </ScrollView>
   );
 }
