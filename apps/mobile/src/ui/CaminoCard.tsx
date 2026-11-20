@@ -35,8 +35,8 @@ export function CaminoCard({ c, nombre, src, hechos, total, fraccion, de, accion
       <Pulsable onPress={onPress} label={nombre} haptica escala={0.985} style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1.5, borderColor: borde, overflow: "hidden" }}>
         <ObraMarco src={src} style={{ height: 200 }} />
         <View style={{ padding: 20, gap: 12 }}>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-            <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 }}>{nombre}</Text>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+            <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32, flexShrink: 1 }}>{nombre}</Text>
             {marca}
           </View>
           <View style={{ flexDirection: "row", alignItems: "baseline", gap: 8 }}>
