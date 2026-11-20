@@ -4,7 +4,7 @@ export type NombreIcono =
   | "hoy" | "caminos" | "biblioteca" | "ajustes"
   | "play" | "pause" | "atras" | "adelante" | "chevron" | "abajo" | "cerrar" | "info"
   | "llama" | "check" | "candado" | "reloj" | "luna" | "texto" | "usuario" | "campana"
-  | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro";
+  | "retos" | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro";
 
 type Props = { nombre: NombreIcono; size?: number; color: string; trazo?: number; segundos?: number };
 
@@ -43,6 +43,7 @@ export function Icono({ nombre, size = 24, color, trazo = 1.8, segundos = 15 }: 
       );
       break;
     }
+    case "retos": dibujo = (<><Path d="M8 4h8v5a4 4 0 01-8 0V4z" {...linea} /><Path d="M8 6H5v1a3 3 0 003 3M16 6h3v1a3 3 0 01-3 3M12 13v4M9 20h6M10 17h4" {...linea} /></>); break;
     case "ondas": dibujo = <Path d="M6 14v5M12 5v14M18 10v9" {...linea} strokeWidth={3} />; break;
     case "chevron": dibujo = <Path d="M9 5.5l6.5 6.5L9 18.5" {...linea} />; break;
     case "abajo": dibujo = <Path d="M5.5 9l6.5 6.5L18.5 9" {...linea} />; break;

@@ -44,7 +44,7 @@ export function RachaCard({ c, etiqueta, racha, dias, semana }: { c: Paleta; eti
           {semana.map((d) => (
             <View key={d.iso} style={{ alignItems: "center", gap: 3 }}>
               <View style={{ width: 14, height: 14, borderRadius: 7, backgroundColor: d.hecho ? c.accent : "transparent", borderWidth: d.hecho ? 0 : d.hoy ? 2 : 1, borderColor: d.hoy ? c.accent : c.line, opacity: d.futuro ? 0.5 : 1 }} />
-              <Text style={{ color: d.hoy ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 10 }}>{d.letra}</Text>
+              <Text style={{ color: d.hoy ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 11 }}>{d.letra}</Text>
             </View>
           ))}
         </View>

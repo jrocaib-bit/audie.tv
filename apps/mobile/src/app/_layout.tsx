@@ -10,7 +10,7 @@ import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
 
-const RUTAS_PESTANAS = ["/", "/camino", "/biblioteca", "/ajustes"];
+const RUTAS_PESTANAS = ["/", "/camino", "/retos", "/biblioteca", "/ajustes"];
 
 function Shell() {
   const { c, lang, library } = useTema();
@@ -23,8 +23,8 @@ function Shell() {
   const pestanas: PestanaDef[] = [
     { href: "/", icono: "hoy", etiqueta: t.tabHoy },
     { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
+    { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
     { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
-    { href: "/ajustes", icono: "ajustes", etiqueta: t.tabAjustes },
   ];
 
   useEffect(() => {
@@ -41,12 +41,11 @@ function Shell() {
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: Platform.OS === "web" ? "none" : "default" }}>
         <Stack.Screen name="descargas" options={cabecera} />
-        <Stack.Screen name="avisos" options={cabecera} />
         <Stack.Screen name="notas" options={cabecera} />
         <Stack.Screen name="referencias" options={cabecera} />
         <Stack.Screen name="leer" options={cabecera} />
         <Stack.Screen name="creditos" options={cabecera} />
-        <Stack.Screen name="reto-adviento" options={{ ...cabecera, headerTransparent: false }} />
+        <Stack.Screen name="reto/[id]" options={cabecera} />
         <Stack.Screen name="bienvenida" options={{ contentStyle: { backgroundColor: "#0C0B09" }, animation: "fade" }} />
         <Stack.Screen name="entrar" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
         <Stack.Screen name="suscripcion" options={{ contentStyle: { backgroundColor: "#100E0C" } }} />

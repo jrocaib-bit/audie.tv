@@ -2,6 +2,12 @@
 const es = {
   tabHoy: "Hoy",
   tabCaminos: "Caminos",
+  tabRetos: "Retos",
+  enCurso: "En curso",
+  empiezaEl: "Empieza el",
+  terminado: "Terminado",
+  unirme: "Unirme",
+  temporadas: "Año litúrgico",
   tabBiblioteca: "Biblioteca",
   tabAjustes: "Ajustes",
   escuchar: "Escuchar",
@@ -90,6 +96,12 @@ type Textos = typeof es;
 const en: Textos = {
   tabHoy: "Today",
   tabCaminos: "Paths",
+  tabRetos: "Challenges",
+  enCurso: "In progress",
+  empiezaEl: "Starts",
+  terminado: "Finished",
+  unirme: "Join",
+  temporadas: "Liturgical year",
   tabBiblioteca: "Library",
   tabAjustes: "Settings",
   escuchar: "Listen",
@@ -172,3 +184,8 @@ export function tx(lang: "es" | "en"): Textos {
 }
 
 export type { Textos };
+
+/** Titular del reto principal. Es un titular, no microcopy. */
+export function tituloRetoBiblia(lang: "es" | "en"): string {
+  return lang === "en" ? "Listen to the Bible from beginning to end" : "Escucha la Biblia de principio a fin";
+}

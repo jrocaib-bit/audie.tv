@@ -3,7 +3,6 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
 import { tx } from "../textos";
-import { BotonRedondo } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { GoalCard, RachaCard } from "../ui/GoalCard";
 import { HeroCard } from "../ui/HeroCard";
@@ -63,7 +62,6 @@ export default function Hoy() {
         c={c}
         kicker={m.saludo}
         titulo={t.hoy}
-        derecha={<BotonRedondo c={c} nombre="usuario" label={t.perfil} onPress={() => router.push("/ajustes")} />}
       />
       <View style={{ paddingHorizontal: 20, gap: 20, paddingTop: 8 }}>
         {hero ? (
@@ -105,8 +103,14 @@ export default function Hoy() {
           </Entrada>
         ) : null}
 
-        <Entrada orden={4}>
-          <Pulsable onPress={() => router.push("/reto-adviento")} label={m.adviento.titulo} style={{ borderRadius: 24, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+        <Entrada orden={4} style={{ gap: 8 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.retos}</Text>
+            <Pulsable onPress={() => router.push("/retos")} label={t.verTodo} hitSlop={12} escala={0.94} style={{ minHeight: 44, justifyContent: "center" }}>
+              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verTodo}</Text>
+            </Pulsable>
+          </View>
+          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={m.adviento.titulo} style={{ borderRadius: 24, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
             <ObraMarco src={m.adviento.src} style={{ width: 88, height: 88, borderRadius: 16 }} />
             <View style={{ flex: 1, gap: 6 }}>
               <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 24 }}>{m.adviento.titulo}</Text>

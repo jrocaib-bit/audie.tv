@@ -24,7 +24,7 @@ const CAMINOS: { episodio: string; titulo: { es: string; en: string } }[] = [
 ];
 
 const RETOS: { id: string; titulo: { es: string; en: string }; src: string; ruta?: string }[] = [
-  { id: "adviento", titulo: { es: "Adviento", en: "Advent" }, src: "/obras/reto-adviento_o2-1x1.webp", ruta: "/reto-adviento" },
+  { id: "adviento", titulo: { es: "Adviento", en: "Advent" }, src: "/obras/reto-adviento_o2-1x1.webp", ruta: "/reto/adviento-isaias" },
   { id: "navidad", titulo: { es: "Navidad", en: "Christmas" }, src: "/obras/reto-navidad_o2-1x1.webp" },
 ];
 
