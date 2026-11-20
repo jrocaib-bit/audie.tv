@@ -59,7 +59,8 @@ function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
     libros: indice.books,
     titulos: { "gn-01": { es: "En el principio", en: "In the Beginning" } },
     duraciones: { "gn-01": 524.4 },
-    cargado: "gn-01",
+    actual: "gn-01",
+    grabados: ["gn-01", "gn-02", "jn-01"],
     pasosAdviento: [{ dia: 1, episodio: "is-01" }, { dia: 2, episodio: "is-02" }],
     ...extra,
   };
@@ -88,7 +89,9 @@ describe("modelo de Hoy", () => {
     expect(m.hero?.id).toBe("gn-02");
     expect(m.camino).toMatchObject({ hechos: 1, total: 516 });
     expect(m.explorar.libros.find((i) => i.id === "gn-01")).toBeDefined();
-    expect(m.hero?.reproducible).toBe(false);
+    expect(m.hero?.reproducible).toBe(true);
+    expect(m.hero?.actual).toBe(false);
+    expect(modeloHoy(ctxBase({ grabados: ["gn-01"], progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true } }, listenedOn: [] } })).hero?.reproducible).toBe(false);
   });
 
   it("marca retomar y fila continuar según el episodio a medias", () => {

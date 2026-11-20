@@ -1,5 +1,6 @@
 import { racha } from "@audite/domain";
 import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-visibles";
+import { episodioAMedias } from "./actual";
 import { caminoPorId, idsDeCamino, progresoCamino, type Rango } from "./caminos";
 
 export type TarjetaHoy = { id: string; titulo: string; src: string; ruta?: string };
@@ -89,14 +90,16 @@ export type CtxHoy = {
   lang: Idioma;
   hoyIso: string;
   hora: number;
-  progress: { episodes: Record<string, { positionSeconds: number; completed: boolean } | undefined>; listenedOn: readonly string[] };
+  progress: { episodes: Record<string, { positionSeconds: number; updatedAt?: string; completed: boolean } | undefined>; listenedOn: readonly string[] };
   caminoId: string;
   rangos: readonly Rango[];
   libros: readonly { id: string; name: { es: string; en: string } }[];
   titulos: Record<string, { es: string | null; en: string | null } | null | undefined>;
   duraciones: Record<string, number>;
-  /** Episodio cuyo audio tiene cargado el reproductor. */
-  cargado: string | null;
+  /** Episodio que carga el reproductor. */
+  actual: string | null;
+  /** Episodios con audio. El resto es «Próximamente». */
+  grabados: readonly string[];
   pasosAdviento: readonly { dia: number; episodio?: string }[];
 };
 
@@ -118,7 +121,7 @@ export function infoEpisodio(id: string, ctx: Pick<CtxHoy, "lang" | "libros" | "
 
 export type ModeloHoy = {
   saludo: string;
-  hero: (EpisodioInfo & { retomar: boolean; fraccion: number; reproducible: boolean }) | null;
+  hero: (EpisodioInfo & { retomar: boolean; fraccion: number; reproducible: boolean; actual: boolean }) | null;
   semana: DiaSemana[];
   racha: number;
   camino: { id: string; nombre: string; hechos: number; total: number; fraccion: number };
@@ -147,7 +150,11 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
   if (hero?.src) usadas.add(hero.src);
 
   // Un episodio a medias que no es el de hoy va en su propia fila, sin cuadro.
-  const medias = ctx.cargado && ctx.cargado !== heroId && fraccionDe(ctx.cargado) > 0 ? ctx.cargado : null;
+  const mediasId = episodioAMedias(
+    Object.fromEntries(Object.entries(ctx.progress.episodes).map(([id, p]) => [id, p ? { ...p, updatedAt: p.updatedAt ?? "" } : undefined])),
+    heroId,
+  );
+  const medias = mediasId && fraccionDe(mediasId) > 0 ? mediasId : null;
   const continuar = medias ? { ...infoEpisodio(medias, ctx), fraccion: fraccionDe(medias) } : null;
 
   const pasos = ctx.pasosAdviento;
@@ -168,7 +175,7 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
       usadas.add(item.src);
       return true;
     });
-  const explorar = { libros: sinRepetir(tarjetas.libros), caminos: sinRepetir(tarjetas.caminos), retos: sinRepetir(tarjetas.retos) };
+  const explorar = { libros: sinRepetir(tarjetas.libros), caminos: sinRepetir(tarjetas.caminos), retos: [] as TarjetaHoy[] };
 
   return {
     saludo: saludo(ctx.hora, ctx.lang),
@@ -177,7 +184,8 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
           ...hero,
           retomar: fraccionDe(hero.id) > 0,
           fraccion: fraccionDe(hero.id),
-          reproducible: hero.id === ctx.cargado,
+          reproducible: ctx.grabados.includes(hero.id),
+          actual: hero.id === ctx.actual,
         }
       : null,
     semana: semanaDe(ctx.progress.listenedOn, ctx.hoyIso, ctx.lang),

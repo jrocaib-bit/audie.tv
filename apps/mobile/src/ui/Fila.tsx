@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, Pressable, Text, View } from "react-native";
 import { fonts } from "../theme";
 import { Icono, type NombreIcono } from "./Icono";
 import { Pulsable } from "./Pulsable";
@@ -42,5 +43,18 @@ export function Segmentos<T extends string | number>({ c, opciones, valor, onEle
         );
       })}
     </View>
+  );
+}
+
+/** Interruptor propio: oro cuando está activo. */
+export function Interruptor({ c, activo, onCambiar, label }: { c: Paleta; activo: boolean; onCambiar: (valor: boolean) => void; label: string }) {
+  const valor = useRef(new Animated.Value(activo ? 1 : 0)).current;
+  useEffect(() => {
+    Animated.timing(valor, { toValue: activo ? 1 : 0, duration: 180, useNativeDriver: true }).start();
+  }, [activo, valor]);
+  return (
+    <Pressable accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: activo }} onPress={() => onCambiar(!activo)} hitSlop={8} style={{ width: 52, height: 32, borderRadius: 16, justifyContent: "center", backgroundColor: activo ? c.accent : c.line }}>
+      <Animated.View style={{ width: 26, height: 26, borderRadius: 13, backgroundColor: activo ? c.accentInk : c.ink, transform: [{ translateX: valor.interpolate({ inputRange: [0, 1], outputRange: [3, 23] }) }] }} />
+    </Pressable>
   );
 }

@@ -71,16 +71,17 @@ export default function Biblioteca() {
         const info = infoEpisodio(item.id, { ...ctx, titulos: { ...ctx.titulos, [item.id]: item.tituloCorto } });
         const titulo = rotuloEpisodio(item, lang) ?? info.titulo;
         const meta = grabado ? duracionCorta(grabado.durationSeconds) : "";
-        const abrir = grabado && grabado.id === ctx.cargado ? () => router.push("/ahora") : undefined;
+        const actual = grabado?.id === ctx.actual;
+        const abrir = grabado ? () => { if (!actual) library.playEpisode(grabado.id); router.push("/ahora"); } : undefined;
         return (
           <Pulsable onPress={abrir} disabled={!abrir} label={titulo} escala={0.985} style={{ marginHorizontal: 20, marginBottom: 10, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
             <ObraMarco src={info.src} style={{ width: 72, height: 72, borderRadius: 14 }} desenfoque={12} />
             <View style={{ flex: 1, gap: 3 }}>
-              <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{titulo}</Text>
+              <Text numberOfLines={2} style={{ color: actual ? c.accent : c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{titulo}</Text>
               <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{[item.capitulos, meta].filter(Boolean).join(" · ")}</Text>
             </View>
             {grabado ? (
-              <Icono nombre="play" size={20} color={c.accent} />
+              <Icono nombre={actual ? "ondas" : "play"} size={actual ? 22 : 20} color={c.accent} />
             ) : (
               <View style={{ paddingHorizontal: 10, minHeight: 26, borderRadius: 13, justifyContent: "center", borderWidth: 1, borderColor: c.line }}>
                 <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{t.proximamente}</Text>

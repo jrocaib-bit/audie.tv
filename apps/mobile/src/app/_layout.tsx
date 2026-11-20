@@ -8,7 +8,7 @@ import { tx } from "../textos";
 import { MiniPlayer } from "../ui/MiniPlayer";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
-import { useEpisodioCargado } from "../ui/useHoy";
+import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
 
 const RUTAS_PESTANAS = ["/", "/camino", "/biblioteca", "/ajustes"];
 
@@ -18,6 +18,7 @@ function Shell() {
   const path = usePathname();
   const router = useRouter();
   const cargado = useEpisodioCargado();
+  const hoy = useModeloHoy();
   const enPestana = RUTAS_PESTANAS.includes(path);
   const pestanas: PestanaDef[] = [
     { href: "/", icono: "hoy", etiqueta: t.tabHoy },
@@ -32,6 +33,8 @@ function Shell() {
 
   const avance = cargado ? library.progress.episodes[cargado.episodio.id] : undefined;
   const empezado = Boolean(cargado && (library.playing || (avance && !avance.completed && avance.positionSeconds >= 1)));
+  // En Hoy, si la tarjeta principal ya es este episodio y no suena, no se repite abajo.
+  const repetido = path === "/" && hoy.hero?.id === cargado?.episodio.id && !library.playing;
   const cabecera = { headerShown: true, title: "", headerBackButtonDisplayMode: "minimal" as const, headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerShadowVisible: false };
 
   return (
@@ -50,7 +53,7 @@ function Shell() {
         <Stack.Screen name="eliminar-cuenta" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
-      {enPestana && cargado && empezado ? (
+      {enPestana && cargado && empezado && !repetido ? (
         <MiniPlayer
           c={c}
           src={cargado.info.src}

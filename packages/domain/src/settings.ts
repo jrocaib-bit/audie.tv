@@ -26,6 +26,7 @@ export const STORAGE_KEYS = {
   settings: "audite.settings.v1",
   progress: "audite.progress.v1",
   path: "audite.path.v1",
+  current: "audite.current.v1",
 } as const;
 
 export const CAMINO_DEFECTO = "biblia";

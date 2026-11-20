@@ -1,7 +1,7 @@
-import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt, playableEpisodes } from "@audite/domain";
+import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { bucleDe } from "../bucles";
@@ -26,7 +26,12 @@ export default function NowPlaying() {
   const insets = useSafeAreaInsets();
   const cargado = useEpisodioCargado();
   const [sleepIdx, setSleepIdx] = useState(-1);
-  const episode = playableEpisodes(library.catalog)[0];
+  const pedido = useLocalSearchParams<{ e?: string }>().e;
+  useEffect(() => {
+    if (pedido && pedido !== library.currentEpisode?.id && library.hydrated) library.playEpisode(pedido);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pedido, library.hydrated]);
+  const episode = library.currentEpisode;
   if (!episode || !cargado) return null;
   const frame = frameAt(library.catalog.cues, library.catalog.captions, library.globalTime, true);
   const artwork = library.catalog.artworks.find((item) => item.id === frame.artworkId) ?? null;
@@ -45,7 +50,7 @@ export default function NowPlaying() {
     setSleepIdx(siguiente);
     library.setSleep(siguiente < 0 ? null : SLEEP_CHOICES[siguiente]!);
   };
-  const sueno = library.sleepLabel ?? t.sinTemporizador;
+  const sueno = library.sleepLabel ?? t.temporizador;
 
   return (
     <View style={{ flex: 1, backgroundColor: c.gallery }}>

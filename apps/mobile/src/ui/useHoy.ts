@@ -7,7 +7,7 @@ import { useTema } from "./tema";
 type Paso = { dia: number; episodio?: string };
 const PASOS: Paso[] = ((retosJson.retos as { id: string; pasos: Paso[] }[]).find((r) => r.id === "adviento-isaias")?.pasos ?? []).map((p) => ({ dia: p.dia, episodio: p.episodio }));
 
-export function useContextoCatalogo(): Pick<CtxHoy, "lang" | "libros" | "titulos" | "duraciones" | "rangos" | "cargado"> {
+export function useContextoCatalogo(): Pick<CtxHoy, "lang" | "libros" | "titulos" | "duraciones" | "rangos" | "actual" | "grabados"> {
   const { library, lang } = useTema();
   const { catalog } = library;
   return useMemo(() => {
@@ -18,8 +18,8 @@ export function useContextoCatalogo(): Pick<CtxHoy, "lang" | "libros" | "titulos
       titulos[e.id] = e.tituloCorto ?? titulos[e.id];
       duraciones[e.id] = e.durationSeconds;
     }
-    return { lang, libros: catalog.books, titulos, duraciones, rangos: catalog.rangos, cargado: playableEpisodes(catalog)[0]?.id ?? null };
-  }, [catalog, lang]);
+    return { lang, libros: catalog.books, titulos, duraciones, rangos: catalog.rangos, actual: library.currentEpisode?.id ?? null, grabados: playableEpisodes(catalog).map((e) => e.id) };
+  }, [catalog, lang, library.currentEpisode?.id]);
 }
 
 export function useModeloHoy() {
@@ -46,7 +46,7 @@ export function useModeloHoy() {
 export function useEpisodioCargado() {
   const { library } = useTema();
   const base = useContextoCatalogo();
-  const episodio = playableEpisodes(library.catalog)[0] ?? null;
+  const episodio = library.currentEpisode;
   return useMemo(() => {
     if (!episodio) return null;
     return { episodio, info: infoEpisodio(episodio.id, base) };

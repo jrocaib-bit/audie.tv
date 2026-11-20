@@ -13,7 +13,7 @@ import { fonts } from "../theme";
 import { tx } from "../textos";
 import { Chip } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
-import { Fila, Grupo, Segmentos } from "../ui/Fila";
+import { Fila, Grupo, Interruptor, Segmentos } from "../ui/Fila";
 import { Pulsable } from "../ui/Pulsable";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { Icono } from "../ui/Icono";
@@ -77,8 +77,8 @@ export default function Ajustes() {
           <Fila c={c} icono="estrella" titulo="Audite Premium" onPress={() => router.push("/suscripcion")} ultima />
         </Grupo>
 
-        <Grupo c={c} titulo={t.recordatorio}>
-          <Fila c={c} icono="campana" titulo={t.hora} derecha={<Segmentos c={c} valor={aviso.activo ? 1 : 0} opciones={[{ id: 0, texto: "Off" }, { id: 1, texto: "On" }]} onElegir={(v) => fijarAviso(v === 1, aviso.hora)} />} />
+        <Grupo c={c}>
+          <Fila c={c} icono="campana" titulo={t.recordatorio} valor={aviso.activo ? horaTexto(aviso.hora) : undefined} derecha={<Interruptor c={c} label={t.recordatorio} activo={aviso.activo} onCambiar={(v) => fijarAviso(v, aviso.hora)} />} />
           <FilaChips c={c}>
             {HORAS_RECORDATORIO.map((hora) => (
               <Chip key={hora} c={c} texto={horaTexto(hora)} activo={aviso.activo && aviso.hora === hora} onPress={() => fijarAviso(true, hora)} />
@@ -106,7 +106,7 @@ export default function Ajustes() {
             ))}
           </FilaChips>
           <Fila c={c} icono="luna" titulo={t.apariencia} derecha={<Segmentos c={c} valor={library.settings.theme} opciones={temas} onElegir={(theme) => library.updateSettings({ theme })} />} />
-          <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Segmentos c={c} valor={library.settings.captions ? 1 : 0} opciones={[{ id: 0, texto: "Off" }, { id: 1, texto: "On" }]} onElegir={(v) => library.updateSettings({ captions: v === 1 })} />} />
+          <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Interruptor c={c} label={t.subtitulos} activo={library.settings.captions} onCambiar={(v) => library.updateSettings({ captions: v })} />} />
           <Fila c={c} icono="descarga" titulo={t.descargas} onPress={() => router.push("/descargas")} />
           <Fila c={c} icono="libro" titulo={t.lectura} onPress={() => router.push("/leer")} />
           <Fila c={c} icono="libro" titulo={t.notas} onPress={() => router.push("/notas")} ultima />
