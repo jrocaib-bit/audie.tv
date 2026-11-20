@@ -40,7 +40,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocales } from "expo-localization";
 import { parseEpisodioActual } from "./actual";
 import { decidirReproduccion, episodiosDeReto } from "./acceso";
-import { crearCacheAudio, resolverAudio, type CacheAudio, type ErrorAudio } from "./audio-url";
+import { crearCacheAudio, necesitaRenovar, resolverAudio, type CacheAudio, type ErrorAudio } from "./audio-url";
 import { supabaseApp, tokenAcceso } from "./auth";
 import { CLAVE_COLA, CONTEXTO_DEFECTO, construirCola, infoPaso, parseContexto, planVentana, posicionEn, textoContexto, vecino, type ContextoCola, type FuentesCola, type NombresCola } from "./cola";
 import { datosDeReto } from "./temporadas";
@@ -49,6 +49,7 @@ import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-vi
 import { baseDeContenido, uriDeObra } from "./entorno";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { AppState } from "react-native";
 const contentBase = baseDeContenido();
 
 const indice = indiceJson as AppCatalog;
@@ -133,6 +134,8 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   // La lista empieza vacía: el audio se pide (URL firmada) solo cuando se pulsa play.
   const playlist = useAudioPlaylist({ sources: [], loop: "none", updateInterval: 250 });
   const status = useAudioPlaylistStatus(playlist);
+  const statusRef = useRef(status);
+  statusRef.current = status;
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [progress, setProgress] = useState<ProgressState>(emptyProgress);
   const [path, setPath] = useState<ListeningPath>(emptyPath);
@@ -145,6 +148,8 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const [estadoAudio, setEstadoAudio] = useState<"inactivo" | "cargando" | "listo" | "error">("inactivo");
   const [errorAudio, setErrorAudio] = useState<ErrorAudio | null>(null);
   const cacheAudio = useRef(crearCacheAudio());
+  /** Caducidad de la URL firmada de cada episodio de la lista nativa (las descargas locales no caducan). */
+  const expirasRef = useRef(new Map<string, number>());
   const [sesion, setSesion] = useState<Sesion | null>(null);
   const sesionRef = useRef<Sesion | null>(null);
   sesionRef.current = sesion;
@@ -237,9 +242,11 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const resolverUri = useCallback(async (id: string, archivos: Awaited<ReturnType<typeof leerDescargas>>, cache: CacheAudio): Promise<{ ok: true; uri: string } | { ok: false; error: ErrorAudio }> => {
     const ep = episodiosPorId.get(id);
     if (!ep) return { ok: false, error: "proximamente" };
+    expirasRef.current.delete(id);
     const local = urisDeReproduccion(id, ep.segments.map((segment) => ({ id: segment.id, remoto: `${contentBase}${segment.publicPath}` })), archivos);
     if (local.origen === "local" && local.uris[0]) return { ok: true, uri: local.uris[0] };
     const resultado = await resolverAudio(id, { base: contentBase, token: await tokenAcceso(), fetch: (url, init) => fetch(url, init), cache });
+    if (resultado.ok) expirasRef.current.set(id, resultado.expira);
     return resultado.ok ? { ok: true, uri: resultado.url } : { ok: false, error: resultado.error };
   }, []);
 
@@ -264,7 +271,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   );
 
   const loadEpisode = useCallback(
-    async (target: Episode) => {
+    async (target: Episode, reproducir = true) => {
       const token = ++loadToken.current;
       playedSinceLoad.current = false;
       ultimoTerminado.current = null;
@@ -310,7 +317,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         refrescarBloqueo(ids.length - 1);
         setLoadedId(target.id);
         playedSinceLoad.current = true;
-        playlist.play();
+        if (reproducir) playlist.play();
         void ampliarVentana(token, pos < 0 ? 0 : pos);
       } catch (error) {
         console.warn("[audio] reproductor", error);
@@ -320,9 +327,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     [ampliarVentana, fallar, playlist, refrescarBloqueo, resolverUri],
   );
 
+  const renovarRef = useRef<(reproducir: boolean) => boolean>(() => false);
   const playEpisodeRef = useRef<(id: string) => void>(() => undefined);
   const reproducirEpisodio = useCallback(
-    (id: string, opciones: { forzar?: boolean; contexto?: ContextoCola; pos?: number } = {}) => {
+    (id: string, opciones: { forzar?: boolean; contexto?: ContextoCola; pos?: number; reproducir?: boolean } = {}) => {
       const target = episodiosPorId.get(id);
       if (!target) return;
       // El contexto: el que se pide, o el actual si el episodio está en su cola, o su libro.
@@ -336,6 +344,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       const pos = opciones.pos ?? posicionEn(cola, id, opciones.contexto ? opciones.contexto.pos ?? 0 : contextoRef.current.pos ?? 0);
       fijarContexto({ ...ctx, pos: pos < 0 ? 0 : pos });
       if (!opciones.forzar && target.id === currentIdRef.current && loadedIdRef.current === target.id) {
+        if (renovarRef.current(true)) return;
         playlist.play();
         return;
       }
@@ -353,11 +362,33 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       }
       setEstadoAudio("cargando");
       setErrorAudio(null);
-      void loadEpisode(target);
+      void loadEpisode(target, opciones.reproducir ?? true);
     },
     [fijarContexto, loadEpisode, playlist, setPendiente],
   );
   playEpisodeRef.current = (id) => reproducirEpisodio(id);
+
+  /** Si la URL firmada ya cargada caduca pronto, recarga el episodio con una nueva (la posición se recupera del avance). */
+  renovarRef.current = (reproducir) => {
+    const actualId = loadedIdRef.current;
+    if (!actualId) return false;
+    const ahora = Date.now();
+    const ventana = ventanaRef.current;
+    const actualCaduca = necesitaRenovar(expirasRef.current.get(actualId), ahora);
+    // Sonando solo se interrumpe si la actual está a punto de fallar; en pausa se renueva también la de los vecinos.
+    const algunaCaduca = !status.playing && ventana.some((id) => necesitaRenovar(expirasRef.current.get(id), ahora));
+    if (!actualCaduca && !algunaCaduca) return false;
+    reproducirEpisodio(actualId, { forzar: true, reproducir });
+    return true;
+  };
+
+  // Al volver de segundo plano o de la pantalla de bloqueo, antes de que el usuario pulse nada.
+  useEffect(() => {
+    const aviso = AppState.addEventListener("change", (estado) => {
+      if (estado === "active") renovarRef.current(statusRef.current.playing);
+    });
+    return () => aviso.remove();
+  }, []);
 
   /** El audio nativo cambió de pista (siguiente desde la pantalla de bloqueo o fin natural del episodio). */
   const cambioNativo = useCallback(
@@ -647,7 +678,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       if (status.playing) playlist.pause();
-      else playlist.play();
+      else if (!renovarRef.current(true)) playlist.play();
     },
     seekBy: (delta) => seekGlobal(globalTime + delta),
     restart: () => seekGlobal(0),

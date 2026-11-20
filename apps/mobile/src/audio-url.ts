@@ -10,6 +10,12 @@ export type CacheAudio = Map<string, { url: string; expira: number }>;
 
 const MARGEN_MS = 60_000;
 
+/** Una URL firmada ya cargada hay que renovarla si caduca dentro del margen o ya caducó. */
+export function necesitaRenovar(expira: number | undefined, ahora: number = Date.now()): boolean {
+  if (expira === undefined) return false;
+  return expira - MARGEN_MS <= ahora;
+}
+
 export function crearCacheAudio(): CacheAudio {
   return new Map();
 }

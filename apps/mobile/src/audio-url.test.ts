@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { crearCacheAudio, resolverAudio, type FetchLike } from "./audio-url";
+import { crearCacheAudio, necesitaRenovar, resolverAudio, type FetchLike } from "./audio-url";
 
 const ok = (cuerpo: unknown, status = 200) => ({ status, json: async () => cuerpo });
 
@@ -36,5 +36,27 @@ describe("resolverAudio", () => {
     expect(f).toHaveBeenCalledTimes(1);
     await resolverAudio("x", { base: "b", fetch: f, ahora: 950_000, cache });
     expect(f).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("necesitaRenovar", () => {
+  it("no toca las descargas locales (sin expira)", () => {
+    expect(necesitaRenovar(undefined, 10_000_000)).toBe(false);
+  });
+  it("sigue valiendo con más de un minuto de margen", () => {
+    expect(necesitaRenovar(1_000_000, 900_000)).toBe(false);
+  });
+  it("se renueva dentro del margen o ya caducada", () => {
+    expect(necesitaRenovar(1_000_000, 940_000)).toBe(true);
+    expect(necesitaRenovar(1_000_000, 940_001)).toBe(true);
+    expect(necesitaRenovar(1_000_000, 2_000_000)).toBe(true);
+  });
+  it("la caché devuelve una URL nueva tras caducar el margen", async () => {
+    const cache = crearCacheAudio();
+    let n = 0;
+    const f = vi.fn<FetchLike>(async () => ok({ url: `https://s/${++n}.mp3`, expira: 1_000_000 }));
+    const a = await resolverAudio("x", { base: "b", fetch: f, ahora: 0, cache });
+    const b = await resolverAudio("x", { base: "b", fetch: f, ahora: 970_000, cache });
+    expect(a.ok && b.ok && a.url !== b.url).toBe(true);
   });
 });
