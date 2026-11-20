@@ -5,18 +5,22 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { bucleDe, medidasHueco } from "../bucles";
+import { vecino } from "../cola";
+import { infoEpisodio } from "../hoy";
 import { BucleCuadro } from "../bucle-cuadro";
 import { baseDeContenido, uriDeObra } from "../entorno";
 import { dark, fonts } from "../theme";
 import { tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
+import { Carrusel } from "../ui/Carrusel";
 import { Icono } from "../ui/Icono";
+import { ObraMarco } from "../ui/ObraMarco";
 import { Pulsable } from "../ui/Pulsable";
 import { Scrubber } from "../ui/Scrubber";
 import { useTema } from "../ui/tema";
 import { ProgressBar } from "../ui/ProgressBar";
 import { useCola } from "../ui/useCola";
-import { useEpisodioCargado } from "../ui/useHoy";
+import { useContextoCatalogo, useEpisodioCargado } from "../ui/useHoy";
 
 const c = dark;
 
@@ -28,6 +32,7 @@ export default function NowPlaying() {
   const ventana = useWindowDimensions();
   const cargado = useEpisodioCargado();
   const cola = useCola();
+  const base = useContextoCatalogo();
   const [sleepIdx, setSleepIdx] = useState(-1);
   const pedido = useLocalSearchParams<{ e?: string }>().e;
   useEffect(() => {
@@ -48,7 +53,8 @@ export default function NowPlaying() {
 
   // La obra se dimensiona con su proporción; el bloque entero se centra en vertical.
   const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 470);
-  const maxAncho = ventana.width - 32;
+  // Un poco más estrecha que la pantalla para que asomen los vecinos.
+  const maxAncho = ventana.width - 64;
   const ratio = cargado.info.ratio;
   let anchoObra = Math.min(maxAncho, maxAlto * ratio);
   let altoObra = anchoObra / ratio;
@@ -58,6 +64,10 @@ export default function NowPlaying() {
     altoObra = anchoObra === caja.width ? caja.height : caja.height * (anchoObra / caja.width);
   }
 
+  const previo = vecino(cola.ids, cola.pos, -1, cola.grabado);
+  const proximo = vecino(cola.ids, cola.pos, 1, cola.grabado);
+  const ids = [previo?.id, episode.id, proximo?.id].filter((x): x is string => Boolean(x));
+  const centro = previo ? 1 : 0;
   const error = library.errorAudio;
   const cargando = library.estadoAudio === "cargando";
   const ciclarVelocidad = () => {
@@ -97,17 +107,43 @@ export default function NowPlaying() {
       </View>
 
       <View style={{ flex: 1, justifyContent: "center", gap: 16, paddingBottom: insets.bottom + 12 }}>
-        <View style={{ alignItems: "center" }}>
-          {bucle && (bucle.poster || poster) ? (
-            <View style={{ width: anchoObra, height: altoObra, borderRadius: 16, overflow: "hidden" }}>
-              <BucleCuadro bucle={bucle} poster={bucle.poster || poster} alt={bucle.alt || alt} />
-            </View>
-          ) : (
-            <View style={{ width: anchoObra, height: altoObra, borderRadius: 14, overflow: "hidden", backgroundColor: "#0C0B09", shadowColor: "#000", shadowOpacity: 0.55, shadowRadius: 24, shadowOffset: { width: 0, height: 12 }, elevation: 12 }}>
-              <Image source={{ uri: uriDeObra(src) }} resizeMode="contain" accessibilityLabel={alt || cargado.info.titulo} style={StyleSheet.absoluteFill} />
-            </View>
-          )}
-        </View>
+        <Carrusel
+          n={ids.length}
+          indice={centro}
+          vista={ventana.width}
+          ancho={maxAncho}
+          alto={altoObra}
+          separacion={14}
+          clave={episode.id}
+          onCambia={(i) => {
+            if (i > centro) library.siguiente();
+            else if (i < centro) library.anterior();
+          }}
+          render={(i, activo) => {
+            if (!activo) {
+              const info = infoEpisodio(ids[i]!, base);
+              const a = Math.min(maxAncho, altoObra * info.ratio);
+              return (
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                  <ObraMarco src={info.src} style={{ width: a, height: a / info.ratio, borderRadius: 14 }} />
+                </View>
+              );
+            }
+            return (
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                {bucle && (bucle.poster || poster) ? (
+                  <View style={{ width: anchoObra, height: altoObra, borderRadius: 16, overflow: "hidden" }}>
+                    <BucleCuadro bucle={bucle} poster={bucle.poster || poster} alt={bucle.alt || alt} />
+                  </View>
+                ) : (
+                  <View style={{ width: anchoObra, height: altoObra, borderRadius: 14, overflow: "hidden", backgroundColor: "#0C0B09", shadowColor: "#000", shadowOpacity: 0.55, shadowRadius: 24, shadowOffset: { width: 0, height: 12 }, elevation: 12 }}>
+                    <Image source={{ uri: uriDeObra(src) }} resizeMode="contain" accessibilityLabel={alt || cargado.info.titulo} style={StyleSheet.absoluteFill} />
+                  </View>
+                )}
+              </View>
+            );
+          }}
+        />
 
         <View style={{ paddingHorizontal: 24, gap: 4 }}>
           <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 }}>{cargado.info.titulo}</Text>
