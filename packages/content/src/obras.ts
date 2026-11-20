@@ -141,6 +141,15 @@ export function portadaDeReto(retoId: string): PortadaReto | null {
   return portadasDeRetos().find((portada) => portada.retoId === retoId) ?? null;
 }
 
+export function obraRetoPorId(id: string): { titulo: { es: string; en: string }; autor: { es: string; en: string } } | null {
+  const obra = retosArchivo.retos?.obras?.find((item) => item.id === id);
+  if (!obra) return null;
+  const titulo = { es: textoDe(obra.titulo, "es"), en: textoDe(obra.titulo, "en") };
+  const autor = { es: textoDe(obra.autor, "es"), en: textoDe(obra.autor, "en") };
+  if (!titulo.es || !autor.es) return null;
+  return { titulo, autor };
+}
+
 export function libroDeEpisodio(episodio: string): string {
   return episodio.replace(/-\d+$/, "");
 }

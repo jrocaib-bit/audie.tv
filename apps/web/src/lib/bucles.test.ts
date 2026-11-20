@@ -110,6 +110,35 @@ describe("bucles", () => {
     expect(bucleDeReto("adviento-isaias", "reto-adviento_o1", json)?.alt).toBe("El reino pacífico");
   });
 
+  it("el aspect del hero Cleve no sale de gn-01", () => {
+    const json = JSON.stringify({
+      "gn-01": { mp4: "https://repo.example/gn.mp4", aspect: "1/1" },
+      "reto:adviento-isaias": { mp4: "https://signed.example/cleve.mp4", aspect: "16/9" },
+    });
+    const sinClip = bucleDeHero("gn-01", { NEXT_PUBLIC_BUCLES_JSON: json });
+    expect(sinClip?.mp4).toBe("https://repo.example/gn.mp4");
+    expect(sinClip?.aspect).toBe("");
+    const cleve = bucleDeHero("gn-01", {
+      NEXT_PUBLIC_BUCLES_JSON: json,
+      NEXT_PUBLIC_BUCLE_HERO_MP4: "https://cdn.example/cleve.mp4",
+      NEXT_PUBLIC_BUCLE_HERO_POSTER: "https://cdn.example/cleve.webp",
+    });
+    expect(cleve?.mp4).toBe("https://cdn.example/cleve.mp4");
+    expect(cleve?.aspect).toBe("16/9");
+    const forzado = bucleDeHero("gn-01", {
+      NEXT_PUBLIC_BUCLES_JSON: json,
+      NEXT_PUBLIC_BUCLE_HERO_MP4: "https://cdn.example/cleve.mp4",
+      NEXT_PUBLIC_BUCLE_HERO_ASPECT: "3/2",
+    });
+    expect(forzado?.aspect).toBe("3/2");
+    const cae = bucleDeHero("gn-01", {
+      NEXT_PUBLIC_BUCLES_JSON: json,
+      NEXT_PUBLIC_BUCLE_HERO_WEBM: "https://cdn.example/cleve.webm",
+      NEXT_PUBLIC_BUCLE_HERO_ASPECT: "no",
+    });
+    expect(cae?.aspect).toBe("16/9");
+  });
+
   it("guarda la proporción ancho/alto y reserva el hueco", () => {
     expect(aspectoDe("16/9")).toBe("16/9");
     expect(aspectoDe(1.5)).toBe("1.5");

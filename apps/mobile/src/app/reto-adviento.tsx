@@ -1,15 +1,23 @@
 import { hrefDePasoAdviento, type Sesion } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import retosJson from "../../../../content/tiempos/retos.json";
 import { sesionApp } from "../auth";
+import { BucleCuadro } from "../bucle-cuadro";
+import { bucleDe, medidasHueco } from "../bucles";
+import { creditoObraReto } from "../credito-obra";
 import { fonts } from "../theme";
 
 const PASOS = retosJson.retos.find((reto) => reto.id === "adviento-isaias")?.pasos ?? [];
 
 export default function RetoAdviento() {
   const router = useRouter();
+  const ventana = useWindowDimensions();
+  const hicks = bucleDe("reto:adviento-isaias:o1");
+  const posterHicks = hicks?.poster ?? "";
+  const caja = hicks && posterHicks ? medidasHueco(hicks.aspect, ventana.width, ventana.height) : null;
+  const credito = caja ? creditoObraReto("reto-adviento_o1", "es") : "";
   const [sesion, setSesion] = useState<Sesion | null | undefined>(undefined);
   useEffect(() => {
     void sesionApp().then(setSesion);
@@ -24,6 +32,14 @@ export default function RetoAdviento() {
         <Pressable accessibilityRole="button" onPress={() => router.push("/entrar")} style={{ minHeight: 52, borderRadius: 999, backgroundColor: "#C9A96E", alignItems: "center", justifyContent: "center" }}>
           <Text style={{ color: "#100E0C" }}>Regístrate o inicia sesión</Text>
         </Pressable>
+      ) : null}
+      {caja && hicks ? (
+        <View style={{ alignSelf: "center", width: caja.width }}>
+          <View style={{ width: caja.width, height: caja.height, overflow: "hidden", backgroundColor: "#100E0C" }}>
+            <BucleCuadro bucle={hicks} poster={posterHicks} alt={credito || hicks.alt} />
+          </View>
+          {credito ? <Text style={{ color: "#B7AB9C", textAlign: "center", marginTop: 8, fontSize: 13 }}>{credito}</Text> : null}
+        </View>
       ) : null}
       {PASOS.map((paso) => {
         const href = hrefDePasoAdviento(conCuenta, `/ahora?e=${paso.episodio ?? ""}`, "/entrar");

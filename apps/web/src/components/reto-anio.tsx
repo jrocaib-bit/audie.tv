@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
+import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
 import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { etiquetaInicio, fechaLegible } from "@/lib/publico";
 import { episodioDeCita, fechaDeDia, inicioDeTemporada, portadasDeTemporada, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
@@ -33,6 +34,7 @@ export function VistaRetoAnio({ lang, reto, rangos }: { lang: string; reto: Reto
         <p className="text-[#E7D7C3]">{reto.explica[ui]}</p>
         <p className="mt-3 text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</p>
         {!reto.fijo ? <p className="mt-2 text-sm text-[#B7AB9C]">{ui === "en" ? "It can be walked in any stretch of Ordinary Time." : "Se puede recorrer en cualquier tramo de Tiempo ordinario."}</p> : null}
+        {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
         <ol className="mt-8 divide-y divide-[#2E2924] border-y border-[#2E2924]">
           {reto.dias.map((dia, indice) => {
             const episodio = episodioDeCita(dia.cita, rangos);

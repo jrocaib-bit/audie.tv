@@ -6,6 +6,6 @@
       "@audite/domain": ["../../packages/domain/src/index.ts"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "../../packages/domain/src/**/*.ts", "../../content/catalog/manifest.json", "../../content/referencias/openbible.json", "../web/src/data/bucles.json"],
+  "include": ["**/*.ts", "**/*.tsx", "../../packages/domain/src/**/*.ts", "../../content/catalog/manifest.json", "../../content/referencias/openbible.json", "../../content/obras/creditos.json", "../web/src/data/bucles.json"],
   "exclude": ["**/*.test.ts"]
 }

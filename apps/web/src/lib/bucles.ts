@@ -142,8 +142,8 @@ export function fuentesParaAncho(bucle: Bucle, estrecho: boolean): FuenteVideo[]
   return movil;
 }
 
-export function bucleDeEpisodio(id: string, json: string | undefined = JSON_PUBLICO): Bucle | null {
-  return armar(mapa(json)[id]);
+export function bucleDeEpisodio(id: string, json?: string): Bucle | null {
+  return armar(mapa(json ?? process.env.NEXT_PUBLIC_BUCLES_JSON)[id]);
 }
 
 /** Portada del reto: el sufijo de la obra (_o1, _o2) gana; si no hay, vale reto:<id>. */
@@ -177,6 +177,8 @@ export function bucleDeHero(id: string, env: Record<string, string | undefined> 
     webm_1280: webmMovil || base.webm_1280,
     poster_1280: posterMovil || base.poster_1280,
     alt: hayHero ? texto(env.NEXT_PUBLIC_BUCLE_HERO_ALT) : base.alt,
-    aspect: base.aspect,
+    aspect: hayHero
+      ? aspectoDe(env.NEXT_PUBLIC_BUCLE_HERO_ASPECT) || aspectoDe(mapa(json)["reto:adviento-isaias"]?.aspect)
+      : "",
   });
 }

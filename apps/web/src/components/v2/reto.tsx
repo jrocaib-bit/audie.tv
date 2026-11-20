@@ -3,6 +3,7 @@
 import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
+import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
 import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
@@ -115,6 +116,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
         <button type="button" className="mt-3 flex min-h-14 w-full items-center justify-center rounded-full bg-acento font-display text-xl text-acento-ink" onClick={() => document.getElementById(`dia-${siguiente}`)?.scrollIntoView({ behavior: "smooth", block: "center" })}>
           {avance.hechos === 0 ? (es ? "Empezar" : "Start") : `${es ? "Seguir" : "Continue"} · ${es ? "Día" : "Day"} ${siguiente}`}
         </button>
+        {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
         <ul className="mt-5">
           {reto.pasos.map((paso) => {
             const hecho = estado.hechos.includes(paso.dia);
