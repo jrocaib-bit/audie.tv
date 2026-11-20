@@ -96,7 +96,7 @@ export function infoPaso(cola: readonly string[], pos: number, completado: (id: 
   return { paso, total, faltan: Math.max(total - paso, 0), hechos, fraccion: total === 0 ? 0 : hechos / total };
 }
 
-export type NombresCola = { libro: (id: string) => string | undefined; reto: (id: string) => { es: string; en: string } | undefined };
+export type NombresCola = { libro: (id: string, lang: Idioma) => string | undefined; reto: (id: string) => { es: string; en: string } | undefined };
 
 export function nombreContexto(ctx: ContextoCola, lang: Idioma, n: NombresCola): string {
   if (ctx.tipo === "camino") {
@@ -108,7 +108,7 @@ export function nombreContexto(ctx: ContextoCola, lang: Idioma, n: NombresCola):
     const t = n.reto(ctx.id)?.[lang] ?? ctx.id;
     return lang === "en" ? `Challenge · ${t}` : `Reto · ${t}`;
   }
-  return n.libro(ctx.id) ?? ctx.id;
+  return n.libro(ctx.id, lang) ?? ctx.id;
 }
 
 /** «Biblia entera · paso 291 de 516 · faltan 225». `palabra` fuerza «paso» (pantalla de bloqueo). */
