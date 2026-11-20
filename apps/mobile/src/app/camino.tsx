@@ -1,49 +1,49 @@
-import { idiomaContenido, booksOnTheWay, episodeById, journeyState, nombreCorto, playableByBook, t } from "@audite/domain";
-import { useMemo } from "react";
-import { FlatList, Text, useColorScheme, View } from "react-native";
-import { useMobileLibrary } from "../state";
-import { dark, fonts, light, ui } from "../theme";
+import { useRouter } from "expo-router";
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { tx } from "../textos";
+import { CaminoCard } from "../ui/CaminoCard";
+import { Entrada } from "../ui/Entrada";
+import { ScreenHeader } from "../ui/ScreenHeader";
+import { haptico, useTema } from "../ui/tema";
+import { useCaminos } from "../ui/useCaminos";
 
-export default function PathScreen() {
-  const library = useMobileLibrary();
-  const scheme = useColorScheme();
-  const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
-  const locale = library.settings.uiLocale;
-  const books = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
-  const byBook = useMemo(() => playableByBook(library.catalog.episodes), [library.catalog.episodes]);
+export default function Caminos() {
+  const { c, lang, library } = useTema();
+  const t = tx(lang);
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const caminos = useCaminos();
   return (
-    <FlatList
-      data={books}
-      keyExtractor={(book) => book.id}
-      style={{ backgroundColor: colors.bg }}
-      contentContainerStyle={{ paddingBottom: 120 }}
-      initialNumToRender={18}
-      ListHeaderComponent={
-        <View style={{ paddingHorizontal: 22, paddingTop: 12, gap: 12, marginBottom: 8 }}>
-          <Text style={[ui.kicker, { color: colors.muted }]}>{t(locale, "navPath")}</Text>
-          <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "pathTitle")}</Text>
-          <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "pathIntro")}</Text>
-          {library.path.steps.map((step) => {
-            const item = episodeById(library.catalog, step.episodeId);
-            if (!item) return null;
-            return (
-              <Text key={step.episodeId} style={{ color: colors.ink, fontFamily: fonts.serif, fontSize: 22 }}>
-                {nombreCorto(item, locale)}
-              </Text>
-            );
-          })}
-        </View>
-      }
-      renderItem={({ item }) => {
-        const state = journeyState(item.id, library.path, library.progress, byBook);
-        const label = state === "heard" ? t(locale, "journeyHeard") : state === "ahead" ? t(locale, "journeyAhead") : t(locale, "journeyCurrent");
-        return (
-          <View style={{ marginHorizontal: 22, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line, flexDirection: "row", justifyContent: "space-between", gap: 12 }}>
-            <Text style={{ color: state === "ahead" ? colors.muted : colors.ink, fontFamily: fonts.serif, fontSize: 24, flex: 1 }}>{item.name[idiomaContenido(locale)] || item.name.es}</Text>
-            <Text style={{ color: colors.muted, fontFamily: fonts.sans, fontSize: 13, paddingTop: 8 }}>{label}</Text>
-          </View>
-        );
-      }}
-    />
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+      <ScreenHeader c={c} titulo={t.tabCaminos} />
+      <View style={{ paddingHorizontal: 20, gap: 14, paddingTop: 8 }}>
+        {caminos.map((camino, i) => (
+          <Entrada key={camino.def.id} orden={i}>
+            <CaminoCard
+              c={c}
+              principal={camino.def.id === "biblia"}
+              nombre={camino.nombre}
+              src={camino.src}
+              hechos={camino.progreso.hechos}
+              total={camino.progreso.total}
+              fraccion={camino.progreso.fraccion}
+              de={t.de}
+              accion={camino.progreso.hechos > 0 ? t.continuar : t.empezar}
+              activo={camino.activo}
+              etiquetaActivo={t.activo}
+              onPress={() => {
+                if (camino.activo) {
+                  haptico();
+                  router.navigate("/");
+                  return;
+                }
+                library.updateSettings({ caminoActivo: camino.def.id });
+              }}
+            />
+          </Entrada>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
