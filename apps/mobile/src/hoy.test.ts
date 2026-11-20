@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { tarjetasHoy } from "./hoy";
-import { baseDeContenido, uriDeObra } from "./entorno";
+import { baseDeContenido, obraEnBundle, uriDeObra } from "./entorno";
 import { textosAdviento } from "./adviento-textos";
 import { familiaSerif } from "./serif";
 
@@ -32,6 +32,13 @@ describe("Hoy y la base de contenido", () => {
     expect(baseDeContenido(undefined)).toBe("https://audite.tv");
     expect(baseDeContenido("")).toBe("https://audite.tv");
     expect(baseDeContenido("http://127.0.0.1:43123/")).toBe("http://127.0.0.1:43123");
+  });
+
+  it("sirve las obras de Profecías desde el bundle, no desde audite.tv", () => {
+    expect(obraEnBundle("/obras/reto-profecias_o1-1x1.webp")).toBe(true);
+    expect(obraEnBundle("/obras/reto-profecias_pp-01.webp")).toBe(true);
+    expect(obraEnBundle("/obras/reto-profecias_pp-08.webp")).toBe(true);
+    expect(obraEnBundle("/obras/reto-adviento_o2-1x1.webp")).toBe(false);
   });
 
   it("traduce Adviento y no usa Georgia si falta Gazpacho", () => {

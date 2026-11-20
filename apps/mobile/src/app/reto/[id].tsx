@@ -125,8 +125,8 @@ export default function RetoDetalle() {
           render={(i, activo) => {
             if (desfase && i === 0) {
               return (
-                <View accessible accessibilityLabel={titulo} style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09" }}>
-                  <ObraMarco src={portada} alt={titulo} style={{ width: ancho, height: alto }} />
+                <View accessible accessibilityLabel={titulo} style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09", padding: 10 }}>
+                  <ObraMarco src={portada} alt={titulo} style={{ width: "100%", height: "100%", borderRadius: 16 }} />
                 </View>
               );
             }
@@ -139,9 +139,9 @@ export default function RetoDetalle() {
                 disabled={activo && !puedo}
                 label={activo ? `${t.dia} ${p.dia}. ${p.titulo[lang]}${puedo ? `. ${t.reproducir}` : `. ${t.proximamente}`}` : `${t.dia} ${p.dia}`}
                 escala={0.98}
-                style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09" }}
+                style={{ width: ancho, height: alto, borderRadius: 24, overflow: "hidden", backgroundColor: "#0C0B09", padding: 10 }}
               >
-                {pinturas[dia] ? <ObraMarco src={pinturas[dia]!} style={{ width: ancho, height: alto }} /> : <PlacaMarca monograma={monograma} size={88} style={{ width: ancho, height: alto }} />}
+                {pinturas[dia] ? <ObraMarco src={pinturas[dia]!} style={{ width: "100%", height: "100%", borderRadius: 16 }} /> : <PlacaMarca monograma={monograma} size={88} style={{ width: "100%", height: "100%" }} />}
                 {completado(p.episodio) ? (
                   <View style={{ position: "absolute", top: 12, right: 12, width: 30, height: 30, borderRadius: 15, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
                     <Icono nombre="check" size={16} color={c.accentInk} trazo={3} />
