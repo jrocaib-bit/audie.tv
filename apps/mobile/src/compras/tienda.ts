@@ -114,3 +114,19 @@ export async function restaurarCompras(
   const transacciones = await tienda.restaurar();
   return { transacciones, derecho: derechoLocal(transacciones, ahora, ids, userId) };
 }
+
+function numeroDePrecio(precio: string): number | null {
+  const m = precio.replace(/\s/g, "").match(/\d+(?:[.,]\d+)?/);
+  if (!m) return null;
+  const n = Number(m[0].replace(",", "."));
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/** Porcentaje que se ahorra con el anual frente a doce meses sueltos (null si no se puede calcular). */
+export function ahorroAnual(mes: string, anio: string): number | null {
+  const m = numeroDePrecio(mes);
+  const a = numeroDePrecio(anio);
+  if (m === null || a === null) return null;
+  const ahorro = Math.round((1 - a / (m * 12)) * 100);
+  return ahorro > 0 ? ahorro : null;
+}

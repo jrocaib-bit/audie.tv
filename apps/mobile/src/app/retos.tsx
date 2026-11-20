@@ -1,20 +1,18 @@
 import { localIsoDate } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { fechaCorta, modeloRetos, ventanaDeReto, type TarjetaReto } from "../temporadas";
+import { fechaCorta, modeloRetos, organizarRetos, ventanaDeReto, type TarjetaReto } from "../temporadas";
 import { fonts } from "../theme";
-import { tituloRetoBiblia, tx } from "../textos";
-import { Boton } from "../ui/Basicos";
+import { tx } from "../textos";
 import { Entrada } from "../ui/Entrada";
-import { ObraMarco } from "../ui/ObraMarco";
+import { Icono } from "../ui/Icono";
 import { ProgressBar } from "../ui/ProgressBar";
 import { Pulsable } from "../ui/Pulsable";
-import { RetoCard } from "../ui/RetoCard";
+import { CartelCelda, CartelHeroe, CartelRail, LineaDelAnio } from "../ui/RetoCard";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
-import { useReproducir } from "../ui/useReproducir";
 
 export function chipDeReto(tarjeta: TarjetaReto, lang: "es" | "en") {
   const t = tx(lang);
@@ -28,62 +26,65 @@ export default function Retos() {
   const t = tx(lang);
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const reproducirId = useReproducir();
+  const ventana = useWindowDimensions();
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(
     () => modeloRetos({ lang, hoyIso, progress: library.progress, rangos: library.catalog.rangos }),
     [hoyIso, lang, library.catalog.rangos, library.progress],
   );
+  const org = useMemo(() => organizarRetos(m.temporadas), [m.temporadas]);
   const p = m.principal;
-  const grabados = useMemo(() => new Set(library.catalog.episodes.map((e) => e.id)), [library.catalog.episodes]);
-
-  const unirme = () => {
-    library.updateSettings({ caminoActivo: "biblia" });
-    if (p.siguiente && grabados.has(p.siguiente)) {
-      reproducirId(p.siguiente, { contexto: { tipo: "camino", id: "biblia" } });
-    } else {
-      router.navigate("/camino");
-    }
-  };
+  const abrir = (reto: TarjetaReto) => router.push(`/reto/${reto.id}`);
+  const celda = Math.floor((ventana.width - 40 - 14) / 2);
+  const comun = (reto: TarjetaReto) => ({ c, t, reto, chip: chipDeReto(reto, lang), hoyIso, onPress: () => abrir(reto) });
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
       <ScreenHeader c={c} titulo={t.tabRetos} />
-      <View style={{ paddingHorizontal: 20, gap: 14, paddingTop: 8 }}>
-        <Entrada orden={0}>
-          <View style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, overflow: "hidden" }}>
-            <ObraMarco src={p.src} style={{ height: 180 }} />
-            <View style={{ padding: 20, gap: 12 }}>
-              <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 }}>{tituloRetoBiblia(lang)}</Text>
-              <View style={{ flexDirection: "row", alignItems: "baseline", gap: 8 }}>
-                <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 44, lineHeight: 48 }}>{p.hechos}</Text>
-                <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16 }}>{t.de} {p.total}</Text>
-              </View>
-              <ProgressBar fraccion={p.fraccion} color={c.accent} pista={c.line} alto={8} />
-              <Boton c={c} texto={p.hechos > 0 ? t.continuar : t.unirme} onPress={unirme} />
-            </View>
-          </View>
+      <View style={{ gap: 28, paddingTop: 8 }}>
+        {org ? (
+          <Entrada orden={0} style={{ paddingHorizontal: 20 }}>
+            <CartelHeroe {...comun(org.heroe)} botonTexto={org.heroe.hechos > 0 ? t.continuar : t.unirme} />
+          </Entrada>
+        ) : null}
+
+        <Entrada orden={1} style={{ gap: 12 }}>
+          <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, paddingHorizontal: 20 }}>{t.temporadas}</Text>
+          <LineaDelAnio c={c} t={t} lang={lang} hoyIso={hoyIso} vista={ventana.width} />
         </Entrada>
 
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, marginTop: 8 }}>{t.temporadas}</Text>
-        {m.temporadas.map((reto, i) => (
-          <Entrada key={reto.id} orden={Math.min(i, 5) + 1}>
-            <RetoCard
-              c={c}
-              titulo={reto.titulo}
-              src={reto.src}
-              hechos={reto.hechos}
-              total={reto.total}
-              fraccion={reto.fraccion}
-              de={t.de}
-              fechas={reto.fechas}
-              chip={chipDeReto(reto, lang)}
-              destacado={reto.destacado}
-              sinObra={reto.sinObra}
-              onPress={() => router.push(`/reto/${reto.id}`)}
-            />
+        {org && org.siguientes.length > 0 ? (
+          <Entrada orden={2} style={{ gap: 12 }}>
+            <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, paddingHorizontal: 20 }}>{t.siguientes}</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} decelerationRate="fast" snapToInterval={156 + 14} snapToAlignment="start" contentContainerStyle={{ paddingHorizontal: 20, gap: 14 }}>
+              {org.siguientes.map((reto) => (
+                <CartelRail key={reto.id} {...comun(reto)} />
+              ))}
+            </ScrollView>
           </Entrada>
-        ))}
+        ) : null}
+
+        {org && org.resto.length > 0 ? (
+          <Entrada orden={3} style={{ gap: 12, paddingHorizontal: 20 }}>
+            <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.todosRetos}</Text>
+            <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 14, rowGap: 20 }}>
+              {org.resto.map((reto) => (
+                <CartelCelda key={reto.id} {...comun(reto)} ancho={celda} />
+              ))}
+            </View>
+          </Entrada>
+        ) : null}
+
+        <Entrada orden={4} style={{ paddingHorizontal: 20 }}>
+          <Pulsable onPress={() => router.navigate("/camino")} label={`${t.bibliaEntera}. ${p.hechos} ${t.de} ${p.total}`} haptica style={{ minHeight: 72, borderRadius: 22, padding: 16, gap: 10, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.bibliaEntera}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{p.hechos} {t.de} {p.total}</Text>
+              <Icono nombre="chevron" size={18} color={c.muted} />
+            </View>
+            <ProgressBar fraccion={p.fraccion} color={c.accent} pista={c.line} alto={4} />
+          </Pulsable>
+        </Entrada>
       </View>
     </ScrollView>
   );

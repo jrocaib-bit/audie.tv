@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import indice from "../../../content/canon/catalogo-indice.json";
 import type { Rango } from "./caminos";
 import { RETOS_APP, PROFECIAS_ID } from "./retos-app";
-import { pasosDeReto, estadoDeReto, fechaCorta, modeloRetos, rangoFechas, ventanaDeReto } from "./temporadas";
+import { readFileSync } from "node:fs";
+import { pasosDeReto, estadoDeReto, fechaCorta, marcadorHoy, modeloRetos, organizarRetos, rangoFechas, tramosDelAnio, ventanaDeReto } from "./temporadas";
 
 const rangos = indice.rangos as Rango[];
 
@@ -97,5 +98,46 @@ describe("Profecías de la Pasión", () => {
     for (const id of relacionados) expect(rangoIds.has(id)).toBe(true);
     expect(relacionados.some((id) => catalogo.has(id))).toBe(true);
     expect(catalogo.has("is-15") || rangoIds.has("is-15")).toBe(true);
+  });
+});
+
+describe("listado de retos: héroe, rail y cuadrícula", () => {
+  const vacio = { episodes: {} };
+  it("en noviembre el héroe es el Adviento que empieza el 29 nov", () => {
+    const m = modeloRetos({ lang: "es", hoyIso: "2026-11-20", rangos, progress: vacio });
+    const org = organizarRetos(m.temporadas)!;
+    expect(org.heroe.id).toBe("adviento-isaias");
+    expect(org.heroe.estado).toBe("empieza");
+    expect(org.siguientes.length).toBeGreaterThan(0);
+    expect(org.siguientes.length).toBeLessThanOrEqual(4);
+  });
+  it("si hay uno en curso, ese es el héroe", () => {
+    const m = modeloRetos({ lang: "es", hoyIso: "2027-02-20", rangos, progress: vacio });
+    expect(organizarRetos(m.temporadas)!.heroe.id).toBe("cuaresma-40");
+  });
+  it("héroe, rail y cuadrícula reparten todos los retos una sola vez y sin obra repetida", () => {
+    for (const hoyIso of ["2026-11-20", "2026-12-10", "2027-03-01", "2027-06-01", "2028-01-01"]) {
+      const m = modeloRetos({ lang: "es", hoyIso, rangos, progress: vacio });
+      const org = organizarRetos(m.temporadas)!;
+      const vistos = [org.heroe, ...org.siguientes, ...org.resto];
+      expect(vistos.map((r) => r.id).sort()).toEqual(m.temporadas.map((r) => r.id).sort());
+      const obras = vistos.filter((r) => !r.sinObra).map((r) => r.src);
+      expect(obras.every(Boolean)).toBe(true);
+      expect(new Set(obras).size).toBe(obras.length);
+    }
+  });
+  it("la línea del año va de Adviento a Adviento y «hoy» cae en su tramo", () => {
+    const tramos = tramosDelAnio();
+    expect(tramos.map((x) => x.tiempo)).toEqual(["adviento", "navidad", "ordinario", "cuaresma", "semana-santa", "pascua", "ordinario"]);
+    expect(marcadorHoy(tramos, "2026-11-20")).toEqual({ indice: 0, fraccion: 0 });
+    expect(marcadorHoy(tramos, "2026-12-01").indice).toBe(0);
+    expect(marcadorHoy(tramos, "2027-03-01").indice).toBe(3);
+    expect(marcadorHoy(tramos, "2027-12-30")).toEqual({ indice: 6, fraccion: 1 });
+  });
+  it("la obra no se recorta: ObraMarco usa contain y ningún cartel usa cover", () => {
+    const leer = (f: string) => readFileSync(new URL(f, import.meta.url), "utf8");
+    expect(leer("./ui/ObraMarco.tsx")).toContain('resizeMode="contain"');
+    expect(leer("./ui/RetoCard.tsx")).not.toContain('"cover"');
+    expect(leer("./app/retos.tsx")).not.toContain('"cover"');
   });
 });

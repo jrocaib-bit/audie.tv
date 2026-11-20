@@ -100,6 +100,16 @@ const es = {
   // biblioteca
   biblioteca: "Biblioteca",
   // adviento
+  siguientes: "Siguientes",
+  ahorra: "Ahorra un {n} %",
+  todosRetos: "Todos los retos",
+  bibliaEntera: "La Biblia entera",
+  diaNDeM: "Día {n} de {m}",
+  tNavidad: "Navidad",
+  tOrdinario: "Ordinario",
+  tCuaresma: "Cuaresma",
+  tSemanaSanta: "Semana Santa",
+  tPascua: "Pascua",
   adviento: "Adviento",
   adv: "Adviento con Isaías",
 };
@@ -201,6 +211,16 @@ const en: Textos = {
   obras: "Artworks",
   textoBiblico: "Bible text",
   biblioteca: "Library",
+  siguientes: "Up next",
+  ahorra: "Save {n}%",
+  todosRetos: "All challenges",
+  bibliaEntera: "The whole Bible",
+  diaNDeM: "Day {n} of {m}",
+  tNavidad: "Christmas",
+  tOrdinario: "Ordinary",
+  tCuaresma: "Lent",
+  tSemanaSanta: "Holy Week",
+  tPascua: "Easter",
   adviento: "Advent",
   adv: "Advent with Isaiah",
 };

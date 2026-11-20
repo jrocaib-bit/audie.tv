@@ -155,3 +155,56 @@ export function modeloRetos(ctx: { lang: Idioma; hoyIso: string; progress: Avanc
     temporadas,
   };
 }
+
+export type Organizacion = {
+  heroe: TarjetaReto;
+  /** Los que vienen después del héroe (en curso o por empezar), en orden de calendario. */
+  siguientes: TarjetaReto[];
+  resto: TarjetaReto[];
+};
+
+/** Héroe: el reto en curso (el más avanzado) o, si no hay, el próximo del año litúrgico. */
+export function organizarRetos(temporadas: TarjetaReto[], maxSiguientes = 4): Organizacion | null {
+  if (temporadas.length === 0) return null;
+  const vivos = temporadas.filter((r) => r.estado === "en-curso");
+  const porEmpezar = temporadas.filter((r) => r.estado === "empieza");
+  const heroe = [...vivos].sort((a, b) => b.fraccion - a.fraccion)[0] ?? porEmpezar[0] ?? temporadas[0]!;
+  const pendientes = temporadas.filter((r) => r.id !== heroe.id && r.estado !== "terminado");
+  const siguientes = pendientes.slice(0, maxSiguientes);
+  const usados = new Set([heroe.id, ...siguientes.map((r) => r.id)]);
+  return { heroe, siguientes, resto: temporadas.filter((r) => !usados.has(r.id)) };
+}
+
+export type TiempoLiturgico = "adviento" | "navidad" | "ordinario" | "cuaresma" | "semana-santa" | "pascua";
+export type TramoAnio = { id: string; tiempo: TiempoLiturgico; inicio: string; fin: string };
+
+/** Los tramos del año litúrgico, en orden. El ordinario largo cierra el ciclo. */
+export function tramosDelAnio(): TramoAnio[] {
+  const tramo = (id: string, tiempo: TiempoLiturgico, retoId: string): TramoAnio => ({ id, tiempo, ...ventanaDeReto(retoId) });
+  return [
+    tramo("adviento", "adviento", "adviento-isaias"),
+    tramo("navidad", "navidad", "navidad-infancia"),
+    tramo("ordinario-1", "ordinario", "ordinario-evangelio"),
+    tramo("cuaresma", "cuaresma", "cuaresma-40"),
+    tramo("semana-santa", "semana-santa", "semana-santa-pasion"),
+    tramo("pascua", "pascua", "pascua-hechos"),
+    tramo("ordinario-2", "ordinario", "ordinario-salmos"),
+  ];
+}
+
+function diasEntre(a: string, b: string): number {
+  return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
+}
+
+/** Dónde cae «hoy» en la línea: tramo (0-based) y fracción dentro de él. Antes del ciclo, al principio. */
+export function marcadorHoy(tramos: TramoAnio[], hoyIso: string): { indice: number; fraccion: number } {
+  if (hoyIso < tramos[0]!.inicio) return { indice: 0, fraccion: 0 };
+  for (let i = 0; i < tramos.length; i++) {
+    const t = tramos[i]!;
+    if (hoyIso <= t.fin) {
+      const largo = Math.max(1, diasEntre(t.inicio, t.fin) + 1);
+      return { indice: i, fraccion: Math.min(1, Math.max(0, diasEntre(t.inicio, hoyIso) / largo)) };
+    }
+  }
+  return { indice: tramos.length - 1, fraccion: 1 };
+}

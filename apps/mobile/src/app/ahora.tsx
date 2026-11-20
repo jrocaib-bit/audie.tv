@@ -23,6 +23,8 @@ import { useCola } from "../ui/useCola";
 import { useContextoCatalogo, useEpisodioCargado } from "../ui/useHoy";
 
 const c = dark;
+/** Píxeles del cuadro vecino que asoman a cada lado del carrusel. */
+const ASOMA = 12;
 
 export default function NowPlaying() {
   const { library, lang } = useTema();
@@ -53,8 +55,8 @@ export default function NowPlaying() {
 
   // La obra se dimensiona con su proporción; el bloque entero se centra en vertical.
   const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 470);
-  // Un poco más estrecha que la pantalla para que asomen los vecinos.
-  const maxAncho = ventana.width - 64;
+  // Un poco más estrecha que la pantalla: el vecino asoma ~12 px a cada lado (pista del swipe).
+  const maxAncho = ventana.width - 2 * (ASOMA + 14);
   const ratio = cargado.info.ratio;
   let anchoObra = Math.min(maxAncho, maxAlto * ratio);
   let altoObra = anchoObra / ratio;
@@ -123,7 +125,7 @@ export default function NowPlaying() {
               const info = infoEpisodio(ids[i]!, base);
               const a = Math.min(maxAncho, altoObra * info.ratio);
               return (
-                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ flex: 1, alignItems: i < centro ? "flex-end" : "flex-start", justifyContent: "center" }}>
                   <ObraMarco src={info.src} style={{ width: a, height: a / info.ratio, borderRadius: 14 }} />
                 </View>
               );

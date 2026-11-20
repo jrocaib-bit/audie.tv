@@ -8,7 +8,7 @@ import { etiquetaDeLanzamiento, eventosDePaywall, letraDeLanzamiento, pideSuscri
 import { sesionApp } from "../auth";
 import { IDS_APPLE, PURCHASES_ENABLED } from "../compras/config";
 import { comprarNativo, leerTienda, restaurarNativo } from "../compras/storekit";
-import { TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type EntornoPrecio, type LineaPrecio } from "../compras/tienda";
+import { ahorroAnual, TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type EntornoPrecio, type LineaPrecio } from "../compras/tienda";
 import { medir } from "../medicion";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
@@ -104,38 +104,49 @@ export default function SuscripcionScreen() {
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
         <View>
           <ObraMarco src={PORTADA} style={{ height: 300 + insets.top }} />
-          <LinearGradient colors={["rgba(16,14,12,0.45)", "transparent", noche]} locations={[0, 0.4, 1]} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
+          <LinearGradient colors={["rgba(16,14,12,0.55)", "transparent"]} locations={[0, 0.35]} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
           <View style={{ position: "absolute", top: insets.top + 8, left: 16 }}>
             <BotonRedondo c={dark} nombre="cerrar" label={t.cerrar} onPress={() => router.back()} />
           </View>
         </View>
-        <View style={{ paddingHorizontal: 22, gap: 16, marginTop: -28 }}>
+        <View style={{ paddingHorizontal: 22, gap: 18, marginTop: 20 }}>
           <View style={{ gap: 6 }}>
             <Text style={{ color: oro, fontFamily: fonts.medium, fontSize: 12, letterSpacing: 2, textTransform: "uppercase" }}>Audite Premium</Text>
             <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 40, lineHeight: 44 }}>{es ? "La Biblia, de principio a fin." : "The Bible, from beginning to end."}</Text>
           </View>
-          <View style={{ gap: 10 }}>
+          <View style={{ gap: 12 }}>
             {[...lineas].sort((a) => (a.plan === "anual" ? -1 : 1)).map((linea) => {
               const activo = linea.plan === plan;
               const anual = linea.plan === "anual";
               const periodo = anual ? (es ? "año" : "year") : (es ? "mes" : "month");
+              const mensual = lineas.find((l) => l.plan === "mensual")?.precio ?? "";
+              const ahorro = anual ? ahorroAnual(mensual, linea.precio) : null;
               return (
-                <Pulsable key={linea.id} label={`${anual ? t.anual : t.mensual} ${linea.precio}/${periodo}`} selected={activo} haptica onPress={() => elegir(linea.plan)} style={{ borderWidth: 1.5, borderColor: activo ? oro : "#2E2924", borderRadius: 22, padding: 18, backgroundColor: activo ? "rgba(224,196,138,0.1)" : "#1B1815", gap: 4 }}>
+                <Pulsable key={linea.id} label={`${anual ? t.anual : t.mensual} ${linea.precio}/${periodo}`} selected={activo} haptica onPress={() => elegir(linea.plan)} style={{ borderWidth: anual ? 2 : 1, borderColor: activo ? oro : "#2E2924", borderRadius: anual ? 26 : 20, padding: anual ? 20 : 14, minHeight: 56, backgroundColor: activo ? "rgba(224,196,138,0.1)" : anual ? "#1B1815" : "transparent", gap: 6 }}>
                   <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
                       <View style={{ width: 22, height: 22, borderRadius: 11, borderWidth: 2, borderColor: activo ? oro : muted, alignItems: "center", justifyContent: "center" }}>
                         {activo ? <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: oro }} /> : null}
                       </View>
-                      <Text style={{ color: crema, fontFamily: fonts.medium, fontSize: 17, fontWeight: "600" }}>{anual ? t.anual : t.mensual}</Text>
+                      <Text style={{ color: anual ? crema : muted, fontFamily: fonts.medium, fontSize: anual ? 18 : 16, fontWeight: "600" }}>{anual ? t.anual : t.mensual}</Text>
                     </View>
-                    <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: anual ? 30 : 24 }}>{linea.precio ? `${linea.precio}/${periodo}` : "—"}</Text>
+                    <Text style={{ color: anual ? crema : muted, fontFamily: fonts.serif, fontSize: anual ? 36 : 20 }}>{linea.precio ? `${linea.precio}/${periodo}` : "—"}</Text>
                   </View>
-                  {anual && linea.pruebaDias ? (
-                    <View style={{ alignSelf: "flex-start", marginTop: 6, paddingHorizontal: 10, minHeight: 26, borderRadius: 13, backgroundColor: oro, justifyContent: "center" }}>
-                      <Text style={{ color: noche, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{es ? `${linea.pruebaDias} días gratis` : `${linea.pruebaDias} days free`}</Text>
+                  {anual && (linea.pruebaDias || ahorro) ? (
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
+                      {linea.pruebaDias ? (
+                        <View style={{ paddingHorizontal: 10, minHeight: 26, borderRadius: 13, backgroundColor: oro, justifyContent: "center" }}>
+                          <Text style={{ color: noche, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{es ? `${linea.pruebaDias} días gratis` : `${linea.pruebaDias} days free`}</Text>
+                        </View>
+                      ) : null}
+                      {ahorro ? (
+                        <View style={{ paddingHorizontal: 10, minHeight: 26, borderRadius: 13, borderWidth: 1, borderColor: oro, justifyContent: "center" }}>
+                          <Text style={{ color: oro, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{t.ahorra.replace("{n}", String(ahorro))}</Text>
+                        </View>
+                      ) : null}
                     </View>
                   ) : null}
-                  {anual && etiqueta ? <Text style={{ color: oro, fontSize: 13, marginTop: 4 }}>{etiqueta}</Text> : null}
+                  {anual && etiqueta ? <Text style={{ color: oro, fontSize: 13, marginTop: 2 }}>{etiqueta}</Text> : null}
                   {anual && letra ? <Text style={{ color: muted, fontSize: 13 }}>{letra}</Text> : null}
                 </Pulsable>
               );

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { PRODUCTOS, PURCHASES_ENABLED } from "./config";
-import { TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, derechoLocal, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type Transaccion } from "./tienda";
+import { ahorroAnual, TIENDA_DEMO, URL_CONDICIONES, URL_PRIVACIDAD, derechoLocal, lineasDePaywall, pedirCompra, restaurarCompras, textoRenovacion, type Transaccion } from "./tienda";
 
 const ahora = Date.parse("2026-11-10T12:00:00Z");
 
@@ -62,5 +62,13 @@ describe("paywall de StoreKit", () => {
     expect(en).toContain("Settings");
     expect(URL_CONDICIONES).toBe("https://audite.tv/es/condiciones");
     expect(URL_PRIVACIDAD).toBe("https://audite.tv/es/privacidad");
+  });
+});
+
+describe("ahorro del plan anual", () => {
+  it("8 € al año frente a 1,99 € al mes es un 66 %", () => {
+    expect(ahorroAnual("1,99 €", "8,00 €")).toBe(66);
+    expect(ahorroAnual("", "8,00 €")).toBeNull();
+    expect(ahorroAnual("1,99 €", "30,00 €")).toBeNull();
   });
 });

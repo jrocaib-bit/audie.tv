@@ -3,6 +3,9 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
 import { tx } from "../textos";
+import { diasParaEmpezar } from "../reto-dias";
+import { ventanaDeReto } from "../temporadas";
+import { localIsoDate } from "@audite/domain";
 import { Entrada } from "../ui/Entrada";
 import { GoalCard, RachaCard } from "../ui/GoalCard";
 import { HeroCard } from "../ui/HeroCard";
@@ -46,6 +49,7 @@ export default function Hoy() {
   const m = useModeloHoy();
   const reproducirId = useReproducir();
   const hero = m.hero;
+  const faltan = diasParaEmpezar(ventanaDeReto("adviento-isaias").inicio, localIsoDate(new Date()));
 
   const reproducir = () => {
     if (!hero?.reproducible) return;
@@ -91,14 +95,14 @@ export default function Hoy() {
         {m.continuar ? (
           <Entrada orden={3}>
             <Pulsable onPress={() => { reproducirId(m.continuar!.id); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-                <Icono nombre="play" size={20} color={c.accentInk} />
+              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(244,236,226,0.1)", alignItems: "center", justifyContent: "center" }}>
+                <Icono nombre="play" size={20} color={c.ink} />
               </View>
               <View style={{ flex: 1, gap: 8 }}>
                 <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{m.continuar.titulo}</Text>
                 <ProgressBar fraccion={m.continuar.fraccion} color={c.accent} pista={c.line} alto={4} />
               </View>
-              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.continuar}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.continuar}</Text>
             </Pulsable>
           </Entrada>
         ) : null}
@@ -110,11 +114,11 @@ export default function Hoy() {
               <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verTodo}</Text>
             </Pulsable>
           </View>
-          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={m.adviento.titulo} style={{ borderRadius: 24, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <ObraMarco src={m.adviento.src} style={{ width: 88, height: 88, borderRadius: 16 }} />
+          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={m.adviento.titulo} style={{ borderRadius: 24, padding: 12, flexDirection: "row", alignItems: "center", gap: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <ObraMarco src={m.adviento.src} style={{ width: 108, height: 144, borderRadius: 16 }} />
             <View style={{ flex: 1, gap: 6 }}>
-              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 24 }}>{m.adviento.titulo}</Text>
-              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{m.adviento.hechos} {t.de} {m.adviento.total}</Text>
+              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 }}>{m.adviento.titulo}</Text>
+              <Text style={{ color: faltan > 0 ? c.accent : c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{faltan > 0 ? (faltan === 1 ? t.faltaUnDia : t.faltanDias.replace("{n}", String(faltan))) : `${m.adviento.hechos} ${t.de} ${m.adviento.total}`}</Text>
               <ProgressBar fraccion={m.adviento.fraccion} color={c.accent} pista={c.line} alto={5} />
             </View>
             <Icono nombre="chevron" size={18} color={c.muted} />
