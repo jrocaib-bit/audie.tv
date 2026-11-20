@@ -5,7 +5,7 @@ import { Mark } from "@/components/brand";
 import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
 import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { etiquetaInicio, fechaLegible } from "@/lib/publico";
-import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
+import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, textoDePar, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
 
 function reloj(segundos: number): string {
   const minutos = Math.floor(segundos / 60);
@@ -15,9 +15,9 @@ function reloj(segundos: number): string {
 
 function paresDeCitas(dia: DiaAnio): string[] {
   if (dia.profecias && dia.profecias.length > 0) {
-    return dia.profecias.map((par) => `${par.profecia} → ${par.cumplimiento}`);
+    return dia.profecias.map((par) => textoDePar(par));
   }
-  if (dia.profecia && dia.cumplimiento) return [`${dia.profecia} → ${dia.cumplimiento}`];
+  if (dia.profecia) return [textoDePar({ profecia: dia.profecia, cumplimiento: dia.cumplimiento })];
   return dia.cita ? [dia.cita] : [];
 }
 
