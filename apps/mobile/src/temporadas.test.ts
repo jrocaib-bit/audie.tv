@@ -55,13 +55,15 @@ describe("Profecías de la Pasión", () => {
     expect(ids.indexOf(PROFECIAS_ID)).toBeLessThan(ids.indexOf("pascua-hechos"));
     expect(modeloRetos({ lang: "en", hoyIso: "2026-11-20", rangos, progress: { episodes: {} } }).temporadas.find((x) => x.id === PROFECIAS_ID)?.titulo).toBe("Prophecies of the Passion");
   });
-  it("todos los días pp-NN son Próximamente y llevan profecía, cumplimiento y nota", () => {
+  it("todos los días pp-NN son Próximamente y llevan profecía, cumplimiento y descripción", () => {
     const pasos = pasosDeReto(PROFECIAS_ID);
     expect(pasos.map((p) => p.dia)).toEqual(Array.from({ length: 8 }, (_, i) => i + 1));
     for (const p of pasos) {
       expect(p.episodio).toMatch(/^pp-\d\d$/);
       expect(catalogo.has(p.episodio!)).toBe(false);
-      expect(p.profecia && p.cumplimiento && p.nota).toBeTruthy();
+      expect(p.profecia && p.cumplimiento && p.descripcion?.es && p.descripcion?.en).toBeTruthy();
+      expect(p.descripcion!.es).not.toMatch(/la narración|cita combinada|tipolog/i);
+      expect((p as { nota?: unknown }).nota).toBeUndefined();
     }
     expect(pasos.map((p) => p.titulo.es)).toEqual([
       "Viene tu rey",
@@ -74,6 +76,10 @@ describe("Profecías de la Pasión", () => {
       "Al tercer día",
     ]);
     expect(pasos[0]).toMatchObject({ profecia: "Za 9,9–10", cumplimiento: "Mt 21,1–17", diaLiturgico: "Domingo de Ramos" });
+    expect(pasos[0].descripcion?.es).toContain("Jesús entra en Jerusalén");
+    const reto = RETOS_APP.find((r) => r.id === PROFECIAS_ID);
+    expect(reto?.descripcion?.es).toContain("Te invitamos a escuchar");
+    expect(reto?.descripcion?.en).toContain("We invite you to listen");
     expect(pasos[0].referencias).toHaveLength(3);
     for (const p of pasos) expect(p.minutos).toBeGreaterThanOrEqual(10);
     for (const p of pasos) expect(p.minutos).toBeLessThanOrEqual(13);

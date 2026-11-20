@@ -90,7 +90,7 @@ export default function RetoDetalle() {
     tipo: tipoAcceso(paso.episodio ?? "", jugable(paso.episodio)),
     diaLiturgico: paso.diaLiturgico,
     referencias: paso.referencias,
-    nota: paso.nota,
+    descripcion: paso.descripcion?.[lang],
     relacionados: (paso.relacionados ?? []).map((rel) => ({ id: rel, titulo: infoEpisodio(rel, base).titulo, disponible: grabados.has(rel) })),
   } : undefined;
   const ancho = Math.min(ventana.width - 96, 340);
@@ -110,6 +110,7 @@ export default function RetoDetalle() {
           ) : null}
         </View>
         <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34, lineHeight: 38 }}>{titulo}</Text>
+        {datos.descripcion ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16, lineHeight: 24 }}>{datos.descripcion[lang]}</Text> : null}
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{tarjeta.fechas}</Text>
       </Entrada>
 

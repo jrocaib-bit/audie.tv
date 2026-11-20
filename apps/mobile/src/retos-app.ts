@@ -14,10 +14,10 @@ export type Paso = {
   referencias?: { profecia: string; cumplimiento: string }[];
   diaLiturgico?: string;
   cumplimiento?: string;
-  nota?: string;
+  descripcion?: { es: string; en: string };
   relacionados?: string[];
 };
-export type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; insignia?: { es: string; en: string }; obra: string; pasos: Paso[]; sinObra?: boolean };
+export type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; insignia?: { es: string; en: string }; descripcion?: { es: string; en: string }; obra: string; pasos: Paso[]; sinObra?: boolean };
 
 type DiaPP = {
   id: string;
@@ -25,7 +25,7 @@ type DiaPP = {
   titulo: { es: string };
   dia_liturgico?: string;
   referencias: { profecia: string; cumplimiento: string }[];
-  nota: string;
+  descripcion: { es: string; en: string };
   episodios_relacionados: string[];
   minutos?: number | null;
 };
@@ -37,6 +37,7 @@ const RETO_PROFECIAS: RetoJson = {
   tiempo: "semana-santa",
   titulo: { es: profecias.nombre.es, en: "Prophecies of the Passion" },
   insignia: { es: "Cordero", en: "Lamb" },
+  descripcion: (profecias as { descripcion: { es: string; en: string } }).descripcion,
   obra: "",
   pasos: (profecias.dias as DiaPP[]).map((d) => ({
     dia: d.dia,
@@ -47,7 +48,7 @@ const RETO_PROFECIAS: RetoJson = {
     cumplimiento: d.referencias[0]?.cumplimiento,
     referencias: d.referencias,
     diaLiturgico: d.dia_liturgico,
-    nota: d.nota,
+    descripcion: d.descripcion,
     relacionados: d.episodios_relacionados,
   })),
 };

@@ -14,11 +14,11 @@ export type DatosDia = {
   tipo: TipoAcceso;
   diaLiturgico?: string;
   referencias?: { profecia: string; cumplimiento: string }[];
-  nota?: string;
+  descripcion?: string;
   relacionados?: Relacionado[];
 };
 
-/** El día elegido: número y minutos, título y, en los retos de profecías, referencias, nota y episodios relacionados. */
+/** El día elegido: número y minutos, título y, en los retos de profecías, referencias, descripción y episodios relacionados. */
 export function DiaDetalle({ c, lang, datos, etiquetaDia, etiquetaProximamente, onRelacionado }: { c: Paleta; lang: "es" | "en"; datos: DatosDia; etiquetaDia: string; etiquetaProximamente: string; onRelacionado: (id: string) => void }) {
   return (
     <View style={{ gap: 10 }}>
@@ -37,7 +37,7 @@ export function DiaDetalle({ c, lang, datos, etiquetaDia, etiquetaProximamente, 
           ))}
         </View>
       ) : null}
-      {datos.nota ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{datos.nota}</Text> : null}
+      {datos.descripcion ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{datos.descripcion}</Text> : null}
       {(datos.relacionados?.length ?? 0) > 0 ? (
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
           {(datos.relacionados ?? []).map((rel) => (
