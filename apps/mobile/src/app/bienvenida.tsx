@@ -20,7 +20,7 @@ import { haptico, useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
 
 const c = dark;
-const FONDOS = ["gn-03", "gn-12", "mt-01"].map((id) => {
+const FONDOS = ["gn-03", "gn-14", "mt-01"].map((id) => {
   const obra = obraDeEpisodio(id);
   return obra ? obraWebp(obra) : "";
 });
