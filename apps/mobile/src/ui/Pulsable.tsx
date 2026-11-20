@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Animated, Pressable, StyleSheet, type AccessibilityRole, type StyleProp, type ViewStyle } from "react-native";
+import { Animated, Pressable, type AccessibilityRole, type StyleProp, type ViewStyle } from "react-native";
+import { repartirEstilo } from "./estilo";
 import { haptico, useMovimientoReducido } from "./tema";
 
 type Props = {
@@ -24,10 +25,10 @@ export function Pulsable({ onPress, children, style, escala = 0.97, haptica = fa
     if (reducir) return;
     Animated.spring(valor, { toValue: a, useNativeDriver: true, speed: 40, bounciness: 6 }).start();
   };
-  const plano = StyleSheet.flatten(style) ?? {};
+  const { fuera, dentro } = repartirEstilo<ViewStyle>(style);
   return (
     <Pressable
-      style={{ flex: plano.flex, flexGrow: plano.flexGrow, flexShrink: plano.flexShrink, alignSelf: plano.alignSelf }}
+      style={fuera}
       accessibilityRole={role}
       accessibilityLabel={label}
       accessibilityState={{ selected, disabled }}
@@ -40,7 +41,7 @@ export function Pulsable({ onPress, children, style, escala = 0.97, haptica = fa
         onPress?.();
       }}
     >
-      <Animated.View style={[style, { transform: [{ scale: valor }] }]}>{children}</Animated.View>
+      <Animated.View style={[dentro, { transform: [{ scale: valor }] }]}>{children}</Animated.View>
     </Pressable>
   );
 }
