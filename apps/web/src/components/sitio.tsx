@@ -1,7 +1,7 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { audioListo } from "@audite/content/audio-listo";
 import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/obras";
-import { etiquetaDeLanzamiento, letraDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
+import { precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand";
@@ -12,13 +12,18 @@ import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { agruparLibros } from "@/lib/publico";
 import { palabras } from "@/lib/movimiento";
 import { BarraPersistente, CompactarCabecera, FiltroCatalogo } from "@/components/movimiento";
-import { Acordeon, BotonProbar, Contador, ProbarAudio, Telefono } from "@/components/probar";
+import { BotonProbar, ProbarAudio } from "@/components/probar";
 import { etiquetaInicio } from "@/lib/publico";
-import { episodioConObraLibre, episodioDeCita, idsDePrueba, inicioDeTemporada, portadasDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
+import { episodioDeCita, idsDePrueba, inicioDeTemporada, retosDeTemporada } from "@/lib/retos-anio";
+import { estadoDeReto, hoyMadrid, portadasSinRepetir } from "@/lib/sala";
+import { BotonOro, botonOroVariantes } from "@/components/sala/boton-oro";
+import { Lienzo, LienzoCard } from "@/components/sala/lienzo";
+import { PlanCard } from "@/components/sala/plan-card";
+import { Rail } from "@/components/sala/rail";
+import { RetoCartel } from "@/components/sala/reto-cartel";
 import { tiendasVisibles } from "@/lib/tiendas-app";
 import { PaywallWeb } from "@/components/paywall-web";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
-import { PortadaMarca } from "@/components/portada-marca";
 import { FormularioBoletin } from "@/components/formularios";
 import { marcaFormulario } from "@/lib/formularios/acciones";
 import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
@@ -83,35 +88,39 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
   const ui = idiomaUi(lang);
   const legal = textosAlta(lang);
   if (!copy) return null;
+  const enlace = "inline-flex min-h-11 items-center text-[#B7AB9C] hover:text-[#F4ECE2]";
+  const titulo = "t-rotulo text-[#B7AB9C]";
   return (
-    <footer className="bg-[#100E0C] text-[#F4ECE2]">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-12 md:grid-cols-4 md:px-8">
+    <footer className="bg-[#0C0B09] text-[#F4ECE2]">
+      <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-14 md:grid-cols-4 md:px-8">
         <div>
-          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Language" : "Idioma"}</p>
+          <p className={titulo}>{ui === "en" ? "Language" : "Idioma"}</p>
           <SelectorIdioma lang={lang} claro />
         </div>
-        <div className="grid content-start gap-2">
-          <p className="text-sm text-[#B7AB9C]">Audite</p>
-          <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">{copy.navHome}</Link>
-          <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">{copy.navCatalog}</Link>
-          <Link href={`/${lang}/retos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Challenges" : "Retos"}</Link>
-          <Link href={`/${lang}/app`} className="inline-flex min-h-11 items-center">App</Link>
+        <div className="grid content-start gap-1">
+          <p className={titulo}>App</p>
+          <Link href={`/${lang}`} className={enlace}>{copy.navHome}</Link>
+          <Link href={`/${lang}/catalogo`} className={enlace}>{copy.navCatalog}</Link>
+          <Link href={`/${lang}/retos`} className={enlace}>{ui === "en" ? "Challenges" : "Retos"}</Link>
+          <Link href={`/${lang}/app`} className={enlace}>App</Link>
         </div>
-        <div className="grid content-start gap-2">
-          <p className="text-sm text-[#B7AB9C]">{ui === "en" ? "Help" : "Ayuda"}</p>
-          <Link href="/ayuda" className="inline-flex min-h-11 items-center">{ui === "en" ? "Help" : "Ayuda"}</Link>
-          <Link href={`/${lang}/contacto`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Contact" : "Contacto"}</Link>
-          <Link href={`/${lang}/creditos`} className="inline-flex min-h-11 items-center">{ui === "en" ? "Credits" : "Créditos"}</Link>
-          <EnlaceSoporte idioma={lang} className="inline-flex min-h-11 items-center">soporte@audite.tv</EnlaceSoporte>
-          <p className="text-sm text-[#B7AB9C]">La voz y la música están generadas con IA.</p>
-          <Link href={`/${lang}/membresia`} className="inline-flex min-h-11 items-center">{copy.navMembership}</Link>
+        <div className="grid content-start gap-1">
+          <p className={titulo}>{ui === "en" ? "Help" : "Ayuda"}</p>
+          <Link href="/ayuda" className={enlace}>{ui === "en" ? "Help" : "Ayuda"}</Link>
+          <Link href={`/${lang}/contacto`} className={enlace}>{ui === "en" ? "Contact" : "Contacto"}</Link>
+          <Link href={`/${lang}/creditos`} className={enlace}>{ui === "en" ? "Credits" : "Créditos"}</Link>
+          <EnlaceSoporte idioma={lang} className={enlace}>soporte@audite.tv</EnlaceSoporte>
+          <Link href={`/${lang}/membresia`} className={enlace}>{copy.navMembership}</Link>
         </div>
-        <div className="grid content-start gap-2">
-          <p className="text-sm text-[#B7AB9C]">Legal</p>
-          <Link href={`/${lang}/condiciones`} className="inline-flex min-h-11 items-center">{legal.condiciones}</Link>
-          <Link href={`/${lang}/privacidad`} className="inline-flex min-h-11 items-center">{legal.privacidad}</Link>
-          <Link href="/aviso-legal" className="inline-flex min-h-11 items-center">Aviso legal</Link>
+        <div className="grid content-start gap-1">
+          <p className={titulo}>Legal</p>
+          <Link href={`/${lang}/condiciones`} className={enlace}>{legal.condiciones}</Link>
+          <Link href={`/${lang}/privacidad`} className={enlace}>{legal.privacidad}</Link>
+          <Link href="/aviso-legal" className={enlace}>Aviso legal</Link>
         </div>
+      </div>
+      <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
+        <p className="t-meta">La voz y la música están generadas con IA.</p>
       </div>
       <div className="mx-auto w-full max-w-[520px] px-5">
         {novedades ? <FormularioBoletin marca={marca} idioma={lang} /> : null}
@@ -121,19 +130,6 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
       </div>
     </footer>
   );
-}
-
-const TONOS = ["#3C2A1E", "#243028", "#4A3424", "#2A241C", "#3A2C22", "#1E2A32"];
-
-function tonoDe(id: string): string {
-  let n = 0;
-  for (const letra of id) n = (n * 31 + letra.charCodeAt(0)) >>> 0;
-  return TONOS[n % TONOS.length] ?? "#3C2A1E";
-}
-
-function reloj(segundos: number): string {
-  const total = Math.max(0, Math.round(segundos));
-  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
 }
 
 function citaDeRango(bookId: string, rango: string): string {
@@ -147,24 +143,6 @@ function tituloDe(id: string, ui: "es" | "en"): string {
   const catalogo = loadAppCatalog();
   const episodio = catalogo.episodes.find((item) => item.id === id) ?? catalogo.pendientes.find((item) => item.id === id);
   return episodio?.tituloCorto?.[ui] || episodio?.titulo?.[ui] || obraDeEpisodio(id)?.titulo[ui] || id;
-}
-
-function Camino() {
-  return (
-    <svg className="camino" viewBox="0 0 600 72" aria-hidden="true">
-      <path className="camino-base" pathLength={1} d="M12 36 C 120 8, 200 64, 300 36 S 480 8, 588 36" />
-      <path className="camino-trazo" pathLength={1} d="M12 36 C 120 8, 200 64, 300 36 S 480 8, 588 36" />
-    </svg>
-  );
-}
-
-function Ctas({ lang, copy, ficha }: { lang: string; copy: NonNullable<ReturnType<typeof copiaSitio>>; ficha: { id: string; titulo: string } }) {
-  return (
-    <div className="mt-6 flex flex-wrap gap-3">
-      <BotonProbar ficha={ficha} etiqueta={copy.listenFree} className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" />
-      <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
-    </div>
-  );
 }
 
 export function SitioHome({ lang }: { lang: string }) {
@@ -191,277 +169,144 @@ export function SitioHome({ lang }: { lang: string }) {
     const id = episodioDeCita(dia.cita, catalogo.rangos);
     if (id && !citas.has(id)) citas.set(id, dia.cita);
   }
-  const prueba = idsDePrueba(catalogo.rangos, idsListos).map((id) => {
+  // Ninguna obra se repite en la pantalla: el hero ya muestra la de gn-01.
+  const usadas = new Set<string>([portada.id]);
+  const prueba = idsDePrueba(catalogo.rangos, idsListos).flatMap((id) => {
     const obra = obraDeEpisodio(id);
+    if (!obra || esPortadaProvisional(id) || usadas.has(obra.id)) return [];
+    usadas.add(obra.id);
     const rango = catalogo.rangos.find((item) => item.id === id);
     const episodio = catalogo.episodes.find((item) => item.id === id);
     const segundos = listos.find((item) => item.id === id)?.duracion_s ?? episodio?.durationSeconds ?? 0;
-    return {
+    return [{
       id,
+      obraId: obra.id,
       titulo: tituloDe(id, ui),
-      provisional: esPortadaProvisional(id),
-      src: obra && !esPortadaProvisional(id) ? obraWebp(obra) : "",
-      tono: tonoDe(id),
+      src: obraWebp(obra),
       cita: citas.get(id) || (rango ? citaDeRango(rango.bookId, rango.rango) : ""),
-      duracion: segundos > 0 ? reloj(segundos) : "",
-    };
+      minutos: segundos > 0 ? Math.max(1, Math.round(segundos / 60)) : 0,
+    }];
   });
-  const genesis = prueba.find((episodio) => episodio.id === "gn-01") ?? { id: "gn-01", titulo: tituloDe("gn-01", ui) };
-  const adviento = retosDeTemporada().find((reto) => reto.id === "adviento-isaias");
-  const inicioAdviento = adviento ? inicioDeTemporada(adviento.id) : null;
-  const portadaAdviento = adviento ? portadasDeTemporada(catalogo.rangos)[adviento.id] : null;
-  const srcAdviento = portadaAdviento?.tipo === "reto"
-    ? portadaAdviento.src
-    : portadaAdviento?.tipo === "episodio" && obraDeEpisodio(portadaAdviento.episodio)
-      ? obraWebp(obraDeEpisodio(portadaAdviento.episodio)!)
-      : obraWebp(portada);
-  const usadas = new Set<string>();
-  const marcar = (id: string | null) => {
-    const obra = id ? obraDeEpisodio(id) : null;
-    if (obra) usadas.add(obra.id);
-  };
-  marcar("gn-01");
-  const candidatosDe = (reto: { dias: { cita: string }[] }) => reto.dias.flatMap((dia) => {
-    const id = episodioDeCita(dia.cita, catalogo.rangos);
-    return id ? [id] : [];
-  });
-  const bibliaId = episodioConObraLibre(catalogo.rangos.map((rango) => rango.id), usadas);
-  marcar(bibliaId);
-  const advientoId = adviento ? episodioConObraLibre(candidatosDe(adviento), usadas) : null;
-  marcar(advientoId);
-  const cuaresma = retosDeTemporada().find((reto) => reto.id === "cuaresma-40");
-  const cuaresmaId = cuaresma ? episodioConObraLibre(candidatosDe(cuaresma), usadas) : null;
-  const reservados = new Set([bibliaId, advientoId, cuaresmaId].filter((id): id is string => Boolean(id)));
-  const ejemplos = [
-    bibliaId ? {
-      id: "biblia",
-      href: `/${lang}/retos`,
-      titulo: ui === "en" ? "The Bible from beginning to end" : "La Biblia de principio a fin",
-      meta: `${catalogo.rangos.length} ${ui === "en" ? "episodes" : "episodios"}`,
-      episodio: bibliaId,
-    } : null,
-    adviento && advientoId ? {
-      id: adviento.id,
-      href: `/${lang}/retos/${adviento.id}`,
-      titulo: adviento.titulo[ui],
-      meta: `${adviento.dias.length} ${ui === "en" ? "days" : "días"}`,
-      episodio: advientoId,
-    } : null,
-    cuaresma && cuaresmaId ? {
-      id: cuaresma.id,
-      href: `/${lang}/retos/${cuaresma.id}`,
-      titulo: cuaresma.titulo[ui],
-      meta: `${cuaresma.dias.length} ${ui === "en" ? "days" : "días"}`,
-      episodio: cuaresmaId,
-    } : null,
-  ].flatMap((item) => {
-    if (!item) return [];
-    const obra = obraDeEpisodio(item.episodio);
-    return obra ? [{ ...item, obra }] : [];
-  });
+  const genesis = { id: "gn-01", titulo: tituloDe("gn-01", ui) };
+  const hoy = hoyMadrid();
+  const temporadas = ["adviento-isaias", "navidad-infancia", "cuaresma-40"].flatMap((id) => retosDeTemporada().filter((reto) => reto.id === id));
+  const portadas = portadasSinRepetir(temporadas, catalogo.rangos, usadas);
   const tiendas = tiendasVisibles();
   const aviso = `/${lang}/app#aviso`;
   const funciones = [
-    [copy.appPaths, copy.appPathsNote, "caminos"],
-    [copy.appStreak, copy.appStreakNote, "racha"],
-    [copy.appReminder, copy.appReminderNote, "aviso"],
-    [copy.appDownloads, copy.appDownloadsNote, "bajar"],
-    [copy.appLanguages, copy.appLanguagesNote, "idioma"],
-  ] as const;
-  const incluidos = [copy.priceInc1, copy.priceInc2, copy.priceInc3];
-  const preguntas = [
-    [copy.faqWhatQ, copy.faqWhatA],
-    [copy.faqPriceQ, copy.faqPriceA],
-    [copy.faqTrialQ, copy.faqTrialA],
-    [copy.faqCancelQ, copy.faqCancelA],
-    [copy.faqLangQ, copy.faqLangA],
+    [copy.appPaths, "caminos"],
+    [copy.appStreak, "racha"],
+    [copy.appReminder, "aviso"],
+    [copy.appDownloads, "bajar"],
+    [copy.appLanguages, "idioma"],
   ] as const;
   const cifras = [
-    { valor: catalogo.rangos.length, prefijo: "", etiqueta: copy.statEpisodes },
-    { valor: catalogo.books.length, prefijo: "", etiqueta: copy.statBooks },
-    { valor: 10, prefijo: "~", etiqueta: copy.statMinutes },
-    { valor: retosDeTemporada().length + 1, prefijo: "", etiqueta: copy.statYear },
+    { valor: String(catalogo.rangos.length), etiqueta: copy.statEpisodes },
+    { valor: String(catalogo.books.length), etiqueta: copy.statBooks },
+    { valor: "~10", etiqueta: copy.statMinutes },
   ];
   return (
     <>
       <RecordarIdioma />
       <ProbarAudio>
         <main className="bg-[#100E0C] text-[#F4ECE2]">
-          <section id="hero" className="relative min-h-[100svh] bg-[#100E0C]">
+          <section id="hero" className="relative bg-[#0C0B09] md:min-h-[100svh]">
             {posterHero ? <link rel="preload" as="image" href={posterHero} fetchPriority="high" /> : null}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="relative h-[58svh] overflow-hidden md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[64%]">
               {bucleHero ? (
-                <BucleCuadro bucle={{ ...bucleHero, poster: posterHero, alt: altHero }} priority className="parallax-obra" />
+                <BucleCuadro bucle={{ ...bucleHero, poster: posterHero, alt: altHero }} priority />
               ) : (
-                <ObraFoto obra={portada} priority className="parallax-obra h-full w-full object-cover" />
+                <Lienzo src={obraWebp(portada)} obraId={portada.id} alt={portada.titulo[ui]} priority className="absolute inset-0" />
               )}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#100E0C] to-transparent md:inset-y-0 md:right-auto md:left-0 md:h-auto md:w-1/3 md:bg-gradient-to-r" />
             </div>
-            <div className="velo-luz absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(201_169_110/0.22),transparent_46%)]" />
-            <div className={`absolute inset-0 bg-gradient-to-t ${bucleHero ? "from-[#100E0C] via-[#100E0C]/80 to-[#100E0C]/30" : "from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/20"}`} />
-            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
-              <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
-              <p className="mt-5 max-w-xl text-lg">{copy.homeWhat}</p>
-              <Ctas lang={lang} copy={copy} ficha={genesis} />
+            <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col justify-end px-5 pt-6 pb-12 md:min-h-[100svh] md:px-8 md:pt-28 md:pb-16">
+              <div className="md:max-w-[38%]">
+                <h1 className="font-display t-display">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
+                <p className="mt-4 text-lg text-[#B7AB9C]">{copy.homeLede}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <BotonOro asChild><Link href={`/${lang}/entrar`}>{copy.homeCta}</Link></BotonOro>
+                  <BotonProbar ficha={genesis} etiqueta={copy.listenFree} className={botonOroVariantes({ variante: "fantasma" })} />
+                </div>
+              </div>
+              {!hayHeroExterno ? <div className="mt-8 md:absolute md:right-8 md:bottom-8 md:mt-0 md:max-w-xs"><Placa obra={portada} lang={ui} /></div> : null}
             </div>
+          </section>
+          {prueba.length > 0 ? (
+            <Rail titulo={copy.todayTitle}>
+              {prueba.map((episodio) => (
+                <li key={episodio.id}>
+                  <LienzoCard
+                    src={episodio.src}
+                    obraId={episodio.obraId}
+                    titulo={episodio.titulo}
+                    meta={[episodio.cita, episodio.minutos ? `${episodio.minutos} min` : ""].filter(Boolean).join(" · ")}
+                    accion={(
+                      <Link href={`/${lang}/oir/${episodio.id}`} aria-label={`${copy.playLabel}: ${episodio.titulo}`} className="sala-boton absolute bottom-3 left-3 z-10 inline-flex size-12 items-center justify-center rounded-full bg-[#100E0C]/85 text-[#F4ECE2] hover:bg-[#2E2924]">
+                        <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+                      </Link>
+                    )}
+                  />
+                </li>
+              ))}
+            </Rail>
+          ) : null}
+          <Rail titulo={copy.seasonsTitle} cartel verTodo={{ href: `/${lang}/retos`, etiqueta: copy.seeAll }} rejilla>
+            {temporadas.map((reto) => {
+              const inicio = inicioDeTemporada(reto.id);
+              const portadaReto = portadas.get(reto.id) ?? null;
+              return (
+                <li key={reto.id}>
+                  <RetoCartel
+                    href={`/${lang}/retos/${reto.id}`}
+                    titulo={reto.titulo[ui]}
+                    chip={inicio ? etiquetaInicio(inicio, ui) : ""}
+                    meta={`${reto.dias.length} ${ui === "en" ? "days" : "días"}`}
+                    src={portadaReto?.src ?? null}
+                    obraId={portadaReto?.obraId}
+                    portadaOficial={portadaReto?.oficial}
+                    dias={reto.dias.length}
+                    hechos={estadoDeReto(reto, hoy).hechos}
+                  />
+                </li>
+              );
+            })}
+          </Rail>
+          <section className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8" aria-label={cifras.map((cifra) => `${cifra.valor} ${cifra.etiqueta}`).join(" · ")}>
+            <p className="flex flex-wrap items-baseline gap-x-8 gap-y-3 font-display">
+              {cifras.map((cifra) => (
+                <span key={cifra.etiqueta} className="inline-flex items-baseline gap-2">
+                  <span className="t-cifra">{cifra.valor}</span>
+                  <span className="text-xl text-[#B7AB9C]">{cifra.etiqueta}</span>
+                </span>
+              ))}
+            </p>
+          </section>
+          <section className="mx-auto w-full max-w-xl px-5 py-12 md:px-8">
+            <p className="t-rotulo text-[#C9A96E]">{copy.priceFree}</p>
+            <h2 className="font-display t-h1 mt-2">Audite Premium</h2>
+            <PlanCard ui={ui} className="mt-6">
+              <BotonOro asChild className="w-full"><Link href={`/${lang}/entrar`}>{copy.homeCta}</Link></BotonOro>
+            </PlanCard>
           </section>
           <section className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8">
-            <h2 className="font-display text-4xl">{copy.howTitle}</h2>
-            <ol className="mt-6 grid gap-4 md:grid-cols-3">
-              <li>
-                <div className="paso paso-elige">
-                  {ejemplos.map((item) => (
-                    <Link key={item.id} href={item.href} className="mini-reto">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={obraWebp(item.obra)} alt="" />
-                      <span className="font-display">{item.titulo}</span>
-                      <span className="mini-reto-meta">{item.meta}</span>
-                    </Link>
-                  ))}
-                </div>
-                <p className="mt-3 font-display text-2xl leading-tight">{copy.stepChoose}</p>
-              </li>
-              <li>
-                <div className="paso paso-escucha" aria-hidden="true">
-                  <span className="text-center">
-                    <span className="block font-display text-4xl text-[#C9A96E]">10:00</span>
-                    <span className="paso-onda onda mt-2 justify-center"><i /><i /><i /><i /></span>
-                  </span>
-                </div>
-                <p className="mt-3 font-display text-2xl leading-tight">{copy.stepListen}</p>
-              </li>
-              <li>
-                <div className="paso paso-fin" aria-hidden="true"><Camino /></div>
-                <p className="mt-3 font-display text-2xl leading-tight">{copy.stepFinish}</p>
-              </li>
-            </ol>
-          </section>
-          <section className="mx-auto grid w-full max-w-6xl gap-3 px-5 py-8 sm:grid-cols-2 lg:grid-cols-4 md:px-8">
-            {cifras.map((cifra, indice) => (
-              <article key={cifra.etiqueta} className="aparecer rounded-3xl border border-[#2E2924] px-5 py-5" style={{ ["--i" as string]: indice }}>
-                <p className="font-display text-5xl leading-none text-[#C9A96E]"><Contador valor={cifra.valor} prefijo={cifra.prefijo} /></p>
-                <p className="mt-2 text-[#E7D7C3]">{cifra.etiqueta}</p>
-              </article>
-            ))}
-            <p className="text-sm text-[#B7AB9C] sm:col-span-2 lg:col-span-4">{copy.voiceAi}</p>
-          </section>
-          <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
-            <h2 className="font-display text-4xl">{copy.tryTitle}</h2>
-            <ul className="carrusel mt-5">
-              {prueba.filter((episodio) => !reservados.has(episodio.id)).map((episodio, indice) => (
-                <li key={episodio.id} className="overflow-hidden rounded-3xl bg-[#1B1815]">
-                  <span className="relative block aspect-[4/5] overflow-hidden" style={{ background: episodio.tono }}>
-                    {episodio.provisional ? (
-                      <PortadaMarca episodioId={episodio.id} lang={ui} className="absolute inset-0" />
-                    ) : episodio.src ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={episodio.src} alt="" width={960} height={1200} loading={indice < 4 ? "eager" : "lazy"} fetchPriority="low" decoding="async" className="absolute inset-0 h-full w-full object-cover object-[center_28%]" />
-                    ) : null}
-                    <BotonProbar ficha={episodio} etiqueta={copy.listenFree} icono className="boton boton-obra absolute bottom-3 left-3 z-10 inline-flex size-12 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" />
-                  </span>
-                  <span className="block px-4 py-3">
-                    <span className="block font-display text-xl leading-tight">{episodio.titulo}</span>
-                    <span className="mt-1 flex gap-3 text-sm text-[#C9A96E]">
-                      {episodio.cita ? <span>{episodio.cita}</span> : null}
-                      {episodio.duracion ? <span>{episodio.duracion}</span> : null}
-                    </span>
-                  </span>
+            <h2 className="font-display t-h2">{copy.appTitle}</h2>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {funciones.map(([titulo, icono]) => (
+                <li key={titulo} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#2E2924] px-4 text-sm text-[#F4ECE2]">
+                  <IconoLinea tipo={icono} />
+                  {titulo}
                 </li>
               ))}
             </ul>
-          </section>
-          <section className="mx-auto grid w-full max-w-6xl gap-4 px-5 py-8 md:grid-cols-2 md:px-8">
-            <article className="relative min-h-80 overflow-hidden rounded-3xl bg-[#1B1815]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={obraWebp(portada)} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/10" />
-              <div className="relative flex min-h-80 flex-col justify-end p-6">
-                <h2 className="font-display text-4xl leading-tight">{copy.mainChallenge}</h2>
-                <Camino />
-                <p className="text-sm text-[#C9A96E]">{catalogo.rangos.length} {copy.statEpisodes}</p>
-                <Link href={`/${lang}/retos`} className="boton mt-4 inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.ctaAdvent}</Link>
-              </div>
-            </article>
-            {adviento ? (
-              <article className="relative min-h-80 overflow-hidden rounded-3xl bg-[#1B1815]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={srcAdviento} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/55 to-[#100E0C]/10" />
-                <div className="relative flex min-h-80 flex-col justify-end p-6">
-                  <h2 className="font-display text-4xl leading-tight">{adviento.titulo[ui]}</h2>
-                  {inicioAdviento ? <p className="text-sm text-[#C9A96E]">{etiquetaInicio(inicioAdviento, ui)}</p> : null}
-                  <Camino />
-                  <Link href={`/${lang}/retos/${adviento.id}`} className="boton mt-4 inline-flex min-h-12 w-fit items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.ctaAdvent}</Link>
-                </div>
-              </article>
-            ) : null}
-          </section>
-          <section className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-10 md:grid-cols-[18rem_1fr] md:px-8">
-            <Telefono saludo={copy.phoneHello} dia={genesis.titulo} racha={copy.appStreak} caminos={copy.appPathsNote} obra={obraWebp(portada)} />
-            <div>
-              <h2 className="font-display text-4xl">{copy.appTitle}</h2>
-              <ul className="mt-4">
-                {funciones.map(([titulo, nota, icono]) => (
-                  <li key={titulo} className="flex items-center gap-4 border-b border-[#2E2924] py-3">
-                    <IconoLinea tipo={icono} />
-                    <span>
-                      <span className="block">{titulo}</span>
-                      <span className="block text-sm text-[#B7AB9C]">{nota}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <BadgeTienda href={tiendas?.apple ?? aviso} linea={copy.badgeGet} marca="App Store" pronto={tiendas ? "" : copy.storeSoon} tipo="tienda" />
-                <BadgeTienda href={tiendas?.google ?? aviso} linea={copy.badgeGet} marca="Google Play" pronto={tiendas ? "" : copy.storeSoon} tipo="play" />
-              </div>
-            </div>
-          </section>
-          <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
-            <p className="text-sm text-[#C9A96E]">{copy.priceFree}</p>
-            <div className="mt-4 grid items-stretch gap-3 md:grid-cols-2">
-              <article className="flex h-full flex-col rounded-3xl border border-[#C9A96E] px-6 py-6">
-                <p className="w-fit rounded-full bg-[#C9A96E] px-3 py-1 text-sm text-[#100E0C]">{copy.priceSave}</p>
-                <p className="font-display mt-3 text-5xl">{copy.priceYear}</p>
-                {etiquetaDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#C9A96E]">{etiquetaDeLanzamiento(ui)}</p> : null}
-                {letraDeLanzamiento(ui) ? <p className="mt-2 text-sm text-[#B7AB9C]">{letraDeLanzamiento(ui)}</p> : null}
-                <ListaIncluidos items={incluidos} />
-                <div className="mt-auto pt-6">
-                  <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{copy.homeCta}</Link>
-                </div>
-              </article>
-              <article className="flex h-full flex-col rounded-3xl border border-[#2E2924] px-6 py-6">
-                <p className="min-h-7" />
-                <p className="font-display mt-3 text-5xl">{copy.priceMonth}</p>
-                <ListaIncluidos items={incluidos} />
-                <div className="mt-auto pt-6">
-                  <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 w-fit items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
-                </div>
-              </article>
-            </div>
-            <p className="mt-3 text-sm text-[#B7AB9C]">{copy.ctaRisk}</p>
-          </section>
-          <section className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
-            <Acordeon items={preguntas} />
-            <div className="mt-8">
-              <Ctas lang={lang} copy={copy} ficha={genesis} />
+            <div className="mt-6 flex flex-wrap gap-3">
+              <BadgeTienda href={tiendas?.apple ?? aviso} linea={copy.badgeGet} marca="App Store" pronto={tiendas ? "" : copy.storeSoon} tipo="tienda" />
+              <BadgeTienda href={tiendas?.google ?? aviso} linea={copy.badgeGet} marca="Google Play" pronto={tiendas ? "" : copy.storeSoon} tipo="play" />
             </div>
           </section>
         </main>
       </ProbarAudio>
     </>
-  );
-}
-
-function ListaIncluidos({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-4 grid gap-2">
-      {items.map((item) => (
-        <li key={item} className="flex items-center gap-2 text-sm text-[#E7D7C3]">
-          <svg viewBox="0 0 24 24" className="size-4 text-[#C9A96E]" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
-          {item}
-        </li>
-      ))}
-    </ul>
   );
 }
 
@@ -563,12 +408,11 @@ export function SitioMembresia({ lang }: { lang: string }) {
         <div>
           <PaywallWeb lang={lang} lanzamiento={precioLanzamientoActivo()} />
         </div>
-        <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">
-          <ObraFoto obra={obra} className="h-full w-full object-cover" />
-          <div className="absolute inset-x-0 bottom-0 p-4">
+        <Lienzo src={obraWebp(obra)} obraId={obra.id} alt={obra.titulo[ui]} className="min-h-80 md:min-h-[32rem]">
+          <div className="absolute inset-x-0 bottom-0 z-10 p-4">
             <Placa obra={obra} lang={ui} />
           </div>
-        </div>
+        </Lienzo>
       </main>
     </>
   );

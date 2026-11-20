@@ -1,0 +1,65 @@
+/* La sala: tokens y utilidades. Solo colores de la paleta existente. */
+:root {
+  --radio-obra: 8px;
+  --radio-mini: 20px;
+  --radio-tarjeta: 24px;
+  --radio-cartel: 28px;
+  --radio-pildora: 999px;
+  --oro-claro: #e0c48a;
+  --superficie: #1b1815;
+  --linea: #2e2924;
+  --galeria: #0c0b09;
+}
+
+.radio-obra { border-radius: var(--radio-obra); }
+.radio-tarjeta { border-radius: var(--radio-tarjeta); }
+.radio-mini { border-radius: var(--radio-mini); }
+.radio-cartel { border-radius: var(--radio-cartel); }
+
+/* Escala tipográfica (móvil / escritorio) */
+.t-display { font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem); line-height: 1.05; }
+.t-h1 { font-size: clamp(2.125rem, 1.7rem + 1.8vw, 3rem); line-height: 1.1; }
+.t-h2 { font-size: clamp(1.625rem, 1.45rem + 0.8vw, 2rem); line-height: 1.15; }
+.t-h3 { font-size: 1.25rem; line-height: 1.2; }
+.t-cifra { font-size: clamp(3rem, 2.4rem + 2vw, 4rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.t-meta { font-size: 0.8125rem; line-height: 1.4; color: #b7ab9c; }
+.t-rotulo { font-size: 0.6875rem; line-height: 1; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; }
+
+.sala-lienzo .bucle-fondo,
+.sala-fondo { filter: blur(48px); transform: scale(1.15); }
+
+.sala-boton { transition: transform 120ms ease-out, background-color 120ms ease-out; }
+.sala-boton:active { transform: scale(0.97); }
+.sala-boton:focus-visible,
+.sala-rail a:focus-visible { outline: 2px solid #e0c48a; outline-offset: 2px; }
+
+.sala-rail {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* el vecino asoma ~16 px */
+  padding-inline: 0 16px;
+  scroll-padding-inline: 0;
+  scrollbar-width: none;
+}
+.sala-rail::-webkit-scrollbar { display: none; }
+.sala-rail > * { flex: 0 0 min(72vw, 17rem); scroll-snap-align: start; }
+.sala-rail-cartel > * { flex-basis: min(72vw, 16rem); }
+
+.sala-puntos { display: flex; flex-wrap: wrap; gap: 4px; }
+.sala-punto { width: 6px; height: 6px; border-radius: 999px; background: #2e2924; }
+.sala-punto[data-hecho="true"] { background: #c9a96e; }
+
+.sala-tiempo { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sala-boton { transition: none; }
+  .sala-boton:active { transform: none; }
+  .sala-rail { scroll-snap-type: none; scroll-behavior: auto; }
+}
+
+@media (min-width: 768px) {
+  .sala-rail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; padding-inline: 0; }
+  .sala-rail-grid > * { flex: none; }
+}

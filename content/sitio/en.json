@@ -89,5 +89,10 @@
   "priceMonth": "€1.99/month",
   "faqWhatQ": "What is Audite?",
   "faqWhatA": "The Bible in audio, from beginning to end, in episodes of about 10 minutes.",
-  "exitSite": "audite.tv"
+  "exitSite": "audite.tv",
+  "todayTitle": "Today on Audite",
+  "seasonsTitle": "Seasons",
+  "seeAll": "See all",
+  "playLabel": "Listen",
+  "openApp": "Open in the app"
 }

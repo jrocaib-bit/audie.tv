@@ -155,7 +155,12 @@ describe("hero sin bucle", () => {
   it("la home no añade vídeo si no hay URLs", () => {
     const html = renderToStaticMarkup(<SitioHome lang="es" />);
     expect(html).not.toContain("<video");
-    expect(html).toContain("parallax-obra");
     expect(html).toContain("gn-01");
+    expect(html).not.toContain("parallax-obra");
+    const hero = html.slice(html.indexOf('id="hero"'), html.indexOf("</section>", html.indexOf('id="hero"')));
+    const principal = [...hero.matchAll(/<img[^>]*>/g)].map((m) => m[0]).find((img) => img.includes("sala-obra"));
+    expect(principal).toBeDefined();
+    expect(principal).toContain("object-contain");
+    expect(principal).not.toContain("object-cover");
   });
 });

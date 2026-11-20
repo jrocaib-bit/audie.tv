@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
+import { BotonProbar, ProbarAudio } from "@/components/probar";
+import { Placa } from "@/components/placa";
+import { BotonOro, botonOroVariantes } from "@/components/sala/boton-oro";
+import { Lienzo } from "@/components/sala/lienzo";
+import { copiaSitio } from "@/sitio/i18n";
+
+function buscar(id: string) {
+  const catalogo = loadAppCatalog();
+  return catalogo.episodes.find((item) => item.id === id) ?? catalogo.pendientes.find((item) => item.id === id);
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -12,22 +22,25 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const { lang, id } = await params;
   const { t } = await searchParams;
   const ui = lang === "en" ? "en" : "es";
-  const episodio = loadAppCatalog().pendientes.find((item) => item.id === id);
+  const copy = copiaSitio(lang);
+  const episodio = buscar(id);
   const obra = obraDeEpisodio(id);
   const segundo = Number(t || "0");
+  const etiqueta = loadAppCatalog().pendientes.find((item) => item.id === id)?.etiqueta?.[ui];
+  const titulo = etiqueta || episodio?.tituloCorto?.[ui] || episodio?.titulo?.[ui] || obra?.titulo[ui] || id;
   return (
-    <main className="flex min-h-full flex-col items-center bg-[#100E0C] px-5 py-8 text-[#F4ECE2]">
-      <article className="relative aspect-[9/16] w-full max-w-sm overflow-hidden rounded-3xl">
-        {obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <h1 className="font-display text-4xl leading-none">{episodio?.etiqueta?.[ui] || id}</h1>
+    <ProbarAudio>
+      <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]">
+        <Lienzo src={obra ? obraWebp(obra) : ""} obraId={obra?.id} alt={obra?.titulo[ui] ?? ""} priority className="h-[62svh] md:h-[70svh]" />
+        <div className="mx-auto w-full max-w-3xl px-5 pt-6 md:px-8">
+          <h1 className="font-display t-h1">{titulo}</h1>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <BotonProbar ficha={{ id, titulo }} etiqueta={copy?.playLabel ?? "Escuchar"} className={botonOroVariantes({ variante: "oro" })} />
+            <BotonOro asChild variante="fantasma"><a href={`audite://escuchar/${id}?t=${Math.max(0, Math.floor(segundo) || 0)}`}>{copy?.openApp ?? "Abrir en la app"}</a></BotonOro>
+          </div>
+          {obra ? <div className="mt-8 max-w-sm"><Placa obra={obra} lang={ui} /></div> : null}
         </div>
-      </article>
-      <a href={`audite://escuchar/${id}?t=${Math.max(0, Math.floor(segundo))}`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-5 text-[#100E0C]">{ui === "en" ? "Open" : "Abrir"}</a>
-    </main>
+      </main>
+    </ProbarAudio>
   );
 }
