@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           filas.push(
             <li key={reto.id}>
               <Link href={`/${lang}/retos/${reto.id}`} className="block py-4">
-                <span className="font-display text-2xl">{reto.titulo[ui]}</span>
+                <span className="font-display text-2xl">{reto.titulo[ui]}</span>{reto.insignia ? <span className="mt-1 block text-sm text-[#C9A96E]">{reto.insignia[ui]}</span> : null}
                 <span className="mt-1 block text-[#B7AB9C]">{reto.explica[ui]}</span>
                 <span className="mt-1 block text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}</span>
               </Link>

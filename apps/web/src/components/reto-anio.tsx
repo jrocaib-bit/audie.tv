@@ -72,21 +72,28 @@ export function VistaRetoAnio({ lang, reto, rangos }: { lang: string; reto: Reto
   const poster = bucle?.poster || src || "";
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
-      <div className="relative h-72 overflow-hidden bg-[#1B1815] md:h-96">
+      <div className={`relative overflow-hidden bg-[#1B1815] ${conectada ? "" : "h-72 md:h-96"}`}>
         {bucle && poster ? (
           <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt }} priority />
         ) : src ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={src} alt="" className="ken-burns h-full w-full object-cover" />
+          <img src={src} alt="" className={conectada ? "block h-auto w-full object-contain" : "ken-burns h-full w-full object-cover"} />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[#1B1815]" data-hueco="marca">
             <Mark className="h-16 w-16" tono="oro" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/30 to-transparent" />
-        <h1 className="font-display absolute right-5 bottom-5 left-5 text-[clamp(2.2rem,8vw,4.5rem)] leading-none">{reto.titulo[ui]}</h1>
+        {conectada ? (
+          <h1 className="sr-only">{reto.titulo[ui]}</h1>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/30 to-transparent" />
+            <h1 className="font-display absolute right-5 bottom-5 left-5 text-[clamp(2.2rem,8vw,4.5rem)] leading-none">{reto.titulo[ui]}</h1>
+          </>
+        )}
       </div>
       <div className="mx-auto w-full max-w-3xl px-5 py-8 md:px-8">
+        {reto.insignia ? <p className="text-sm text-[#C9A96E]">{reto.insignia[ui]}</p> : null}
         <p className="text-[#E7D7C3]">{reto.explica[ui]}</p>
         <p className="mt-3 text-sm text-[#C9A96E]">{reto.dias.length} {ui === "en" ? "days" : "días"}{inicio ? ` · ${etiquetaInicio(inicio, ui)}` : ""}{fin ? (ui === "en" ? ` · until ${fechaLegible(fin, ui)}` : ` · hasta el ${fechaLegible(fin, ui)}`) : ""}</p>
         {!reto.fijo ? <p className="mt-2 text-sm text-[#B7AB9C]">{ui === "en" ? "It can be walked in any stretch of Ordinary Time." : "Se puede recorrer en cualquier tramo de Tiempo ordinario."}</p> : null}

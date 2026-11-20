@@ -309,5 +309,9 @@
       ],
       "duracion_estimada_s": 540
     }
-  ]
+  ],
+  "insignia": {
+    "es": "Cordero",
+    "en": "Lamb"
+  }
 }

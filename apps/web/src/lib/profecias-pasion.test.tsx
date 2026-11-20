@@ -28,6 +28,7 @@ describe("Profecías de la Pasión", () => {
     const reto = retoDeTemporada("profecias-pasion");
     expect(reto?.tiempo).toBe("semana-santa");
     expect(reto?.slug).toEqual({ es: "profecias-pasion", en: "passion-prophecies" });
+    expect(reto?.insignia).toEqual({ es: "Cordero", en: "Lamb" });
     expect(reto?.dias).toHaveLength(8);
     expect(reto?.dias[0]?.fecha).toBe("2027-03-21");
     expect(reto?.dias[7]?.fecha).toBe("2027-03-28");
@@ -113,6 +114,7 @@ describe("Profecías de la Pasión", () => {
     expect(conectada).not.toContain("data-hueco=\"marca\"");
     const ingles = renderToStaticMarkup(<VistaRetoAnio lang="en" reto={retoDeTemporada("profecias-pasion")!} rangos={[]} />);
     expect(ingles).toContain("Prophecies of the Passion");
+    expect(ingles).toContain("Lamb");
     expect(ingles).toContain("The Sacrificial Lamb");
     expect(ingles).toContain("Coming soon");
     expect((ingles.match(/Coming soon/g) ?? []).length).toBe(8);
