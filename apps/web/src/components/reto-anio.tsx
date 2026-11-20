@@ -84,12 +84,8 @@ export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang:
         {bucle && poster ? (
           <BucleCuadro bucle={{ ...bucle, poster, alt: bucle.alt }} priority />
         ) : src && oficial ? (
-          // Portada oficial del reto (vertical): llena el cartel; las pinturas no se recortan.
-          <picture>
-            {oficialVertical ? <source media="(min-width: 768px)" srcSet={oficialVertical.src.ancho} /> : null}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" className="sala-portada absolute inset-0 h-full w-full object-cover" />
-          </picture>
+          // Portada oficial completa (contain + fondo). El recorte cover solo va en carteles 4:5 / 9:16.
+          <Lienzo src={(oficialVertical?.src.ancho ?? src)} obraId={portada?.obraId} priority className="absolute inset-0" />
         ) : src ? (
           <Lienzo src={src} obraId={portada?.obraId} priority className="absolute inset-0" />
         ) : (
