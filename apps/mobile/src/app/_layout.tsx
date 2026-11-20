@@ -10,6 +10,7 @@ import { MiniPlayer } from "../ui/MiniPlayer";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
+import { useCola } from "../ui/useCola";
 import { useReproducir } from "../ui/useReproducir";
 
 const RUTAS_PESTANAS = ["/", "/camino", "/retos", "/biblioteca", "/ajustes"];
@@ -22,6 +23,7 @@ function Shell() {
   const cargado = useEpisodioCargado();
   const hoy = useModeloHoy();
   const reproducir = useReproducir();
+  const cola = useCola();
   const listoPendiente = pendienteListo(library.pendiente, Boolean(library.sesion));
   const enPestana = RUTAS_PESTANAS.includes(path);
   const pestanas: PestanaDef[] = [
@@ -68,6 +70,7 @@ function Shell() {
         <Stack.Screen name="suscripcion" options={{ contentStyle: { backgroundColor: "#100E0C" } }} />
         <Stack.Screen name="eliminar-cuenta" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
         <Stack.Screen name="cuenta" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
+        <Stack.Screen name="cola" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
       {enPestana && cargado && empezado && !repetido ? (
@@ -87,6 +90,9 @@ function Shell() {
             else if (library.errorAudio) library.reintentar();
             else library.toggle();
           }}
+          haySiguiente={cola.haySiguiente}
+          onSiguiente={library.siguiente}
+          etiquetaSiguiente={t.siguiente}
           onAbrir={() => router.push("/ahora")}
         />
       ) : null}

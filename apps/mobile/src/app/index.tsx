@@ -53,7 +53,7 @@ export default function Hoy() {
       library.toggle();
       return;
     }
-    reproducirId(hero.id);
+    reproducirId(hero.id, { contexto: { tipo: "camino", id: library.settings.caminoActivo || "biblia" } });
   };
 
   return (
@@ -78,7 +78,7 @@ export default function Hoy() {
               proximamente={hero.reproducible ? undefined : t.proximamente}
               etiquetaPlay={library.playing && hero.actual ? t.pausar : t.escuchar}
               onPlay={reproducir}
-              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (hero.actual && library.sesion) return router.push("/ahora"); reproducirId(hero.id); }}
+              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (hero.actual && library.sesion) return router.push("/ahora"); reproducirId(hero.id, { contexto: { tipo: "camino", id: library.settings.caminoActivo || "biblia" } }); }}
             />
           </Entrada>
         ) : null}

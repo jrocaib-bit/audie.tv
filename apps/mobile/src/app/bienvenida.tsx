@@ -42,7 +42,7 @@ export default function Bienvenida() {
   const terminar = (escuchar: boolean) => {
     library.updateSettings({ bienvenidaHecha: true });
     router.replace("/");
-    if (escuchar && hoy.hero?.reproducible) reproducirId(hoy.hero.id);
+    if (escuchar && hoy.hero?.reproducible) reproducirId(hoy.hero.id, { contexto: { tipo: "camino", id: library.settings.caminoActivo || "biblia" } });
   };
   const recordar = () => {
     const texto = textoAviso(library.settings.uiLocale, hoy.hero?.libro || "Audite", 1);

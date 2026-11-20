@@ -76,7 +76,7 @@ export default function Biblioteca() {
         const titulo = rotuloEpisodio(item, lang) ?? info.titulo;
         const meta = grabado ? duracionCorta(grabado.durationSeconds) : "";
         const actual = grabado?.id === ctx.actual;
-        const abrir = grabado ? () => { reproducir(grabado.id); } : undefined;
+        const abrir = grabado ? () => { reproducir(grabado.id, { contexto: { tipo: "libro", id: abierto } }); } : undefined;
         return (
           <Pulsable onPress={abrir} disabled={!abrir} label={titulo} escala={0.985} style={{ marginHorizontal: 20, marginBottom: 10, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
             <ObraMarco src={info.src} style={{ width: 72, height: 72, borderRadius: 14 }} desenfoque={12} />

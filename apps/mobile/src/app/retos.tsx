@@ -40,7 +40,7 @@ export default function Retos() {
   const unirme = () => {
     library.updateSettings({ caminoActivo: "biblia" });
     if (p.siguiente && grabados.has(p.siguiente)) {
-      reproducirId(p.siguiente);
+      reproducirId(p.siguiente, { contexto: { tipo: "camino", id: "biblia" } });
     } else {
       router.navigate("/camino");
     }

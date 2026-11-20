@@ -43,8 +43,8 @@ export default function RetoDetalle() {
   const hechos = tarjeta.hechos;
   const porcentaje = pasos.length ? Math.round((hechos / pasos.length) * 100) : 0;
   const siguiente = pasos.find((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
-  const jugar = (episodio: string) => {
-    reproducirId(episodio);
+  const jugar = (episodio: string, pos: number) => {
+    reproducirId(episodio, { contexto: { tipo: "reto", id }, pos });
   };
   const siguienteGrabado = tarjeta.siguiente && grabados.has(tarjeta.siguiente) ? tarjeta.siguiente : null;
 
@@ -73,7 +73,7 @@ export default function RetoDetalle() {
         </View>
       </Entrada>
 
-      {siguienteGrabado ? <Boton c={c} texto={hechos > 0 ? t.continuar : t.unirme} icono="play" onPress={() => jugar(siguienteGrabado)} /> : null}
+      {siguienteGrabado ? <Boton c={c} texto={hechos > 0 ? t.continuar : t.unirme} icono="play" onPress={() => jugar(siguienteGrabado, Math.max(0, pasos.findIndex((p) => p.episodio === siguienteGrabado && !(library.progress.episodes[siguienteGrabado]?.completed))))} /> : null}
 
       <View style={{ gap: 8 }}>
         {pasos.map((paso, i) => {
@@ -81,7 +81,7 @@ export default function RetoDetalle() {
           const hecho = Boolean(paso.episodio && library.progress.episodes[paso.episodio]?.completed);
           return (
             <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
-              <Pulsable onPress={grabado && paso.episodio ? () => jugar(paso.episodio!) : undefined} disabled={!grabado} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}`} escala={0.985} style={{ minHeight: 64, paddingHorizontal: 14, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, opacity: grabado ? 1 : 0.7 }}>
+              <Pulsable onPress={grabado && paso.episodio ? () => jugar(paso.episodio!, i) : undefined} disabled={!grabado} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}`} escala={0.985} style={{ minHeight: 64, paddingHorizontal: 14, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, opacity: grabado ? 1 : 0.7 }}>
                 <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", backgroundColor: hecho ? c.accent : "transparent", borderWidth: hecho ? 0 : 1, borderColor: c.line }}>
                   {hecho ? <Icono nombre="check" size={18} color={c.accentInk} trazo={2.4} /> : <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{paso.dia}</Text>}
                 </View>

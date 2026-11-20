@@ -6,9 +6,9 @@ import { ProgressBar } from "./ProgressBar";
 import { Pulsable } from "./Pulsable";
 import type { Paleta } from "./tema";
 
-type Props = { c: Paleta; src: string; titulo: string; subtitulo: string; fraccion: number; jugando: boolean; etiquetaPlay: string; cargando?: boolean; error?: string; onToggle: () => void; onAbrir: () => void };
+type Props = { c: Paleta; src: string; titulo: string; subtitulo: string; fraccion: number; jugando: boolean; etiquetaPlay: string; cargando?: boolean; error?: string; haySiguiente?: boolean; onSiguiente?: () => void; etiquetaSiguiente?: string; onToggle: () => void; onAbrir: () => void };
 
-export function MiniPlayer({ c, src, titulo, subtitulo, fraccion, jugando, etiquetaPlay, cargando, error, onToggle, onAbrir }: Props) {
+export function MiniPlayer({ c, src, titulo, subtitulo, fraccion, jugando, etiquetaPlay, cargando, error, haySiguiente, onSiguiente, etiquetaSiguiente, onToggle, onAbrir }: Props) {
   return (
     <View style={{ paddingHorizontal: 10, paddingBottom: 8, backgroundColor: c.bg }}>
       <Pulsable onPress={onAbrir} label={titulo} escala={0.985} style={{ borderRadius: 20, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, overflow: "hidden" }}>
@@ -21,6 +21,11 @@ export function MiniPlayer({ c, src, titulo, subtitulo, fraccion, jugando, etiqu
           <Pulsable onPress={onToggle} label={etiquetaPlay} haptica escala={0.88} hitSlop={6} style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
             {cargando ? <ActivityIndicator color={c.accentInk} /> : <Icono nombre={jugando ? "pause" : "play"} size={22} color={c.accentInk} />}
           </Pulsable>
+          {onSiguiente ? (
+            <Pulsable onPress={onSiguiente} disabled={!haySiguiente} label={etiquetaSiguiente} haptica escala={0.88} hitSlop={6} style={{ width: 40, height: 44, alignItems: "center", justifyContent: "center", opacity: haySiguiente ? 1 : 0.3 }}>
+              <Icono nombre="siguiente" size={24} color={c.ink} />
+            </Pulsable>
+          ) : null}
         </View>
         <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={3} />
       </Pulsable>

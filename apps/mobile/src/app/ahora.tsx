@@ -14,6 +14,8 @@ import { Icono } from "../ui/Icono";
 import { Pulsable } from "../ui/Pulsable";
 import { Scrubber } from "../ui/Scrubber";
 import { useTema } from "../ui/tema";
+import { ProgressBar } from "../ui/ProgressBar";
+import { useCola } from "../ui/useCola";
 import { useEpisodioCargado } from "../ui/useHoy";
 
 const c = dark;
@@ -25,6 +27,7 @@ export default function NowPlaying() {
   const insets = useSafeAreaInsets();
   const ventana = useWindowDimensions();
   const cargado = useEpisodioCargado();
+  const cola = useCola();
   const [sleepIdx, setSleepIdx] = useState(-1);
   const pedido = useLocalSearchParams<{ e?: string }>().e;
   useEffect(() => {
@@ -44,7 +47,7 @@ export default function NowPlaying() {
   const cuando = library.settings.captions && frame.captionText ? frame.captionText : "";
 
   // La obra se dimensiona con su proporción; el bloque entero se centra en vertical.
-  const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 400);
+  const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 470);
   const maxAncho = ventana.width - 32;
   const ratio = cargado.info.ratio;
   let anchoObra = Math.min(maxAncho, maxAlto * ratio);
@@ -111,6 +114,14 @@ export default function NowPlaying() {
           <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}</Text>
         </View>
 
+        <Pulsable onPress={() => router.push("/cola")} label={`${t.aContinuacion}. ${cola.largo}`} escala={0.98} style={{ marginHorizontal: 20, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 18, gap: 8, backgroundColor: "rgba(244,236,226,0.07)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Text numberOfLines={1} style={{ flex: 1, color: c.ink, fontFamily: fonts.medium, fontSize: 14 }}>{cola.largo}</Text>
+            <Icono nombre="chevron" size={16} color={c.muted} />
+          </View>
+          <ProgressBar fraccion={cola.info.fraccion} color={c.accent} pista="rgba(244,236,226,0.16)" alto={4} />
+        </Pulsable>
+
         {cuando && !error ? (
           <View style={{ marginHorizontal: 20, padding: 14, borderRadius: 18, backgroundColor: "rgba(244,236,226,0.07)" }}>
             <Text numberOfLines={3} style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 16, lineHeight: 22 }}>{cuando}</Text>
@@ -129,15 +140,21 @@ export default function NowPlaying() {
             <View style={{ paddingHorizontal: 24 }}>
               <Scrubber valor={library.globalTime} maximo={episode.durationSeconds} onBuscar={(s) => library.seekBy(s - library.globalTime)} color={c.accent} pista="rgba(244,236,226,0.18)" texto={c.muted} etiqueta={t.posicion} />
             </View>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 28 }}>
-              <Pulsable onPress={() => library.seekBy(-15)} label="−15" haptica escala={0.88} style={{ width: 56, height: 56, alignItems: "center", justifyContent: "center" }}>
-                <Icono nombre="atras" size={38} color={c.ink} />
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }}>
+              <Pulsable onPress={library.anterior} disabled={!cola.hayAnterior} label={t.anteriorEp} haptica escala={0.88} style={{ width: 48, height: 56, alignItems: "center", justifyContent: "center", opacity: cola.hayAnterior ? 1 : 0.3 }}>
+                <Icono nombre="anterior" size={28} color={c.ink} />
               </Pulsable>
-              <Pulsable onPress={library.toggle} label={cargando ? t.cargando : library.playing ? t.pausar : t.reproducir} haptica escala={0.92} style={{ width: 84, height: 84, borderRadius: 42, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-                {cargando ? <ActivityIndicator color={c.accentInk} size="large" /> : <Icono nombre={library.playing ? "pause" : "play"} size={38} color={c.accentInk} />}
+              <Pulsable onPress={() => library.seekBy(-15)} label="−15" haptica escala={0.88} style={{ width: 52, height: 56, alignItems: "center", justifyContent: "center" }}>
+                <Icono nombre="atras" size={36} color={c.ink} />
               </Pulsable>
-              <Pulsable onPress={() => library.seekBy(15)} label="+15" haptica escala={0.88} style={{ width: 56, height: 56, alignItems: "center", justifyContent: "center" }}>
-                <Icono nombre="adelante" size={38} color={c.ink} />
+              <Pulsable onPress={library.toggle} label={cargando ? t.cargando : library.playing ? t.pausar : t.reproducir} haptica escala={0.92} style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+                {cargando ? <ActivityIndicator color={c.accentInk} size="large" /> : <Icono nombre={library.playing ? "pause" : "play"} size={36} color={c.accentInk} />}
+              </Pulsable>
+              <Pulsable onPress={() => library.seekBy(15)} label="+15" haptica escala={0.88} style={{ width: 52, height: 56, alignItems: "center", justifyContent: "center" }}>
+                <Icono nombre="adelante" size={36} color={c.ink} />
+              </Pulsable>
+              <Pulsable onPress={library.siguiente} disabled={!cola.haySiguiente} label={t.siguiente} haptica escala={0.88} style={{ width: 48, height: 56, alignItems: "center", justifyContent: "center", opacity: cola.haySiguiente ? 1 : 0.3 }}>
+                <Icono nombre="siguiente" size={28} color={c.ink} />
               </Pulsable>
             </View>
             <View style={{ flexDirection: "row", justifyContent: "center", gap: 10 }}>
