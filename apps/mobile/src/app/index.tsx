@@ -3,10 +3,9 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
 import { tx } from "../textos";
-import { Seccion } from "../ui/Basicos";
 import { BotonRedondo } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
-import { GoalCard } from "../ui/GoalCard";
+import { GoalCard, RachaCard } from "../ui/GoalCard";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
@@ -17,11 +16,16 @@ import { useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
 import type { TarjetaHoy } from "../hoy";
 
-function Carril({ titulo, items, c, onPress }: { titulo: string; items: TarjetaHoy[]; c: ReturnType<typeof useTema>["c"]; onPress: (item: TarjetaHoy) => void }) {
+function Carril({ titulo, items, c, onPress, verTodo, onVerTodo }: { titulo: string; items: TarjetaHoy[]; c: ReturnType<typeof useTema>["c"]; onPress: (item: TarjetaHoy) => void; verTodo: string; onVerTodo: () => void }) {
   if (items.length === 0) return null;
   return (
     <View style={{ gap: 12 }}>
-      <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{titulo}</Text>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{titulo}</Text>
+        <Pulsable onPress={onVerTodo} label={verTodo} hitSlop={12} escala={0.94} style={{ minHeight: 44, justifyContent: "center" }}>
+          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{verTodo}</Text>
+        </Pulsable>
+      </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }} style={{ marginHorizontal: -20 }}>
         {items.map((item) => (
           <Pulsable key={item.id} onPress={() => onPress(item)} label={item.titulo} style={{ width: 148, gap: 8 }}>
@@ -71,6 +75,7 @@ export default function Hoy() {
               titulo={hero.titulo}
               meta={[hero.libro && hero.capitulos ? hero.capitulos : hero.libro, hero.duracion].filter(Boolean).join(" · ")}
               fraccion={hero.fraccion}
+              ratio={hero.ratio}
               jugando={library.playing && hero.actual}
               proximamente={hero.reproducible ? undefined : t.proximamente}
               etiquetaPlay={library.playing && hero.actual ? t.pausar : t.escuchar}
@@ -80,28 +85,9 @@ export default function Hoy() {
           </Entrada>
         ) : null}
 
-        <Entrada orden={1} style={{ gap: 12 }}>
-          <View style={{ flexDirection: "row", gap: 12 }}>
-            <View accessible accessibilityLabel={`${m.racha} ${t.racha}`} style={{ flex: 1, borderRadius: 24, padding: 16, gap: 8, justifyContent: "space-between", minHeight: 132, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-                <Icono nombre="llama" size={20} color={m.racha > 0 ? c.accent : c.muted} />
-                <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{t.racha}</Text>
-              </View>
-              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 56, lineHeight: 60 }}>{m.racha}</Text>
-              <View style={{ height: 4 }} />
-            </View>
-            <GoalCard c={c} nombre={m.camino.nombre} hechos={m.camino.hechos} total={m.camino.total} fraccion={m.camino.fraccion} de={t.de} onAbrir={() => router.push("/camino")} />
-          </View>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 16, paddingVertical: 12, borderRadius: 20, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            {m.semana.map((d) => (
-              <View key={d.iso} style={{ alignItems: "center", gap: 6 }}>
-                <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", backgroundColor: d.hecho ? c.accent : "transparent", borderWidth: d.hecho ? 0 : d.hoy ? 2 : 1, borderColor: d.hoy ? c.accent : c.line, opacity: d.futuro ? 0.5 : 1 }}>
-                  {d.hecho ? <Icono nombre="check" size={16} color={c.accentInk} trazo={2.6} /> : null}
-                </View>
-                <Text style={{ color: d.hoy ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{d.letra}</Text>
-              </View>
-            ))}
-          </View>
+        <Entrada orden={1} style={{ flexDirection: "row", gap: 12 }}>
+          <RachaCard c={c} etiqueta={t.rachaTitulo} racha={m.racha} dias={t.diasCorto} semana={m.semana} />
+          <GoalCard c={c} nombre={m.camino.nombre} hechos={m.camino.hechos} total={m.camino.total} fraccion={m.camino.fraccion} de={t.de} onAbrir={() => router.push("/camino")} />
         </Entrada>
 
         {m.continuar ? (
@@ -131,10 +117,9 @@ export default function Hoy() {
           </Pulsable>
         </Entrada>
 
-        <Entrada orden={5} style={{ gap: 20, marginTop: 8 }}>
-          <Seccion c={c} titulo={t.explorar} />
-          <Carril c={c} titulo={t.libros} items={m.explorar.libros} onPress={() => router.push("/biblioteca")} />
-          <Carril c={c} titulo={t.caminos} items={m.explorar.caminos} onPress={() => router.push("/camino")} />
+        <Entrada orden={5} style={{ gap: 16, marginTop: 8 }}>
+          <Carril c={c} titulo={t.libros} items={m.explorar.libros} verTodo={t.verTodo} onVerTodo={() => router.push("/biblioteca")} onPress={() => router.push("/biblioteca")} />
+          <Carril c={c} titulo={t.caminos} items={m.explorar.caminos} verTodo={t.verTodo} onVerTodo={() => router.push("/camino")} onPress={() => router.push("/camino")} />
         </Entrada>
       </View>
     </ScrollView>

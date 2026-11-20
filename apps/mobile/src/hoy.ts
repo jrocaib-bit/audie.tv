@@ -84,7 +84,7 @@ export function duracionCorta(segundos: number | undefined): string {
   return `${Math.max(1, Math.round(segundos / 60))} min`;
 }
 
-export type EpisodioInfo = { id: string; titulo: string; libro: string; capitulos: string; duracion: string; src: string };
+export type EpisodioInfo = { id: string; titulo: string; libro: string; capitulos: string; duracion: string; src: string; ratio: number };
 
 export type CtxHoy = {
   lang: Idioma;
@@ -116,6 +116,7 @@ export function infoEpisodio(id: string, ctx: Pick<CtxHoy, "lang" | "libros" | "
     capitulos: obra?.capitulos ?? "",
     duracion: duracionCorta(ctx.duraciones[id]),
     src: obra ? obraWebp(obra) : "",
+    ratio: obra && obra.ancho > 0 && obra.alto > 0 ? obra.ancho / obra.alto : 16 / 9,
   };
 }
 

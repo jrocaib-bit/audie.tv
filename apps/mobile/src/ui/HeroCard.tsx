@@ -1,5 +1,4 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { Text, View, useWindowDimensions } from "react-native";
 import { fonts } from "../theme";
 import { Icono } from "./Icono";
 import { ObraMarco } from "./ObraMarco";
@@ -14,6 +13,7 @@ type Props = {
   titulo: string;
   meta: string;
   fraccion?: number;
+  ratio?: number;
   jugando?: boolean;
   proximamente?: string;
   etiquetaPlay: string;
@@ -22,12 +22,13 @@ type Props = {
 };
 
 /** El episodio de hoy: obra entera, título y un botón enorme. */
-export function HeroCard({ c, src, kicker, titulo, meta, fraccion = 0, jugando, proximamente, etiquetaPlay, onPlay, onAbrir }: Props) {
+export function HeroCard({ c, src, kicker, titulo, meta, fraccion = 0, ratio = 16 / 9, jugando, proximamente, etiquetaPlay, onPlay, onAbrir }: Props) {
+  const ancho = useWindowDimensions().width - 42;
+  const alto = Math.round(Math.min(260, Math.max(170, ancho / ratio)));
   return (
     <Pulsable onPress={onAbrir} label={titulo} escala={0.985} style={{ borderRadius: 28, backgroundColor: c.card, overflow: "visible", borderWidth: 1, borderColor: c.line }}>
       <View style={{ borderTopLeftRadius: 28, borderTopRightRadius: 28, overflow: "hidden" }}>
-        <ObraMarco src={src} style={{ height: 224 }} />
-        <LinearGradient colors={["transparent", c.card]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 48 }} pointerEvents="none" />
+        <ObraMarco src={src} style={{ height: alto }} />
         <View style={{ position: "absolute", top: 16, left: 16, backgroundColor: "rgba(12,11,9,0.7)", borderRadius: 999, paddingHorizontal: 12, minHeight: 28, justifyContent: "center" }}>
           <Text style={{ color: "#F4ECE2", fontFamily: fonts.medium, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" }}>{kicker}</Text>
         </View>
