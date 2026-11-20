@@ -17,7 +17,7 @@ import { Pulsable } from "../ui/Pulsable";
 import { Ring } from "../ui/Ring";
 import { useTema } from "../ui/tema";
 
-type Paso = { dia: number; episodio?: string; titulo: { es: string; en: string } };
+type Paso = { dia: number; episodio?: string; minutos?: number; titulo: { es: string; en: string } };
 type RetoJson = { id: string; titulo: { es: string; en: string }; pasos: Paso[] };
 
 const RETO = (retosJson.retos as RetoJson[]).find((reto) => reto.id === "adviento-isaias");
@@ -40,6 +40,8 @@ export default function RetoAdviento() {
   const conCuenta = Boolean(sesion);
   const grabados = new Set(library.catalog.episodes.map((e) => e.id));
   const hechos = PASOS.filter((p) => p.episodio && library.progress.episodes[p.episodio]?.completed).length;
+  const siguiente = PASOS.find((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
+  const porcentaje = PASOS.length ? Math.round((hechos / PASOS.length) * 100) : 0;
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 + insets.bottom, gap: 20 }} showsVerticalScrollIndicator={false}>
@@ -56,11 +58,13 @@ export default function RetoAdviento() {
 
       <Entrada orden={1} style={{ flexDirection: "row", alignItems: "center", gap: 20, padding: 20, borderRadius: 24, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
         <Ring fraccion={PASOS.length ? hechos / PASOS.length : 0} size={104} trazo={9} color={c.accent} pista={c.line}>
-          <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 34 }}>{hechos}</Text>
+          <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28 }}>{porcentaje}%</Text>
         </Ring>
         <View style={{ flex: 1, gap: 4 }}>
           <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30 }}>{hechos} {t.de} {PASOS.length}</Text>
-          <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{t.dias}</Text>
+          {siguiente ? (
+            <Text numberOfLines={2} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{t.dia} {siguiente.dia} · {siguiente.titulo[lang]}</Text>
+          ) : null}
         </View>
       </Entrada>
 
@@ -77,7 +81,10 @@ export default function RetoAdviento() {
                 <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", backgroundColor: hecho ? c.accent : "transparent", borderWidth: hecho ? 0 : 1, borderColor: c.line }}>
                   {hecho ? <Icono nombre="check" size={18} color={c.accentInk} trazo={2.4} /> : <Text style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{paso.dia}</Text>}
                 </View>
-                <Text numberOfLines={2} style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
+                <View style={{ flex: 1 }}>
+                  <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
+                  {grabado && paso.minutos ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{paso.minutos} min</Text> : null}
+                </View>
                 {grabado ? (
                   <Icono nombre={conCuenta ? "play" : "candado"} size={conCuenta ? 18 : 20} color={conCuenta ? c.accent : c.muted} />
                 ) : (

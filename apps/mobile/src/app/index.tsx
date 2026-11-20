@@ -44,7 +44,12 @@ export default function Hoy() {
 
   const reproducir = () => {
     if (!hero?.reproducible) return;
-    if (!library.playing) library.toggle();
+    if (hero.actual && library.playing) {
+      library.toggle();
+      return;
+    }
+    if (hero.actual) library.toggle();
+    else library.playEpisode(hero.id);
     router.push("/ahora");
   };
 
@@ -66,64 +71,42 @@ export default function Hoy() {
               titulo={hero.titulo}
               meta={[hero.libro && hero.capitulos ? hero.capitulos : hero.libro, hero.duracion].filter(Boolean).join(" · ")}
               fraccion={hero.fraccion}
-              jugando={library.playing && hero.reproducible}
+              jugando={library.playing && hero.actual}
               proximamente={hero.reproducible ? undefined : t.proximamente}
-              etiquetaPlay={library.playing && hero.reproducible ? t.pausar : t.escuchar}
+              etiquetaPlay={library.playing && hero.actual ? t.pausar : t.escuchar}
               onPlay={reproducir}
-              onAbrir={() => (hero.reproducible ? router.push("/ahora") : router.push("/camino"))}
+              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (!hero.actual) library.playEpisode(hero.id); router.push("/ahora"); }}
             />
           </Entrada>
         ) : null}
 
-        <Entrada orden={1}>
-          <View accessible accessibilityLabel={`${m.racha} ${t.racha}`} style={{ borderRadius: 24, padding: 20, gap: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-              <Icono nombre="llama" size={28} color={m.racha > 0 ? c.accent : c.muted} />
-              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 44, lineHeight: 48 }}>{m.racha}</Text>
-              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15, flex: 1 }}>{t.racha}</Text>
+        <Entrada orden={1} style={{ gap: 12 }}>
+          <View style={{ flexDirection: "row", gap: 12 }}>
+            <View accessible accessibilityLabel={`${m.racha} ${t.racha}`} style={{ flex: 1, borderRadius: 24, padding: 16, gap: 8, justifyContent: "space-between", minHeight: 132, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                <Icono nombre="llama" size={20} color={m.racha > 0 ? c.accent : c.muted} />
+                <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{t.racha}</Text>
+              </View>
+              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 56, lineHeight: 60 }}>{m.racha}</Text>
+              <View style={{ height: 4 }} />
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              {m.semana.map((d) => (
-                <View key={d.iso} style={{ alignItems: "center", gap: 8 }}>
-                  <View
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 18,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: d.hecho ? c.accent : "transparent",
-                      borderWidth: d.hecho ? 0 : d.hoy ? 2 : 1,
-                      borderColor: d.hoy ? c.accent : c.line,
-                      opacity: d.futuro ? 0.5 : 1,
-                    }}
-                  >
-                    {d.hecho ? <Icono nombre="check" size={18} color={c.accentInk} trazo={2.4} /> : null}
-                  </View>
-                  <Text style={{ color: d.hoy ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{d.letra}</Text>
-                </View>
-              ))}
-            </View>
+            <GoalCard c={c} nombre={m.camino.nombre} hechos={m.camino.hechos} total={m.camino.total} fraccion={m.camino.fraccion} de={t.de} onAbrir={() => router.push("/camino")} />
           </View>
-        </Entrada>
-
-        <Entrada orden={2}>
-          <GoalCard
-            c={c}
-            nombre={m.camino.nombre}
-            hechos={m.camino.hechos}
-            total={m.camino.total}
-            fraccion={m.camino.fraccion}
-            de={t.de}
-            accion={m.camino.hechos > 0 || hero?.retomar ? t.continuar : t.empezar}
-            onAccion={reproducir}
-            onAbrir={() => router.push("/camino")}
-          />
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 16, paddingVertical: 12, borderRadius: 20, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            {m.semana.map((d) => (
+              <View key={d.iso} style={{ alignItems: "center", gap: 6 }}>
+                <View style={{ width: 30, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", backgroundColor: d.hecho ? c.accent : "transparent", borderWidth: d.hecho ? 0 : d.hoy ? 2 : 1, borderColor: d.hoy ? c.accent : c.line, opacity: d.futuro ? 0.5 : 1 }}>
+                  {d.hecho ? <Icono nombre="check" size={16} color={c.accentInk} trazo={2.6} /> : null}
+                </View>
+                <Text style={{ color: d.hoy ? c.ink : c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{d.letra}</Text>
+              </View>
+            ))}
+          </View>
         </Entrada>
 
         {m.continuar ? (
           <Entrada orden={3}>
-            <Pulsable onPress={() => router.push("/ahora")} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <Pulsable onPress={() => { library.playEpisode(m.continuar!.id); router.push("/ahora"); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
               <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
                 <Icono nombre="play" size={20} color={c.accentInk} />
               </View>
@@ -152,7 +135,6 @@ export default function Hoy() {
           <Seccion c={c} titulo={t.explorar} />
           <Carril c={c} titulo={t.libros} items={m.explorar.libros} onPress={() => router.push("/biblioteca")} />
           <Carril c={c} titulo={t.caminos} items={m.explorar.caminos} onPress={() => router.push("/camino")} />
-          <Carril c={c} titulo={t.retos} items={m.explorar.retos} onPress={(item) => (item.ruta ? router.push(item.ruta as "/reto-adviento") : undefined)} />
         </Entrada>
       </View>
     </ScrollView>

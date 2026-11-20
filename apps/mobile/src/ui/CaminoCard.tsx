@@ -25,9 +25,9 @@ type Props = {
 export function CaminoCard({ c, nombre, src, hechos, total, fraccion, de, accion, activo, principal, etiquetaActivo, onPress }: Props) {
   const borde = activo ? c.accent : c.line;
   const marca = activo && etiquetaActivo ? (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-      <Icono nombre="check" size={14} color={c.accent} />
-      <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{etiquetaActivo}</Text>
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 10, minHeight: 26, borderRadius: 13, backgroundColor: c.accent }}>
+      <Icono nombre="check" size={13} color={c.accentInk} trazo={2.4} />
+      <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{etiquetaActivo}</Text>
     </View>
   ) : null;
   if (principal) {
@@ -50,7 +50,7 @@ export function CaminoCard({ c, nombre, src, hechos, total, fraccion, de, accion
     );
   }
   return (
-    <Pulsable onPress={onPress} label={nombre} haptica style={{ borderRadius: 24, backgroundColor: c.card, borderWidth: 1.5, borderColor: borde, padding: 12, flexDirection: "row", gap: 14, alignItems: "center" }}>
+    <Pulsable onPress={onPress} label={nombre} haptica style={{ borderRadius: 24, backgroundColor: c.card, borderWidth: 1.5, borderColor: borde, padding: 12, minHeight: 108, flexDirection: "row", gap: 14, alignItems: "center" }}>
       <ObraMarco src={src} style={{ width: 84, height: 84, borderRadius: 16 }} />
       <View style={{ flex: 1, gap: 6 }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>

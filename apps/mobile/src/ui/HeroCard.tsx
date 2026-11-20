@@ -26,15 +26,15 @@ export function HeroCard({ c, src, kicker, titulo, meta, fraccion = 0, jugando, 
   return (
     <Pulsable onPress={onAbrir} label={titulo} escala={0.985} style={{ borderRadius: 28, backgroundColor: c.card, overflow: "visible", borderWidth: 1, borderColor: c.line }}>
       <View style={{ borderTopLeftRadius: 28, borderTopRightRadius: 28, overflow: "hidden" }}>
-        <ObraMarco src={src} style={{ height: 248 }} />
-        <LinearGradient colors={["transparent", c.card]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 72 }} pointerEvents="none" />
+        <ObraMarco src={src} style={{ height: 224 }} />
+        <LinearGradient colors={["transparent", c.card]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 48 }} pointerEvents="none" />
         <View style={{ position: "absolute", top: 16, left: 16, backgroundColor: "rgba(12,11,9,0.7)", borderRadius: 999, paddingHorizontal: 12, minHeight: 28, justifyContent: "center" }}>
           <Text style={{ color: "#F4ECE2", fontFamily: fonts.medium, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" }}>{kicker}</Text>
         </View>
       </View>
       <View style={{ paddingHorizontal: 20, paddingTop: 4, paddingBottom: 20, gap: 6 }}>
         <View style={{ paddingRight: 84 }}>
-          <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 36 }}>{titulo}</Text>
+          <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 }}>{titulo}</Text>
           <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15, marginTop: 6 }}>{proximamente ?? meta}</Text>
         </View>
         {fraccion > 0 ? <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={4} style={{ marginTop: 10 }} /> : null}
