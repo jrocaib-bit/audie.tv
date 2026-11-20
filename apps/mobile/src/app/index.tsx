@@ -13,6 +13,7 @@ import { Pulsable } from "../ui/Pulsable";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
+import { useReproducir } from "../ui/useReproducir";
 import type { TarjetaHoy } from "../hoy";
 
 function Carril({ titulo, items, c, onPress, verTodo, onVerTodo }: { titulo: string; items: TarjetaHoy[]; c: ReturnType<typeof useTema>["c"]; onPress: (item: TarjetaHoy) => void; verTodo: string; onVerTodo: () => void }) {
@@ -43,6 +44,7 @@ export default function Hoy() {
   const insets = useSafeAreaInsets();
   const t = tx(lang);
   const m = useModeloHoy();
+  const reproducirId = useReproducir();
   const hero = m.hero;
 
   const reproducir = () => {
@@ -51,9 +53,7 @@ export default function Hoy() {
       library.toggle();
       return;
     }
-    if (hero.actual) library.toggle();
-    else library.playEpisode(hero.id);
-    router.push("/ahora");
+    reproducirId(hero.id);
   };
 
   return (
@@ -78,7 +78,7 @@ export default function Hoy() {
               proximamente={hero.reproducible ? undefined : t.proximamente}
               etiquetaPlay={library.playing && hero.actual ? t.pausar : t.escuchar}
               onPlay={reproducir}
-              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (!hero.actual) library.playEpisode(hero.id); router.push("/ahora"); }}
+              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (hero.actual && library.sesion) return router.push("/ahora"); reproducirId(hero.id); }}
             />
           </Entrada>
         ) : null}
@@ -90,7 +90,7 @@ export default function Hoy() {
 
         {m.continuar ? (
           <Entrada orden={3}>
-            <Pulsable onPress={() => { library.playEpisode(m.continuar!.id); router.push("/ahora"); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <Pulsable onPress={() => { reproducirId(m.continuar!.id); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
               <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
                 <Icono nombre="play" size={20} color={c.accentInk} />
               </View>

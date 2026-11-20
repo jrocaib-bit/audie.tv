@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import { bloqueadoPorSesion, esGratisAnonimo, idsGratisAnonimo } from "./audio-gratis";
 import { crearCacheAudio, resolverAudio, type FetchLike } from "./audio-url";
 
 const ok = (cuerpo: unknown, status = 200) => ({ status, json: async () => cuerpo });
@@ -37,17 +36,5 @@ describe("resolverAudio", () => {
     expect(f).toHaveBeenCalledTimes(1);
     await resolverAudio("x", { base: "b", fetch: f, ahora: 950_000, cache });
     expect(f).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe("audio gratis sin sesión", () => {
-  it("gn-01 y el Adviento son gratis; lo demás pide sesión", () => {
-    expect(esGratisAnonimo("gn-01")).toBe(true);
-    expect(esGratisAnonimo("is-01")).toBe(true);
-    expect(esGratisAnonimo("gn-02")).toBe(false);
-    expect(bloqueadoPorSesion("gn-02", false)).toBe(true);
-    expect(bloqueadoPorSesion("gn-02", true)).toBe(false);
-    expect(bloqueadoPorSesion("gn-01", false)).toBe(false);
-    expect(idsGratisAnonimo().size).toBeGreaterThan(10);
   });
 });

@@ -3,7 +3,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { bloqueadoPorSesion } from "../../audio-gratis";
+import { tipoAcceso } from "../../acceso";
+import { Insignia } from "../../ui/Insignia";
+import { useReproducir } from "../../ui/useReproducir";
 import { BucleCuadro } from "../../bucle-cuadro";
 import { bucleDe, medidasHueco } from "../../bucles";
 import { datosDeReto, modeloRetos, pasosDeReto } from "../../temporadas";
@@ -17,7 +19,6 @@ import { Pulsable } from "../../ui/Pulsable";
 import { ChipEstado } from "../../ui/RetoCard";
 import { Ring } from "../../ui/Ring";
 import { useTema } from "../../ui/tema";
-import { useSesion } from "../../ui/useSesion";
 import { chipDeReto } from "../retos";
 
 export default function RetoDetalle() {
@@ -28,7 +29,7 @@ export default function RetoDetalle() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const ventana = useWindowDimensions();
-  const sesion = useSesion();
+  const reproducirId = useReproducir();
   const datos = datosDeReto(id);
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(() => modeloRetos({ lang, hoyIso, progress: library.progress, rangos: library.catalog.rangos }), [hoyIso, lang, library.catalog.rangos, library.progress]);
@@ -43,8 +44,7 @@ export default function RetoDetalle() {
   const porcentaje = pasos.length ? Math.round((hechos / pasos.length) * 100) : 0;
   const siguiente = pasos.find((p) => !(p.episodio && library.progress.episodes[p.episodio]?.completed));
   const jugar = (episodio: string) => {
-    library.playEpisode(episodio);
-    router.push("/ahora");
+    reproducirId(episodio);
   };
   const siguienteGrabado = tarjeta.siguiente && grabados.has(tarjeta.siguiente) ? tarjeta.siguiente : null;
 
@@ -79,7 +79,6 @@ export default function RetoDetalle() {
         {pasos.map((paso, i) => {
           const grabado = Boolean(paso.episodio && grabados.has(paso.episodio));
           const hecho = Boolean(paso.episodio && library.progress.episodes[paso.episodio]?.completed);
-          const bloqueado = grabado && paso.episodio ? bloqueadoPorSesion(paso.episodio, Boolean(sesion)) : false;
           return (
             <Entrada key={`${paso.dia}-${i}`} orden={Math.min(i, 6) + 2}>
               <Pulsable onPress={grabado && paso.episodio ? () => jugar(paso.episodio!) : undefined} disabled={!grabado} label={`${t.dia} ${paso.dia}. ${paso.titulo[lang]}`} escala={0.985} style={{ minHeight: 64, paddingHorizontal: 14, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, opacity: grabado ? 1 : 0.7 }}>
@@ -90,11 +89,7 @@ export default function RetoDetalle() {
                   <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{paso.titulo[lang]}</Text>
                   {grabado && paso.minutos ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{paso.minutos} min</Text> : null}
                 </View>
-                {grabado ? (
-                  <Icono nombre={bloqueado ? "candado" : "play"} size={bloqueado ? 20 : 18} color={bloqueado ? c.muted : c.accent} />
-                ) : (
-                  <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{t.proximamente}</Text>
-                )}
+                <Insignia tipo={tipoAcceso(paso.episodio ?? "", grabado)} c={c} lang={lang} />
               </Pulsable>
             </Entrada>
           );

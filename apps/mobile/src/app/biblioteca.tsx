@@ -14,8 +14,9 @@ import { Pulsable } from "../ui/Pulsable";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
 import { useContextoCatalogo } from "../ui/useHoy";
-import { useSesion } from "../ui/useSesion";
-import { bloqueadoPorSesion } from "../audio-gratis";
+import { tipoAcceso } from "../acceso";
+import { Insignia } from "../ui/Insignia";
+import { useReproducir } from "../ui/useReproducir";
 
 export default function Biblioteca() {
   const { c, lang, library } = useTema();
@@ -23,7 +24,7 @@ export default function Biblioteca() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const ctx = useContextoCatalogo();
-  const sesion = useSesion();
+  const reproducir = useReproducir();
   const libros = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
   const [abierto, setAbierto] = useState(libros.some((libro) => libro.id === "gn") ? "gn" : libros[0]?.id ?? "");
   const [remotos, setRemotos] = useState<{ libro: string; episodios: PendingEpisode[] } | null>(null);
@@ -75,7 +76,7 @@ export default function Biblioteca() {
         const titulo = rotuloEpisodio(item, lang) ?? info.titulo;
         const meta = grabado ? duracionCorta(grabado.durationSeconds) : "";
         const actual = grabado?.id === ctx.actual;
-        const abrir = grabado ? () => { if (!actual) library.playEpisode(grabado.id); router.push("/ahora"); } : undefined;
+        const abrir = grabado ? () => { reproducir(grabado.id); } : undefined;
         return (
           <Pulsable onPress={abrir} disabled={!abrir} label={titulo} escala={0.985} style={{ marginHorizontal: 20, marginBottom: 10, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
             <ObraMarco src={info.src} style={{ width: 72, height: 72, borderRadius: 14 }} desenfoque={12} />
@@ -83,13 +84,10 @@ export default function Biblioteca() {
               <Text numberOfLines={2} style={{ color: actual ? c.accent : c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{titulo}</Text>
               <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{[item.capitulos, meta].filter(Boolean).join(" · ")}</Text>
             </View>
-            {grabado ? (
-              <Icono nombre={actual ? "ondas" : bloqueadoPorSesion(item.id, Boolean(sesion)) ? "candado" : "play"} size={actual ? 22 : 20} color={bloqueadoPorSesion(item.id, Boolean(sesion)) && !actual ? c.muted : c.accent} />
-            ) : (
-              <View style={{ paddingHorizontal: 10, minHeight: 26, borderRadius: 13, justifyContent: "center", borderWidth: 1, borderColor: c.line }}>
-                <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12 }}>{t.proximamente}</Text>
-              </View>
-            )}
+            <View style={{ alignItems: "flex-end", gap: 6 }}>
+              {actual ? <Icono nombre="ondas" size={22} color={c.accent} /> : null}
+              <Insignia tipo={tipoAcceso(item.id, Boolean(grabado))} c={c} lang={lang} />
+            </View>
           </Pulsable>
         );
       }}

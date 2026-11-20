@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import { Stack, usePathname, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { pendienteListo } from "../acceso";
 import { Platform, View } from "react-native";
 import { fuenteGazpacho } from "../gazpacho";
 import { MobileProvider } from "../state";
@@ -9,6 +10,7 @@ import { MiniPlayer } from "../ui/MiniPlayer";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
+import { useReproducir } from "../ui/useReproducir";
 
 const RUTAS_PESTANAS = ["/", "/camino", "/retos", "/biblioteca", "/ajustes"];
 
@@ -19,6 +21,8 @@ function Shell() {
   const router = useRouter();
   const cargado = useEpisodioCargado();
   const hoy = useModeloHoy();
+  const reproducir = useReproducir();
+  const listoPendiente = pendienteListo(library.pendiente, Boolean(library.sesion));
   const enPestana = RUTAS_PESTANAS.includes(path);
   const pestanas: PestanaDef[] = [
     { href: "/", icono: "hoy", etiqueta: t.tabHoy },
@@ -30,6 +34,19 @@ function Shell() {
   useEffect(() => {
     if (library.hydrated && !library.settings.bienvenidaHecha && path !== "/bienvenida") router.replace("/bienvenida");
   }, [library.hydrated, library.settings.bienvenidaHecha, path, router]);
+
+  // Al aparecer la sesión se cierra la hoja de cuenta y arranca lo que se quiso escuchar.
+  useEffect(() => {
+    if (!listoPendiente) return;
+    library.setPendiente(null);
+    if (path === "/cuenta") router.back();
+    const espera = setTimeout(() => {
+      library.playEpisode(listoPendiente);
+      router.navigate("/ahora");
+    }, 150);
+    return () => clearTimeout(espera);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listoPendiente]);
 
   const avance = cargado ? library.progress.episodes[cargado.episodio.id] : undefined;
   const empezado = Boolean(cargado && (library.playing || library.estadoAudio === "cargando" || library.estadoAudio === "error" || (avance && !avance.completed && avance.positionSeconds >= 1)));
@@ -50,6 +67,7 @@ function Shell() {
         <Stack.Screen name="entrar" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
         <Stack.Screen name="suscripcion" options={{ contentStyle: { backgroundColor: "#100E0C" } }} />
         <Stack.Screen name="eliminar-cuenta" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
+        <Stack.Screen name="cuenta" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
       {enPestana && cargado && empezado && !repetido ? (
@@ -63,7 +81,12 @@ function Shell() {
           cargando={library.estadoAudio === "cargando"}
           error={library.errorAudio ? (library.errorAudio === "entrar" ? t.entrarParaEscuchar : library.errorAudio === "premium" ? t.conPremium : library.errorAudio === "proximamente" ? t.proximamente : t.noCargo) : undefined}
           etiquetaPlay={library.playing ? t.pausar : t.reproducir}
-          onToggle={library.errorAudio ? library.reintentar : library.toggle}
+          onToggle={() => {
+            if (library.playing) library.toggle();
+            else if (!library.sesion) reproducir(cargado.episodio.id);
+            else if (library.errorAudio) library.reintentar();
+            else library.toggle();
+          }}
           onAbrir={() => router.push("/ahora")}
         />
       ) : null}

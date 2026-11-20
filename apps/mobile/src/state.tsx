@@ -32,15 +32,16 @@ import {
   type ListeningPath,
   type PlaybackRate,
   type ProgressState,
+  type Sesion,
   type Settings,
   type SleepMinutes,
 } from "@audite/domain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLocales } from "expo-localization";
 import { parseEpisodioActual } from "./actual";
-import { bloqueadoPorSesion } from "./audio-gratis";
+import { decidirReproduccion } from "./acceso";
 import { crearCacheAudio, resolverAudio, type ErrorAudio } from "./audio-url";
-import { tokenAcceso } from "./auth";
+import { supabaseApp, tokenAcceso } from "./auth";
 import { caminoPorId, idsDeCamino, progresoCamino } from "./caminos";
 import { leerDescargas } from "./descargas";
 import { obraDeEpisodio, obraWebp } from "../../../packages/content/src/obras-visibles";
@@ -70,6 +71,11 @@ type MobileLibrary = {
   removeEpisode: (id: string) => void;
   /** Episodio cargado en el reproductor. */
   currentEpisode: Episode | null;
+  /** Sesión de la cuenta (null si no se ha entrado). */
+  sesion: Sesion | null;
+  /** Episodio que se quiso escuchar sin cuenta; arranca solo al entrar. */
+  pendiente: string | null;
+  setPendiente: (id: string | null) => void;
   /** Estado de la carga del audio del episodio actual. */
   estadoAudio: "inactivo" | "cargando" | "listo" | "error";
   errorAudio: ErrorAudio | null;
@@ -84,6 +90,8 @@ type MobileLibrary = {
   setSleep: (minutes: SleepMinutes | null) => void;
   sleepLabel: string | null;
 };
+
+const CLAVE_PENDIENTE = "audite.pendiente.v1";
 
 const MobileContext = createContext<MobileLibrary | null>(null);
 
@@ -120,7 +128,15 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   const [estadoAudio, setEstadoAudio] = useState<"inactivo" | "cargando" | "listo" | "error">("inactivo");
   const [errorAudio, setErrorAudio] = useState<ErrorAudio | null>(null);
   const cacheAudio = useRef(crearCacheAudio());
-  const haySesion = useRef(false);
+  const [sesion, setSesion] = useState<Sesion | null>(null);
+  const sesionRef = useRef<Sesion | null>(null);
+  sesionRef.current = sesion;
+  const [pendiente, setPendienteEstado] = useState<string | null>(null);
+  const setPendiente = useCallback((id: string | null) => {
+    setPendienteEstado(id);
+    if (id) void AsyncStorage.setItem(CLAVE_PENDIENTE, id);
+    else void AsyncStorage.removeItem(CLAVE_PENDIENTE);
+  }, []);
   const ids = useMemo(() => playableIds(catalog), []);
   const episode = (currentId ? episodiosPorId.get(currentId) : null) ?? primero;
   const progressRef = useRef(progress);
@@ -168,7 +184,6 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         uris = local.uris;
       } else {
         const acceso = await tokenAcceso();
-        haySesion.current = Boolean(acceso);
         const resultado = await resolverAudio(target.id, {
           base: contentBase,
           token: acceso,
@@ -221,9 +236,18 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       }
       currentIdRef.current = target.id;
       setCurrentId(target.id);
+      void AsyncStorage.setItem(STORAGE_KEYS.current, target.id);
+      // En la app escuchar pide cuenta, también lo gratis: sin sesión no se pide audio.
+      if (decidirReproduccion({ id: target.id, grabado: true, haySesion: Boolean(sesionRef.current) }) === "cuenta") {
+        loadToken.current += 1;
+        setLoadedId(null);
+        setPendiente(target.id);
+        setErrorAudio("entrar");
+        setEstadoAudio("error");
+        return;
+      }
       setEstadoAudio("cargando");
       setErrorAudio(null);
-      void AsyncStorage.setItem(STORAGE_KEYS.current, target.id);
       void loadEpisode(target);
     },
     [loadEpisode, playlist],
@@ -273,6 +297,25 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     };
   }, [ids, primero]);
 
+  useEffect(() => {
+    const remoto = supabaseApp();
+    if (!remoto) return;
+    const aSesion = (datos: { user: { id: string; email?: string | null } } | null): Sesion | null =>
+      datos ? { userId: datos.user.id, email: datos.user.email ?? null, proveedor: "correo" } : null;
+    let vivo = true;
+    void remoto.auth.getSession().then(({ data }) => {
+      if (vivo) setSesion(aSesion(data.session));
+    });
+    const { data: suscripcion } = remoto.auth.onAuthStateChange((_evento, datos) => setSesion(aSesion(datos)));
+    void AsyncStorage.getItem(CLAVE_PENDIENTE).then((id) => {
+      if (vivo && id) setPendienteEstado(id);
+    });
+    return () => {
+      vivo = false;
+      suscripcion.subscription.unsubscribe();
+    };
+  }, []);
+
   const cargado = Boolean(episode) && loadedId === episode?.id;
   const index = episode ? Math.min(status.currentIndex, Math.max(episode.segments.length - 1, 0)) : 0;
   const globalTime = episode && cargado ? (episode.segments[index]?.startSeconds ?? 0) + status.currentTime : episode ? resumePosition(progress.episodes[episode.id], episode.durationSeconds) : 0;
@@ -320,7 +363,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     const hechos = { ...progressRef.current.episodes, [episode.id]: { positionSeconds: episode.durationSeconds, updatedAt: "", completed: true } };
     const siguiente = progresoCamino(idsDeCamino(def, catalog.rangos), { episodes: hechos }).siguiente;
     if (!siguiente || siguiente === episode.id || !episodiosPorId.has(siguiente)) return;
-    if (bloqueadoPorSesion(siguiente, haySesion.current)) return;
+    if (decidirReproduccion({ id: siguiente, grabado: true, haySesion: Boolean(sesionRef.current) }) !== "play") return;
     playEpisodeRef.current(siguiente);
   }, [cargado, episode, index, status.didJustFinish, status.playing]);
 
@@ -399,6 +442,9 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     updateSettings,
     addEpisode: (id) => writePath(addToPath(path, id, ids, new Date().toISOString()).path),
     removeEpisode: (id) => writePath(removeFromPath(path, id, new Date().toISOString()).path),
+    sesion,
+    pendiente,
+    setPendiente,
     currentEpisode: episode,
     estadoAudio,
     errorAudio,

@@ -1,7 +1,7 @@
 import { textoAviso } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { obraDeEpisodio, obraWebp } from "../../../../packages/content/src/obras-visibles";
@@ -13,6 +13,8 @@ import { tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { Interruptor } from "../ui/Fila";
+import { CuentaForm } from "../ui/CuentaForm";
+import { useReproducir } from "../ui/useReproducir";
 import { Icono } from "../ui/Icono";
 import { uriDeObra } from "../entorno";
 import { Pulsable } from "../ui/Pulsable";
@@ -20,7 +22,7 @@ import { haptico, useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
 
 const c = dark;
-const FONDOS = ["gn-03", "gn-14", "mt-01"].map((id) => {
+const FONDOS = ["gn-03", "gn-14", "jn-05", "mt-01"].map((id) => {
   const obra = obraDeEpisodio(id);
   return obra ? obraWebp(obra) : "";
 });
@@ -31,6 +33,7 @@ export default function Bienvenida() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const hoy = useModeloHoy();
+  const reproducirId = useReproducir();
   const [paso, setPaso] = useState(0);
   const [hora, setHora] = useState(8);
   const [avisar, setAvisar] = useState(true);
@@ -39,16 +42,20 @@ export default function Bienvenida() {
   const terminar = (escuchar: boolean) => {
     library.updateSettings({ bienvenidaHecha: true });
     router.replace("/");
-    if (escuchar && hoy.hero?.reproducible) {
-      if (!library.playing) library.toggle();
-      router.push("/ahora");
-    }
+    if (escuchar && hoy.hero?.reproducible) reproducirId(hoy.hero.id);
   };
   const recordar = () => {
     const texto = textoAviso(library.settings.uiLocale, hoy.hero?.libro || "Audite", 1);
     void guardarRecordatorio(planDiario(hora, avisar), texto);
-    setPaso(2);
+    setPaso(library.sesion ? 3 : 2);
   };
+
+  // Si la cuenta se crea en este paso, se pasa al final.
+  useEffect(() => {
+    if (paso === 2 && library.sesion) setPaso(3);
+  }, [library.sesion, paso]);
+  const pasosTotales = library.sesion && paso !== 2 ? 3 : 4;
+  const puntoActivo = library.sesion && paso === 3 ? 2 : paso;
 
   return (
     <View style={{ flex: 1, backgroundColor: c.gallery }}>
@@ -61,7 +68,7 @@ export default function Bienvenida() {
       </View>
       <View style={{ flex: 1 }} />
       <Entrada key={paso} style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 24, gap: 20 }}>
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 46, lineHeight: 50 }}>{[t.b1, t.b2, t.todoListo][paso]}</Text>
+        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 46, lineHeight: 50 }}>{[t.b1, t.b2, t.crearCuenta, t.todoListo][paso]}</Text>
 
         {paso === 0 ? (
           <ScrollView style={{ maxHeight: 280 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
@@ -98,11 +105,19 @@ export default function Bienvenida() {
 
         {paso === 0 ? <Boton c={c} texto={t.siguiente} onPress={() => setPaso(1)} /> : null}
         {paso === 1 ? <Boton c={c} texto={t.siguiente} onPress={recordar} /> : null}
-        {paso === 2 ? <Boton c={c} texto={t.empezarEscuchar} icono="play" onPress={() => terminar(true)} /> : null}
+        {paso === 2 ? (
+          <View style={{ gap: 4 }}>
+            <CuentaForm lang={lang} ubicacion="bienvenida" />
+            <Pulsable onPress={() => setPaso(3)} label={t.ahoraNo} style={{ minHeight: 48, alignItems: "center", justifyContent: "center" }}>
+              <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 15 }}>{t.ahoraNo}</Text>
+            </Pulsable>
+          </View>
+        ) : null}
+        {paso === 3 ? <Boton c={c} texto={t.empezarEscuchar} icono="play" onPress={() => terminar(true)} /> : null}
 
         <View style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}>
-          {[0, 1, 2].map((i) => (
-            <View key={i} style={{ width: i === paso ? 22 : 8, height: 8, borderRadius: 4, backgroundColor: i === paso ? c.accent : "rgba(244,236,226,0.3)" }} />
+          {Array.from({ length: pasosTotales }, (_, i) => i).map((i) => (
+            <View key={i} style={{ width: i === puntoActivo ? 22 : 8, height: 8, borderRadius: 4, backgroundColor: i === puntoActivo ? c.accent : "rgba(244,236,226,0.3)" }} />
           ))}
         </View>
       </Entrada>

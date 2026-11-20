@@ -14,6 +14,7 @@ import { Pulsable } from "../ui/Pulsable";
 import { RetoCard } from "../ui/RetoCard";
 import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
+import { useReproducir } from "../ui/useReproducir";
 
 export function chipDeReto(tarjeta: TarjetaReto, lang: "es" | "en") {
   const t = tx(lang);
@@ -27,6 +28,7 @@ export default function Retos() {
   const t = tx(lang);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const reproducirId = useReproducir();
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(
     () => modeloRetos({ lang, hoyIso, progress: library.progress, rangos: library.catalog.rangos }),
@@ -38,8 +40,7 @@ export default function Retos() {
   const unirme = () => {
     library.updateSettings({ caminoActivo: "biblia" });
     if (p.siguiente && grabados.has(p.siguiente)) {
-      library.playEpisode(p.siguiente);
-      router.push("/ahora");
+      reproducirId(p.siguiente);
     } else {
       router.navigate("/camino");
     }

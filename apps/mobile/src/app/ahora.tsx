@@ -72,7 +72,7 @@ export default function NowPlaying() {
     error === "entrar" ? t.entrarParaEscuchar : error === "premium" ? t.conPremium : error === "proximamente" ? t.proximamente : t.noCargo;
   const accion =
     error === "entrar"
-      ? { texto: t.entrar, ir: () => router.push("/entrar") }
+      ? { texto: t.entrar, ir: () => { library.setPendiente(episode.id); router.push("/cuenta"); } }
       : error === "premium"
         ? { texto: t.premium, ir: () => router.push("/suscripcion") }
         : error === "proximamente"

@@ -27,6 +27,11 @@ const es = {
   verTodo: "Ver todo",
   activo: "Activo",
   proximamente: "Próximamente",
+  gratis: "Gratis",
+  premiumTag: "Premium",
+  ahoraNo: "Ahora no",
+  crearCuenta: "Crea tu cuenta",
+  cuentaListo: "Cuenta creada",
   conPremium: "Con Audite Premium",
   noCargo: "No se pudo cargar",
   reintentar: "Reintentar",
@@ -121,6 +126,11 @@ const en: Textos = {
   verTodo: "See all",
   activo: "Active",
   proximamente: "Coming soon",
+  gratis: "Free",
+  premiumTag: "Premium",
+  ahoraNo: "Not now",
+  crearCuenta: "Create your account",
+  cuentaListo: "Account created",
   conPremium: "With Audite Premium",
   noCargo: "Could not load",
   reintentar: "Retry",
@@ -188,4 +198,12 @@ export type { Textos };
 /** Titular del reto principal. Es un titular, no microcopy. */
 export function tituloRetoBiblia(lang: "es" | "en"): string {
   return lang === "en" ? "Listen to the Bible from beginning to end" : "Escucha la Biblia de principio a fin";
+}
+
+export function tituloCuenta(lang: "es" | "en"): string {
+  return lang === "en" ? "Create your free account to listen" : "Crea tu cuenta gratis para escuchar";
+}
+
+export function subCuenta(lang: "es" | "en"): string {
+  return lang === "en" ? "Genesis 1 and Advent, free." : "Génesis 1 y Adviento, gratis.";
 }

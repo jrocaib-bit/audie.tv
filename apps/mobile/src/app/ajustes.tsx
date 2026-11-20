@@ -1,10 +1,10 @@
-import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes, type Sesion } from "@audite/domain";
+import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes } from "@audite/domain";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { cerrarApp, sesionApp } from "../auth";
+import { cerrarApp } from "../auth";
 import { restaurarNativo } from "../compras/storekit";
 import { URL_CONDICIONES, URL_PRIVACIDAD, restaurarCompras } from "../compras/tienda";
 import { guardarRecordatorio, leerPlan } from "../recordatorio";
@@ -36,10 +36,9 @@ export default function Ajustes() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const cargado = useEpisodioCargado();
-  const [sesion, setSesion] = useState<Sesion | null>(null);
+  const sesion = library.sesion;
   const [aviso, setAviso] = useState<{ activo: boolean; hora: number }>({ activo: false, hora: 8 });
   useEffect(() => {
-    void sesionApp().then(setSesion);
     void leerPlan().then((plan) => setAviso({ activo: plan.activo, hora: plan.hora }));
   }, []);
 
@@ -66,9 +65,12 @@ export default function Ajustes() {
       <Entrada style={{ paddingHorizontal: 20, gap: 20, paddingTop: 8 }}>
         <Grupo c={c} titulo={t.cuenta}>
           {sesion ? (
-            <Fila c={c} icono="usuario" titulo={t.salir} onPress={() => void cerrarApp().then(() => setSesion(null))} />
+            <>
+              <Fila c={c} icono="usuario" titulo={sesion.email ?? t.cuenta} />
+              <Fila c={c} icono="usuario" titulo={copy.salir} onPress={() => void cerrarApp()} />
+            </>
           ) : (
-            <Fila c={c} icono="usuario" titulo={copy.entrar} onPress={() => router.push("/entrar")} />
+            <Fila c={c} icono="usuario" titulo={copy.entrar} onPress={() => router.push("/cuenta")} />
           )}
           <Fila c={c} icono="estrella" titulo="Audite Premium" onPress={() => router.push("/suscripcion")} ultima />
         </Grupo>
