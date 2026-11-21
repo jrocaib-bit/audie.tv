@@ -2,7 +2,7 @@ import { textoAviso } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { obraDeEpisodio, obraWebp } from "../../../../packages/content/src/obras-visibles";
 import { caminosDisponibles } from "../caminos";
@@ -58,7 +58,8 @@ export default function Bienvenida() {
   const puntoActivo = library.sesion && paso === 3 ? 2 : paso;
 
   return (
-    <View style={{ flex: 1, backgroundColor: c.gallery }}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: c.gallery }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <Pressable style={{ flex: 1 }} onPress={Keyboard.dismiss} accessible={false}>
       <Image source={{ uri: uriDeObra(FONDOS[paso] ?? "") }} resizeMode="cover" accessibilityElementsHidden style={StyleSheet.absoluteFill} />
       <LinearGradient colors={["rgba(12,11,9,0.2)", "rgba(12,11,9,0.55)", "rgba(12,11,9,0.97)"]} locations={[0, 0.35, 0.72]} style={StyleSheet.absoluteFill} pointerEvents="none" />
       <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 20, flexDirection: "row", justifyContent: "flex-end" }}>
@@ -121,6 +122,7 @@ export default function Bienvenida() {
           ))}
         </View>
       </Entrada>
-    </View>
+      </Pressable>
+    </KeyboardAvoidingView>
   );
 }

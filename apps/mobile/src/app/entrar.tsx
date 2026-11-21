@@ -13,6 +13,7 @@ import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
+import { TecladoHoja } from "../ui/TecladoHoja";
 
 const noche = "#100E0C";
 const crema = "#F4ECE2";
@@ -53,6 +54,14 @@ export default function EntrarScreen() {
     void entrarGoogle(token).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
   }, [respuesta, copy.listo]);
 
+  const enviar = () => {
+    if (!correoValido(correo)) return;
+    medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
+    medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
+    void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
+    void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: noche }}>
       <Image source={{ uri: obra }} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }} resizeMode="cover" />
@@ -61,7 +70,7 @@ export default function EntrarScreen() {
         locations={[0, 0.42, 0.72, 1]}
         style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }}
       />
-      <View style={{ flex: 1, paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, justifyContent: "space-between" }}>
+      <TecladoHoja contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, justifyContent: "space-between" }}>
         <View>
           <Image source={require("../../assets/marca/audite_wordmark_blanco.png")} style={{ height: 32, width: 148 }} resizeMode="contain" />
           <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 48, lineHeight: 52, marginTop: 28 }}>{copy.titulo}</Text>
@@ -109,18 +118,16 @@ export default function EntrarScreen() {
             onChangeText={setCorreo}
             autoCapitalize="none"
             keyboardType="email-address"
+            returnKeyType="send"
+            enablesReturnKeyAutomatically
+            blurOnSubmit
+            onSubmitEditing={enviar}
             placeholder={copy.correo}
             placeholderTextColor="#B7AB9C"
             style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: crema, paddingHorizontal: 16 }}
           />
           <Pressable
-            onPress={() => {
-              if (!correoValido(correo)) return;
-              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
-              medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
-              void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
-              void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
-            }}
+            onPress={enviar}
             style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.4)", alignItems: "center", justifyContent: "center" }}
           >
             <Text style={{ color: crema, fontSize: 17 }}>{copy.enviar}</Text>
@@ -131,7 +138,7 @@ export default function EntrarScreen() {
             <Text style={{ color: "#B7AB9C", minHeight: 44, lineHeight: 44 }} onPress={() => void Linking.openURL("https://audite.tv/es/privacidad")}>{copy.privacidad}</Text>
           </View>
         </View>
-      </View>
+      </TecladoHoja>
     </View>
   );
 }

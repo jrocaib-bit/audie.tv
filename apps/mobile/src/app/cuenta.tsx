@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { obraDeEpisodio, obraWebp } from "../../../../packages/content/src/obras-visibles";
 import { dark, fonts } from "../theme";
@@ -7,6 +7,7 @@ import { subCuenta, tituloCuenta, tx } from "../textos";
 import { Pulsable } from "../ui/Pulsable";
 import { CuentaForm } from "../ui/CuentaForm";
 import { ObraMarco } from "../ui/ObraMarco";
+import { TecladoHoja } from "../ui/TecladoHoja";
 import { useTema } from "../ui/tema";
 
 const c = dark;
@@ -20,7 +21,7 @@ export default function Cuenta() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.gallery }} contentContainerStyle={{ padding: 20, paddingTop: 20, paddingBottom: insets.bottom + 20, gap: 20 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+    <TecladoHoja style={{ backgroundColor: c.gallery }} contentContainerStyle={{ padding: 20, paddingTop: 20, paddingBottom: insets.bottom + 20, gap: 20, flexGrow: 1 }}>
       <ObraMarco src={PORTADA} style={{ height: 200, borderRadius: 24 }} />
       <View style={{ gap: 8 }}>
         <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 36 }}>{tituloCuenta(lang)}</Text>
@@ -37,6 +38,6 @@ export default function Cuenta() {
       >
         <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 16 }}>{t.ahoraNo}</Text>
       </Pulsable>
-    </ScrollView>
+    </TecladoHoja>
   );
 }

@@ -34,6 +34,12 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
   }, [respuesta, copy.listo]);
 
   const base = { form_id: "alta_entrar", ubicacion, idioma: lang, plataforma, opt_in_correo: false } as const;
+  const enviar = () => {
+    if (!correoValido(correo)) return;
+    medir("cta_clicked", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
+    medir("form_submitted", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
+    void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
+  };
   return (
     <View style={{ gap: 12 }}>
       {Platform.OS === "ios" ? (
@@ -74,6 +80,10 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
           onChangeText={setCorreo}
           autoCapitalize="none"
           keyboardType="email-address"
+          returnKeyType="send"
+          enablesReturnKeyAutomatically
+          blurOnSubmit
+          onSubmitEditing={enviar}
           accessibilityLabel={copy.correo}
           placeholder={copy.correo}
           placeholderTextColor={c.muted}
@@ -82,12 +92,7 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={copy.enviar}
-          onPress={() => {
-            if (!correoValido(correo)) return;
-            medir("cta_clicked", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
-            medir("form_submitted", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
-            void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
-          }}
+          onPress={enviar}
           style={{ height: 52, borderRadius: 14, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}
         >
           <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{copy.enviar}</Text>
