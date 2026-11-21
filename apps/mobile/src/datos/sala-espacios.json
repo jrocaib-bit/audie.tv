@@ -1,0 +1,529 @@
+{
+ "gn-01": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-02": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "956",
+  "expuesta": true,
+  "departamento": "Robert Lehman Collection"
+ },
+ "gn-03": {
+  "sede": "getty",
+  "espacio": "getty-pintura",
+  "medio": "pintura"
+ },
+ "gn-04": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "gn-05": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "gn-06": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "gn-07": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "gn-08": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "European Paintings"
+ },
+ "gn-09": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "gn-10": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-11": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-12": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-13": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-14": {
+  "sede": "berlin",
+  "espacio": "berlin-pintura",
+  "medio": "pintura"
+ },
+ "gn-15": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-16": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-17": {
+  "sede": "getty",
+  "espacio": "getty-pintura",
+  "medio": "pintura"
+ },
+ "gn-18": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "640",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "gn-19": {
+  "sede": "varsovia",
+  "espacio": "varsovia-pintura",
+  "medio": "pintura"
+ },
+ "gn-20": {
+  "sede": "rylands",
+  "espacio": "rylands-lectura",
+  "medio": "lamina"
+ },
+ "gn-21": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "gn-22": {
+  "sede": "rylands",
+  "espacio": "rylands-lectura",
+  "medio": "lamina"
+ },
+ "ex-01": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "640",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "ex-02": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "612",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "ex-03": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-04": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-05": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-06": {
+  "sede": "varsovia",
+  "espacio": "varsovia-pintura",
+  "medio": "pintura"
+ },
+ "ex-07": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "639",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "ex-08": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "638",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "ex-09": {
+  "sede": "berlin",
+  "espacio": "berlin-pintura",
+  "medio": "pintura"
+ },
+ "ex-10": {
+  "sede": null,
+  "espacio": "gabinete",
+  "medio": "lamina"
+ },
+ "ex-11": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "objeto",
+  "galeria": "304",
+  "expuesta": true,
+  "departamento": "Medieval Art"
+ },
+ "ex-12": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "objeto",
+  "galeria": "304",
+  "expuesta": true,
+  "departamento": "Medieval Art"
+ },
+ "ex-14": {
+  "sede": null,
+  "espacio": "gabinete",
+  "medio": "lamina"
+ },
+ "ex-15": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-16": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-17": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "ex-18": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lv-01": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "objeto",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "European Sculpture and Decorative Arts"
+ },
+ "lv-02": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "objeto",
+  "galeria": "962",
+  "expuesta": true,
+  "departamento": "Robert Lehman Collection"
+ },
+ "lv-03": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lv-04": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "lv-05": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "pintura",
+  "galeria": "303",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "lv-06": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lv-07": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lv-08": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lv-09": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "717",
+  "expuesta": true,
+  "departamento": "The American Wing"
+ },
+ "lv-10": {
+  "sede": "cloisters",
+  "espacio": "cloisters-sala",
+  "medio": "objeto",
+  "galeria": "008",
+  "expuesta": true,
+  "departamento": "The Cloisters"
+ },
+ "lv-11": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "objeto",
+  "galeria": "556",
+  "expuesta": true,
+  "departamento": "European Sculpture and Decorative Arts"
+ },
+ "lv-12": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "is-01": {
+  "sede": "met",
+  "espacio": "met-vitral",
+  "medio": "vitral",
+  "galeria": "502",
+  "expuesta": true,
+  "departamento": "European Sculpture and Decorative Arts"
+ },
+ "is-02": {
+  "sede": "cloisters",
+  "espacio": "cloisters-vitral",
+  "medio": "vitral",
+  "galeria": "009",
+  "expuesta": true,
+  "departamento": "The Cloisters"
+ },
+ "is-03": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "537",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "is-04": {
+  "sede": "cloisters",
+  "espacio": "cloisters-vitral-cuadrado",
+  "medio": "vitral",
+  "galeria": "008",
+  "expuesta": true,
+  "departamento": "The Cloisters"
+ },
+ "is-07": {
+  "sede": "cleveland",
+  "espacio": "cleveland-pintura",
+  "medio": "pintura"
+ },
+ "is-09": {
+  "sede": "cleveland",
+  "espacio": "cleveland-pintura",
+  "medio": "pintura"
+ },
+ "is-11": {
+  "sede": null,
+  "espacio": "gabinete",
+  "medio": "lamina"
+ },
+ "is-12": {
+  "sede": "rijksmuseum",
+  "espacio": "rijksmuseum-pintura",
+  "medio": "pintura"
+ },
+ "is-14": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "pintura",
+  "galeria": "303",
+  "expuesta": true,
+  "departamento": "Medieval Art"
+ },
+ "is-15": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "609",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "is-16": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "European Paintings"
+ },
+ "is-17": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "is-18": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "objeto",
+  "galeria": "301",
+  "expuesta": true,
+  "departamento": "Medieval Art"
+ },
+ "is-19": {
+  "sede": "met",
+  "espacio": "met-medieval",
+  "medio": "objeto",
+  "galeria": "303",
+  "expuesta": true,
+  "departamento": "Medieval Art"
+ },
+ "mt-01": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "601",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "mt-02": {
+  "sede": "londres",
+  "espacio": "londres-pintura",
+  "medio": "pintura"
+ },
+ "mt-03": {
+  "sede": "getty",
+  "espacio": "getty-pintura",
+  "medio": "pintura"
+ },
+ "mt-04": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "mt-05": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "mt-06": {
+  "sede": "cleveland",
+  "espacio": "cleveland-pintura",
+  "medio": "pintura"
+ },
+ "mt-07": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "mt-08": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "537",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "mt-09": {
+  "sede": "nga",
+  "espacio": "nga-pintura",
+  "medio": "pintura"
+ },
+ "mt-10": {
+  "sede": "cleveland",
+  "espacio": "cleveland-pintura",
+  "medio": "pintura"
+ },
+ "mt-11": {
+  "sede": "met",
+  "espacio": "met-estampas",
+  "medio": "estampa",
+  "galeria": null,
+  "expuesta": false,
+  "departamento": "Drawings and Prints"
+ },
+ "lc-01": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "952",
+  "expuesta": true,
+  "departamento": "Robert Lehman Collection"
+ },
+ "lc-02": {
+  "sede": "met",
+  "espacio": "met-pintura",
+  "medio": "pintura",
+  "galeria": "619",
+  "expuesta": true,
+  "departamento": "European Paintings"
+ },
+ "jn-01": {
+  "sede": "chicago",
+  "espacio": "chicago-pintura",
+  "medio": "pintura"
+ }
+}
