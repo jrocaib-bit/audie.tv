@@ -13,6 +13,7 @@ import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
+import { propsCampoCorreo } from "../ui/campo-correo";
 import { TecladoHoja } from "../ui/TecladoHoja";
 
 const noche = "#100E0C";
@@ -116,8 +117,7 @@ export default function EntrarScreen() {
           <TextInput
             value={correo}
             onChangeText={setCorreo}
-            autoCapitalize="none"
-            keyboardType="email-address"
+            {...propsCampoCorreo}
             returnKeyType="send"
             enablesReturnKeyAutomatically
             blurOnSubmit

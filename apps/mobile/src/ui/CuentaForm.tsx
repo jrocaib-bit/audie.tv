@@ -8,6 +8,7 @@ import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { fonts } from "../theme";
 import { dark } from "../theme";
+import { propsCampoCorreo } from "./campo-correo";
 
 const c = dark;
 const boton = { height: 52, borderRadius: 14, backgroundColor: "#fff", alignItems: "center" as const, justifyContent: "center" as const, flexDirection: "row" as const, gap: 10 };
@@ -78,8 +79,7 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
         <TextInput
           value={correo}
           onChangeText={setCorreo}
-          autoCapitalize="none"
-          keyboardType="email-address"
+          {...propsCampoCorreo}
           returnKeyType="send"
           enablesReturnKeyAutomatically
           blurOnSubmit
