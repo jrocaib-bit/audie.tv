@@ -2,6 +2,7 @@ import { creditoVisible, idiomaContenido, t as msg } from "@audite/domain";
 import { useMemo } from "react";
 import { FlatList, Text, View } from "react-native";
 import { obraEnPantalla, obrasVisibles } from "../../../../packages/content/src/obras-visibles";
+import { CREDITOS_EDIFICIOS, CREDITOS_LUGARES } from "../sala-assets";
 import { fonts } from "../theme";
 import { tx } from "../textos";
 import { useTema } from "../ui/tema";
@@ -29,6 +30,27 @@ export default function Creditos() {
             <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{fuente}</Text>
           </View>
           <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13, letterSpacing: 1, textTransform: "uppercase" }}>{t.obras}</Text>
+        </View>
+      }
+      ListFooterComponent={
+        <View style={{ gap: 10, paddingTop: 24 }}>
+          <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13, letterSpacing: 1, textTransform: "uppercase" }}>{t.lugaresSala}</Text>
+          {CREDITOS_LUGARES.map((item) => (
+            <View key={item.titulo} style={{ paddingVertical: 8, borderTopWidth: 1, borderTopColor: c.line }}>
+              <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 }}>{item.titulo}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>{item.detalle}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>{item.licencia}</Text>
+            </View>
+          ))}
+          {CREDITOS_EDIFICIOS.map((item) => (
+            <View key={item.sede} style={{ paddingVertical: 8, borderTopWidth: 1, borderTopColor: c.line }}>
+              <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 }}>{item.titulo}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>
+                {item.autor} · {item.licencia} · Wikimedia Commons (recortada y comprimida)
+              </Text>
+              <Text selectable style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 11, lineHeight: 15 }}>{item.url}</Text>
+            </View>
+          ))}
         </View>
       }
       renderItem={({ item }) => (

@@ -29,7 +29,7 @@ const SEDES: SedeBase[] = [
     id: "rijksmuseum",
     patron: /Rijksmuseum/i,
     lat: 52.36,
-    lon: 4.8852,
+    lon: 4.88528,
     ciudad: { es: "Ámsterdam", en: "Amsterdam" },
     edificio: { es: "Rijksmuseum", en: "Rijksmuseum" },
     silueta: "rijksmuseum",
@@ -38,18 +38,28 @@ const SEDES: SedeBase[] = [
   {
     id: "met",
     patron: /Metropolitan Museum/i,
-    lat: 40.7794,
-    lon: -73.9632,
+    lat: 40.77944,
+    lon: -73.96333,
     ciudad: { es: "Nueva York", en: "New York" },
     edificio: { es: "The Metropolitan Museum of Art", en: "The Metropolitan Museum of Art" },
     silueta: "met",
     salaPorDefecto: "galeria-clasica",
   },
   {
+    id: "cloisters",
+    patron: /Cloisters/i,
+    lat: 40.86486,
+    lon: -73.93173,
+    ciudad: { es: "Nueva York", en: "New York" },
+    edificio: { es: "The Met Cloisters", en: "The Met Cloisters" },
+    silueta: "capilla",
+    salaPorDefecto: "galeria-piedra",
+  },
+  {
     id: "nga",
     patron: /National Gallery of Art/i,
-    lat: 38.8913,
-    lon: -77.0199,
+    lat: 38.89139,
+    lon: -77.02,
     ciudad: { es: "Washington", en: "Washington" },
     edificio: { es: "National Gallery of Art", en: "National Gallery of Art" },
     silueta: "clasico",
@@ -58,8 +68,8 @@ const SEDES: SedeBase[] = [
   {
     id: "cleveland",
     patron: /Cleveland Museum/i,
-    lat: 41.5089,
-    lon: -81.6116,
+    lat: 41.50889,
+    lon: -81.61167,
     ciudad: { es: "Cleveland", en: "Cleveland" },
     edificio: { es: "Cleveland Museum of Art", en: "Cleveland Museum of Art" },
     silueta: "clasico",
@@ -68,8 +78,8 @@ const SEDES: SedeBase[] = [
   {
     id: "getty",
     patron: /Getty Museum/i,
-    lat: 34.078,
-    lon: -118.4741,
+    lat: 34.0775,
+    lon: -118.475,
     ciudad: { es: "Los Ángeles", en: "Los Angeles" },
     edificio: { es: "J. Paul Getty Museum", en: "J. Paul Getty Museum" },
     silueta: "getty",
@@ -78,8 +88,8 @@ const SEDES: SedeBase[] = [
   {
     id: "berlin",
     patron: /Gemäldegalerie|Berlin/i,
-    lat: 52.5086,
-    lon: 13.3647,
+    lat: 52.50861,
+    lon: 13.36472,
     ciudad: { es: "Berlín", en: "Berlin" },
     edificio: { es: "Gemäldegalerie", en: "Gemäldegalerie" },
     silueta: "clasico",
@@ -108,8 +118,8 @@ const SEDES: SedeBase[] = [
   {
     id: "chicago",
     patron: /Art Institute of Chicago/i,
-    lat: 41.8796,
-    lon: -87.6237,
+    lat: 41.87944,
+    lon: -87.62389,
     ciudad: { es: "Chicago", en: "Chicago" },
     edificio: { es: "Art Institute of Chicago", en: "Art Institute of Chicago" },
     silueta: "clasico",
@@ -179,9 +189,9 @@ export function inferirMedio(episodioId: string, ubicacion: string, medioExplici
   return "pintura";
 }
 
-export function resolverLugarObra(ubicacion: string, episodioId: string, medioExplicito?: MedioObra): LugarObra {
+export function resolverLugarObra(ubicacion: string, episodioId: string, medioExplicito?: MedioObra, sedeId?: string): LugarObra {
   const medio = inferirMedio(episodioId, ubicacion, medioExplicito);
-  const sede = SEDES.find((s) => s.patron.test(ubicacion));
+  const sede = (sedeId ? SEDES.find((s) => s.id === sedeId) : undefined) ?? SEDES.find((s) => s.patron.test(ubicacion));
 
   if (sede) {
     let sala = sede.salaPorDefecto;

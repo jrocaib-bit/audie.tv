@@ -12,18 +12,19 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Svg, { Defs, Ellipse, RadialGradient, Stop } from "react-native-svg";
 import { BucleCuadro } from "../bucle-cuadro";
 import { bucleDe, medidasHueco } from "../bucles";
 import { uriDeObra } from "../entorno";
 import { infoEpisodio } from "../hoy";
 import { fichaMuseoObra, seleccionarObraSala, tamanoObraSala } from "../sala";
-import { inferirMedio, resolverLugarObra } from "../sala-lugares";
+import { ESPACIOS, VIAJES, componerSala, espacioDeEpisodio, mascaraDeObra } from "../sala-assets";
+import { resolverLugarObra } from "../sala-lugares";
 import { camaraDeParadas, paradasDeEpisodio } from "../sala-recorrido";
 import { tx } from "../textos";
 import { fonts } from "../theme";
-import { ArquitecturaSala } from "../ui/ArquitecturaSala";
 import { BotonRedondo } from "../ui/Basicos";
-import { EntradaSalaCosmos } from "../ui/EntradaSalaCosmos";
+import { EntradaSalaViaje, tiemposViaje } from "../ui/EntradaSalaViaje";
 import { Icono } from "../ui/Icono";
 import { Pulsable } from "../ui/Pulsable";
 import { haptico, useMovimientoReducido, useTema } from "../ui/tema";
@@ -75,8 +76,16 @@ export default function LaSala() {
   const src = ficha.src || info.src;
   const uri = src ? uriDeObra(src) : "";
 
-  const medio = useMemo(() => inferirMedio(episodioId, ficha.ubicacion), [episodioId, ficha.ubicacion]);
-  const lugar = useMemo(() => resolverLugarObra(ficha.ubicacion, episodioId, medio), [episodioId, ficha.ubicacion, medio]);
+  // Sede, sala concreta y medio reales del episodio (datos del museo; ver sala-espacios.json).
+  const espacioEp = useMemo(() => espacioDeEpisodio(episodioId), [episodioId]);
+  const espacio = ESPACIOS[espacioEp.espacio];
+  const medio = espacioEp.medio;
+  const lugar = useMemo(
+    () => resolverLugarObra(ficha.ubicacion, episodioId, undefined, espacioEp.sede ?? undefined),
+    [episodioId, espacioEp.sede, ficha.ubicacion],
+  );
+  const viaje = VIAJES[espacioEp.sede ?? "sin-lugar"];
+  const tiempos = useMemo(() => tiemposViaje(Boolean(viaje.edificio)), [viaje.edificio]);
 
   const { paradas } = useMemo(
     () =>
@@ -89,19 +98,35 @@ export default function LaSala() {
   );
 
   // Tamaño de la obra entera al empezar/terminar: siempre contenida y nunca recortada.
-  const maxAncho = Math.max(180, stageW - 38);
-  const maxAlto = Math.max(170, Math.round(stageH * 0.54));
-  let medida = tamanoObraSala(ficha.ratio, maxAncho, maxAlto);
+  const maxAncho = Math.max(180, Math.round(stageW * 0.84));
+  const maxAlto = Math.max(170, Math.round(stageH * 0.5));
+  let ratioObra = ficha.ratio;
   if (bucle && bucle.aspect) {
-    const caja = medidasHueco(bucle.aspect, maxAncho + 44, maxAlto / 0.7);
-    const ancho = Math.min(caja.width, maxAncho);
-    const alto = ancho === caja.width ? caja.height : caja.height * (ancho / caja.width);
-    medida = { width: Math.round(ancho), height: Math.round(alto) };
+    const caja = medidasHueco(bucle.aspect, 1000, 1000);
+    if (caja.width > 0 && caja.height > 0) ratioObra = caja.width / caja.height;
   }
-
   const centroObraY = Math.round(stageH * 0.38);
+  const composicion = useMemo(
+    () => componerSala({ espacio, medio, ratio: ratioObra, stageW, stageH, centroY: centroObraY, maxAncho, maxAlto }),
+    [centroObraY, espacio, maxAlto, maxAncho, medio, ratioObra, stageH, stageW],
+  );
+  const medida = composicion.obra.width > 0 ? composicion.obra : tamanoObraSala(ratioObra, maxAncho, maxAlto);
+  const marco = composicion.marco;
   const marcoLeft = Math.round((stageW - medida.width) / 2);
   const marcoTop = Math.round(centroObraY - medida.height / 2);
+  const enVentana = espacio.tipo === "ventana";
+  const mascara = useMemo(() => mascaraDeObra(src || ""), [src]);
+  // Radio del contenedor de cámara: abarca toda la sala desde el centro de la obra.
+  const radioCamara = Math.ceil(
+    Math.max(
+      stageW,
+      stageH,
+      Math.abs(composicion.sala.left - stageW / 2),
+      Math.abs(composicion.sala.left + composicion.sala.width - stageW / 2),
+      Math.abs(composicion.sala.top - centroObraY),
+      Math.abs(composicion.sala.top + composicion.sala.height - centroObraY),
+    ),
+  );
   const pasoAlto = Math.max(360, stageH);
 
   const keyframes = useMemo(
@@ -126,6 +151,11 @@ export default function LaSala() {
   const [pasoActivo, setPasoActivo] = useState(0);
   const [mostrandoEntrada, setMostrandoEntrada] = useState(!reducir);
   const [entradaSeq, setEntradaSeq] = useState(0);
+  // Reloj de la entrada (ms). Fuera de la entrada vale el total: la cámara queda asentada en la sala.
+  const reloj = useSharedValue(reducir ? 100000 : 0);
+  useEffect(() => {
+    if (!mostrandoEntrada || reducir) reloj.value = 100000;
+  }, [mostrandoEntrada, reducir, reloj]);
 
   // Al cambiar de episodio se reinicia el recorrido y vuelve a lanzarse la entrada (salvo reducir movimiento).
   useEffect(() => {
@@ -161,16 +191,22 @@ export default function LaSala() {
     const scale = interpolate(scrollY.value, rangos.inputRange, rangos.scales, Extrapolation.CLAMP);
     const txVal = interpolate(scrollY.value, rangos.inputRange, rangos.txs, Extrapolation.CLAMP);
     const tyVal = interpolate(scrollY.value, rangos.inputRange, rangos.tys, Extrapolation.CLAMP);
+    // Entrada en la sala: de la sala entera (plano general) a la obra, con el mismo reloj del viaje.
+    const k = interpolate(reloj.value, [tiempos.salaIn, tiempos.total], [0, 1], Extrapolation.CLAMP);
+    const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    const sE = composicion.entrada.scale + (1 - composicion.entrada.scale) * e;
+    const txE = composicion.entrada.tx * (1 - e);
+    const tyE = composicion.entrada.ty * (1 - e);
     return {
-      transform: [{ translateX: txVal }, { translateY: tyVal }, { scale }],
+      transform: [{ translateX: txVal + txE }, { translateY: tyVal + tyE }, { scale: scale * sE }],
     };
-  }, [rangos]);
+  }, [rangos, composicion, tiempos]);
 
-  const estiloArquitectura = useAnimatedStyle(() => {
-    if (rangos.inputRange.length < 2) return { opacity: 1 };
-    return {
-      opacity: interpolate(scrollY.value, rangos.inputRange, rangos.salaOps, Extrapolation.CLAMP),
-    };
+  // Al acercarse a un detalle la sala se atenúa (sin desaparecer) para que mande la obra.
+  const estiloPenumbra = useAnimatedStyle(() => {
+    if (rangos.inputRange.length < 2) return { opacity: 0 };
+    const op = interpolate(scrollY.value, rangos.inputRange, rangos.salaOps, Extrapolation.CLAMP);
+    return { opacity: (1 - op) * 0.8 };
   }, [rangos]);
 
   const irAPaso = useCallback(
@@ -191,72 +227,168 @@ export default function LaSala() {
   const detalles = useMemo(() => paradas.filter((p) => p.tipo === "detalle"), [paradas]);
   const fraccionTour = paradas.length > 1 ? pasoActivo / (paradas.length - 1) : 1;
   const subtituloEp = [info.libro, info.capitulos].filter(Boolean).join(" · ");
+  const lugarTexto = useMemo(() => {
+    const edificio = lugar.edificio[lang] || lugar.edificio.es;
+    const ciudad = lugar.ciudad[lang] || lugar.ciudad.es;
+    if (!edificio) return "";
+    const sala =
+      espacioEp.galeria
+        ? t.galeriaN.replace("{n}", String(Number(espacioEp.galeria) || espacioEp.galeria))
+        : espacioEp.expuesta === false
+          ? t.noExpuesta
+          : "";
+    return [edificio, ciudad, sala].filter(Boolean).join(" · ");
+  }, [espacioEp.expuesta, espacioEp.galeria, lang, lugar.ciudad, lugar.edificio, t.galeriaN, t.noExpuesta]);
+
+  const contenidoObra =
+    bucle && (bucle.poster || uri) ? (
+      <BucleCuadro bucle={bucle} poster={bucle.poster || uri} alt={bucle.alt || ficha.alt || info.titulo} />
+    ) : uri ? (
+      <Image source={{ uri }} resizeMode="contain" accessibilityLabel={ficha.alt || info.titulo} style={StyleSheet.absoluteFill} />
+    ) : null;
 
   return (
     <View onLayout={onLayoutStage} style={{ flex: 1, backgroundColor: c.gallery, overflow: "hidden" }}>
-      {/* Fondo arquitectónico de la sala real donde está la obra */}
-      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, estiloArquitectura]}>
-        <ArquitecturaSala sala={lugar.sala} width={stageW} height={stageH} />
-      </Animated.View>
-
-      {/* Luz cálida de foco o contraluz de vitral */}
-      <LinearGradient
-        colors={
-          medio === "vitral"
-            ? ["rgba(240,211,153,0.16)", "rgba(201,169,110,0.06)", "rgba(11,12,16,0.28)"]
-            : ["rgba(224,196,138,0.14)", "rgba(201,169,110,0.04)", "rgba(12,11,9,0.22)"]
-        }
-        locations={[0, 0.45, 1]}
-        style={StyleSheet.absoluteFill}
+      {/* Sala real (fotográfica) y obra enmarcada comparten la misma cámara, con origen en el centro de la obra */}
+      <Animated.View
         pointerEvents="none"
-      />
-
-      {/* Obra fija al fondo con cámara Reanimated ligada al scroll */}
-      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-        <Animated.View
-          style={[
-            {
+        style={[
+          {
+            position: "absolute",
+            left: stageW / 2 - radioCamara,
+            top: centroObraY - radioCamara,
+            width: radioCamara * 2,
+            height: radioCamara * 2,
+          },
+          estiloCamara,
+        ]}
+      >
+        <View style={{ position: "absolute", left: radioCamara - stageW / 2, top: radioCamara - centroObraY, width: stageW, height: stageH }}>
+          <Image
+            source={espacio.imagen}
+            resizeMode="stretch"
+            accessibilityIgnoresInvertColors
+            style={{
               position: "absolute",
-              left: marcoLeft - 6,
-              top: marcoTop - 6,
-              width: medida.width + 12,
-              height: medida.height + 12,
-              padding: 6,
-              borderRadius: medio === "vitral" ? 12 : 4,
-              backgroundColor: medio === "vitral" ? "#111014" : "#15120F",
-              borderWidth: 1,
-              borderColor: medio === "vitral" ? "rgba(224,196,138,0.36)" : "rgba(201,169,110,0.28)",
-              shadowColor: medio === "vitral" ? "#E0C48A" : "#000000",
-              shadowOpacity: medio === "vitral" ? 0.34 : 0.85,
-              shadowRadius: medio === "vitral" ? 28 : 30,
-              shadowOffset: { width: 0, height: medio === "vitral" ? 0 : 16 },
-              elevation: 18,
-            },
-            estiloCamara,
-          ]}
-        >
+              left: composicion.sala.left,
+              top: composicion.sala.top,
+              width: composicion.sala.width,
+              height: composicion.sala.height,
+            }}
+          />
+
+          {/* Foco cálido sobre la pared, o contraluz de la ventana */}
+          <Svg style={{ position: "absolute", left: 0, top: 0 }} width={stageW} height={stageH}>
+            <Defs>
+              <RadialGradient id="focoSala" cx="50%" cy="50%" rx="50%" ry="50%">
+                <Stop offset="0%" stopColor={enVentana ? "#FFF6E2" : "#FFD9A0"} stopOpacity={enVentana ? 0.34 : 0.3} />
+                <Stop offset="55%" stopColor={enVentana ? "#FFE9BF" : "#F2C27E"} stopOpacity={0.1} />
+                <Stop offset="100%" stopColor="#F2C27E" stopOpacity={0} />
+              </RadialGradient>
+            </Defs>
+            <Ellipse
+              cx={stageW / 2}
+              cy={centroObraY - medida.height * 0.12}
+              rx={(medida.width + marco * 2) * 0.98 + 30}
+              ry={(medida.height + marco * 2) * 0.9 + 40}
+              fill="url(#focoSala)"
+            />
+          </Svg>
+
+          <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "#060508" }, estiloPenumbra]} />
+
+          {/* La obra real, entera y sin recortar, con su marco y en perspectiva frontal */}
           <View
             style={{
-              width: medida.width,
-              height: medida.height,
-              overflow: "hidden",
-              borderRadius: 2,
-              backgroundColor: "#0C0B09",
+              position: "absolute",
+              left: marcoLeft - marco,
+              top: marcoTop - marco,
+              width: medida.width + marco * 2,
+              height: medida.height + marco * 2,
+              borderRadius: medio === "pintura" ? 2 : 1,
+              backgroundColor: medio === "estampa" || medio === "lamina" ? "#F2EDE3" : "transparent",
+              borderWidth: medio === "estampa" || medio === "lamina" ? 3 : 0,
+              borderColor: "#1C1712",
+              shadowColor: enVentana ? "#FFF1D0" : "#000000",
+              shadowOpacity: enVentana ? 0.85 : 0.6,
+              shadowRadius: enVentana ? 26 : 16,
+              shadowOffset: { width: 0, height: enVentana ? 0 : 12 },
+              elevation: enVentana ? 0 : 14,
             }}
           >
-            {bucle && (bucle.poster || uri) ? (
-              <BucleCuadro bucle={bucle} poster={bucle.poster || uri} alt={bucle.alt || ficha.alt || info.titulo} />
-            ) : uri ? (
-              <Image
-                source={{ uri }}
-                resizeMode="contain"
-                accessibilityLabel={ficha.alt || info.titulo}
-                style={StyleSheet.absoluteFill}
-              />
+            {medio === "pintura" ? (
+              <>
+                <LinearGradient
+                  colors={["#5E441E", "#C9A562", "#8A6A36", "#E2C584", "#6E5226"]}
+                  locations={[0, 0.28, 0.5, 0.74, 1]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={[StyleSheet.absoluteFill, { borderRadius: 2 }]}
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    left: marco - 3,
+                    top: marco - 3,
+                    width: medida.width + 6,
+                    height: medida.height + 6,
+                    borderWidth: 3,
+                    borderColor: "rgba(38,26,10,0.85)",
+                  }}
+                />
+              </>
             ) : null}
+            <View
+              style={{
+                position: "absolute",
+                left: marco - (medio === "estampa" || medio === "lamina" ? 3 : 0),
+                top: marco - (medio === "estampa" || medio === "lamina" ? 3 : 0),
+                width: medida.width,
+                height: medida.height,
+                overflow: "hidden",
+                backgroundColor: mascara ? "transparent" : enVentana ? "#FFF7E6" : "#0C0B09",
+              }}
+            >
+              {mascara ? (
+                // Medallón completo recortado solo de su fondo fotográfico negro: la luz de la ventana lo rodea.
+                <View
+                  style={{
+                    position: "absolute",
+                    left: (mascara.cx - mascara.r) * medida.width,
+                    top: mascara.cy * medida.height - mascara.r * medida.width,
+                    width: mascara.r * 2 * medida.width,
+                    height: mascara.r * 2 * medida.width,
+                    borderRadius: mascara.r * medida.width,
+                    overflow: "hidden",
+                  }}
+                >
+                  <View
+                    style={{
+                      position: "absolute",
+                      left: -(mascara.cx - mascara.r) * medida.width,
+                      top: -(mascara.cy * medida.height - mascara.r * medida.width),
+                      width: medida.width,
+                      height: medida.height,
+                    }}
+                  >
+                    {contenidoObra}
+                  </View>
+                </View>
+              ) : (
+                contenidoObra
+              )}
+            </View>
           </View>
-        </Animated.View>
-      </View>
+        </View>
+      </Animated.View>
+
+      {/* Viñeta suave para que el texto se lea sobre la sala */}
+      <LinearGradient
+        pointerEvents="none"
+        colors={["rgba(8,7,6,0.38)", "rgba(8,7,6,0)", "rgba(8,7,6,0)", "rgba(8,7,6,0.5)"]}
+        locations={[0, 0.2, 0.62, 1]}
+        style={StyleSheet.absoluteFill}
+      />
 
       {/* Scroll narrativo hacia abajo */}
       <Animated.ScrollView
@@ -354,9 +486,9 @@ export default function LaSala() {
                   </View>
                 ) : null}
 
-                {esCierre && ficha.ubicacion ? (
+                {esCierre && (lugarTexto || ficha.ubicacion) ? (
                   <Text style={{ color: c.brand, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17, paddingTop: 4 }}>
-                    {t.estasEn} {ficha.ubicacion}
+                    {t.estasEn} {lugarTexto || ficha.ubicacion}
                   </Text>
                 ) : null}
               </View>
@@ -366,7 +498,7 @@ export default function LaSala() {
       </Animated.ScrollView>
 
       {/* Puntos tocables sobre los detalles reales cuando se contempla la obra entera */}
-      {detalles.length > 0 && (pasoActivo === 0 || pasoActivo === paradas.length - 1) ? (
+      {detalles.length > 0 && !mostrandoEntrada && (pasoActivo === 0 || pasoActivo === paradas.length - 1) ? (
         <View
           pointerEvents="box-none"
           style={{
@@ -498,16 +630,21 @@ export default function LaSala() {
         </View>
       </View>
 
-      {/* Entrada desde el universo hasta la sala real */}
+      {/* Entrada fotorrealista desde el espacio hasta la sala real */}
       {mostrandoEntrada && !reducir ? (
-        <EntradaSalaCosmos
+        <EntradaSalaViaje
           key={`${episodioId}-${entradaSeq}`}
+          viaje={viaje}
           lugar={lugar}
           lang={lang}
-          width={stageW}
-          height={stageH}
           saltarLabel={t.saltar}
-          onTerminar={() => setMostrandoEntrada(false)}
+          topInset={insets.top}
+          reloj={reloj}
+          tiempos={tiempos}
+          onTerminar={() => {
+            setMostrandoEntrada(false);
+            haptico();
+          }}
         />
       ) : null}
     </View>

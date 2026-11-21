@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   ZOOM_MAX,
@@ -245,5 +247,82 @@ describe("sala-recorrido y cobertura de los 79 episodios reproducibles", () => {
     const fb = paradasDeEpisodio("ep-inexistente", "es", { tituloObra: "Obra", resumen: "Resumen." });
     expect(fb.curado).toBe(false);
     expect(fb.paradas).toHaveLength(2);
+  });
+});
+
+import { CREDITOS_EDIFICIOS, ESPACIOS_GEOMETRIA as ESPACIOS, SEDES_VIAJE, componerSala, espacioDeEpisodio, episodiosConEspacio } from "./sala-espacios";
+
+describe("sala v2: espacios reales y composición", () => {
+  it("cada episodio tiene sede, sala y medio con assets", () => {
+    const eps = episodiosConEspacio();
+    expect(eps.length).toBe(79);
+    for (const ep of eps) {
+      const e = espacioDeEpisodio(ep);
+      expect(ESPACIOS[e.espacio]).toBeTruthy();
+      expect(SEDES_VIAJE.some((v) => v.id === (e.sede ?? "sin-lugar"))).toBe(true);
+    }
+  });
+
+  it("pilotos: gn-01 Rijksmuseum, is-01 vitral del Met en ventana, is-03 pintura del Met", () => {
+    expect(espacioDeEpisodio("gn-01")).toMatchObject({ sede: "rijksmuseum", espacio: "rijksmuseum-pintura", medio: "pintura" });
+    expect(espacioDeEpisodio("is-01")).toMatchObject({ sede: "met", espacio: "met-vitral", medio: "vitral", galeria: "502" });
+    expect(espacioDeEpisodio("is-03")).toMatchObject({ sede: "met", espacio: "met-pintura", galeria: "537" });
+    expect(espacioDeEpisodio("is-02").sede).toBe("cloisters");
+    expect(ESPACIOS["met-vitral"].tipo).toBe("ventana");
+  });
+
+  it("los assets existen y pesan poco (WebP/MP4)", () => {
+    const base = path.resolve(__dirname, "../assets/sala");
+    let total = 0;
+    for (const v of SEDES_VIAJE) {
+      for (const f of [`viaje/${v.id}.mp4`, `viaje/${v.id}-inicio.webp`, `viaje/${v.id}-final.webp`, ...(v.edificio ? [`edificios/${v.id}.webp`] : [])]) {
+        expect(fs.existsSync(path.join(base, f))).toBe(true);
+        total += fs.statSync(path.join(base, f)).size;
+      }
+    }
+    for (const id of Object.keys(ESPACIOS)) {
+      const f = path.join(base, `salas/${id}.webp`);
+      expect(fs.existsSync(f)).toBe(true);
+      total += fs.statSync(f).size;
+    }
+    expect(total).toBeLessThan(8 * 1024 * 1024);
+  });
+
+  it("las sedes con fachada tienen atribución en Créditos", () => {
+    const conFachada = SEDES_VIAJE.filter((v) => v.edificio).map((v) => v.id);
+    for (const sede of conFachada) expect(CREDITOS_EDIFICIOS.some((c) => c.sede === sede && c.licencia && c.url.startsWith("https://commons.wikimedia.org/"))).toBe(true);
+    for (const c of CREDITOS_EDIFICIOS) expect(["CC0", "CC BY 2.0", "Dominio público"]).toContain(c.licencia);
+  });
+
+  it("la obra entra entera en su pared/ventana y la sala cubre el escenario", () => {
+    const stageW = 390;
+    const stageH = 700;
+    const centroY = Math.round(stageH * 0.38);
+    for (const espacio of Object.values(ESPACIOS)) {
+      for (const ratio of [0.32, 0.69, 1, 1.78]) {
+        const medio = espacio.tipo === "ventana" ? "vitral" : "pintura";
+        const r = componerSala({ espacio, medio, ratio, stageW, stageH, centroY, maxAncho: 328, maxAlto: 350 });
+        expect(Math.abs(r.obra.width / r.obra.height - ratio) / ratio).toBeLessThan(0.05);
+        expect(r.obra.width).toBeLessThanOrEqual(330);
+        expect(r.obra.height).toBeLessThanOrEqual(352);
+        expect(r.sala.left).toBeLessThanOrEqual(1);
+        expect(r.sala.top).toBeLessThanOrEqual(1);
+        expect(r.sala.left + r.sala.width).toBeGreaterThanOrEqual(stageW - 1);
+        expect(r.sala.top + r.sala.height).toBeGreaterThanOrEqual(stageH - 1);
+        const a = espacio.ancla;
+        const x0 = r.sala.left + a.x0 * r.sala.width;
+        const x1 = r.sala.left + a.x1 * r.sala.width;
+        const y0 = r.sala.top + a.y0 * r.sala.height;
+        const y1 = r.sala.top + a.y1 * r.sala.height;
+        const ow = r.obra.width + 2 * r.marco;
+        const oh = r.obra.height + 2 * r.marco;
+        expect(stageW / 2 - ow / 2).toBeGreaterThanOrEqual(x0 - 2);
+        expect(stageW / 2 + ow / 2).toBeLessThanOrEqual(x1 + 2);
+        expect(centroY - oh / 2).toBeGreaterThanOrEqual(y0 - 2);
+        expect(centroY + oh / 2).toBeLessThanOrEqual(y1 + 2);
+        expect(r.entrada.scale).toBeGreaterThan(0);
+        expect(r.entrada.scale).toBeLessThanOrEqual(1);
+      }
+    }
   });
 });
