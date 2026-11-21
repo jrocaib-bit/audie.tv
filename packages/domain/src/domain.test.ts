@@ -274,9 +274,10 @@ describe("settings migration", () => {
     expect(antiguo.caminoActivo).toBe("biblia");
     expect(antiguo.bienvenidaHecha).toBe(false);
     expect(antiguo.rate).toBe(1.25);
+    expect(antiguo.audioLocale).toBe("es");
   });
   it("conserva camino y bienvenida y descarta ids raros", () => {
-    expect(parseSettings({ caminoActivo: "salmos", bienvenidaHecha: true })).toMatchObject({ caminoActivo: "salmos", bienvenidaHecha: true });
+    expect(parseSettings({ caminoActivo: "salmos", bienvenidaHecha: true, audioLocale: "en" })).toMatchObject({ caminoActivo: "salmos", bienvenidaHecha: true, audioLocale: "en" });
     expect(parseSettings({ caminoActivo: "../x", bienvenidaHecha: "si" })).toMatchObject({ caminoActivo: "biblia", bienvenidaHecha: false });
     expect(parseSettings(null).caminoActivo).toBe("biblia");
   });

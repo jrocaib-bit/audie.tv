@@ -10,7 +10,7 @@ import { infoEpisodio } from "../hoy";
 import { BucleCuadro } from "../bucle-cuadro";
 import { baseDeContenido, uriDeObra } from "../entorno";
 import { dark, fonts } from "../theme";
-import { tx } from "../textos";
+import { textoErrorAudio, tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
 import { Carrusel } from "../ui/Carrusel";
 import { Icono } from "../ui/Icono";
@@ -81,14 +81,13 @@ export default function NowPlaying() {
   };
   const sueno = library.sleepLabel ?? t.temporizador;
 
-  const mensaje =
-    error === "entrar" ? t.entrarParaEscuchar : error === "premium" ? t.conPremium : error === "proximamente" ? t.proximamente : t.noCargo;
+  const mensaje = textoErrorAudio(error, t);
   const accion =
     error === "entrar"
       ? { texto: t.entrar, ir: () => { library.setPendiente(episode.id); router.push("/cuenta"); } }
       : error === "premium"
         ? { texto: t.premium, ir: () => router.push("/suscripcion") }
-        : error === "proximamente"
+        : error === "proximamente" || error === "idioma"
           ? null
           : { texto: t.reintentar, ir: () => library.reintentar() };
 

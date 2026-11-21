@@ -17,7 +17,9 @@ import {
   migrarProgreso,
   parseProgress,
   parseSettings,
+  esIdiomaInterfaz,
   idiomaDeEtiqueta,
+  tieneAudioEn,
   playableIds,
   playableEpisodes,
   recordListen,
@@ -360,6 +362,13 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         setEstadoAudio("error");
         return;
       }
+      if (!tieneAudioEn(settingsRef.current.audioLocale)) {
+        loadToken.current += 1;
+        setLoadedId(null);
+        setErrorAudio("idioma");
+        setEstadoAudio("error");
+        return;
+      }
       setEstadoAudio("cargando");
       setErrorAudio(null);
       void loadEpisode(target, opciones.reproducir ?? true);
@@ -464,7 +473,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       const nextSettings = parseSettings(storedSettings);
       if (!nextSettings.localeElegido) {
         const idioma = idiomaDeEtiqueta(getLocales()[0]?.languageTag ?? null);
-        if (idioma) nextSettings.uiLocale = idioma;
+        if (idioma && esIdiomaInterfaz(idioma)) nextSettings.uiLocale = idioma;
       }
       const rangos = catalog.rangos ?? [];
       const nextProgress = migrarProgreso(parseProgress(storedProgress), rangos);

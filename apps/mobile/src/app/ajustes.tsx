@@ -1,4 +1,4 @@
-import { IDIOMAS, PLAYBACK_RATES, textosAlta, type DailyMinutes } from "@audite/domain";
+import { IDIOMAS, esIdiomaAudio, esIdiomaInterfaz, idiomaAudioActivo, idiomaInterfazActivo, PLAYBACK_RATES, textosAlta, type DailyMinutes } from "@audite/domain";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -48,6 +48,7 @@ export default function Ajustes() {
     void guardarRecordatorio(planDiario(hora, activo), texto);
   };
   const [idiomaAbierto, setIdiomaAbierto] = useState(false);
+  const [audioAbierto, setAudioAbierto] = useState(false);
   const minutos: DailyMinutes[] = [10, 15, 20, 30];
 
   return (
@@ -97,12 +98,42 @@ export default function Ajustes() {
           <View style={{ paddingHorizontal: 16, paddingBottom: 14 }}>
             <Segmentos c={c} lleno valor={library.settings.rate} opciones={PLAYBACK_RATES.map((r) => ({ id: r, texto: `${r}×` }))} onElegir={(r) => library.setRate(r)} />
           </View>
-          <Fila c={c} icono="idioma" titulo={t.idioma} valor={library.settings.uiLocale.toUpperCase()} onPress={() => setIdiomaAbierto((v) => !v)} derecha={<View style={{ transform: [{ rotate: idiomaAbierto ? "90deg" : "0deg" }] }}><Icono nombre="chevron" size={18} color={c.muted} /></View>} />
+          <Fila c={c} icono="idioma" titulo={t.idiomaApp} valor={idiomaInterfazActivo(library.settings.uiLocale).toUpperCase()} onPress={() => setIdiomaAbierto((v) => !v)} derecha={<View style={{ transform: [{ rotate: idiomaAbierto ? "90deg" : "0deg" }] }}><Icono nombre="chevron" size={18} color={c.muted} /></View>} />
           {idiomaAbierto ? (
             <FilaChips c={c}>
-              {IDIOMAS.map((id) => (
-                <Chip key={id} c={c} texto={id.toUpperCase()} activo={library.settings.uiLocale === id} onPress={() => { library.updateSettings({ uiLocale: id, localeElegido: true }); setIdiomaAbierto(false); }} />
-              ))}
+              {IDIOMAS.map((id) => {
+                const disponible = esIdiomaInterfaz(id);
+                return (
+                  <Chip
+                    key={`ui-${id}`}
+                    c={c}
+                    texto={id.toUpperCase()}
+                    activo={disponible && idiomaInterfazActivo(library.settings.uiLocale) === id}
+                    proximo={!disponible}
+                    etiquetaProximo={t.proximamente}
+                    onPress={() => { library.updateSettings({ uiLocale: id, localeElegido: true }); setIdiomaAbierto(false); }}
+                  />
+                );
+              })}
+            </FilaChips>
+          ) : null}
+          <Fila c={c} icono="idioma" titulo={t.idiomaAudio} valor={idiomaAudioActivo(library.settings.audioLocale).toUpperCase()} onPress={() => setAudioAbierto((v) => !v)} derecha={<View style={{ transform: [{ rotate: audioAbierto ? "90deg" : "0deg" }] }}><Icono nombre="chevron" size={18} color={c.muted} /></View>} />
+          {audioAbierto ? (
+            <FilaChips c={c}>
+              {IDIOMAS.map((id) => {
+                const disponible = esIdiomaAudio(id);
+                return (
+                  <Chip
+                    key={`audio-${id}`}
+                    c={c}
+                    texto={id.toUpperCase()}
+                    activo={disponible && idiomaAudioActivo(library.settings.audioLocale) === id}
+                    proximo={!disponible}
+                    etiquetaProximo={t.proximamente}
+                    onPress={() => { library.updateSettings({ audioLocale: id }); setAudioAbierto(false); }}
+                  />
+                );
+              })}
             </FilaChips>
           ) : null}
           <Fila c={c} icono="texto" titulo={t.subtitulos} derecha={<Interruptor c={c} label={t.subtitulos} activo={library.settings.captions} onCambiar={(v) => library.updateSettings({ captions: v })} />} />

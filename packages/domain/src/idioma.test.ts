@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { idiomaContenido, idiomaDeEtiqueta, idiomaDeLista, idiomaResuelto } from "./idioma";
+import { IDIOMAS_AUDIO, IDIOMAS_INTERFAZ, idiomaAudioActivo, idiomaContenido, idiomaDeEtiqueta, idiomaDeLista, idiomaInterfazActivo, idiomaResuelto, tieneAudioEn } from "./idioma";
 
 describe("idioma de la interfaz", () => {
   it("agrupa las variantes y deja el español por defecto", () => {
@@ -27,5 +27,19 @@ describe("idioma de la interfaz", () => {
     expect(idiomaContenido("en")).toBe("en");
     expect(idiomaContenido("zh")).toBe("es");
     expect(idiomaContenido("fr")).toBe("es");
+  });
+});
+
+describe("idiomas disponibles", () => {
+  it("la interfaz está en español e inglés; el audio, solo en español", () => {
+    expect(IDIOMAS_INTERFAZ).toEqual(["es", "en"]);
+    expect(IDIOMAS_AUDIO).toEqual(["es"]);
+    expect(idiomaInterfazActivo("it")).toBe("es");
+    expect(idiomaInterfazActivo("en")).toBe("en");
+    expect(idiomaAudioActivo("en")).toBe("es");
+    expect(idiomaAudioActivo("es")).toBe("es");
+    expect(tieneAudioEn("es")).toBe(true);
+    expect(tieneAudioEn("en")).toBe(false);
+    expect(tieneAudioEn("it")).toBe(false);
   });
 });

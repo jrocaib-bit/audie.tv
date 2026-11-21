@@ -74,6 +74,9 @@ const es = {
   recordatorio: "Recordatorio diario",
   velocidadAj: "Velocidad",
   idioma: "Idioma",
+  idiomaApp: "Interfaz",
+  idiomaAudio: "Audio",
+  sinAudioIdioma: "Sin audio en este idioma",
   descargas: "Descargas",
   lectura: "Lectura",
   notas: "Notas",
@@ -176,6 +179,9 @@ const en: Textos = {
   recordatorio: "Daily reminder",
   velocidadAj: "Speed",
   idioma: "Language",
+  idiomaApp: "Interface",
+  idiomaAudio: "Audio",
+  sinAudioIdioma: "No audio in this lang",
   descargas: "Downloads",
   lectura: "Reading",
   notas: "Notes",
@@ -216,4 +222,12 @@ export function tituloCuenta(lang: "es" | "en"): string {
 
 export function subCuenta(lang: "es" | "en"): string {
   return lang === "en" ? "Genesis 1 and Advent, free." : "Génesis 1 y Adviento, gratis.";
+}
+
+export function textoErrorAudio(error: string, t: Textos): string {
+  if (error === "entrar") return t.entrarParaEscuchar;
+  if (error === "premium") return t.conPremium;
+  if (error === "proximamente") return t.proximamente;
+  if (error === "idioma") return t.sinAudioIdioma;
+  return t.noCargo;
 }

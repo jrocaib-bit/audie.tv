@@ -119,13 +119,22 @@ export {
 } from "./sleep";
 export {
   IDIOMAS,
+  IDIOMAS_AUDIO,
+  IDIOMAS_INTERFAZ,
   esIdioma,
+  esIdiomaAudio,
+  esIdiomaInterfaz,
   etiquetasDeCabecera,
+  idiomaAudioActivo,
   idiomaContenido,
   idiomaDeEtiqueta,
   idiomaDeLista,
+  idiomaInterfazActivo,
   idiomaResuelto,
+  tieneAudioEn,
   type Idioma,
+  type IdiomaAudio,
+  type IdiomaInterfaz,
 } from "./idioma";
 export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {

@@ -1,5 +1,5 @@
 /** Resuelve la URL firmada de un episodio. /api/audio/{id} devuelve JSON, no audio. */
-export type ErrorAudio = "entrar" | "premium" | "proximamente" | "limite" | "red" | "servidor" | "reproductor";
+export type ErrorAudio = "entrar" | "premium" | "proximamente" | "idioma" | "limite" | "red" | "servidor" | "reproductor";
 
 export type ResultadoAudio = { ok: true; url: string; expira: number } | { ok: false; error: ErrorAudio };
 

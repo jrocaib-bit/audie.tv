@@ -5,7 +5,7 @@ import { pendienteListo } from "../acceso";
 import { Platform, View } from "react-native";
 import { fuenteGazpacho } from "../gazpacho";
 import { MobileProvider } from "../state";
-import { tx } from "../textos";
+import { textoErrorAudio, tx } from "../textos";
 import { MiniPlayer } from "../ui/MiniPlayer";
 import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
@@ -85,7 +85,7 @@ function Shell() {
           fraccion={Math.min(1, library.globalTime / Math.max(1, cargado.episodio.durationSeconds))}
           jugando={library.playing}
           cargando={library.estadoAudio === "cargando"}
-          error={library.errorAudio ? (library.errorAudio === "entrar" ? t.entrarParaEscuchar : library.errorAudio === "premium" ? t.conPremium : library.errorAudio === "proximamente" ? t.proximamente : t.noCargo) : undefined}
+          error={library.errorAudio ? textoErrorAudio(library.errorAudio, t) : undefined}
           etiquetaPlay={library.playing ? t.pausar : t.reproducir}
           onToggle={() => {
             if (library.playing) library.toggle();

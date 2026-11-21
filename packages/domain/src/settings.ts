@@ -16,6 +16,8 @@ export type Settings = {
   dailyMinutes: DailyMinutes;
   uiLocale: UiLocale;
   localeElegido: boolean;
+  /** Idioma del audio. Independiente de la interfaz. */
+  audioLocale: UiLocale;
   /** Camino activo (id corto). Los ajustes antiguos no lo traen: vale "biblia". */
   caminoActivo: string;
   /** La bienvenida solo se enseña la primera vez. */
@@ -46,6 +48,7 @@ export function defaultSettings(): Settings {
     dailyMinutes: 15,
     uiLocale: "es",
     localeElegido: false,
+    audioLocale: "es",
     caminoActivo: CAMINO_DEFECTO,
     bienvenidaHecha: false,
   };
@@ -73,6 +76,7 @@ export function parseSettings(value: unknown): Settings {
     dailyMinutes: isDailyMinutes(record.dailyMinutes) ? record.dailyMinutes : defaults.dailyMinutes,
     uiLocale: esIdioma(typeof record.uiLocale === "string" ? record.uiLocale : null) ? record.uiLocale as Settings["uiLocale"] : defaults.uiLocale,
     localeElegido: record.localeElegido === true,
+    audioLocale: esIdioma(typeof record.audioLocale === "string" ? record.audioLocale : null) ? record.audioLocale as Settings["audioLocale"] : defaults.audioLocale,
     caminoActivo: idCaminoValido(record.caminoActivo) ? record.caminoActivo : defaults.caminoActivo,
     bienvenidaHecha: record.bienvenidaHecha === true,
   };

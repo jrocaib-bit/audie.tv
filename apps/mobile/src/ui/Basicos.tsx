@@ -28,23 +28,27 @@ export function Seccion({ titulo, c, accion, onAccion }: { titulo: string; c: Pa
   );
 }
 
-export function Chip({ texto, activo, onPress, c, icono, style }: { texto: string; activo?: boolean; onPress?: () => void; c: Paleta; icono?: NombreIcono; style?: StyleProp<ViewStyle> }) {
+export function Chip({ texto, activo, onPress, c, icono, style, proximo, etiquetaProximo }: { texto: string; activo?: boolean; onPress?: () => void; c: Paleta; icono?: NombreIcono; style?: StyleProp<ViewStyle>; proximo?: boolean; etiquetaProximo?: string }) {
+  const label = proximo && etiquetaProximo ? `${texto}, ${etiquetaProximo}` : texto;
   return (
     <Pulsable
-      onPress={onPress}
+      onPress={proximo ? undefined : onPress}
       selected={activo}
-      label={texto}
-      haptica
+      disabled={proximo}
+      label={label}
+      haptica={!proximo}
       escala={0.94}
       style={[
         {
           minHeight: 44,
           paddingHorizontal: 18,
+          paddingVertical: proximo ? 6 : 0,
           borderRadius: 999,
-          flexDirection: "row",
+          flexDirection: proximo ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: 8,
+          gap: proximo ? 0 : 8,
+          opacity: proximo ? 0.5 : 1,
           backgroundColor: activo ? c.accent : c.card,
           borderWidth: 1,
           borderColor: activo ? c.accent : c.line,
@@ -54,6 +58,7 @@ export function Chip({ texto, activo, onPress, c, icono, style }: { texto: strin
     >
       {icono ? <Icono nombre={icono} size={18} color={activo ? c.accentInk : c.ink} /> : null}
       <Text style={{ color: activo ? c.accentInk : c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{texto}</Text>
+      {proximo && etiquetaProximo ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 10 }}>{etiquetaProximo}</Text> : null}
     </Pulsable>
   );
 }
