@@ -172,6 +172,12 @@ export {
   type Proveedor,
   type Sesion,
 } from "./auth";
+export {
+  esEnlaceAuth,
+  paramsDeEnlaceAuth,
+  parsearEnlaceAuth,
+  type CargaEnlaceAuth,
+} from "./enlace-auth";
 export { t, messages, type MessageKey, type UiLocale as MessageLocale } from "./messages";
 export { addToPath, emptyPath, moveStep, parsePath, removeFromPath, sanitizePath, type ListeningPath, type PathResult } from "./path";
 export { JoinedPlayback, type AudioPort } from "./playback";

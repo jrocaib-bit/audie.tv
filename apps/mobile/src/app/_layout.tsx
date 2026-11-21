@@ -12,6 +12,7 @@ import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado, useModeloHoy } from "../ui/useHoy";
 import { useCola } from "../ui/useCola";
+import { useAuthEnlace } from "../ui/useAuthEnlace";
 import { useReproducir } from "../ui/useReproducir";
 
 function Shell() {
@@ -112,7 +113,13 @@ export default function Layout() {
   if (!listas) return null;
   return (
     <MobileProvider>
+      <AuthEnlace />
       <Shell />
     </MobileProvider>
   );
+}
+
+function AuthEnlace() {
+  useAuthEnlace();
+  return null;
 }

@@ -3,12 +3,12 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
-import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
+import { confirmarCodigoApp, entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
 import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { fonts } from "../theme";
 import { dark } from "../theme";
-import { propsCampoCorreo } from "./campo-correo";
+import { propsCampoCodigo, propsCampoCorreo } from "./campo-correo";
 
 const c = dark;
 const boton = { height: 52, borderRadius: 14, backgroundColor: "#fff", alignItems: "center" as const, justifyContent: "center" as const, flexDirection: "row" as const, gap: 10 };
@@ -18,7 +18,9 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
   const plataforma = plataformaCliente(Platform.OS);
   const copy = textosAlta(lang);
   const [correo, setCorreo] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [estado, setEstado] = useState("");
+  const [esperandoCodigo, setEsperandoCodigo] = useState(false);
   const ios = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID?.trim() ?? "";
   const web = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? "";
   const [, respuesta, pedirGoogle] = Google.useIdTokenAuthRequest({
@@ -39,7 +41,19 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
     if (!correoValido(correo)) return;
     medir("cta_clicked", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
     medir("form_submitted", { ...base, cta_id: "alta_magic_link", metodo: "correo" });
-    void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
+    void entrarCorreoApp(correo)
+      .then(() => {
+        setEsperandoCodigo(true);
+        setEstado(copy.codigoAyuda);
+      })
+      .catch(() => setEstado(""));
+  };
+  const confirmarCodigo = (valor = codigo) => {
+    const limpio = valor.replace(/\D/g, "").slice(0, 6);
+    if (limpio.length !== 6) return;
+    void confirmarCodigoApp(correo, limpio)
+      .then(() => setEstado(copy.listo))
+      .catch(() => setEstado(copy.codigoError));
   };
   return (
     <View style={{ gap: 12 }}>
@@ -98,6 +112,35 @@ export function CuentaForm({ lang, ubicacion }: { lang: "es" | "en"; ubicacion: 
           <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{copy.enviar}</Text>
         </Pressable>
       </View>
+      {esperandoCodigo ? (
+        <View style={{ gap: 10 }}>
+          <TextInput
+            value={codigo}
+            onChangeText={(valor) => {
+              const limpio = valor.replace(/\D/g, "").slice(0, 6);
+              setCodigo(limpio);
+              if (limpio.length === 6) confirmarCodigo(limpio);
+            }}
+            {...propsCampoCodigo}
+            returnKeyType="done"
+            enablesReturnKeyAutomatically
+            blurOnSubmit
+            onSubmitEditing={() => confirmarCodigo()}
+            accessibilityLabel={copy.codigo}
+            placeholder={copy.codigo}
+            placeholderTextColor={c.muted}
+            style={{ height: 52, borderRadius: 14, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: c.ink, paddingHorizontal: 16, fontFamily: fonts.sans, fontSize: 16, letterSpacing: 4, textAlign: "center" }}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={copy.entrarCodigo}
+            onPress={() => confirmarCodigo()}
+            style={{ height: 52, borderRadius: 14, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{copy.entrarCodigo}</Text>
+          </Pressable>
+        </View>
+      ) : null}
       {estado ? <Text style={{ color: c.accent, textAlign: "center", fontFamily: fonts.medium }}>{estado}</Text> : null}
     </View>
   );

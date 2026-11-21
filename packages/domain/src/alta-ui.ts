@@ -14,6 +14,10 @@ export type TextosAlta = {
   borrar: string;
   confirmar: string;
   cancelar: string;
+  codigo: string;
+  codigoAyuda: string;
+  entrarCodigo: string;
+  codigoError: string;
 };
 
 const TEXTOS: Record<string, TextosAlta> = {
@@ -33,6 +37,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Borrar cuenta",
     confirmar: "¿Borrar la cuenta?",
     cancelar: "Cancelar",
+    codigo: "Código",
+    codigoAyuda: "Si el enlace no abre la app, escribe el código de 6 dígitos.",
+    entrarCodigo: "Entrar",
+    codigoError: "Ese código no vale.",
   },
   en: {
     titulo: "The Bible, every day.",
@@ -50,6 +58,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Delete account",
     confirmar: "Delete the account?",
     cancelar: "Cancel",
+    codigo: "Code",
+    codigoAyuda: "If the link does not open the app, enter the 6-digit code.",
+    entrarCodigo: "Sign in",
+    codigoError: "That code is not valid.",
   },
   it: {
     titulo: "La Bibbia, ogni giorno.",
@@ -67,6 +79,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Elimina account",
     confirmar: "Eliminare l'account?",
     cancelar: "Annulla",
+    codigo: "Codice",
+    codigoAyuda: "Se il link non apre l'app, inserisci il codice a 6 cifre.",
+    entrarCodigo: "Entra",
+    codigoError: "Quel codice non è valido.",
   },
   pt: {
     titulo: "A Bíblia, cada dia.",
@@ -84,6 +100,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Apagar conta",
     confirmar: "Apagar a conta?",
     cancelar: "Cancelar",
+    codigo: "Código",
+    codigoAyuda: "Se a ligação não abrir a app, escreve o código de 6 dígitos.",
+    entrarCodigo: "Entrar",
+    codigoError: "Esse código não é válido.",
   },
   fr: {
     titulo: "La Bible, chaque jour.",
@@ -101,6 +121,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Supprimer le compte",
     confirmar: "Supprimer le compte ?",
     cancelar: "Annuler",
+    codigo: "Code",
+    codigoAyuda: "Si le lien n'ouvre pas l'app, saisis le code à 6 chiffres.",
+    entrarCodigo: "Entrer",
+    codigoError: "Ce code n'est pas valable.",
   },
   de: {
     titulo: "Die Bibel, jeden Tag.",
@@ -118,6 +142,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "Konto löschen",
     confirmar: "Konto löschen?",
     cancelar: "Abbrechen",
+    codigo: "Code",
+    codigoAyuda: "Wenn der Link die App nicht öffnet, gib den 6-stelligen Code ein.",
+    entrarCodigo: "Anmelden",
+    codigoError: "Dieser Code gilt nicht.",
   },
   zh: {
     titulo: "圣经，每一天。",
@@ -135,6 +163,10 @@ const TEXTOS: Record<string, TextosAlta> = {
     borrar: "删除账户",
     confirmar: "删除账户？",
     cancelar: "取消",
+    codigo: "验证码",
+    codigoAyuda: "如果链接无法打开应用，请输入 6 位验证码。",
+    entrarCodigo: "登录",
+    codigoError: "验证码无效。",
   },
 };
 

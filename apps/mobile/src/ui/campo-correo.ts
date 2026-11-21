@@ -19,3 +19,25 @@ export const propsCampoCorreo: Pick<
   spellCheck: false,
   inputMode: "email",
 };
+
+/** Código de un solo uso que iOS puede sugerir desde el correo. */
+export const propsCampoCodigo: Pick<
+  TextInputProps,
+  | "keyboardType"
+  | "textContentType"
+  | "autoComplete"
+  | "autoCapitalize"
+  | "autoCorrect"
+  | "spellCheck"
+  | "inputMode"
+  | "maxLength"
+> = {
+  keyboardType: "number-pad",
+  textContentType: "oneTimeCode",
+  autoComplete: "one-time-code",
+  autoCapitalize: "none",
+  autoCorrect: false,
+  spellCheck: false,
+  inputMode: "numeric",
+  maxLength: 6,
+};

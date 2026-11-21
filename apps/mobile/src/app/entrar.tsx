@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, Pressable, Text, TextInput, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
+import { confirmarCodigoApp, entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
 import { uriDeObra } from "../entorno";
 import { tarjetasHoy } from "../hoy";
 import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
-import { propsCampoCorreo } from "../ui/campo-correo";
+import { propsCampoCodigo, propsCampoCorreo } from "../ui/campo-correo";
 import { TecladoHoja } from "../ui/TecladoHoja";
 
 const noche = "#100E0C";
@@ -37,7 +37,9 @@ export default function EntrarScreen() {
   const plataforma = plataformaCliente(Platform.OS);
   const copy = textosAlta(idioma);
   const [correo, setCorreo] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [estado, setEstado] = useState("");
+  const [esperandoCodigo, setEsperandoCodigo] = useState(false);
   const [marketing, setMarketing] = useState(false);
   const ios = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID?.trim() ?? "";
   const web = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? "";
@@ -60,7 +62,19 @@ export default function EntrarScreen() {
     medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
     medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
     void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
-    void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
+    void entrarCorreoApp(correo)
+      .then(() => {
+        setEsperandoCodigo(true);
+        setEstado(copy.codigoAyuda);
+      })
+      .catch(() => setEstado(""));
+  };
+  const confirmarCodigo = (valor = codigo) => {
+    const limpio = valor.replace(/\D/g, "").slice(0, 6);
+    if (limpio.length !== 6) return;
+    void confirmarCodigoApp(correo, limpio)
+      .then(() => setEstado(copy.listo))
+      .catch(() => setEstado(copy.codigoError));
   };
 
   return (
@@ -132,6 +146,32 @@ export default function EntrarScreen() {
           >
             <Text style={{ color: crema, fontSize: 17 }}>{copy.enviar}</Text>
           </Pressable>
+          {esperandoCodigo ? (
+            <>
+              <TextInput
+                value={codigo}
+                onChangeText={(valor) => {
+                  const limpio = valor.replace(/\D/g, "").slice(0, 6);
+                  setCodigo(limpio);
+                  if (limpio.length === 6) confirmarCodigo(limpio);
+                }}
+                {...propsCampoCodigo}
+                returnKeyType="done"
+                enablesReturnKeyAutomatically
+                blurOnSubmit
+                onSubmitEditing={() => confirmarCodigo()}
+                placeholder={copy.codigo}
+                placeholderTextColor="#B7AB9C"
+                style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: crema, paddingHorizontal: 16, letterSpacing: 4, textAlign: "center" }}
+              />
+              <Pressable
+                onPress={() => confirmarCodigo()}
+                style={{ height: 48, borderRadius: 6, backgroundColor: oro, alignItems: "center", justifyContent: "center" }}
+              >
+                <Text style={{ color: noche, fontSize: 17 }}>{copy.entrarCodigo}</Text>
+              </Pressable>
+            </>
+          ) : null}
           {estado ? <Text style={{ color: oro, textAlign: "center" }}>{estado}</Text> : null}
           <View style={{ flexDirection: "row", justifyContent: "center", gap: 20 }}>
             <Text style={{ color: "#B7AB9C", minHeight: 44, lineHeight: 44 }} onPress={() => void Linking.openURL("https://audite.tv/es/condiciones")}>{copy.condiciones}</Text>
