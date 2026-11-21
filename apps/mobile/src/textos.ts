@@ -224,7 +224,8 @@ export function subCuenta(lang: "es" | "en"): string {
   return lang === "en" ? "Genesis 1 and Advent, free." : "Génesis 1 y Adviento, gratis.";
 }
 
-export function textoErrorAudio(error: string, t: Textos): string {
+export function textoErrorAudio(error: string | null | undefined, t: Textos): string {
+  if (!error) return "";
   if (error === "entrar") return t.entrarParaEscuchar;
   if (error === "premium") return t.conPremium;
   if (error === "proximamente") return t.proximamente;
