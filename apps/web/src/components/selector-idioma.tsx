@@ -14,6 +14,16 @@ const NOMBRES: Record<(typeof IDIOMAS)[number], string> = {
   zh: "中文",
 };
 
+/** El audio solo existe en español. La interfaz sí está en todos. */
+export function idiomaConAudio(idioma: (typeof IDIOMAS)[number]): boolean {
+  return idioma === "es";
+}
+
+export function etiquetaIdioma(idioma: (typeof IDIOMAS)[number], ui: string): string {
+  if (idiomaConAudio(idioma)) return NOMBRES[idioma];
+  return `${NOMBRES[idioma]} · ${ui === "en" ? "Coming soon" : "Próximamente"}`;
+}
+
 export function SelectorIdioma({ lang, claro = false }: { lang: string; claro?: boolean }) {
   const router = useRouter();
   const actual = esIdioma(lang) ? lang : "es";
@@ -35,7 +45,7 @@ export function SelectorIdioma({ lang, claro = false }: { lang: string; claro?: 
       >
         {IDIOMAS.map((idioma) => (
           <option key={idioma} value={idioma}>
-            {NOMBRES[idioma]}
+            {etiquetaIdioma(idioma, actual)}
           </option>
         ))}
       </select>

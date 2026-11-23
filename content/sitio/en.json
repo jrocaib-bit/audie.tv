@@ -89,5 +89,13 @@
   "priceMonth": "€1.99/month",
   "faqWhatQ": "What is Audite?",
   "faqWhatA": "The Bible in audio, from beginning to end, in episodes of about 10 minutes.",
+  "heroListen": "Listen to an episode",
+  "sampleNote": "One click and it plays. No account, no card.",
+  "ctaChallengeFree": "Listen to the challenge free, no card",
+  "challengeNote": "The Advent challenge needs a free account.",
+  "ctaTrial": "Try 7 days",
+  "browserNote": "Right now Audite plays in your browser, on your phone or on your computer. The iOS and Android app, with offline mode, is coming soon.",
+  "durationNote": "Catalog episodes last about 10 minutes. The days of the Advent challenge are passages of 2 to 4 minutes.",
+  "familyNote": "You can listen as a family. One personal account is enough to play the audio in a classroom.",
   "exitSite": "audite.tv"
 }

@@ -4,6 +4,7 @@ import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/
 import { etiquetaDeLanzamiento, letraDeLanzamiento, precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { lineaCee } from "@/lib/mencion-cee";
 import { Wordmark } from "@/components/brand";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto, Placa } from "@/components/placa";
@@ -158,11 +159,16 @@ function Camino() {
   );
 }
 
-function Ctas({ lang, copy, ficha }: { lang: string; copy: NonNullable<ReturnType<typeof copiaSitio>>; ficha: { id: string; titulo: string } }) {
+function Ctas({ lang, copy, ficha, navegador = false }: { lang: string; copy: NonNullable<ReturnType<typeof copiaSitio>>; ficha: { id: string; titulo: string }; navegador?: boolean }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-3">
-      <BotonProbar ficha={ficha} etiqueta={copy.listenFree} className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" />
-      <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.homeCta}</Link>
+    <div className="mt-6">
+      <div className="flex flex-wrap gap-3">
+        <BotonProbar ficha={ficha} etiqueta={copy.heroListen} conIcono className="boton inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" />
+        <Link href={`/${lang}/retos/adviento-isaias`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.ctaChallengeFree}</Link>
+        <Link href={`/${lang}/entrar`} className="boton inline-flex min-h-12 items-center rounded-full border border-[#F4ECE2]/30 px-6">{copy.ctaTrial}</Link>
+      </div>
+      <p className="mt-3 max-w-xl text-sm text-[#E7D7C3]">{copy.sampleNote} {copy.challengeNote}</p>
+      {navegador ? <p className="mt-1 max-w-xl text-sm text-[#B7AB9C]">{copy.browserNote}</p> : null}
     </div>
   );
 }
@@ -259,6 +265,7 @@ export function SitioHome({ lang }: { lang: string }) {
     const obra = obraDeEpisodio(item.episodio);
     return obra ? [{ ...item, obra }] : [];
   });
+  const ceeLinea = lineaCee(ui);
   const tiendas = tiendasVisibles();
   const aviso = `/${lang}/app#aviso`;
   const funciones = [
@@ -301,7 +308,7 @@ export function SitioHome({ lang }: { lang: string }) {
             <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pt-28 pb-12 md:px-8">
               <h1 className="font-display max-w-4xl text-[clamp(2.6rem,8vw,6rem)] leading-[0.95]">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
               <p className="mt-5 max-w-xl text-lg">{copy.homeWhat}</p>
-              <Ctas lang={lang} copy={copy} ficha={genesis} />
+              <Ctas lang={lang} copy={copy} ficha={genesis} navegador />
             </div>
           </section>
           <section className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8">
@@ -342,7 +349,9 @@ export function SitioHome({ lang }: { lang: string }) {
                 <p className="mt-2 text-[#E7D7C3]">{cifra.etiqueta}</p>
               </article>
             ))}
+            <p className="text-sm text-[#E7D7C3] sm:col-span-2 lg:col-span-4">{copy.durationNote} {copy.familyNote}</p>
             <p className="text-sm text-[#B7AB9C] sm:col-span-2 lg:col-span-4">{copy.voiceAi}</p>
+            {ceeLinea ? <p className="text-sm text-[#B7AB9C] sm:col-span-2 lg:col-span-4">{ceeLinea}</p> : null}
           </section>
           <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
             <h2 className="font-display text-4xl">{copy.tryTitle}</h2>
@@ -414,6 +423,7 @@ export function SitioHome({ lang }: { lang: string }) {
                 <BadgeTienda href={tiendas?.apple ?? aviso} linea={copy.badgeGet} marca="App Store" pronto={tiendas ? "" : copy.storeSoon} tipo="tienda" />
                 <BadgeTienda href={tiendas?.google ?? aviso} linea={copy.badgeGet} marca="Google Play" pronto={tiendas ? "" : copy.storeSoon} tipo="play" />
               </div>
+              <p className="mt-3 max-w-xl text-sm text-[#B7AB9C]">{copy.browserNote}</p>
             </div>
           </section>
           <section className="mx-auto w-full max-w-6xl px-5 py-8 md:px-8">
@@ -557,11 +567,18 @@ export function SitioMembresia({ lang }: { lang: string }) {
   const obra = obraDeEpisodio("gn-05");
   if (!copy || !obra) return null;
   const ui = idiomaUi(lang);
+  const ceeLinea = lineaCee(ui);
   return (
     <>
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
           <PaywallWeb lang={lang} lanzamiento={precioLanzamientoActivo()} />
+          <div className="mx-auto mt-2 grid max-w-xl gap-2 px-5 text-sm text-[#B7AB9C]">
+            <p>{copy.durationNote}</p>
+            <p>{copy.familyNote}</p>
+            <p>{copy.browserNote}</p>
+            {ceeLinea ? <p>{ceeLinea}</p> : null}
+          </div>
         </div>
         <div className="relative min-h-80 overflow-hidden bg-[#0C0B09]">
           <ObraFoto obra={obra} className="h-full w-full object-cover" />

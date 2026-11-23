@@ -1,6 +1,6 @@
 "use client";
 
-import { PRECIO, etiquetaDeLanzamiento, letraDeLanzamiento, pideSuscripcion } from "@audite/domain";
+import { PRECIO, PRECIO_ANUAL_SIGUIENTE, etiquetaDeLanzamiento, letraDeLanzamiento, pideSuscripcion } from "@audite/domain";
 import { useEffect, useState } from "react";
 import { medir } from "@/lib/medicion";
 import Link from "next/link";
@@ -57,12 +57,27 @@ function PaywallDePago({ lanzamiento, es }: { lanzamiento: boolean; es: boolean 
           <span className="font-display mt-1 block text-4xl">{PRECIO.mes}/{es ? "mes" : "month"}</span>
         </button>
       </div>
+      <p className="mt-4 text-sm text-[#E7D7C3]">
+        {es
+          ? `A partir del 6 de enero de 2027, las altas anuales nuevas cuestan ${PRECIO_ANUAL_SIGUIENTE} al año. Quien se suscriba antes mantiene ${PRECIO.anio} al año mientras su suscripción siga activa.`
+          : `From 6 January 2027, new yearly subscriptions cost ${PRECIO_ANUAL_SIGUIENTE} a year. If you subscribe before then, you keep ${PRECIO.anio} a year for as long as your subscription stays active.`}
+      </p>
+      <p className="mt-2 text-sm text-[#B7AB9C]">
+        {es
+          ? "Si cancelas, sigues con acceso hasta que termine el periodo ya pagado. Si la suscripción caduca o cambias de plan, se aplica la tarifa de ese momento."
+          : "If you cancel, you keep access until the period you already paid for ends. If the subscription lapses or you change plan, the rate at that time applies."}
+      </p>
       {tiendas ? (
         <div className="mt-6 grid gap-3">
           <button type="button" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]" onClick={() => tienda("apple", tiendas.apple)}>App Store</button>
           <button type="button" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#F4ECE2]/30 px-6" onClick={() => tienda("google", tiendas.google)}>Google Play</button>
         </div>
-      ) : <Link href="/app#aviso" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">Avísame</Link>}
+      ) : (
+        <>
+          <Link href="/app#aviso" className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{es ? "Avísame" : "Notify me"}</Link>
+          <p className="mt-2 text-sm text-[#B7AB9C]">{es ? "Te escribimos cuando la app esté en las tiendas." : "We will write to you when the app is in the stores."}</p>
+        </>
+      )}
     </section>
   );
 }

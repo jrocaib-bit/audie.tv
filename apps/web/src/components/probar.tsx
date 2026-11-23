@@ -63,12 +63,12 @@ export function ProbarAudio({ children }: { children: ReactNode }) {
   );
 }
 
-export function BotonProbar({ ficha, etiqueta, className, icono = false }: { ficha: FichaPrueba; etiqueta: string; className?: string; icono?: boolean }) {
+export function BotonProbar({ ficha, etiqueta, className, icono = false, conIcono = false }: { ficha: FichaPrueba; etiqueta: string; className?: string; icono?: boolean; conIcono?: boolean }) {
   const estado = useContext(Probar);
   const activo = estado?.id === ficha.id && estado.sonando;
   return (
     <button type="button" className={className} aria-label={etiqueta} aria-pressed={activo} onClick={() => estado?.reproducir(ficha)}>
-      {icono ? (activo ? <Onda /> : <Play />) : etiqueta}
+      {icono ? (activo ? <Onda /> : <Play />) : conIcono ? <span className="inline-flex items-center gap-2">{activo ? <Onda /> : <Play />}{etiqueta}</span> : etiqueta}
     </button>
   );
 }
