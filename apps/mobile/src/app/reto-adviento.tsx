@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import retosJson from "../../../../content/tiempos/retos.json";
 import { sesionApp } from "../auth";
+import { medir } from "../medicion";
 import { BucleCuadro } from "../bucle-cuadro";
 import { bucleDe, medidasHueco } from "../bucles";
 import { creditoObraReto } from "../credito-obra";
@@ -23,6 +24,9 @@ export default function RetoAdviento() {
     void sesionApp().then(setSesion);
   }, []);
   const conCuenta = Boolean(sesion);
+  useEffect(() => {
+    if (conCuenta) medir("challenge_started", { reto_id: "adviento-isaias" });
+  }, [conCuenta]);
   const es = true;
   return (
     <ScrollView contentContainerStyle={{ padding: 22, paddingBottom: 48, gap: 12, backgroundColor: "#100E0C" }}>

@@ -130,6 +130,9 @@ export {
 export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,
+  clasificarTrafico,
+  crearSumideroSupabase,
+  filaRetoUsuario,
   decidirEscucha,
   eliminarCuenta,
   esEvento,
@@ -144,7 +147,10 @@ export {
   propsFormulario,
   plataformaCliente,
   utmDeBusqueda,
+  type ClaseTrafico,
+  type ClienteMedicion,
   type ContextoMedicion,
+  type FalloMedicion,
   type Evento,
   type FilaEvento,
   type FilaReto,
