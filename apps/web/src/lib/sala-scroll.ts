@@ -3,21 +3,38 @@
 export type PasoCamara = { x: number; y: number; zoom: number };
 export type Caja = { w: number; h: number };
 
-/**
- * Transformación que centra el punto (x, y) normalizado de la obra y la acerca `zoom` veces
- * (translate + scale, origin 0 0). Sin paso: cuadro entero (`none`). La obra va con object-contain:
- * se calcula su rectángulo dentro de la caja.
- */
-export function transformaPaso(paso: PasoCamara | null, aspecto: number | null, caja: Caja): { transform: string; transformOrigin: string } {
-  if (!paso) return { transform: "none", transformOrigin: "0 0" };
+/** Tope del zoom en móvil: el zoom crudo del paso (p. ej. 2.6) es excesivo en un visor estrecho. */
+export const ZOOM_MAX_MOVIL = 1.8;
+
+/** Zoom realmente aplicado: escritorio = el del paso; móvil = mitad del acercamiento, con tope, siempre ≥ 1. */
+export function zoomAplicado(zoom: number, movil: boolean): number {
+  const z = Math.max(1, zoom);
+  return movil ? Math.min(ZOOM_MAX_MOVIL, 1 + (z - 1) * 0.5) : z;
+}
+
+/** Tamaño de la obra completa a «cover»: el lado menor llena la caja y el otro la desborda (se recorta con overflow). */
+export function tamanoCover(aspecto: number | null, caja: Caja): Caja {
   const r = aspecto ?? caja.w / caja.h;
-  const w = Math.min(caja.w, caja.h * r);
-  const h = w / r;
-  const px = (caja.w - w) / 2 + paso.x * w;
-  const py = (caja.h - h) / 2 + paso.y * h;
-  const tx = caja.w / 2 - px * paso.zoom;
-  const ty = caja.h / 2 - py * paso.zoom;
-  return { transform: `translate(${tx}px, ${ty}px) scale(${paso.zoom})`, transformOrigin: "0 0" };
+  const w = Math.max(caja.w, caja.h * r);
+  return { w, h: w / r };
+}
+
+const limita = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+/**
+ * Encuadre object-cover. El nodo que se transforma mide `ancho × alto` (la obra entera a tamaño cover, posiblemente
+ * mayor que el visor); `translate + scale` (origin 0 0) centra el punto (x, y) con el zoom aplicado y la traslación
+ * se limita a [caja − tamaño·zoom, 0] para que nunca asome el fondo: si no se puede centrar, gana el visor lleno.
+ * Sin paso (apertura, cierre): cover centrado, zoom 1.
+ */
+export function transformaPaso(paso: PasoCamara | null, aspecto: number | null, caja: Caja, movil = false): { transform: string; transformOrigin: string; ancho: number; alto: number } {
+  const { w, h } = tamanoCover(aspecto, caja);
+  const z = paso ? zoomAplicado(paso.zoom, movil) : 1;
+  const x = paso ? paso.x : 0.5;
+  const y = paso ? paso.y : 0.5;
+  const tx = limita(caja.w / 2 - x * w * z, caja.w - w * z, 0);
+  const ty = limita(caja.h / 2 - y * h * z, caja.h - h * z, 0);
+  return { transform: `translate(${tx}px, ${ty}px) scale(${z})`, transformOrigin: "0 0", ancho: w, alto: h };
 }
 
 /** Bloques del relato: 0 = apertura, 1..n = pasos, n+1 = cierre. */
@@ -29,18 +46,17 @@ export function bloqueDe(indice: number, totalPasos: number): Bloque {
   return { tipo: "paso", n: indice };
 }
 
-/** Bloque activo: el que tiene su centro más cerca de la línea de foco. Vacío → 0. */
-export function indiceActivo(centros: readonly number[], linea: number): number {
-  let mejor = 0;
-  let dist = Infinity;
-  centros.forEach((c, i) => {
-    const d = Math.abs(c - linea);
-    if (d < dist) {
-      dist = d;
-      mejor = i;
-    }
+/**
+ * Bloque activo: el último cuyo TÍTULO ya ha entrado en la franja de texto, es decir, cuyo top está en o por encima de
+ * la línea de foco (cerca del borde superior de la columna de texto). Así un paso no coexiste con el texto del siguiente.
+ * Sin títulos o ninguno alcanzado → 0 (apertura).
+ */
+export function indiceActivo(topsTitulo: readonly number[], linea: number): number {
+  let activo = 0;
+  topsTitulo.forEach((t, i) => {
+    if (t <= linea) activo = i;
   });
-  return mejor;
+  return activo;
 }
 
 /** Cámara de un bloque activo: paso n → su pose; apertura y cierre → cuadro entero (null). */

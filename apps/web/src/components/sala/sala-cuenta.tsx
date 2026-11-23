@@ -2,8 +2,7 @@
 
 import { PRECIO, textosAlta } from "@audite/domain";
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Lienzo } from "@/components/sala/lienzo";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { sesionWeb, tokenWeb } from "@/lib/auth-web";
 import { datosVistaSala, type Adelanto, type RecorridoVista, type RespuestaSala, type VistaSala } from "@/lib/sala-cuenta";
 import { etiquetaActivo, etiquetaCamara, indiceActivo, opacidadBloque, poseDeBloque, transformaPaso, type Caja } from "@/lib/sala-scroll";
@@ -28,10 +27,14 @@ const OIR = { es: "Escuchar el episodio", en: "Listen to the episode" };
 const CARGANDO = { es: "Cargando el recorrido…", en: "Loading the walk-through…" };
 const FALLO = { es: "No pudimos comprobar tu acceso. Vuelve a intentarlo en un momento.", en: "We couldn't check your access. Please try again in a moment." };
 
-/** Visor de la obra completa (object-contain). `paso` mueve la cámara solo con transform. */
+/**
+ * Visor de La sala: encuadre object-cover, siempre lleno. La obra entera va a tamaño cover dentro de un nodo que se
+ * transforma (solo transform) y `overflow: hidden` está solo en el visor exterior. `paso` mueve la cámara.
+ */
 function VisorObra({ src, obraId, alt, paso, reducido, className }: { src: string; obraId?: string; alt: string; paso: RecorridoVista["pasos"][number] | null; reducido: boolean; className: string }) {
   const [aspecto, setAspecto] = useState<number | null>(null);
   const [caja, setCaja] = useState<Caja>({ w: 390, h: 400 });
+  const [movil, setMovil] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!src) return;
@@ -45,6 +48,7 @@ function VisorObra({ src, obraId, alt, paso, reducido, className }: { src: strin
     const medir = () => {
       const r = el.getBoundingClientRect();
       if (r.width && r.height) setCaja({ w: r.width, h: r.height });
+      setMovil(window.innerWidth < 768);
     };
     medir();
     if (typeof ResizeObserver === "undefined") {
@@ -55,11 +59,12 @@ function VisorObra({ src, obraId, alt, paso, reducido, className }: { src: strin
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const estilo = reducido ? { transform: "none", transformOrigin: "0 0" } : transformaPaso(paso, aspecto, caja);
+  const { ancho, alto, ...pose } = transformaPaso(paso, aspecto, caja, movil);
   return (
-    <div ref={ref} className={`overflow-hidden bg-[#0C0B09] ${className}`} data-zoom={paso && !reducido ? paso.zoom : 1} data-visor>
-      <div className="h-full w-full will-change-transform" style={{ ...estilo, transition: reducido ? "none" : "transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1)" }}>
-        <Lienzo src={src} obraId={obraId} alt={alt} priority className="h-full" />
+    <div ref={ref} className={`relative overflow-hidden bg-[#0C0B09] ${className}`} data-obra={obraId} data-zoom={paso && !reducido ? paso.zoom : 1} data-visor>
+      <div className="absolute left-0 top-0 will-change-transform" style={{ width: ancho, height: alto, ...pose, transition: reducido ? "none" : "transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1)" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} fetchPriority="high" loading="eager" decoding="sync" className="sala-obra h-full w-full object-cover" />
       </div>
     </div>
   );
@@ -79,7 +84,7 @@ export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo 
   const c = CORTE[lang];
   const copy = textosAlta(lang);
   return (
-    <section data-corte data-candado aria-busy={verificando} className="mt-8 max-w-prose rounded-3xl border border-[#C9A96E]/60 bg-[#1B1815] p-5 md:p-6">
+    <section data-corte data-candado aria-busy={verificando} className="mt-3 max-w-prose rounded-3xl border border-[#C9A96E]/60 bg-[#1B1815] p-5 md:mt-8 md:p-6">
       <h2 className="font-display text-xl">{c.titulo}</h2>
       {fallo ? <p role="status" className="mt-2 text-[#F4ECE2]/85">{FALLO[lang]}</p> : null}
       <p className="mt-2 text-base leading-relaxed text-[#F4ECE2]/90">{c.texto}</p>
@@ -105,6 +110,15 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa,
   const bloques = useRef<(HTMLElement | null)[]>([]);
   const visor = useRef<HTMLDivElement>(null);
   const total = datos.pasos.length;
+  const [cab, setCab] = useState(0);
+
+  // El visor sticky en móvil cuelga bajo la cabecera sticky del sitio: se mide su alto.
+  useEffect(() => {
+    const medir = () => setCab(Math.round(document.querySelector<HTMLElement>("[data-cabecera]")?.getBoundingClientRect().height ?? 0));
+    medir();
+    window.addEventListener("resize", medir);
+    return () => window.removeEventListener("resize", medir);
+  }, []);
 
   useEffect(() => {
     if (typeof window.matchMedia !== "function") return;
@@ -136,15 +150,15 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa,
     const calcular = () => {
       cuadro = 0;
       const vh = window.innerHeight;
-      // En móvil el visor es sticky arriba: el foco se mide en la franja de texto de debajo.
+      // Móvil: el visor es sticky arriba y el texto pasa por debajo; la franja de texto empieza en su borde inferior.
       const base = window.innerWidth < 768 ? (visor.current?.getBoundingClientRect().bottom ?? 0) : 0;
-      const linea = base + (vh - base) * 0.45;
-      const centros = bloques.current.map((el) => {
+      // Línea de foco cerca del borde superior de la franja de texto: el paso se activa cuando su título entra.
+      const linea = base + (vh - base) * (base ? 0.3 : 0.4);
+      const titulos = bloques.current.map((el) => {
         if (!el) return Infinity;
-        const r = el.getBoundingClientRect();
-        return r.top + r.height / 2;
+        return (el.querySelector("h2, h3") ?? el).getBoundingClientRect().top;
       });
-      setActivo(indiceActivo(centros, linea));
+      setActivo(indiceActivo(titulos, linea));
     };
     const pide = () => {
       if (!cuadro) cuadro = requestAnimationFrame(calcular);
@@ -165,17 +179,18 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa,
     const op = opacidadBloque({ revelado: reveladas.has(i), activo: indice === i }, reducido);
     return reducido ? undefined : { opacity: op, transform: op === 0 ? "translateY(14px)" : "none", transition: "opacity 700ms ease, transform 700ms ease" };
   };
-  const clase = "flex min-h-[48svh] flex-col justify-center py-6 md:min-h-[62svh]";
+  // Móvil: cada bloque ocupa la franja de texto visible (pantalla − cabecera − visor), un paso por franja.
+  const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_58svh))] flex-col justify-center py-6 md:min-h-[62svh]";
   const ref = (i: number) => (el: HTMLElement | null) => {
     bloques.current[i] = el;
   };
   return (
-    <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined}>
+    <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
       <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div ref={visor} className="sticky top-0 z-10 md:h-svh md:self-start">
-          <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[44svh] md:h-svh" />
+        <div ref={visor} className="sticky top-[var(--cab)] z-10 md:top-0 md:h-svh md:self-start">
+          <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[58svh] md:h-svh" />
         </div>
-        <div className="px-5 pb-[30svh] md:px-10">
+        <div className="relative z-20 -mt-5 rounded-t-3xl bg-[#0C0B09] px-5 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:mt-0 md:rounded-none md:shadow-none md:px-10">
           <h1 className="font-display t-h1 pt-6 md:pt-[12svh]">{titulo}</h1>
           <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
             <Apertura a={datos.apertura} />
@@ -274,11 +289,11 @@ export function SalaCuenta({
   const verificando = !!userId && !respuesta && !fallo;
   return (
     <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]" data-vista={vista}>
-      <VisorObra src={src} obraId={obraId} alt={alt} paso={null} reducido className="h-[44svh] md:h-[56svh]" />
-      <div className="mx-auto w-full max-w-3xl px-5 pt-5 md:px-8 md:pt-8">
-        <h1 className="font-display t-h1">{titulo}</h1>
+      <VisorObra src={src} obraId={obraId} alt={alt} paso={null} reducido className="h-[38svh] md:h-[50svh]" />
+      <div className="mx-auto w-full max-w-3xl px-5 pt-4 md:px-8 md:pt-8">
+        <h1 className="font-display t-h1 max-md:!text-[1.75rem]">{titulo}</h1>
         {apertura ? (
-          <div data-apertura className="mt-4">
+          <div data-apertura className="mt-3 md:mt-4">
             <Apertura a={apertura} />
           </div>
         ) : null}

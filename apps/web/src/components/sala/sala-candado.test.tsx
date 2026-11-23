@@ -117,6 +117,8 @@ describe("relato con scroll (premium)", () => {
     expect(reducido).toContain("data-zoom=\"1\"");
     expect(reducido).toContain(paso2.texto.es.slice(0, 40));
     expect(reducido).toContain(r.cierre.texto.es.slice(0, 40));
-    expect(reducido).toContain("transform:none");
+    expect(reducido).toContain("scale(1)");
+    expect(reducido).toContain("transition:none");
+    expect(reducido).not.toContain("object-contain");
   });
 });

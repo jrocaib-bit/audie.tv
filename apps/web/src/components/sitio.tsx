@@ -23,6 +23,7 @@ import { Rail } from "@/components/sala/rail";
 import { RetoCartel } from "@/components/sala/reto-cartel";
 import { tiendasVisibles } from "@/lib/tiendas-app";
 import { PaywallWeb } from "@/components/paywall-web";
+import { EnlaceCuenta } from "@/components/enlace-cuenta";
 import { EnlaceSoporte } from "@/components/enlace-soporte";
 import { FormularioBoletin } from "@/components/formularios";
 import { marcaFormulario } from "@/lib/formularios/acciones";
@@ -72,9 +73,9 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
           <Link href={`/${lang}/app`} className="hidden min-h-11 items-center md:inline-flex">
             App
           </Link>
-          <Link href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center">
+          <EnlaceCuenta href={`/${lang}/entrar`} className="inline-flex min-h-11 items-center" cuenta={ui === "en" ? "Account" : "Cuenta"}>
             {etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)}
-          </Link>
+          </EnlaceCuenta>
           <SelectorIdioma lang={lang} claro={sobreObra} />
         </nav>
       </div>
