@@ -1,6 +1,7 @@
 import { destinoTrasEntrar, hrefEntrarParaSala, rutaInternaSegura } from "@audite/domain";
 import { describe, expect, it } from "vitest";
-import { datosVistaSala, idsSala, recorridoSala, vistaSala } from "./sala-cuenta";
+import { datosVistaSala, vistaSala } from "./sala-cuenta";
+import { idsSala, recorridoSala, resolverRecorrido } from "./sala-recorridos";
 import { CLAVE_VUELTA } from "./vuelta-entrar";
 
 describe("candado de cuenta de La sala (web)", () => {
@@ -66,26 +67,29 @@ describe("recorridos-sala.json", () => {
 });
 
 describe("vista de La sala por sesión", () => {
-  it("adelanto: sin textos ni pasos y con next seguro", () => {
+  it("adelanto: solo vista y next seguro, sin textos", () => {
     for (const s of [null, undefined]) {
       const a = datosVistaSala(s, "gn-01", "es");
-      expect(a.vista).toBe("adelanto");
-      expect(a.recorrido).toBeNull();
-      expect(a.hrefEntrar).toBe("/es/entrar?next=%2Fes%2Fsala");
+      expect(a).toEqual({ vista: "adelanto", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
       const b = datosVistaSala(s, "gn-02", "es");
-      expect(b.recorrido).toBeNull();
       expect(b.hrefEntrar).toBe("/es/entrar?next=%2Fes%2Fsala%2Fgn-02");
       expect(rutaInternaSegura(decodeURIComponent(b.hrefEntrar.split("next=")[1]!))).toBe("/es/sala/gn-02");
     }
   });
-  it("recorrido: devuelve apertura, pasos y cierre completos", () => {
-    const v = datosVistaSala({ userId: "u1" }, "gn-01", "es");
+  it("con sesión la vista es recorrido y no lleva textos (los pide el cliente al endpoint)", () => {
+    expect(datosVistaSala({ userId: "u1" }, "gn-01", "es")).toEqual({ vista: "recorrido", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
+  });
+});
+
+describe("resolverRecorrido (servidor)", () => {
+  it("devuelve apertura, pasos y cierre completos", () => {
+    const v = resolverRecorrido("gn-01", "es")!;
     const r = recorridoSala("gn-01")!;
-    expect(v.vista).toBe("recorrido");
-    expect(v.recorrido?.apertura.titulo).toBe("Un círculo de nogal para el principio");
-    expect(v.recorrido?.apertura.texto).toBe(r.apertura.texto.es);
-    expect(v.recorrido?.pasos).toHaveLength(r.pasos.length);
-    expect(v.recorrido?.cierre.texto).toBe(r.cierre.texto.es);
-    expect(datosVistaSala({ userId: "u1" }, "gn-02", "en").recorrido?.apertura.titulo).toBe(recorridoSala("gn-02")!.apertura.titulo.en);
+    expect(v.apertura.titulo).toBe("Un círculo de nogal para el principio");
+    expect(v.apertura.texto).toBe(r.apertura.texto.es);
+    expect(v.pasos).toHaveLength(r.pasos.length);
+    expect(v.cierre.texto).toBe(r.cierre.texto.es);
+    expect(resolverRecorrido("gn-02", "en")?.apertura.titulo).toBe(recorridoSala("gn-02")!.apertura.titulo.en);
+    expect(resolverRecorrido("nope", "es")).toBeNull();
   });
 });

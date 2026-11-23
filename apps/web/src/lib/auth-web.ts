@@ -51,6 +51,14 @@ export async function sesionWeb(): Promise<Sesion | null> {
   return { userId: user.id, email: user.email ?? null, proveedor: "correo" };
 }
 
+/** Token de acceso de la sesión actual (para llamar a endpoints autenticados). No se registra en logs. */
+export async function tokenWeb(): Promise<string | null> {
+  const remoto = supabaseWeb();
+  if (!remoto) return null;
+  const { data } = await remoto.auth.getSession();
+  return data.session?.access_token ?? null;
+}
+
 export async function cerrarWeb(): Promise<void> {
   await supabaseWeb()?.auth.signOut();
 }

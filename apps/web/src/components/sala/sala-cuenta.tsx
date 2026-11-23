@@ -4,7 +4,7 @@ import { textosAlta, type Sesion } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { Lienzo } from "@/components/sala/lienzo";
-import { sesionWeb } from "@/lib/auth-web";
+import { sesionWeb, tokenWeb } from "@/lib/auth-web";
 import { datosVistaSala, type RecorridoVista } from "@/lib/sala-cuenta";
 
 const INVITA = {
@@ -14,6 +14,8 @@ const INVITA = {
 const CREAR = { es: "Crear cuenta", en: "Create account" };
 const OIR = { es: "Escuchar el episodio", en: "Listen to the episode" };
 const VER = { es: "Ver en la obra", en: "Look at this detail" };
+const CARGANDO = { es: "Cargando el recorrido…", en: "Loading the walk-through…" };
+const FALLO = { es: "No pudimos cargar el recorrido. Vuelve a intentarlo en un momento.", en: "We couldn't load the walk-through. Please try again in a moment." };
 const TODA = { es: "Ver la obra entera", en: "See the whole work" };
 
 type Paso = RecorridoVista["pasos"][number];
@@ -32,7 +34,7 @@ function transformaPaso(paso: Paso | null, aspecto: number | null, caja: { w: nu
   return { transform: `translate(${tx}px, ${ty}px) scale(${paso.zoom})`, transformOrigin: "0 0" };
 }
 
-function VisorObra({ src, obraId, alt, paso }: { src: string; obraId?: string; alt: string; paso: Paso | null }) {
+function VisorObra({ src, obraId, alt, paso, adelanto = false }: { src: string; obraId?: string; alt: string; paso: Paso | null; adelanto?: boolean }) {
   const [aspecto, setAspecto] = useState<number | null>(null);
   const [caja, setCaja] = useState({ w: 1280, h: 700 });
   useEffect(() => {
@@ -48,7 +50,7 @@ function VisorObra({ src, obraId, alt, paso }: { src: string; obraId?: string; a
     return () => window.removeEventListener("resize", medir);
   }, []);
   return (
-    <div className="h-[62svh] overflow-hidden md:h-[70svh]" data-zoom={paso ? paso.zoom : 1}>
+    <div className={adelanto ? "min-h-0 flex-1 overflow-hidden" : "h-[62svh] overflow-hidden md:h-[70svh]"} data-zoom={paso ? paso.zoom : 1}>
       <div className="h-full w-full transition-transform duration-700 ease-out motion-reduce:transition-none" style={transformaPaso(paso, aspecto, caja)}>
         <Lienzo src={src} obraId={obraId} alt={alt} priority className="h-full" />
       </div>
@@ -64,8 +66,6 @@ export function SalaCuenta({
   obraId,
   alt,
   titulo,
-  resumen,
-  recorrido,
   placa,
   sesionMock,
 }: {
@@ -75,30 +75,77 @@ export function SalaCuenta({
   obraId?: string;
   alt: string;
   titulo: string;
-  resumen: string;
-  recorrido?: RecorridoVista | null;
   placa?: ReactNode;
   sesionMock?: Pick<Sesion, "userId"> | null;
 }) {
   const copy = textosAlta(lang);
   const [sesion, setSesion] = useState<Pick<Sesion, "userId"> | null | undefined>(sesionMock);
+  const [datos, setDatos] = useState<RecorridoVista | null>(null);
+  const [fallo, setFallo] = useState(false);
   const [activo, setActivo] = useState<number | null>(null);
   useEffect(() => {
     if (sesionMock !== undefined) return;
     void sesionWeb().then(setSesion).catch(() => setSesion(null));
   }, [sesionMock]);
-  const { vista, hrefEntrar, recorrido: rec } = datosVistaSala(sesion, id, lang);
-  // Sin sesión no se pinta ningún texto narrativo aunque el servidor lo haya enviado.
-  const datos = vista === "recorrido" ? (rec ?? recorrido ?? null) : null;
+  const { vista, hrefEntrar } = datosVistaSala(sesion, id, lang);
+  // El servidor no envía el recorrido: con sesión confirmada se pide a un endpoint que verifica el token.
+  useEffect(() => {
+    if (vista !== "recorrido") {
+      setDatos(null);
+      setFallo(false);
+      return;
+    }
+    let vivo = true;
+    const cabeceras: Record<string, string> = {};
+    void (async () => {
+      try {
+        // `sesionMock` solo existe fuera de producción (capturas): el endpoint solo lo acepta fuera de producción.
+        if (sesionMock !== undefined) cabeceras["x-sala-mock"] = "1";
+        else {
+          const token = await tokenWeb();
+          if (!token) throw new Error("sin-token");
+          cabeceras.Authorization = `Bearer ${token}`;
+        }
+        const r = await fetch(`/api/sala/${encodeURIComponent(id)}?lang=${lang}`, { headers: cabeceras, cache: "no-store" });
+        if (!r.ok) throw new Error("carga");
+        const json = (await r.json()) as RecorridoVista;
+        if (vivo) setDatos(json);
+      } catch {
+        if (vivo) setFallo(true);
+      }
+    })();
+    return () => {
+      vivo = false;
+    };
+  }, [vista, id, lang, sesionMock]);
   const paso = datos && activo !== null ? (datos.pasos[activo] ?? null) : null;
 
+  if (vista === "adelanto") {
+    return (
+      <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="adelanto">
+        <div data-primera-pantalla className="flex h-[calc(100svh-11.5rem)] min-h-[22rem] flex-col md:h-[calc(100svh-6.5rem)]">
+          <VisorObra src={src} obraId={obraId} alt={alt} paso={null} adelanto />
+          <div className="mx-auto w-full max-w-3xl shrink-0 px-5 pb-4 pt-3 md:px-8 md:pb-6">
+            <h1 className="font-display t-h1">{titulo}</h1>
+            <section data-candado className="mt-3 max-w-prose rounded-3xl border border-[#2E2924] bg-[#1B1815] p-4 md:p-6">
+              <p className="text-base leading-relaxed text-[#F4ECE2]/90 md:text-lg">{INVITA[lang]}</p>
+              <div className="mt-3 flex flex-wrap gap-3 md:mt-5">
+                <Link href={hrefEntrar} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{CREAR[lang]}</Link>
+                <Link href={hrefEntrar} className="inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.entrar}</Link>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]" data-vista={vista}>
+    <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]" data-vista="recorrido">
       <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} />
       <div className="mx-auto w-full max-w-3xl px-5 pt-6 md:px-8">
         <h1 className="font-display t-h1">{titulo}</h1>
-        {vista === "recorrido" ? (
-          <section aria-label={titulo} className="mt-6 grid gap-8">
+        <section aria-label={titulo} className="mt-6 grid gap-8">
             {datos ? (
               <>
                 <div data-apertura>
@@ -128,20 +175,11 @@ export function SalaCuenta({
                 </div>
               </>
             ) : (
-              <p className="max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{resumen}</p>
+              <p role="status" className="max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{fallo ? FALLO[lang] : CARGANDO[lang]}</p>
             )}
             {placa ? <div className="max-w-sm">{placa}</div> : null}
             <Link href={`/${lang}/oir/${id}`} className="inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{OIR[lang]}</Link>
-          </section>
-        ) : (
-          <section data-candado className="mt-6 max-w-prose rounded-3xl border border-[#2E2924] bg-[#1B1815] p-6">
-            <p className="text-lg leading-relaxed text-[#F4ECE2]/90">{INVITA[lang]}</p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link href={hrefEntrar} className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{CREAR[lang]}</Link>
-              <Link href={hrefEntrar} className="inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.entrar}</Link>
-            </div>
-          </section>
-        )}
+        </section>
       </div>
     </main>
   );

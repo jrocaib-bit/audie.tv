@@ -1,6 +1,5 @@
-/** Candado de cuenta de La sala (función pura): los recorridos y textos solo se ven con sesión iniciada. */
+/** Candado de cuenta de La sala (seguro para el cliente): tipos y vista. No importa textos narrativos; esos viven en un módulo solo de servidor. */
 import { hrefEntrarParaSala } from "@audite/domain";
-import datos from "@/datos/recorridos-sala.json";
 
 export type SesionMinima = { userId: string } | null | undefined;
 export type VistaSala = "recorrido" | "adelanto";
@@ -16,16 +15,6 @@ export type RecorridoVista = {
 };
 
 export const SALA_POR_DEFECTO = "gn-01";
-const RECORRIDOS = datos as Record<string, RecorridoSala>;
-
-export function idsSala(): string[] {
-  return Object.keys(RECORRIDOS);
-}
-
-export function recorridoSala(id: string): RecorridoSala | null {
-  return Object.prototype.hasOwnProperty.call(RECORRIDOS, id) ? RECORRIDOS[id]! : null;
-}
-
 export function vistaSala(sesion: SesionMinima): VistaSala {
   return sesion && sesion.userId ? "recorrido" : "adelanto";
 }
@@ -35,23 +24,7 @@ export function rutaSala(lang: Idioma, id: string): string {
   return id === SALA_POR_DEFECTO ? `/${lang}/sala` : `/${lang}/sala/${id}`;
 }
 
-export function resolverRecorrido(id: string, lang: Idioma): RecorridoVista | null {
-  const r = recorridoSala(id);
-  if (!r) return null;
-  return {
-    apertura: { titulo: r.apertura.titulo[lang], texto: r.apertura.texto[lang] },
-    pasos: r.pasos.map((p) => ({ x: p.x, y: p.y, zoom: p.zoom, titulo: p.titulo[lang], texto: p.texto[lang] })),
-    cierre: { titulo: r.cierre.titulo[lang], texto: r.cierre.texto[lang] },
-  };
-}
-
-/**
- * Qué se muestra según la sesión. Sin sesión: solo título y enlace de entrada con `?next=` seguro
- * (sin apertura, pasos ni cierre). Con sesión: el recorrido completo.
- */
+/** Vista según la sesión y enlace de entrada con `?next=` seguro. Nunca resuelve textos narrativos. */
 export function datosVistaSala(sesion: SesionMinima, id: string, lang: Idioma) {
-  const vista = vistaSala(sesion);
-  const hrefEntrar = hrefEntrarParaSala(lang, rutaSala(lang, id));
-  if (vista === "adelanto") return { vista, hrefEntrar, recorrido: null } as const;
-  return { vista, hrefEntrar, recorrido: resolverRecorrido(id, lang) } as const;
+  return { vista: vistaSala(sesion), hrefEntrar: hrefEntrarParaSala(lang, rutaSala(lang, id)) } as const;
 }

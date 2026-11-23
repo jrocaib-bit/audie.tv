@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { idsSala, recorridoSala } from "@/lib/sala-cuenta";
+import { idsSala, recorridoSala } from "@/lib/sala-recorridos";
 import { SalaPagina } from "../sala-pagina";
 
 export const metadata: Metadata = { title: "La sala" };
