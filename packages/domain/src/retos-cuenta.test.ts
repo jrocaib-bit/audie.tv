@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { hrefDePasoAdviento } from "./precio";
 import { accionReto, destinoTrasEntrar, hrefEntrarParaReto, rutaRetoSegura } from "./retos-cuenta";
 
 describe("retos con cuenta", () => {
@@ -29,5 +30,13 @@ describe("retos con cuenta", () => {
   });
   it("vuelve al reto tras entrar", () => {
     expect(destinoTrasEntrar("/reto/adviento-isaias")).toBe("/reto/adviento-isaias");
+  });
+  it("oír un paso de Adviento sin sesión entra con next al reto; con sesión escucha", () => {
+    const cuenta = hrefEntrarParaReto("es", "/reto/adviento-isaias");
+    expect(cuenta).toBe("/es/entrar?next=%2Freto%2Fadviento-isaias");
+    expect(hrefDePasoAdviento(false, "/ahora?e=is-02", cuenta)).toBe("/es/entrar?next=%2Freto%2Fadviento-isaias");
+    expect(hrefDePasoAdviento(true, "/ahora?e=is-02", cuenta)).toBe("/ahora?e=is-02");
+    const marcar = accionReto(false, "es", "/reto/adviento-isaias");
+    expect(marcar.tipo === "entrar" && marcar.href).toBe(cuenta);
   });
 });

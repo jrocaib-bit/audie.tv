@@ -1,6 +1,6 @@
 "use client";
 
-import { accionReto, idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { accionReto, hrefEntrarParaReto, idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
@@ -56,7 +56,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
     if (reto.id !== "adviento-isaias") return;
     void sesionWeb().then((sesion) => setConCuenta(Boolean(sesion)));
   }, [reto.id]);
-  const destino = (href: string) => reto.id === "adviento-isaias" ? hrefDePasoAdviento(conCuenta, href, "/es/entrar") : href;
+  const destino = (href: string) => reto.id === "adviento-isaias" ? hrefDePasoAdviento(conCuenta, href, hrefEntrarParaReto("es", `/reto/${reto.id}`)) : href;
   const playHref = destino(fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`);
   const otros = RETOS.filter((item) => item.id !== reto.id);
   // Los retos exigen cuenta: sin sesión no se mide ni se guarda nada, solo se va a entrar.
