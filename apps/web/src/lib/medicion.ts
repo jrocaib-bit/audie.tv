@@ -1,6 +1,6 @@
 "use client";
 
-import { track, utmDeBusqueda, type ContextoMedicion, type Evento, type FilaEvento, type FilaReto, type PropsDe } from "@audite/domain";
+import { clasificarTrafico, crearSumideroSupabase, track, utmDeBusqueda, type ClienteMedicion, type ContextoMedicion, type Evento, type PropsDe } from "@audite/domain";
 
 declare global {
   interface Window {
@@ -22,9 +22,12 @@ function sesionId(): string {
 
 async function contexto(): Promise<ContextoMedicion> {
   let user_id: string | null = null;
+  let email: string | null = null;
   try {
     const remoto = supabaseWeb();
-    user_id = (await remoto?.auth.getSession())?.data.session?.user.id ?? null;
+    const usuario = (await remoto?.auth.getSession())?.data.session?.user;
+    user_id = usuario?.id ?? null;
+    email = usuario?.email ?? null;
   } catch {
     user_id = null;
   }
@@ -34,6 +37,7 @@ async function contexto(): Promise<ContextoMedicion> {
     locale: typeof document === "undefined" ? "es" : document.documentElement.lang || "es",
     session_id: sesionId(),
     user_id,
+    trafico: clasificarTrafico({ email, userAgent: typeof navigator === "undefined" ? "" : navigator.userAgent }),
   };
 }
 
@@ -55,16 +59,7 @@ export function medir<E extends Evento>(nombre: E, propiedades: PropsDe[E]): voi
   }
   void (async () => {
     const ctx = await contexto();
-    const remoto = supabaseWeb();
-    track(nombre, props, ctx, {
-      evento: async (fila: FilaEvento) => {
-        if (!remoto) return;
-        await remoto.from("analytics_events").insert(fila);
-      },
-      progreso: async (fila: FilaReto) => {
-        if (!remoto) return;
-        await remoto.from("reto_progreso").upsert(fila);
-      },
-    });
-  })().catch(() => undefined);
+    const sumidero = crearSumideroSupabase(supabaseWeb() as unknown as ClienteMedicion | null);
+    track(nombre, props, ctx, sumidero, new Date(), (f) => console.warn("[medicion]", f.donde, f.evento, f.codigo));
+  })().catch(() => console.warn("[medicion] contexto"));
 }
