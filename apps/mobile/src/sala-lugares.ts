@@ -1,5 +1,5 @@
-export type TipoSilueta = "rijksmuseum" | "met" | "getty" | "clasico" | "biblioteca" | "capilla";
-export type TipoSala = "galeria-holandesa" | "galeria-clasica" | "capilla-vitral" | "gabinete-estampas" | "galeria-piedra";
+export type TipoSilueta = "bonnefanten" | "rijksmuseum" | "met" | "getty" | "clasico" | "biblioteca" | "capilla";
+export type TipoSala = "galeria-ladrillo" | "galeria-holandesa" | "galeria-clasica" | "capilla-vitral" | "gabinete-estampas" | "galeria-piedra";
 export type MedioObra = "pintura" | "vitral" | "estampa" | "piedra" | "lamina";
 
 export type LugarObra = {
@@ -25,6 +25,18 @@ type SedeBase = {
 };
 
 const SEDES: SedeBase[] = [
+  {
+    // Bonnefantenmuseum, Avenue Céramique 250 (Aldo Rossi, 1995). Allí está en préstamo desde 2004
+    // «El paraíso» (SK-A-780) de Herri met de Bles, propiedad del Rijksmuseum.
+    id: "bonnefanten",
+    patron: /Bonnefanten/i,
+    lat: 50.842529,
+    lon: 5.701984,
+    ciudad: { es: "Maastricht", en: "Maastricht" },
+    edificio: { es: "Bonnefantenmuseum", en: "Bonnefantenmuseum" },
+    silueta: "bonnefanten",
+    salaPorDefecto: "galeria-ladrillo",
+  },
   {
     id: "rijksmuseum",
     patron: /Rijksmuseum/i,
@@ -166,6 +178,11 @@ const SEDES: SedeBase[] = [
     salaPorDefecto: "gabinete-estampas",
   },
 ];
+
+/** Coordenadas de cada sede (para el vuelo en vivo de sala-vuelo.ts). */
+export const SEDES_COORDENADAS: Record<string, { lat: number | null; lon: number | null }> = Object.fromEntries(
+  SEDES.map((s) => [s.id, { lat: s.lat, lon: s.lon }]),
+);
 
 export function formatearCoordenadas(lat: number | null, lon: number | null): string {
   if (lat == null || lon == null || !Number.isFinite(lat) || !Number.isFinite(lon)) return "";

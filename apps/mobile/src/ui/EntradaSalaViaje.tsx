@@ -13,7 +13,9 @@ import Animated, {
 } from "react-native-reanimated";
 import type { ViajeSede } from "../sala-assets";
 import type { LugarObra } from "../sala-lugares";
+import { ESPERA_LISTO_VUELO_MS, type MensajeVuelo, type PlanVuelo } from "../sala-vuelo";
 import { fonts } from "../theme";
+import { VueloGoogle3D } from "./VueloGoogle3D";
 
 /** Línea de tiempo (ms) del viaje: espacio -> Tierra -> ciudad -> edificio -> sala. */
 export type TiemposViaje = {
@@ -41,6 +43,9 @@ type Props = {
   reloj: SharedValue<number>;
   tiempos: TiemposViaje;
   onTerminar: () => void;
+  /** Vuelo en vivo (Google 3D Tiles). Si es null, o falla, se usa la entrada v2 (vídeo + fotos). */
+  vuelo?: { plan: PlanVuelo; clave: string } | null;
+  onVueloFallido?: () => void;
 };
 
 /**
@@ -48,7 +53,9 @@ type Props = {
  * vídeo pre-renderizado (estrellas + Tierra NASA + satélite Sentinel-2) -> fachada real -> sala.
  * La entrada en la sala (cámara que avanza hacia la obra) la dibuja la pantalla con el mismo reloj.
  */
-export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, reloj, tiempos, onTerminar }: Props) {
+export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, reloj, tiempos, onTerminar, vuelo, onVueloFallido }: Props) {
+  const vivo = Boolean(vuelo);
+  const arrancadoVivo = useRef(false);
   const arrancado = useRef(false);
   const terminado = useRef(false);
   const T = tiempos.total;
@@ -81,7 +88,38 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
     });
   }, [T, player, reloj, terminar]);
 
+  // Vuelo en vivo: el reloj arranca cuando la WebView avisa «listo». Si tarda demasiado o falla, se cae al viaje v2.
+  const arrancarVivo = useCallback(() => {
+    if (arrancadoVivo.current) return;
+    arrancadoVivo.current = true;
+    reloj.value = 0;
+    reloj.value = withTiming(T, { duration: T, easing: Easing.linear }, (fin) => {
+      if (fin) runOnJS(terminar)();
+    });
+  }, [T, reloj, terminar]);
+
+  const alMensajeVuelo = useCallback(
+    (m: MensajeVuelo) => {
+      if (m.tipo === "listo") arrancarVivo();
+      else if (m.tipo === "error" && !arrancadoVivo.current) onVueloFallido?.();
+    },
+    [arrancarVivo, onVueloFallido],
+  );
+
   useEffect(() => {
+    if (!vivo) return;
+    reloj.value = 0;
+    const espera = setTimeout(() => {
+      if (!arrancadoVivo.current) onVueloFallido?.();
+    }, ESPERA_LISTO_VUELO_MS);
+    return () => {
+      clearTimeout(espera);
+      cancelAnimation(reloj);
+    };
+  }, [onVueloFallido, reloj, vivo]);
+
+  useEffect(() => {
+    if (vivo) return;
     reloj.value = 0;
     const sub = player.addListener("statusChange", ({ status }) => {
       if (status === "readyToPlay") arrancar();
@@ -94,10 +132,11 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
       clearTimeout(respaldo);
       cancelAnimation(reloj);
     };
-  }, [arrancar, player, reloj]);
+  }, [arrancar, player, reloj, vivo]);
 
   const saltar = useCallback(() => {
     arrancado.current = true;
+    arrancadoVivo.current = true;
     cancelAnimation(reloj);
     const desde = Math.max(reloj.value, tiempos.salaIn - 200);
     reloj.value = desde;
@@ -149,6 +188,10 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
     transform: [{ scale: interpolate(reloj.value, [1500, tiempos.finalIn + 500], [1.6, 0.9], Extrapolation.CLAMP) }],
   }));
 
+  const estiloVivo = useAnimatedStyle(() => ({
+    opacity: interpolate(reloj.value, [0, 250], [0, 1], Extrapolation.CLAMP),
+  }));
+
   const ciudad = lugar.ciudad[lang] || lugar.ciudad.es;
   const edificio = lugar.edificio[lang] || lugar.edificio.es;
 
@@ -159,24 +202,32 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
           <Animated.View style={[StyleSheet.absoluteFill, estiloPoster]}>
             <Image source={viaje.inicio} resizeMode="cover" style={StyleSheet.absoluteFill} accessibilityIgnoresInvertColors />
           </Animated.View>
-          <Animated.View style={[StyleSheet.absoluteFill, estiloVideo]}>
-            <VideoView player={player} nativeControls={false} contentFit="cover" allowsPictureInPicture={false} style={StyleSheet.absoluteFill} />
-          </Animated.View>
-          <Animated.View style={[StyleSheet.absoluteFill, estiloFinal]}>
-            <Image source={viaje.final} resizeMode="cover" style={StyleSheet.absoluteFill} />
-          </Animated.View>
-          {lugar.lat != null ? (
-            <Animated.View style={[styles.pin, estiloPin]}>
-              <View style={styles.pinAro} />
-              <View style={styles.pinPunto} />
+          {vivo && vuelo ? (
+            <Animated.View style={[StyleSheet.absoluteFill, estiloVivo]}>
+              <VueloGoogle3D plan={vuelo.plan} clave={vuelo.clave} onMensaje={alMensajeVuelo} />
             </Animated.View>
-          ) : null}
-          {viaje.edificio ? (
-            <Animated.View style={[StyleSheet.absoluteFill, estiloEdificio]}>
-              <Image source={viaje.edificio} resizeMode="cover" style={StyleSheet.absoluteFill} accessibilityLabel={edificio} />
-            </Animated.View>
-          ) : null}
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.06)" }]} />
+          ) : (
+            <>
+              <Animated.View style={[StyleSheet.absoluteFill, estiloVideo]}>
+                <VideoView player={player} nativeControls={false} contentFit="cover" allowsPictureInPicture={false} style={StyleSheet.absoluteFill} />
+              </Animated.View>
+              <Animated.View style={[StyleSheet.absoluteFill, estiloFinal]}>
+                <Image source={viaje.final} resizeMode="cover" style={StyleSheet.absoluteFill} />
+              </Animated.View>
+              {lugar.lat != null ? (
+                <Animated.View style={[styles.pin, estiloPin]}>
+                  <View style={styles.pinAro} />
+                  <View style={styles.pinPunto} />
+                </Animated.View>
+              ) : null}
+              {viaje.edificio ? (
+                <Animated.View style={[StyleSheet.absoluteFill, estiloEdificio]}>
+                  <Image source={viaje.edificio} resizeMode="cover" style={StyleSheet.absoluteFill} accessibilityLabel={edificio} />
+                </Animated.View>
+              ) : null}
+            </>
+          )}
+          {vivo ? null : <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.06)" }]} />}
         </View>
 
         {edificio || ciudad ? (

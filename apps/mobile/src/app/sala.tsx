@@ -2,7 +2,7 @@ import { frameAt } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions, type LayoutChangeEvent } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type LayoutChangeEvent } from "react-native";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -18,9 +18,11 @@ import { bucleDe, medidasHueco } from "../bucles";
 import { uriDeObra } from "../entorno";
 import { infoEpisodio } from "../hoy";
 import { fichaMuseoObra, seleccionarObraSala, tamanoObraSala } from "../sala";
-import { ESPACIOS, VIAJES, componerSala, espacioDeEpisodio, mascaraDeObra } from "../sala-assets";
+import { ESPACIOS, VIAJES, componerSala, espacioDeEpisodio, mascaraDeObra, obraCompleta } from "../sala-assets";
 import { resolverLugarObra } from "../sala-lugares";
+import { debeMostrarEntradaSala, invitacionSala, paradasSegunSesion } from "../sala-cuenta";
 import { camaraDeParadas, paradasDeEpisodio } from "../sala-recorrido";
+import { claveMapTiles, decidirVuelo, planDeVuelo, tiemposVueloVivo } from "../sala-vuelo";
 import { tx } from "../textos";
 import { fonts } from "../theme";
 import { BotonRedondo } from "../ui/Basicos";
@@ -30,6 +32,7 @@ import { Pulsable } from "../ui/Pulsable";
 import { haptico, useMovimientoReducido, useTema } from "../ui/tema";
 import { useContextoCatalogo } from "../ui/useHoy";
 import { useReproducir } from "../ui/useReproducir";
+import { useSesion } from "../ui/useSesion";
 
 export default function LaSala() {
   const { c, lang, library } = useTema();
@@ -73,7 +76,10 @@ export default function LaSala() {
 
   const ficha = useMemo(() => fichaMuseoObra(episodioId, lang, artworkCue), [artworkCue, episodioId, lang]);
   const bucle = useMemo(() => bucleDe(episodioId), [episodioId]);
-  const src = ficha.src || info.src;
+  const srcBase = ficha.src || info.src;
+  // Obras que la sala muestra enteras (p. ej. el tondo de gn-01, no su recorte 16:9 de portada).
+  const completa = useMemo(() => (srcBase ? obraCompleta(srcBase) : null), [srcBase]);
+  const src = completa?.src ?? srcBase;
   const uri = src ? uriDeObra(src) : "";
 
   // Sede, sala concreta y medio reales del episodio (datos del museo; ver sala-espacios.json).
@@ -85,9 +91,21 @@ export default function LaSala() {
     [episodioId, espacioEp.sede, ficha.ubicacion],
   );
   const viaje = VIAJES[espacioEp.sede ?? "sin-lugar"];
-  const tiempos = useMemo(() => tiemposViaje(Boolean(viaje.edificio)), [viaje.edificio]);
 
-  const { paradas } = useMemo(
+  // Vuelo en vivo (Google 3D Tiles) si hay clave, no se pidió reducir movimiento y la sede lo tiene activo; si no, entrada v2.
+  const [vueloFallido, setVueloFallido] = useState(false);
+  const clave = claveMapTiles();
+  const modoVuelo = decidirVuelo({ clave, reducir, sede: espacioEp.sede, soportado: Platform.OS !== "web", fallido: vueloFallido });
+  const planVuelo = useMemo(
+    () => (espacioEp.sede ? planDeVuelo(espacioEp.sede, { margenInferior: insets.bottom + 6 }) : null),
+    [espacioEp.sede, insets.bottom],
+  );
+  const sesion = useSesion();
+  const entradaPermitida = debeMostrarEntradaSala(sesion, reducir);
+  const vuelo = entradaPermitida && modoVuelo === "vivo" && planVuelo ? { plan: planVuelo, clave } : null;
+  const tiempos = useMemo(() => (vuelo ? tiemposVueloVivo() : tiemposViaje(Boolean(viaje.edificio))), [vuelo, viaje.edificio]);
+
+  const { paradas: paradasTodas } = useMemo(
     () =>
       paradasDeEpisodio(episodioId, lang, {
         tituloObra: ficha.titulo,
@@ -96,11 +114,13 @@ export default function LaSala() {
       }),
     [episodioCatalogo?.summary, episodioId, ficha.titulo, info.titulo, lang],
   );
+  // Candado: sin sesión solo el adelanto (obra + título); el scrollytelling y los textos, con cuenta.
+  const { paradas, bloqueado } = useMemo(() => paradasSegunSesion(paradasTodas, sesion), [paradasTodas, sesion]);
 
   // Tamaño de la obra entera al empezar/terminar: siempre contenida y nunca recortada.
   const maxAncho = Math.max(180, Math.round(stageW * 0.84));
   const maxAlto = Math.max(170, Math.round(stageH * 0.5));
-  let ratioObra = ficha.ratio;
+  let ratioObra = completa?.ratio ?? ficha.ratio;
   if (bucle && bucle.aspect) {
     const caja = medidasHueco(bucle.aspect, 1000, 1000);
     if (caja.width > 0 && caja.height > 0) ratioObra = caja.width / caja.height;
@@ -149,13 +169,13 @@ export default function LaSala() {
   const scrollY = useSharedValue(0);
   const ultimoPaso = useSharedValue(0);
   const [pasoActivo, setPasoActivo] = useState(0);
-  const [mostrandoEntrada, setMostrandoEntrada] = useState(!reducir);
+  const [mostrandoEntrada, setMostrandoEntrada] = useState(entradaPermitida);
   const [entradaSeq, setEntradaSeq] = useState(0);
   // Reloj de la entrada (ms). Fuera de la entrada vale el total: la cámara queda asentada en la sala.
-  const reloj = useSharedValue(reducir ? 100000 : 0);
+  const reloj = useSharedValue(entradaPermitida ? 0 : 100000);
   useEffect(() => {
-    if (!mostrandoEntrada || reducir) reloj.value = 100000;
-  }, [mostrandoEntrada, reducir, reloj]);
+    if (!mostrandoEntrada || !entradaPermitida) reloj.value = 100000;
+  }, [mostrandoEntrada, entradaPermitida, reloj]);
 
   // Al cambiar de episodio se reinicia el recorrido y vuelve a lanzarse la entrada (salvo reducir movimiento).
   useEffect(() => {
@@ -163,8 +183,9 @@ export default function LaSala() {
     scrollY.value = 0;
     ultimoPaso.value = 0;
     scrollRef.current?.scrollTo({ y: 0, animated: false });
-    setMostrandoEntrada(!reducir);
-  }, [episodioId, reducir, scrollY, ultimoPaso]);
+    setMostrandoEntrada(entradaPermitida);
+    setVueloFallido(false);
+  }, [episodioId, entradaPermitida, scrollY, ultimoPaso]);
 
   const alCambiarPaso = useCallback((nuevo: number) => {
     setPasoActivo(nuevo);
@@ -248,7 +269,7 @@ export default function LaSala() {
     ) : null;
 
   return (
-    <View onLayout={onLayoutStage} style={{ flex: 1, backgroundColor: c.gallery, overflow: "hidden" }}>
+    <View onLayout={onLayoutStage} style={{ flex: 1, backgroundColor: bloqueado ? "#0C0B09" : c.gallery, overflow: "hidden" }}>
       {/* Sala real (fotográfica) y obra enmarcada comparten la misma cámara, con origen en el centro de la obra */}
       <Animated.View
         pointerEvents="none"
@@ -264,6 +285,7 @@ export default function LaSala() {
         ]}
       >
         <View style={{ position: "absolute", left: radioCamara - stageW / 2, top: radioCamara - centroObraY, width: stageW, height: stageH }}>
+          {!bloqueado ? (
           <Image
             source={espacio.imagen}
             resizeMode="stretch"
@@ -276,8 +298,10 @@ export default function LaSala() {
               height: composicion.sala.height,
             }}
           />
+          ) : null}
 
           {/* Foco cálido sobre la pared, o contraluz de la ventana */}
+          {!bloqueado ? (
           <Svg style={{ position: "absolute", left: 0, top: 0 }} width={stageW} height={stageH}>
             <Defs>
               <RadialGradient id="focoSala" cx="50%" cy="50%" rx="50%" ry="50%">
@@ -294,8 +318,9 @@ export default function LaSala() {
               fill="url(#focoSala)"
             />
           </Svg>
+          ) : null}
 
-          <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "#060508" }, estiloPenumbra]} />
+          {!bloqueado ? <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "#060508" }, estiloPenumbra]} /> : null}
 
           {/* La obra real, entera y sin recortar, con su marco y en perspectiva frontal */}
           <View
@@ -445,13 +470,27 @@ export default function LaSala() {
                   </Text>
                 ) : null}
 
-                {parada.texto ? (
+                {bloqueado ? (
+                  <View style={{ gap: 10 }} testID="sala-candado">
+                    <Text style={{ color: "rgba(244,236,226,0.9)", fontFamily: fonts.sans, fontSize: 15, lineHeight: 22 }}>{invitacionSala(lang)}</Text>
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                      <Pulsable onPress={() => router.push("/cuenta")} label={t.salaCrearCuenta} haptica escala={0.94}
+                        style={{ minHeight: 40, paddingHorizontal: 16, borderRadius: 999, backgroundColor: c.accent, justifyContent: "center" }}>
+                        <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.salaCrearCuenta}</Text>
+                      </Pulsable>
+                      <Pulsable onPress={() => router.push("/entrar")} label={t.entrar} haptica escala={0.94}
+                        style={{ minHeight: 40, paddingHorizontal: 16, borderRadius: 999, borderWidth: 1, borderColor: c.accent, justifyContent: "center" }}>
+                        <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14 }}>{t.entrar}</Text>
+                      </Pulsable>
+                    </View>
+                  </View>
+                ) : parada.texto ? (
                   <Text style={{ color: "rgba(244,236,226,0.9)", fontFamily: fonts.sans, fontSize: 15, lineHeight: 22 }}>
                     {parada.texto}
                   </Text>
                 ) : null}
 
-                {esApertura ? (
+                {esApertura && !bloqueado ? (
                   <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: 4, gap: 10 }}>
                     {seleccion.sinEpisodio ? (
                       <Pulsable
@@ -614,7 +653,7 @@ export default function LaSala() {
         </View>
 
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          {!reducir ? (
+          {entradaPermitida ? (
             <BotonRedondo
               c={c}
               nombre="orbita"
@@ -631,7 +670,7 @@ export default function LaSala() {
       </View>
 
       {/* Entrada fotorrealista desde el espacio hasta la sala real */}
-      {mostrandoEntrada && !reducir ? (
+      {mostrandoEntrada && entradaPermitida ? (
         <EntradaSalaViaje
           key={`${episodioId}-${entradaSeq}`}
           viaje={viaje}
@@ -641,6 +680,8 @@ export default function LaSala() {
           topInset={insets.top}
           reloj={reloj}
           tiempos={tiempos}
+          vuelo={vuelo}
+          onVueloFallido={() => setVueloFallido(true)}
           onTerminar={() => {
             setMostrandoEntrada(false);
             haptico();

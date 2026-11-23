@@ -43,7 +43,7 @@ export default function Creditos() {
             </View>
           ))}
           {CREDITOS_EDIFICIOS.map((item) => (
-            <View key={item.sede} style={{ paddingVertical: 8, borderTopWidth: 1, borderTopColor: c.line }}>
+            <View key={item.titulo} style={{ paddingVertical: 8, borderTopWidth: 1, borderTopColor: c.line }}>
               <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 }}>{item.titulo}</Text>
               <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>
                 {item.autor} · {item.licencia} · Wikimedia Commons (recortada y comprimida)

@@ -8,12 +8,15 @@
  *   ciudad = Sentinel-2 cloudless 2016 de EOX IT Services GmbH (CC BY 4.0, datos Copernicus Sentinel 2016);
  *   estrellas procedurales.
  * - edificios/*.webp: fotografías de Wikimedia Commons con CC0, CC BY 2.0 o dominio público (ver CREDITOS_EDIFICIOS).
- * - salas/*.webp: imágenes generadas para Audite inspiradas en el estilo verificable de cada museo.
+ * - salas/*.webp: imágenes generadas para Audite inspiradas en el estilo verificable de cada museo;
+ *   excepción: salas/bonnefanten-sala.webp es una fotografía real del interior del Bonnefantenmuseum (CC BY 2.0).
+ * - Vuelo en vivo (gn-01 y, más adelante, el resto de sedes): Google Photorealistic 3D Tiles + CesiumJS, ver sala-vuelo.ts.
  * Ninguna obra se altera: la obra real se compone encima, entera, en la app.
  */
 import espaciosJson from "./datos/sala-espacios.json";
 
 export type SedeId =
+  | "bonnefanten"
   | "rijksmuseum"
   | "met"
   | "cloisters"
@@ -29,6 +32,7 @@ export type SedeId =
 export type MedioSala = "pintura" | "vitral" | "estampa" | "lamina" | "objeto";
 
 export type EspacioId =
+  | "bonnefanten-sala"
   | "rijksmuseum-pintura"
   | "met-pintura"
   | "met-vitral"
@@ -69,14 +73,18 @@ export type Espacio = {
 export const ASPECTO_SALA = 864 / 1536;
 
 /** Sedes con vídeo de viaje; las que tienen fachada fotográfica llevan crédito en CREDITOS_EDIFICIOS. */
-export const SEDES_VIAJE: { id: SedeId | "sin-lugar"; edificio: boolean }[] = [
-  ...(["rijksmuseum", "met", "cloisters", "getty", "nga", "cleveland", "berlin", "varsovia", "londres", "chicago", "rylands"] as const).map((id) => ({ id, edificio: true })),
-  { id: "sin-lugar", edificio: false },
+export const SEDES_VIAJE: { id: SedeId | "sin-lugar"; edificio: boolean; /** Prefijo de los ficheros viaje/*.mp4 y *-inicio/final.webp. */ recurso: string }[] = [
+  ...(["rijksmuseum", "met", "cloisters", "getty", "nga", "cleveland", "berlin", "varsovia", "londres", "chicago", "rylands"] as const).map((id) => ({ id, edificio: true, recurso: id })),
+  // Bonnefanten aún no tiene su propio vídeo v2: el viaje genérico (sin lugar) hace de reserva visual si no hay vuelo en vivo.
+  { id: "bonnefanten", edificio: true, recurso: "sin-lugar" },
+  { id: "sin-lugar", edificio: false, recurso: "sin-lugar" },
 ];
 
 const caja = (cx: number, cy: number, w: number, h: number): Ancla => ({ x0: cx - w / 2, y0: cy - h / 2, x1: cx + w / 2, y1: cy + h / 2 });
 
 export const ESPACIOS_GEOMETRIA: Record<EspacioId, Espacio> = {
+  // Interior real del Bonnefantenmuseum (atrio de Aldo Rossi): la obra se coloca centrada y entera sobre el muro blanco.
+  "bonnefanten-sala": { aspecto: ASPECTO_SALA, ancla: caja(0.486, 0.514, 0.27, 0.152), tipo: "pared" },
   "rijksmuseum-pintura": { aspecto: ASPECTO_SALA, ancla: caja(0.5, 0.37, 0.58, 0.3), tipo: "pared" },
   "met-pintura": { aspecto: ASPECTO_SALA, ancla: caja(0.5, 0.5, 0.56, 0.27), tipo: "pared" },
   "met-vitral": { aspecto: ASPECTO_SALA, ancla: { x0: 0.2403, y0: 0.3141, x1: 0.7611, y1: 0.6258 }, tipo: "ventana" },
@@ -116,7 +124,25 @@ export function episodiosConEspacio(): string[] {
 export const MASCARAS_OBRA: Record<string, { cx: number; cy: number; r: number }> = {
   // The Prophet Isaiah (Met 32.24.48): medallón circular completo, con su aro de hierro.
   "is-01_o1": { cx: 0.4909, cy: 0.5035, r: 0.4405 },
+  // El paraíso (Herri met de Bles, Rijksmuseum SK-A-780, en préstamo en el Bonnefanten): tondo completo, con su borde de madera.
+  // El círculo envuelve toda la pintura (el tondo es ligeramente ovalado); solo se quita el fondo negro de la fotografía.
+  "gn-01_o5": { cx: 0.5, cy: 0.5015, r: 0.5125 },
 };
+
+/**
+ * Obras que la sala muestra enteras: la versión de portada (-detalle-960) es un recorte 16:9, y aquí hace falta el tondo.
+ * ratio = ancho/alto de la imagen completa.
+ */
+export const OBRAS_COMPLETAS: Record<string, { ratio: number }> = {
+  "gn-01_o5": { ratio: 960 / 999 },
+};
+
+export function obraCompleta(src: string): { src: string; ratio: number } | null {
+  for (const [id, o] of Object.entries(OBRAS_COMPLETAS)) {
+    if (src.includes(id) && src.includes("-detalle-960")) return { src: src.replace("-detalle-960", "-960"), ratio: o.ratio };
+  }
+  return null;
+}
 
 export function mascaraDeObra(src: string): { cx: number; cy: number; r: number } | null {
   for (const [id, m] of Object.entries(MASCARAS_OBRA)) if (src.includes(id)) return m;
@@ -241,15 +267,22 @@ export const CREDITOS_LUGARES: { titulo: string; detalle: string; licencia: stri
     detalle: "Sentinel-2 cloudless – https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016)",
     licencia: "CC BY 4.0",
   },
+  {
+    titulo: "Vuelo en vivo desde el espacio: Google Photorealistic 3D Tiles",
+    detalle: "Imágenes y datos © Google y sus proveedores, mostrados con las atribuciones durante el vuelo. Se cargan en directo; no se guardan. Visualización con CesiumJS (Apache 2.0). Globo de la Tierra visto desde lejos: NASA Blue Marble Next Generation, servido por NASA GIBS (sin clave)",
+    licencia: "Map Tiles API (Google)",
+  },
   { titulo: "Campo de estrellas y animación del viaje", detalle: "Render procedural propio de Audite", licencia: "Audite" },
   {
     titulo: "Salas: imágenes generadas para Audite",
-    detalle: "Ambientaciones basadas en el estilo verificable de cada museo; no son fotografías de la sala concreta",
+    detalle: "Ambientaciones basadas en el estilo verificable de cada museo; no son fotografías de la sala concreta (salvo el interior del Bonnefantenmuseum, que es fotografía real; ver más abajo)",
     licencia: "Audite",
   },
 ];
 
 export const CREDITOS_EDIFICIOS: { sede: SedeId; titulo: string; autor: string; licencia: string; url: string }[] = [
+  { sede: "bonnefanten", titulo: "Rocket-shaped cupola of the Bonnefantenmuseum in Maastricht-Centrum (DSCF7938).jpg", autor: "Trougnouf (Benoit Brummer)", licencia: "CC BY 4.0", url: "https://commons.wikimedia.org/wiki/File:Rocket-shaped_cupola_of_the_Bonnefantenmuseum_in_Maastricht-Centrum_(DSCF7938).jpg" },
+  { sede: "bonnefanten", titulo: "Central staircase at the Bonnefantenmuseum.jpg (interior)", autor: "Sebastiaan ter Burg", licencia: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Central_staircase_at_the_Bonnefantenmuseum.jpg" },
   { sede: "rijksmuseum", titulo: "The Rijksmuseum, Amsterdam (53750007092).jpg", autor: "Mustang Joe", licencia: "CC0", url: "https://commons.wikimedia.org/wiki/File:The_Rijksmuseum,_Amsterdam_(53750007092).jpg" },
   { sede: "met", titulo: "MET entrance.jpg", autor: "Physicistjedi", licencia: "Dominio público", url: "https://commons.wikimedia.org/wiki/File:MET_entrance.jpg" },
   { sede: "cloisters", titulo: "The Cloisters Exterior.jpg", autor: "Beyond My Ken", licencia: "Dominio público", url: "https://commons.wikimedia.org/wiki/File:The_Cloisters_Exterior.jpg" },

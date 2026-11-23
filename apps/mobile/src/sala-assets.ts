@@ -11,6 +11,7 @@ export type ViajeSede = {
 };
 
 const IMAGENES_SALA: Record<EspacioId, number> = {
+  "bonnefanten-sala": require("../assets/sala/salas/bonnefanten-sala.webp"),
   "rijksmuseum-pintura": require("../assets/sala/salas/rijksmuseum-pintura.webp"),
   "met-pintura": require("../assets/sala/salas/met-pintura.webp"),
   "met-vitral": require("../assets/sala/salas/met-vitral.webp"),
@@ -35,6 +36,8 @@ export const ESPACIOS: Record<EspacioId, Espacio & { imagen: number }> = Object.
 ) as Record<EspacioId, Espacio & { imagen: number }>;
 
 export const VIAJES: Record<SedeId | "sin-lugar", ViajeSede> = {
+  // Reserva visual (sin vuelo en vivo): viaje genérico espacio -> Tierra + fachada real del Bonnefanten.
+  bonnefanten: { video: require("../assets/sala/viaje/sin-lugar.mp4"), inicio: require("../assets/sala/viaje/sin-lugar-inicio.webp"), final: require("../assets/sala/viaje/sin-lugar-final.webp"), edificio: require("../assets/sala/edificios/bonnefanten.webp") },
   rijksmuseum: { video: require("../assets/sala/viaje/rijksmuseum.mp4"), inicio: require("../assets/sala/viaje/rijksmuseum-inicio.webp"), final: require("../assets/sala/viaje/rijksmuseum-final.webp"), edificio: require("../assets/sala/edificios/rijksmuseum.webp") },
   met: { video: require("../assets/sala/viaje/met.mp4"), inicio: require("../assets/sala/viaje/met-inicio.webp"), final: require("../assets/sala/viaje/met-final.webp"), edificio: require("../assets/sala/edificios/met.webp") },
   cloisters: { video: require("../assets/sala/viaje/cloisters.mp4"), inicio: require("../assets/sala/viaje/cloisters-inicio.webp"), final: require("../assets/sala/viaje/cloisters-final.webp"), edificio: require("../assets/sala/edificios/cloisters.webp") },

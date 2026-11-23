@@ -176,6 +176,13 @@ describe("sala-lugares", () => {
     expect(rijks.silueta).toBe("rijksmuseum");
     expect(rijks.coordenadasTexto).toBe("52.36° N · 4.89° E");
 
+    // gn-01: sede nueva (la sede se fuerza con sedeId; la cartela del Rijksmuseum no la cambia).
+    const bonne = resolverLugarObra("Rijksmuseum, Ámsterdam", "gn-01", undefined, "bonnefanten");
+    expect(bonne.id).toBe("bonnefanten");
+    expect(bonne.ciudad.es).toBe("Maastricht");
+    expect(bonne.edificio.es).toBe("Bonnefantenmuseum");
+    expect(bonne.coordenadasTexto).toBe("50.84° N · 5.70° E");
+
     const vitral = resolverLugarObra("The Metropolitan Museum of Art, Nueva York", "is-01");
     expect(vitral.sala).toBe("capilla-vitral");
     expect(vitral.silueta).toBe("capilla");
@@ -263,8 +270,11 @@ describe("sala v2: espacios reales y composición", () => {
     }
   });
 
-  it("pilotos: gn-01 Rijksmuseum, is-01 vitral del Met en ventana, is-03 pintura del Met", () => {
-    expect(espacioDeEpisodio("gn-01")).toMatchObject({ sede: "rijksmuseum", espacio: "rijksmuseum-pintura", medio: "pintura" });
+  it("pilotos: gn-01 Bonnefantenmuseum (préstamo del Rijksmuseum), is-01 vitral del Met en ventana, is-03 pintura del Met", () => {
+    expect(espacioDeEpisodio("gn-01")).toMatchObject({ sede: "bonnefanten", espacio: "bonnefanten-sala", medio: "pintura" });
+    // El resto de episodios del Rijksmuseum se quedan en Ámsterdam.
+    expect(episodiosConEspacio().filter((e) => e !== "gn-01").some((e) => espacioDeEpisodio(e).sede === "rijksmuseum")).toBe(true);
+    expect(episodiosConEspacio().filter((e) => espacioDeEpisodio(e).sede === "bonnefanten")).toEqual(["gn-01"]);
     expect(espacioDeEpisodio("is-01")).toMatchObject({ sede: "met", espacio: "met-vitral", medio: "vitral", galeria: "502" });
     expect(espacioDeEpisodio("is-03")).toMatchObject({ sede: "met", espacio: "met-pintura", galeria: "537" });
     expect(espacioDeEpisodio("is-02").sede).toBe("cloisters");
@@ -275,7 +285,7 @@ describe("sala v2: espacios reales y composición", () => {
     const base = path.resolve(__dirname, "../assets/sala");
     let total = 0;
     for (const v of SEDES_VIAJE) {
-      for (const f of [`viaje/${v.id}.mp4`, `viaje/${v.id}-inicio.webp`, `viaje/${v.id}-final.webp`, ...(v.edificio ? [`edificios/${v.id}.webp`] : [])]) {
+      for (const f of [`viaje/${v.recurso}.mp4`, `viaje/${v.recurso}-inicio.webp`, `viaje/${v.recurso}-final.webp`, ...(v.edificio ? [`edificios/${v.id}.webp`] : [])]) {
         expect(fs.existsSync(path.join(base, f))).toBe(true);
         total += fs.statSync(path.join(base, f)).size;
       }
@@ -291,7 +301,7 @@ describe("sala v2: espacios reales y composición", () => {
   it("las sedes con fachada tienen atribución en Créditos", () => {
     const conFachada = SEDES_VIAJE.filter((v) => v.edificio).map((v) => v.id);
     for (const sede of conFachada) expect(CREDITOS_EDIFICIOS.some((c) => c.sede === sede && c.licencia && c.url.startsWith("https://commons.wikimedia.org/"))).toBe(true);
-    for (const c of CREDITOS_EDIFICIOS) expect(["CC0", "CC BY 2.0", "Dominio público"]).toContain(c.licencia);
+    for (const c of CREDITOS_EDIFICIOS) expect(["CC0", "CC BY 2.0", "CC BY 4.0", "Dominio público"]).toContain(c.licencia);
   });
 
   it("la obra entra entera en su pared/ventana y la sala cubre el escenario", () => {
@@ -324,5 +334,168 @@ describe("sala v2: espacios reales y composición", () => {
         expect(r.entrada.scale).toBeLessThanOrEqual(1);
       }
     }
+  });
+});
+
+import { HTML_VUELO, CESIUM_VERSION } from "./sala-vuelo-html";
+import {
+  CAMARAS_SEDE,
+  DURACION_VUELO_MS,
+  SEDES_VUELO_VIVO,
+  claveMapTiles,
+  decidirVuelo,
+  leerMensajeVuelo,
+  planDeVuelo,
+  scriptInyeccionVuelo,
+  sinClave,
+  tiemposVueloVivo,
+  vueloDeSede,
+} from "./sala-vuelo";
+import { MASCARAS_OBRA, mascaraDeObra, obraCompleta, type SedeId } from "./sala-espacios";
+
+const SEDES_TODAS: SedeId[] = ["bonnefanten", "rijksmuseum", "met", "cloisters", "getty", "nga", "cleveland", "berlin", "varsovia", "londres", "chicago", "rylands"];
+
+describe("sala v3: vuelo en vivo (Google 3D Tiles)", () => {
+  it("todas las sedes tienen coordenadas y keyframes de cámara coherentes (rango decreciente, espacio -> edificio)", () => {
+    for (const id of SEDES_TODAS) {
+      const v = vueloDeSede(id);
+      expect(v, id).not.toBeNull();
+      const k = v!.keyframes;
+      expect(k.length).toBeGreaterThanOrEqual(4);
+      expect(k[0].rango).toBeGreaterThan(1_000_000);
+      expect(k[k.length - 1].rango).toBeLessThan(1000);
+      for (let i = 1; i < k.length; i++) expect(k[i].rango, `${id}[${i}]`).toBeLessThan(k[i - 1].rango);
+      expect(k[k.length - 1].lat).toBeCloseTo(v!.lat, 5);
+      expect(k[k.length - 1].lon).toBeCloseTo(v!.lon, 5);
+    }
+  });
+
+  it("Bonnefanten: Avenue Céramique, Maastricht, con cámara propia", () => {
+    const v = vueloDeSede("bonnefanten")!;
+    expect(v.lat).toBeCloseTo(50.842529, 3);
+    expect(v.lon).toBeCloseTo(5.701984, 3);
+    expect(CAMARAS_SEDE.bonnefanten).toBeTruthy();
+    expect(planDeVuelo("bonnefanten")?.duracion).toBe(DURACION_VUELO_MS);
+  });
+
+  it("decide vuelo en vivo solo con clave, sede activa, sin «reducir movimiento» y sin fallo previo", () => {
+    const base = { clave: "k", reducir: false, sede: "bonnefanten" as const, soportado: true, fallido: false };
+    expect(SEDES_VUELO_VIVO).toContain("bonnefanten");
+    expect(decidirVuelo(base)).toBe("vivo");
+    expect(decidirVuelo({ ...base, clave: "" })).toBe("v2");
+    expect(decidirVuelo({ ...base, reducir: true })).toBe("v2");
+    expect(decidirVuelo({ ...base, fallido: true })).toBe("v2");
+    expect(decidirVuelo({ ...base, soportado: false })).toBe("v2");
+    expect(decidirVuelo({ ...base, sede: null })).toBe("v2");
+    expect(decidirVuelo({ ...base, sede: "rijksmuseum" })).toBe("v2");
+  });
+
+  it("el HTML empaquetado no lleva clave y fija la versión de Cesium; la clave solo viaja inyectada", () => {
+    expect(CESIUM_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(HTML_VUELO).toContain(`cesium@${CESIUM_VERSION}`);
+    expect(HTML_VUELO).not.toMatch(/AIza[0-9A-Za-z_-]{20,}/);
+    expect(HTML_VUELO).toContain("showCreditsOnScreen:true");
+    expect(HTML_VUELO).toContain("window.__AUDITE_CLAVE");
+    const plan = planDeVuelo("bonnefanten")!;
+    const inyeccion = scriptInyeccionVuelo("clave-de-prueba", plan);
+    expect(inyeccion).toContain('window.__AUDITE_CLAVE="clave-de-prueba"');
+    expect(HTML_VUELO).not.toContain("clave-de-prueba");
+  });
+
+  it("claveMapTiles lee EXPO_PUBLIC_GOOGLE_MAPS_API_KEY y vale vacío si falta", () => {
+    expect(claveMapTiles({})).toBe("");
+    expect(claveMapTiles({ EXPO_PUBLIC_GOOGLE_MAPS_API_KEY: "  abc " })).toBe("abc");
+  });
+
+  it("los mensajes de la WebView no arrastran claves y los desconocidos se ignoran", () => {
+    expect(sinClave("https://tile.googleapis.com/v1/3dtiles/root.json?key=SECRETA&x=1")).toBe("https://tile.googleapis.com/v1/3dtiles/root.json?key=REDACTED&x=1");
+    expect(leerMensajeVuelo('{"tipo":"listo"}')).toEqual({ tipo: "listo", motivo: undefined });
+    expect(leerMensajeVuelo('{"tipo":"error","motivo":"root?key=SECRETA"}')?.motivo).toBe("root?key=REDACTED");
+    expect(leerMensajeVuelo('{"tipo":"otro"}')).toBeNull();
+    expect(leerMensajeVuelo("no es json")).toBeNull();
+    expect(leerMensajeVuelo(42)).toBeNull();
+  });
+
+  it("la entrada en vivo reserva el tramo final para revelar la sala", () => {
+    const t = tiemposVueloVivo();
+    expect(t.salaIn).toBeLessThan(DURACION_VUELO_MS);
+    expect(t.total).toBeGreaterThan(DURACION_VUELO_MS);
+  });
+});
+
+describe("sala v3: gn-01 en el Bonnefanten con el tondo entero", () => {
+  it("usa la imagen completa del tondo (no el recorte 16:9) con máscara circular solo para quitar el fondo", () => {
+    const completa = obraCompleta("https://x.test/obras/gn-01_o5-detalle-960.webp");
+    expect(completa).toEqual({ src: "https://x.test/obras/gn-01_o5-960.webp", ratio: 960 / 999 });
+    expect(obraCompleta("https://x.test/obras/gn-02_o1-detalle-960.webp")).toBeNull();
+    const m = mascaraDeObra(completa!.src)!;
+    expect(m).toEqual(MASCARAS_OBRA["gn-01_o5"]);
+    // El círculo envuelve la pintura entera: el radio cubre el semi-alto del tondo (492 px de 960 de ancho).
+    expect(m.r * 960).toBeGreaterThanOrEqual(491.9);
+    expect(m.cx - m.r).toBeLessThan(0.01);
+  });
+
+  it("el interior real del Bonnefanten aloja el tondo entero sobre un muro libre", () => {
+    const e = ESPACIOS["bonnefanten-sala"];
+    expect(e.tipo).toBe("pared");
+    const c = componerSala({ espacio: e, medio: "pintura", ratio: 960 / 999, stageW: 390, stageH: 700, centroY: 266, maxAncho: 328, maxAlto: 350 });
+    expect(c.obra.width).toBeGreaterThan(0);
+    expect(c.obra.width / c.obra.height).toBeCloseTo(960 / 999, 1);
+  });
+});
+
+import { debeMostrarEntradaSala, paradasSegunSesion, recorridoAbierto } from "./sala-cuenta";
+describe("candado de cuenta de La sala", () => {
+  const paradas = [
+    { tipo: "apertura" as const, indice: 0, zoom: 1, titulo: "Título", texto: "Texto narrativo" },
+    { tipo: "detalle" as const, indice: 1, x: 0.5, y: 0.5, zoom: 3, titulo: "Detalle", texto: "Otro texto" },
+    { tipo: "cierre" as const, indice: 2, zoom: 1, titulo: "Cierre", texto: "Fin" },
+  ];
+  it("con sesión se ve el recorrido completo", () => {
+    const r = paradasSegunSesion(paradas, { userId: "u1" });
+    expect(r.bloqueado).toBe(false);
+    expect(r.paradas).toEqual(paradas);
+    expect(recorridoAbierto({ userId: "u1" })).toBe(true);
+  });
+  it("sin sesión solo el adelanto: obra y título, sin textos ni detalles", () => {
+    for (const s of [null, undefined]) {
+      const r = paradasSegunSesion(paradas, s);
+      expect(r.bloqueado).toBe(true);
+      expect(r.paradas).toHaveLength(1);
+      expect(r.paradas[0]).toMatchObject({ tipo: "apertura", titulo: "Título", texto: "" });
+    }
+    expect(recorridoAbierto(null)).toBe(false);
+  });
+  it("sin sesión no se abre el vuelo ni la entrada; con sesión sí (salvo reducir movimiento)", () => {
+    for (const sin of [null, undefined, { userId: "" }]) {
+      expect(debeMostrarEntradaSala(sin, false)).toBe(false);
+      expect(debeMostrarEntradaSala(sin, true)).toBe(false);
+    }
+    expect(debeMostrarEntradaSala({ userId: "u1" }, false)).toBe(true);
+    expect(debeMostrarEntradaSala({ userId: "u1" }, true)).toBe(false);
+  });
+  it("sin sesión el recorrido queda reducido a una sola parada y bloqueado", () => {
+    const r = paradasSegunSesion(paradas, null);
+    expect(r.bloqueado).toBe(true);
+    expect(r.paradas.map((p) => p.tipo)).toEqual(["apertura"]);
+  });
+});
+
+describe("vuelo corto (5,5 s)", () => {
+  it("dura 5,5 s y los tiempos son coherentes", () => {
+    expect(DURACION_VUELO_MS).toBe(5500);
+    expect(tiemposVueloVivo()).toMatchObject({
+      salaIn: DURACION_VUELO_MS - 150,
+      total: DURACION_VUELO_MS + 1600,
+      edificioIn: DURACION_VUELO_MS,
+      edificioOut: DURACION_VUELO_MS,
+    });
+  });
+  it("arranca cerca de la Tierra y los rangos decrecen", () => {
+    const k = vueloDeSede("bonnefanten")!.keyframes;
+    expect(k[0].rango).toBe(11_000_000);
+    expect(k[1].rango).toBe(1_200_000);
+    expect(k[k.length - 1].rango).toBe(270);
+    for (let i = 1; i < k.length; i++) expect(k[i].rango).toBeLessThan(k[i - 1].rango);
   });
 });
