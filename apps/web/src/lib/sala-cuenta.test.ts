@@ -1,16 +1,21 @@
 import { destinoTrasEntrar, hrefEntrarParaSala, rutaInternaSegura } from "@audite/domain";
 import { describe, expect, it } from "vitest";
 import { datosVistaSala, vistaSala } from "./sala-cuenta";
-import { idsSala, recorridoSala, resolverRecorrido } from "./sala-recorridos";
+import { adelantoSala, idsSala, recorridoSala, resolverRecorrido } from "./sala-recorridos";
 import { CLAVE_VUELTA } from "./vuelta-entrar";
 
-describe("candado de cuenta de La sala (web)", () => {
-  it("con sesión se ve el recorrido", () => {
-    expect(vistaSala({ userId: "u1" })).toBe("recorrido");
+describe("tres estados de acceso de La sala (web)", () => {
+  it("sin sesión (o sin saberlo aún) es sin-sesion, diga lo que diga el servidor", () => {
+    expect(vistaSala(null)).toBe("sin-sesion");
+    expect(vistaSala(undefined)).toBe("sin-sesion");
+    expect(vistaSala(null, "premium")).toBe("sin-sesion");
   });
-  it("sin sesión (o sin saberlo aún) se ve el adelanto", () => {
-    expect(vistaSala(null)).toBe("adelanto");
-    expect(vistaSala(undefined)).toBe("adelanto");
+  it("con sesión es gratuito salvo que el servidor diga premium (nunca se asume)", () => {
+    expect(vistaSala({ userId: "u1" })).toBe("gratuito");
+    expect(vistaSala({ userId: "u1" }, null)).toBe("gratuito");
+    expect(vistaSala({ userId: "u1" }, "gratuito")).toBe("gratuito");
+    expect(vistaSala({ userId: "u1" }, "premium")).toBe("premium");
+    expect(vistaSala({ userId: "u1" }, "sin-sesion")).toBe("sin-sesion");
   });
 });
 
@@ -67,17 +72,17 @@ describe("recorridos-sala.json", () => {
 });
 
 describe("vista de La sala por sesión", () => {
-  it("adelanto: solo vista y next seguro, sin textos", () => {
+  it("sin sesión: vista y next seguro, sin textos", () => {
     for (const s of [null, undefined]) {
-      const a = datosVistaSala(s, "gn-01", "es");
-      expect(a).toEqual({ vista: "adelanto", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
+      expect(datosVistaSala(s, "gn-01", "es")).toEqual({ vista: "sin-sesion", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
       const b = datosVistaSala(s, "gn-02", "es");
       expect(b.hrefEntrar).toBe("/es/entrar?next=%2Fes%2Fsala%2Fgn-02");
       expect(rutaInternaSegura(decodeURIComponent(b.hrefEntrar.split("next=")[1]!))).toBe("/es/sala/gn-02");
     }
   });
-  it("con sesión la vista es recorrido y no lleva textos (los pide el cliente al endpoint)", () => {
-    expect(datosVistaSala({ userId: "u1" }, "gn-01", "es")).toEqual({ vista: "recorrido", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
+  it("con sesión: gratuito o premium según el servidor", () => {
+    expect(datosVistaSala({ userId: "u1" }, "gn-01", "es").vista).toBe("gratuito");
+    expect(datosVistaSala({ userId: "u1" }, "gn-01", "es", "premium").vista).toBe("premium");
   });
 });
 
@@ -91,5 +96,14 @@ describe("resolverRecorrido (servidor)", () => {
     expect(v.cierre.texto).toBe(r.cierre.texto.es);
     expect(resolverRecorrido("gn-02", "en")?.apertura.titulo).toBe(recorridoSala("gn-02")!.apertura.titulo.en);
     expect(resolverRecorrido("nope", "es")).toBeNull();
+  });
+});
+
+describe("adelantoSala (servidor)", () => {
+  it("solo la apertura, nada de pasos ni cierre", () => {
+    const a = adelantoSala("gn-01", "es")!;
+    expect(Object.keys(a).sort()).toEqual(["texto", "titulo"]);
+    expect(a.texto).toBe(recorridoSala("gn-01")!.apertura.texto.es);
+    expect(adelantoSala("nope", "es")).toBeNull();
   });
 });

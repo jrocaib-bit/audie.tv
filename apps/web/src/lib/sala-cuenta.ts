@@ -2,7 +2,8 @@
 import { hrefEntrarParaSala } from "@audite/domain";
 
 export type SesionMinima = { userId: string } | null | undefined;
-export type VistaSala = "recorrido" | "adelanto";
+/** Tres estados de acceso: sin sesión, cuenta gratuita y premium (suscripción activa o en prueba). */
+export type VistaSala = "sin-sesion" | "gratuito" | "premium";
 type Idioma = "es" | "en";
 type Bilingue = { es: string; en: string };
 export type PasoSala = { x: number; y: number; zoom: number; titulo: Bilingue; texto: Bilingue };
@@ -14,9 +15,19 @@ export type RecorridoVista = {
   cierre: { titulo: string; texto: string };
 };
 
+/** Adelanto público: la apertura resuelta a un idioma. Es lo único que reciben sin sesión y las cuentas gratuitas. */
+export type Adelanto = { titulo: string; texto: string };
+/** Cuerpo de `GET /api/sala/[id]`: no premium solo lleva la apertura; premium, el recorrido completo. */
+export type RespuestaSala = { acceso: "sin-sesion" | "gratuito"; apertura: Adelanto } | ({ acceso: "premium" } & RecorridoVista);
+
 export const SALA_POR_DEFECTO = "gn-01";
-export function vistaSala(sesion: SesionMinima): VistaSala {
-  return sesion && sesion.userId ? "recorrido" : "adelanto";
+/**
+ * Sin sesión → "sin-sesion". Con sesión, el estado lo dice el servidor (`acceso`): nunca se asume premium
+ * solo porque haya userId; mientras no responde (o si falla) se trata como "gratuito".
+ */
+export function vistaSala(sesion: SesionMinima, acceso?: VistaSala | null): VistaSala {
+  if (!sesion || !sesion.userId) return "sin-sesion";
+  return acceso ?? "gratuito";
 }
 
 /** Ruta de La sala: `/{lang}/sala` para el piloto y `/{lang}/sala/{id}` para el resto. */
@@ -25,6 +36,6 @@ export function rutaSala(lang: Idioma, id: string): string {
 }
 
 /** Vista según la sesión y enlace de entrada con `?next=` seguro. Nunca resuelve textos narrativos. */
-export function datosVistaSala(sesion: SesionMinima, id: string, lang: Idioma) {
-  return { vista: vistaSala(sesion), hrefEntrar: hrefEntrarParaSala(lang, rutaSala(lang, id)) } as const;
+export function datosVistaSala(sesion: SesionMinima, id: string, lang: Idioma, acceso?: VistaSala | null) {
+  return { vista: vistaSala(sesion, acceso), hrefEntrar: hrefEntrarParaSala(lang, rutaSala(lang, id)) } as const;
 }
