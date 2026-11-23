@@ -187,10 +187,10 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa,
   return (
     <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
       <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div ref={visor} className="sticky top-[var(--cab)] z-10 md:top-0 md:h-svh md:self-start">
+        <div ref={visor} className="sticky top-[var(--cab)] z-20 md:top-0 md:z-10 md:h-svh md:self-start">
           <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[58svh] md:h-svh" />
         </div>
-        <div className="relative z-20 -mt-5 rounded-t-3xl bg-[#0C0B09] px-5 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:mt-0 md:rounded-none md:shadow-none md:px-10">
+        <div className="relative z-10 -mt-5 rounded-t-3xl bg-[#0C0B09] px-5 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:z-auto md:mt-0 md:rounded-none md:shadow-none md:px-10">
           <h1 className="font-display t-h1 pt-6 md:pt-[12svh]">{titulo}</h1>
           <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
             <Apertura a={datos.apertura} />
