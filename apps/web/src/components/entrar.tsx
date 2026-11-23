@@ -3,13 +3,14 @@
 import { esIdioma, textosAlta } from "@audite/domain";
 import { obraDeEpisodio } from "@audite/content/obras";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/brand";
 import { BotonApple, BotonGoogle } from "@/components/botones-alta";
 import { ObraFoto } from "@/components/placa";
 import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
-import { correoValido } from "@audite/domain";
+import { correoValido, rutaRetoSegura } from "@audite/domain";
+import { CLAVE_VUELTA } from "@/lib/vuelta-entrar";
 
 export function Entrar({ lang, google = false }: { lang: string; google?: boolean }) {
   const copy = textosAlta(lang);
@@ -18,6 +19,15 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
   const [marketing, setMarketing] = useState(false);
+  useEffect(() => {
+    // Vuelta tras entrar: solo rutas de reto internas (sin open redirect). Sobrevive al OAuth y al enlace por correo.
+    const next = rutaRetoSegura(new URLSearchParams(window.location.search).get("next"));
+    try {
+      if (next) localStorage.setItem(CLAVE_VUELTA, next);
+    } catch {
+      // Sin almacenamiento: se vuelve a /escuchar.
+    }
+  }, []);
 
   return (
     <main className="relative min-h-dvh bg-[#100E0C] text-[#F4ECE2]">

@@ -1,6 +1,6 @@
 "use client";
 
-import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { accionReto, idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
@@ -59,9 +59,16 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
   const destino = (href: string) => reto.id === "adviento-isaias" ? hrefDePasoAdviento(conCuenta, href, "/es/entrar") : href;
   const playHref = destino(fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`);
   const otros = RETOS.filter((item) => item.id !== reto.id);
+  // Los retos exigen cuenta: sin sesión no se mide ni se guarda nada, solo se va a entrar.
+  const [sesion, setSesion] = useState(false);
   useEffect(() => {
-    medir("challenge_started", { reto_id: reto.id });
-  }, [reto.id]);
+    void sesionWeb().then((actual) => setSesion(Boolean(actual)));
+  }, []);
+  const accion = accionReto(sesion, "es", `/reto/${reto.id}`);
+  const yaEmpezado = estado.hechos.length > 0;
+  useEffect(() => {
+    if (sesion && yaEmpezado) medir("challenge_started", { reto_id: reto.id });
+  }, [sesion, yaEmpezado, reto.id]);
 
   return (
     <main id="contenido" className="app-clear bg-[#100E0C] text-[#F4ECE2]">
@@ -113,9 +120,19 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
           <span className="block h-full" style={{ width: `${avance.total ? (avance.hechos / avance.total) * 100 : 0}%`, background: color }} />
         </div>
         <p className="mt-2 text-sm text-muted">{dias} {es ? "días" : "days"}</p>
-        <button type="button" className="mt-3 flex min-h-14 w-full items-center justify-center rounded-full bg-acento font-display text-xl text-acento-ink" onClick={() => document.getElementById(`dia-${siguiente}`)?.scrollIntoView({ behavior: "smooth", block: "center" })}>
-          {avance.hechos === 0 ? (es ? "Empezar" : "Start") : `${es ? "Seguir" : "Continue"} · ${es ? "Día" : "Day"} ${siguiente}`}
-        </button>
+        {(() => {
+          const clase = "mt-3 flex min-h-14 w-full items-center justify-center rounded-full bg-acento font-display text-xl text-acento-ink";
+          const etiqueta = avance.hechos === 0 ? (es ? "Empezar" : "Start") : `${es ? "Seguir" : "Continue"} · ${es ? "Día" : "Day"} ${siguiente}`;
+          if (accion.tipo === "entrar") return <Link href={accion.href} className={clase}>{etiqueta}</Link>;
+          return (
+            <button type="button" className={clase} onClick={() => {
+              if (avance.hechos === 0) medir("challenge_started", { reto_id: reto.id });
+              document.getElementById(`dia-${siguiente}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            }}>
+              {etiqueta}
+            </button>
+          );
+        })()}
         {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
         <ul className="mt-5">
           {reto.pasos.map((paso) => {
@@ -148,6 +165,9 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
             return (
               <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
                 {oir ? <Link href={oir} aria-label={paso.titulo[idiomaContenido(locale)]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
+                {accion.tipo === "entrar" ? (
+                  <Link href={accion.href} aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border" />
+                ) : (
                 <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => {
                   const estaba = estado.hechos.includes(paso.dia);
                   marcarDia(reto.id, paso.dia, hoy);
@@ -157,6 +177,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
                 }}>
                   {hecho ? "✓" : ""}
                 </button>
+                )}
               </li>
             );
           })}
