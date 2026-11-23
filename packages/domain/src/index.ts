@@ -128,6 +128,7 @@ export {
   type Idioma,
 } from "./idioma";
 export { alternarDiaReto, leerProgresoRetos, type ProgresoReto, type ResultadoMarcaReto } from "./retos-progreso";
+export { accionReto, destinoTrasEntrar, hrefEntrarParaReto, rutaRetoSegura, type AccionReto } from "./retos-cuenta";
 export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,
