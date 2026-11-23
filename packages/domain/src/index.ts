@@ -155,6 +155,7 @@ export {
 export { pruebaSocial } from "./prueba-social";
 export { lineaIdiomas } from "./idiomas-linea";
 export { textosAlta, type TextosAlta } from "./alta-ui";
+export { accionReto, destinoTrasEntrar, hrefEntrarConNext, hrefEntrarParaReto, hrefEntrarParaSala, rutaInternaSegura, rutaRetoSegura, type AccionReto } from "./retos-cuenta";
 export {
   AUTH_URLS,
   PROVEEDORES_ALTA,
