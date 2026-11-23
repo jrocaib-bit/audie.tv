@@ -25,7 +25,7 @@ describe("landing según la simulación", () => {
     expect(html).toContain("Sin cuenta ni tarjeta.");
     expect(html).toContain("se escucha en el navegador");
     expect(html).toContain("de 2 a 4 minutos");
-    expect(html).toContain("Una cuenta personal basta para poner el audio en un aula.");
+    expect(html).toContain("Se puede escuchar en familia y en clase.");
     expect(html).not.toMatch(/sin registro/i);
     expect(html).not.toMatch(PROHIBIDO);
   });
