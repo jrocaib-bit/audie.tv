@@ -33,6 +33,7 @@ describe("relatos de los días (app)", () => {
   it("con relato: escuchar, título, relato y lecturas al final", () => {
     expect(partesDelDia({ narracion: ["a", "b"], referencias: [{}], relacionados: [{}], descripcion: "x" })).toEqual(["escuchar", "titulo", "relato", "lecturas"]);
     expect(partesDelDia({ narracion: ["a", "b"] })).toEqual(["escuchar", "titulo", "relato"]);
+    expect(partesDelDia({ narracion: ["a", "b"], descripcion: "x" })).toEqual(["escuchar", "titulo", "relato", "lecturas"]);
   });
 
   it("sin relato: la ficha compacta de siempre", () => {

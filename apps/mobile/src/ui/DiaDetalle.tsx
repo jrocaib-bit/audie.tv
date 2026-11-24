@@ -102,6 +102,7 @@ export function DiaDetalle({ c, lang, datos, etiquetaDia, etiquetaProximamente, 
           </Pressable>
           {abierto ? (
             <View style={{ gap: 14, paddingHorizontal: 16, paddingBottom: 16 }}>
+              {datos.descripcion ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{datos.descripcion}</Text> : null}
               {(datos.referencias?.length ?? 0) > 0 ? <Referencias c={c} datos={datos} tenue /> : null}
               {(datos.relacionados?.length ?? 0) > 0 ? (
                 <View style={{ gap: 8 }}>

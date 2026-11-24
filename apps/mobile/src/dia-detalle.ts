@@ -14,10 +14,10 @@ export type ParteDia = "escuchar" | "titulo" | "relato" | "lecturas" | "referenc
 
 /**
  * Orden de la ficha del día. Con relato: escuchar, título, relato y, al final, «Lecturas del día» plegable
- * (referencias y episodios). Sin relato: la ficha compacta de siempre.
+ * (descripción del episodio, referencias y episodios). Sin relato: la ficha compacta de siempre.
  */
 export function partesDelDia(datos: { narracion?: string[]; referencias?: unknown[]; descripcion?: string; relacionados?: unknown[] }): ParteDia[] {
-  const hayLecturas = (datos.referencias?.length ?? 0) > 0 || (datos.relacionados?.length ?? 0) > 0;
+  const hayLecturas = (datos.referencias?.length ?? 0) > 0 || Boolean(datos.descripcion) || (datos.relacionados?.length ?? 0) > 0;
   if ((datos.narracion?.length ?? 0) > 0) return ["escuchar", "titulo", "relato", ...(hayLecturas ? (["lecturas"] as const) : [])];
   const partes: ParteDia[] = ["titulo"];
   if ((datos.referencias?.length ?? 0) > 0) partes.push("referencias");
