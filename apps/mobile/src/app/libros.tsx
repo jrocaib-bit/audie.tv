@@ -1,55 +1,60 @@
 import { MENSAJES_LIBROS, type LibroFicha, type VolumenEstanteria } from "@audite/domain";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native";
-import { clienteLibrosApp } from "../libros/cliente";
-import { baseContenido, mockDeDesarrollo } from "../libros/config";
-import { cargarEstanteriaApp } from "../libros/estanteria-datos";
-import { EstanteriaApp } from "../libros/estanteria";
-import { Cubierta } from "../libros/cubierta";
-import { LETRA } from "../libros/estilos";
-import { useColoresLibros } from "../libros/tema";
+import { useEffect } from "react";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { mockDeDesarrollo } from "../libros/config";
+import { precargarCubierta, precargarLibro, precargarLomo, useCatalogo, useEstanteria } from "../libros/datos";
+import { COLOR_ESTANTE, ALTO_LOMO, ANCHO_LOMO, EstanteriaApp } from "../libros/estanteria";
+import { EsqueletoEstanteria, EsqueletoTarjeta } from "../libros/esqueleto";
+import { LETRA } from "../libros/estilos";
+import { PortadaLibro } from "../libros/portada";
+import { SUBTITULO_LIBROS, TITULO_LIBROS } from "../libros/textos";
+import { useColoresLibros } from "../libros/tema";
 import { ui } from "../theme";
+
+/** Lo mínimo de una tarjeta. Sale de la estantería (14 KB) y, si no hay estantería, del catálogo. */
+type Fila = { id: string; slug: string; volumen: number; titulo: string; subtitulo: string; disponibilidad: LibroFicha["disponibilidad"] };
+
+const deEstanteria = (v: VolumenEstanteria): Fila => ({ id: v.id, slug: v.id, volumen: v.volumen, titulo: v.titulo, subtitulo: v.subtitulo, disponibilidad: v.disponibilidad });
 
 export default function Libros() {
   const colors = useColoresLibros();
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [libros, setLibros] = useState<LibroFicha[] | null>(null);
-  const [estanteria, setEstanteria] = useState<VolumenEstanteria[] | null>(null);
   const { mock } = useLocalSearchParams<{ mock?: string }>();
+  const estanteria = useEstanteria();
+  // El catálogo (73 KB) solo se pide si la estantería no está. Con estantería no hace falta esperar a nada más.
+  const catalogo = useCatalogo(!estanteria.cargando && estanteria.dato === null);
+  const volumenes = estanteria.dato;
+
   useEffect(() => {
-    let vivo = true;
-    void cargarEstanteriaApp(baseContenido()).then((lista) => {
-      if (vivo && lista) setEstanteria(lista);
-    });
-    void clienteLibrosApp(null, null).then(({ api }) => api.catalogo()).then((dato) => {
-      if (vivo) setLibros(dato.libros);
-    });
-    return () => {
-      vivo = false;
-    };
-  }, []);
-  const listos = (libros ?? []).filter((libro) => libro.disponibilidad !== "borrador");
-  const enPreparacion = (libros ?? []).filter((libro) => libro.disponibilidad === "borrador");
+    volumenes?.forEach((v) => precargarLomo(v.volumen));
+  }, [volumenes]);
+
+  const base: Fila[] = volumenes ? volumenes.map(deEstanteria) : (catalogo.dato ?? []).map((l) => ({ id: l.id, slug: l.slug, volumen: l.volumen, titulo: l.titulo, subtitulo: l.subtitulo, disponibilidad: l.disponibilidad }));
+  const listos = base.filter((f) => f.disponibilidad !== "borrador");
+  const enPreparacion = base.filter((f) => f.disponibilidad === "borrador");
   const filas = [...listos, ...enPreparacion];
+  const cargando = estanteria.cargando || (volumenes === null && catalogo.cargando);
+
   return (
     <FlatList
       data={filas}
-      keyExtractor={(libro) => libro.id}
+      keyExtractor={(f) => f.id}
       style={{ backgroundColor: colors.bg }}
       contentContainerStyle={{ paddingBottom: 120 }}
       ListHeaderComponent={
         <View style={{ paddingHorizontal: 22, paddingTop: insets.top + 12, paddingBottom: 12, gap: 12 }}>
           <Text style={[ui.kicker, { color: colors.muted }]}>Libros</Text>
-          <Text accessibilityRole="header" style={{ color: colors.ink, fontFamily: LETRA, fontSize: 38, lineHeight: 42 }}>La Escritura, leída con los Padres</Text>
-          <Text style={[ui.body, { color: colors.muted }]}>Se leen aquí, con el prólogo gratis y el resto incluido en la suscripción.</Text>
-          {estanteria ? <EstanteriaApp volumenes={estanteria} mock={mockDeDesarrollo(mock)} /> : null}
-          {libros === null ? <ActivityIndicator color={colors.accent} /> : null}
-          {libros !== null && libros.length === 0 ? <Text style={[ui.body, { color: colors.muted }]}>El catálogo de libros se está preparando.</Text> : null}
+          <Text accessibilityRole="header" style={{ color: colors.ink, fontFamily: LETRA, fontSize: 38, lineHeight: 42 }}>{TITULO_LIBROS}</Text>
+          <Text style={[ui.body, { color: colors.muted }]}>{SUBTITULO_LIBROS}</Text>
+          {volumenes ? <EstanteriaApp volumenes={volumenes} mock={mockDeDesarrollo(mock)} /> : null}
+          {cargando && !volumenes ? <EsqueletoEstanteria ancho={ANCHO_LOMO} alto={ALTO_LOMO} barra={COLOR_ESTANTE} /> : null}
+          {!cargando && filas.length === 0 ? <Text style={[ui.body, { color: colors.muted }]}>El catálogo de libros se está preparando.</Text> : null}
         </View>
       }
+      ListEmptyComponent={cargando ? <View><EsqueletoTarjeta fondo={colors.card} borde={colors.line} /><EsqueletoTarjeta fondo={colors.card} borde={colors.line} /><EsqueletoTarjeta fondo={colors.card} borde={colors.line} /></View> : undefined}
       renderItem={({ item, index }) => {
         const borrador = item.disponibilidad === "borrador";
         const primeraPreparacion = borrador && index === listos.length;
@@ -59,10 +64,14 @@ export default function Libros() {
             <Pressable
               accessibilityRole={borrador ? "text" : "link"}
               disabled={borrador}
+              onPressIn={() => {
+                precargarLibro(item.slug);
+                precargarCubierta(item.volumen);
+              }}
               onPress={() => router.push(`/libros/${item.slug}` as never)}
               style={{ flexDirection: "row", gap: 16, marginHorizontal: 22, marginBottom: 14, padding: 14, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card, opacity: borrador ? 0.7 : 1, minHeight: 64 }}
             >
-              <Cubierta volumen={item.volumen} titulo={item.titulo} ancho={72} />
+              <PortadaLibro volumen={item.volumen} titulo={item.titulo} ancho={72} />
               <View style={{ flex: 1, gap: 4, justifyContent: "center" }}>
                 <Text style={{ color: colors.ink, fontFamily: LETRA, fontSize: 22, lineHeight: 26 }}>{item.titulo}</Text>
                 <Text style={[ui.body, { color: colors.muted, fontSize: 14, lineHeight: 20 }]}>{item.subtitulo}</Text>
