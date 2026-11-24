@@ -313,6 +313,9 @@ export {
   type UnionCapitulo,
 } from "./indice-biblia";
 export {
+  FUENTE_TORRES_AMAT,
+  avisoFuente,
+  marcaCapitulo,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   ID_TEXTO,

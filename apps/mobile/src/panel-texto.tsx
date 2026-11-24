@@ -3,6 +3,8 @@
  * La lógica (versículo actual, sincronía, preferencias, paleta, textos) vive en @audite/domain.
  */
 import {
+  avisoFuente,
+  marcaCapitulo,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -165,6 +167,7 @@ function Lectura({
   uiLocale: string;
 }) {
   const tx = textosPanel(uiLocale);
+  const aviso = avisoFuente(texto, tx);
   const paleta = PALETA_TEXTO[modo];
   const reducir = useReducirMovimiento(reducirMovimiento);
   const sincronizado = useMemo(() => estaSincronizado(texto.versiculos), [texto]);
@@ -207,6 +210,11 @@ function Lectura({
           {tx.muestra}
         </Text>
       ) : null}
+      {aviso ? (
+        <Text accessibilityRole="text" testID="aviso-fuente" style={{ marginHorizontal: 12, marginTop: 8, color: paleta.suave, fontSize: 14 }}>
+          {aviso}
+        </Text>
+      ) : null}
       {sincronizado ? null : <Text style={{ marginHorizontal: 12, marginTop: 8, color: paleta.suave, fontSize: 14 }}>{tx.sinSincronia}</Text>}
       <ScrollView
         ref={lista}
@@ -220,6 +228,7 @@ function Lectura({
         {texto.versiculos.map((versiculo, indice) => {
           const esActual = indice === actual;
           const saltable = sincronizado && typeof versiculo.t === "number";
+          const capitulo = marcaCapitulo(texto.episodio, texto.versiculos, indice, tx);
           const color = esActual || !sincronizado ? paleta.tinta : paleta.suave;
           const contenido = (
             <Text style={{ color, fontSize: tamanoLetra, lineHeight: Math.round(tamanoLetra * 1.6) }}>
@@ -230,6 +239,11 @@ function Lectura({
           const estilo = { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, minHeight: 44, backgroundColor: esActual ? paleta.actual : "transparent" };
           return (
             <View key={`${versiculo.ref}-${indice}`} onLayout={(evento) => posiciones.current.set(indice, evento.nativeEvent.layout.y)}>
+              {capitulo ? (
+                <Text accessibilityRole="header" style={{ color: paleta.numero, fontSize: 14, fontWeight: "600", paddingHorizontal: 10, paddingTop: 12 }}>
+                  {capitulo}
+                </Text>
+              ) : null}
               {saltable ? (
                 <Pressable
                   accessibilityRole="button"
@@ -248,9 +262,11 @@ function Lectura({
             </View>
           );
         })}
-        <Text style={{ color: paleta.suave, fontSize: 12, paddingHorizontal: 10, paddingTop: 12 }}>
-          {texto.fuente}. {texto.credito}
-        </Text>
+        {aviso ? null : (
+          <Text style={{ color: paleta.suave, fontSize: 12, paddingHorizontal: 10, paddingTop: 12 }}>
+            {texto.fuente}. {texto.credito}
+          </Text>
+        )}
       </ScrollView>
       {pausado && actual >= 0 ? (
         <Pressable accessibilityRole="button" onPress={reanudar} style={[boton, { backgroundColor: ORO, position: "absolute", bottom: 12, alignSelf: "center", paddingHorizontal: 16 }]}>

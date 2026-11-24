@@ -1,6 +1,9 @@
 /**
  * El repositorio es público. Ningún fichero versionado lleva texto de versículos.
  * Solo los ficheros `*.test.*` pueden llevar frases inventadas como fixture.
+ * Única excepción: `content/texto/torres-amat/es/*.json`, el texto de Torres Amat (siglo XIX, dominio público).
+ * Cada fichero de esa carpeta debe declarar `fuente: "torres-amat"` y `muestra: false`. Cualquier otro fichero con
+ * versículos largos, o uno de esa carpeta con otra fuente, falla.
  */
 import { execFileSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
@@ -20,6 +23,19 @@ function versionados(base: string): string[] {
     .filter(Boolean);
 }
 
+const CARPETA_DOMINIO_PUBLICO = /^content\/texto\/torres-amat\/es\/[a-z0-9-]+\.json$/;
+
+/** Cierto si el fichero es de la carpeta de dominio público y declara la fuente Torres Amat sin ser muestra. */
+export function esDominioPublicoDeclarado(relativo: string, contenido: string): boolean {
+  if (!CARPETA_DOMINIO_PUBLICO.test(relativo)) return false;
+  try {
+    const dato = JSON.parse(contenido) as { fuente?: unknown; muestra?: unknown };
+    return dato.fuente === "torres-amat" && dato.muestra === false;
+  } catch {
+    return false;
+  }
+}
+
 export function textosLargos(contenido: string): string[] {
   if (!contenido.includes('"versiculos"')) return [];
   const hallados: string[] = [];
@@ -37,6 +53,15 @@ describe("texto bíblico fuera del repositorio", () => {
     expect(textosLargos('{"texto":"Frase inventada que pasa de treinta caracteres."}')).toHaveLength(0);
   });
 
+  it("solo acepta la carpeta de Torres Amat con su fuente declarada", () => {
+    const bueno = '{"fuente":"torres-amat","muestra":false,"versiculos":[]}';
+    expect(esDominioPublicoDeclarado("content/texto/torres-amat/es/gn-01.json", bueno)).toBe(true);
+    expect(esDominioPublicoDeclarado("content/texto/otra/es/gn-01.json", bueno)).toBe(false);
+    expect(esDominioPublicoDeclarado("content/texto/torres-amat/es/gn-01.json", '{"fuente":"cee","muestra":false}')).toBe(false);
+    expect(esDominioPublicoDeclarado("content/texto/torres-amat/es/gn-01.json", '{"fuente":"torres-amat","muestra":true}')).toBe(false);
+    expect(esDominioPublicoDeclarado("apps/web/gn-01.json", bueno)).toBe(false);
+  });
+
   it("ningún fichero versionado fuera de los tests lleva versiculos con texto largo", () => {
     const base = raiz();
     const culpables: string[] = [];
@@ -51,6 +76,7 @@ describe("texto bíblico fuera del repositorio", () => {
         continue;
       }
       if (contenido.includes("\0")) continue;
+      if (esDominioPublicoDeclarado(relativo, contenido)) continue;
       if (textosLargos(contenido).length > 0) culpables.push(relativo);
     }
     expect(culpables).toEqual([]);

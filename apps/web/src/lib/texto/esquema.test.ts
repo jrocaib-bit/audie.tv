@@ -32,10 +32,15 @@ describe("esquema del texto", () => {
     expect(validarTexto({ ...base, versiculos: [] }, "gn-01", "es")).toBeNull();
     expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], t: -1 }] }, "gn-01", "es")).toBeNull();
     expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], v: 5 }] }, "gn-01", "es")).toBeNull();
-    expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], v: "5-6" }] }, "gn-01", "es")).toBeNull();
+    expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], v: "5-" }] }, "gn-01", "es")).toBeNull();
+    expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], v: "5-6-7" }] }, "gn-01", "es")).toBeNull();
     expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], texto: "" }] }, "gn-01", "es")).toBeNull();
     expect(validarTexto({ ...base, episodio: "../gn" }, "../gn", "es")).toBeNull();
     expect(validarTexto({ ...base, muestra: "si" }, "gn-01", "es")).toBeNull();
+  });
+
+  it("acepta la etiqueta de versículos agrupados, como 16-18", () => {
+    expect(validarTexto({ ...base, versiculos: [{ ...base.versiculos[0], v: "16-18" }] }, "gn-01", "es")).not.toBeNull();
   });
 
   it("exige que el fichero sea del episodio y del idioma pedidos", () => {

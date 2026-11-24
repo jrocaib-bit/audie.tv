@@ -28,6 +28,9 @@ export type TextoEpisodio = {
   versiculos: VersiculoPanel[];
 };
 
+/** Identificador de la fuente del texto bíblico de dominio público que se sirve desde `content/texto/torres-amat`. */
+export const FUENTE_TORRES_AMAT = "torres-amat";
+
 export type MarcaTiempo = { t: number; indice: number };
 
 export function idTextoValido(id: unknown): id is string {
@@ -148,6 +151,9 @@ export function textosPanel(idioma: string) {
       error: "The text could not be loaded.",
       reintentar: "Try again",
       muestra: "Sample text, not a Bible edition",
+      capitulo: "Chapter",
+      salmo: "Psalm",
+      avisoTorresAmat: "Text: Torres Amat (public domain). It may not match the audio word for word",
       sinSincronia: "This text is not synced with the audio.",
       menos: "Smaller text",
       mas: "Larger text",
@@ -170,6 +176,9 @@ export function textosPanel(idioma: string) {
     error: "El texto no ha cargado.",
     reintentar: "Reintentar",
     muestra: "Texto de ejemplo, no es una edición bíblica",
+    capitulo: "Capítulo",
+    salmo: "Salmo",
+    avisoTorresAmat: "Texto: Torres Amat (dominio público). Puede no coincidir palabra por palabra con el audio",
     sinSincronia: "Este texto va sin sincronizar con el audio.",
     menos: "Letra más pequeña",
     mas: "Letra más grande",
@@ -183,3 +192,28 @@ export function textosPanel(idioma: string) {
 
 /** Milisegundos que el auto-desplazamiento queda en pausa tras un scroll a mano. */
 export const PAUSA_DESPLAZAMIENTO_MS = 5000;
+
+/**
+ * Aviso fijo de la fuente del texto. Solo con texto real de Torres Amat. El de muestra lleva su propio aviso
+ * y cualquier otra fuente usa el crédito que trae el fichero.
+ */
+export function avisoFuente(texto: Pick<TextoEpisodio, "muestra" | "fuente">, tx: { avisoTorresAmat: string }): string | null {
+  if (texto.muestra || texto.fuente !== FUENTE_TORRES_AMAT) return null;
+  return tx.avisoTorresAmat;
+}
+
+/**
+ * Título que abre cada capítulo dentro del panel («Capítulo 23», «Salmo 23»), o null si el versículo sigue en el mismo capítulo.
+ * Los episodios de salmos llevan el id `sal-…`.
+ */
+export function marcaCapitulo(
+  episodio: string,
+  versiculos: readonly Pick<VersiculoPanel, "cap">[],
+  indice: number,
+  tx: { capitulo: string; salmo: string },
+): string | null {
+  const actual = versiculos[indice];
+  if (!actual) return null;
+  if (indice > 0 && versiculos[indice - 1]?.cap === actual.cap) return null;
+  return `${episodio.startsWith("sal-") ? tx.salmo : tx.capitulo} ${actual.cap}`;
+}

@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  avisoFuente,
+  marcaCapitulo,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -237,6 +239,7 @@ function Lectura({
   reducirMovimiento: boolean;
 }) {
   const paleta = PALETA_TEXTO[modo];
+  const aviso = avisoFuente(texto, tx);
   const sincronizado = useMemo(() => estaSincronizado(texto.versiculos), [texto]);
   const marcas = useMemo(() => (sincronizado ? marcasDeTiempo(texto.versiculos) : []), [sincronizado, texto]);
   const actual = sincronizado ? versiculoActual(marcas, tiempo) : -1;
@@ -276,6 +279,11 @@ function Lectura({
           {tx.muestra}
         </p>
       ) : null}
+      {aviso ? (
+        <p role="note" data-testid="aviso-fuente" className="mx-4 mt-2 text-sm" style={{ color: paleta.suave }}>
+          {aviso}
+        </p>
+      ) : null}
       {sincronizado ? null : <p className="mx-4 mt-2 text-sm" style={{ color: paleta.suave }}>{tx.sinSincronia}</p>}
       <div
         ref={contenedor}
@@ -294,6 +302,7 @@ function Lectura({
           {texto.versiculos.map((versiculo, indice) => {
             const esActual = indice === actual;
             const saltable = sincronizado && typeof versiculo.t === "number";
+            const capitulo = marcaCapitulo(texto.episodio, texto.versiculos, indice, tx);
             const numero = <span aria-hidden="true" className="mr-2 align-top text-[0.7em] font-semibold tabular-nums" style={{ color: paleta.numero }}>{versiculo.v}</span>;
             return (
               <li
@@ -303,6 +312,11 @@ function Lectura({
                 className="rounded-xl"
                 style={{ background: esActual ? paleta.actual : undefined, color: esActual || !sincronizado ? paleta.tinta : paleta.suave }}
               >
+                {capitulo ? (
+                  <p data-capitulo className="px-3 pt-3 text-sm font-semibold" style={{ color: paleta.numero }}>
+                    {capitulo}
+                  </p>
+                ) : null}
                 {saltable ? (
                   <button
                     type="button"
@@ -332,9 +346,11 @@ function Lectura({
           </button>
         </div>
       ) : null}
-      <p className="px-4 pt-2 pb-4 text-xs" style={{ color: paleta.suave }}>
-        {texto.fuente}. {texto.credito}
-      </p>
+      {aviso ? null : (
+        <p className="px-4 pt-2 pb-4 text-xs" style={{ color: paleta.suave }}>
+          {texto.fuente}. {texto.credito}
+        </p>
+      )}
     </>
   );
 }
