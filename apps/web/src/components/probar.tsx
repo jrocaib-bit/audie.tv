@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Lienzo } from "@/components/sala/lienzo";
+import { tokenWeb } from "@/lib/auth-web";
 
 /** `limite`: segundos tras los cuales la reproducción se detiene (un fragmento, no el episodio). */
 export type FichaPrueba = { id: string; titulo: string; limite?: number };
@@ -30,7 +31,10 @@ export function ProbarAudio({ children }: { children: ReactNode }) {
     }
     setActual(ficha);
     setFraccion(0);
-    const respuesta = await fetch(`/api/audio/${ficha.id}`, { cache: "no-store" });
+    const cabeceras: Record<string, string> = {};
+    const token = await tokenWeb();
+    if (token) cabeceras.Authorization = `Bearer ${token}`;
+    const respuesta = await fetch(`/api/audio/${ficha.id}`, { headers: cabeceras, cache: "no-store" });
     if (!respuesta.ok) return;
     const dato = await respuesta.json() as { url?: string };
     if (!dato.url) return;
