@@ -2,12 +2,13 @@ import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Image, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { bucleDe, medidasHueco } from "../bucles";
 import { vecino } from "../cola";
 import { infoEpisodio } from "../hoy";
 import { BucleCuadro } from "../bucle-cuadro";
+import { LibrosDelEpisodio } from "../libros/recomendados";
 import { baseDeContenido, uriDeObra } from "../entorno";
 import { dark, fonts } from "../theme";
 import { textoErrorAudio, tx } from "../textos";
@@ -201,6 +202,9 @@ export default function NowPlaying() {
             </View>
           </>
         )}
+        <ScrollView style={{ flexGrow: 0, maxHeight: 190 }}>
+          <LibrosDelEpisodio episodioId={episode.id} />
+        </ScrollView>
       </View>
     </View>
   );

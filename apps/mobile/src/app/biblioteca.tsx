@@ -63,6 +63,10 @@ export default function Biblioteca() {
       ListHeaderComponent={
         <View style={{ gap: 12, paddingBottom: 12 }}>
           <ScreenHeader c={c} titulo={t.biblioteca} />
+          <Pulsable onPress={() => router.push("/libros")} label="Libros" escala={0.985} style={{ marginHorizontal: 20, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 16, justifyContent: "center", gap: 2, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>Libros</Text>
+            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>Comentarios a la Escritura, con adelanto gratis.</Text>
+          </Pulsable>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}>
             {libros.map((libro) => (
               <Chip key={libro.id} c={c} texto={libro.name[lang] || libro.name.es} activo={libro.id === abierto} onPress={() => setAbierto(libro.id)} />
