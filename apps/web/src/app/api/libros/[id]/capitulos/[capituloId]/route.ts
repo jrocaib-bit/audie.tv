@@ -11,9 +11,9 @@ export const dynamic = "force-dynamic";
  */
 export async function GET(request: Request, contexto: { params: Promise<{ id: string; capituloId: string }> }) {
   const { id, capituloId } = await contexto.params;
-  const ficha = cargarFicha(id);
+  const ficha = await cargarFicha(id);
   if (!ficha || ficha.disponibilidad === "borrador") return respuesta(404, { error: "no-encontrado" });
-  const texto = cargarTexto(id);
+  const texto = await cargarTexto(id);
   if (!texto) return respuesta(503, { error: "en-preparacion" });
   if (!texto.capitulos.some((capitulo) => capitulo.id === capituloId)) return respuesta(404, { error: "no-encontrado" });
   const lector = await resolverLector(request);

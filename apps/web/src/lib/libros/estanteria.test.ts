@@ -13,53 +13,53 @@ const volumenBueno = {
 afterEach(() => vi.unstubAllEnvs());
 
 describe("cargarEstanteria", () => {
-  it("devuelve null sin ruta configurada", () => {
+  it("devuelve null sin ruta configurada", async () => {
     vi.stubEnv("AUDITE_LIBROS_RUTA", "");
-    expect(cargarEstanteria()).toBeNull();
+    expect((await cargarEstanteria())).toBeNull();
   });
 
-  it("devuelve null si falta el archivo", () => {
+  it("devuelve null si falta el archivo", async () => {
     const vacio = mkdtempSync(path.join(os.tmpdir(), "estanteria-"));
     vi.stubEnv("AUDITE_LIBROS_RUTA", vacio);
-    expect(cargarEstanteria()).toBeNull();
+    expect((await cargarEstanteria())).toBeNull();
     rmSync(vacio, { recursive: true, force: true });
   });
 
-  it("devuelve null con JSON roto", () => {
+  it("devuelve null con JSON roto", async () => {
     const dir = mkdtempSync(path.join(os.tmpdir(), "estanteria-"));
     mkdirSync(path.join(dir, "portadas", "web"), { recursive: true });
     writeFileSync(path.join(dir, "portadas", "web", "estanteria.json"), "{ no es json");
     vi.stubEnv("AUDITE_LIBROS_RUTA", dir);
-    expect(cargarEstanteria()).toBeNull();
+    expect((await cargarEstanteria())).toBeNull();
     rmSync(dir, { recursive: true, force: true });
   });
 
-  it("lee el fixture de 3 volúmenes, en orden, unido al catálogo por id", () => {
+  it("lee el fixture de 3 volúmenes, en orden, unido al catálogo por id", async () => {
     vi.stubEnv("AUDITE_LIBROS_RUTA", FIXTURES);
-    const lista = cargarEstanteria();
+    const lista = (await cargarEstanteria());
     expect(lista?.map((v) => v.volumen)).toEqual([1, 2, 3]);
     expect(lista?.map((v) => v.disponibilidad)).toEqual(["lectura", "preparandose", "borrador"]);
     expect(lista?.[0]?.episodios_destacados.map((e) => e.etiqueta)).toEqual(["Primero 1 a 2", "Primero 3"]);
     expect(lista?.[1]?.credito_obra).not.toMatch(/[;–—]/);
   });
 
-  it("un id fuera del catálogo queda como preparándose, y un borrador marcado en el JSON no ofrece lectura", () => {
+  it("un id fuera del catálogo queda como preparándose, y un borrador marcado en el JSON no ofrece lectura", async () => {
     const dir = mkdtempSync(path.join(os.tmpdir(), "estanteria-"));
     mkdirSync(path.join(dir, "portadas", "web"), { recursive: true });
     writeFileSync(path.join(dir, "portadas", "web", "estanteria.json"), JSON.stringify({ volumenes: [volumenBueno, { ...volumenBueno, volumen: 5, id: "quinto", borrador: true }] }));
     vi.stubEnv("AUDITE_LIBROS_RUTA", dir);
-    expect(cargarEstanteria()?.map((v) => v.disponibilidad)).toEqual(["preparandose", "borrador"]);
+    expect((await cargarEstanteria())?.map((v) => v.disponibilidad)).toEqual(["preparandose", "borrador"]);
     rmSync(dir, { recursive: true, force: true });
   });
 });
 
 describe("validación", () => {
-  it("acepta un volumen bien formado", () => {
+  it("acepta un volumen bien formado", async () => {
     expect(validarVolumen(volumenBueno)?.id).toBe("cuarto");
     expect(validarVolumen(volumenBueno)?.episodios_destacados[0]?.etiqueta).toBe("L 1 a 2");
   });
 
-  it("rechaza formas inválidas", () => {
+  it("rechaza formas inválidas", async () => {
     for (const malo of [
       null, "x", [], {},
       { ...volumenBueno, volumen: 0 },
@@ -79,7 +79,7 @@ describe("validación", () => {
     }
   });
 
-  it("descarta lo inválido y repetido, y devuelve null si no queda nada", () => {
+  it("descarta lo inválido y repetido, y devuelve null si no queda nada", async () => {
     expect(validarEstanteria(null)).toBeNull();
     expect(validarEstanteria({})).toBeNull();
     expect(validarEstanteria({ volumenes: "x" })).toBeNull();

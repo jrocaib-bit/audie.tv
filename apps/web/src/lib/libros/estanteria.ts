@@ -1,15 +1,13 @@
 /**
  * Estantería de la portada de Libros. SOLO SERVIDOR.
  *
- * Lee `estanteria.json` de AUDITE_LIBROS_RUTA/portadas/web/. El repositorio no lleva ni textos
- * ni imágenes de libros: solo este lector tolerante. Sin ruta o sin archivo devuelve `null` y la
+ * Lee `portadas/web/estanteria.json` por `almacen.ts`. El repositorio no lleva ni textos
+ * ni imágenes de libros: solo este lector tolerante. Sin origen o sin archivo devuelve `null` y la
  * portada de Libros mantiene el índice en cuadrícula.
  */
-import path from "node:path";
 import { textoLimpio, type Disponibilidad, type EpisodioDestacado, type VolumenEstanteria } from "@audite/domain";
-import { ID_LIBRO, cargarCatalogo, leerJson, rutaLibros } from "./carga";
-
-export const SUBRUTA_PORTADAS = path.join("portadas", "web");
+import { ID_LIBRO, leerJsonLibros } from "./almacen";
+import { cargarCatalogo } from "./carga";
 
 const ID_EPISODIO = /^[a-z0-9][a-z0-9-]{0,40}$/;
 const COLOR = /^#[0-9a-fA-F]{6}$/;
@@ -83,19 +81,11 @@ export function validarEstanteria(dato: unknown): Omit<VolumenEstanteria, "dispo
   return validos.length > 0 ? validos.sort((a, b) => a.volumen - b.volumen) : null;
 }
 
-/** Carpeta de las portadas, o `null` si no hay ruta configurada. */
-export function carpetaPortadas(): string | null {
-  const ruta = rutaLibros();
-  return ruta ? path.join(ruta, SUBRUTA_PORTADAS) : null;
-}
-
 /** La estantería unida al catálogo por `id`, en el orden de `volumen`. `null` sin archivo o sin ruta. */
-export function cargarEstanteria(): VolumenEstanteria[] | null {
-  const carpeta = carpetaPortadas();
-  if (!carpeta) return null;
-  const validos = validarEstanteria(leerJson(path.join(carpeta, "estanteria.json")));
+export async function cargarEstanteria(): Promise<VolumenEstanteria[] | null> {
+  const validos = validarEstanteria(await leerJsonLibros("portadas/web/estanteria.json"));
   if (!validos) return null;
-  const catalogo = new Map(cargarCatalogo().map((ficha) => [ficha.id, ficha.disponibilidad]));
+  const catalogo = new Map((await cargarCatalogo()).map((ficha) => [ficha.id, ficha.disponibilidad]));
   return validos.map((v) => {
     const real: Disponibilidad | undefined = catalogo.get(v.id);
     const disponibilidad: Disponibilidad = v.borrador || real === "borrador" ? "borrador" : (real ?? "preparandose");

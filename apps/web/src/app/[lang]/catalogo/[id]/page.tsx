@@ -73,10 +73,12 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const bucle = bucleDeEpisodio(id);
   const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
   const portadaProvisional = esPortadaProvisional(id);
-  const libros = recomendarLibros(id, cargarCatalogo()).map((item) => {
-    const texto = cargarTexto(item.id);
-    return { ...item, capitulo_id: texto ? capituloQueCita(texto, id) : null };
-  });
+  const libros = await Promise.all(
+    recomendarLibros(id, await cargarCatalogo()).map(async (item) => {
+      const texto = await cargarTexto(item.id);
+      return { ...item, capitulo_id: texto ? capituloQueCita(texto, id) : null };
+    }),
+  );
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="bg-[#0C0B09]" style={{ viewTransitionName: `ep-${id}` }}>

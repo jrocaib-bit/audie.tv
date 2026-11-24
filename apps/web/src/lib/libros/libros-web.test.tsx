@@ -22,8 +22,8 @@ afterEach(() => vi.unstubAllEnvs());
 const ficha = { slug: "libro-prueba", volumen: 1 };
 
 describe("candado en el servidor de páginas", () => {
-  it("las props del lector no llevan texto posterior al adelanto, ni pidiéndolo por URL", () => {
-    const libro = cargarTexto("libro-prueba")!;
+  it("las props del lector no llevan texto posterior al adelanto, ni pidiéndolo por URL", async () => {
+    const libro = (await cargarTexto("libro-prueba"))!;
     for (const capitulo of [null, "prologo", "capitulo-01", "epilogo"]) {
       for (const mock of [null, "premium" as const]) {
         const props = armarPropsLector(libro, ficha, { lang: "es", capitulo, mock });
@@ -55,7 +55,7 @@ describe("candado en el servidor de páginas", () => {
   });
 
   it("el HTML del lector sin sesión: prólogo, índice con títulos y tarjeta de corte con Entrar", async () => {
-    const libro = cargarTexto("libro-prueba")!;
+    const libro = (await cargarTexto("libro-prueba"))!;
     const props = armarPropsLector(libro, ficha, { lang: "es", capitulo: null, mock: null });
     const html = renderToStaticMarkup(<Lector {...props} />);
     expect(html).toContain("TEXTO_ADELANTO_PRUEBA");
@@ -74,7 +74,7 @@ describe("candado en el servidor de páginas", () => {
   });
 
   it("con cuenta gratuita no hay Entrar; con premium no hay corte", async () => {
-    const libro = cargarTexto("libro-prueba")!;
+    const libro = (await cargarTexto("libro-prueba"))!;
     const gratis = renderToStaticMarkup(<Lector {...armarPropsLector(libro, ficha, { lang: "es", capitulo: null, mock: "gratis" })} />);
     expect(gratis).toContain('data-vista="gratuito"');
     expect(gratis).toContain("Prueba 7 días gratis");

@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const ficha = ID_LIBRO.test(slug) ? cargarFicha(slug) : null;
+  const ficha = ID_LIBRO.test(slug) ? await cargarFicha(slug) : null;
   if (!ficha) return { title: "Libros" };
   return { title: ficha.titulo, description: ficha.subtitulo };
 }
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function Page({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params;
   if (!esIdiomaPublico(lang) || !ID_LIBRO.test(slug)) notFound();
-  const ficha = cargarFicha(slug);
+  const ficha = await cargarFicha(slug);
   if (!ficha || ficha.disponibilidad === "borrador") notFound();
   const lectura = ficha.disponibilidad === "lectura";
   const capitulos = ficha.indice.filter((entrada) => entrada.tipo === "capitulo").length;

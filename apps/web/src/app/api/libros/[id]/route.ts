@@ -11,8 +11,8 @@ export const dynamic = "force-dynamic";
  */
 export async function GET(_request: Request, contexto: { params: Promise<{ id: string }> }) {
   const { id } = await contexto.params;
-  const ficha = cargarFicha(id);
+  const ficha = await cargarFicha(id);
   if (!ficha) return respuesta(404, { error: "no-encontrado" });
-  const texto = ficha.disponibilidad === "lectura" ? cargarTexto(id) : null;
+  const texto = ficha.disponibilidad === "lectura" ? await cargarTexto(id) : null;
   return respuesta(200, { ficha: fichaPublica(ficha), lectura: texto ? cortarLibro(texto, false) : null });
 }

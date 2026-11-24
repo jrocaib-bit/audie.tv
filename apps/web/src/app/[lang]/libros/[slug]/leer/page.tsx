@@ -16,9 +16,9 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const { lang, slug } = await params;
   if (!esIdiomaPublico(lang) || !ID_LIBRO.test(slug)) notFound();
   const consulta = await searchParams;
-  const ficha = cargarFicha(slug);
+  const ficha = await cargarFicha(slug);
   if (!ficha) notFound();
-  const texto = ficha.disponibilidad === "lectura" ? cargarTexto(slug) : null;
+  const texto = ficha.disponibilidad === "lectura" ? await cargarTexto(slug) : null;
   // Sin texto convertido no hay lector: se vuelve a la ficha, que explica el estado.
   if (!texto) redirect(ficha.disponibilidad === "borrador" ? `/${lang}/libros` : `/${lang}/libros/${slug}`);
   const props = armarPropsLector(texto, ficha, { lang, capitulo: uno(consulta.c), bloque: uno(consulta.b), mock: mockDeParametro(consulta.mock) });

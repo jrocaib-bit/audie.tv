@@ -7,7 +7,7 @@ type Contexto = { params: Promise<{ id: string }> };
 
 /** 401 sin sesión: el cliente guarda solo en el dispositivo. */
 export async function pedirUsuario(request: Request, libroId: string): Promise<{ userId: string } | Response> {
-  if (!ID_LIBRO.test(libroId) || !cargarFicha(libroId)) return respuesta(404, { error: "no-encontrado" });
+  if (!ID_LIBRO.test(libroId) || !(await cargarFicha(libroId))) return respuesta(404, { error: "no-encontrado" });
   const lector = await resolverLector(request);
   if (!lector.userId) return respuesta(401, { error: "sin-sesion" });
   return { userId: lector.userId };

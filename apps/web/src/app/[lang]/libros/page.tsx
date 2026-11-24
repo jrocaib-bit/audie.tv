@@ -22,8 +22,8 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   if (!esIdiomaPublico(lang)) notFound();
   const busqueda = (await searchParams) ?? {};
   const pedido = Array.isArray(busqueda.libro) ? busqueda.libro[0] : busqueda.libro;
-  const estanteria = cargarEstanteria();
-  const libros = cargarCatalogo().map(fichaPublica);
+  const estanteria = await cargarEstanteria();
+  const libros = (await cargarCatalogo()).map(fichaPublica);
   const listos = libros.filter((libro) => libro.disponibilidad !== "borrador");
   const enPreparacion = libros.filter((libro) => libro.disponibilidad === "borrador");
   return (

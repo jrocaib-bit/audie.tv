@@ -6,6 +6,6 @@ export const dynamic = "force-dynamic";
 
 /** Catálogo: metadatos e índice, nunca bloques. Sin URL de Kindle ni rutas del disco. */
 export async function GET() {
-  const libros = cargarCatalogo().map(fichaPublica);
+  const libros = (await cargarCatalogo()).map(fichaPublica);
   return respuesta(200, { libros, mostrar_amazon: mostrarAmazon() });
 }
