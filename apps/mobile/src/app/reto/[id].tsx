@@ -92,6 +92,8 @@ export default function RetoDetalle() {
     referencias: paso.referencias,
     descripcion: paso.descripcion?.[lang],
     relacionados: (paso.relacionados ?? []).map((rel) => ({ id: rel, titulo: infoEpisodio(rel, base).titulo, disponible: grabados.has(rel) })),
+    narracion: paso.narracion?.[lang],
+    disponible: jugable(paso.episodio),
   } : undefined;
   const ancho = Math.min(ventana.width - 96, 340);
   const alto = Math.min(ancho, ventana.height * 0.36);
@@ -161,7 +163,7 @@ export default function RetoDetalle() {
 
       {detalle ? (
         <Entrada orden={2} style={{ paddingHorizontal: 20 }}>
-          <DiaDetalle c={c} lang={lang} datos={detalle} etiquetaDia={t.dia} etiquetaProximamente={t.proximamente} onRelacionado={(rel) => reproducirId(rel, { contexto: { tipo: "libro", id: base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn" } })} />
+          <DiaDetalle c={c} lang={lang} datos={detalle} etiquetaDia={t.dia} etiquetaProximamente={t.proximamente} etiquetaEscuchar={t.escuchar} etiquetaLecturas={t.lecturasDia} etiquetaEpisodios={t.episodiosCompletos} onEscuchar={seleccionado != null ? () => jugar(seleccionado) : undefined} onRelacionado={(rel) => reproducirId(rel, { contexto: { tipo: "libro", id: base.rangos.find((r) => r.id === rel)?.bookId ?? rel.split("-")[0] ?? "gn" } })} />
         </Entrada>
       ) : null}
 
