@@ -101,3 +101,51 @@ export function archivoPortada(tipo: "lomo" | "cubierta", volumen: number, forma
   const nn = String(volumen).padStart(2, "0");
   return tipo === "lomo" ? `lomo-${nn}.${formato}` : `cubierta-${nn}-${ancho ?? 480}.${formato}`;
 }
+
+/* ───────── Paleta de la ficha ampliada ───────── */
+
+export type PaletaFicha = { fondo: string; tinta: string; tintaInversa: string; sombra: string };
+
+const TINTA_CLARA = "#F4ECE2";
+const TINTA_OSCURA = "#100E0C";
+const CONTRASTE_MINIMO = 4.5;
+
+function rgbDeHex(hex: string): [number, number, number] | null {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return null;
+  const n = parseInt(m[1]!, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+/** Luminancia relativa WCAG de un hex `#RRGGBB`. NaN si el hex no es válido. */
+export function luminancia(hex: string): number {
+  const rgb = rgbDeHex(hex);
+  if (!rgb) return Number.NaN;
+  const [r, g, b] = rgb.map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  }) as [number, number, number];
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** Contraste WCAG entre dos hex, de 1 a 21. */
+export function contraste(a: string, b: string): number {
+  const la = luminancia(a);
+  const lb = luminancia(b);
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+function mejorDe(sobre: string, candidatos: string[]): string {
+  return candidatos.reduce((mejor, c) => (contraste(c, sobre) > contraste(mejor, sobre) ? c : mejor));
+}
+
+/** Colores de la ficha para un volumen. El fondo es el hex del volumen, exacto. */
+export function paletaFicha(hex: string): PaletaFicha {
+  if (!rgbDeHex(hex)) return { fondo: TINTA_OSCURA, tinta: TINTA_CLARA, tintaInversa: TINTA_OSCURA, sombra: "rgb(0 0 0 / 0.45)" };
+  const fondo = hex.trim();
+  let tinta = mejorDe(fondo, [TINTA_CLARA, TINTA_OSCURA]);
+  if (contraste(tinta, fondo) < CONTRASTE_MINIMO) tinta = mejorDe(fondo, ["#FFFFFF", "#000000"]);
+  let tintaInversa = fondo;
+  if (contraste(tintaInversa, tinta) < CONTRASTE_MINIMO) tintaInversa = mejorDe(tinta, [TINTA_CLARA, TINTA_OSCURA, "#FFFFFF", "#000000"]);
+  return { fondo, tinta, tintaInversa, sombra: "rgb(0 0 0 / 0.45)" };
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { altCubierta, archivoPortada, etiquetaLegible, etiquetaLomo, textoLimpio } from "./libros-ficha";
+import { altCubierta, archivoPortada, etiquetaLegible, etiquetaLomo, textoLimpio, contraste, luminancia, paletaFicha } from "./libros-ficha";
 
 describe("textos de la estantería", () => {
   it("convierte la raya entre números en «a»", () => {
@@ -31,5 +31,44 @@ describe("enlace a la ficha del libro y pestaña", () => {
     for (const cadena of [ETIQUETA_VER_LIBRO, t("es", "navBooks"), t("en", "navBooks")]) expect(cadena).not.toMatch(/[;—–]/);
     expect(t("es", "navBooks")).toBe("Libros");
     expect(t("en", "navBooks")).toBe("Books");
+  });
+});
+
+describe("paleta de la ficha", () => {
+  const COLORES = ["#805F36", "#8C4A34", "#304B65", "#4A6B52", "#54643D", "#594538", "#683D40", "#406278", "#65654C", "#4B4D70", "#326C6B", "#88414C", "#47545C", "#766955", "#673F55", "#905C33"];
+
+  it("cumple 4,5:1 en los 16 volúmenes y conserva el fondo exacto", () => {
+    for (const c of COLORES) {
+      const p = paletaFicha(c);
+      expect(p.fondo).toBe(c);
+      expect(contraste(p.tinta, p.fondo)).toBeGreaterThanOrEqual(4.5);
+      expect(contraste(p.tintaInversa, p.tinta)).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it("hex inválido devuelve la paleta oscura actual", () => {
+    for (const malo of ["", "rojo", "#12", "#GGGGGG", "#abc"]) {
+      const p = paletaFicha(malo);
+      expect(p.fondo).toBe("#100E0C");
+      expect(p.tinta).toBe("#F4ECE2");
+    }
+  });
+
+  it("casi blanco usa tinta oscura y casi negro tinta clara", () => {
+    expect(paletaFicha("#FAFAFA").tinta).toBe("#100E0C");
+    expect(paletaFicha("#050505").tinta).toBe("#F4ECE2");
+    expect(contraste(paletaFicha("#FAFAFA").tintaInversa, paletaFicha("#FAFAFA").tinta)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("en tonos medios donde ninguna tinta llega, cae a blanco o negro puro", () => {
+    const medios = ["#707070", "#747474", "#787878"];
+    for (const c of medios) {
+      const p = paletaFicha(c);
+      expect(["#FFFFFF", "#000000"]).toContain(p.tinta);
+      expect(contraste(p.tinta, c)).toBeGreaterThanOrEqual(Math.max(contraste("#F4ECE2", c), contraste("#100E0C", c)));
+      expect(contraste(p.tintaInversa, p.tinta)).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(luminancia("#000000")).toBe(0);
+    expect(contraste("#000000", "#FFFFFF")).toBeCloseTo(21, 5);
   });
 });
