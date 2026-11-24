@@ -1,5 +1,5 @@
-import { useVideoPlayer, VideoView } from "expo-video";
-import { useCallback, useEffect, useRef } from "react";
+import { createVideoPlayer, VideoView, type VideoPlayer } from "expo-video";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   cancelAnimation,
@@ -34,6 +34,26 @@ export function tiemposViaje(conEdificio: boolean): TiemposViaje {
   return { video: 2200, finalIn: 2050, edificioIn: 2200, edificioOut: 3450, salaIn: 3250, total: 5000 };
 }
 
+
+function configurarReproductorViaje(p: VideoPlayer) {
+  p.muted = true;
+  p.loop = false;
+}
+
+function liberarReproductorViaje(p: VideoPlayer | null) {
+  if (!p) return;
+  try {
+    p.pause();
+  } catch {
+    // Ya estaba parado.
+  }
+  try {
+    p.release();
+  } catch {
+    // Ya estaba liberado.
+  }
+}
+
 type Props = {
   viaje: ViajeSede;
   lugar: LugarObra;
@@ -60,33 +80,70 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
   const terminado = useRef(false);
   const T = tiempos.total;
 
+  // Los callbacks del padre van en refs para que los effects del reloj no se reinicien en cada render.
+  const onTerminarRef = useRef(onTerminar);
+  const onVueloFallidoRef = useRef(onVueloFallido);
+  useEffect(() => {
+    onTerminarRef.current = onTerminar;
+    onVueloFallidoRef.current = onVueloFallido;
+  });
+
+  const playerRef = useRef<VideoPlayer | null>(null);
+  const [player, setPlayer] = useState<VideoPlayer | null>(null);
+
+  const liberarVideo = useCallback(() => {
+    const actual = playerRef.current;
+    playerRef.current = null;
+    setPlayer(null);
+    liberarReproductorViaje(actual);
+  }, []);
+
   const terminar = useCallback(() => {
     if (terminado.current) return;
     terminado.current = true;
-    onTerminar();
-  }, [onTerminar]);
+    liberarVideo();
+    onTerminarRef.current();
+  }, [liberarVideo]);
 
-  const player = useVideoPlayer(viaje.video, (p) => {
-    p.muted = true;
-    p.loop = false;
-    p.audioMixingMode = "mixWithOthers";
-    p.showNowPlayingNotification = false;
-  });
+  // Cierre forzado: la entrada nunca queda encima de la sala aunque falle la animación o la WebView.
+  useEffect(() => {
+    const forzado = setTimeout(terminar, T + 700 + (vivo ? ESPERA_LISTO_VUELO_MS : 1200));
+    return () => clearTimeout(forzado);
+  }, [T, terminar, vivo]);
+
+  // El vídeo solo se crea en la entrada v2, una vez, y se libera al acabar o al desmontar.
+  // No se toca staysActiveInBackground ni showNowPlayingNotification (quedan en false).
+  useEffect(() => {
+    if (vivo) return;
+    if (playerRef.current) return;
+    const creado = createVideoPlayer(viaje.video);
+    configurarReproductorViaje(creado);
+    playerRef.current = creado;
+    setPlayer(creado);
+    return () => {
+      const actual = playerRef.current;
+      playerRef.current = null;
+      liberarReproductorViaje(actual);
+    };
+  }, [vivo, viaje.video]);
 
   const arrancar = useCallback(() => {
     if (arrancado.current) return;
     arrancado.current = true;
-    try {
-      player.currentTime = 0;
-      player.play();
-    } catch {
-      // Si el vídeo no puede reproducirse, el póster y el fotograma final mantienen la secuencia.
+    const p = playerRef.current;
+    if (p) {
+      try {
+        p.currentTime = 0;
+        p.play();
+      } catch {
+        // Si el vídeo no puede reproducirse, el póster y el fotograma final mantienen la secuencia.
+      }
     }
     reloj.value = 0;
     reloj.value = withTiming(T, { duration: T, easing: Easing.linear }, (fin) => {
       if (fin) runOnJS(terminar)();
     });
-  }, [T, player, reloj, terminar]);
+  }, [T, reloj, terminar]);
 
   // Vuelo en vivo: el reloj arranca cuando la WebView avisa «listo». Si tarda demasiado o falla, se cae al viaje v2.
   const arrancarVivo = useCallback(() => {
@@ -98,28 +155,42 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
     });
   }, [T, reloj, terminar]);
 
+  const cerrarPronto = useCallback(() => {
+    arrancado.current = true;
+    arrancadoVivo.current = true;
+    cancelAnimation(reloj);
+    const desde = Math.max(reloj.value, tiempos.salaIn - 200);
+    reloj.value = desde;
+    reloj.value = withTiming(T, { duration: 520, easing: Easing.out(Easing.cubic) }, (fin) => {
+      if (fin) runOnJS(terminar)();
+    });
+  }, [T, reloj, terminar, tiempos.salaIn]);
+
   const alMensajeVuelo = useCallback(
     (m: MensajeVuelo) => {
       if (m.tipo === "listo") arrancarVivo();
-      else if (m.tipo === "error" && !arrancadoVivo.current) onVueloFallido?.();
+      else if (m.tipo === "error" && !arrancadoVivo.current) onVueloFallidoRef.current?.();
+      else if (m.tipo === "fin") {
+        if (arrancadoVivo.current) cerrarPronto();
+        else onVueloFallidoRef.current?.();
+      }
     },
-    [arrancarVivo, onVueloFallido],
+    [arrancarVivo, cerrarPronto],
   );
 
   useEffect(() => {
     if (!vivo) return;
     reloj.value = 0;
     const espera = setTimeout(() => {
-      if (!arrancadoVivo.current) onVueloFallido?.();
+      if (!arrancadoVivo.current) onVueloFallidoRef.current?.();
     }, ESPERA_LISTO_VUELO_MS);
     return () => {
       clearTimeout(espera);
-      cancelAnimation(reloj);
     };
-  }, [onVueloFallido, reloj, vivo]);
+  }, [reloj, vivo]);
 
   useEffect(() => {
-    if (vivo) return;
+    if (vivo || !player) return;
     reloj.value = 0;
     const sub = player.addListener("statusChange", ({ status }) => {
       if (status === "readyToPlay") arrancar();
@@ -130,20 +201,10 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
     return () => {
       sub.remove();
       clearTimeout(respaldo);
-      cancelAnimation(reloj);
     };
   }, [arrancar, player, reloj, vivo]);
 
-  const saltar = useCallback(() => {
-    arrancado.current = true;
-    arrancadoVivo.current = true;
-    cancelAnimation(reloj);
-    const desde = Math.max(reloj.value, tiempos.salaIn - 200);
-    reloj.value = desde;
-    reloj.value = withTiming(T, { duration: 520, easing: Easing.out(Easing.cubic) }, (fin) => {
-      if (fin) runOnJS(terminar)();
-    });
-  }, [T, reloj, terminar, tiempos.salaIn]);
+  const saltar = cerrarPronto;
 
   const conEdificio = Boolean(viaje.edificio);
 
@@ -209,7 +270,9 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, re
           ) : (
             <>
               <Animated.View style={[StyleSheet.absoluteFill, estiloVideo]}>
-                <VideoView player={player} nativeControls={false} contentFit="cover" allowsPictureInPicture={false} style={StyleSheet.absoluteFill} />
+                {player ? (
+                  <VideoView player={player} nativeControls={false} contentFit="cover" allowsPictureInPicture={false} style={StyleSheet.absoluteFill} />
+                ) : null}
               </Animated.View>
               <Animated.View style={[StyleSheet.absoluteFill, estiloFinal]}>
                 <Image source={viaje.final} resizeMode="cover" style={StyleSheet.absoluteFill} />

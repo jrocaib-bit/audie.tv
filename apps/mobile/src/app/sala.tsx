@@ -20,7 +20,7 @@ import { infoEpisodio } from "../hoy";
 import { fichaMuseoObra, seleccionarObraSala, tamanoObraSala } from "../sala";
 import { ESPACIOS, VIAJES, componerSala, espacioDeEpisodio, mascaraDeObra, obraCompleta } from "../sala-assets";
 import { resolverLugarObra } from "../sala-lugares";
-import { debeMostrarEntradaSala, esObraSalaAbierta, invitacionSala, OBRAS_SALA_ABIERTAS, paradasSegunSesion, textoSalaInvitacion } from "../sala-cuenta";
+import { debeLanzarEntradaSala, debeMostrarEntradaSala, marcarEntradaVista, esObraSalaAbierta, invitacionSala, OBRAS_SALA_ABIERTAS, paradasSegunSesion, textoSalaInvitacion } from "../sala-cuenta";
 import { camaraDeParadas, paradasDeEpisodio } from "../sala-recorrido";
 import { claveMapTiles, decidirVuelo, planDeVuelo, tiemposVueloVivo } from "../sala-vuelo";
 import { tx } from "../textos";
@@ -105,7 +105,10 @@ export default function LaSala() {
     [espacioEp.sede, insets.bottom],
   );
   const entradaPermitida = debeMostrarEntradaSala(sesion, reducir);
-  const vuelo = entradaPermitida && modoVuelo === "vivo" && planVuelo ? { plan: planVuelo, clave } : null;
+  const vuelo = useMemo(
+    () => (entradaPermitida && modoVuelo === "vivo" && planVuelo ? { plan: planVuelo, clave } : null),
+    [clave, entradaPermitida, modoVuelo, planVuelo],
+  );
   const tiempos = useMemo(() => (vuelo ? tiemposVueloVivo() : tiemposViaje(Boolean(viaje.edificio))), [vuelo, viaje.edificio]);
 
   const { paradas: paradasTodas } = useMemo(
@@ -173,23 +176,40 @@ export default function LaSala() {
   const scrollY = useSharedValue(0);
   const ultimoPaso = useSharedValue(0);
   const [pasoActivo, setPasoActivo] = useState(0);
-  const [mostrandoEntrada, setMostrandoEntrada] = useState(entradaPermitida);
+  const [mostrandoEntrada, setMostrandoEntrada] = useState(() => debeLanzarEntradaSala(entradaPermitida, episodioId));
   const [entradaSeq, setEntradaSeq] = useState(0);
+  const entradaEnCurso = useRef<string | null>(null);
   // Reloj de la entrada (ms). Fuera de la entrada vale el total: la cámara queda asentada en la sala.
   const reloj = useSharedValue(entradaPermitida ? 0 : 100000);
   useEffect(() => {
     if (!mostrandoEntrada || !entradaPermitida) reloj.value = 100000;
   }, [mostrandoEntrada, entradaPermitida, reloj]);
 
-  // Al cambiar de episodio se reinicia el recorrido y vuelve a lanzarse la entrada (salvo reducir movimiento).
+  // Al cambiar de episodio se reinicia el recorrido. La entrada solo se lanza si la obra no se vio en la sesión.
   useEffect(() => {
+    if (!entradaPermitida) {
+      setMostrandoEntrada(false);
+      return;
+    }
+    if (entradaEnCurso.current === episodioId) return;
     setPasoActivo(0);
     scrollY.value = 0;
     ultimoPaso.value = 0;
     scrollRef.current?.scrollTo({ y: 0, animated: false });
-    setMostrandoEntrada(entradaPermitida);
+    const lanzar = debeLanzarEntradaSala(true, episodioId);
+    if (lanzar) {
+      marcarEntradaVista(episodioId);
+      entradaEnCurso.current = episodioId;
+    }
+    setMostrandoEntrada(lanzar);
     setVueloFallido(false);
   }, [episodioId, entradaPermitida, scrollY, ultimoPaso]);
+
+  const alVueloFallido = useCallback(() => setVueloFallido(true), []);
+  const alTerminarEntrada = useCallback(() => {
+    setMostrandoEntrada(false);
+    haptico();
+  }, []);
 
   const alCambiarPaso = useCallback((nuevo: number) => {
     setPasoActivo(nuevo);
@@ -744,11 +764,8 @@ export default function LaSala() {
           reloj={reloj}
           tiempos={tiempos}
           vuelo={vuelo}
-          onVueloFallido={() => setVueloFallido(true)}
-          onTerminar={() => {
-            setMostrandoEntrada(false);
-            haptico();
-          }}
+          onVueloFallido={alVueloFallido}
+          onTerminar={alTerminarEntrada}
         />
       ) : null}
     </View>

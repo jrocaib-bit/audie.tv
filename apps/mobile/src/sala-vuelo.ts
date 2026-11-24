@@ -117,6 +117,13 @@ export function claveMapTiles(env: Record<string, string | undefined> = process.
   return typeof k === "string" ? k.trim() : "";
 }
 
+/** Interruptor de la build: `EXPO_PUBLIC_SALA_VUELO_VIVO` en 0, false u off apaga el vuelo en vivo. */
+export function vueloEnVivoHabilitado(env: Record<string, string | undefined> = process.env): boolean {
+  const v = env.EXPO_PUBLIC_SALA_VUELO_VIVO;
+  if (typeof v !== "string") return true;
+  return !["0", "false", "off"].includes(v.trim().toLowerCase());
+}
+
 /**
  * JavaScript que se inyecta en la página ANTES de que cargue, solo en memoria (no se escribe en disco
  * ni se registra). La clave nunca forma parte del HTML empaquetado.
@@ -161,7 +168,9 @@ export function decidirVuelo(o: {
   sede: SedeId | null;
   soportado?: boolean;
   fallido?: boolean;
+  habilitado?: boolean;
 }): "vivo" | "v2" {
+  if (!(o.habilitado ?? vueloEnVivoHabilitado())) return "v2";
   if (!o.clave || o.reducir || o.fallido || o.soportado === false || !o.sede) return "v2";
   if (!SEDES_VUELO_VIVO.includes(o.sede)) return "v2";
   return vueloDeSede(o.sede) ? "vivo" : "v2";

@@ -23,6 +23,32 @@ export function debeMostrarEntradaSala(sesion: SesionMinima, reducir: boolean): 
   return recorridoAbierto(sesion) && !reducir;
 }
 
+/** Obras cuya entrada ya se lanzó en esta sesión JS. No persiste: se vacía al reiniciar la app. */
+const entradasVistas = new Set<string>();
+
+export function marcarEntradaVista(episodioId: string): void {
+  entradasVistas.add(episodioId);
+}
+
+export function entradaYaVistaEnSesion(episodioId: string): boolean {
+  return entradasVistas.has(episodioId);
+}
+
+/** Solo para tests. */
+export function reiniciarEntradasVistasSesion(): void {
+  entradasVistas.clear();
+}
+
+/** ¿Se lanza la entrada de esta obra? Exige permiso, un id y que la obra no se haya visto en la sesión. */
+export function debeLanzarEntradaSala(
+  permitida: boolean,
+  episodioId: string | null | undefined,
+  vistas: ReadonlySet<string> = entradasVistas,
+): boolean {
+  if (!permitida || !episodioId) return false;
+  return !vistas.has(episodioId);
+}
+
 /**
  * Con sesión, o si la obra es una de las abiertas: el recorrido completo. Sin sesión: solo el adelanto
  * (la obra y el título de la apertura), sin texto narrativo, sin paradas ni zoom a detalles.
