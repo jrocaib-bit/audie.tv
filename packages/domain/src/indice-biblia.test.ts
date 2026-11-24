@@ -3,9 +3,11 @@ import {
   SECCIONES_CANONICAS,
   construirIndice,
   destinosDeCapitulo,
+  episodioDelLibro,
   hrefDeCapitulo,
   libroCoincide,
   librosDelIndice,
+  nombreDeCapitulo,
   rotuloTramo,
   tramoDeCapitulos,
 } from "./indice-biblia";
@@ -126,5 +128,17 @@ describe("índice canónico de la Biblia", () => {
     expect(libroCoincide(gn, "éxodo")).toBe(false);
     expect(libroCoincide(sam, "1 sam")).toBe(true);
     expect(libroCoincide(gn, "")).toBe(true);
+  });
+
+  it("nombra el capítulo y el salmo en singular", () => {
+    const gn = { id: "gn", titulo: { es: "Génesis", en: "Genesis" } };
+    const sal = { id: "sal", titulo: { es: "Salmos", en: "Psalms" } };
+    expect(nombreDeCapitulo(gn, 1, "es")).toBe("Génesis 1");
+    expect(nombreDeCapitulo(gn, 1, "en")).toBe("Genesis 1");
+    expect(nombreDeCapitulo(sal, 10, "es")).toBe("Salmo 10");
+    expect(nombreDeCapitulo(sal, 23, "en")).toBe("Psalm 23");
+    const libro = librosDelIndice(construirIndice(fixture())).find((item) => item.id === "gn")!;
+    expect(episodioDelLibro(libro, "gn-01")?.titulo.es).toBe("Título gn-01");
+    expect(episodioDelLibro(libro, "gn-99")).toBeNull();
   });
 });

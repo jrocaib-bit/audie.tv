@@ -261,3 +261,14 @@ export function libroCoincide(libro: Pick<LibroIndice, "id" | "titulo">, consult
   const sinEspacios = busqueda.replace(/ /g, "");
   return plano(libro.titulo.es).includes(busqueda) || plano(libro.titulo.en).includes(busqueda) || libro.id === sinEspacios || libro.id.startsWith(sinEspacios);
 }
+
+/** «Génesis 1», «Salmo 10», «Psalm 23». */
+export function nombreDeCapitulo(libro: Pick<LibroIndice, "id" | "titulo">, n: number, lang: string): string {
+  const idioma = lang === "en" ? "en" : "es";
+  if (libro.id === "sal") return `${idioma === "en" ? "Psalm" : "Salmo"} ${n}`;
+  return `${libro.titulo[idioma]} ${n}`;
+}
+
+export function episodioDelLibro(libro: Pick<LibroIndice, "episodios">, id: string): EpisodioIndice | null {
+  return libro.episodios.find((episodio) => episodio.id === id) ?? null;
+}
