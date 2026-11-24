@@ -2,6 +2,7 @@
 
 import {
   avisoFuente,
+  marcaCapitulo,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -301,6 +302,7 @@ function Lectura({
           {texto.versiculos.map((versiculo, indice) => {
             const esActual = indice === actual;
             const saltable = sincronizado && typeof versiculo.t === "number";
+            const capitulo = marcaCapitulo(texto.episodio, texto.versiculos, indice, tx);
             const numero = <span aria-hidden="true" className="mr-2 align-top text-[0.7em] font-semibold tabular-nums" style={{ color: paleta.numero }}>{versiculo.v}</span>;
             return (
               <li
@@ -310,6 +312,11 @@ function Lectura({
                 className="rounded-xl"
                 style={{ background: esActual ? paleta.actual : undefined, color: esActual || !sincronizado ? paleta.tinta : paleta.suave }}
               >
+                {capitulo ? (
+                  <p data-capitulo className="px-3 pt-3 text-sm font-semibold" style={{ color: paleta.numero }}>
+                    {capitulo}
+                  </p>
+                ) : null}
                 {saltable ? (
                   <button
                     type="button"
