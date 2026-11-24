@@ -1,8 +1,11 @@
-import { MENSAJES_LIBROS, type LibroFicha } from "@audite/domain";
-import { useRouter } from "expo-router";
+import { MENSAJES_LIBROS, type LibroFicha, type VolumenEstanteria } from "@audite/domain";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, Text, View } from "react-native";
 import { clienteLibrosApp } from "../libros/cliente";
+import { baseContenido, mockDeDesarrollo } from "../libros/config";
+import { cargarEstanteriaApp } from "../libros/estanteria-datos";
+import { EstanteriaApp } from "../libros/estanteria";
 import { Cubierta } from "../libros/cubierta";
 import { LETRA } from "../libros/estilos";
 import { useColoresLibros } from "../libros/tema";
@@ -12,8 +15,13 @@ export default function Libros() {
   const colors = useColoresLibros();
   const router = useRouter();
   const [libros, setLibros] = useState<LibroFicha[] | null>(null);
+  const [estanteria, setEstanteria] = useState<VolumenEstanteria[] | null>(null);
+  const { mock } = useLocalSearchParams<{ mock?: string }>();
   useEffect(() => {
     let vivo = true;
+    void cargarEstanteriaApp(baseContenido()).then((lista) => {
+      if (vivo && lista) setEstanteria(lista);
+    });
     void clienteLibrosApp(null, null).then(({ api }) => api.catalogo()).then((dato) => {
       if (vivo) setLibros(dato.libros);
     });
@@ -35,6 +43,7 @@ export default function Libros() {
           <Text style={[ui.kicker, { color: colors.muted }]}>Libros</Text>
           <Text accessibilityRole="header" style={{ color: colors.ink, fontFamily: LETRA, fontSize: 38, lineHeight: 42 }}>La Escritura, leída con los Padres</Text>
           <Text style={[ui.body, { color: colors.muted }]}>Se leen aquí, con el prólogo gratis y el resto incluido en la suscripción.</Text>
+          {estanteria ? <EstanteriaApp volumenes={estanteria} mock={mockDeDesarrollo(mock)} /> : null}
           {libros === null ? <ActivityIndicator color={colors.accent} /> : null}
           {libros !== null && libros.length === 0 ? <Text style={[ui.body, { color: colors.muted }]}>El catálogo de libros se está preparando.</Text> : null}
         </View>
