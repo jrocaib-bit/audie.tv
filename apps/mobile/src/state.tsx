@@ -52,6 +52,7 @@ import { baseDeContenido, uriDeObra } from "./entorno";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AppState } from "react-native";
+import { debeReafirmarSesion, MODO_AUDIO, REAFIRMAR_MS } from "./audio-sesion";
 const contentBase = baseDeContenido();
 
 const indice = indiceJson as AppCatalog;
@@ -247,6 +248,13 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     [metadatos, playlist],
   );
 
+  /** expo-video reescribe la sesión compartida y la deja mezclable. Se fija de nuevo y se recupera Now Playing. */
+  const reafirmarSesion = useCallback(() => {
+    void setAudioModeAsync(MODO_AUDIO)
+      .catch(() => undefined)
+      .then(() => refrescarBloqueo(indiceEsperado.current));
+  }, [refrescarBloqueo]);
+
   /** URL reproducible de un episodio: descarga local o URL firmada. null si no se puede. */
   const resolverUri = useCallback(async (id: string, archivos: Awaited<ReturnType<typeof leerDescargas>>, cache: CacheAudio): Promise<{ ok: true; uri: string } | { ok: false; error: ErrorAudio }> => {
     const ep = episodiosPorId.get(id);
@@ -292,7 +300,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       } catch {
         // Sin nada cargado todavía.
       }
-      await setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true, interruptionMode: "doNotMix" }).catch(() => undefined);
+      await setAudioModeAsync(MODO_AUDIO).catch(() => undefined);
       const archivos = await leerDescargas();
       if (token !== loadToken.current) return;
       const pos = posicionEn(colaRef.current, target.id, contextoRef.current.pos ?? 0);
@@ -326,7 +334,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         refrescarBloqueo(ids.length - 1);
         setLoadedId(target.id);
         playedSinceLoad.current = true;
-        if (reproducir) playlist.play();
+        if (reproducir) {
+          reafirmarSesion();
+          playlist.play();
+        }
         void ampliarVentana(token, pos < 0 ? 0 : pos);
       } catch (error) {
         console.warn("[audio] reproductor", error);
@@ -354,6 +365,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       fijarContexto({ ...ctx, pos: pos < 0 ? 0 : pos });
       if (!opciones.forzar && target.id === currentIdRef.current && loadedIdRef.current === target.id) {
         if (renovarRef.current(true)) return;
+        reafirmarSesion();
         playlist.play();
         return;
       }
@@ -401,11 +413,19 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
 
   // Al volver de segundo plano o de la pantalla de bloqueo, antes de que el usuario pulse nada.
   useEffect(() => {
+    let temporizador: ReturnType<typeof setTimeout> | undefined;
     const aviso = AppState.addEventListener("change", (estado) => {
+      if (temporizador) clearTimeout(temporizador);
       if (estado === "active") renovarRef.current(statusRef.current.playing);
+      if (!debeReafirmarSesion({ estadoApp: estado, sonando: statusRef.current.playing })) return;
+      reafirmarSesion();
+      if (estado !== "active") temporizador = setTimeout(reafirmarSesion, REAFIRMAR_MS);
     });
-    return () => aviso.remove();
-  }, []);
+    return () => {
+      aviso.remove();
+      if (temporizador) clearTimeout(temporizador);
+    };
+  }, [reafirmarSesion]);
 
   /** El audio nativo cambió de pista (siguiente desde la pantalla de bloqueo o fin natural del episodio). */
   const cambioNativo = useCallback(
@@ -458,11 +478,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   }, [cambioNativo, status.currentIndex, status.trackCount]);
 
   useEffect(() => {
-    void setAudioModeAsync({
-      playsInSilentMode: true,
-      shouldPlayInBackground: true,
-      interruptionMode: "doNotMix",
-    });
+    void setAudioModeAsync(MODO_AUDIO);
   }, []);
   const restored = useRef(false);
 
@@ -534,8 +550,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
   if (episode && cargado) ultimaPosicion.current = { id: episode.id, t: globalTime, dur: episode.durationSeconds };
 
   useEffect(() => {
-    if (status.playing) playedSinceLoad.current = true;
-  }, [status.playing]);
+    if (!status.playing) return;
+    playedSinceLoad.current = true;
+    reafirmarSesion();
+  }, [status.playing, reafirmarSesion]);
 
   useEffect(() => {
     if (!hydrated || !episode || !cargado || !playedSinceLoad.current) return;
@@ -629,6 +647,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
     const ventana = ventanaRef.current;
     if (loadedIdRef.current && ventana[status.currentIndex + 1] === v.id) {
       playlist.next();
+      reafirmarSesion();
       playlist.play();
       return;
     }
@@ -700,7 +719,10 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       if (status.playing) playlist.pause();
-      else if (!renovarRef.current(true)) playlist.play();
+      else if (!renovarRef.current(true)) {
+        reafirmarSesion();
+        playlist.play();
+      }
     },
     seekBy: (delta) => seekGlobal(globalTime + delta),
     seek: (seconds) => seekGlobal(seconds),
