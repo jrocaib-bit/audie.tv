@@ -46,6 +46,11 @@ export function entradasSitemap(base = origenSitio()): string[] {
   return [...urls];
 }
 
+/** Landings de libros con lectura, en los idiomas publicados. Los borradores no entran. */
+export function entradasSitemapLibros(ids: readonly string[], base = origenSitio()): string[] {
+  return IDIOMAS_PUBLICADOS.flatMap((lang) => ids.map((id) => `${base}/${lang}/libros/${id}`));
+}
+
 export function rutaDeSitemapExiste(url: string, appDir = APP_DIR): boolean {
   const pathname = new URL(url).pathname.replace(/\/$/, "") || "/";
   if (pathname.startsWith("/reto/")) {

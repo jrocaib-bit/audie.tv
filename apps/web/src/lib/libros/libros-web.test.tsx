@@ -113,12 +113,15 @@ describe("catálogo y ficha", () => {
     expect(html).toContain("Comprar en Kindle");
   });
 
-  it("ficha de un completo sin texto: aviso afirmativo y sin enlace de lectura; el borrador no existe", async () => {
+  it("ficha de un completo sin texto: aviso afirmativo y sin enlace de lectura; el borrador tiene landing sin lectura", async () => {
     const html = renderToStaticMarkup(await PaginaFicha({ params: Promise.resolve({ lang: "es", slug: "completo-sin-texto" }) }));
     expect(html).toContain("La lectura de este volumen en Audite se está preparando.");
     expect(html).not.toContain("Leer el adelanto");
     expect(html).not.toContain("/leer");
-    await expect(PaginaFicha({ params: Promise.resolve({ lang: "es", slug: "en-borrador" }) })).rejects.toThrow();
+    const borrador = renderToStaticMarkup(await PaginaFicha({ params: Promise.resolve({ lang: "es", slug: "en-borrador" }) }));
+    expect(borrador).toContain("En preparación");
+    expect(borrador).not.toContain("/leer");
+    await expect(PaginaFicha({ params: Promise.resolve({ lang: "es", slug: "no-existe" }) })).rejects.toThrow();
   });
 
   it("episodio: redirige a la ficha del catálogo y solo conserva una vuelta segura", async () => {

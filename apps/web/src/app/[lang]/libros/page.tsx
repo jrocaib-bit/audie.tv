@@ -6,14 +6,18 @@ import { Estanteria } from "@/components/libros/estanteria";
 import { mockDeParametro } from "@/lib/libros/acceso";
 import { ID_LIBRO, cargarCatalogo, fichaPublica } from "@/lib/libros/carga";
 import { cargarEstanteria } from "@/lib/libros/estanteria";
+import { metadatosCatalogo } from "@/lib/libros/landing";
+import { origenSitio } from "@/lib/sitio-publico";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Libros",
-  description: "Comentarios a los libros de la Escritura, leídos con los Padres de la Iglesia. Se leen dentro de Audite, con adelanto gratis.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  if (!esIdiomaPublico(lang)) return { title: "Libros" };
+  const volumenes = await cargarEstanteria();
+  return metadatosCatalogo(lang, origenSitio(), Boolean(volumenes?.some((v) => v.volumen === 1)));
+}
 
 type Busqueda = Record<string, string | string[] | undefined>;
 

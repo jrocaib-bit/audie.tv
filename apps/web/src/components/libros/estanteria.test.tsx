@@ -202,16 +202,17 @@ describe("estantería, interacción", () => {
     expect(document.activeElement).toBe(lomo("libro-1"));
   });
 
-  it("un borrador muestra la insignia, la sinopsis y los episodios, sin botón de lectura ni enlace a la ficha", async () => {
+  it("un borrador muestra la insignia, la sinopsis y los episodios, sin botón de lectura y con enlace a la landing", async () => {
     render(<Estanteria {...props} />);
     await act(async () => { fireEvent.click(lomo("libro-12")); });
     await esperar();
     const ficha = document.querySelector("[data-ficha]")!;
     expect(ficha.textContent).toContain("En preparación");
     expect(ficha.textContent).toContain("Una sinopsis inventada");
-    expect(ficha.querySelector("[data-accion]")).toBeNull();
+    expect([...ficha.querySelectorAll("[data-accion]")].map((a) => a.getAttribute("data-accion"))).toEqual(["ver-libro"]);
+    expect(ficha.querySelector('[data-accion="ver-libro"]')?.getAttribute("href")).toBe("/es/libros/libro-12");
     expect(ficha.querySelectorAll('a[href^="/es/catalogo/ep-12-"]')).toHaveLength(2);
-    expect(ficha.querySelector('a[href*="#episodios"]')).toBeNull();
+    expect(ficha.querySelector('a[href*="#referencias"]')).toBeNull();
     expect(ficha.textContent).toContain("Libro 1 a 2");
   });
 
@@ -220,7 +221,10 @@ describe("estantería, interacción", () => {
     await act(async () => { fireEvent.click(lomo("libro-5")); });
     const ficha = document.querySelector("[data-ficha]")!;
     expect(ficha.querySelector('a[href="/es/catalogo/ep-5-a"]')?.textContent).toContain("Libro 1 a 2");
-    expect(ficha.querySelector('a[href="/es/libros/libro-5#episodios"]')?.textContent).toBe("Ver los 12 episodios del libro");
+    expect(ficha.querySelector('a[href="/es/libros/libro-5#referencias"]')?.textContent).toBe("Ver los 12 episodios del libro");
+    const ver = ficha.querySelector('a[data-accion="ver-libro"]');
+    expect(ver?.getAttribute("href")).toBe("/es/libros/libro-5");
+    expect(ver?.textContent).toBe("Ver el libro");
     expect(ficha.textContent).toContain("Portada: Autor inventado");
   });
 

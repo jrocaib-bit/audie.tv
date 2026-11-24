@@ -378,3 +378,10 @@
 @media (prefers-reduced-motion: reduce) {
   .est-escena *, .est-escena { scroll-behavior: auto; }
 }
+
+/* Enlace discreto a la landing del libro, bajo los botones. */
+.est-ver-libro { margin: 6px 0 0; }
+.est-ver-libro .est-enlace { justify-content: flex-start; color: #b7ab9c; }
+@media (max-width: 767px) {
+  .est-ver-libro { margin-bottom: 4px; }
+}

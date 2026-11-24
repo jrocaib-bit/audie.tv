@@ -7,17 +7,15 @@ import {
   altCubierta,
   archivoPortada,
   botonesFicha,
-  crearClienteLibros,
   etiquetaLomo,
   hrefEntrarParaLibros,
-  parseAnotaciones,
   type AccionFicha,
   type MockLibros,
   type VistaLector,
   type VolumenEstanteria,
 } from "@audite/domain";
-import { supabaseWeb } from "@/lib/auth-web";
-import { claveLibro } from "@/lib/libros/clave-local";
+import { consultarVista, hayProgreso } from "@/lib/libros/acceso-cliente";
+import { destinoAccion } from "@/lib/libros/landing";
 import { TEXTOS_ESTANTERIA, verEpisodios } from "@/lib/libros/textos-estanteria";
 import "./estanteria.css";
 
@@ -71,14 +69,6 @@ function actualizarUrl(id: string | null) {
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
   } catch {
     // Sin historial no se actualiza la URL y todo sigue funcionando.
-  }
-}
-
-function hayProgreso(id: string): boolean {
-  try {
-    return Boolean(parseAnotaciones(JSON.parse(localStorage.getItem(claveLibro(id)) ?? "null"), id).progreso);
-  } catch {
-    return false;
   }
 }
 
@@ -292,9 +282,7 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
   }
 
   function destino(accion: AccionFicha): string {
-    if (accion === "leer") return `${rutaLeer}${mock ? `?mock=${mock}` : ""}`;
-    if (accion === "entrar") return hrefEntrarParaLibros(lang, rutaLeer);
-    return `/${lang}/membresia`;
+    return destinoAccion(accion, lang, v.id, hrefEntrarParaLibros(lang, rutaLeer), mock);
   }
 
   const estilo = { "--color": v.color } as CSSProperties;
@@ -336,6 +324,7 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
                 ))}
               </div>
             ) : null}
+            <p className="est-ver-libro"><Link href={`/${lang}/libros/${v.id}`} data-accion="ver-libro" className="est-enlace">{TEXTOS_ESTANTERIA.verLibro}</Link></p>
             {sinLectura ? (
               <div className="est-preparacion" data-aviso="en-preparacion">
                 <span className="est-insignia">{TEXTOS_ESTANTERIA.enPreparacion}</span>
@@ -356,7 +345,7 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
                   ))}
                 </ul>
                 {v.disponibilidad !== "borrador" && v.episodios_total > 0 ? (
-                  <Link className="est-ver-todos" href={`/${lang}/libros/${v.id}#episodios`}>{verEpisodios(v.episodios_total)}</Link>
+                  <Link className="est-ver-todos" href={`/${lang}/libros/${v.id}#referencias`}>{verEpisodios(v.episodios_total)}</Link>
                 ) : null}
               </section>
             ) : null}
@@ -392,14 +381,7 @@ export function Estanteria({ lang, volumenes, mock, libroInicial }: { lang: stri
     if (!consultaAcceso) return;
     let vivo = true;
     void (async () => {
-      let token: string | null = null;
-      try {
-        const remoto = supabaseWeb();
-        token = remoto ? ((await remoto.auth.getSession()).data.session?.access_token ?? null) : null;
-      } catch {
-        token = null;
-      }
-      const siguiente: VistaLector = token || mock ? await crearClienteLibros({ base: "", token, mock }).acceso() : "sin-sesion";
+      const siguiente = await consultarVista(mock);
       if (vivo) setVista(siguiente);
     })();
     return () => {

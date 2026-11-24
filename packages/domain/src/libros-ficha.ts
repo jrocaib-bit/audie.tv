@@ -90,6 +90,9 @@ export function altCubierta(volumen: Pick<VolumenEstanteria, "volumen" | "titulo
   return `Cubierta de «${volumen.titulo}», volumen ${volumen.volumen}, de la colección Audite.`;
 }
 
+/** Enlace de la ficha de la estantería a la landing o ficha del libro. */
+export const ETIQUETA_VER_LIBRO = "Ver el libro";
+
 export const FRASE_EN_PREPARACION = "Este volumen se está preparando. Aquí podrás leerlo cuando esté listo.";
 export const LEYENDA_ESTANTERIA = "Los volúmenes 1 a 10 tienen adelanto gratis. Los volúmenes 11 a 16 están en preparación.";
 

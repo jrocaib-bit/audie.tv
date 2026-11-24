@@ -1,4 +1,4 @@
-import { FRASE_EN_PREPARACION, LEYENDA_ESTANTERIA, MENSAJES_LIBROS } from "@audite/domain";
+import { ETIQUETA_VER_LIBRO, FRASE_EN_PREPARACION, LEYENDA_ESTANTERIA, MENSAJES_LIBROS } from "@audite/domain";
 
 /** Cadenas fijas de la estantería. Un test comprueba que no llevan `;`, `—` ni `–`. */
 export const TEXTOS_ESTANTERIA = {
@@ -7,6 +7,7 @@ export const TEXTOS_ESTANTERIA = {
   leyenda: LEYENDA_ESTANTERIA,
   cerrar: "Cerrar",
   cerrarAria: "Cerrar la ficha del libro",
+  verLibro: ETIQUETA_VER_LIBRO,
   episodios: "Episodios relacionados",
   enPreparacion: MENSAJES_LIBROS.enPreparacion,
   frasePreparacion: FRASE_EN_PREPARACION,
