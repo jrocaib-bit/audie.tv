@@ -110,7 +110,7 @@ export function ContextoReportaje({ contexto, lang, conCita = true, pantalla = f
   const hayTiempo = !!lineaTiempo?.length;
   if (!(conCita && cita) && !hayMapa && !hayTiempo) return null;
   return (
-    <div data-contexto className="grid gap-10 py-6 max-md:gap-0 md:gap-14 md:py-10">
+    <div data-contexto className="grid gap-10 py-6 max-md:gap-0 max-md:mb-[62svh] md:gap-14 md:py-10">
       {conCita && cita ? <CitaGrande texto={cita} /> : null}
       {hayMapa ? <MapaSala puntos={mapa!} lang={lang} pantalla={pantalla} /> : null}
       {hayTiempo ? <LineaTiempo lineas={lineaTiempo!} lang={lang} pantalla={pantalla} /> : null}

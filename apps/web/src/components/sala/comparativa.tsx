@@ -9,7 +9,7 @@ export function Comparativa({ datos }: { datos?: ComparativaSala | null }) {
   const imagenes = (datos?.imagenes ?? []).filter((i) => i.src && i.pie && i.ancho > 0 && i.alto > 0);
   if (!datos || !imagenes.length || !datos.creditos) return null;
   return (
-    <section data-comparativa data-pantalla aria-label={datos.entrada} className={`grid gap-4 md:py-10 ${PANTALLA_MOVIL}`}>
+    <section data-comparativa data-pantalla aria-label={datos.entrada} className={`grid gap-4 md:py-10 max-md:mb-[62svh] ${PANTALLA_MOVIL}`}>
       <p className="font-display text-2xl leading-snug md:text-3xl">{datos.entrada}</p>
       <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 md:gap-5">
         {imagenes.map((i) => (
