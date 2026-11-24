@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { rutaAudio } from "@audite/content/audio-listo";
 import { esAudioGratis, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
+import { audioPideSuscripcion, clienteServicio, tokenDePeticion, usuarioDeToken } from "@/lib/sesion-servidor";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -39,23 +40,14 @@ export async function GET(request: Request, contexto: { params: Promise<{ id: st
   const ruta = rutaAudio(id);
   if (!ruta) return respuesta(404, { error: "no-encontrado" });
   const gratis = esAudioGratis(id, process.env.AUDIO_GRATIS);
-  const token = request.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1]?.trim() ?? "";
+  const token = tokenDePeticion(request);
   if (!gratis && !token) return respuesta(401, { error: "sin-sesion" });
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
-  const clave = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? "";
-  if (!url || !clave) return respuesta(503, { error: "no-disponible" });
-  const cliente = createClient(url, clave, { auth: { persistSession: false, autoRefreshToken: false } });
+  const cliente = clienteServicio();
+  if (!cliente) return respuesta(503, { error: "no-disponible" });
   let usuario: UsuarioAudio | null = null;
   if (!gratis) {
-    const sesion = await cliente.auth.getUser(token);
-    const user = sesion.data.user;
-    if (sesion.error || !user) return respuesta(401, { error: "sin-sesion" });
-    let subscriptionStatus: string | null = null;
-    if ((process.env.AUDIO_ACCESO ?? "").trim().toLowerCase() === "suscripcion") {
-      const fila = await cliente.from("subscription_status").select("status").eq("user_id", user.id).maybeSingle();
-      subscriptionStatus = typeof fila.data?.status === "string" ? fila.data.status : null;
-    }
-    usuario = { email: user.email ?? null, subscriptionStatus };
+    usuario = await usuarioDeToken(cliente, token, audioPideSuscripcion());
+    if (!usuario) return respuesta(401, { error: "sin-sesion" });
     if (!puedeEscuchar(usuario, process.env.AUDIO_ACCESO, process.env.AUDIO_EMAILS_PERMITIDOS)) {
       return respuesta(403, { error: "sin-permiso" });
     }

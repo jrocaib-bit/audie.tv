@@ -1,6 +1,6 @@
 "use client";
 
-import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, versiculoEnTiempo, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
+import { idiomaContenido, PLAYBACK_RATES, SLEEP_CHOICES, CLAVE_MARCADORES, alternarFavorito, capituloDePrueba, citaEnCurso, esFavorito, etiquetaCita, formatClock, fundidoMs, idTextoValido, metadatosReproduccion, nombreCorto, parseMarcadores, playableEpisodes, referenciasDe, segundoDeCita, siguienteEnCola, versiculoEnTiempo, type ReferenciaCruzada, type SleepMinutes } from "@audite/domain";
 import { Heart, ListMusic, Moon, Pause, Play, Share2, SkipBack, SkipForward } from "lucide-react";
 import { obraDeEpisodio, obraWebp, rotuloObra } from "@audite/content/obras";
 import dataset from "../../../../../content/referencias/openbible.json";
@@ -11,6 +11,24 @@ import { BucleCuadro } from "@/components/bucle-cuadro";
 import { Placa } from "@/components/placa";
 import { bucleDeEpisodio, estiloDeHueco } from "@/lib/bucles";
 import { formatoNumero } from "@/lib/numeros";
+import { simulacionActiva } from "@/lib/texto/simulacion";
+import { PanelTexto } from "@/components/v2/panel-texto";
+
+/** Reloj sin audio para capturas en desarrollo (`?sim=1`). En producción queda apagado. */
+function useRelojSimulado(rate: number): { activo: boolean; segundo: number; fijar: (segundo: number) => void } {
+  const [activo, setActivo] = useState(false);
+  const [segundo, setSegundo] = useState(0);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActivo(simulacionActiva(window.location.search, process.env.NODE_ENV));
+  }, []);
+  useEffect(() => {
+    if (!activo) return;
+    const paso = window.setInterval(() => setSegundo((valor) => valor + 0.25 * rate), 250);
+    return () => window.clearInterval(paso);
+  }, [activo, rate]);
+  return { activo, segundo, fijar: setSegundo };
+}
 
 function colorDominante(datos: Uint8ClampedArray): string | null {
   let rojo = 0;
@@ -79,7 +97,7 @@ function alternar(id: string) {
   oyentesFavorito.forEach((oyente) => oyente());
 }
 
-export function ReproductorV2() {
+export function ReproductorV2({ textoActivo = false }: { textoActivo?: boolean } = {}) {
   const library = useLibrary();
   const locale = library.settings.uiLocale;
   const es = locale === "es";
@@ -89,9 +107,10 @@ export function ReproductorV2() {
   const bucle = episode ? bucleDeEpisodio(episode.id) : null;
   const titulo = episode ? nombreCorto(episode, locale) : obra ? rotuloObra(obra, locale) : "Audite";
   const duracion = episode?.durationSeconds ?? 0;
-  const tiempo = library.player.episodeId === episode?.id ? library.player.globalTime : 0;
+  const reloj = useRelojSimulado(library.settings.rate);
+  const tiempo = reloj.activo ? reloj.segundo : library.player.episodeId === episode?.id ? library.player.globalTime : 0;
   const sonando = library.player.status === "playing";
-  const fraccion = duracion > 0 ? tiempo / duracion : 0;
+  const fraccion = duracion > 0 ? Math.min(1, tiempo / duracion) : 0;
   const cita = episode ? citaEnCurso(episode.scriptureRangeLabel, fraccion) : null;
   const [cap, ver] = (cita ?? "1:1").split(":").map(Number);
   const relacionadas = referenciasDe(refs, { libroId: episode?.bookId ?? "gn", capitulo: cap || 1, versiculo: ver || 1 }).slice(0, 5);
@@ -129,6 +148,25 @@ export function ReproductorV2() {
   const oible = Boolean(episode);
   const marca = episode?.tiempos ? versiculoEnTiempo(episode.tiempos, tiempo) : null;
 
+  const [textoPedido, setTextoPedido] = useState<string | null>(null);
+  useEffect(() => {
+    if (!reloj.activo) return;
+    const valor = new URLSearchParams(window.location.search).get("texto");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (idTextoValido(valor)) setTextoPedido(valor);
+  }, [reloj.activo]);
+  const episodioTexto = textoActivo ? (textoPedido ?? episode?.id ?? null) : null;
+
+  function saltar(segundo: number) {
+    if (reloj.activo) {
+      reloj.fijar(segundo);
+      return;
+    }
+    if (!episode) return;
+    if (library.player.episodeId === episode.id) library.seek(segundo);
+    else library.playEpisode(episode.id, true, segundo);
+  }
+
   function tocar(accion: () => void) {
     if (!library.reduceMotion && typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(8);
     accion();
@@ -142,7 +180,8 @@ export function ReproductorV2() {
   return (
     <main className="relative min-h-full bg-black text-[#F4ECE2]">
       <div className="pointer-events-none fixed inset-0" style={{ background: `linear-gradient(180deg, ${fondo} 0%, #100E0C 52%, #000000 100%)` }} />
-      <div className="relative flex min-h-dvh flex-col">
+      <div className={episodioTexto ? "relative lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(24rem,40rem)] lg:gap-6 lg:pr-6" : "contents"}>
+      <div className="relative flex min-h-dvh flex-col lg:col-start-1">
       <header className="flex items-center justify-between px-4 py-3">
         <span className="flex items-center gap-1">
           <Link href="/escuchar" aria-label={es ? "Cerrar" : "Close"} className="inline-flex size-11 items-center justify-center text-xl">↓</Link>
@@ -179,7 +218,7 @@ export function ReproductorV2() {
               <span key={segmento.id} className="absolute top-1/2 h-2 w-px -translate-y-1/2 bg-[#F4ECE2]/80" style={{ left: `${duracion ? (segmento.startSeconds / duracion) * 100 : 0}%` }} />
             ))}
           </span>
-          <input type="range" className="absolute inset-0 w-full cursor-pointer opacity-0" min={0} max={duracion || 1} step={0.1} value={Math.min(tiempo, duracion || 1)} disabled={!oible} onChange={(event) => library.seek(Number(event.target.value))} />
+          <input type="range" className="absolute inset-0 w-full cursor-pointer opacity-0" min={0} max={duracion || 1} step={0.1} value={Math.min(tiempo, duracion || 1)} disabled={!oible} onChange={(event) => (reloj.activo ? reloj.fijar(Number(event.target.value)) : library.seek(Number(event.target.value)))} />
         </label>
         <div className="flex justify-between text-xs tabular-nums text-[#B7AB9C]">
           <span>{formatClock(tiempo)}</span>
@@ -203,6 +242,12 @@ export function ReproductorV2() {
         </div>
       </div>
       </div>
+      {episodioTexto ? (
+        <div className="relative mx-auto mt-2 w-full max-w-lg px-4 lg:sticky lg:top-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-dvh lg:max-w-none lg:self-start lg:px-0 lg:py-4">
+          <PanelTexto episodioId={episodioTexto} idioma={idiomaContenido(locale)} uiLocale={locale} tiempo={tiempo} onSaltar={saltar} reducirMovimiento={library.reduceMotion} />
+        </div>
+      ) : null}
+      <div className={episodioTexto ? "relative lg:col-start-1" : "contents"}>
         <section className="relative mx-auto mt-6 w-full max-w-lg px-4">
           <h2 className="font-display text-2xl">{es ? "A continuación" : "Up next"}</h2>
           <ol className="mt-3">
@@ -212,7 +257,7 @@ export function ReproductorV2() {
             })}
           </ol>
         </section>
-        <section id="letras" className="relative mx-auto mt-2 w-full max-w-lg scroll-mt-6 px-4 pb-16">
+        {episodioTexto ? null : <section id="letras" className="relative mx-auto mt-2 w-full max-w-lg scroll-mt-6 px-4 pb-16">
           <h2 className="font-display text-2xl">{cita ?? episode?.scriptureRangeLabel}</h2>
           <ol className="mt-3 space-y-3">
             {lectura?.versiculos.map((versiculo) => (
@@ -221,8 +266,8 @@ export function ReproductorV2() {
               </li>
             ))}
           </ol>
-        </section>
-        <section className="mx-auto mt-8 w-full max-w-lg px-4">
+        </section>}
+        <section className="relative mx-auto mt-8 w-full max-w-lg px-4">
           <h2 className="font-display text-2xl">{es ? "Al margen" : "Margin"}</h2>
           <ul className="mt-3 space-y-2">
             {relacionadas.map((referencia) => {
@@ -256,6 +301,9 @@ export function ReproductorV2() {
             {obraAbierta ? <div className="mt-3"><Placa obra={obra} lang={locale} /></div> : null}
           </section>
         ) : null}
+        {episodioTexto ? <div className="h-16" /> : null}
+      </div>
+      </div>
         <p className="sr-only">{metadatosReproduccion({ titulo, libro: episode?.scriptureRangeLabel ?? "", caratula: obra ? obraWebp(obra) : null, duracion, posicion: tiempo, velocidad: library.settings.rate }).artista}</p>
       {hoja ? (
         <div className="fixed inset-0 z-50 flex items-end bg-black/50" onClick={() => setHoja(null)}>
