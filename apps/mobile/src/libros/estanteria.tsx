@@ -1,4 +1,4 @@
-import { altCubierta, botonesFicha, etiquetaLomo, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
+import { ETIQUETA_VER_LIBRO, altCubierta, botonesFicha, etiquetaLomo, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, Image, Modal, Pressable, ScrollView, Text, View } from "react-native";
@@ -137,6 +137,9 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
                   <Text style={{ color: boton.nivel === "primario" ? "#100E0C" : boton.nivel === "secundario" ? "#C9A96E" : "#E7D7C3", fontSize: 16, textDecorationLine: boton.nivel === "enlace" ? "underline" : "none" }}>{boton.etiqueta}</Text>
                 </Pressable>
               ))}
+              <Pressable accessibilityRole="link" onPress={() => ir(`/libros/${v.id}${mock ? `?mock=${mock}` : ""}`)} style={{ minHeight: 44, justifyContent: "center", alignItems: "center" }}>
+                <Text style={{ color: "#B7AB9C", fontSize: 16, textDecorationLine: "underline" }}>{ETIQUETA_VER_LIBRO}</Text>
+              </Pressable>
               {v.disponibilidad !== "lectura" ? (
                 <View style={{ borderWidth: 1, borderColor: "#2E2924", backgroundColor: "#1B1815", borderRadius: 16, padding: 14, gap: 6 }}>
                   <Text style={{ color: "#C9A96E", fontSize: 13 }}>En preparación</Text>

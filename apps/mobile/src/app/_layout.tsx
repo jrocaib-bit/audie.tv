@@ -30,6 +30,7 @@ function Shell() {
     { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
     { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
     { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
+    { href: "/libros", icono: "libro", etiqueta: t.tabLibros },
     { href: "/sala", icono: "sala", etiqueta: t.tabSala },
   ];
 
@@ -62,7 +63,6 @@ function Shell() {
         <Stack.Screen name="leer" options={cabecera} />
         <Stack.Screen name="creditos" options={cabecera} />
         <Stack.Screen name="reto/[id]" options={cabecera} />
-        <Stack.Screen name="libros" options={cabecera} />
         <Stack.Screen name="libros/[slug]" options={cabecera} />
         <Stack.Screen name="libros/[slug]/leer" options={cabecera} />
         <Stack.Screen name="bienvenida" options={{ contentStyle: { backgroundColor: "#0C0B09" }, animation: "fade" }} />

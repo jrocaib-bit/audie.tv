@@ -9,10 +9,12 @@ import { EstanteriaApp } from "../libros/estanteria";
 import { Cubierta } from "../libros/cubierta";
 import { LETRA } from "../libros/estilos";
 import { useColoresLibros } from "../libros/tema";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ui } from "../theme";
 
 export default function Libros() {
   const colors = useColoresLibros();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const [libros, setLibros] = useState<LibroFicha[] | null>(null);
   const [estanteria, setEstanteria] = useState<VolumenEstanteria[] | null>(null);
@@ -39,7 +41,7 @@ export default function Libros() {
       style={{ backgroundColor: colors.bg }}
       contentContainerStyle={{ paddingBottom: 120 }}
       ListHeaderComponent={
-        <View style={{ paddingHorizontal: 22, paddingTop: 12, paddingBottom: 12, gap: 12 }}>
+        <View style={{ paddingHorizontal: 22, paddingTop: insets.top + 12, paddingBottom: 12, gap: 12 }}>
           <Text style={[ui.kicker, { color: colors.muted }]}>Libros</Text>
           <Text accessibilityRole="header" style={{ color: colors.ink, fontFamily: LETRA, fontSize: 38, lineHeight: 42 }}>La Escritura, leída con los Padres</Text>
           <Text style={[ui.body, { color: colors.muted }]}>Se leen aquí, con el prólogo gratis y el resto incluido en la suscripción.</Text>
