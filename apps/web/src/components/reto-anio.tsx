@@ -60,6 +60,88 @@ function diaPieza(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, f
   );
 }
 
+function IconoEscuchar() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** Un día como relato: imagen y botón arriba, 2 a 4 párrafos, y al final las lecturas como complemento. */
+function diaNarrado(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, fecha: string | null, rangos: readonly RangoEpisodio[], mini: string, creditoDia: string | undefined) {
+  const pronto = ui === "en" ? "Coming soon" : "Próximamente";
+  const duracion = dia.duracion_s ? reloj(dia.duracion_s) : "";
+  const pares = paresDeCitas(dia);
+  const meta = [fecha ? fechaLegible(fecha, ui) : null, dia.diaLiturgico?.[ui]].filter(Boolean).join(" · ");
+  const parrafos = dia.narracion?.[ui] ?? [];
+  const etiquetaLecturas = ui === "en" ? "Readings of the day" : "Lecturas del día";
+  const etiquetaEpisodios = ui === "en" ? "Full episodes" : "Episodios completos";
+  const etiquetaObra = ui === "en" ? "Artwork" : "Obra";
+  const etiquetaEscuchar = ui === "en" ? "Listen" : "Escuchar";
+  const columnas = mini ? "md:grid md:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] md:gap-x-8" : "";
+  const derecha = mini ? "md:col-start-2" : "";
+  return (
+    <article data-narrado="" className={columnas}>
+      {mini ? (
+        <span data-obra={`${dia.pieza}-miniatura`} className="block aspect-video overflow-hidden rounded-xl bg-[#0C0B09] md:col-start-1 md:row-span-4 md:row-start-1 md:self-start">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={mini} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" />
+        </span>
+      ) : null}
+      <header className={`mt-4 ${mini ? "md:mt-0" : ""} ${derecha}`}>
+        <h2 className="font-display text-2xl leading-tight md:text-3xl">{numero}. {dia[ui]}</h2>
+        {meta ? <p className="t-meta mt-1">{meta}</p> : null}
+      </header>
+      <div className={`mt-4 ${derecha}`}>
+        <BotonOro variante="secundario" disabled aria-disabled="true" className="w-full md:w-auto" data-escuchar="">
+          <IconoEscuchar />
+          <span>{[etiquetaEscuchar, duracion, pronto].filter(Boolean).join(" · ")}</span>
+        </BotonOro>
+      </div>
+      <div data-relato="" lang={ui} className={`mt-5 max-w-[62ch] space-y-4 text-[1.0625rem] leading-[1.65] text-[#E7D7C3] ${derecha}`}>
+        {parrafos.map((texto, i) => <p key={i}>{texto}</p>)}
+      </div>
+      <details data-lecturas="" className={`group mt-6 rounded-xl border border-[#2E2924] bg-[#1B1815]/70 ${derecha}`}>
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-4 py-2 text-sm text-[#B7AB9C] marker:hidden [&::-webkit-details-marker]:hidden">
+          <span>{etiquetaLecturas}</span>
+          <svg viewBox="0 0 24 24" className="size-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.75" /></svg>
+        </summary>
+        <div className="space-y-4 px-4 pb-4 text-sm">
+          {pares.length > 0 ? (
+            <ul className="space-y-1 text-[#B7AB9C]">
+              {pares.map((par) => <li key={par}>{par}</li>)}
+            </ul>
+          ) : null}
+          {dia.nota ? <p className="text-[#8A8175]">{dia.nota[ui]}</p> : null}
+          {dia.relacionados && dia.relacionados.length > 0 ? (
+            <div>
+              <p className="t-rotulo text-[#8A8175]">{etiquetaEpisodios}</p>
+              <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                {dia.relacionados.map((id) => {
+                  const rango = rangos.find((item) => item.id === id);
+                  const etiqueta = rango ? `${id} · ${rango.rango}` : id;
+                  return rango ? (
+                    <Link key={id} href={`/${lang}/catalogo/${id}`} className="inline-flex min-h-8 items-center text-[#C9A96E] underline">{etiqueta}</Link>
+                  ) : (
+                    <span key={id} className="text-[#8A8175]">{etiqueta}</span>
+                  );
+                })}
+              </p>
+            </div>
+          ) : null}
+          {creditoDia ? (
+            <div>
+              <p className="t-rotulo text-[#8A8175]">{etiquetaObra}</p>
+              <p className="t-meta mt-1">{creditoDia}</p>
+            </div>
+          ) : null}
+        </div>
+      </details>
+    </article>
+  );
+}
+
 export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang: string; reto: RetoAnioDato; rangos: readonly RangoEpisodio[]; hoy?: string }) {
   const ui = lang === "en" ? "en" : "es";
   const copy = copiaSitio(lang);
@@ -165,8 +247,9 @@ export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang:
               const mini = miniaturaDePieza(dia.pieza);
               const creditoDia = mini ? CREDITOS_DIAS_PROFECIAS[dia.pieza]?.[ui] : undefined;
               return (
-                <li key={dia.pieza} className="py-3">
-                  <div className={mini ? "flex gap-3" : undefined}>
+                <li key={dia.pieza} className={dia.narracion ? "py-8" : "py-3"} data-dia={indice + 1}>
+                  {dia.narracion ? diaNarrado(lang, ui, dia, indice + 1, dia.fecha ?? fechaDeDia(reto.id, indice), rangos, mini, creditoDia) : null}
+                  {dia.narracion ? null : <div className={mini ? "flex gap-3" : undefined}>
                     {mini ? (
                       <span data-obra={`${dia.pieza}-miniatura`} className="block h-16 w-28 shrink-0 overflow-hidden rounded-md bg-[#0C0B09]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -177,7 +260,7 @@ export function VistaRetoAnio({ lang, reto, rangos, hoy = hoyMadrid() }: { lang:
                       {diaPieza(lang, ui, dia, indice + 1, dia.fecha ?? fechaDeDia(reto.id, indice), rangos)}
                       {creditoDia ? <span className="t-meta mt-1 block">{creditoDia}</span> : null}
                     </div>
-                  </div>
+                  </div>}
                 </li>
               );
             })}
