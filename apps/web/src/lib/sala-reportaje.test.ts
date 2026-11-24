@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { CAJA_MAPA, contextoVacio, partirLinea, proyectar, SILUETA } from "./sala-contexto";
+import { CAJA_MAPA, cajaDe, contextoVacio, esMarcoNeerlandes, marcoDe, partirLinea, proyectar, proyectarEn, SILUETA } from "./sala-contexto";
+import { siluetaEuropa } from "./sala-mapa-europa";
 import { contextoSala, reportajePremium } from "./sala-reportaje";
 import { idsSala } from "./sala-recorridos";
 
@@ -57,5 +58,50 @@ describe("contexto de reportaje", () => {
       expect(y).toBeLessThan(CAJA_MAPA.h);
     }
     expect(SILUETA.length).toBeGreaterThan(10);
+  });
+
+  it("el marco se ajusta a los puntos: todos proyectan dentro de su caja, también una sola ciudad", () => {
+    const casos: Record<string, { lat: number; lon: number }[]> = {
+      "gn-01": contextoSala("gn-01", "es")!.mapa!,
+      siena: [{ lat: 43.32, lon: 11.33 }],
+      roma_nuremberg: [{ lat: 41.9, lon: 12.5 }, { lat: 49.45, lon: 11.08 }],
+      jerusalen: [{ lat: 31.78, lon: 35.22 }],
+      estambul_alejandria: [{ lat: 41.01, lon: 28.98 }, { lat: 31.2, lon: 29.92 }],
+      limoges_londres: [{ lat: 45.83, lon: 1.26 }, { lat: 51.51, lon: -0.13 }],
+    };
+    for (const [nombre, pts] of Object.entries(casos)) {
+      const m = marcoDe(pts);
+      const { w, h } = cajaDe(m);
+      for (const p of pts) {
+        const { x, y } = proyectarEn(m, p.lat, p.lon);
+        expect(x, nombre).toBeGreaterThan(0);
+        expect(x, nombre).toBeLessThan(w);
+        expect(y, nombre).toBeGreaterThan(0);
+        expect(y, nombre).toBeLessThan(h);
+      }
+      expect(w / h, nombre).toBeGreaterThanOrEqual(0.75);
+      expect(w / h, nombre).toBeLessThanOrEqual(1.55);
+    }
+  });
+  it("gn-01 conserva el marco neerlandés y una ciudad suelta se ve en contexto regional", () => {
+    const m = marcoDe(contextoSala("gn-01", "es")!.mapa!);
+    expect(esMarcoNeerlandes(m)).toBe(true);
+    expect(cajaDe(m)).toEqual(CAJA_MAPA);
+    const gn = contextoSala("gn-01", "es")!.mapa![0]!;
+    expect(proyectarEn(m, gn.lat, gn.lon)).toEqual(proyectar(gn.lat, gn.lon));
+    const siena = marcoDe([{ lat: 43.32, lon: 11.33 }]);
+    expect(esMarcoNeerlandes(siena)).toBe(false);
+    expect(siena.latMax - siena.latMin).toBeGreaterThanOrEqual(7);
+    const { x, y } = proyectarEn(siena, 43.32, 11.33);
+    const { w, h } = cajaDe(siena);
+    expect(Math.abs(x - w / 2)).toBeLessThan(2);
+    expect(Math.abs(y - h / 2)).toBeLessThan(2);
+  });
+  it("la silueta euro-mediterránea se recorta al marco y el mar interior solo aparece si lo toca", () => {
+    const roma = siluetaEuropa(marcoDe([{ lat: 41.9, lon: 12.5 }]));
+    expect(roma.tierra.length).toBeGreaterThan(0);
+    expect(roma.mares).toHaveLength(0);
+    const estambul = siluetaEuropa(marcoDe([{ lat: 41.01, lon: 28.98 }]));
+    expect(estambul.mares).toHaveLength(1);
   });
 });

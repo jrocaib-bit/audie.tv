@@ -21,12 +21,12 @@ export function partirLinea(linea: string): { anio: string; resto: string } {
   return i > 0 && i <= 20 ? { anio: linea.slice(0, i), resto: linea.slice(i + 2) } : { anio: "", resto: linea };
 }
 
-/** Marco del mapa de los Países Bajos y su entorno (grados). */
+/** Marco del mapa de los Países Bajos y su entorno (grados). Es el marco por defecto cuando todos los puntos caen dentro. */
 export const MARCO_MAPA = { lonMin: 2.4, lonMax: 7.4, latMin: 50.4, latMax: 53.6 } as const;
 const COS_LAT = Math.cos((52 * Math.PI) / 180);
 export const CAJA_MAPA = { w: Math.round((MARCO_MAPA.lonMax - MARCO_MAPA.lonMin) * COS_LAT * 100), h: Math.round((MARCO_MAPA.latMax - MARCO_MAPA.latMin) * 100) } as const;
 
-/** Proyección equirrectangular corregida por la latitud, a la caja del SVG. */
+/** Proyección equirrectangular corregida por la latitud, a la caja del SVG (marco de los Países Bajos). */
 export function proyectar(lat: number, lon: number): { x: number; y: number } {
   return { x: (lon - MARCO_MAPA.lonMin) * COS_LAT * 100, y: (MARCO_MAPA.latMax - lat) * 100 };
 }
@@ -44,6 +44,69 @@ export const LAGO: readonly (readonly [number, number])[] = [[5.05, 52.95], [5.4
 export function trazado(puntos: readonly (readonly [number, number])[]): string {
   return puntos.map(([lon, lat], i) => {
     const { x, y } = proyectar(lat, lon);
+    return `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join("") + "Z";
+}
+
+/* ───────── Marco autoajustado por obra ───────── */
+
+export type MarcoMapa = { lonMin: number; lonMax: number; latMin: number; latMax: number };
+type PuntoGeo = { lat: number; lon: number };
+
+/** Margen alrededor de los puntos (fracción de su extensión por cada lado) y extensión mínima (grados de latitud) para que una sola ciudad se vea en su región. */
+const MARGEN = 0.3;
+const SPAN_MIN = 7;
+/** Proporción ancho/alto permitida de la caja. */
+const ASPECTO_MIN = 0.8;
+const ASPECTO_MAX = 1.5;
+const ANCHO_BASE = 310;
+
+const cosDe = (latCentro: number) => Math.cos((latCentro * Math.PI) / 180);
+const dentroDe = (m: MarcoMapa, p: PuntoGeo) => p.lon > m.lonMin && p.lon < m.lonMax && p.lat > m.latMin && p.lat < m.latMax;
+
+/**
+ * Marco del mapa de una obra a partir de sus puntos. Si todos caen en el recuadro neerlandés se usa ese (detalle con IJsselmeer).
+ * En otro caso: caja de los puntos con margen, extensión mínima y proporción acotada, centrada en los puntos.
+ */
+export function marcoDe(puntos: readonly PuntoGeo[]): MarcoMapa {
+  if (!puntos.length) return { ...MARCO_MAPA };
+  if (puntos.every((p) => dentroDe(MARCO_MAPA, p))) return { ...MARCO_MAPA };
+  const lats = puntos.map((p) => p.lat);
+  const lons = puntos.map((p) => p.lon);
+  const latC = (Math.min(...lats) + Math.max(...lats)) / 2;
+  const lonC = (Math.min(...lons) + Math.max(...lons)) / 2;
+  const c = cosDe(latC);
+  let alto = Math.max((Math.max(...lats) - Math.min(...lats)) * (1 + 2 * MARGEN), SPAN_MIN);
+  let ancho = Math.max((Math.max(...lons) - Math.min(...lons)) * c * (1 + 2 * MARGEN), SPAN_MIN);
+  if (ancho / alto < ASPECTO_MIN) ancho = alto * ASPECTO_MIN;
+  if (ancho / alto > ASPECTO_MAX) alto = ancho / ASPECTO_MAX;
+  return { lonMin: lonC - ancho / c / 2, lonMax: lonC + ancho / c / 2, latMin: latC - alto / 2, latMax: latC + alto / 2 };
+}
+
+export const esMarcoNeerlandes = (m: MarcoMapa) => m.lonMin === MARCO_MAPA.lonMin && m.lonMax === MARCO_MAPA.lonMax && m.latMin === MARCO_MAPA.latMin && m.latMax === MARCO_MAPA.latMax;
+const geometria = (m: MarcoMapa) => {
+  const cos = cosDe((m.latMin + m.latMax) / 2);
+  const ancho = (m.lonMax - m.lonMin) * cos;
+  const escala = esMarcoNeerlandes(m) ? 100 : ANCHO_BASE / ancho;
+  return { cos, escala, w: Math.round(ancho * escala), h: Math.round((m.latMax - m.latMin) * escala) };
+};
+
+/** Caja (unidades del SVG) de un marco. */
+export function cajaDe(m: MarcoMapa): { w: number; h: number } {
+  const { w, h } = geometria(m);
+  return { w, h };
+}
+
+/** Proyección equirrectangular corregida por la latitud, relativa al marco. */
+export function proyectarEn(m: MarcoMapa, lat: number, lon: number): { x: number; y: number } {
+  const { cos, escala } = geometria(m);
+  return { x: (lon - m.lonMin) * cos * escala, y: (m.latMax - lat) * escala };
+}
+
+/** Trazado SVG (cerrado) de un polígono lon/lat proyectado en el marco. */
+export function trazadoEn(m: MarcoMapa, poligono: readonly (readonly [number, number])[]): string {
+  return poligono.map(([lon, lat], i) => {
+    const { x, y } = proyectarEn(m, lat, lon);
     return `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`;
   }).join("") + "Z";
 }

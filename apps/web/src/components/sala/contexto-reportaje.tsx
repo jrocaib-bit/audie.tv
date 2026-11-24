@@ -1,4 +1,5 @@
-import { CAJA_MAPA, LAGO, partirLinea, proyectar, SILUETA, trazado, type ContextoSala, type PuntoMapa } from "@/lib/sala-contexto";
+import { cajaDe, esMarcoNeerlandes, LAGO, marcoDe, partirLinea, proyectarEn, SILUETA, trazado, trazadoEn, type ContextoSala, type PuntoMapa } from "@/lib/sala-contexto";
+import { siluetaEuropa } from "@/lib/sala-mapa-europa";
 
 const ROTULOS = {
   es: { mapa: "Dónde estuvo", tiempo: "Su historia", mapaDe: "Mapa con" },
@@ -14,20 +15,45 @@ export function CitaGrande({ texto }: { texto: string }) {
   );
 }
 
-/** Mapa SVG propio (sin teselas ni servicios): silueta sencilla de los Países Bajos y su entorno, con los puntos numerados. */
+/** Ancho aproximado de un rótulo del mapa (unidades del SVG, cuerpo 11). */
+const anchoRotulo = (t: string) => t.length * 5.8;
+
+/**
+ * Mapa SVG propio (sin teselas ni servicios): el marco se ajusta a los puntos de la obra y la silueta de Europa, el Mediterráneo y el Levante
+ * se recorta a ese marco. Si el marco es el neerlandés se pinta el detalle de los Países Bajos con el IJsselmeer.
+ * La silueta es solo apoyo: los puntos y sus rótulos se pintan siempre, caigan o no dentro de ella.
+ */
 export function MapaSala({ puntos, lang }: { puntos: PuntoMapa[]; lang: "es" | "en" }) {
   const r = ROTULOS[lang];
-  const pos = puntos.map((p) => proyectar(p.lat, p.lon));
+  const marco = marcoDe(puntos);
+  const caja = cajaDe(marco);
+  const neerlandes = esMarcoNeerlandes(marco);
+  const silueta = neerlandes ? null : siluetaEuropa(marco);
+  const pos = puntos.map((p) => proyectarEn(marco, p.lat, p.lon));
   return (
     <section data-mapa className="grid gap-4 md:gap-5">
       <h2 className="font-display text-xl">{r.mapa}</h2>
-      <svg viewBox={`0 0 ${CAJA_MAPA.w} ${CAJA_MAPA.h}`} role="img" aria-label={`${r.mapaDe} ${puntos.map((p) => p.nombre).join(", ")}`} className="mx-auto h-auto w-full max-w-[17rem] rounded-2xl md:max-w-[22rem] bg-[#100E0C]">
-        <path d={trazado(SILUETA)} fill="#1B1815" stroke="#3A3328" strokeWidth="1.2" strokeLinejoin="round" />
-        <path d={trazado(LAGO)} fill="#100E0C" stroke="#3A3328" strokeWidth="0.8" />
+      <svg viewBox={`0 0 ${caja.w} ${caja.h}`} role="img" aria-label={`${r.mapaDe} ${puntos.map((p) => p.nombre).join(", ")}`} className="mx-auto h-auto w-full max-w-[17rem] rounded-2xl md:max-w-[22rem] bg-[#100E0C]">
+        {neerlandes ? (
+          <>
+            <path d={trazado(SILUETA)} fill="#1B1815" stroke="#3A3328" strokeWidth="1.2" strokeLinejoin="round" />
+            <path d={trazado(LAGO)} fill="#100E0C" stroke="#3A3328" strokeWidth="0.8" />
+          </>
+        ) : (
+          <g fill="#1B1815" stroke="#3A3328" strokeWidth="1.2" strokeLinejoin="round">
+            {silueta!.tierra.map((poligono, i) => (
+              <path key={i} d={trazadoEn(marco, poligono) + (i === 0 ? silueta!.mares.map((m) => trazadoEn(marco, m)).join("") : "")} fillRule="evenodd" />
+            ))}
+          </g>
+        )}
         <polyline points={pos.map((q) => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" ")} fill="none" stroke="#C9A96E" strokeOpacity="0.55" strokeWidth="1.2" strokeDasharray="3 3" />
         {puntos.map((p, i) => {
           const q = pos[i]!;
-          const izquierda = q.x < 135;
+          const ancho = anchoRotulo(p.nombre);
+          const cabeIzq = q.x - 10 - ancho >= 0;
+          const cabeDer = q.x + 10 + ancho <= caja.w;
+          // Los puntos de la mitad izquierda de la caja rotulan hacia fuera (a la izquierda), los de la derecha a la derecha; si no cabe, al otro lado.
+          const izquierda = q.x < caja.w / 2 ? cabeIzq || !cabeDer : !cabeDer && cabeIzq;
           return (
             <g key={p.id} data-punto={p.id}>
               <circle cx={q.x} cy={q.y} r="6" fill="#C9A96E" />
