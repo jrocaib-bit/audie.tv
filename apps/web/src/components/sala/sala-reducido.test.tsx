@@ -38,6 +38,8 @@ describe("relato con prefers-reduced-motion (matchMedia)", () => {
     for (const t of ["Texto apertura", "Texto uno", "Texto dos", "Texto cierre"]) expect(div.textContent).toContain(t);
     for (const el of div.querySelectorAll<HTMLElement>("[data-bloque]")) expect(el.style.opacity).not.toBe("0");
     expect(div.querySelector<HTMLElement>("[data-visor]")!.getAttribute("data-zoom")).toBe("1");
+    expect(div.querySelector("[data-visor]")!.getAttribute("data-mascara")).toBe("ninguna");
+    expect(div.querySelector("[data-capa-mascara]")).toBeNull();
   });
   it("sin reduce: los bloques se animan (opacity inline) y no hay data-reducido", () => {
     const { div } = montar(false);

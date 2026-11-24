@@ -1,0 +1,77 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it, vi } from "vitest";
+import { SalaPagina } from "@/app/[lang]/sala/sala-pagina";
+import { idsSala, recorridoSala, resolverRecorrido } from "@/lib/sala-recorridos";
+import { contextoSala } from "@/lib/sala-reportaje";
+import { RelatoScroll } from "./sala-cuenta";
+
+vi.mock("next/image", () => ({ default: () => null }));
+
+const cierreGn01 = recorridoSala("gn-01")!.cierre.titulo.es;
+
+describe("adelanto con contexto (sin sesión y gratuito)", () => {
+  for (const lang of ["es", "en"] as const) {
+    it(`gn-01 ${lang}: cita, mapa SVG y línea de tiempo antes del corte; nada posterior`, () => {
+      const html = renderToStaticMarkup(SalaPagina({ lang, id: "gn-01", mock: "gratis" }));
+      const c = contextoSala("gn-01", lang)!;
+      expect(html).toContain("data-cita");
+      expect(html).toContain("data-mapa");
+      expect(html).toContain("data-linea-tiempo");
+      expect(html).toContain("<svg");
+      expect(html).toContain(c.cita!.replace("'", "&#x27;"));
+      expect(html.indexOf("data-apertura")).toBeLessThan(html.indexOf("data-cita"));
+      expect(html.indexOf("data-linea-tiempo")).toBeLessThan(html.indexOf("data-corte"));
+      expect(html).not.toContain("data-comparativa");
+      expect(html).not.toContain("data-creditos");
+      expect(html).not.toContain("data-fragmento");
+      expect(html).not.toMatch(/Durero|Dürer|Escuchar el episodio|Listen to the episode/);
+      expect(html).not.toContain(resolverRecorrido("gn-01", lang)!.cierre.titulo);
+      expect(html).not.toMatch(/https?:\/\/[^"]*(tile|maps|google|cesium)/i);
+      expect(html).not.toContain("<iframe");
+    });
+  }
+  it("una obra sin ficha rica se pinta sin mapa, cita ni línea de tiempo y sin romper", () => {
+    const otro = idsSala().find((id) => id !== "gn-01")!;
+    const html = renderToStaticMarkup(SalaPagina({ lang: "es", id: otro }));
+    expect(html).toContain("data-apertura");
+    expect(html).toContain("data-corte");
+    for (const a of ["data-cita", "data-mapa", "data-linea-tiempo", "data-contexto"]) expect(html).not.toContain(a);
+  });
+});
+
+describe("relato premium con máscara y contexto", () => {
+  const r = recorridoSala("gn-01")!;
+  const datos = {
+    apertura: { titulo: r.apertura.titulo.es, texto: r.apertura.texto.es },
+    pasos: r.pasos.map((p) => ({ x: p.x, y: p.y, zoom: p.zoom, titulo: p.titulo.es, texto: p.texto.es })),
+    cierre: { titulo: cierreGn01, texto: r.cierre.texto.es },
+  };
+  const contexto = contextoSala("gn-01", "es");
+  const html = renderToStaticMarkup(<RelatoScroll lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="T" datos={datos} contexto={contexto} />);
+  const reducido = renderToStaticMarkup(<RelatoScroll lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="T" datos={datos} contexto={contexto} reducido />);
+
+  it("una capa de máscara por paso, ninguna activa en la apertura, y una sola imagen de la obra", () => {
+    expect(html).toContain('data-mascara="ninguna"');
+    expect((html.match(/data-capa-mascara=/g) ?? []).length).toBe(datos.pasos.length);
+    expect(html).toContain("radial-gradient");
+    expect((html.match(/<img/g) ?? []).length).toBe(1);
+    expect(html).toContain("data-cita");
+    expect(html).toContain("data-mapa");
+    expect(html).toContain("data-linea-tiempo");
+  });
+  it("la máscara solo anima opacity", () => {
+    const capa = html.match(/data-capa-mascara="1"[^>]*style="([^"]*)"/)![1]!;
+    expect(capa).toContain("transition:opacity 750ms");
+    expect(capa).not.toMatch(/transform|width|height|left|top/);
+  });
+  it("movimiento reducido: sin capas de máscara y con el contexto legible", () => {
+    expect(reducido).not.toContain("data-capa-mascara");
+    expect(reducido).toContain('data-mascara="ninguna"');
+    expect(reducido).toContain("data-mapa");
+    expect(reducido).not.toContain("opacity:0");
+  });
+  it("sin contexto no se pinta bloque de contexto", () => {
+    const sin = renderToStaticMarkup(<RelatoScroll lang="es" id="x" src="/x.webp" alt="Obra" titulo="T" datos={datos} />);
+    expect(sin).not.toContain("data-contexto");
+  });
+});

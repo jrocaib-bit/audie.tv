@@ -3,6 +3,7 @@ import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Placa } from "@/components/placa";
 import { SalaCuenta, type MockSala } from "@/components/sala/sala-cuenta";
 import { adelantoSala } from "@/lib/sala-recorridos";
+import { contextoSala } from "@/lib/sala-reportaje";
 
 /** `?mock=` (solo fuera de producción): sin | gratis | premium (con = premium). */
 function mockDe(mock: string | undefined): MockSala | undefined {
@@ -29,6 +30,7 @@ export function SalaPagina({ lang, id, mock }: { lang: string; id: string; mock?
       alt={obra?.titulo[ui] ?? ""}
       titulo={obra?.titulo[ui] ?? episodio?.titulo?.[ui] ?? id}
       adelanto={adelantoSala(id, ui) ?? undefined}
+      contexto={contextoSala(id, ui)}
       placa={obra ? <Placa obra={obra} lang={ui} /> : undefined}
       sesionMock={mockDe(mock)}
     />

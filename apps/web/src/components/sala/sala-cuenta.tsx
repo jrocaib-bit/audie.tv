@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { sesionWeb, tokenWeb } from "@/lib/auth-web";
 import { datosVistaSala, type Adelanto, type RecorridoVista, type RespuestaSala, type VistaSala } from "@/lib/sala-cuenta";
+import type { ContextoSala } from "@/lib/sala-contexto";
+import { fondoMascara, geometriaMascara } from "@/lib/sala-mascara";
+import { ContextoReportaje } from "./contexto-reportaje";
 import { etiquetaActivo, etiquetaCamara, indiceActivo, opacidadBloque, poseDeBloque, transformaPaso, type Caja } from "@/lib/sala-scroll";
 
 export type MockSala = "sin" | "gratis" | "premium";
@@ -31,7 +34,7 @@ const FALLO = { es: "No pudimos comprobar tu acceso. Vuelve a intentarlo en un m
  * Visor de La sala: encuadre object-cover, siempre lleno. La obra entera va a tamaño cover dentro de un nodo que se
  * transforma (solo transform) y `overflow: hidden` está solo en el visor exterior. `paso` mueve la cámara.
  */
-function VisorObra({ src, obraId, alt, paso, reducido, className }: { src: string; obraId?: string; alt: string; paso: RecorridoVista["pasos"][number] | null; reducido: boolean; className: string }) {
+function VisorObra({ src, obraId, alt, paso, reducido, className, mascaras, children }: { src: string; obraId?: string; alt: string; paso: RecorridoVista["pasos"][number] | null; reducido: boolean; className: string; mascaras?: { pasos: RecorridoVista["pasos"]; activo: number }; children?: ReactNode }) {
   const [aspecto, setAspecto] = useState<number | null>(null);
   const [caja, setCaja] = useState<Caja>({ w: 390, h: 400 });
   const [movil, setMovil] = useState(false);
@@ -60,14 +63,24 @@ function VisorObra({ src, obraId, alt, paso, reducido, className }: { src: strin
     return () => ro.disconnect();
   }, []);
   const { ancho, alto, ...pose } = transformaPaso(paso, aspecto, caja, movil);
+  // Máscara de iluminación: una capa estática por paso (degradado radial fijo); solo se funde con opacity. Nunca con movimiento reducido.
+  const capas = mascaras && !reducido ? mascaras.pasos : [];
   return (
-    <div ref={ref} className={`relative overflow-hidden bg-[#0C0B09] ${className}`} data-obra={obraId} data-zoom={paso && !reducido ? paso.zoom : 1} data-visor>
+    <div ref={ref} className={`relative overflow-hidden bg-[#0C0B09] ${className}`} data-obra={obraId} data-zoom={paso && !reducido ? paso.zoom : 1} data-mascara={capas.length && mascaras && mascaras.activo >= 0 ? `paso-${mascaras.activo + 1}` : "ninguna"} data-visor>
       <div className="absolute left-0 top-0 will-change-transform" style={{ width: ancho, height: alto, ...pose, transition: reducido ? "none" : "transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1)" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} fetchPriority="high" loading="eager" decoding="sync" className="sala-obra h-full w-full object-cover" />
       </div>
+      {capas.map((p, i) => (
+        <div key={i} aria-hidden="true" data-capa-mascara={i + 1} className="pointer-events-none absolute inset-0" style={{ backgroundImage: fondoMascara(geometriaMascara(p, aspecto, caja, movil)), opacity: mascaras?.activo === i ? 1 : 0, transition: "opacity 750ms ease" }} />
+      ))}
+      {children}
     </div>
   );
+}
+
+function Tarjeta({ children }: { children: ReactNode }) {
+  return <div className="max-w-prose rounded-2xl border border-[#2E2924] bg-[#1B1815] p-5 md:p-7">{children}</div>;
 }
 
 function Apertura({ a }: { a: Adelanto }) {
@@ -103,7 +116,7 @@ export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo 
 }
 
 /** Relato con scroll (solo premium): párrafos que aparecen uno a uno y cámara que encuadra el paso en foco. */
-export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa, reducido: reducidoInicial = false }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; placa?: ReactNode; reducido?: boolean }) {
+export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contexto, placa, reducido: reducidoInicial = false }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; contexto?: ContextoSala | null; placa?: ReactNode; reducido?: boolean }) {
   const [reducido, setReducido] = useState(reducidoInicial);
   const [activo, setActivo] = useState(0);
   const [reveladas, setReveladas] = useState<ReadonlySet<number>>(new Set([0]));
@@ -179,31 +192,43 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, placa,
     const op = opacidadBloque({ revelado: reveladas.has(i), activo: indice === i }, reducido);
     return reducido ? undefined : { opacity: op, transform: op === 0 ? "translateY(14px)" : "none", transition: "opacity 700ms ease, transform 700ms ease" };
   };
-  // Móvil: cada bloque ocupa la franja de texto visible (pantalla − cabecera − visor), un paso por franja.
-  const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_58svh))] flex-col justify-center py-6 md:min-h-[62svh]";
+  // Cada bloque ocupa la franja de texto visible (móvil: pantalla − cabecera − visor), un paso por franja.
+  const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_62svh))] flex-col justify-center py-4 md:min-h-[78svh] md:py-8";
   const ref = (i: number) => (el: HTMLElement | null) => {
     bloques.current[i] = el;
   };
+  const enPaso = indice >= 1 && indice <= total;
   return (
     <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
       <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div ref={visor} className="sticky top-[var(--cab)] z-20 md:top-0 md:z-10 md:h-svh md:self-start">
-          <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[58svh] md:h-svh" />
+          <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[62svh] md:h-svh" mascaras={{ pasos: datos.pasos, activo: enPaso ? indice - 1 : -1 }}>
+            {enPaso ? (
+              <p data-contador aria-hidden="true" className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-[#100E0C]/80 px-3 py-1 text-sm tabular-nums text-[#E0C48A] md:right-5 md:bottom-5">{indice} / {total}</p>
+            ) : null}
+          </VisorObra>
         </div>
-        <div className="relative z-10 -mt-5 rounded-t-3xl bg-[#0C0B09] px-5 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:z-auto md:mt-0 md:rounded-none md:shadow-none md:px-10">
+        <div className="relative z-10 -mt-5 rounded-t-3xl bg-[#0C0B09] px-4 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:z-auto md:mt-0 md:rounded-none md:shadow-none md:px-10">
           <h1 className="font-display t-h1 pt-6 md:pt-[12svh]">{titulo}</h1>
           <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
-            <Apertura a={datos.apertura} />
+            <Tarjeta>
+              <Apertura a={datos.apertura} />
+            </Tarjeta>
           </article>
+          <ContextoReportaje contexto={contexto} lang={lang} />
           {datos.pasos.map((p, i) => (
             <article key={i} data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>
-              <p className="text-sm tracking-wide text-[#C9A96E]">{i + 1}</p>
-              <h3 className="font-display text-xl">{p.titulo}</h3>
-              <p className="mt-2 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{p.texto}</p>
+              <Tarjeta>
+                <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
+                <h3 className="mt-2 font-display text-xl">{p.titulo}</h3>
+                <p className="mt-2 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{p.texto}</p>
+              </Tarjeta>
             </article>
           ))}
           <article data-cierre data-indice={total + 1} data-bloque ref={ref(total + 1)} className={clase} style={estilo(total + 1)}>
-            <Apertura a={datos.cierre} />
+            <Tarjeta>
+              <Apertura a={datos.cierre} />
+            </Tarjeta>
           </article>
           <div className="mt-6 grid gap-6">
             {placa ? <div className="max-w-sm">{placa}</div> : null}
@@ -230,6 +255,7 @@ export function SalaCuenta({
   alt,
   titulo,
   adelanto,
+  contexto,
   placa,
   sesionMock,
 }: {
@@ -240,6 +266,7 @@ export function SalaCuenta({
   alt: string;
   titulo: string;
   adelanto?: Adelanto;
+  contexto?: ContextoSala | null;
   placa?: ReactNode;
   sesionMock?: MockSala;
 }) {
@@ -283,13 +310,13 @@ export function SalaCuenta({
 
   const { vista, hrefEntrar } = datosVistaSala(sesion, id, lang, respuesta?.acceso);
   if (vista === "premium" && respuesta?.acceso === "premium") {
-    return <RelatoScroll lang={lang} id={id} src={src} obraId={obraId} alt={alt} titulo={titulo} datos={respuesta} placa={placa} />;
+    return <RelatoScroll lang={lang} id={id} src={src} obraId={obraId} alt={alt} titulo={titulo} datos={respuesta} contexto={contexto} placa={placa} />;
   }
   const apertura = respuesta?.apertura ?? adelanto;
   const verificando = !!userId && !respuesta && !fallo;
   return (
     <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]" data-vista={vista}>
-      <VisorObra src={src} obraId={obraId} alt={alt} paso={null} reducido className="h-[38svh] md:h-[50svh]" />
+      <VisorObra src={src} obraId={obraId} alt={alt} paso={null} reducido className="h-[56svh] md:h-[68svh]" />
       <div className="mx-auto w-full max-w-3xl px-5 pt-4 md:px-8 md:pt-8">
         <h1 className="font-display t-h1 max-md:!text-[1.75rem]">{titulo}</h1>
         {apertura ? (
@@ -297,6 +324,7 @@ export function SalaCuenta({
             <Apertura a={apertura} />
           </div>
         ) : null}
+        <ContextoReportaje contexto={contexto} lang={lang} />
         <CorteSala lang={lang} vista={vista === "premium" ? "gratuito" : vista} hrefEntrar={hrefEntrar} verificando={verificando} fallo={fallo} />
       </div>
     </main>
