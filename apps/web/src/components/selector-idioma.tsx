@@ -33,7 +33,7 @@ export function SelectorIdioma({ lang, claro = false }: { lang: string; claro?: 
       <select
         aria-label={actual}
         value={actual}
-        className={`min-h-11 bg-transparent text-xs uppercase tracking-[0.14em] ${claro ? "text-[#F4ECE2]" : "text-foreground"}`}
+        className={`min-h-11 w-[4.5rem] max-w-full bg-transparent text-xs uppercase tracking-[0.14em] ${claro ? "text-[#F4ECE2]" : "text-foreground"}`}
         onChange={(event) => {
           const idioma = event.target.value;
           if (!esIdioma(idioma)) return;

@@ -9,6 +9,7 @@ import { Wordmark } from "@/components/brand";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto, Placa } from "@/components/placa";
 import { bucleDeHero } from "@/lib/bucles";
+import { EnlaceNav } from "@/components/enlace-nav";
 import { RecordarIdioma, SelectorIdioma } from "@/components/selector-idioma";
 import { agruparLibros } from "@/lib/publico";
 import { palabras } from "@/lib/movimiento";

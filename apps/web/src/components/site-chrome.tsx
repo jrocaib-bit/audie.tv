@@ -18,7 +18,14 @@ const links = [
   { href: "/escuchar", es: "Inicio", en: "Home" },
   { href: "/buscar", es: "Buscar", en: "Search" },
   { href: "/biblioteca", es: "Biblioteca", en: "Library" },
+  // Los libros viven en la web pública. El idioma de la ruta lo pone `hrefDe`.
+  { href: "/libros", es: "Libros", en: "Books" },
 ];
+
+/** `/libros` es una ruta pública con idioma: `/es/libros`. */
+function hrefDe(href: string, locale: string): string {
+  return href === "/libros" ? `${rutaDeInicio(locale)}/libros` : href;
+}
 
 function active(pathname: string, href: string): boolean {
   if (href === "/escuchar") return pathname === "/" || pathname === "/escuchar";
@@ -49,7 +56,7 @@ export function SiteHeader() {
             return (
               <Link
                 key={link.href}
-                href={link.href}
+                href={hrefDe(link.href, locale)}
                 aria-current={current ? "page" : undefined}
                 className={`inline-flex min-h-11 items-center rounded-full px-3 text-sm ${current ? "bg-foreground text-background" : "text-muted"}`}
               >
@@ -78,14 +85,14 @@ export function TabBar() {
   return (
     <nav
       aria-label={t(locale, "wordmark")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
     >
       {links.map((link) => {
         const current = active(pathname, link.href);
         return (
           <Link
             key={link.href}
-            href={link.href}
+            href={hrefDe(link.href, locale)}
             aria-current={current ? "page" : undefined}
             className={`audite-pulso flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
