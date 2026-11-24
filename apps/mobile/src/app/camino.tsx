@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { ScrollView, Text, View, type ScrollViewInstance } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
+import { ordenarPorAudio } from "../caminos";
 import { th, llenar } from "../textos-hoy";
 import { tx } from "../textos";
 import { CaminoActualCard, CaminoCard } from "../ui/CaminoCard";
@@ -23,7 +24,7 @@ export default function Caminos() {
   const scroll = useRef<ScrollViewInstance>(null);
   const [elegido, setElegido] = useState<string | null>(null);
   const actual = caminos.find((camino) => camino.activo) ?? caminos[0];
-  const otros = caminos.filter((camino) => camino !== actual);
+  const otros = ordenarPorAudio(caminos.filter((camino) => camino !== actual));
 
   const audioTexto = (camino: CaminoVista) =>
     camino.audio.estado === "todo" ? t.audioTodo : camino.audio.estado === "parte" ? llenar(t.audioParte, { n: camino.audio.conAudio }) : t.audioNada;
@@ -31,6 +32,7 @@ export default function Caminos() {
     camino.progreso.hechos > 0 || siempre ? llenar(t.escuchados, { h: camino.progreso.hechos, t: camino.progreso.total }) : "";
 
   const elegir = (camino: CaminoVista) => {
+    if (camino.audio.estado === "nada") return;
     haptico();
     // Solo cambia el camino activo. El avance de cada episodio no se toca.
     library.updateSettings({ caminoActivo: camino.def.id });
@@ -92,6 +94,7 @@ export default function Caminos() {
                 avance={avanceTexto(camino, false)}
                 fraccion={camino.progreso.fraccion}
                 etiquetaElegir={t.elegir}
+                proximamente={camino.audio.estado === "nada" ? t.proximamente : undefined}
                 onElegir={() => elegir(camino)}
               />
             </Entrada>

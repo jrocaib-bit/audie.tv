@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import indice from "../../../content/canon/catalogo-indice.json";
-import { CAMINOS, audioDeCamino, descripcionCamino, duracionEnDias, caminoPorId, caminosDisponibles, idsDeCamino, portadaDeCamino, progresoCamino, type Rango } from "./caminos";
+import { CAMINOS, audioDeCamino, ordenarPorAudio, descripcionCamino, duracionEnDias, caminoPorId, caminosDisponibles, idsDeCamino, portadaDeCamino, progresoCamino, type Rango } from "./caminos";
 
 const rangos = indice.rangos as Rango[];
 
@@ -47,5 +47,17 @@ describe("caminos", () => {
     expect(por("salmos")).toMatchObject({ total: 24, conAudio: 0, estado: "nada" });
     expect(por("evangelios").estado).toBe("parte");
     expect(por("biblia")).toMatchObject({ total: 516, conAudio: 79, estado: "parte" });
+  });
+  it("los caminos sin audio van al final y conservan su orden", () => {
+    const grabados = indice.episodes.map((e) => e.id);
+    const vistas = caminosDisponibles(rangos).map((def) => ({ id: def.id, audio: audioDeCamino(idsDeCamino(def, rangos), grabados) }));
+    expect(ordenarPorAudio(vistas).map((v) => v.id)).toEqual(["biblia", "genesis", "evangelios", "salmos", "hechos", "apocalipsis"]);
+    const mezclado = [vistas[3]!, vistas[0]!, vistas[4]!, vistas[1]!];
+    expect(ordenarPorAudio(mezclado).map((v) => v.id)).toEqual(["biblia", "genesis", "salmos", "hechos"]);
+  });
+  it("un camino sin ningún episodio con audio no es elegible", () => {
+    const grabados = indice.episodes.map((e) => e.id);
+    const sinAudio = CAMINOS.filter((def) => audioDeCamino(idsDeCamino(def, rangos), grabados).estado === "nada").map((def) => def.id);
+    expect(sinAudio).toEqual(["salmos", "hechos", "apocalipsis"]);
   });
 });

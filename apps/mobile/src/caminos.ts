@@ -79,3 +79,8 @@ export function audioDeCamino(ids: readonly string[], grabados: readonly string[
   const conAudio = ids.filter((id) => con.has(id)).length;
   return { total: ids.length, conAudio, estado: conAudio === 0 ? "nada" : conAudio === ids.length ? "todo" : "parte" };
 }
+
+/** Los caminos con audio van primero y los que no tienen ninguno al final. Dentro de cada grupo se conserva el orden. */
+export function ordenarPorAudio<T extends { audio: AudioCamino }>(lista: readonly T[]): T[] {
+  return [...lista.filter((x) => x.audio.estado !== "nada"), ...lista.filter((x) => x.audio.estado === "nada")];
+}

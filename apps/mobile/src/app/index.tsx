@@ -120,7 +120,6 @@ export default function Hoy() {
             </View>
             <Icono nombre="chevron" size={18} color={c.muted} />
           </Pulsable>
-          <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, paddingHorizontal: 6, paddingTop: 4 }}>{t.retoNota}</Text>
         </Entrada>
 
         {m.historias.length > 0 ? (

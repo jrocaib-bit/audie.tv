@@ -79,13 +79,19 @@ export function CaminoActualCard({ c, nombre, descripcion, duracion, audio, avan
   );
 }
 
-type OpcionProps = Base & { etiquetaElegir: string; onElegir: () => void };
+type OpcionProps = Base & { etiquetaElegir: string; onElegir: () => void; /** Sin audio: se muestra la etiqueta y no hay botón ni acción. */ proximamente?: string };
 
 /** Otro camino: nombre, duración, una línea de alcance y un botón claro. */
-export function CaminoCard({ c, nombre, descripcion, duracion, audio, avance, fraccion, etiquetaElegir, onElegir }: OpcionProps) {
+export function CaminoCard({ c, nombre, descripcion, duracion, audio, avance, fraccion, etiquetaElegir, onElegir, proximamente }: OpcionProps) {
   return (
-    <View style={{ borderRadius: 24, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, padding: 18, gap: 14 }}>
+    <View style={{ borderRadius: 24, opacity: proximamente ? 0.85 : 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, padding: 18, gap: 14 }}>
       <Cabecera c={c} nombre={nombre} descripcion={descripcion} duracion={duracion} />
+      {proximamente ? (
+        <View accessible accessibilityLabel={proximamente} style={{ minHeight: 44, borderRadius: 22, borderWidth: 1, borderColor: c.line, alignItems: "center", justifyContent: "center" }}>
+          <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 15, fontWeight: "600" }}>{proximamente}</Text>
+        </View>
+      ) : (
+        <>
       <View style={{ gap: 6 }}>
         {avance ? (
           <>
@@ -98,6 +104,8 @@ export function CaminoCard({ c, nombre, descripcion, duracion, audio, avance, fr
       <Pulsable onPress={onElegir} label={`${etiquetaElegir}: ${nombre}`} haptica escala={0.98} style={{ minHeight: 48, borderRadius: 24, borderWidth: 1.5, borderColor: c.accent, alignItems: "center", justifyContent: "center" }}>
         <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{etiquetaElegir}</Text>
       </Pulsable>
+        </>
+      )}
     </View>
   );
 }
