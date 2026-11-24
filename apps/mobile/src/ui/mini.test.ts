@@ -11,4 +11,8 @@ describe("debeMostrarMini", () => {
   it("no se ve sin nada cargado", () => {
     expect(debeMostrarMini({ path: "/camino", cargado: false })).toBe(false);
   });
+  it("se oculta en el lector de libros", () => {
+    expect(debeMostrarMini({ path: "/libros/gen-antes/leer", cargado: true })).toBe(false);
+    expect(debeMostrarMini({ path: "/libros/gen-antes", cargado: true })).toBe(true);
+  });
 });

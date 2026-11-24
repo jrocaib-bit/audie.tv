@@ -8,10 +8,13 @@ import { claveMedida, estimarLineas } from "../paginacion";
 export function lineasEstimadas(capitulo: CapituloLibro, tamano: number, ancho: number): number[] {
   const { fsTitulo } = metricas(tamano);
   return [
-    estimarLineas(capitulo.titulo, ancho, fsTitulo, 0.52),
-    ...capitulo.bloques.map((b, i) => estimarLineas((llevaSangria(b, capitulo.bloques[i - 1]) ? SANGRIA : "") + b.texto, ancho, b.tipo === "subtitulo" ? tamano * 1.08 : tamano, 0.52)),
+    estimarLineas(capitulo.titulo, ancho, fsTitulo, ANCHO_CARACTER_WEB),
+    ...capitulo.bloques.map((b, i) => estimarLineas((llevaSangria(b, capitulo.bloques[i - 1]) ? SANGRIA : "") + b.texto, ancho, b.tipo === "subtitulo" ? tamano * 1.08 : tamano, ANCHO_CARACTER_WEB)),
   ];
 }
+
+/** Ancho medio de carácter (en em) del serif de los navegadores. En nativo no se usa: se mide. */
+const ANCHO_CARACTER_WEB = 0.4;
 
 type Estado = { llave: string; datos: Record<string, number[]>; leidos: string[] };
 

@@ -90,7 +90,7 @@ export const TextoBloque = memo(function TextoBloque({ bloque, tamano, tema, ace
     }
     for (const frase of partirEnFrases(trozo.texto)) {
       hijos.push(
-        <Text key={`${i}-${frase.inicio}`} onPress={alToque ? (e: GestureResponderEvent) => alToque(e.nativeEvent.pageX) : undefined} onLongPress={alMantener ? () => alMantener(inicio + frase.inicio, propio) : undefined} style={estilo}>
+        <Text key={`${i}-${frase.inicio}`} onPress={alToque ? (e: GestureResponderEvent) => alToque(e.nativeEvent.pageX) : undefined} onLongPress={alMantener ? () => alMantener(inicio + frase.inicio, propio) : undefined} {...(Platform.OS === "web" && alMantener ? ({ onContextMenu: (e: { preventDefault: () => void }) => { e.preventDefault(); alMantener(inicio + frase.inicio, propio); } } as object) : {})} style={estilo}>
           {frase.texto}
         </Text>,
       );
