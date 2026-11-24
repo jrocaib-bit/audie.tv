@@ -4,6 +4,7 @@
  */
 import {
   avisoFuente,
+  marcaCapitulo,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -227,6 +228,7 @@ function Lectura({
         {texto.versiculos.map((versiculo, indice) => {
           const esActual = indice === actual;
           const saltable = sincronizado && typeof versiculo.t === "number";
+          const capitulo = marcaCapitulo(texto.episodio, texto.versiculos, indice, tx);
           const color = esActual || !sincronizado ? paleta.tinta : paleta.suave;
           const contenido = (
             <Text style={{ color, fontSize: tamanoLetra, lineHeight: Math.round(tamanoLetra * 1.6) }}>
@@ -237,6 +239,11 @@ function Lectura({
           const estilo = { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, minHeight: 44, backgroundColor: esActual ? paleta.actual : "transparent" };
           return (
             <View key={`${versiculo.ref}-${indice}`} onLayout={(evento) => posiciones.current.set(indice, evento.nativeEvent.layout.y)}>
+              {capitulo ? (
+                <Text accessibilityRole="header" style={{ color: paleta.numero, fontSize: 14, fontWeight: "600", paddingHorizontal: 10, paddingTop: 12 }}>
+                  {capitulo}
+                </Text>
+              ) : null}
               {saltable ? (
                 <Pressable
                   accessibilityRole="button"
