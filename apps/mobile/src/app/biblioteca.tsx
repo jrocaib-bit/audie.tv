@@ -1,5 +1,6 @@
 import { idiomaContenido, booksOnTheWay, creditoVisible, episodiosDeLibro, playableEpisodes, rotuloEpisodio, t, type PendingEpisode } from "@audite/domain";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "expo-router";
 import { FlatList, Pressable, Text, useColorScheme, View } from "react-native";
 import { useMobileLibrary } from "../state";
 import { dark, fonts, light, ui } from "../theme";
@@ -9,6 +10,7 @@ export default function LibraryScreen() {
   const scheme = useColorScheme();
   const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
   const locale = library.settings.uiLocale;
+  const router = useRouter();
   const libros = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
   const [abierto, setAbierto] = useState(libros.some((libro) => libro.id === "gn") ? "gn" : libros[0]?.id ?? "");
   const [remotos, setRemotos] = useState<{ libro: string; episodios: PendingEpisode[] } | null>(null);
@@ -48,6 +50,10 @@ export default function LibraryScreen() {
           <Text style={[ui.kicker, { color: colors.muted }]}>{t(locale, "navLibrary")}</Text>
           <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "catalogTitle")}</Text>
           <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "libraryQuiet")}</Text>
+          <Pressable accessibilityRole="link" onPress={() => router.push("/libros")} style={{ minHeight: 48, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card, paddingHorizontal: 16, justifyContent: "center", gap: 2 }}>
+            <Text style={{ color: colors.ink, fontSize: 18 }}>Libros</Text>
+            <Text style={[ui.body, { color: colors.muted, fontSize: 14, lineHeight: 20 }]}>Comentarios a la Escritura, con adelanto gratis.</Text>
+          </Pressable>
           <Text style={[ui.body, { color: colors.muted }]}>
             {creditoVisible(fuente, t(locale, "sourceLabel"), t(locale, "sourcePending"))}
           </Text>

@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { bucleDe } from "../bucles";
 import { BucleCuadro } from "../bucle-cuadro";
+import { LibrosDelEpisodio } from "../libros/recomendados";
 import { useMobileLibrary } from "../state";
 
 export default function NowPlaying() {
@@ -68,6 +69,9 @@ export default function NowPlaying() {
           </Pressable>
         ))}
         <Text style={{ color: "#b7ab9c" }}>{formatClock(library.globalTime)}</Text>
+      </ScrollView>
+      <ScrollView style={{ flexGrow: 0, maxHeight: 190 }}>
+        <LibrosDelEpisodio episodioId={episode.id} />
       </ScrollView>
     </View>
   );

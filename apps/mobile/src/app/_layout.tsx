@@ -47,6 +47,9 @@ function Shell() {
         <Stack.Screen name="notas" />
         <Stack.Screen name="referencias" />
         <Stack.Screen name="leer" />
+        <Stack.Screen name="libros" options={{ title: "Libros" }} />
+        <Stack.Screen name="libros/[slug]" options={{ title: "Libros" }} />
+        <Stack.Screen name="libros/[slug]/leer" options={{ title: "Libros" }} />
         <Stack.Screen name="entrar" options={{ headerShown: false }} />
         <Stack.Screen name="suscripcion" options={{ headerShown: false }} />
         <Stack.Screen name="eliminar-cuenta" options={{ headerShown: false }} />
