@@ -8,6 +8,7 @@ import dataset from "../../../../../content/referencias/openbible.json";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useLibrary } from "@/components/library";
+import { LibrosDelEpisodio } from "@/components/libros/recomendados-cliente";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { Placa } from "@/components/placa";
 import { bucleDeEpisodio, estiloDeHueco } from "@/lib/bucles";
@@ -212,6 +213,11 @@ export function ReproductorV2() {
             })}
           </ol>
         </section>
+        {episode ? (
+          <div className="relative mx-auto w-full max-w-lg px-4 text-sm">
+            <LibrosDelEpisodio lang={es ? "es" : "en"} episodioId={episode.id} />
+          </div>
+        ) : null}
         <section id="letras" className="relative mx-auto mt-2 w-full max-w-lg scroll-mt-6 px-4 pb-16">
           <h2 className="font-display text-2xl">{cita ?? episode?.scriptureRangeLabel}</h2>
           <ol className="mt-3 space-y-3">

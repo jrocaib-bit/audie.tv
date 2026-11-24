@@ -9,7 +9,7 @@ import { BotonApple, BotonGoogle } from "@/components/botones-alta";
 import { ObraFoto } from "@/components/placa";
 import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
-import { correoValido, rutaInternaSegura } from "@audite/domain";
+import { correoValido, rutaVueltaSegura } from "@audite/domain";
 import { CLAVE_VUELTA } from "@/lib/vuelta-entrar";
 
 export function Entrar({ lang, google = false }: { lang: string; google?: boolean }) {
@@ -20,8 +20,8 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
   const [estado, setEstado] = useState("");
   const [marketing, setMarketing] = useState(false);
   useEffect(() => {
-    // Vuelta tras entrar: solo rutas internas de reto o de La sala (sin open redirect). Sobrevive al OAuth y al enlace por correo.
-    const next = rutaInternaSegura(new URLSearchParams(window.location.search).get("next"));
+    // Vuelta tras entrar: solo rutas internas de reto, de La sala o de libros (sin open redirect). Sobrevive al OAuth y al enlace por correo.
+    const next = rutaVueltaSegura(new URLSearchParams(window.location.search).get("next"));
     try {
       if (next) localStorage.setItem(CLAVE_VUELTA, next);
     } catch {

@@ -1,0 +1,46 @@
+{
+  "id": "libro-prueba",
+  "titulo": "Libro de prueba",
+  "subtitulo": "Un volumen inventado para los tests",
+  "idioma": "es",
+  "libro_biblico": "Génesis",
+  "libro_id": "gn",
+  "adelanto_hasta_capitulo_id": "prologo",
+  "capitulos": [
+    {
+      "id": "prologo",
+      "tipo": "prologo",
+      "orden": 0,
+      "numero": null,
+      "titulo": "Prólogo de prueba",
+      "es_adelanto": true,
+      "bloques": [
+        { "id": "prologo-p-001", "tipo": "parrafo", "texto": "TEXTO_ADELANTO_PRUEBA con una cita (Gn 1,1).", "html": "TEXTO_ADELANTO_PRUEBA con una cita (<a class=\"ref-biblica\" data-ref=\"Gn 1,1\" data-libro=\"gn\" data-episodio=\"gn-01\" href=\"/es/episodio/gn-01\">Gn 1,1</a>).", "referencias": [{ "raw": "Gn 1,1", "libro_id": "gn", "capitulo_inicio": 1, "versiculo_inicio": 1, "capitulo_fin": 1, "versiculo_fin": 1, "episodio_id": "gn-01" }] },
+        { "id": "prologo-p-002", "tipo": "parrafo", "texto": "Segundo párrafo del adelanto inventado.", "html": "Segundo párrafo del adelanto <em>inventado</em>.", "referencias": [] }
+      ]
+    },
+    {
+      "id": "capitulo-01",
+      "tipo": "capitulo",
+      "orden": 1,
+      "numero": 1,
+      "titulo": "Capítulo de prueba",
+      "es_adelanto": false,
+      "bloques": [
+        { "id": "capitulo-01-p-001", "tipo": "pasaje", "texto": "Génesis 1,1", "html": "<em>Génesis 1,1</em>", "referencias": [] },
+        { "id": "capitulo-01-p-002", "tipo": "parrafo", "texto": "TEXTO_PREMIUM_CAPITULO_PRUEBA_XYZ solo para suscriptores.", "html": "TEXTO_PREMIUM_CAPITULO_PRUEBA_XYZ solo para suscriptores.", "referencias": [] }
+      ]
+    },
+    {
+      "id": "epilogo",
+      "tipo": "epilogo",
+      "orden": 2,
+      "numero": null,
+      "titulo": "Epílogo de prueba",
+      "es_adelanto": false,
+      "bloques": [
+        { "id": "epilogo-p-001", "tipo": "parrafo", "texto": "TEXTO_PREMIUM_EPILOGO_PRUEBA_XYZ.", "html": "TEXTO_PREMIUM_EPILOGO_PRUEBA_XYZ.", "referencias": [] }
+      ]
+    }
+  ]
+}

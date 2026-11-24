@@ -128,6 +128,8 @@ export {
   type Idioma,
 } from "./idioma";
 export { alternarDiaReto, leerProgresoRetos, type ProgresoReto, type ResultadoMarcaReto } from "./retos-progreso";
+export * from "./libros";
+export * from "./libros-cliente";
 export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,
@@ -162,7 +164,7 @@ export {
 export { pruebaSocial } from "./prueba-social";
 export { lineaIdiomas } from "./idiomas-linea";
 export { textosAlta, type TextosAlta } from "./alta-ui";
-export { accionReto, destinoTrasEntrar, hrefEntrarConNext, hrefEntrarParaReto, hrefEntrarParaSala, rutaInternaSegura, rutaRetoSegura, type AccionReto } from "./retos-cuenta";
+export { accionReto, destinoTrasEntrar, hrefEntrarConNext, hrefEntrarParaReto, hrefEntrarParaLibros, hrefEntrarParaSala, rutaInternaSegura, rutaRetoSegura, rutaVueltaSegura, type AccionReto } from "./retos-cuenta";
 export {
   AUTH_URLS,
   PROVEEDORES_ALTA,

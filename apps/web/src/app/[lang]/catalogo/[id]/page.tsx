@@ -13,6 +13,9 @@ import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
 import { origenSitio } from "@/lib/sitio-publico";
 import { rutaSala } from "@/lib/sala-cuenta";
 import { idsSala } from "@/lib/sala-recorridos";
+import { capituloQueCita, recomendarLibros, rutaLibrosSegura } from "@audite/domain";
+import { ListaLibrosRecomendados } from "@/components/libros/cubierta";
+import { cargarCatalogo, cargarTexto } from "@/lib/libros/carga";
 
 export const dynamicParams = true;
 
@@ -50,8 +53,10 @@ function episodioDe(id: string) {
     ?? null;
 }
 
-export default async function Page({ params }: { params: Promise<{ lang: string; id: string }> }) {
+export default async function Page({ params, searchParams }: { params: Promise<{ lang: string; id: string }>; searchParams?: Promise<{ desde?: string | string[] }> }) {
   const { lang, id } = await params;
+  const { desde } = (await searchParams) ?? {};
+  const vuelta = rutaLibrosSegura(Array.isArray(desde) ? desde[0] : desde);
   if (!esIdiomaPublico(lang)) notFound();
   const copy = copiaSitio(lang);
   if (!copy) notFound();
@@ -68,6 +73,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const bucle = bucleDeEpisodio(id);
   const poster = bucle?.poster || (obra ? obraWebp(obra) : "");
   const portadaProvisional = esPortadaProvisional(id);
+  const libros = recomendarLibros(id, cargarCatalogo()).map((item) => {
+    const texto = cargarTexto(item.id);
+    return { ...item, capitulo_id: texto ? capituloQueCita(texto, id) : null };
+  });
   return (
     <main className="bg-[#100E0C] text-[#F4ECE2]">
       <div className="bg-[#0C0B09]" style={{ viewTransitionName: `ep-${id}` }}>
@@ -106,6 +115,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             <Link href={`/${lang}/creditos`} className="mt-3 inline-flex min-h-11 items-center text-sm text-[#B7AB9C] underline">{ui === "en" ? "About the artwork" : "Sobre la obra"}</Link>
           </div>
         ) : null}
+        {vuelta ? (
+          <p className="mt-8"><Link href={vuelta} data-accion="volver-al-libro" className="inline-flex min-h-11 items-center rounded-full border border-[#C9A96E]/60 px-5 text-[#C9A96E]">Volver al libro</Link></p>
+        ) : null}
+        <ListaLibrosRecomendados lang={lang} libros={libros} />
       </div>
     </main>
   );
