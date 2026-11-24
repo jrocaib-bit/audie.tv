@@ -100,14 +100,36 @@ describe("contexto de reportaje", () => {
     }
     for (const id of ["gn-01", "gn-02", "gn-07", "is-18", "is-01", "is-07", "is-09", "lv-05"]) expect(idsSala()).toContain(id);
   });
-  it("las otras 78 obras: sin comparativa (en este paso) y un radio por paso", () => {
-    for (const id of idsSala().filter((x) => x !== "gn-01")) {
+  it("las obras sin material libre: sin comparativa, y un radio por paso en las 79", () => {
+    const conComparativa = new Set(["gn-01", "gn-02", "gn-07", "gn-10", "is-18"]);
+    for (const id of idsSala()) {
       const { radios, comparativa } = reportajePremium(id, "es");
-      expect(comparativa, id).toBeNull();
       expect(radios, id).toHaveLength(recorridoSala(id)!.pasos.length);
       for (const r of radios) {
         expect(r, id).toBeGreaterThanOrEqual(0.14);
         expect(r, id).toBeLessThanOrEqual(0.36);
+      }
+      if (!conComparativa.has(id)) expect(comparativa, id).toBeNull();
+    }
+  });
+  it("las comparativas premium apuntan a webp públicos, con créditos aparte y pies sin museos", () => {
+    const casos: Record<string, { n: number; tras: number; credito: string; src: string[] }> = {
+      "gn-01": { n: 2, tras: 5, credito: "National Gallery of Art", src: ["/sala/comparativas/gn-01/durero-caida.webp", "/sala/comparativas/gn-01/durero-expulsion.webp"] },
+      "gn-02": { n: 1, tras: 4, credito: "Metropolitan Museum of Art", src: ["/sala/comparativas/gn-02/paraiso.webp"] },
+      "gn-07": { n: 1, tras: 6, credito: "National Gallery of Art", src: ["/sala/comparativas/gn-07/madonna-haller.webp"] },
+      "gn-10": { n: 1, tras: 5, credito: "Rijksmuseum", src: ["/sala/comparativas/gn-10/swanenburgh.webp"] },
+      "is-18": { n: 2, tras: 5, credito: "Metropolitan Museum of Art", src: ["/sala/comparativas/is-18/david-leon.webp", "/sala/comparativas/is-18/david-armas.webp"] },
+    };
+    for (const [id, e] of Object.entries(casos)) {
+      const { comparativa } = reportajePremium(id, "es");
+      expect(comparativa, id).toBeTruthy();
+      expect(comparativa!.trasPaso, id).toBe(e.tras);
+      expect(comparativa!.imagenes, id).toHaveLength(e.n);
+      expect(comparativa!.imagenes.map((i) => i.src), id).toEqual(e.src);
+      expect(comparativa!.creditos, id).toContain(e.credito);
+      for (const lang of ["es", "en"] as const) {
+        const c = reportajePremium(id, lang).comparativa!;
+        for (const t of [c.entrada, ...c.imagenes.map((i) => i.pie)]) expect(t, `${id} ${t}`).not.toMatch(PROHIBIDO);
       }
     }
   });

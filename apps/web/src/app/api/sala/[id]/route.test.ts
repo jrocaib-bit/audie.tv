@@ -53,12 +53,14 @@ function sinFuga(cuerpo: string) {
   expect(cuerpo).not.toContain(r.cierre.texto.es.slice(0, 40));
   expect(cuerpo).not.toContain(r.cierre.titulo.es);
   // La comparativa (pies, entrada, créditos, imágenes) y los radios de la máscara son solo premium.
-  for (const lang of ["es", "en"] as const) {
-    const c = reportajePremium("gn-01", lang).comparativa!;
-    for (const t of [c.entrada, c.creditos, ...c.imagenes.flatMap((i) => [i.pie, i.alt])]) expect(cuerpo).not.toContain(t.replace(/'/g, "\\u0027"));
-    for (const t of [c.entrada, c.creditos, ...c.imagenes.map((i) => i.pie)]) expect(cuerpo).not.toContain(t);
+  for (const id of ["gn-01", "gn-02", "gn-07", "gn-10", "is-18"] as const) {
+    for (const lang of ["es", "en"] as const) {
+      const c = reportajePremium(id, lang).comparativa!;
+      for (const t of [c.entrada, c.creditos, ...c.imagenes.flatMap((i) => [i.pie, i.alt])]) expect(cuerpo).not.toContain(t.replace(/'/g, "\\u0027"));
+      for (const t of [c.entrada, c.creditos, ...c.imagenes.map((i) => i.pie)]) expect(cuerpo).not.toContain(t);
+    }
   }
-  expect(cuerpo).not.toMatch(/Durero|Dürer|durero-|comparativa|"radio"/);
+  expect(cuerpo).not.toMatch(/Durero|Dürer|durero-|paraiso\.webp|madonna-haller|swanenburgh|david-leon|comparativa|"radio"/);
   expect(cuerpo).not.toContain('"pasos"');
   expect(cuerpo).not.toContain('"cierre"');
 }
@@ -132,7 +134,7 @@ describe("ruta de La sala", () => {
     expect(json.comparativa.imagenes).toHaveLength(2);
     expect(json.comparativa.creditos).toContain("National Gallery of Art");
     expect(en.comparativa.imagenes[0].pie).toContain("Dürer");
-    const otra = idsSala().find((x) => x !== "gn-01")!;
+    const otra = idsSala().find((x) => !["gn-01", "gn-02", "gn-07", "gn-10", "is-18"].includes(x))!;
     const sinFicha = await (await pedir(otra, { token: "bueno" })).json();
     expect(sinFicha.acceso).toBe("premium");
     expect(sinFicha).not.toHaveProperty("comparativa");

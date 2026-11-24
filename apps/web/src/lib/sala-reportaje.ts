@@ -17,7 +17,7 @@ type Ficha = {
   comparativa?: { trasPaso: number; entrada: Bi; creditos: Bi; imagenes: { src: string; ancho: number; alto: number; alt: Bi; pie: Bi }[] };
 };
 
-/** Contenido por obra (79): cita, línea de tiempo, mapa, radios de máscara y, solo en gn-01, comparativa. */
+/** Contenido por obra (79): cita, línea de tiempo, mapa, radios de máscara y, cuando hay imagen libre verificable, comparativa. */
 const FICHAS = datos as Record<string, Ficha>;
 
 const ficha = (id: string): Ficha | null => (Object.prototype.hasOwnProperty.call(FICHAS, id) ? FICHAS[id]! : null);
