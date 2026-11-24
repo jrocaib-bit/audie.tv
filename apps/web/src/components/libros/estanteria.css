@@ -2,14 +2,15 @@
 
 .est {
   --alto: clamp(300px, 52vh, 420px);
+  --alto: clamp(300px, 52svh, 420px);
   --lomo: calc(var(--alto) * 120 / 1470);
   --oro: #c9a96e;
-  margin-top: 2.5rem;
+  margin-top: 0.75rem;
   color: #f4ece2;
 }
 
 @media (min-width: 1024px) {
-  .est { --alto: clamp(420px, 62vh, 560px); }
+  .est { --alto: clamp(380px, 56vh, 560px); --alto: clamp(380px, 56svh, 560px); }
 }
 
 .est-balda { position: relative; }
@@ -27,7 +28,7 @@
   position: relative;
   width: max-content;
   margin-inline: auto;
-  padding: 28px 20px 0;
+  padding: 12px 20px 0;
 }
 @media (min-width: 600px) {
   .est-fila { padding-inline: 28px; }

@@ -27,10 +27,10 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const listos = libros.filter((libro) => libro.disponibilidad !== "borrador");
   const enPreparacion = libros.filter((libro) => libro.disponibilidad === "borrador");
   return (
-    <main data-libros-catalogo="" className="mx-auto w-full max-w-6xl px-5 py-12 text-[#F4ECE2] md:px-8 md:py-16">
-      <p className="text-sm tracking-[0.16em] text-[#C9A96E] uppercase">Libros</p>
-      <h1 className="font-display mt-3 max-w-3xl text-5xl leading-[0.98] md:text-7xl">La Escritura, leída con los Padres</h1>
-      <p className="mt-5 max-w-xl text-lg text-[#E7D7C3]">Comentarios a los libros de la Escritura, un volumen por libro. Se leen aquí, en Audite, con el prólogo gratis y el resto incluido en la suscripción.</p>
+    <main data-libros-catalogo="" className="mx-auto w-full max-w-6xl px-5 py-5 text-[#F4ECE2] md:px-8 md:py-8">
+      <p className="text-xs tracking-[0.16em] text-[#C9A96E] uppercase">Libros</p>
+      <h1 className="font-display mt-1.5 text-3xl leading-[1.02] md:mt-2 md:max-w-none md:text-[48px]">La Escritura, leída con los Padres</h1>
+      <p className="mt-2 max-w-xl text-[15px] leading-snug text-[#E7D7C3] md:mt-3 md:max-w-4xl md:text-lg md:leading-normal">Comentarios a los libros de la Escritura, un volumen por libro. Se leen aquí, en Audite, con el prólogo gratis y el resto incluido en la suscripción.</p>
       {estanteria ? (
         <Estanteria lang={lang} volumenes={estanteria} mock={mockDeParametro(busqueda.mock)} libroInicial={pedido && ID_LIBRO.test(pedido) ? pedido : null} />
       ) : null}
