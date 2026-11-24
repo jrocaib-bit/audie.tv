@@ -84,7 +84,7 @@ export function duracionCorta(segundos: number | undefined): string {
   return `${Math.max(1, Math.round(segundos / 60))} min`;
 }
 
-export type EpisodioInfo = { id: string; titulo: string; libro: string; capitulos: string; duracion: string; src: string; ratio: number };
+export type EpisodioInfo = { id: string; titulo: string; libro: string; capitulos: string; subtitulo: string; duracion: string; src: string; ratio: number };
 
 export type CtxHoy = {
   lang: Idioma;
@@ -95,45 +95,70 @@ export type CtxHoy = {
   rangos: readonly Rango[];
   libros: readonly { id: string; name: { es: string; en: string } }[];
   titulos: Record<string, { es: string | null; en: string | null } | null | undefined>;
+  /** Etiqueta legible de libro y capítulos del catálogo («Génesis 1–2»). */
+  etiquetas?: Record<string, { es: string | null; en: string | null } | null | undefined>;
   duraciones: Record<string, number>;
   /** Episodio que carga el reproductor. */
   actual: string | null;
-  /** Episodios con audio. El resto es «Próximamente». */
+  /** Episodios con audio, en el orden del catálogo. El resto no tiene audio todavía. */
   grabados: readonly string[];
   pasosAdviento: readonly { dia: number; episodio?: string }[];
+  /** Inicio y fin del reto de Adviento. Sin ellos, el reto se trata como activo. */
+  ventanaAdviento?: { inicio: string; fin: string };
 };
 
-export function infoEpisodio(id: string, ctx: Pick<CtxHoy, "lang" | "libros" | "titulos" | "duraciones" | "rangos">): EpisodioInfo {
+export function infoEpisodio(id: string, ctx: Pick<CtxHoy, "lang" | "libros" | "titulos" | "duraciones" | "rangos"> & { etiquetas?: CtxHoy["etiquetas"] }): EpisodioInfo {
   const obra = obraDeEpisodio(id);
   const rango = ctx.rangos.find((r) => r.id === id);
   const bookId = obra?.libro ?? rango?.bookId ?? id.split("-")[0] ?? "";
   const libro = ctx.libros.find((l) => l.id === bookId)?.name[ctx.lang] ?? "";
   const numero = obra?.numero ?? rango?.orden ?? 0;
+  const etiqueta = ctx.etiquetas?.[id]?.[ctx.lang]?.trim() ?? "";
   return {
     id,
     titulo: ctx.titulos[id]?.[ctx.lang]?.trim() || `${libro} ${numero}`.trim(),
     libro,
     capitulos: obra?.capitulos ?? "",
+    subtitulo: etiqueta || [libro, rango?.rango].filter(Boolean).join(" "),
     duracion: duracionCorta(ctx.duraciones[id]),
     src: obra ? obraWebp(obra) : "",
     ratio: obra && obra.ancho > 0 && obra.alto > 0 ? obra.ancho / obra.alto : 16 / 9,
   };
 }
 
+export type HeroHoy = EpisodioInfo & {
+  retomar: boolean;
+  fraccion: number;
+  reproducible: boolean;
+  actual: boolean;
+  /** Posición del episodio en el camino (1 es el primero). */
+  dia: number;
+  total: number;
+};
+
+export type EstadoHoy = "listo" | "sin-audio" | "completado";
+
+export type RetoHoy = { titulo: string; src: string; hechos: number; total: number; fraccion: number; fase: "proximo" | "activo" | "terminado" };
+
 export type ModeloHoy = {
   saludo: string;
-  hero: (EpisodioInfo & { retomar: boolean; fraccion: number; reproducible: boolean; actual: boolean }) | null;
+  /** Episodio pendiente del camino elegido. Es null cuando el camino está completo o no tiene episodios. */
+  hero: HeroHoy | null;
+  estado: EstadoHoy;
   semana: DiaSemana[];
   racha: number;
   camino: { id: string; nombre: string; hechos: number; total: number; fraccion: number };
+  /** Episodio a medias que no es el de hoy. */
   continuar: (EpisodioInfo & { fraccion: number }) | null;
-  adviento: { titulo: string; src: string; hechos: number; total: number; fraccion: number };
-  explorar: { libros: TarjetaHoy[]; caminos: TarjetaHoy[]; retos: TarjetaHoy[] };
+  adviento: RetoHoy;
+  /** Historias con audio que se pueden empezar ya. */
+  historias: EpisodioInfo[];
   /** Todas las obras que se pintan en Hoy, sin repetir. */
   obras: string[];
 };
 
 const ADVIENTO_SRC = "/obras/reto-adviento_o2-1x1.webp";
+const MAX_HISTORIAS = 8;
 
 export function modeloHoy(ctx: CtxHoy): ModeloHoy {
   const def = caminoPorId(ctx.caminoId, ctx.rangos);
@@ -145,14 +170,32 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
     if (!p || p.completed || dur <= 0) return 0;
     return Math.min(1, Math.max(0, p.positionSeconds / dur));
   };
-  const heroId = avance.siguiente ?? ids[0] ?? null;
-  const hero = heroId ? infoEpisodio(heroId, ctx) : null;
+  // El pendiente del camino manda. Si no tiene audio se dice, sin saltar al siguiente.
+  const heroId = avance.siguiente;
+  const base = heroId ? infoEpisodio(heroId, ctx) : null;
+  const hero: HeroHoy | null =
+    heroId && base
+      ? {
+          ...base,
+          retomar: fraccionDe(heroId) > 0,
+          fraccion: fraccionDe(heroId),
+          reproducible: ctx.grabados.includes(heroId),
+          actual: heroId === ctx.actual,
+          dia: ids.indexOf(heroId) + 1,
+          total: ids.length,
+        }
+      : null;
+  const estado: EstadoHoy = !hero ? "completado" : hero.reproducible ? "listo" : "sin-audio";
   const usadas = new Set<string>();
   if (hero?.src) usadas.add(hero.src);
 
-  // Un episodio a medias que no es el de hoy va en su propia fila, sin cuadro.
+  // Un episodio a medias que no es el de hoy va en su propia fila, solo si tiene audio.
   const mediasId = episodioAMedias(
-    Object.fromEntries(Object.entries(ctx.progress.episodes).map(([id, p]) => [id, p ? { ...p, updatedAt: p.updatedAt ?? "" } : undefined])),
+    Object.fromEntries(
+      Object.entries(ctx.progress.episodes)
+        .filter(([id]) => ctx.grabados.includes(id))
+        .map(([id, p]) => [id, p ? { ...p, updatedAt: p.updatedAt ?? "" } : undefined]),
+    ),
     heroId,
   );
   const medias = mediasId && fraccionDe(mediasId) > 0 ? mediasId : null;
@@ -160,41 +203,39 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
 
   const pasos = ctx.pasosAdviento;
   const hechosAdv = pasos.filter((p) => p.episodio && ctx.progress.episodes[p.episodio]?.completed).length;
-  const adviento = {
+  const v = ctx.ventanaAdviento;
+  const adviento: RetoHoy = {
     titulo: ctx.lang === "en" ? "Advent" : "Adviento",
     src: ADVIENTO_SRC,
     hechos: hechosAdv,
     total: pasos.length,
     fraccion: pasos.length === 0 ? 0 : hechosAdv / pasos.length,
+    fase: !v ? "activo" : ctx.hoyIso < v.inicio ? "proximo" : ctx.hoyIso > v.fin ? "terminado" : "activo",
   };
-  usadas.add(ADVIENTO_SRC);
 
-  const tarjetas = tarjetasHoy(ctx.lang);
-  const sinRepetir = (lista: TarjetaHoy[]) =>
-    lista.filter((item) => {
-      if (usadas.has(item.src)) return false;
-      usadas.add(item.src);
-      return true;
-    });
-  const explorar = { libros: sinRepetir(tarjetas.libros), caminos: sinRepetir(tarjetas.caminos), retos: [] as TarjetaHoy[] };
+  // Historias: episodios con audio aún sin escuchar, sin repetir el de hoy ni el que está a medias.
+  const historias: EpisodioInfo[] = [];
+  for (const id of ctx.grabados) {
+    if (historias.length >= MAX_HISTORIAS) break;
+    if (id === heroId || id === medias || ctx.progress.episodes[id]?.completed) continue;
+    const info = infoEpisodio(id, ctx);
+    if (!info.src || usadas.has(info.src) || historias.some((h) => h.src === info.src)) continue;
+    historias.push(info);
+  }
+  usadas.add(ADVIENTO_SRC);
+  for (const h of historias) usadas.add(h.src);
+  if (continuar?.src) usadas.add(continuar.src);
 
   return {
     saludo: saludo(ctx.hora, ctx.lang),
-    hero: hero
-      ? {
-          ...hero,
-          retomar: fraccionDe(hero.id) > 0,
-          fraccion: fraccionDe(hero.id),
-          reproducible: ctx.grabados.includes(hero.id),
-          actual: hero.id === ctx.actual,
-        }
-      : null,
+    hero,
+    estado,
     semana: semanaDe(ctx.progress.listenedOn, ctx.hoyIso, ctx.lang),
     racha: racha(ctx.progress.listenedOn, ctx.hoyIso),
     camino: { id: def.id, nombre: def.nombre[ctx.lang], hechos: avance.hechos, total: avance.total, fraccion: avance.fraccion },
     continuar,
     adviento,
-    explorar,
+    historias,
     obras: [...usadas],
   };
 }

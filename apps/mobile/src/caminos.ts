@@ -50,3 +50,32 @@ export function portadaDeCamino(def: DefCamino): string {
   const obra = obraDeEpisodio(def.portada);
   return obra ? obraWebp(obra) : "";
 }
+
+const DESCRIPCIONES: Record<string, Bilingue> = {
+  biblia: { es: "Toda la Biblia en orden, desde el Génesis hasta el Apocalipsis.", en: "The whole Bible in order, from Genesis to Revelation." },
+  genesis: { es: "Los orígenes del mundo y la historia de los patriarcas.", en: "The origins of the world and the story of the patriarchs." },
+  evangelios: { es: "La vida de Jesús según Mateo, Marcos, Lucas y Juan.", en: "The life of Jesus according to Matthew, Mark, Luke and John." },
+  salmos: { es: "La oración del pueblo de Dios en los Salmos.", en: "The prayer of God's people in the Psalms." },
+  hechos: { es: "Los primeros pasos de la Iglesia en los Hechos de los Apóstoles.", en: "The first steps of the Church in the Acts of the Apostles." },
+  apocalipsis: { es: "La visión final de la Biblia en el Apocalipsis.", en: "The closing vision of the Bible in Revelation." },
+};
+
+/** Una línea fiel al alcance del camino. */
+export function descripcionCamino(def: DefCamino, lang: "es" | "en"): string {
+  return DESCRIPCIONES[def.id]?.[lang] ?? def.nombre[lang];
+}
+
+/** Un episodio al día: los días del camino son sus episodios. */
+export function duracionEnDias(total: number, lang: "es" | "en"): string {
+  if (lang === "en") return total === 1 ? "1 day" : `${total} days`;
+  return total === 1 ? "1 día" : `${total} días`;
+}
+
+export type AudioCamino = { total: number; conAudio: number; estado: "todo" | "parte" | "nada" };
+
+/** Cuántos episodios del camino tienen audio ahora. El resto sigue en el catálogo sin audio. */
+export function audioDeCamino(ids: readonly string[], grabados: readonly string[]): AudioCamino {
+  const con = new Set(grabados);
+  const conAudio = ids.filter((id) => con.has(id)).length;
+  return { total: ids.length, conAudio, estado: conAudio === 0 ? "nada" : conAudio === ids.length ? "todo" : "parte" };
+}

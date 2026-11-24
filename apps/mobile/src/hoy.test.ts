@@ -52,7 +52,7 @@ describe("Hoy y la base de contenido", () => {
 });
 
 import indice from "../../../content/canon/catalogo-indice.json";
-import { modeloHoy, saludo, semanaDe, type CtxHoy } from "./hoy";
+import { infoEpisodio, modeloHoy, saludo, semanaDe, type CtxHoy } from "./hoy";
 import type { Rango } from "./caminos";
 
 function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
@@ -65,6 +65,7 @@ function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
     rangos: indice.rangos as Rango[],
     libros: indice.books,
     titulos: { "gn-01": { es: "En el principio", en: "In the Beginning" } },
+    etiquetas: { "gn-01": { es: "Génesis 1–2", en: "Genesis 1–2" } },
     duraciones: { "gn-01": 524.4 },
     actual: "gn-01",
     grabados: ["gn-01", "gn-02", "jn-01"],
@@ -74,41 +75,75 @@ function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
 }
 
 describe("modelo de Hoy", () => {
-  it("no pinta la misma obra dos veces, ni con hero en Génesis", () => {
+  it("el hero es el episodio pendiente del camino elegido, con día y total reales", () => {
     const m = modeloHoy(ctxBase());
-    expect(m.hero?.id).toBe("gn-01");
-    const pintadas = [
-      m.hero?.src,
-      m.adviento.src,
-      ...m.explorar.libros.map((i) => i.src),
-      ...m.explorar.caminos.map((i) => i.src),
-      ...m.explorar.retos.map((i) => i.src),
-    ].filter(Boolean);
-    expect(new Set(pintadas).size).toBe(pintadas.length);
-    expect(m.obras).toHaveLength(new Set(m.obras).size);
-    // El paraíso es el hero: ya no sale en el carril de libros.
-    expect(m.explorar.libros.find((i) => i.id === "gn-01")).toBeUndefined();
-    expect(m.explorar.retos.find((i) => i.id === "adviento")).toBeUndefined();
+    expect(m.estado).toBe("listo");
+    expect(m.hero).toMatchObject({ id: "gn-01", dia: 1, total: 516, reproducible: true, retomar: false });
+    expect(m.hero?.subtitulo).toContain("Génesis");
+    const g = modeloHoy(ctxBase({ caminoId: "genesis", progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true }, "gn-02": { positionSeconds: 9, completed: true } }, listenedOn: [] } }));
+    expect(g.hero).toMatchObject({ id: "gn-03", dia: 3, total: 22 });
+    expect(g.camino).toMatchObject({ hechos: 2, total: 22 });
+    const e = modeloHoy(ctxBase({ caminoId: "evangelios" }));
+    expect(e.hero?.id.startsWith("mt-")).toBe(true);
+    expect(e.hero?.total).toBe(47);
   });
 
-  it("avanza el hero al siguiente episodio y cuenta el camino", () => {
-    const m = modeloHoy(ctxBase({ progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true } }, listenedOn: [] } }));
-    expect(m.hero?.id).toBe("gn-02");
-    expect(m.camino).toMatchObject({ hechos: 1, total: 516 });
-    expect(m.explorar.libros.find((i) => i.id === "gn-01")).toBeDefined();
-    expect(m.hero?.reproducible).toBe(true);
-    expect(m.hero?.actual).toBe(false);
-    expect(modeloHoy(ctxBase({ grabados: ["gn-01"], progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true } }, listenedOn: [] } })).hero?.reproducible).toBe(false);
+  it("un camino desconocido o vacío cae en la Biblia", () => {
+    expect(modeloHoy(ctxBase({ caminoId: "nada" })).camino.id).toBe("biblia");
   });
 
-  it("marca retomar y fila continuar según el episodio a medias", () => {
+  it("si el siguiente no tiene audio lo dice y no salta al siguiente con audio", () => {
+    const m = modeloHoy(ctxBase({ caminoId: "salmos", grabados: ["gn-01", "jn-01"] }));
+    expect(m.estado).toBe("sin-audio");
+    expect(m.hero).toMatchObject({ id: "sal-001", reproducible: false, dia: 1, total: 24 });
+    const b = modeloHoy(ctxBase({ grabados: ["gn-01"], progress: { episodes: { "gn-01": { positionSeconds: 524, completed: true } }, listenedOn: [] } }));
+    expect(b.estado).toBe("sin-audio");
+    expect(b.hero?.id).toBe("gn-02");
+  });
+
+  it("camino completo no repite el primer episodio", () => {
+    const ids = indice.rangos.filter((r) => r.bookId === "ap").map((r) => r.id);
+    const episodes = Object.fromEntries(ids.map((id) => [id, { positionSeconds: 5, completed: true }]));
+    const m = modeloHoy(ctxBase({ caminoId: "apocalipsis", progress: { episodes, listenedOn: [] } }));
+    expect(m.estado).toBe("completado");
+    expect(m.hero).toBeNull();
+    expect(m.camino).toMatchObject({ hechos: 7, total: 7, fraccion: 1 });
+  });
+
+  it("retomar va en el hero y no se duplica en continuar", () => {
     const a = modeloHoy(ctxBase({ progress: { episodes: { "gn-01": { positionSeconds: 262.2, completed: false } }, listenedOn: [] } }));
     expect(a.hero).toMatchObject({ retomar: true });
     expect(a.hero?.fraccion).toBeCloseTo(0.5);
     expect(a.continuar).toBeNull();
-    const b = modeloHoy(ctxBase({ caminoId: "evangelios", progress: { episodes: { "gn-01": { positionSeconds: 100, completed: false } }, listenedOn: [] } }));
+    expect(a.historias.find((h) => h.id === "gn-01")).toBeUndefined();
+  });
+
+  it("continuar es un episodio distinto y con audio, y no se repite en historias", () => {
+    const b = modeloHoy(ctxBase({ caminoId: "evangelios", progress: { episodes: { "gn-01": { positionSeconds: 100, completed: false, updatedAt: "2026-11-19T10:00:00Z" } }, listenedOn: [] } }));
     expect(b.hero?.id).not.toBe("gn-01");
     expect(b.continuar?.id).toBe("gn-01");
+    expect(b.historias.find((h) => h.id === "gn-01")).toBeUndefined();
+    const sinAudio = modeloHoy(ctxBase({ caminoId: "evangelios", grabados: ["jn-01"], progress: { episodes: { "gn-01": { positionSeconds: 100, completed: false } }, listenedOn: [] } }));
+    expect(sinAudio.continuar).toBeNull();
+  });
+
+  it("historias salen solo de episodios con audio, sin el de hoy ni los completados, y sin obras repetidas", () => {
+    const m = modeloHoy(ctxBase({ progress: { episodes: { "gn-02": { positionSeconds: 5, completed: true } }, listenedOn: [] } }));
+    expect(m.hero?.id).toBe("gn-01");
+    expect(m.historias.map((h) => h.id)).toEqual(["jn-01"]);
+    const pintadas = [m.hero?.src, m.adviento.src, ...m.historias.map((h) => h.src)].filter(Boolean);
+    expect(new Set(pintadas).size).toBe(pintadas.length);
+    expect(m.obras).toHaveLength(new Set(m.obras).size);
+    const todos = modeloHoy(ctxBase({ grabados: indice.episodes.map((e) => e.id) }));
+    expect(todos.historias.length).toBeLessThanOrEqual(8);
+    expect(todos.historias.find((h) => h.id === todos.hero?.id)).toBeUndefined();
+  });
+
+  it("el reto de Adviento distingue próximo, activo y terminado", () => {
+    const v = { inicio: "2026-11-29", fin: "2026-12-24" };
+    expect(modeloHoy(ctxBase({ ventanaAdviento: v })).adviento.fase).toBe("proximo");
+    expect(modeloHoy(ctxBase({ ventanaAdviento: v, hoyIso: "2026-12-02" })).adviento.fase).toBe("activo");
+    expect(modeloHoy(ctxBase({ ventanaAdviento: v, hoyIso: "2026-12-30" })).adviento.fase).toBe("terminado");
   });
 
   it("calcula racha y los siete días de la semana", () => {
@@ -127,5 +162,13 @@ describe("modelo de Hoy", () => {
     expect(saludo(8)).toBe("Buenos días");
     expect(saludo(15)).toBe("Buenas tardes");
     expect(saludo(23, "en")).toBe("Good evening");
+  });
+});
+
+describe("etiqueta de episodio", () => {
+  it("usa la etiqueta del catálogo y, sin ella, libro y rango", () => {
+    const c = ctxBase();
+    expect(infoEpisodio("gn-01", c).subtitulo).toBe("Génesis 1–2");
+    expect(infoEpisodio("sal-001", c).subtitulo).toMatch(/^Salmos /);
   });
 });
