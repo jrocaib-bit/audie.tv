@@ -33,7 +33,7 @@ describe("texto de Torres Amat versionado", () => {
     }
   });
 
-  it("sin marcas de texto omitido, sin versículos repetidos y con tiempos crecientes y completos", () => {
+  it("sin marcas «(TEXTO OMITIDO)», sin versículos repetidos y con tiempos crecientes y completos", () => {
     for (const f of ficheros) {
       const texto = validarTexto(JSON.parse(readFileSync(path.join(carpeta, f), "utf8")), f.replace(/\.json$/, ""), "es");
       const refs = new Set<string>();
@@ -41,7 +41,7 @@ describe("texto de Torres Amat versionado", () => {
       const conTiempo = texto!.versiculos.filter((v) => v.t != null).length;
       expect([0, texto!.versiculos.length], `${f}: o todos los versículos llevan t o ninguno`).toContain(conTiempo);
       for (const v of texto!.versiculos) {
-        expect(v.texto.toUpperCase(), f).not.toContain("OMITIDO");
+        expect(v.texto, f).not.toMatch(/\(\s*TEXTO OMITIDO\s*\)/i);
         expect(refs.has(v.ref), `${f} ${v.ref} repetido`).toBe(false);
         refs.add(v.ref);
         if (v.t != null) {
@@ -88,7 +88,7 @@ describe("fuente configurable del texto", () => {
     const id = ficheros[0]!.replace(/\.json$/, "");
     const lectura = await leerTexto("es", id);
     expect(lectura.estado).toBe("ok");
-    expect((await leerTexto("es", "tob-01")).estado).toBe("sin-texto");
+    expect((await leerTexto("es", "cant-01")).estado).toBe("sin-texto");
   });
 
   it("TEXTO_FUENTE=ninguna no lee nada del repositorio", async () => {

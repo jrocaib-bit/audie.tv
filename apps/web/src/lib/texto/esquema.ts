@@ -9,7 +9,7 @@ const versiculo = z
   .object({
     ref: z.string().min(1).max(24),
     cap: z.number().int().positive().max(200),
-    v: z.string().regex(/^\d{1,3}[a-z]?$/),
+    v: z.string().regex(/^\d{1,3}[a-z]?(-\d{1,3})?$/),
     texto: z.string().min(1).max(4000),
     t: z.number().finite().nonnegative().optional(),
   })
