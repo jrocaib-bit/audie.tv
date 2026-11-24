@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, Platform, View, type ViewStyle } from "react-native";
 
 /** Pulso suave de los esqueletos. Con movimiento reducido se queda quieto. */
 export function usePulso(): Animated.Value {
-  const valor = useRef(new Animated.Value(0.55)).current;
+  const [valor] = useState(() => new Animated.Value(0.55));
   const [reducido, setReducido] = useState(false);
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then(setReducido);

@@ -1,5 +1,5 @@
 /** Métricas de página del lector: alturas de línea, sangría, cabecera y bloques medibles. Sin React Native. */
-import type { BloqueLibro, CapituloLibro } from "@audite/domain";
+import type { BloqueLibro } from "@audite/domain";
 import type { BloqueMedido } from "./paginacion";
 
 export const SANGRIA = "  ";
@@ -33,7 +33,7 @@ export function espacioSobre(bloque: Pick<BloqueLibro, "tipo">, previo: Pick<Blo
  * Bloques del capítulo listos para paginar. El primero es la cabecera. `lineas[0]` son las líneas del título
  * y `lineas[i + 1]` las del bloque i.
  */
-export function bloquesMedibles(capitulo: Pick<CapituloLibro, "bloques">, lineas: readonly number[], tamano: number): BloqueMedido[] {
+export function bloquesMedibles(capitulo: { bloques: Pick<BloqueLibro, "id" | "tipo">[] }, lineas: readonly number[], tamano: number): BloqueMedido[] {
   const { lh } = metricas(tamano);
   const salida: BloqueMedido[] = [{ id: "cabecera", lineas: 1, altoLinea: altoCabecera(lineas[0] ?? 1, tamano), antes: 0, indivisible: true }];
   capitulo.bloques.forEach((b, i) => {

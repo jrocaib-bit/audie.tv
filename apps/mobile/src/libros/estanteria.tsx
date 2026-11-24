@@ -1,7 +1,7 @@
 import { ETIQUETA_VER_LIBRO, altCubierta, botonesFicha, etiquetaLomo, paletaFicha, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, Image, Modal, Platform, Pressable, ScrollView, Text, View, useWindowDimensions, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { clienteLibrosApp } from "./cliente";
 import { baseContenido } from "./config";
@@ -35,7 +35,7 @@ export function EstanteriaApp({ volumenes, mock }: { volumenes: VolumenEstanteri
   const [visible, setVisible] = useState(anchoPantalla);
   const [vista, setVista] = useState<boolean | null>(null);
   const [reducido, setReducido] = useState(false);
-  const balanceo = useRef(new Animated.Value(0)).current;
+  const [balanceo] = useState(() => new Animated.Value(0));
   const base = baseContenido();
   const contenido = volumenes.length * (ANCHO_LOMO + SEPARACION_LOMOS) - SEPARACION_LOMOS + MARGEN_LATERAL * 2;
   const paso = ANCHO_LOMO + SEPARACION_LOMOS;
@@ -133,7 +133,7 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
   const paleta = paletaFicha(v.color);
   const router = useRouter();
   const base = baseContenido();
-  const giro = useRef(new Animated.Value(0)).current;
+  const [giro] = useState(() => new Animated.Value(0));
   const [reducido, setReducido] = useState(false);
   const [vista, setVista] = useState<VistaLector | null>(null);
 

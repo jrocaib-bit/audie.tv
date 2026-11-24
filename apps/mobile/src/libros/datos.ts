@@ -65,7 +65,9 @@ function useSwr<T>(fuente: Fuente<T>, activo = true): EstadoDatos<T> {
   const memoria = leerMemoria<T>(clave, fuente.politica);
   const [estado, setEstado] = useState<EstadoDatos<T>>({ dato: memoria?.dato ?? null, cargando: activo && !memoria, fallo: false });
   const ref = useRef(fuente);
-  ref.current = fuente;
+  useEffect(() => {
+    ref.current = fuente;
+  });
   useEffect(() => {
     if (!activo) return;
     let vivo = true;
