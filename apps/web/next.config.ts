@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // En previsualización el DNS del host de obras puede resolver a 198.18.0.0/15, que Next trata
+    // como IP privada (SSRF) y rechaza con 400. Solo fuera de producción se permite; en producción
+    // el host resuelve a IPs públicas y la protección sigue activa.
+    dangerouslyAllowLocalIP: process.env.NODE_ENV !== "production",
     remotePatterns: [
       {
         protocol: "https",
