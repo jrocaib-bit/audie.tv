@@ -10,6 +10,7 @@ import {
   leerModo,
   leerTamano,
   leerTextoEpisodio,
+  marcaCapitulo,
   marcasDeTiempo,
   pasoTamano,
   textosPanel,
@@ -144,5 +145,18 @@ describe("aviso de la fuente", () => {
     expect(avisoFuente({ muestra: true, fuente: FUENTE_TORRES_AMAT }, es)).toBeNull();
     expect(avisoFuente({ muestra: false, fuente: "otra edición" }, es)).toBeNull();
     expect(textosPanel("en").avisoTorresAmat).toContain("Torres Amat (public domain)");
+  });
+});
+
+describe("marca de capítulo", () => {
+  const vs = [{ cap: 1 }, { cap: 1 }, { cap: 2 }];
+  it("abre el primer versículo y cada cambio de capítulo", () => {
+    const es = textosPanel("es");
+    expect(marcaCapitulo("gn-01", vs, 0, es)).toBe("Capítulo 1");
+    expect(marcaCapitulo("gn-01", vs, 1, es)).toBeNull();
+    expect(marcaCapitulo("gn-01", vs, 2, es)).toBe("Capítulo 2");
+    expect(marcaCapitulo("sal-003", vs, 2, es)).toBe("Salmo 2");
+    expect(marcaCapitulo("gn-01", vs, 2, textosPanel("en"))).toBe("Chapter 2");
+    expect(marcaCapitulo("gn-01", vs, 9, es)).toBeNull();
   });
 });

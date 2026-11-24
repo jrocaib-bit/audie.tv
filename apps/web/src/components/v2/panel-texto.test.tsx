@@ -79,6 +79,17 @@ describe("panel de texto", () => {
     expect(screen.queryByText(/Crédito inventado/)).toBeNull();
   });
 
+  it("abre cada capítulo con su título", () => {
+    const dosCapitulos: TextoEpisodio = {
+      ...sincronizado,
+      episodio: "sal-003",
+      versiculos: sincronizado.versiculos.map((v, i) => ({ ...v, cap: i < 2 ? 22 : 23 })),
+    };
+    const { container } = vista({ carga: { tipo: "listo", texto: dosCapitulos } });
+    const marcas = [...container.querySelectorAll("[data-capitulo]")].map((e) => e.textContent);
+    expect(marcas).toEqual(["Salmo 22", "Salmo 23"]);
+  });
+
   it("al tocar un versículo salta a su tiempo", () => {
     const { onSaltar } = vista();
     fireEvent.click(screen.getByRole("button", { name: /versículo 4/ }));
