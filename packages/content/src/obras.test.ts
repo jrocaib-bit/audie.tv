@@ -148,3 +148,13 @@ describe("obras con crédito", () => {
     expect(texto).not.toContain("informe y vacía");
   });
 });
+
+describe("clave libros de creditos.json", () => {
+  it("lee la portada del volumen 1 sin rechazar la clave nueva", async () => {
+    const { obrasPortadaLibros } = await import("./obras");
+    const obras = obrasPortadaLibros();
+    expect(obras.length).toBeGreaterThanOrEqual(1);
+    expect(obras[0]?.id).toBe("lib-01_o1");
+    expect(obras[0]?.volumen).toBe(1);
+  });
+});
