@@ -273,3 +273,34 @@ export function identidadesRenderizadas(): IdentidadRenderizada[] {
   }
   return salida;
 }
+
+
+/** Portadas de la colección de comentarios (clave `libros` de Identidad en creditos.json). */
+export type ObraLibroCredito = {
+  id?: string;
+  volumen?: number;
+  libro_id?: string;
+  libro_titulo_es?: string;
+  libro_biblico?: string;
+  uso?: string;
+  estado?: string;
+  titulo?: { es?: string; en?: string };
+  autor?: { es?: string; en?: string };
+  placa?: { es?: string; en?: string };
+};
+
+export type CreditosLibros = {
+  nota?: string;
+  generado?: string;
+  obras?: ObraLibroCredito[];
+};
+
+const librosArchivo = creditos as { libros?: CreditosLibros };
+
+export function creditosLibros(): CreditosLibros {
+  return librosArchivo.libros ?? { obras: [] };
+}
+
+export function obrasPortadaLibros(): ObraLibroCredito[] {
+  return creditosLibros().obras ?? [];
+}
