@@ -15,10 +15,10 @@ export function contextoVacio(c: ContextoSala | null | undefined): boolean {
   return !c || (!c.cita && !c.lineaTiempo?.length && !c.mapa?.length);
 }
 
-/** «1535. Texto…» → { anio: "1535", resto: "Texto…" }. Separa en el primer «. ». */
+/** «1535. Texto…» → { anio: "1535", resto: "Texto…" }. Separa en el primer «. » (hasta 24 caracteres: admite «Between 1754 and 1756»). */
 export function partirLinea(linea: string): { anio: string; resto: string } {
   const i = linea.indexOf(". ");
-  return i > 0 && i <= 20 ? { anio: linea.slice(0, i), resto: linea.slice(i + 2) } : { anio: "", resto: linea };
+  return i > 0 && i <= 24 ? { anio: linea.slice(0, i), resto: linea.slice(i + 2) } : { anio: "", resto: linea };
 }
 
 /** Marco del mapa de los Países Bajos y su entorno (grados). Es el marco por defecto cuando todos los puntos caen dentro. */

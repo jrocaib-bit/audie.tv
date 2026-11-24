@@ -30,12 +30,18 @@ describe("adelanto con contexto (sin sesión y gratuito)", () => {
       expect(html).not.toContain("<iframe");
     });
   }
-  it("una obra sin ficha rica se pinta sin mapa, cita ni línea de tiempo y sin romper", () => {
+  it("otra obra lleva su propio contexto en el adelanto, sin pasos, comparativa ni radios", () => {
     const otro = idsSala().find((id) => id !== "gn-01")!;
     const html = renderToStaticMarkup(SalaPagina({ lang: "es", id: otro }));
+    const c = contextoSala(otro, "es")!;
     expect(html).toContain("data-apertura");
     expect(html).toContain("data-corte");
-    for (const a of ["data-cita", "data-mapa", "data-linea-tiempo", "data-contexto"]) expect(html).not.toContain(a);
+    for (const a of ["data-contexto", "data-cita", "data-mapa", "data-linea-tiempo"]) expect(html).toContain(a);
+    expect(html).toContain(c.mapa![0]!.id);
+    expect(html).not.toContain("data-comparativa");
+    expect(html).not.toContain(resolverRecorrido(otro, "es")!.pasos[0]!.texto);
+    expect(html).not.toContain(resolverRecorrido(otro, "es")!.cierre.titulo);
+    expect(html).not.toContain("Durero");
   });
 });
 

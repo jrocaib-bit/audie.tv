@@ -136,7 +136,7 @@ describe("ruta de La sala", () => {
     const sinFicha = await (await pedir(otra, { token: "bueno" })).json();
     expect(sinFicha.acceso).toBe("premium");
     expect(sinFicha).not.toHaveProperty("comparativa");
-    expect(sinFicha.pasos.every((p: { radio?: number }) => p.radio === undefined)).toBe(true);
+    expect(sinFicha.pasos.every((p: { radio?: number }) => typeof p.radio === "number" && p.radio >= 0.14 && p.radio <= 0.36)).toBe(true);
     expect(doble.lecturas.every((l) => l.endsWith(":subscription_status:status"))).toBe(true);
   });
 
