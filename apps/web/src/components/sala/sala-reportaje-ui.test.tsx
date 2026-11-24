@@ -71,7 +71,7 @@ describe("relato premium con máscara y contexto", () => {
     for (const a of ["data-mapa", "data-linea-tiempo", "data-comparativa"]) {
       const etiqueta = completo.match(new RegExp(`<section [^>]*${a}[^>]*>`))![0];
       expect(etiqueta).toContain("data-pantalla");
-      expect(etiqueta).toContain("max-md:z-30");
+      expect(etiqueta).toContain("max-md:z-[25]");
       expect(etiqueta).toContain("max-md:bg-[#0C0B09]");
       expect(etiqueta).toContain("max-md:min-h-[calc(100svh-var(--cab,76px))]");
     }

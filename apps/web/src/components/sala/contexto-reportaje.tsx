@@ -2,10 +2,10 @@ import { cajaDe, esMarcoNeerlandes, LAGO, marcoDe, partirLinea, proyectarEn, SIL
 import { siluetaEuropa } from "@/lib/sala-mapa-europa";
 
 /**
- * Móvil, relato premium: la sección se pinta POR ENCIMA del visor sticky (z-30 > z-20; la columna de texto no crea contexto de apilamiento),
+ * Móvil, relato premium: la sección se pinta POR ENCIMA del visor sticky (z-25 > z-20) y POR DEBAJO de la cabecera (.cabecera es z-30). La columna de texto no crea contexto de apilamiento,
  * a ancho completo (sale del px-4 de la columna), fondo opaco y alto de pantalla bajo la cabecera. En md no cambia nada.
  */
-export const PANTALLA_MOVIL = "max-md:relative max-md:z-30 max-md:-mx-4 max-md:min-h-[calc(100svh-var(--cab,76px))] max-md:content-center max-md:bg-[#0C0B09] max-md:px-4 max-md:py-6";
+export const PANTALLA_MOVIL = "max-md:relative max-md:z-[25] max-md:-mx-4 max-md:min-h-[calc(100svh-var(--cab,76px))] max-md:content-center max-md:bg-[#0C0B09] max-md:px-4 max-md:py-6";
 
 const ROTULOS = {
   es: { mapa: "Dónde estuvo", tiempo: "Su historia", mapaDe: "Mapa con" },
@@ -110,7 +110,7 @@ export function ContextoReportaje({ contexto, lang, conCita = true, pantalla = f
   const hayTiempo = !!lineaTiempo?.length;
   if (!(conCita && cita) && !hayMapa && !hayTiempo) return null;
   return (
-    <div data-contexto className="grid gap-10 py-6 md:gap-14 md:py-10">
+    <div data-contexto className="grid gap-10 py-6 max-md:gap-0 md:gap-14 md:py-10">
       {conCita && cita ? <CitaGrande texto={cita} /> : null}
       {hayMapa ? <MapaSala puntos={mapa!} lang={lang} pantalla={pantalla} /> : null}
       {hayTiempo ? <LineaTiempo lineas={lineaTiempo!} lang={lang} pantalla={pantalla} /> : null}
