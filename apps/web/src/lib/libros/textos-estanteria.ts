@@ -4,6 +4,7 @@ import { ETIQUETA_VER_LIBRO, FRASE_EN_PREPARACION, LEYENDA_ESTANTERIA, MENSAJES_
 export const TEXTOS_ESTANTERIA = {
   titulo: "Estantería de libros",
   desliza: "Desliza para ver los 16 volúmenes",
+  toca: "Toca un libro para abrirlo",
   leyenda: LEYENDA_ESTANTERIA,
   cerrar: "Cerrar",
   cerrarAria: "Cerrar la ficha del libro",

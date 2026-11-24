@@ -481,6 +481,7 @@ export function Estanteria({ lang, volumenes, mock, libroInicial }: { lang: stri
         <div className="est-pista" aria-hidden="true" />
       </div>
       <p className="est-desliza">{TEXTOS_ESTANTERIA.desliza}</p>
+      <p className="est-toca" data-toca="">{TEXTOS_ESTANTERIA.toca}</p>
       <p className="est-leyenda" data-leyenda="">{TEXTOS_ESTANTERIA.leyenda}</p>
       {montado && abierto && volumenAbierto
         ? createPortal(
