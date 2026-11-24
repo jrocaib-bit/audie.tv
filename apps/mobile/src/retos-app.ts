@@ -1,5 +1,6 @@
 import retosJson from "../../../content/tiempos/retos.json";
 import profecias from "./datos/reto-profecias-pasion.json";
+import { narracionDeDia } from "./dia-detalle";
 
 type Idioma = "es" | "en";
 export type Paso = {
@@ -16,6 +17,8 @@ export type Paso = {
   cumplimiento?: string;
   descripcion?: { es: string; en: string };
   relacionados?: string[];
+  /** Relato del día en párrafos breves (ES y EN). */
+  narracion?: { es: string[]; en: string[] };
 };
 export type RetoJson = { id: string; tiempo: string; titulo: { es: string; en: string }; tituloCorto?: { es: string; en: string }; insignia?: { es: string; en: string }; descripcion?: { es: string; en: string }; obra: string; pasos: Paso[]; sinObra?: boolean };
 
@@ -50,6 +53,7 @@ const RETO_PROFECIAS: RetoJson = {
     diaLiturgico: d.dia_liturgico,
     descripcion: d.descripcion,
     relacionados: d.episodios_relacionados,
+    narracion: narracionDeDia(PROFECIAS_ID, d.id),
   })),
 };
 
