@@ -6,8 +6,8 @@
  *   - como-audio (por defecto): mismas reglas que el audio del episodio. Quien puede escuchar, puede leer.
  *   - suscripcion: solo `subscription_status = active`.
  *   - abierto: sin comprobación. Solo para pruebas.
+ * En esta línea de la app no está el paquete server-only. Este archivo solo lo importan rutas de servidor.
  */
-import "server-only";
 import { esAudioGratis, puedeEscuchar, type UsuarioAudio } from "@/lib/audio-acceso";
 import { audioPideSuscripcion, clienteServicio, tokenDePeticion, usuarioDeToken } from "@/lib/sesion-servidor";
 

@@ -17,8 +17,8 @@
  *   3. Nada: la API responde que el episodio no tiene texto.
  *
  * Los mensajes de error y de log nunca incluyen la ruta del disco.
+ * En esta línea de la app no está el paquete server-only. Este archivo solo lo importan rutas de servidor.
  */
-import "server-only";
 import { idTextoValido, type TextoEpisodio } from "@audite/domain";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
