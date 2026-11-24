@@ -77,6 +77,8 @@ type MobileLibrary = {
   removeEpisode: (id: string) => void;
   toggle: () => void;
   seekBy: (delta: number) => void;
+  /** Salta a un segundo de la línea de tiempo del episodio. */
+  seek: (seconds: number) => void;
   restart: () => void;
   setRate: (rate: PlaybackRate) => void;
   setSleep: (minutes: SleepMinutes | null) => void;
@@ -306,6 +308,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       else playlist.play();
     },
     seekBy: (delta) => seekGlobal(globalTime + delta),
+    seek: (seconds) => seekGlobal(seconds),
     restart: () => seekGlobal(0),
     setRate: (rate) => {
       playlist.playbackRate = rate;

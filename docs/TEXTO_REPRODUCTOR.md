@@ -116,4 +116,4 @@ Nada de esto existe todavía. No hay bucket creado ni migración.
 - `apps/web/src/lib/sesion-servidor.ts`: origen de sesión compartido por audio y texto.
 - `apps/web/src/app/api/texto/[id]/route.ts`: la ruta.
 - `apps/web/src/components/v2/panel-texto.tsx`: panel web.
-- `apps/mobile/src/components/panel-texto.tsx`: panel de la app.
+- `apps/mobile/src/panel-texto.tsx` y `apps/mobile/src/texto.ts`: panel de la app y carga desde `EXPO_PUBLIC_CONTENT_BASE` + `/api/texto/<id>` con el token de la sesión.
