@@ -13,7 +13,10 @@ describe("pestaña Libros de la barra inferior", () => {
     expect([...lista.matchAll(/href: "([^"]+)"/g)].map((m) => m[1])).toEqual(["/", "/camino", "/retos", "/biblioteca", "/libros", "/sala"]);
     expect(lista).toContain("etiqueta: t.tabLibros");
     expect(RUTAS_PESTANAS).toContain("/libros");
-    expect(leer("../ui/TabBar.tsx")).toContain("flex: 1, minHeight: 52");
+    // Seis pestañas de igual ancho (flex: 1, minWidth: 0) y etiqueta que cabe a 390 sin cortarse.
+    const barra = leer("../ui/TabBar.tsx");
+    expect(barra).toContain("flex: 1, minWidth: 0, minHeight: 52");
+    expect(barra).toContain("adjustsFontSizeToFit");
   });
   it("la ficha de la estantería enlaza a la pantalla de ficha, que existe", () => {
     expect(leer("../app/libros/[slug].tsx")).toContain("export default function FichaLibro");
