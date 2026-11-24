@@ -1,4 +1,4 @@
-import { ETIQUETA_VER_LIBRO, altCubierta, botonesFicha, etiquetaLomo, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
+import { ETIQUETA_VER_LIBRO, altCubierta, botonesFicha, etiquetaLomo, paletaFicha, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, Image, Modal, Pressable, ScrollView, Text, View } from "react-native";
@@ -46,7 +46,7 @@ export function EstanteriaApp({ volumenes, mock }: { volumenes: VolumenEstanteri
 }
 
 function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibros | null; onCerrar: () => void }) {
-  const colors = useColoresLibros();
+  const paleta = paletaFicha(v.color);
   const router = useRouter();
   const base = baseContenido();
   const giro = useRef(new Animated.Value(0)).current;
@@ -96,12 +96,12 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
 
   return (
     <Modal visible transparent animationType="none" onRequestClose={onCerrar} accessibilityViewIsModal>
-      <View style={{ flex: 1, backgroundColor: "rgba(16,14,12,0.82)" }}>
+      <View style={{ flex: 1, backgroundColor: paleta.fondo }}>
         <Pressable accessibilityLabel="Cerrar la ficha del libro" accessibilityRole="button" onPress={onCerrar} style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} />
         <ScrollView contentContainerStyle={{ alignItems: "center", paddingTop: 64, paddingBottom: 40, paddingHorizontal: 22, gap: 14 }}>
           <View style={{ width: ANCHO_CUBIERTA, height: ALTO_CUBIERTA, alignItems: "center", justifyContent: "center" }}>
             {reducido ? (
-              <Animated.Image source={{ uri: urlCubierta(base, v.volumen) }} accessibilityLabel={altCubierta(v)} style={{ width: ANCHO_CUBIERTA, height: ALTO_CUBIERTA, opacity: plano }} />
+              <Animated.Image source={{ uri: urlCubierta(base, v.volumen) }} accessibilityLabel={altCubierta(v)} style={{ width: ANCHO_CUBIERTA, height: ALTO_CUBIERTA, borderWidth: 1, borderColor: "rgba(0,0,0,0.35)", shadowColor: "#000", shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 6 }, opacity: plano }} />
             ) : (
               <>
                 <Animated.Image
@@ -113,16 +113,16 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
                 <Animated.Image
                   source={{ uri: urlCubierta(base, v.volumen) }}
                   accessibilityLabel={altCubierta(v)}
-                  style={{ position: "absolute", width: ANCHO_CUBIERTA, height: ALTO_CUBIERTA, opacity: cubiertaOpacidad, transform: [{ perspective: 900 }, { rotateY: cubiertaGira }] }}
+                  style={{ position: "absolute", width: ANCHO_CUBIERTA, height: ALTO_CUBIERTA, borderWidth: 1, borderColor: "rgba(0,0,0,0.35)", shadowColor: "#000", shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 6 }, opacity: cubiertaOpacidad, transform: [{ perspective: 900 }, { rotateY: cubiertaGira }] }}
                 />
               </>
             )}
           </View>
           <View style={{ width: "100%", maxWidth: 440, gap: 8 }}>
-            <Text style={{ color: colors.accent, fontSize: 12, letterSpacing: 2 }}>{v.rotulo}</Text>
-            <Text accessibilityRole="header" style={{ color: "#F4ECE2", fontFamily: LETRA, fontSize: 30, lineHeight: 33 }}>{v.titulo}</Text>
-            <Text style={{ color: "#E7D7C3", fontSize: 16 }}>{v.subtitulo}</Text>
-            <Text style={{ color: "#E7D7C3", fontSize: 16, lineHeight: 24 }}>{v.sinopsis}</Text>
+            <Text style={{ color: paleta.tinta, fontSize: 12, letterSpacing: 2, fontWeight: "600" }}>{v.rotulo}</Text>
+            <Text accessibilityRole="header" style={{ color: paleta.tinta, fontFamily: LETRA, fontSize: 30, lineHeight: 33 }}>{v.titulo}</Text>
+            <Text style={{ color: paleta.tinta, fontSize: 16, fontWeight: "600" }}>{v.subtitulo}</Text>
+            <Text style={{ color: paleta.tinta, fontSize: 16, lineHeight: 25 }}>{v.sinopsis}</Text>
             <View style={{ gap: 10, marginTop: 10 }}>
               {botones.map((boton) => (
                 <Pressable
@@ -131,38 +131,38 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
                   onPress={() => destino(boton.accion)}
                   style={[
                     { minHeight: 48, borderRadius: 999, alignItems: "center", justifyContent: "center", paddingHorizontal: 22 },
-                    boton.nivel === "primario" ? { backgroundColor: "#C9A96E" } : boton.nivel === "secundario" ? { borderWidth: 1, borderColor: "#C9A96E" } : { minHeight: 44 },
+                    boton.nivel === "primario" ? { backgroundColor: paleta.tinta } : boton.nivel === "secundario" ? { borderWidth: 2, borderColor: paleta.tinta } : { minHeight: 44 },
                   ]}
                 >
-                  <Text style={{ color: boton.nivel === "primario" ? "#100E0C" : boton.nivel === "secundario" ? "#C9A96E" : "#E7D7C3", fontSize: 16, textDecorationLine: boton.nivel === "enlace" ? "underline" : "none" }}>{boton.etiqueta}</Text>
+                  <Text style={{ color: boton.nivel === "primario" ? paleta.tintaInversa : paleta.tinta, fontWeight: boton.nivel === "enlace" ? "400" : "600", fontSize: 16, textDecorationLine: boton.nivel === "enlace" ? "underline" : "none" }}>{boton.etiqueta}</Text>
                 </Pressable>
               ))}
               <Pressable accessibilityRole="link" onPress={() => ir(`/libros/${v.id}${mock ? `?mock=${mock}` : ""}`)} style={{ minHeight: 44, justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ color: "#B7AB9C", fontSize: 16, textDecorationLine: "underline" }}>{ETIQUETA_VER_LIBRO}</Text>
+                <Text style={{ color: paleta.tinta, fontSize: 16, textDecorationLine: "underline" }}>{ETIQUETA_VER_LIBRO}</Text>
               </Pressable>
               {v.disponibilidad !== "lectura" ? (
-                <View style={{ borderWidth: 1, borderColor: "#2E2924", backgroundColor: "#1B1815", borderRadius: 16, padding: 14, gap: 6 }}>
-                  <Text style={{ color: "#C9A96E", fontSize: 13 }}>En preparación</Text>
-                  <Text style={{ color: "#E7D7C3", fontSize: 15 }}>{FRASE_PREPARACION}</Text>
+                <View style={{ borderWidth: 1, borderColor: "rgba(0,0,0,0.25)", backgroundColor: "rgba(0,0,0,0.25)", borderRadius: 16, padding: 14, gap: 6 }}>
+                  <Text style={{ color: paleta.tinta, fontSize: 13, fontWeight: "600" }}>En preparación</Text>
+                  <Text style={{ color: paleta.tinta, fontSize: 15 }}>{FRASE_PREPARACION}</Text>
                 </View>
               ) : null}
             </View>
             {v.episodios_destacados.length > 0 ? (
-              <View style={{ marginTop: 16, borderTopWidth: 1, borderTopColor: "#2E2924", paddingTop: 12 }}>
-                <Text accessibilityRole="header" style={{ color: "#C9A96E", fontSize: 13, letterSpacing: 2 }}>EPISODIOS RELACIONADOS</Text>
+              <View style={{ marginTop: 16, borderTopWidth: 1, borderTopColor: "rgba(0,0,0,0.25)", paddingTop: 12 }}>
+                <Text accessibilityRole="header" style={{ color: paleta.tinta, fontSize: 13, letterSpacing: 2, fontWeight: "600" }}>EPISODIOS RELACIONADOS</Text>
                 {v.episodios_destacados.map((e) => (
-                  <Pressable key={e.episodio_id} accessibilityRole="link" onPress={() => ir(`/episodio/${e.episodio_id}`)} style={{ minHeight: 48, justifyContent: "center", borderBottomWidth: 1, borderBottomColor: "#2E2924", paddingVertical: 8 }}>
-                    <Text style={{ color: "#C9A96E", fontSize: 14 }}>{e.etiqueta}</Text>
-                    <Text style={{ color: "#F4ECE2", fontSize: 16 }}>{e.titulo}</Text>
+                  <Pressable key={e.episodio_id} accessibilityRole="link" onPress={() => ir(`/episodio/${e.episodio_id}`)} style={{ minHeight: 48, justifyContent: "center", borderBottomWidth: 1, borderBottomColor: "rgba(0,0,0,0.25)", paddingVertical: 8 }}>
+                    <Text style={{ color: paleta.tinta, fontSize: 14, fontWeight: "600" }}>{e.etiqueta}</Text>
+                    <Text style={{ color: paleta.tinta, fontSize: 16 }}>{e.titulo}</Text>
                   </Pressable>
                 ))}
               </View>
             ) : null}
-            {v.credito_obra ? <Text style={{ color: "#A69A8B", fontSize: 12, marginTop: 12 }}>Portada: {v.credito_obra}</Text> : null}
+            {v.credito_obra ? <Text style={{ color: paleta.tinta, fontSize: 12, marginTop: 12 }}>Portada: {v.credito_obra}</Text> : null}
           </View>
         </ScrollView>
-        <Pressable accessibilityRole="button" accessibilityLabel="Cerrar la ficha del libro" onPress={onCerrar} style={{ position: "absolute", top: 48, right: 16, minHeight: 44, minWidth: 44, paddingHorizontal: 18, borderRadius: 999, borderWidth: 1, borderColor: "#2E2924", backgroundColor: "#1B1815", alignItems: "center", justifyContent: "center" }}>
-          <Text style={{ color: "#F4ECE2", fontSize: 16 }}>Cerrar</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Cerrar la ficha del libro" onPress={onCerrar} style={{ position: "absolute", top: 48, right: 16, minHeight: 44, minWidth: 44, paddingHorizontal: 18, borderRadius: 999, borderWidth: 1, borderColor: paleta.tinta, backgroundColor: "rgba(0,0,0,0.28)", alignItems: "center", justifyContent: "center" }}>
+          <Text style={{ color: paleta.tinta, fontSize: 16 }}>Cerrar</Text>
         </Pressable>
       </View>
     </Modal>
