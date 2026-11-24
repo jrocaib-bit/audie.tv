@@ -21,6 +21,8 @@ describe("sitio público", () => {
   it("el mapa no lista el catálogo entero", () => {
     const urls = entradasSitemap("https://audite.tv");
     expect(urls.some((url) => url.endsWith("/es/membresia"))).toBe(true);
+    expect(urls).toContain("https://audite.tv/es/biblia");
+    expect(rutaDeSitemapExiste("https://audite.tv/es/biblia")).toBe(true);
     expect(urls.some((url) => url.includes("/catalogo/"))).toBe(false);
     expect(urls.join("\n")).not.toContain("127.0.0.1");
     expect(urls.some((url) => url.includes("/en/"))).toBe(false);

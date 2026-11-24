@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
+/** Alias en inglés del índice canónico. Los slugs son los mismos en todos los idiomas: /en/biblia. */
+export const redireccionesBiblia = [
+  { source: "/en/bible", destination: "/en/biblia", permanent: true },
+  { source: "/:lang(es|it|pt|fr|de|zh)/bible", destination: "/:lang/biblia", permanent: true },
+];
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    return redireccionesBiblia;
+  },
   async headers() {
     return [
       {

@@ -59,6 +59,7 @@ function enlacesPrincipales(lang: string, copy: SitioCopy): EnlaceNav[] {
   const items: EnlaceNav[] = [
     { href: `/${lang}`, etiqueta: copy.navHome },
     { href: `/${lang}/catalogo`, etiqueta: copy.navCatalog },
+    { href: `/${lang}/biblia`, etiqueta: copy.navBible },
     { href: `/${lang}/sala`, etiqueta: copy.navSala },
   ];
   if (hayIndiceLibros()) items.push({ href: `/${lang}${RUTA_LIBROS}`, etiqueta: copy.navBooks });
@@ -108,6 +109,7 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
           <p className={titulo}>App</p>
           <Link href={`/${lang}`} className={enlace}>{copy.navHome}</Link>
           <Link href={`/${lang}/catalogo`} className={enlace}>{copy.navCatalog}</Link>
+          <Link href={`/${lang}/biblia`} className={enlace}>{copy.navBible}</Link>
           <Link href={`/${lang}/sala`} className={enlace}>{copy.navSala}</Link>
           {hayIndiceLibros() ? <Link href={`/${lang}${RUTA_LIBROS}`} className={enlace}>{copy.navBooks}</Link> : null}
           <Link href={`/${lang}/retos`} className={enlace}>{ui === "en" ? "Challenges" : "Retos"}</Link>

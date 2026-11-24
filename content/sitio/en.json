@@ -11,6 +11,7 @@
   "navClose": "Close",
   "salaTitle": "The gallery",
   "salaIntro": "Each piece is seen up close: its history, the places it has been and, when a free image and a documented relationship exist, a comparison. Three paths are open to everyone. The rest open with a subscription.",
+  "navBible": "Bible",
   "navMembership": "Membership",
   "homeKicker": "Listening",
   "homeTitle": "The Bible,\nfrom beginning\nto end.",
@@ -114,5 +115,18 @@
   "salaCtaPremium": "Go premium",
   "salaGratis": "Free",
   "salaEscuchando": "The work of what you're listening to",
-  "salaVerObra": "See the work in The gallery"
+  "salaVerObra": "See the work in The gallery",
+  "bibleTitle": "The Bible in order",
+  "bibleMetaDescription": "Every book and chapter of the Bible in order, each with its audio episode.",
+  "bibleIntro": "The books follow the order of the Bible. Open a book and pick a chapter to go to the episode where you hear it.",
+  "bibleFind": "Find a book",
+  "bibleTestament": "Testament",
+  "bibleAll": "All",
+  "bibleChapters": "chapters",
+  "bibleChapter": "chapter",
+  "bibleChaptersOf": "Chapters of",
+  "bibleSeveral": "Heard across several episodes",
+  "bibleCtaTitle": "Listen to every chapter",
+  "bibleCtaBody": "Seven days free to hear the whole Bible, episode by episode.",
+  "bibleListenIn": "You hear it in"
 }
