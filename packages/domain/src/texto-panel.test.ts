@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  FUENTE_TORRES_AMAT,
   TAMANOS_TEXTO,
   TAMANO_INICIAL,
+  avisoFuente,
   estadoDeRespuesta,
   estaSincronizado,
   idTextoValido,
@@ -131,5 +133,16 @@ describe("estado y preferencias", () => {
       }
     }
     expect(textosPanel("es").muestra).toBe("Texto de ejemplo, no es una edición bíblica");
+  });
+});
+
+describe("aviso de la fuente", () => {
+  it("lleva el aviso literal solo con texto real de Torres Amat", () => {
+    const es = textosPanel("es");
+    expect(es.avisoTorresAmat).toBe("Texto: Torres Amat (dominio público). Puede no coincidir palabra por palabra con el audio");
+    expect(avisoFuente({ muestra: false, fuente: FUENTE_TORRES_AMAT }, es)).toBe(es.avisoTorresAmat);
+    expect(avisoFuente({ muestra: true, fuente: FUENTE_TORRES_AMAT }, es)).toBeNull();
+    expect(avisoFuente({ muestra: false, fuente: "otra edición" }, es)).toBeNull();
+    expect(textosPanel("en").avisoTorresAmat).toContain("Torres Amat (public domain)");
   });
 });

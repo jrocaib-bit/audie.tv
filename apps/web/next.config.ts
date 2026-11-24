@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // El texto de Torres Amat (dominio público) se lee del disco en la ruta de la API. Sin esto, el despliegue no lo lleva.
+  outputFileTracingIncludes: { "/api/texto/**": ["../../content/texto/torres-amat/**/*"] },
   devIndicators: false,
   allowedDevOrigins: ["127.0.0.1"],
   transpilePackages: ["@audite/domain", "@audite/content"],

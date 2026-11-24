@@ -69,6 +69,16 @@ describe("panel de texto", () => {
     expect(screen.getByTestId("texto-desplazable").getAttribute("aria-live")).toBe("off");
   });
 
+  it("con Torres Amat muestra el aviso literal fijo, sin «Texto de ejemplo» ni crédito duplicado", () => {
+    const real: TextoEpisodio = { ...sincronizado, muestra: false, fuente: "torres-amat" };
+    vista({ carga: { tipo: "listo", texto: real } });
+    const aviso = screen.getByTestId("aviso-fuente");
+    expect(aviso.textContent).toBe("Texto: Torres Amat (dominio público). Puede no coincidir palabra por palabra con el audio");
+    expect(aviso.getAttribute("role")).toBe("note");
+    expect(screen.queryByText(/Texto de ejemplo/)).toBeNull();
+    expect(screen.queryByText(/Crédito inventado/)).toBeNull();
+  });
+
   it("al tocar un versículo salta a su tiempo", () => {
     const { onSaltar } = vista();
     fireEvent.click(screen.getByRole("button", { name: /versículo 4/ }));
