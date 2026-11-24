@@ -9,6 +9,7 @@ import {
   botonesFicha,
   etiquetaLomo,
   hrefEntrarParaLibros,
+  paletaFicha,
   type AccionFicha,
   type MockLibros,
   type VistaLector,
@@ -157,7 +158,7 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
     if (suave) {
       dar(el.raiz.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: "ease-out" }));
     } else if (modo === "directo" || !el.caja || !enlace()) {
-      dar(el.fondo.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: "ease-out" }));
+      dar(el.fondo.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: "ease-out" }));
       dar(el.ficha.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: "ease-out" }));
     } else {
       const caja3d = el.caja;
@@ -172,7 +173,7 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
           dar(el.ficha.animate([{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 320, delay: MS_ABRIR * 0.45, easing: "ease-out", fill: "both" })),
         ];
         conjunto[1]?.pause();
-        dar(el.fondo.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: "ease-out" }));
+        dar(el.fondo.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: "ease-out" }));
         const imagen = cubierta.current;
         const decodificada = imagen ? imagen.decode().catch(() => undefined) : Promise.resolve();
         void Promise.race([decodificada, new Promise((resolver) => setTimeout(resolver, MS_DECODE_MAX))]).then(() => {
@@ -285,7 +286,8 @@ function Escena({ lang, v, mock, vista, modo, suave, fase, enlace, onCerrar, onT
     return destinoAccion(accion, lang, v.id, hrefEntrarParaLibros(lang, rutaLeer), mock);
   }
 
-  const estilo = { "--color": v.color } as CSSProperties;
+  const paleta = paletaFicha(v.color);
+  const estilo = { "--color": v.color, "--est-fondo": paleta.fondo, "--est-tinta": paleta.tinta, "--est-tinta-inversa": paleta.tintaInversa, "--est-sombra": paleta.sombra } as CSSProperties;
   const destacados = v.episodios_destacados;
   const nombres: Record<string, string> = { primario: "est-boton est-boton-primario", secundario: "est-boton est-boton-secundario", enlace: "est-enlace" };
 

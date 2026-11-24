@@ -90,6 +90,13 @@
   outline: 2px solid #c9a96e;
   outline-offset: 3px;
 }
+.est-escena .est-cerrar:focus-visible,
+.est-escena .est-boton:focus-visible,
+.est-escena .est-enlace:focus-visible,
+.est-escena .est-ficha a:focus-visible {
+  outline: 3px solid var(--est-tinta);
+  outline-offset: 4px;
+}
 @media (prefers-reduced-motion: reduce) {
   .est-lomo { transition: none; }
   .est-lomo:hover { outline: 2px solid rgb(201 169 110 / 0.7); outline-offset: 3px; }
@@ -146,7 +153,7 @@
   z-index: 80;
   overflow-y: auto;
   overscroll-behavior: contain;
-  color: #f4ece2;
+  color: var(--est-tinta, #f4ece2);
 }
 @media (min-width: 768px) {
   .est-escena { --w: min(clamp(260px, 22vw, 320px), 42vh); }
@@ -155,10 +162,7 @@
 .est-fondo {
   position: fixed;
   inset: 0;
-  background: rgb(16 14 12 / 0.82);
-}
-@media (min-width: 768px) {
-  .est-fondo { backdrop-filter: blur(8px); }
+  background: var(--est-fondo, #100e0c);
 }
 .est-escena[data-estado="cerrando"] { pointer-events: none; }
 
@@ -170,10 +174,10 @@
   min-width: 44px;
   min-height: 44px;
   padding: 0 18px;
-  border: 1px solid #2e2924;
+  border: 1px solid var(--est-tinta);
   border-radius: 999px;
-  background: #1b1815;
-  color: #f4ece2;
+  background: rgb(0 0 0 / 0.28);
+  color: var(--est-tinta);
   font: inherit;
   cursor: pointer;
 }
@@ -244,7 +248,7 @@
   margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
   transform: rotateY(90deg) translateZ(calc(var(--d) / 2));
   background: var(--color, #2e2924);
-  box-shadow: inset 6px 0 8px -6px rgb(0 0 0 / 0.5);
+  box-shadow: inset 6px 0 8px -6px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(0 0 0 / 0.35), 0 10px 24px -8px var(--est-sombra, rgb(0 0 0 / 0.45));
 }
 .est-cubierta-cara picture { display: block; width: 100%; height: 100%; }
 .est-dorso-cara {
@@ -290,6 +294,7 @@
   border-radius: 2px;
   object-fit: cover;
   background: var(--color, #2e2924);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35), 0 10px 24px -8px var(--est-sombra, rgb(0 0 0 / 0.45));
 }
 .est-zona:has(.est-plana)::after { display: none; }
 
@@ -308,18 +313,19 @@
   margin: 0;
   font-size: 0.8125rem;
   letter-spacing: 0.16em;
-  color: #c9a96e;
+  color: var(--est-tinta);
+  font-weight: 600;
 }
 .est-titulo {
   margin: 8px 0 0;
   font-family: var(--font-display, Georgia, serif);
   font-size: clamp(1.75rem, 6vw, 2.75rem);
   line-height: 1.04;
-  font-weight: 400;
+  font-weight: 500;
   outline: none;
 }
-.est-subtitulo { margin: 10px 0 0; font-size: 1.0625rem; color: #e7d7c3; }
-.est-sinopsis { margin: 14px 0 0; line-height: 1.55; color: #e7d7c3; }
+.est-subtitulo { margin: 10px 0 0; font-size: 1.0625rem; font-weight: 600; color: var(--est-tinta); }
+.est-sinopsis { margin: 14px 0 0; line-height: 1.6; color: var(--est-tinta); }
 
 .est-acciones {
   display: grid;
@@ -329,7 +335,7 @@
   bottom: 0;
   z-index: 3;
   padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(to top, #100e0c 72%, rgb(16 14 12 / 0));
+  background: linear-gradient(to top, var(--est-fondo) 72%, transparent);
 }
 @media (min-width: 768px) {
   .est-acciones { position: static; padding: 0; background: none; margin-top: 22px; max-width: 360px; }
@@ -343,37 +349,38 @@
   border-radius: 999px;
   text-decoration: none;
 }
-.est-boton-primario { background: #c9a96e; color: #100e0c; }
-.est-boton-secundario { border: 1px solid #c9a96e; color: #c9a96e; }
+.est-boton-primario { background: var(--est-tinta); color: var(--est-tinta-inversa); font-weight: 600; }
+.est-boton-secundario { border: 2px solid var(--est-tinta); color: var(--est-tinta); }
 .est-enlace {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  color: #e7d7c3;
+  color: var(--est-tinta);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.est-preparacion { margin-top: 18px; padding: 14px 16px; border: 1px solid #2e2924; border-radius: 16px; background: #1b1815; }
-.est-preparacion p { margin: 8px 0 0; color: #e7d7c3; }
+.est-preparacion { margin-top: 18px; padding: 14px 16px; border: 1px solid rgb(0 0 0 / 0.25); border-radius: 16px; background: rgb(0 0 0 / 0.25); }
+.est-preparacion p { margin: 8px 0 0; color: var(--est-tinta); }
 .est-insignia {
   display: inline-block;
   padding: 3px 12px;
   border-radius: 999px;
-  border: 1px solid #c9a96e;
+  border: 1px solid var(--est-tinta);
   font-size: 0.8125rem;
-  color: #c9a96e;
+  font-weight: 600;
+  color: var(--est-tinta);
 }
 
-.est-episodios { margin-top: 26px; padding-top: 18px; border-top: 1px solid #2e2924; }
-.est-episodios h3 { margin: 0; font-size: 0.8125rem; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: #c9a96e; }
+.est-episodios { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgb(0 0 0 / 0.25); }
+.est-episodios h3 { margin: 0; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--est-tinta); }
 .est-episodios ul { margin: 8px 0 0; padding: 0; list-style: none; }
-.est-episodios li { border-bottom: 1px solid #2e2924; }
-.est-episodios li a { display: grid; gap: 2px; min-height: 44px; padding: 10px 0; color: #f4ece2; text-decoration: none; }
-.est-ep-etiqueta { font-size: 0.875rem; color: #c9a96e; }
-.est-ver-todos { display: inline-flex; min-height: 44px; align-items: center; margin-top: 4px; color: #c9a96e; text-decoration: underline; text-underline-offset: 3px; }
-.est-credito { margin: 18px 0 0; font-size: 0.75rem; line-height: 1.45; color: #a69a8b; }
+.est-episodios li { border-bottom: 1px solid rgb(0 0 0 / 0.25); }
+.est-episodios li a { display: grid; gap: 2px; min-height: 44px; padding: 10px 0; color: var(--est-tinta); text-decoration: none; }
+.est-ep-etiqueta { font-size: 0.875rem; font-weight: 600; color: var(--est-tinta); }
+.est-ver-todos { display: inline-flex; min-height: 44px; align-items: center; margin-top: 4px; color: var(--est-tinta); text-decoration: underline; text-underline-offset: 3px; }
+.est-credito { margin: 18px 0 0; font-size: 0.75rem; line-height: 1.45; color: var(--est-tinta); }
 
 @media (prefers-reduced-motion: reduce) {
   .est-escena *, .est-escena { scroll-behavior: auto; }
@@ -381,7 +388,7 @@
 
 /* Enlace discreto a la landing del libro, bajo los botones. */
 .est-ver-libro { margin: 6px 0 0; }
-.est-ver-libro .est-enlace { justify-content: flex-start; color: #b7ab9c; }
+.est-ver-libro .est-enlace { justify-content: flex-start; color: var(--est-tinta); }
 @media (max-width: 767px) {
   .est-ver-libro { margin-bottom: 4px; }
 }

@@ -1,8 +1,10 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { botonesFicha, etiquetaLomo, ETIQUETAS_FICHA, FRASE_EN_PREPARACION, LEYENDA_ESTANTERIA, type VolumenEstanteria } from "@audite/domain";
+import { botonesFicha, etiquetaLomo, paletaFicha, ETIQUETAS_FICHA, FRASE_EN_PREPARACION, LEYENDA_ESTANTERIA, type VolumenEstanteria } from "@audite/domain";
 import { TEXTOS_ESTANTERIA, verEpisodios } from "@/lib/libros/textos-estanteria";
 import { Estanteria } from "./estanteria";
 
@@ -156,6 +158,27 @@ describe("estantería, interacción", () => {
     expect(lomo("libro-3").style.visibility).toBe("");
     expect(window.location.search).toBe("");
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("la escena abierta lleva las variables de paleta del volumen", async () => {
+    render(<Estanteria {...props} />);
+    await act(async () => { fireEvent.click(lomo("libro-3")); });
+    const escena = document.querySelector<HTMLElement>("[data-escena]")!;
+    const p = paletaFicha("#805F36");
+    expect(escena.style.getPropertyValue("--color")).toBe("#805F36");
+    expect(escena.style.getPropertyValue("--est-fondo")).toBe(p.fondo);
+    expect(escena.style.getPropertyValue("--est-tinta")).toBe(p.tinta);
+    expect(escena.style.getPropertyValue("--est-tinta-inversa")).toBe(p.tintaInversa);
+    expect(escena.style.getPropertyValue("--est-sombra")).toBe(p.sombra);
+  });
+
+  it("el CSS del fondo es opaco, sin blur ni 0.82", () => {
+    const css = readFileSync(join(__dirname, "estanteria.css"), "utf8");
+    const bloques = [...css.matchAll(/\.est-fondo[^{]*\{[^}]*\}/g)].map((m) => m[0]).join("\n");
+    expect(bloques).toContain("var(--est-fondo");
+    expect(bloques).not.toContain("backdrop-filter");
+    expect(bloques).not.toContain("0.82");
+    expect(css).not.toMatch(/backdrop-filter/);
   });
 
   it("el botón Cerrar y el clic en el fondo cierran, un clic dentro de la ficha no", async () => {
