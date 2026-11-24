@@ -16,9 +16,15 @@ Los tiempos `t` salen de las transcripciones del audio y solo existen en los epi
 
 `cobertura.json` lista el estado de los 516 episodios (`texto_resaltado`, `texto` o `sin_texto` con el motivo). No lleva texto.
 
+## Libros que PET no trae y versículos omitidos
+
+- Tobías, Judit, Ester, Sabiduría, Sirácide, 1 y 2 Macabeos y Baruc salen de la transcripción de Torres Amat de edicionescatolicas.org (ortografía actualizada, igual que PET). Cada versículo se acepta solo si coincide un 85 % o más con la lectura del OCR de la edición de París (Salvá, 1836, Internet Archive `lasagradabiblian06torr`, `08`, `10` y `12`) o si el cotejo de fragmentos con los facsímiles de 1836 y de 1883-1884 lo respalda. Los 4.648 versículos pasaron la comprobación.
+- Los versículos «TEXTO OMITIDO» de PET (Levítico 2 a 7, Génesis 19 y 49, Oseas 5, Marcos 16, Apocalipsis 16), los Salmos 9, 119 y 120, Oseas 14 y Daniel 3, 13 y 14 se recuperan con el mismo método (cotejo con los facsímiles de Barcelona 1883-1884, `AI156` a `AI159`).
+- Los episodios con `"mapeo": "capitulos"` muestran los capítulos completos sin resaltado, porque la numeración de versículos de la Vulgata difiere de la de referencia. La identidad de cada capítulo se comprueba con palabras distintivas.
+
 ## Qué queda sin texto
 
-Un episodio sin mapeo seguro queda sin texto. Es el caso de los siete libros deuterocanónicos que la fuente no trae (Tobías, Judit, 1 y 2 Macabeos, Sabiduría, Sirácide y Baruc), de Ester, de los capítulos con versículos omitidos o con numeración rota en la fuente, y de los episodios cuyo final no coincide con el del manifiesto.
+Un episodio sin mapeo seguro queda sin texto. Quedan así los episodios cuyo final no coincide con el del manifiesto por la numeración de la Vulgata (Eclesiastés 1 y 3, Ezequiel 19 a 20, Daniel 5 a 6, Miqueas 1, Malaquías 1), Joel 1 (capítulos ausentes en la fuente), Éxodo 40, 1 Reyes 9 y Cantar 1 (versículos omitidos cuya numeración no coincide con la Vulgata), los episodios de Tobías 9 a 11, Judit 7 a 16 y Ester 5 a 7, cuyo capítulo 5 no lleva la adición D. El motivo de cada uno consta en `cobertura.json`.
 
 ## Regenerar
 
