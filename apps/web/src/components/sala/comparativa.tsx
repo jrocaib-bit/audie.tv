@@ -1,3 +1,4 @@
+import { PANTALLA_MOVIL } from "./contexto-reportaje";
 import type { ComparativaSala } from "@/lib/sala-contexto";
 
 /**
@@ -8,18 +9,18 @@ export function Comparativa({ datos }: { datos?: ComparativaSala | null }) {
   const imagenes = (datos?.imagenes ?? []).filter((i) => i.src && i.pie && i.ancho > 0 && i.alto > 0);
   if (!datos || !imagenes.length || !datos.creditos) return null;
   return (
-    <section data-comparativa aria-label={datos.entrada} className="grid gap-4 py-6 md:py-10">
+    <section data-comparativa data-pantalla aria-label={datos.entrada} className={`grid gap-4 md:py-10 ${PANTALLA_MOVIL}`}>
       <p className="font-display text-2xl leading-snug md:text-3xl">{datos.entrada}</p>
-      <div className="grid grid-cols-2 items-start gap-3 md:gap-5">
+      <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 md:gap-5">
         {imagenes.map((i) => (
           <figure key={i.src} className="grid gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={i.src} alt={i.alt} width={i.ancho} height={i.alto} loading="lazy" decoding="async" className="h-auto w-full rounded-md bg-[#1B1815]" />
-            <figcaption className="text-sm leading-snug text-[#E7D7C3]">{i.pie}</figcaption>
+            <figcaption className="text-base leading-snug text-[#E7D7C3]">{i.pie}</figcaption>
           </figure>
         ))}
       </div>
-      <p data-creditos className="text-xs leading-snug text-[#B7AB9C]">{datos.creditos}</p>
+      <p data-creditos className="text-sm leading-snug text-[#B7AB9C]">{datos.creditos}</p>
     </section>
   );
 }

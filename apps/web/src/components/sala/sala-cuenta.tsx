@@ -214,14 +214,14 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
             ) : null}
           </VisorObra>
         </div>
-        <div className="relative z-10 -mt-5 rounded-t-3xl bg-[#0C0B09] px-4 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:z-auto md:mt-0 md:rounded-none md:shadow-none md:px-10">
+        <div className="relative -mt-5 rounded-t-3xl bg-[#0C0B09] px-4 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:mt-0 md:rounded-none md:shadow-none md:px-10">
           <h1 className="font-display t-h1 pt-6 md:pt-[12svh]">{titulo}</h1>
           <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
             <Tarjeta>
               <Apertura a={datos.apertura} />
             </Tarjeta>
           </article>
-          <ContextoReportaje contexto={contexto} lang={lang} />
+          <ContextoReportaje contexto={contexto} lang={lang} pantalla />
           {datos.pasos.map((p, i) => (
             <Fragment key={i}>
               <article data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>

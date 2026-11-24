@@ -65,6 +65,25 @@ describe("relato premium con máscara y contexto", () => {
     expect(html).toContain("data-mapa");
     expect(html).toContain("data-linea-tiempo");
   });
+  it("móvil: mapa, línea y comparativa a pantalla completa por encima del visor, y la columna no crea contexto z-10", () => {
+    const { comparativa } = reportajePremium("gn-01", "es");
+    const completo = renderToStaticMarkup(<RelatoScroll lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="T" datos={{ ...datos, comparativa: comparativa! }} contexto={contexto} />);
+    for (const a of ["data-mapa", "data-linea-tiempo", "data-comparativa"]) {
+      const etiqueta = completo.match(new RegExp(`<section [^>]*${a}[^>]*>`))![0];
+      expect(etiqueta).toContain("data-pantalla");
+      expect(etiqueta).toContain("max-md:z-30");
+      expect(etiqueta).toContain("max-md:bg-[#0C0B09]");
+      expect(etiqueta).toContain("max-md:min-h-[calc(100svh-var(--cab,76px))]");
+    }
+    expect(completo).toMatch(/class="sticky top-\[var\(--cab\)\] z-20/);
+    expect(completo).not.toMatch(/class="relative z-10 -mt-5/);
+    expect(completo).not.toContain("max-w-[17rem]");
+    expect(completo).toContain("grid-cols-1 items-start gap-5 md:grid-cols-2");
+    // El mapa de la apertura no pinta pantalla completa en el adelanto (el visor no es sticky).
+    const adelanto = renderToStaticMarkup(SalaPagina({ lang: "es", id: "gn-01", mock: "gratis" }));
+    expect(adelanto).toContain("data-mapa");
+    expect(adelanto).not.toContain("data-pantalla");
+  });
   it("la máscara solo anima opacity", () => {
     const capa = html.match(/data-capa-mascara="1"[^>]*style="([^"]*)"/)![1]!;
     expect(capa).toContain("transition:opacity 750ms");
@@ -74,7 +93,10 @@ describe("relato premium con máscara y contexto", () => {
     expect(reducido).not.toContain("data-capa-mascara");
     expect(reducido).toContain('data-mascara="ninguna"');
     expect(reducido).toContain("data-mapa");
+    expect(reducido).toContain("data-linea-tiempo");
     expect(reducido).not.toContain("opacity:0");
+    expect(reducido).toContain('data-zoom="1"');
+    expect(reducido).not.toMatch(/data-pantalla[^>]*style=/);
   });
   it("comparativa tras el paso 5: pies, créditos aparte, lazy, fragmento y cierre hacia el episodio", () => {
     const { comparativa, radios } = reportajePremium("gn-01", "es");

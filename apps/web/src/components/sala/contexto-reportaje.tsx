@@ -1,6 +1,12 @@
 import { cajaDe, esMarcoNeerlandes, LAGO, marcoDe, partirLinea, proyectarEn, SILUETA, trazado, trazadoEn, type ContextoSala, type PuntoMapa } from "@/lib/sala-contexto";
 import { siluetaEuropa } from "@/lib/sala-mapa-europa";
 
+/**
+ * Móvil, relato premium: la sección se pinta POR ENCIMA del visor sticky (z-30 > z-20; la columna de texto no crea contexto de apilamiento),
+ * a ancho completo (sale del px-4 de la columna), fondo opaco y alto de pantalla bajo la cabecera. En md no cambia nada.
+ */
+export const PANTALLA_MOVIL = "max-md:relative max-md:z-30 max-md:-mx-4 max-md:min-h-[calc(100svh-var(--cab,76px))] max-md:content-center max-md:bg-[#0C0B09] max-md:px-4 max-md:py-6";
+
 const ROTULOS = {
   es: { mapa: "Dónde estuvo", tiempo: "Su historia", mapaDe: "Mapa con" },
   en: { mapa: "Where it has been", tiempo: "Its history", mapaDe: "Map with" },
@@ -23,7 +29,7 @@ const anchoRotulo = (t: string) => t.length * 5.8;
  * se recorta a ese marco. Si el marco es el neerlandés se pinta el detalle de los Países Bajos con el IJsselmeer.
  * La silueta es solo apoyo: los puntos y sus rótulos se pintan siempre, caigan o no dentro de ella.
  */
-export function MapaSala({ puntos, lang }: { puntos: PuntoMapa[]; lang: "es" | "en" }) {
+export function MapaSala({ puntos, lang, pantalla = false }: { puntos: PuntoMapa[]; lang: "es" | "en"; pantalla?: boolean }) {
   const r = ROTULOS[lang];
   const marco = marcoDe(puntos);
   const caja = cajaDe(marco);
@@ -31,9 +37,9 @@ export function MapaSala({ puntos, lang }: { puntos: PuntoMapa[]; lang: "es" | "
   const silueta = neerlandes ? null : siluetaEuropa(marco);
   const pos = puntos.map((p) => proyectarEn(marco, p.lat, p.lon));
   return (
-    <section data-mapa className="grid gap-4 md:gap-5">
+    <section data-mapa {...(pantalla ? { "data-pantalla": "" } : {})} className={`grid gap-4 md:gap-5 ${pantalla ? PANTALLA_MOVIL : ""}`}>
       <h2 className="font-display text-xl">{r.mapa}</h2>
-      <svg viewBox={`0 0 ${caja.w} ${caja.h}`} role="img" aria-label={`${r.mapaDe} ${puntos.map((p) => p.nombre).join(", ")}`} className="mx-auto h-auto w-full max-w-[17rem] rounded-2xl md:max-w-[22rem] bg-[#100E0C]">
+      <svg viewBox={`0 0 ${caja.w} ${caja.h}`} role="img" aria-label={`${r.mapaDe} ${puntos.map((p) => p.nombre).join(", ")}`} className="mx-auto h-auto w-full rounded-2xl md:max-w-[22rem] bg-[#100E0C]">
         {neerlandes ? (
           <>
             <path d={trazado(SILUETA)} fill="#1B1815" stroke="#3A3328" strokeWidth="1.2" strokeLinejoin="round" />
@@ -76,9 +82,9 @@ export function MapaSala({ puntos, lang }: { puntos: PuntoMapa[]; lang: "es" | "
 }
 
 /** Línea de tiempo vertical: cada línea del JSON empieza por su fecha. */
-export function LineaTiempo({ lineas, lang }: { lineas: string[]; lang: "es" | "en" }) {
+export function LineaTiempo({ lineas, lang, pantalla = false }: { lineas: string[]; lang: "es" | "en"; pantalla?: boolean }) {
   return (
-    <section data-linea-tiempo className="grid gap-4">
+    <section data-linea-tiempo {...(pantalla ? { "data-pantalla": "" } : {})} className={`grid gap-4 ${pantalla ? PANTALLA_MOVIL : ""}`}>
       <h2 className="font-display text-xl">{ROTULOS[lang].tiempo}</h2>
       <ol className="relative grid gap-5 border-l border-[#3A3328] pl-6">
         {lineas.map((l) => {
@@ -97,7 +103,7 @@ export function LineaTiempo({ lineas, lang }: { lineas: string[]; lang: "es" | "
 }
 
 /** Contexto de la apertura: cita, mapa y línea de tiempo. Lo que falta no se pinta. Nada de esto revela pasos posteriores. */
-export function ContextoReportaje({ contexto, lang, conCita = true }: { contexto?: ContextoSala | null; lang: "es" | "en"; conCita?: boolean }) {
+export function ContextoReportaje({ contexto, lang, conCita = true, pantalla = false }: { contexto?: ContextoSala | null; lang: "es" | "en"; conCita?: boolean; pantalla?: boolean }) {
   if (!contexto) return null;
   const { cita, mapa, lineaTiempo } = contexto;
   const hayMapa = !!mapa?.length;
@@ -106,8 +112,8 @@ export function ContextoReportaje({ contexto, lang, conCita = true }: { contexto
   return (
     <div data-contexto className="grid gap-10 py-6 md:gap-14 md:py-10">
       {conCita && cita ? <CitaGrande texto={cita} /> : null}
-      {hayMapa ? <MapaSala puntos={mapa!} lang={lang} /> : null}
-      {hayTiempo ? <LineaTiempo lineas={lineaTiempo!} lang={lang} /> : null}
+      {hayMapa ? <MapaSala puntos={mapa!} lang={lang} pantalla={pantalla} /> : null}
+      {hayTiempo ? <LineaTiempo lineas={lineaTiempo!} lang={lang} pantalla={pantalla} /> : null}
     </div>
   );
 }
