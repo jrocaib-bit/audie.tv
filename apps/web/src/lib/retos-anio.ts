@@ -3,6 +3,7 @@ import { esPortadaProvisional, obraDeEpisodio } from "@audite/content/obras";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import profeciasJson from "../../../../content/tiempos/profecias-pasion.json";
 import { RETOS_ANIO, type DiaAnio, type RetoAnioDato } from "./retos-anio-datos";
+import { narracionDeDia } from "./retos-narracion";
 
 export type { DiaAnio, RetoAnioDato };
 export { RETOS_ANIO };
@@ -60,6 +61,7 @@ function retoProfecias(): RetoAnioDato {
       pieza: dia.id,
       fecha: dia.fecha,
       duracion_s: dia.duracion_estimada_s,
+      narracion: narracionDeDia(archivo.id, dia.id),
     };
   });
   return { ...archivo, dias };

@@ -12,6 +12,8 @@ export type DiaAnio = {
   pieza?: string;
   fecha?: string;
   duracion_s?: number;
+  /** Relato del día en párrafos breves (ES y EN). Si falta, el día se muestra como lista compacta. */
+  narracion?: { es: string[]; en: string[] };
 };
 export type RetoAnioDato = {
   id: string;
