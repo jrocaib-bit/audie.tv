@@ -7,7 +7,9 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 export type EnlaceNav = { href: string; etiqueta: string };
 
 function activo(pathname: string, href: string): boolean {
-  return pathname === href || pathname.startsWith(`${href}/`);
+  // Inicio (`/es`) solo está activo en la portada: no es la sección de todo lo que cuelga de `/es/...`.
+  const inicio = /^\/[a-z]{2}$/.test(href);
+  return pathname === href || (!inicio && pathname.startsWith(`${href}/`));
 }
 
 /** Navegación principal: enlaces en cabecera en escritorio, menú desplegable en móvil. */

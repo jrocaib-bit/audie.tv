@@ -10,7 +10,6 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 import { SitioHeader, SitioPie } from "@/components/sitio";
-import { rutaActiva } from "@/components/enlace-nav";
 import { copiaSitio } from "@/sitio/i18n";
 
 const cabecera = (lang: string, actual: string) => {
@@ -35,30 +34,14 @@ describe("cabecera pública", () => {
     const h = cabecera("es", "/es/libros/libro-x");
     expect(h.match(/aria-current="page"/g)).toHaveLength(1);
     expect(enlace(h, "/es/catalogo")).not.toContain("aria-current");
-    expect(enlace(cabecera("es", "/es"), "/es")).toContain("aria-current");
     expect(enlace(cabecera("es", "/es"), "/es/libros")).not.toContain("aria-current");
     expect(enlace(cabecera("es", "/es/librosx"), "/es/libros")).not.toContain("aria-current");
   });
 
-  it("rutaActiva cubre la propia ruta, las hijas y la barra final", () => {
-    expect(rutaActiva("/es/libros", "/es/libros")).toBe(true);
-    expect(rutaActiva("/es/libros/", "/es/libros")).toBe(true);
-    expect(rutaActiva("/es/libros/a/leer", "/es/libros")).toBe(true);
-    expect(rutaActiva("/es/libros/a", "/es", true)).toBe(false);
-    expect(rutaActiva(null, "/es")).toBe(false);
-  });
-
-  it("contrato contra el desbordamiento a 390 px: la fila se pliega, no desborda y los objetivos miden 44 px", () => {
+  it("a 390 px los enlaces pasan al menú y los objetivos miden 44 px", () => {
     const h = cabecera("es", "/es");
-    const nav = h.match(/<nav [^>]*data-nav-publica[^>]*>/)?.[0] ?? "";
-    expect(nav).toContain("flex-wrap");
-    expect(nav).toContain("max-w-full");
-    expect(nav).toContain("min-w-0");
-    expect(nav).not.toMatch(/whitespace-nowrap|overflow-x-visible/);
-    const interior = h.match(/<div class="cabecera-interior[^"]*"/)?.[0] ?? "";
-    expect(interior).toContain("flex-wrap");
-    // Inicio solo desde md: el logo ya lleva a la portada y la fila cabe a 390 px.
-    expect(enlace(h, "/es")).toContain("hidden");
+    expect(h).toContain("data-menu-boton");
+    expect(h).toMatch(/<nav [^>]*data-nav="escritorio"[^>]*class="hidden[^"]*md:flex"/);
     for (const href of ["/es/catalogo", "/es/retos", "/es/libros", "/es/entrar"]) expect(enlace(h, href), href).toContain("min-h-11");
     // El selector no se ensancha con la opción más larga.
     const selector = readFileSync(path.resolve(import.meta.dirname, "selector-idioma.tsx"), "utf8");

@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 import { hayIndiceLibros, RUTA_LIBROS } from "./hay-libros";
 
 describe("hayIndiceLibros", () => {
-  it("en este árbol no hay índice de libros, así que la entrada no se muestra", () => {
-    expect(hayIndiceLibros()).toBe(false);
+  it("en este árbol está la página índice de libros, así que la entrada se muestra", () => {
+    expect(hayIndiceLibros(path.resolve(import.meta.dirname, "../.."))).toBe(true);
     expect(RUTA_LIBROS).toBe("/libros");
   });
   it("si existe la página /[lang]/libros, la ruta se considera activa", () => {

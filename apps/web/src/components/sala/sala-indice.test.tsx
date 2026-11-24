@@ -13,16 +13,18 @@ import { fichasSala } from "@/lib/sala-indice";
 import { copiaSitio } from "@/sitio/i18n";
 
 describe("índice y pestaña de La sala", () => {
-  it("la cabecera incluye La sala y no Libros mientras no exista la ruta", () => {
+  it("la cabecera incluye La sala y Libros, porque la ruta existe", () => {
     const html = renderToStaticMarkup(<SitioHeader lang="es" copy={copiaSitio("es")!} />);
     expect(html).toContain("/es/sala");
     expect(html).toContain("La sala");
     expect(html).toContain("Menú");
-    expect(html).not.toContain("/es/libros");
-    expect(html).not.toMatch(/>Libros</);
+    expect(html).toContain("/es/libros");
+    expect(html).toMatch(/>Libros</);
     const en = renderToStaticMarkup(<SitioHeader lang="en" copy={copiaSitio("en")!} />);
     expect(en).toContain("/en/sala");
     expect(en).toContain("The gallery");
+    expect(en).toContain("/en/libros");
+    expect(en).toMatch(/>Books</);
   });
 
   it("el índice lista las 79 obras, marca las tres abiertas y explica La sala", () => {
