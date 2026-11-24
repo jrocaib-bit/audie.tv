@@ -9,7 +9,9 @@ export function romano(n: number): string {
 }
 
 /** Cubierta tipográfica: número de volumen y título. No hay arte ni se inventa ninguno. */
-export function Cubierta({ volumen, titulo, libroBiblico, compacta = false }: { volumen: number; titulo: string; libroBiblico?: string; compacta?: boolean }) {
+export function Cubierta({ volumen, titulo, libroBiblico, compacta = false, compactaMovil = false }: { volumen: number; titulo: string; libroBiblico?: string; compacta?: boolean; compactaMovil?: boolean }) {
+  // compactaMovil: tipografía compacta solo por debajo de md (ficha con la portada a la izquierda).
+  const m = compactaMovil && !compacta
   const tono = TONOS[(volumen - 1 + TONOS.length) % TONOS.length] ?? TONOS[0];
   return (
     <div
@@ -17,12 +19,12 @@ export function Cubierta({ volumen, titulo, libroBiblico, compacta = false }: { 
       className="relative flex aspect-[2/3] w-full flex-col justify-between overflow-hidden rounded-[4px] border border-[#C9A96E]/35 p-[9%] text-[#F4ECE2] shadow-[0_18px_40px_-24px_rgba(0,0,0,0.9)]"
       style={{ background: `linear-gradient(160deg, ${tono} 0%, #100E0C 120%)` }}
     >
-      <p className={`${compacta ? "text-[9px]" : "text-xs"} tracking-[0.22em] text-[#C9A96E] uppercase`}>Volumen {romano(volumen)}</p>
+      <p className={`${compacta ? "text-[9px]" : m ? "text-[9px] md:text-xs" : "text-xs"} tracking-[0.22em] text-[#C9A96E] uppercase`}>Volumen {romano(volumen)}</p>
       <div>
         <span aria-hidden="true" className="mb-[6%] block h-px w-[22%] bg-[#C9A96E]/70" />
-        <p className={`font-display ${compacta ? "text-[15px] leading-[1.1]" : "text-[clamp(1.5rem,3.2vw,2rem)] leading-[1.05]"}`}>{titulo}</p>
+        <p className={`font-display ${compacta ? "text-[15px] leading-[1.1]" : m ? "text-[15px] leading-[1.1] md:text-[clamp(1.5rem,3.2vw,2rem)] md:leading-[1.05]" : "text-[clamp(1.5rem,3.2vw,2rem)] leading-[1.05]"}`}>{titulo}</p>
       </div>
-      <p className={`${compacta ? "text-[8px]" : "text-[11px]"} tracking-[0.18em] text-[#B7AB9C] uppercase`}>{libroBiblico ? `${libroBiblico} · Audite` : "Audite"}</p>
+      <p className={`${compacta ? "text-[8px]" : m ? "text-[8px] md:text-[11px]" : "text-[11px]"} tracking-[0.18em] text-[#B7AB9C] uppercase`}>{libroBiblico ? `${libroBiblico} · Audite` : "Audite"}</p>
     </div>
   );
 }
