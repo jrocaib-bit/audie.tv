@@ -26,10 +26,12 @@ export function NavSitio({
 }) {
   const pathname = usePathname() || "";
   const [abierto, setAbierto] = useState(false);
-  const id = useId();
-  useEffect(() => {
+  const [rutaMenu, setRutaMenu] = useState(pathname);
+  if (rutaMenu !== pathname) {
+    setRutaMenu(pathname);
     setAbierto(false);
-  }, [pathname]);
+  }
+  const id = useId();
   useEffect(() => {
     if (!abierto) return;
     const onKey = (e: KeyboardEvent) => {

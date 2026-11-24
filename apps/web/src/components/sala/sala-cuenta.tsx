@@ -2,7 +2,7 @@
 
 import { PRECIO, textosAlta } from "@audite/domain";
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { sesionWeb, tokenWeb } from "@/lib/auth-web";
 import { datosVistaSala, type Adelanto, type RecorridoVista, type RespuestaSala, type VistaSala } from "@/lib/sala-cuenta";
 import type { ContextoSala } from "@/lib/sala-contexto";
@@ -121,13 +121,32 @@ export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo 
   );
 }
 
+function prefiereMenosMovimiento(inicial: boolean): boolean {
+  return typeof window.matchMedia === "function" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : inicial;
+}
+
+function suscribirMenosMovimiento(avisar: () => void) {
+  if (typeof window.matchMedia !== "function") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener?.("change", avisar);
+  return () => mq.removeEventListener?.("change", avisar);
+}
+
+function useMenosMovimiento(inicial: boolean) {
+  return useSyncExternalStore(suscribirMenosMovimiento, () => prefiereMenosMovimiento(inicial), () => inicial);
+}
+
+function bloquesDe(raiz: HTMLElement | null): HTMLElement[] {
+  return raiz ? [...raiz.querySelectorAll<HTMLElement>("[data-bloque]")] : [];
+}
+
 /** Relato con scroll (solo premium): párrafos que aparecen uno a uno y cámara que encuadra el paso en foco. */
 export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contexto, placa, reducido: reducidoInicial = false, vista = "premium" }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; contexto?: ContextoSala | null; placa?: ReactNode; reducido?: boolean; vista?: "premium" | "abierta" }) {
-  const [reducido, setReducido] = useState(reducidoInicial);
+  const reducido = useMenosMovimiento(reducidoInicial);
   const [activo, setActivo] = useState(0);
   const [reveladas, setReveladas] = useState<ReadonlySet<number>>(new Set([0]));
-  const bloques = useRef<(HTMLElement | null)[]>([]);
   const visor = useRef<HTMLDivElement>(null);
+  const columna = useRef<HTMLDivElement>(null);
   const total = datos.pasos.length;
   const [cab, setCab] = useState(0);
   const [movil, setMovil] = useState(false);
@@ -144,15 +163,6 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   }, []);
 
   useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducido(mq.matches);
-    const cambia = () => setReducido(mq.matches);
-    mq.addEventListener?.("change", cambia);
-    return () => mq.removeEventListener?.("change", cambia);
-  }, []);
-
-  useEffect(() => {
     if (reducido) return;
     const marcar = (i: number) => setReveladas((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
     if (typeof IntersectionObserver === "undefined") {
@@ -163,7 +173,7 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
       (entradas) => entradas.forEach((e) => e.isIntersecting && marcar(Number((e.target as HTMLElement).dataset.indice))),
       { rootMargin: "0px 0px -12% 0px", threshold: 0.12 },
     );
-    bloques.current.forEach((el) => el && io.observe(el));
+    bloquesDe(columna.current).forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [reducido, total]);
 
@@ -177,10 +187,7 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
       const base = window.innerWidth < 768 ? (visor.current?.getBoundingClientRect().bottom ?? 0) : 0;
       // Línea de foco cerca del borde superior de la franja de texto: el paso se activa cuando su título entra.
       const linea = base + (vh - base) * (base ? 0.3 : 0.4);
-      const titulos = bloques.current.map((el) => {
-        if (!el) return Infinity;
-        return (el.querySelector("h2, h3") ?? el).getBoundingClientRect().top;
-      });
+      const titulos = bloquesDe(columna.current).map((el) => (el.querySelector("h2, h3") ?? el).getBoundingClientRect().top);
       setActivo(indiceActivo(titulos, linea));
     };
     const pide = () => {
@@ -205,9 +212,6 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   };
   // Cada bloque ocupa la franja de texto visible (móvil: pantalla − cabecera − visor), un paso por franja.
   const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_62svh))] flex-col justify-center py-4 md:min-h-[78svh] md:py-8";
-  const ref = (i: number) => (el: HTMLElement | null) => {
-    bloques.current[i] = el;
-  };
   const enPaso = indice >= 1 && indice <= total;
   return (
     <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista={vista} data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
@@ -219,9 +223,9 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
             ) : null}
           </VisorObra>
         </div>
-        <div className="relative bg-[#0C0B09] px-5 pb-[30svh] min-[480px]:px-6 md:px-10">
+        <div ref={columna} className="relative bg-[#0C0B09] px-5 pb-[30svh] min-[480px]:px-6 md:px-10">
           <h1 className="font-display t-h1 pt-8 md:pt-[12svh]">{titulo}</h1>
-          <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
+          <article data-apertura data-indice={0} data-bloque className={clase} style={estilo(0)}>
             <Tarjeta>
               <Apertura a={datos.apertura} />
             </Tarjeta>
@@ -229,7 +233,7 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
           <ContextoReportaje contexto={contexto} lang={lang} pantalla />
           {datos.pasos.map((p, i) => (
             <Fragment key={i}>
-              <article data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>
+              <article data-paso={i + 1} data-indice={i + 1} data-bloque className={clase} style={estilo(i + 1)}>
                 <Tarjeta>
                   <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
                   <h3 className="mt-2 font-display text-[1.375rem] md:text-xl">{p.titulo}</h3>
@@ -239,7 +243,7 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
               {datos.comparativa?.trasPaso === i + 1 ? <Comparativa datos={datos.comparativa} /> : null}
             </Fragment>
           ))}
-          <article data-cierre data-indice={total + 1} data-bloque ref={ref(total + 1)} className={clase} style={estilo(total + 1)}>
+          <article data-cierre data-indice={total + 1} data-bloque className={clase} style={estilo(total + 1)}>
             <Tarjeta>
               <Apertura a={datos.cierre} />
             </Tarjeta>

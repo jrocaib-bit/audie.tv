@@ -2,12 +2,16 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { mockConSesion } from "@/components/enlace-cuenta";
 import { BotonOro } from "@/components/sala/boton-oro";
 import { sesionWeb } from "@/lib/auth-web";
 import { episodioEscuchandoAhora } from "@/lib/sala-escuchando";
 import type { SitioCopy } from "@/sitio/i18n";
+
+function suscribirNada() {
+  return () => {};
+}
 
 function Interior({
   lang,
@@ -19,24 +23,25 @@ function Interior({
   fichas: { id: string; href: string; titulo: string; libro: string }[];
 }) {
   const mock = useSearchParams()?.get("mock");
-  const [sesion, setSesion] = useState<boolean | undefined>(mockConSesion(mock) ? true : false);
-  const [escuchando, setEscuchando] = useState<string | null>(null);
+  const forzar = mockConSesion(mock);
+  const [sesionRemota, setSesionRemota] = useState(false);
   useEffect(() => {
-    if (mockConSesion(mock)) {
-      setSesion(true);
-      return;
-    }
+    if (forzar) return;
+    let vivo = true;
     void sesionWeb()
-      .then((s) => setSesion(Boolean(s?.userId)))
-      .catch(() => setSesion(false));
-  }, [mock]);
-  useEffect(() => {
-    if (!sesion) {
-      setEscuchando(null);
-      return;
-    }
-    setEscuchando(episodioEscuchandoAhora());
-  }, [sesion]);
+      .then((s) => {
+        if (vivo) setSesionRemota(Boolean(s?.userId));
+      })
+      .catch(() => {
+        if (vivo) setSesionRemota(false);
+      });
+    return () => {
+      vivo = false;
+    };
+  }, [forzar]);
+  const sesion = forzar || sesionRemota;
+  const leerEscuchando = useCallback(() => (sesion ? episodioEscuchandoAhora() : null), [sesion]);
+  const escuchando = useSyncExternalStore(suscribirNada, leerEscuchando, () => null);
   const ficha = escuchando ? fichas.find((f) => f.id === escuchando) : undefined;
   return (
     <>
