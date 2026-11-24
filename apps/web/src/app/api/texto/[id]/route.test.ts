@@ -128,11 +128,25 @@ describe("ruta de texto", () => {
       expect(await respuesta.json()).toEqual({ error: "sin-texto" });
     });
 
-    it("responde 404 sin-texto si falta AUDITE_TEXTO_RUTA", async () => {
+    it("responde 404 sin-texto si falta AUDITE_TEXTO_RUTA y la fuente es ninguna", async () => {
       vi.stubEnv("TEXTO_ACCESO", "abierto");
       vi.stubEnv("AUDITE_TEXTO_RUTA", "");
+      vi.stubEnv("TEXTO_FUENTE", "ninguna");
       const respuesta = await pedir("gn-01");
       expect(respuesta.status).toBe(404);
+    });
+
+    it("sin AUDITE_TEXTO_RUTA sirve Torres Amat del repositorio con su aviso y crédito", async () => {
+      vi.stubEnv("TEXTO_ACCESO", "abierto");
+      vi.stubEnv("AUDITE_TEXTO_RUTA", "");
+      vi.stubEnv("TEXTO_FUENTE", "");
+      const respuesta = await pedir("gn-01");
+      expect(respuesta.status).toBe(200);
+      const cuerpo = (await respuesta.json()) as { fuente: string; muestra: boolean; credito: string; versiculos: unknown[] };
+      expect(cuerpo.fuente).toBe("torres-amat");
+      expect(cuerpo.muestra).toBe(false);
+      expect(cuerpo.credito).toBe("Texto: Torres Amat (dominio público). Puede no coincidir palabra por palabra con el audio");
+      expect(cuerpo.versiculos.length).toBeGreaterThan(20);
     });
   });
 

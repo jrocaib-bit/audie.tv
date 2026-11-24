@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  avisoFuente,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -237,6 +238,7 @@ function Lectura({
   reducirMovimiento: boolean;
 }) {
   const paleta = PALETA_TEXTO[modo];
+  const aviso = avisoFuente(texto, tx);
   const sincronizado = useMemo(() => estaSincronizado(texto.versiculos), [texto]);
   const marcas = useMemo(() => (sincronizado ? marcasDeTiempo(texto.versiculos) : []), [sincronizado, texto]);
   const actual = sincronizado ? versiculoActual(marcas, tiempo) : -1;
@@ -274,6 +276,11 @@ function Lectura({
       {texto.muestra ? (
         <p role="note" className="mx-4 mt-2 rounded-xl border px-3 py-2 text-sm font-semibold" style={{ borderColor: paleta.numero, color: paleta.tinta }}>
           {tx.muestra}
+        </p>
+      ) : null}
+      {aviso ? (
+        <p role="note" data-testid="aviso-fuente" className="mx-4 mt-2 text-sm" style={{ color: paleta.suave }}>
+          {aviso}
         </p>
       ) : null}
       {sincronizado ? null : <p className="mx-4 mt-2 text-sm" style={{ color: paleta.suave }}>{tx.sinSincronia}</p>}
@@ -332,9 +339,11 @@ function Lectura({
           </button>
         </div>
       ) : null}
-      <p className="px-4 pt-2 pb-4 text-xs" style={{ color: paleta.suave }}>
-        {texto.fuente}. {texto.credito}
-      </p>
+      {aviso ? null : (
+        <p className="px-4 pt-2 pb-4 text-xs" style={{ color: paleta.suave }}>
+          {texto.fuente}. {texto.credito}
+        </p>
+      )}
     </>
   );
 }

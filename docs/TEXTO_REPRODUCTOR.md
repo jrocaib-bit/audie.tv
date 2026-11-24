@@ -4,11 +4,13 @@ El reproductor puede mostrar el texto del episodio junto al audio, con el versí
 
 ## Aviso de derechos
 
-El texto bíblico real nunca entra en este repositorio. El repositorio es público.
+El texto de la CEE nunca entra en este repositorio. El repositorio es público.
+
+El panel muestra la traducción de Torres Amat, de dominio público, versionada en `content/texto/torres-amat/` (ver `FUENTE.md` en esa carpeta). Cada episodio con texto lleva el aviso fijo «Texto: Torres Amat (dominio público). Puede no coincidir palabra por palabra con el audio». El interruptor `TEXTO_BIBLICO_ACTIVO` sigue apagado por defecto y encenderlo en producción necesita el visto bueno de Javier.
 
 La licencia de la CEE no consta archivada y no está confirmado que cubra mostrar el texto en pantalla. Por eso la función queda apagada por defecto. No actives `TEXTO_BIBLICO_ACTIVO` en producción hasta tener la licencia archivada y la confirmación por escrito de que cubre la lectura en pantalla en web y app.
 
-Los tests y la muestra usan texto inventado. Un test recorre `git ls-files` y falla si un fichero versionado lleva `"versiculos"` con un campo `texto` de más de 30 caracteres. Solo los ficheros `*.test.*` quedan fuera, con frases inventadas.
+Los tests y la muestra usan texto inventado. Un test recorre `git ls-files` y falla si un fichero versionado lleva `"versiculos"` con un campo `texto` de más de 30 caracteres. Quedan fuera los ficheros `*.test.*`, con frases inventadas, y los de `content/texto/torres-amat/es/`, siempre que declaren `fuente: "torres-amat"` y `muestra: false`.
 
 ## Formato
 
@@ -33,6 +35,7 @@ Un fichero por episodio e idioma. Nombre relativo `<idioma>/<idEpisodio>.json`, 
 - `t` es opcional. Es el segundo de inicio del versículo en la línea de tiempo del máster.
 - Con `t` en al menos el 80 % de los versículos, el panel está sincronizado: resalta, se desplaza solo y deja tocar para saltar. Por debajo, muestra el texto entero sin sincronizar.
 - `muestra: true` pinta el aviso «Texto de ejemplo, no es una edición bíblica».
+- `fuente: "torres-amat"` con `muestra: false` pinta el aviso fijo de Torres Amat arriba del panel y no repite el crédito al pie. No aparece «Texto de ejemplo».
 - El servidor valida con un esquema zod estricto (`apps/web/src/lib/texto/esquema.ts`). Rechaza claves de más, tipos rotos y ficheros de otro episodio o idioma.
 
 ## Variables
@@ -41,7 +44,8 @@ Un fichero por episodio e idioma. Nombre relativo `<idioma>/<idEpisodio>.json`, 
 | --- | --- | --- |
 | `TEXTO_BIBLICO_ACTIVO` | servidor web | Interruptor maestro. Solo `1` lo enciende. Sin él, `/api/texto/<id>` responde 404 y ninguna interfaz pinta el panel. |
 | `TEXTO_ACCESO` | servidor web | `como-audio` (por defecto), `suscripcion` o `abierto`. |
-| `AUDITE_TEXTO_RUTA` | servidor web, solo local | Carpeta con `<idioma>/<id>.json`. Nunca en producción. |
+| `TEXTO_FUENTE` | servidor web | `torres-amat` (por defecto) lee `content/texto/torres-amat`. `ninguna` no lee nada del repositorio. |
+| `AUDITE_TEXTO_RUTA` | servidor web, solo local | Carpeta con `<idioma>/<id>.json`. Nunca en producción. Tiene prioridad sobre `TEXTO_FUENTE`. |
 | `TEXTO_BUCKET` | servidor web, futuro | Nombre del bucket privado. Sin implementar. |
 
 ## Acceso
@@ -80,6 +84,12 @@ npm run dev -w @audite/web -- --port 43125
 ```
 
 La muestra vive fuera del repo, con texto inventado y `muestra: true`.
+
+## Cobertura de Torres Amat
+
+Con 516 episodios en el manifiesto, 425 llevan texto y 91 quedan sin él. 104 episodios llevan resaltado por versículo, que son los 104 de los 110 con transcripción cuyo texto está completo en la fuente. Los otros 321 muestran el rango sin resaltado. El motivo de cada episodio sin texto está en `content/texto/torres-amat/cobertura.json`.
+
+Torres Amat sigue la Vulgata. En 139 capítulos el número de versículos difiere del de la CEE. El generador mapea esos casos con grupos de capítulos de igual suma de versículos y, si no puede, deja el episodio sin texto. Los Salmos llevan la numeración hebrea, no la de la edición impresa.
 
 ## Cómo se genera el fichero privado
 

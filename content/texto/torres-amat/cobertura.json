@@ -1,0 +1,2164 @@
+{
+ "fuente": "torres-amat",
+ "total": 516,
+ "texto_resaltado": 104,
+ "texto": 321,
+ "sin_texto": 91,
+ "episodios": {
+  "gn-01": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "gn-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 82
+  },
+  "gn-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 97
+  },
+  "gn-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 84
+  },
+  "gn-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "gn-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "gn-07": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 19: texto omitido en la fuente"
+  },
+  "gn-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 78
+  },
+  "gn-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 67
+  },
+  "gn-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 69
+  },
+  "gn-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 68
+  },
+  "gn-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 78
+  },
+  "gn-13": {
+   "estado": "texto_resaltado",
+   "versiculos": 54
+  },
+  "gn-14": {
+   "estado": "texto_resaltado",
+   "versiculos": 53
+  },
+  "gn-15": {
+   "estado": "texto_resaltado",
+   "versiculos": 103
+  },
+  "gn-16": {
+   "estado": "texto_resaltado",
+   "versiculos": 66
+  },
+  "gn-17": {
+   "estado": "texto_resaltado",
+   "versiculos": 46
+  },
+  "gn-18": {
+   "estado": "texto_resaltado",
+   "versiculos": 57
+  },
+  "gn-19": {
+   "estado": "texto_resaltado",
+   "versiculos": 72
+  },
+  "gn-20": {
+   "estado": "texto_resaltado",
+   "versiculos": 62
+  },
+  "gn-21": {
+   "estado": "texto_resaltado",
+   "versiculos": 65
+  },
+  "gn-22": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 49: texto omitido en la fuente"
+  },
+  "ex-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 69
+  },
+  "ex-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 84
+  },
+  "ex-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 57
+  },
+  "ex-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 64
+  },
+  "ex-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 61
+  },
+  "ex-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 53
+  },
+  "ex-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "ex-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 68
+  },
+  "ex-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "ex-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 81
+  },
+  "ex-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 77
+  },
+  "ex-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 64
+  },
+  "ex-13": {
+   "estado": "texto_resaltado",
+   "versiculos": 84
+  },
+  "ex-14": {
+   "estado": "texto_resaltado",
+   "versiculos": 53
+  },
+  "ex-15": {
+   "estado": "texto_resaltado",
+   "versiculos": 58
+  },
+  "ex-16": {
+   "estado": "texto_resaltado",
+   "versiculos": 73
+  },
+  "ex-17": {
+   "estado": "texto_resaltado",
+   "versiculos": 60
+  },
+  "ex-18": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 40: texto omitido en la fuente"
+  },
+  "lv-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 2: texto omitido en la fuente, numeración no contigua; cap. 3: texto omitido en la fuente, numeración no contigua"
+  },
+  "lv-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 4: texto omitido en la fuente; cap. 5: texto omitido en la fuente"
+  },
+  "lv-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 6: texto omitido en la fuente; cap. 7: texto omitido en la fuente"
+  },
+  "lv-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 60
+  },
+  "lv-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 75
+  },
+  "lv-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 59
+  },
+  "lv-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 57
+  },
+  "lv-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 67
+  },
+  "lv-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 83
+  },
+  "lv-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 51
+  },
+  "lv-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 77
+  },
+  "lv-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 78
+  },
+  "lv-13": {
+   "estado": "texto_resaltado",
+   "versiculos": 80
+  },
+  "nm-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 88
+  },
+  "nm-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 51
+  },
+  "nm-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 49
+  },
+  "nm-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 58
+  },
+  "nm-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 89
+  },
+  "nm-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 49
+  },
+  "nm-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 86
+  },
+  "nm-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 78
+  },
+  "nm-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "nm-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 60
+  },
+  "nm-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 52
+  },
+  "nm-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "nm-13": {
+   "estado": "texto_resaltado",
+   "versiculos": 73
+  },
+  "nm-14": {
+   "estado": "texto_resaltado",
+   "versiculos": 88
+  },
+  "nm-15": {
+   "estado": "texto_resaltado",
+   "versiculos": 70
+  },
+  "nm-16": {
+   "estado": "texto_resaltado",
+   "versiculos": 71
+  },
+  "nm-17": {
+   "estado": "texto_resaltado",
+   "versiculos": 98
+  },
+  "nm-18": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "dt-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 46
+  },
+  "dt-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 66
+  },
+  "dt-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 49
+  },
+  "dt-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 58
+  },
+  "dt-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 46
+  },
+  "dt-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 51
+  },
+  "dt-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "dt-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 71
+  },
+  "dt-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 64
+  },
+  "dt-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 64
+  },
+  "dt-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 77
+  },
+  "dt-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 64
+  },
+  "dt-13": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "dt-14": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "dt-15": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "dt-16": {
+   "estado": "texto",
+   "versiculos": 41
+  },
+  "jos-01": {
+   "estado": "texto",
+   "versiculos": 42
+  },
+  "jos-02": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "jos-03": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "jos-04": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "jos-05": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "jos-06": {
+   "estado": "texto",
+   "versiculos": 72
+  },
+  "jos-07": {
+   "estado": "texto",
+   "versiculos": 91
+  },
+  "jos-08": {
+   "estado": "texto",
+   "versiculos": 79
+  },
+  "jos-09": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "jos-10": {
+   "estado": "texto",
+   "versiculos": 34
+  },
+  "jos-11": {
+   "estado": "texto",
+   "versiculos": 49
+  },
+  "jue-01": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "jue-02": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "jue-03": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "jue-04": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "jue-05": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "jue-06": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "jue-07": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "jue-08": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "jue-09": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "jue-10": {
+   "estado": "texto",
+   "versiculos": 73
+  },
+  "rut-01": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "1sam-01": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "1sam-02": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "1sam-03": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "1sam-04": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "1sam-05": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "1sam-06": {
+   "estado": "texto",
+   "versiculos": 52
+  },
+  "1sam-07": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "1sam-08": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "1sam-09": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "1sam-10": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "1sam-11": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "1sam-12": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "1sam-13": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "1sam-14": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "2sam-01": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "2sam-02": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "2sam-03": {
+   "estado": "texto",
+   "versiculos": 77
+  },
+  "2sam-04": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "2sam-05": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "2sam-06": {
+   "estado": "texto",
+   "versiculos": 72
+  },
+  "2sam-07": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "2sam-08": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "2sam-09": {
+   "estado": "texto",
+   "versiculos": 70
+  },
+  "2sam-10": {
+   "estado": "texto",
+   "versiculos": 73
+  },
+  "2sam-11": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "1re-01": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "1re-02": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "1re-03": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "1re-04": {
+   "estado": "texto",
+   "versiculos": 70
+  },
+  "1re-05": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "1re-06": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "1re-07": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 9: texto omitido en la fuente"
+  },
+  "1re-08": {
+   "estado": "texto",
+   "versiculos": 43
+  },
+  "1re-09": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "1re-10": {
+   "estado": "texto",
+   "versiculos": 65
+  },
+  "1re-11": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "1re-12": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "1re-13": {
+   "estado": "texto",
+   "versiculos": 72
+  },
+  "1re-14": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "2re-01": {
+   "estado": "texto",
+   "versiculos": 43
+  },
+  "2re-02": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "2re-03": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "2re-04": {
+   "estado": "texto",
+   "versiculos": 49
+  },
+  "2re-05": {
+   "estado": "texto",
+   "versiculos": 37
+  },
+  "2re-06": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "2re-07": {
+   "estado": "texto",
+   "versiculos": 47
+  },
+  "2re-08": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "2re-09": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "2re-10": {
+   "estado": "texto",
+   "versiculos": 37
+  },
+  "2re-11": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "2re-12": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "2re-13": {
+   "estado": "texto",
+   "versiculos": 37
+  },
+  "2re-14": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "1cr-01": {
+   "estado": "texto",
+   "versiculos": 133
+  },
+  "1cr-02": {
+   "estado": "texto",
+   "versiculos": 84
+  },
+  "1cr-03": {
+   "estado": "texto",
+   "versiculos": 106
+  },
+  "1cr-04": {
+   "estado": "texto",
+   "versiculos": 98
+  },
+  "1cr-05": {
+   "estado": "texto",
+   "versiculos": 87
+  },
+  "1cr-06": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "1cr-07": {
+   "estado": "texto",
+   "versiculos": 87
+  },
+  "1cr-08": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "1cr-09": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "1cr-10": {
+   "estado": "texto",
+   "versiculos": 97
+  },
+  "1cr-11": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "2cr-01": {
+   "estado": "texto",
+   "versiculos": 74
+  },
+  "2cr-02": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "2cr-03": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "2cr-04": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "2cr-05": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "2cr-06": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "2cr-07": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "2cr-08": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "2cr-09": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "2cr-10": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "2cr-11": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "2cr-12": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "2cr-13": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "2cr-14": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "esd-01": {
+   "estado": "texto",
+   "versiculos": 94
+  },
+  "esd-02": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "esd-03": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "esd-04": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "neh-01": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "neh-02": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "neh-03": {
+   "estado": "texto",
+   "versiculos": 91
+  },
+  "neh-04": {
+   "estado": "texto",
+   "versiculos": 37
+  },
+  "neh-05": {
+   "estado": "texto",
+   "versiculos": 76
+  },
+  "neh-06": {
+   "estado": "texto",
+   "versiculos": 78
+  },
+  "tob-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "tob-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "tob-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "tob-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "tob-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "jdt-06": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "est-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "las adiciones griegas de Ester cambian la numeración y el orden de los capítulos"
+  },
+  "est-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "las adiciones griegas de Ester cambian la numeración y el orden de los capítulos"
+  },
+  "est-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "las adiciones griegas de Ester cambian la numeración y el orden de los capítulos"
+  },
+  "est-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "las adiciones griegas de Ester cambian la numeración y el orden de los capítulos"
+  },
+  "est-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "las adiciones griegas de Ester cambian la numeración y el orden de los capítulos"
+  },
+  "1mac-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-06": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-07": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-09": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-10": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-11": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-12": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-13": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "1mac-14": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-06": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-07": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-09": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "2mac-10": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "job-01": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "job-02": {
+   "estado": "texto",
+   "versiculos": 99
+  },
+  "job-03": {
+   "estado": "texto",
+   "versiculos": 99
+  },
+  "job-04": {
+   "estado": "texto",
+   "versiculos": 110
+  },
+  "job-05": {
+   "estado": "texto",
+   "versiculos": 88
+  },
+  "job-06": {
+   "estado": "texto",
+   "versiculos": 93
+  },
+  "job-07": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "job-08": {
+   "estado": "texto",
+   "versiculos": 124
+  },
+  "job-09": {
+   "estado": "texto",
+   "versiculos": 108
+  },
+  "job-10": {
+   "estado": "texto",
+   "versiculos": 98
+  },
+  "job-11": {
+   "estado": "texto",
+   "versiculos": 105
+  },
+  "sal-001": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 9: numeración no contigua"
+  },
+  "sal-002": {
+   "estado": "texto",
+   "versiculos": 109
+  },
+  "sal-003": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "sal-004": {
+   "estado": "texto",
+   "versiculos": 104
+  },
+  "sal-005": {
+   "estado": "texto",
+   "versiculos": 95
+  },
+  "sal-006": {
+   "estado": "texto",
+   "versiculos": 105
+  },
+  "sal-007": {
+   "estado": "texto",
+   "versiculos": 93
+  },
+  "sal-008": {
+   "estado": "texto",
+   "versiculos": 107
+  },
+  "sal-009": {
+   "estado": "texto",
+   "versiculos": 84
+  },
+  "sal-010": {
+   "estado": "texto",
+   "versiculos": 96
+  },
+  "sal-011": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "sal-012": {
+   "estado": "texto",
+   "versiculos": 91
+  },
+  "sal-013": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "sal-014": {
+   "estado": "texto",
+   "versiculos": 86
+  },
+  "sal-015": {
+   "estado": "texto",
+   "versiculos": 94
+  },
+  "sal-016": {
+   "estado": "texto",
+   "versiculos": 100
+  },
+  "sal-017": {
+   "estado": "texto",
+   "versiculos": 93
+  },
+  "sal-018": {
+   "estado": "texto",
+   "versiculos": 128
+  },
+  "sal-019": {
+   "estado": "texto",
+   "versiculos": 94
+  },
+  "sal-020": {
+   "estado": "texto",
+   "versiculos": 105
+  },
+  "sal-021": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 119: numeración no contigua"
+  },
+  "sal-022": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 120: numeración no contigua"
+  },
+  "sal-023": {
+   "estado": "texto",
+   "versiculos": 111
+  },
+  "sal-024": {
+   "estado": "texto",
+   "versiculos": 114
+  },
+  "prov-01": {
+   "estado": "texto",
+   "versiculos": 117
+  },
+  "prov-02": {
+   "estado": "texto",
+   "versiculos": 139
+  },
+  "prov-03": {
+   "estado": "texto",
+   "versiculos": 116
+  },
+  "prov-04": {
+   "estado": "texto",
+   "versiculos": 129
+  },
+  "prov-05": {
+   "estado": "texto",
+   "versiculos": 114
+  },
+  "prov-06": {
+   "estado": "texto",
+   "versiculos": 98
+  },
+  "prov-07": {
+   "estado": "texto",
+   "versiculos": 111
+  },
+  "prov-08": {
+   "estado": "texto",
+   "versiculos": 91
+  },
+  "ecl-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 4:17, fuente 4:16"
+  },
+  "ecl-02": {
+   "estado": "texto",
+   "versiculos": 78
+  },
+  "ecl-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 12:14, fuente 12:15"
+  },
+  "cant-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 1: texto omitido en la fuente"
+  },
+  "cant-02": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "sab-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "sab-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "sab-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "sab-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "sab-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "sab-06": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-06": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-07": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-09": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-10": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-11": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-12": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-13": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-14": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-15": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "eclo-16": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "is-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 85
+  },
+  "is-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 68
+  },
+  "is-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 77
+  },
+  "is-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "is-05": {
+   "estado": "texto",
+   "versiculos": 75
+  },
+  "is-06": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "is-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 75
+  },
+  "is-08": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "is-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 71
+  },
+  "is-10": {
+   "estado": "texto",
+   "versiculos": 90
+  },
+  "is-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 60
+  },
+  "is-12": {
+   "estado": "texto_resaltado",
+   "versiculos": 53
+  },
+  "is-13": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "is-14": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "is-15": {
+   "estado": "texto_resaltado",
+   "versiculos": 61
+  },
+  "is-16": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "is-17": {
+   "estado": "texto_resaltado",
+   "versiculos": 57
+  },
+  "is-18": {
+   "estado": "texto_resaltado",
+   "versiculos": 54
+  },
+  "is-19": {
+   "estado": "texto_resaltado",
+   "versiculos": 49
+  },
+  "jer-01": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "jer-02": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "jer-03": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "jer-04": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "jer-05": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "jer-06": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "jer-07": {
+   "estado": "texto",
+   "versiculos": 43
+  },
+  "jer-08": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "jer-09": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "jer-10": {
+   "estado": "texto",
+   "versiculos": 44
+  },
+  "jer-11": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "jer-12": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "jer-13": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "jer-14": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "jer-15": {
+   "estado": "texto",
+   "versiculos": 70
+  },
+  "jer-16": {
+   "estado": "texto",
+   "versiculos": 41
+  },
+  "jer-17": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "jer-18": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "jer-19": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "jer-20": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "jer-21": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "jer-22": {
+   "estado": "texto",
+   "versiculos": 39
+  },
+  "jer-23": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "jer-24": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "jer-25": {
+   "estado": "texto",
+   "versiculos": 34
+  },
+  "lam-01": {
+   "estado": "texto",
+   "versiculos": 44
+  },
+  "lam-02": {
+   "estado": "texto",
+   "versiculos": 110
+  },
+  "bar-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "bar-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "bar-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "libro no disponible en la fuente verificada (deuterocanónico)"
+  },
+  "ez-01": {
+   "estado": "texto",
+   "versiculos": 65
+  },
+  "ez-02": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "ez-03": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "ez-04": {
+   "estado": "texto",
+   "versiculos": 75
+  },
+  "ez-05": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "ez-06": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "ez-07": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "ez-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 20:44, fuente 20:49"
+  },
+  "ez-09": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "ez-10": {
+   "estado": "texto",
+   "versiculos": 76
+  },
+  "ez-11": {
+   "estado": "texto",
+   "versiculos": 74
+  },
+  "ez-12": {
+   "estado": "texto",
+   "versiculos": 73
+  },
+  "ez-13": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "ez-14": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "ez-15": {
+   "estado": "texto",
+   "versiculos": 81
+  },
+  "ez-16": {
+   "estado": "texto",
+   "versiculos": 52
+  },
+  "ez-17": {
+   "estado": "texto",
+   "versiculos": 49
+  },
+  "ez-18": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "ez-19": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "ez-20": {
+   "estado": "texto",
+   "versiculos": 49
+  },
+  "ez-21": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "dn-01": {
+   "estado": "texto",
+   "versiculos": 70
+  },
+  "dn-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 3:100, fuente 3:33"
+  },
+  "dn-03": {
+   "estado": "texto",
+   "versiculos": 34
+  },
+  "dn-04": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 6:29, fuente 6:28"
+  },
+  "dn-05": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "dn-06": {
+   "estado": "texto",
+   "versiculos": 48
+  },
+  "dn-07": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "dn-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "capítulos ausentes en la fuente"
+  },
+  "dn-09": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "capítulos ausentes en la fuente"
+  },
+  "os-01": {
+   "estado": "texto",
+   "versiculos": 58
+  },
+  "os-02": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 5: texto omitido en la fuente"
+  },
+  "os-03": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 14: numeración no contigua"
+  },
+  "jl-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "capítulos ausentes en la fuente"
+  },
+  "am-01": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "am-02": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "am-03": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "abd-01": {
+   "estado": "texto",
+   "versiculos": 21
+  },
+  "jon-01": {
+   "estado": "texto",
+   "versiculos": 47
+  },
+  "miq-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 4:14, fuente 4:13"
+  },
+  "miq-02": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "nah-01": {
+   "estado": "texto",
+   "versiculos": 47
+  },
+  "hab-01": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "sof-01": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "ag-01": {
+   "estado": "texto",
+   "versiculos": 38
+  },
+  "zac-01": {
+   "estado": "texto",
+   "versiculos": 84
+  },
+  "zac-02": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "zac-03": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "mal-01": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "límites distintos: manifiesto 3:24, fuente 3:18"
+  },
+  "mt-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 48
+  },
+  "mt-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 90
+  },
+  "mt-03": {
+   "estado": "texto_resaltado",
+   "versiculos": 63
+  },
+  "mt-04": {
+   "estado": "texto_resaltado",
+   "versiculos": 114
+  },
+  "mt-05": {
+   "estado": "texto_resaltado",
+   "versiculos": 80
+  },
+  "mt-06": {
+   "estado": "texto_resaltado",
+   "versiculos": 94
+  },
+  "mt-07": {
+   "estado": "texto_resaltado",
+   "versiculos": 94
+  },
+  "mt-08": {
+   "estado": "texto_resaltado",
+   "versiculos": 65
+  },
+  "mt-09": {
+   "estado": "texto_resaltado",
+   "versiculos": 80
+  },
+  "mt-10": {
+   "estado": "texto_resaltado",
+   "versiculos": 85
+  },
+  "mt-11": {
+   "estado": "texto_resaltado",
+   "versiculos": 97
+  },
+  "mt-12": {
+   "estado": "texto",
+   "versiculos": 75
+  },
+  "mt-13": {
+   "estado": "texto",
+   "versiculos": 86
+  },
+  "mc-01": {
+   "estado": "texto",
+   "versiculos": 108
+  },
+  "mc-02": {
+   "estado": "texto",
+   "versiculos": 84
+  },
+  "mc-03": {
+   "estado": "texto",
+   "versiculos": 93
+  },
+  "mc-04": {
+   "estado": "texto",
+   "versiculos": 88
+  },
+  "mc-05": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "mc-06": {
+   "estado": "texto",
+   "versiculos": 81
+  },
+  "mc-07": {
+   "estado": "texto",
+   "versiculos": 72
+  },
+  "mc-08": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 16: texto omitido en la fuente"
+  },
+  "lc-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 80
+  },
+  "lc-02": {
+   "estado": "texto_resaltado",
+   "versiculos": 52
+  },
+  "lc-03": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "lc-04": {
+   "estado": "texto",
+   "versiculos": 89
+  },
+  "lc-05": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "lc-06": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "lc-07": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "lc-08": {
+   "estado": "texto",
+   "versiculos": 96
+  },
+  "lc-09": {
+   "estado": "texto",
+   "versiculos": 95
+  },
+  "lc-10": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "lc-11": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "lc-12": {
+   "estado": "texto",
+   "versiculos": 91
+  },
+  "lc-13": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "lc-14": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "lc-15": {
+   "estado": "texto",
+   "versiculos": 109
+  },
+  "jn-01": {
+   "estado": "texto_resaltado",
+   "versiculos": 76
+  },
+  "jn-02": {
+   "estado": "texto",
+   "versiculos": 90
+  },
+  "jn-03": {
+   "estado": "texto",
+   "versiculos": 47
+  },
+  "jn-04": {
+   "estado": "texto",
+   "versiculos": 72
+  },
+  "jn-05": {
+   "estado": "texto",
+   "versiculos": 112
+  },
+  "jn-06": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "jn-07": {
+   "estado": "texto",
+   "versiculos": 108
+  },
+  "jn-08": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "jn-09": {
+   "estado": "texto",
+   "versiculos": 86
+  },
+  "jn-10": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "jn-11": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "hch-01": {
+   "estado": "texto",
+   "versiculos": 73
+  },
+  "hch-02": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "hch-03": {
+   "estado": "texto",
+   "versiculos": 57
+  },
+  "hch-04": {
+   "estado": "texto",
+   "versiculos": 60
+  },
+  "hch-05": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "hch-06": {
+   "estado": "texto",
+   "versiculos": 78
+  },
+  "hch-07": {
+   "estado": "texto",
+   "versiculos": 77
+  },
+  "hch-08": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "hch-09": {
+   "estado": "texto",
+   "versiculos": 74
+  },
+  "hch-10": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "hch-11": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 20: texto omitido en la fuente"
+  },
+  "hch-12": {
+   "estado": "texto",
+   "versiculos": 65
+  },
+  "hch-13": {
+   "estado": "texto",
+   "versiculos": 86
+  },
+  "hch-14": {
+   "estado": "texto",
+   "versiculos": 75
+  },
+  "rom-01": {
+   "estado": "texto",
+   "versiculos": 92
+  },
+  "rom-02": {
+   "estado": "texto",
+   "versiculos": 69
+  },
+  "rom-03": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "rom-04": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "rom-05": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "rom-06": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "1cor-01": {
+   "estado": "texto",
+   "versiculos": 70
+  },
+  "1cor-02": {
+   "estado": "texto",
+   "versiculos": 54
+  },
+  "1cor-03": {
+   "estado": "texto",
+   "versiculos": 80
+  },
+  "1cor-04": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "1cor-05": {
+   "estado": "texto",
+   "versiculos": 84
+  },
+  "1cor-06": {
+   "estado": "texto",
+   "versiculos": 82
+  },
+  "2cor-01": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "2cor-02": {
+   "estado": "texto",
+   "versiculos": 73
+  },
+  "2cor-03": {
+   "estado": "texto",
+   "versiculos": 39
+  },
+  "2cor-04": {
+   "estado": "texto",
+   "versiculos": 85
+  },
+  "gal-01": {
+   "estado": "texto",
+   "versiculos": 74
+  },
+  "gal-02": {
+   "estado": "texto",
+   "versiculos": 75
+  },
+  "ef-01": {
+   "estado": "texto",
+   "versiculos": 66
+  },
+  "ef-02": {
+   "estado": "texto",
+   "versiculos": 89
+  },
+  "flp-01": {
+   "estado": "texto",
+   "versiculos": 104
+  },
+  "col-01": {
+   "estado": "texto",
+   "versiculos": 95
+  },
+  "1tes-01": {
+   "estado": "texto",
+   "versiculos": 89
+  },
+  "2tes-01": {
+   "estado": "texto",
+   "versiculos": 47
+  },
+  "1tim-01": {
+   "estado": "texto",
+   "versiculos": 51
+  },
+  "1tim-02": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "2tim-01": {
+   "estado": "texto",
+   "versiculos": 83
+  },
+  "tit-01": {
+   "estado": "texto",
+   "versiculos": 46
+  },
+  "flm-01": {
+   "estado": "texto",
+   "versiculos": 25
+  },
+  "heb-01": {
+   "estado": "texto",
+   "versiculos": 67
+  },
+  "heb-02": {
+   "estado": "texto",
+   "versiculos": 62
+  },
+  "heb-03": {
+   "estado": "texto",
+   "versiculos": 80
+  },
+  "heb-04": {
+   "estado": "texto",
+   "versiculos": 94
+  },
+  "sant-01": {
+   "estado": "texto",
+   "versiculos": 53
+  },
+  "sant-02": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "1pe-01": {
+   "estado": "texto",
+   "versiculos": 50
+  },
+  "1pe-02": {
+   "estado": "texto",
+   "versiculos": 55
+  },
+  "2pe-01": {
+   "estado": "texto",
+   "versiculos": 61
+  },
+  "1jn-01": {
+   "estado": "texto",
+   "versiculos": 63
+  },
+  "1jn-02": {
+   "estado": "texto",
+   "versiculos": 42
+  },
+  "2jn-01": {
+   "estado": "texto",
+   "versiculos": 13
+  },
+  "3jn-01": {
+   "estado": "texto",
+   "versiculos": 15
+  },
+  "jds-01": {
+   "estado": "texto",
+   "versiculos": 25
+  },
+  "ap-01": {
+   "estado": "texto",
+   "versiculos": 71
+  },
+  "ap-02": {
+   "estado": "texto",
+   "versiculos": 59
+  },
+  "ap-03": {
+   "estado": "texto",
+   "versiculos": 64
+  },
+  "ap-04": {
+   "estado": "texto",
+   "versiculos": 56
+  },
+  "ap-05": {
+   "estado": "sin_texto",
+   "versiculos": null,
+   "motivo": "cap. 16: texto omitido en la fuente"
+  },
+  "ap-06": {
+   "estado": "texto",
+   "versiculos": 45
+  },
+  "ap-07": {
+   "estado": "texto",
+   "versiculos": 63
+  }
+ }
+}
