@@ -6,6 +6,7 @@ import path from "node:path";
 import type { AppCatalog, Artwork, Book, CaptionCue, Episode, ImageCue, PendingEpisode } from "@audite/domain";
 import { creditoTexto, idiomaReproducible, presentacionEpisodio, rutaSegura, tiemposDeManifiesto, type EpisodioManifiesto, type Manifiesto } from "@audite/domain";
 import type { AudioListo } from "./audio-listo";
+import { aplicarResumenEstilo } from "./resumen-estilo";
 import { parseSrt } from "./srt";
 
 export type { AppCatalog };
@@ -114,7 +115,7 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
               bytes: remoto.bytes,
             },
           ],
-          summary: { es: texto(episodio.resumen?.es), en: texto(episodio.resumen?.en) },
+          summary: aplicarResumenEstilo(episodio.id, episodio.resumen),
           ...nombres(episodio),
         });
         continue;
@@ -164,7 +165,7 @@ export function construirCatalogo(manifiesto: Manifiesto, raiz: string, publico 
             bytes,
           },
         ],
-        summary: { es: texto(episodio.resumen?.es), en: texto(episodio.resumen?.en) },
+        summary: aplicarResumenEstilo(episodio.id, episodio.resumen),
         ...nombres(episodio),
         ...(tiempos.length > 0 ? { tiempos } : {}),
       });
@@ -307,10 +308,20 @@ function episodioDemo(ruta: string): AppCatalog["episodes"][number] {
   };
 }
 
+function catalogoConResumenes(catalogo: AppCatalog): AppCatalog {
+  return {
+    ...catalogo,
+    episodes: catalogo.episodes.map((episodio) => ({
+      ...episodio,
+      summary: aplicarResumenEstilo(episodio.id, episodio.summary),
+    })),
+  };
+}
+
 export function loadAppCatalog(): AppCatalog {
   const indice = indiceCatalogo as AppCatalog;
   const genesis = libroGenesis as { episodios: AppCatalog["pendientes"] };
-  const base = { ...indice, pendientes: genesis.episodios };
+  const base = catalogoConResumenes({ ...indice, pendientes: genesis.episodios });
   if (process.env.AUDITE_DEMO !== "1") return base;
   const tono = tonoDemo();
   if (!tono) return base;

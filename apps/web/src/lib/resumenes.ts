@@ -1,4 +1,5 @@
 import manifiesto from "../../../../content/canon/01_canon/manifiesto.json";
+import { aplicarResumenEstilo } from "@audite/content/resumen-estilo";
 
 type Manifiesto = {
   libros: { episodios: { id: string; resumen?: { es?: string; en?: string } }[] }[];
@@ -7,10 +8,7 @@ type Manifiesto = {
 const RESUMENES = new Map<string, { es: string; en: string }>();
 for (const libro of (manifiesto as Manifiesto).libros) {
   for (const episodio of libro.episodios) {
-    RESUMENES.set(episodio.id, {
-      es: episodio.resumen?.es?.trim() ?? "",
-      en: episodio.resumen?.en?.trim() ?? "",
-    });
+    RESUMENES.set(episodio.id, aplicarResumenEstilo(episodio.id, episodio.resumen));
   }
 }
 

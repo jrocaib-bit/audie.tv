@@ -10,6 +10,7 @@
     "./media": "./src/media-path.ts",
     "./build": "./src/build-catalog.ts",
     "./manifiesto": "./src/manifiesto.ts",
+    "./resumen-estilo": "./src/resumen-estilo.ts",
     "./app-catalog": "./src/app-catalog.ts",
     "./audio-listo": "./src/audio-listo.ts",
     "./sync": "./src/sync.ts",

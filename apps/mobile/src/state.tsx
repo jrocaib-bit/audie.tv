@@ -1,5 +1,6 @@
 import indiceJson from "../../../content/canon/catalogo-indice.json";
 import genesisJson from "../../../content/canon/libros/gn.json";
+import resumenesEstilo from "../../../content/catalog/resumenes-estilo.json";
 import {
   STORAGE_KEYS,
   addToPath,
@@ -40,9 +41,25 @@ import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "exp
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 const contentBase = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
 
+const capaEstilo = resumenesEstilo as Record<string, { es?: string; en?: string }>;
 const indice = indiceJson as AppCatalog;
 const genesis = genesisJson as { episodios: AppCatalog["pendientes"] };
-export const catalog: AppCatalog = { ...indice, pendientes: genesis.episodios, rangos: indice.rangos ?? [] };
+export const catalog: AppCatalog = {
+  ...indice,
+  pendientes: genesis.episodios,
+  rangos: indice.rangos ?? [],
+  episodes: indice.episodes.map((episodio) => {
+    const sobre = capaEstilo[episodio.id];
+    if (!sobre) return episodio;
+    return {
+      ...episodio,
+      summary: {
+        es: (sobre.es ?? episodio.summary?.es ?? "").trim(),
+        en: (sobre.en ?? episodio.summary?.en ?? "").trim(),
+      },
+    };
+  }),
+};
 
 const episode = catalog.episodes[0] ?? null;
 
