@@ -150,7 +150,7 @@ describe("portada de Libros con estantería", () => {
     const html = renderToStaticMarkup(elemento);
     expect(html).toContain("data-estanteria");
     expect([...html.matchAll(/data-lomo="/g)]).toHaveLength(3);
-    expect(html).toContain("La Escritura, leída con los Padres");
+    expect(html).toContain("La Biblia, libro a libro");
     expect(html).not.toContain("data-libro=");
     const props = JSON.stringify(elemento);
     expect(props).toContain('"libroInicial":"libro-prueba"');

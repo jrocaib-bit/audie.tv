@@ -219,11 +219,11 @@ export function metadatosLanding({ ficha, volumen }: DatosLanding, lang: string,
 
 export function metadatosCatalogo(lang: string, origen: string, hayPortada: boolean): Metadata {
   const ui = idiomaUi(lang);
-  const titulo = ui === "en" ? "Books: Scripture read with the Fathers | Audite" : "Libros: la Escritura leída con los Padres | Audite";
+  const titulo = ui === "en" ? "The Bible, book by book | Audite" : "La Biblia, libro a libro | Audite";
   const descripcion =
     ui === "en"
-      ? `A volume for each book of Scripture, read with the Fathers of the Church. Read the prologue free and try ${DIAS} days free.`
-      : `Un volumen por cada libro de la Escritura, leído con los Padres de la Iglesia. Prólogo gratis y prueba de ${DIAS} días.`;
+      ? `A volume for each book of the Bible, with commentary from the Fathers of the Church. Read the prologue free and try ${DIAS} days free.`
+      : `Un volumen por cada libro de la Biblia, comentado con los Padres de la Iglesia. Prólogo gratis y prueba de ${DIAS} días.`;
   const url = `${origen}/${lang}/libros`;
   const imagen = hayPortada ? `${origen}${rutaPortada(1, 960)}` : null;
   const alt = ui === "en" ? "Cover of volume 1 of the Audite books" : "Cubierta del volumen 1 de los libros de Audite";

@@ -99,7 +99,9 @@ describe("metadatos de la landing", () => {
 
   it("la portada de Libros lleva sus metadatos y la cubierta del volumen 1", async () => {
     const m = await metadatosPaginaCatalogo({ params: Promise.resolve({ lang: "es" }) });
-    expect((m.title as { absolute: string }).absolute).toContain("Libros");
+    expect((m.title as { absolute: string }).absolute).toBe("La Biblia, libro a libro | Audite");
+    expect(og(m).title).toBe("La Biblia, libro a libro | Audite");
+    expect((metadatosCatalogo("en", "https://x.example", false).title as { absolute: string }).absolute).toBe("The Bible, book by book | Audite");
     expect(m.alternates?.canonical).toBe("https://sitio.example/es/libros");
     expect(og(m).images[0]!.url).toBe("https://sitio.example/api/libros/portada/cubierta-01-960.webp");
     expect(og(metadatosCatalogo("es", "https://x.example", false)).images).toBeUndefined();

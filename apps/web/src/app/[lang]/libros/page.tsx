@@ -10,6 +10,7 @@ import { metadatosCatalogo } from "@/lib/libros/landing";
 import { origenSitio } from "@/lib/sitio-publico";
 import { esIdiomaPublico } from "@/sitio/i18n";
 
+// Dinámica a propósito: lee `searchParams` (`?libro=`, `?mock=`). Las cargas de datos ya son baratas y cacheadas.
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -33,8 +34,8 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   return (
     <main data-libros-catalogo="" className="mx-auto w-full max-w-6xl px-5 py-5 text-[#F4ECE2] md:px-8 md:py-8">
       <p className="text-xs tracking-[0.16em] text-[#C9A96E] uppercase">Libros</p>
-      <h1 className="font-display mt-1.5 text-3xl leading-[1.02] md:mt-2 md:max-w-none md:text-[48px]">La Escritura, leída con los Padres</h1>
-      <p className="mt-2 max-w-xl text-[15px] leading-snug text-[#E7D7C3] md:mt-3 md:max-w-4xl md:text-lg md:leading-normal">Comentarios a los libros de la Escritura, un volumen por libro. Se leen aquí, en Audite, con el prólogo gratis y el resto incluido en la suscripción.</p>
+      <h1 className="font-display mt-1.5 text-3xl leading-[1.02] md:mt-2 md:max-w-none md:text-[48px]">La Biblia, libro a libro</h1>
+      <p className="mt-2 max-w-xl text-[15px] leading-snug text-[#E7D7C3] md:mt-3 md:max-w-4xl md:text-lg md:leading-normal">Un volumen por cada libro de la Biblia, comentado con los Padres de la Iglesia. Se lee aquí, en Audite, con el prólogo gratis y el resto incluido en la suscripción.</p>
       {estanteria ? (
         <Estanteria lang={lang} volumenes={estanteria} mock={mockDeParametro(busqueda.mock)} libroInicial={pedido && ID_LIBRO.test(pedido) ? pedido : null} />
       ) : null}
