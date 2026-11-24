@@ -20,7 +20,7 @@ import { infoEpisodio } from "../hoy";
 import { fichaMuseoObra, seleccionarObraSala, tamanoObraSala } from "../sala";
 import { ESPACIOS, VIAJES, componerSala, espacioDeEpisodio, mascaraDeObra, obraCompleta } from "../sala-assets";
 import { resolverLugarObra } from "../sala-lugares";
-import { debeMostrarEntradaSala, invitacionSala, paradasSegunSesion } from "../sala-cuenta";
+import { debeMostrarEntradaSala, esObraSalaAbierta, invitacionSala, OBRAS_SALA_ABIERTAS, paradasSegunSesion, textoSalaInvitacion } from "../sala-cuenta";
 import { camaraDeParadas, paradasDeEpisodio } from "../sala-recorrido";
 import { claveMapTiles, decidirVuelo, planDeVuelo, tiemposVueloVivo } from "../sala-vuelo";
 import { tx } from "../textos";
@@ -44,6 +44,9 @@ export default function LaSala() {
   const base = useContextoCatalogo();
   const reproducir = useReproducir();
 
+  const sesion = useSesion();
+  const [ejemplo, setEjemplo] = useState<string | null>(null);
+
   const [escenaTam, setEscenaTam] = useState({ width: ventana.width, height: Math.max(420, ventana.height - 150) });
   const stageW = escenaTam.width;
   const stageH = escenaTam.height;
@@ -61,7 +64,8 @@ export default function LaSala() {
     [base.grabados, library.cargadoId, library.currentEpisode?.id, library.playing, library.progress.episodes, library.tieneActualGuardado],
   );
 
-  const episodioId = seleccion.episodioId;
+  const registrado = Boolean(sesion?.userId);
+  const episodioId = !registrado && ejemplo && esObraSalaAbierta(ejemplo) ? ejemplo : seleccion.episodioId;
   const info = useMemo(() => infoEpisodio(episodioId, base), [base, episodioId]);
   const episodioCatalogo = useMemo(
     () => library.catalog.episodes.find((item) => item.id === episodioId) ?? null,
@@ -100,7 +104,6 @@ export default function LaSala() {
     () => (espacioEp.sede ? planDeVuelo(espacioEp.sede, { margenInferior: insets.bottom + 6 }) : null),
     [espacioEp.sede, insets.bottom],
   );
-  const sesion = useSesion();
   const entradaPermitida = debeMostrarEntradaSala(sesion, reducir);
   const vuelo = entradaPermitida && modoVuelo === "vivo" && planVuelo ? { plan: planVuelo, clave } : null;
   const tiempos = useMemo(() => (vuelo ? tiemposVueloVivo() : tiemposViaje(Boolean(viaje.edificio))), [vuelo, viaje.edificio]);
@@ -115,7 +118,8 @@ export default function LaSala() {
     [episodioCatalogo?.summary, episodioId, ficha.titulo, info.titulo, lang],
   );
   // Candado: sin sesión solo el adelanto (obra + título); el scrollytelling y los textos, con cuenta.
-  const { paradas, bloqueado } = useMemo(() => paradasSegunSesion(paradasTodas, sesion), [paradasTodas, sesion]);
+  const { paradas, bloqueado } = useMemo(() => paradasSegunSesion(paradasTodas, sesion, episodioId), [paradasTodas, sesion, episodioId]);
+  const copySala = textoSalaInvitacion(lang);
 
   // Tamaño de la obra entera al empezar/terminar: siempre contenida y nunca recortada.
   const maxAncho = Math.max(180, Math.round(stageW * 0.84));
@@ -619,6 +623,9 @@ export default function LaSala() {
         >
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
             <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>{t.tabSala}</Text>
+            {registrado && !seleccion.sinEpisodio ? (
+              <Text style={{ color: c.brand, fontFamily: fonts.medium, fontSize: 11, letterSpacing: 0.4, flexShrink: 1 }} numberOfLines={1}>{copySala.escuchando}</Text>
+            ) : null}
             <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
               {paradas.map((_, i) => {
                 const activo = i === pasoActivo;
@@ -668,6 +675,62 @@ export default function LaSala() {
           <BotonRedondo c={c} nombre="usuario" label={t.tabAjustes} size={40} onPress={() => router.push("/ajustes")} />
         </View>
       </View>
+
+      {!registrado ? (
+        <View
+          pointerEvents="box-none"
+          style={{
+            position: "absolute",
+            top: insets.top + 78,
+            left: 16,
+            right: 16,
+            zIndex: 20,
+            borderRadius: 20,
+            backgroundColor: "rgba(16,14,12,0.88)",
+            borderWidth: 1,
+            borderColor: "rgba(46,41,36,0.95)",
+            paddingHorizontal: 14,
+            paddingVertical: 12,
+            gap: 8,
+          }}
+          testID="sala-invitacion"
+        >
+          <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 20 }}>{copySala.lede}</Text>
+          <Text style={{ color: "rgba(244,236,226,0.9)", fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 }}>{copySala.cuerpo}</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {OBRAS_SALA_ABIERTAS.map((id) => (
+              <Pulsable
+                key={id}
+                onPress={() => setEjemplo(id)}
+                label={`${copySala.gratis} ${id}`}
+                haptica
+                escala={0.94}
+                style={{
+                  minHeight: 32,
+                  paddingHorizontal: 12,
+                  borderRadius: 999,
+                  backgroundColor: (ejemplo ?? episodioId) === id ? c.accent : "transparent",
+                  borderWidth: 1,
+                  borderColor: c.accent,
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: (ejemplo ?? episodioId) === id ? c.accentInk : c.accent, fontFamily: fonts.medium, fontSize: 12 }}>{copySala.gratis} {id.toUpperCase()}</Text>
+              </Pulsable>
+            ))}
+          </View>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            <Pulsable onPress={() => router.push("/cuenta")} label={t.salaCrearCuenta} haptica escala={0.94}
+              style={{ minHeight: 36, paddingHorizontal: 14, borderRadius: 999, backgroundColor: c.accent, justifyContent: "center" }}>
+              <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 13, fontWeight: "600" }}>{t.salaCrearCuenta}</Text>
+            </Pulsable>
+            <Pulsable onPress={() => router.push("/entrar")} label={t.entrar} haptica escala={0.94}
+              style={{ minHeight: 36, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderColor: c.accent, justifyContent: "center" }}>
+              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 13 }}>{t.entrar}</Text>
+            </Pulsable>
+          </View>
+        </View>
+      ) : null}
 
       {/* Entrada fotorrealista desde el espacio hasta la sala real */}
       {mostrandoEntrada && entradaPermitida ? (

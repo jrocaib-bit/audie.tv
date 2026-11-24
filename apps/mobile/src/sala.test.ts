@@ -444,7 +444,7 @@ describe("sala v3: gn-01 en el Bonnefanten con el tondo entero", () => {
   });
 });
 
-import { debeMostrarEntradaSala, paradasSegunSesion, recorridoAbierto } from "./sala-cuenta";
+import { debeMostrarEntradaSala, OBRAS_SALA_ABIERTAS, paradasSegunSesion, recorridoAbierto } from "./sala-cuenta";
 describe("candado de cuenta de La sala", () => {
   const paradas = [
     { tipo: "apertura" as const, indice: 0, zoom: 1, titulo: "Título", texto: "Texto narrativo" },
@@ -478,6 +478,15 @@ describe("candado de cuenta de La sala", () => {
     const r = paradasSegunSesion(paradas, null);
     expect(r.bloqueado).toBe(true);
     expect(r.paradas.map((p) => p.tipo)).toEqual(["apertura"]);
+  });
+  it("tres obras abiertas: recorrido completo sin sesión; el vuelo sigue pidiendo cuenta", () => {
+    const r = paradasSegunSesion(paradas, null, "gn-01");
+    expect(r.bloqueado).toBe(false);
+    expect(r.paradas).toEqual(paradas);
+    for (const id of OBRAS_SALA_ABIERTAS) expect(paradasSegunSesion(paradas, undefined, id).bloqueado).toBe(false);
+    expect(paradasSegunSesion(paradas, null, "gn-02").bloqueado).toBe(true);
+    expect(debeMostrarEntradaSala(null, false)).toBe(false);
+    expect(recorridoAbierto(null)).toBe(false);
   });
 });
 
