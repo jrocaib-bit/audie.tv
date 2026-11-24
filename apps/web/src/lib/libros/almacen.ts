@@ -10,7 +10,7 @@
  * cliente, ni se registran. Los nombres de objeto salen solo de las listas permitidas de abajo.
  */
 import { createHash } from "node:crypto";
-import { readFile, stat } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { clienteServicio } from "./acceso";
 
@@ -133,6 +133,46 @@ export async function leerJsonLibros(rel: string): Promise<unknown | null> {
       return { dato: null, fallo: true };
     }
   });
+}
+
+// ---- Existencia de textos ---------------------------------------------------------------------
+type ObjetoLista = { name?: string };
+
+/**
+ * Rutas relativas de los textos que existen (`json/x.json`, `prueba/x.json`) sin descargarlos.
+ * Local: lectura de los dos directorios. Bucket: una llamada `list` por carpeta, con el mismo TTL.
+ * `null` si el almacén no responde o no hay origen (quien llama decide el respaldo).
+ */
+export async function listarTextos(): Promise<Set<string> | null> {
+  const base = rutaLibros();
+  const nombre = (carpeta: string, archivo: string) => (/^[a-z0-9][a-z0-9-]{0,80}\.json$/.test(archivo) ? [`${carpeta}/${archivo}`] : []);
+  if (base) {
+    const listas = await Promise.all(
+      ["json", "prueba"].map(async (c) => {
+        try {
+          return (await readdir(path.join(base, c))).flatMap((a) => nombre(c, a));
+        } catch {
+          return [];
+        }
+      }),
+    );
+    return new Set(listas.flat());
+  }
+  if (origen() !== "bucket") return null;
+  const lista = await conCache<string[]>(`${nombreBucket()}/#textos`, async () => {
+    const cliente = clienteServicio();
+    if (!cliente) return { dato: null, fallo: false };
+    try {
+      const resultados = await Promise.all(
+        ["json", "prueba"].map((c) => cliente.storage.from(nombreBucket()).list(c, { limit: 1000 })),
+      );
+      if (resultados.some((r) => r.error)) return { dato: null, fallo: true };
+      return { dato: resultados.flatMap((r, i) => ((r.data ?? []) as ObjetoLista[]).flatMap((o) => nombre(i === 0 ? "json" : "prueba", o.name ?? ""))), fallo: false };
+    } catch {
+      return { dato: null, fallo: true };
+    }
+  });
+  return lista ? new Set(lista) : null;
 }
 
 // ---- Portadas ------------------------------------------------------------------------------

@@ -7,9 +7,9 @@ afterEach(() => vi.unstubAllEnvs());
 describe("API de la estantería", () => {
   it("devuelve la lista con caché corta y sin ningún texto de capítulos", async () => {
     vi.stubEnv("AUDITE_LIBROS_RUTA", path.resolve(import.meta.dirname, "../../../../lib/libros/fixtures/con-estanteria"));
-    const r = await GET();
+    const r = await GET(new Request("http://a.test/api/libros/estanteria"));
     expect(r.status).toBe(200);
-    expect(r.headers.get("cache-control")).toMatch(/max-age=\d{1,3}\b/);
+    expect(r.headers.get("cache-control")).toContain("s-maxage=600");
     const texto = await r.text();
     expect(texto).not.toContain("TEXTO_PREMIUM");
     expect(texto).not.toContain("TEXTO_ADELANTO");
@@ -19,6 +19,6 @@ describe("API de la estantería", () => {
 
   it("404 sin ruta", async () => {
     vi.stubEnv("AUDITE_LIBROS_RUTA", "");
-    expect((await GET()).status).toBe(404);
+    expect((await GET(new Request("http://a.test/api/libros/estanteria"))).status).toBe(404);
   });
 });
