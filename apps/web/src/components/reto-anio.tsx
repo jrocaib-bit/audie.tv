@@ -11,7 +11,7 @@ import { etiquetaInicio, fechaLegible } from "@/lib/publico";
 import { estadoDeReto, hoyMadrid } from "@/lib/sala";
 import { copiaSitio } from "@/sitio/i18n";
 import { portadaDeReto } from "@audite/content/obras-creditos";
-import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
+import { CREDITOS_DIAS_PROFECIAS, CREDITO_PORTADA_PROFECIAS, episodioDeCita, fechaDeDia, inicioDeTemporada, miniaturaDePieza, portadaConectada, portadasDeTemporada, textoDePar, type DiaAnio, type RangoEpisodio, type RetoAnioDato } from "@/lib/retos-anio";
 
 function reloj(segundos: number): string {
   const minutos = Math.floor(segundos / 60);
@@ -20,8 +20,10 @@ function reloj(segundos: number): string {
 }
 
 function paresDeCitas(dia: DiaAnio): string[] {
-  if (dia.profecias && dia.profecias.length > 0) return dia.profecias.map((par) => `${par.profecia} → ${par.cumplimiento}`);
-  if (dia.profecia && dia.cumplimiento) return [`${dia.profecia} → ${dia.cumplimiento}`];
+  if (dia.profecias && dia.profecias.length > 0) {
+    return dia.profecias.map((par) => textoDePar(par));
+  }
+  if (dia.profecia) return [textoDePar({ profecia: dia.profecia, cumplimiento: dia.cumplimiento })];
   return dia.cita ? [dia.cita] : [];
 }
 
@@ -39,7 +41,7 @@ function diaPieza(lang: string, ui: "es" | "en", dia: DiaAnio, numero: number, f
           {pares.map((par) => <span key={par} className="block">{par}</span>)}
         </span>
       ) : null}
-      {dia.nota ? <span className="mt-1 block text-sm text-[#E7D7C3]">{dia.nota[ui]}</span> : null}
+      {dia.descripcion ?? dia.nota ? <span className="mt-1 block text-sm text-[#E7D7C3]">{(dia.descripcion ?? dia.nota)?.[ui]}</span> : null}
       {dia.relacionados && dia.relacionados.length > 0 ? (
         <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
           {dia.relacionados.map((id) => {

@@ -36,6 +36,10 @@ export function marcarDia(id: string, dia: number, hoy: string) {
   const hechos = tiene ? actual.hechos.filter((item) => item !== dia) : [...actual.hechos, dia];
   const fechas = tiene ? actual.fechas.filter((item) => item !== hoy) : [...new Set([...actual.fechas, hoy])];
   cache = { ...leerRetos(), [id]: { hechos, fechas } };
-  localStorage.setItem(CLAVE, JSON.stringify(cache));
+  try {
+    localStorage.setItem(CLAVE, JSON.stringify(cache));
+  } catch {
+    // Sin almacenamiento (modo privado o lleno): el día queda marcado en memoria.
+  }
   oyentes.forEach((oyente) => oyente());
 }

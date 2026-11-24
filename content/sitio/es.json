@@ -89,10 +89,18 @@
   "priceMonth": "1,99 €/mes",
   "faqWhatQ": "¿Qué es Audite?",
   "faqWhatA": "La Biblia en audio, de principio a fin, en episodios de unos 10 minutos.",
-  "exitSite": "audite.tv",
   "todayTitle": "Hoy en Audite",
   "seasonsTitle": "Temporadas",
   "seeAll": "Ver todo",
   "playLabel": "Escuchar",
-  "openApp": "Abrir en la app"
+  "openApp": "Abrir en la app",
+  "heroListen": "Escuchar un episodio",
+  "sampleNote": "Un clic y suena. Sin cuenta ni tarjeta.",
+  "ctaChallengeFree": "Escucha el reto gratis sin tarjeta",
+  "challengeNote": "El reto de Adviento pide una cuenta gratuita.",
+  "ctaTrial": "Prueba 7 días",
+  "browserNote": "Ahora Audite se escucha en el navegador, en el móvil o en el ordenador. La app para iOS y Android, con modo sin conexión, llega pronto.",
+  "durationNote": "Los episodios del catálogo duran unos 10 minutos. Los días del reto de Adviento son pasajes de 2 a 4 minutos.",
+  "familyNote": "Se puede escuchar en familia y en clase.",
+  "exitSite": "audite.tv"
 }

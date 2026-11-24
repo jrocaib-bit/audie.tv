@@ -13,7 +13,14 @@ const CICLO = 2026;
 export type RangoEpisodio = { id: string; bookId: string; rango: string };
 export type Cita = { libro: string; capitulo: number; versiculo: number; versiculoFin: number };
 
-type ParProfecia = { profecia: string; cumplimiento: string };
+type ParProfecia = { profecia: string; cumplimiento?: string };
+
+/** Cita visible: si no hay cumplimiento (p. ej. una figura), solo la profecía. */
+export function textoDePar(par: ParProfecia): string {
+  const cump = (par.cumplimiento ?? "").trim();
+  if (!cump || /^[—–-]+$/.test(cump)) return par.profecia;
+  return `${par.profecia} → ${cump}`;
+}
 
 type DiaProfecia = {
   id: string;
@@ -24,7 +31,7 @@ type DiaProfecia = {
   profecias?: ParProfecia[];
   profecia?: string;
   cumplimiento?: string;
-  nota: { es: string; en: string };
+  descripcion: { es: string; en: string };
   episodios_relacionados: string[];
   duracion_estimada_s: number;
 };
@@ -43,12 +50,12 @@ function retoProfecias(): RetoAnioDato {
     return {
       es: dia.titulo.es,
       en: dia.titulo.en,
-      cita: pares.map((par) => `${par.profecia} → ${par.cumplimiento}`).join(" · "),
+      cita: pares.map((par) => textoDePar(par)).join(" · "),
       profecia: primero?.profecia,
       cumplimiento: primero?.cumplimiento,
       profecias: pares,
       diaLiturgico: dia.dia_liturgico,
-      nota: dia.nota,
+      descripcion: dia.descripcion,
       relacionados: dia.episodios_relacionados,
       pieza: dia.id,
       fecha: dia.fecha,

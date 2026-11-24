@@ -67,7 +67,25 @@ export type ContextoMedicion = {
   locale: string;
   session_id: string;
   user_id: string | null;
+  /** Clase de tráfico ya calculada en el cliente (sin PII). */
+  trafico?: ClaseTrafico | null;
 };
+
+export type ClaseTrafico = "interno" | "bot" | "headless";
+
+const CORREOS_INTERNOS = ["tvaudite@gmail.com"];
+const UA_HEADLESS = /headlesschrome|playwright|puppeteer|phantomjs|selenium|webdriver/i;
+const UA_BOT = /bot\b|crawler|spider|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|facebookexternalhit|lighthouse|pagespeed|gtmetrix|uptimerobot|curl\/|wget\//i;
+
+/** Clasifica tráfico interno o automático. No devuelve ni guarda email ni user-agent. */
+export function clasificarTrafico(entrada: { email?: string | null; userAgent?: string | null; correosInternos?: readonly string[] }): ClaseTrafico | null {
+  const email = entrada.email?.trim().toLowerCase();
+  if (email && [...CORREOS_INTERNOS, ...(entrada.correosInternos ?? [])].some((c) => c.toLowerCase() === email)) return "interno";
+  const ua = entrada.userAgent ?? "";
+  if (UA_HEADLESS.test(ua)) return "headless";
+  if (UA_BOT.test(ua)) return "bot";
+  return null;
+}
 
 export type FilaEvento = {
   user_id: string | null;
@@ -79,12 +97,15 @@ export type FilaEvento = {
   properties: Record<string, unknown>;
 };
 
+/** dia = 0 es la inscripción (challenge_started); dia > 0 es un día completado. */
 export type FilaReto = {
-  user_id: string;
+  user_id: string | null;
+  /** Solo para anónimos: se envía por RPC; con user_id se omite. */
+  session_id: string;
   reto_id: string;
   dia: number;
   fecha_local: string;
-  completed_at: string;
+  completed_at: string | null;
   episode_id: string | null;
 };
 
@@ -179,14 +200,21 @@ export function prepararMedicion<E extends Evento>(nombre: E, propiedades: Props
     app_version: ctx.app_version,
     locale: ctx.locale,
     event_name: nombre,
-    properties,
+    properties: ctx.trafico ? { ...properties, is_internal: ctx.trafico === "interno", trafico: ctx.trafico } : properties,
   };
   let progreso: FilaReto | null = null;
-  if (ctx.user_id && nombre === "challenge_day_completed") {
+  if (nombre === "challenge_started") {
+    const datos = propiedades as PropsDe["challenge_started"];
+    if (datos.reto_id && !ctx.trafico) {
+      progreso = { user_id: ctx.user_id, session_id: ctx.session_id, reto_id: datos.reto_id, dia: 0, fecha_local: ahora.toISOString().slice(0, 10), completed_at: null, episode_id: null };
+    }
+  }
+  if (nombre === "challenge_day_completed" && !ctx.trafico) {
     const datos = propiedades as PropsDe["challenge_day_completed"];
-    if (datos.dia > 0) {
+    if (datos.reto_id && datos.dia > 0) {
       progreso = {
         user_id: ctx.user_id,
+        session_id: ctx.session_id,
         reto_id: datos.reto_id,
         dia: datos.dia,
         fecha_local: ahora.toISOString().slice(0, 10),
@@ -224,18 +252,43 @@ export function utmDeBusqueda(busqueda: string): Pick<PropsFormulario, "utm_sour
   return salida;
 }
 
-export function track<E extends Evento>(nombre: E, propiedades: PropsDe[E], ctx: ContextoMedicion, sumidero: SumideroMedicion, ahora = new Date()): void {
-  try {
-    const preparado = prepararMedicion(nombre, propiedades, ctx, ahora);
-    const envio = sumidero.evento(preparado.evento);
-    if (envio && typeof (envio as Promise<void>).then === "function") void (envio as Promise<void>).catch(() => undefined);
-    if (preparado.progreso && sumidero.progreso) {
-      const progreso = sumidero.progreso(preparado.progreso);
-      if (progreso && typeof (progreso as Promise<void>).then === "function") void (progreso as Promise<void>).catch(() => undefined);
+export type FalloMedicion = { donde: "evento" | "progreso" | "preparar"; evento: string; codigo: string };
+
+function codigoDeError(e: unknown): string {
+  const c = (e as { code?: unknown } | null)?.code;
+  return typeof c === "string" ? c.slice(0, 24) : e instanceof Error ? e.name : "error";
+}
+
+/** Nunca lanza. Los fallos se avisan a `alFallar` solo con evento y código (sin PII ni mensajes). */
+export function track<E extends Evento>(nombre: E, propiedades: PropsDe[E], ctx: ContextoMedicion, sumidero: SumideroMedicion, ahora = new Date(), alFallar?: (fallo: FalloMedicion) => void): void {
+  const avisar = (donde: FalloMedicion["donde"], e: unknown) => {
+    try { alFallar?.({ donde, evento: nombre, codigo: codigoDeError(e) }); } catch { /* sin efecto */ }
+  };
+  const lanzar = (donde: "evento" | "progreso", f: () => Promise<void> | void) => {
+    try {
+      const r = f();
+      if (r && typeof (r as Promise<void>).then === "function") void (r as Promise<void>).catch((e) => avisar(donde, e));
+    } catch (e) {
+      avisar(donde, e);
     }
-  } catch {
+  };
+  let preparado: ReturnType<typeof prepararMedicion>;
+  try {
+    preparado = prepararMedicion(nombre, propiedades, ctx, ahora);
+  } catch (e) {
+    avisar("preparar", e);
     return;
   }
+  lanzar("evento", () => sumidero.evento(preparado.evento));
+  const progreso = preparado.progreso;
+  if (progreso && sumidero.progreso) lanzar("progreso", () => sumidero.progreso!(progreso));
+}
+
+/** Campos de reto_progreso para un usuario con sesión (sin session_id). */
+export function filaRetoUsuario(fila: FilaReto): Omit<FilaReto, "session_id"> {
+  const { session_id: _s, ...resto } = fila;
+  void _s;
+  return resto;
 }
 
 export function filaPreferenciaCorreo(userId: string, consentimiento: boolean, ahora = new Date().toISOString()) {
@@ -264,4 +317,40 @@ export async function eliminarCuenta(cliente: {
   } catch {
     return "error";
   }
+}
+
+type RespuestaDb = PromiseLike<{ error: { code?: string } | null }>;
+export type ClienteMedicion = {
+  from: (tabla: string) => {
+    insert: (fila: unknown) => RespuestaDb;
+    upsert: (fila: unknown, opciones?: { onConflict?: string; ignoreDuplicates?: boolean }) => RespuestaDb;
+  };
+  rpc: (nombre: string, args: Record<string, unknown>) => RespuestaDb;
+};
+
+async function exigir(r: RespuestaDb): Promise<void> {
+  const { error } = await r;
+  if (error) throw Object.assign(new Error("db"), { code: error.code ?? "db" });
+}
+
+/**
+ * Sumidero único para web e iOS. Con sesión: upsert en reto_progreso (RLS por dueño).
+ * Sin sesión: RPC `registrar_reto_anonimo` por session_id (migración pendiente).
+ * La inscripción (dia 0) no pisa una fila existente.
+ */
+export function crearSumideroSupabase(remoto: ClienteMedicion | null): SumideroMedicion {
+  return {
+    evento: async (fila) => {
+      if (!remoto) return;
+      await exigir(remoto.from("analytics_events").insert(fila));
+    },
+    progreso: async (fila) => {
+      if (!remoto) return;
+      if (fila.user_id) {
+        await exigir(remoto.from("reto_progreso").upsert(filaRetoUsuario(fila), { onConflict: "user_id,reto_id,dia", ignoreDuplicates: fila.dia === 0 }));
+        return;
+      }
+      await exigir(remoto.rpc("registrar_reto_anonimo", { p_session_id: fila.session_id, p_reto_id: fila.reto_id, p_dia: fila.dia, p_episode_id: fila.episode_id }));
+    },
+  };
 }

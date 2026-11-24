@@ -4,6 +4,7 @@ import { esPortadaProvisional, obraDeEpisodio, obraWebp } from "@audite/content/
 import { precioLanzamientoActivo, textosAlta } from "@audite/domain";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { lineaCee } from "@/lib/mencion-cee";
 import { Wordmark } from "@/components/brand";
 import { BucleCuadro } from "@/components/bucle-cuadro";
 import { ObraFoto, Placa } from "@/components/placa";
@@ -190,6 +191,7 @@ export function SitioHome({ lang }: { lang: string }) {
   });
   const genesis = { id: "gn-01", titulo: tituloDe("gn-01", ui) };
   const hoy = hoyMadrid();
+  const ceeLinea = lineaCee(ui);
   const temporadas = ["adviento-isaias", "navidad-infancia", "cuaresma-40"].flatMap((id) => retosDeTemporada().filter((reto) => reto.id === id));
   const portadas = portadasSinRepetir(temporadas, catalogo.rangos, usadas);
   const tiendas = tiendasVisibles();
@@ -226,9 +228,12 @@ export function SitioHome({ lang }: { lang: string }) {
                 <h1 className="font-display t-display">{copy.homeTitle.split("\n").map((linea) => <span key={linea} className="block">{palabras(linea).map((palabra, indice) => <span key={`${linea}-${palabra}-${indice}`} className="palabra" style={{ animationDelay: `${indice * 70}ms` }}>{palabra}</span>)}</span>)}</h1>
                 <p className="mt-4 text-lg text-[#B7AB9C]">{copy.homeLede}</p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <BotonOro asChild><Link href={`/${lang}/entrar`}>{copy.homeCta}</Link></BotonOro>
-                  <BotonProbar ficha={genesis} etiqueta={copy.listenFree} className={botonOroVariantes({ variante: "fantasma" })} />
+                  <BotonOro asChild><Link href={`/${lang}/entrar`}>{copy.ctaTrial}</Link></BotonOro>
+                  <BotonProbar ficha={genesis} etiqueta={copy.heroListen} conIcono className={botonOroVariantes({ variante: "fantasma" })} />
+                  <BotonOro asChild variante="fantasma"><Link href={`/${lang}/retos/adviento-isaias`}>{copy.ctaChallengeFree}</Link></BotonOro>
                 </div>
+                <p className="mt-3 text-sm text-[#E7D7C3]" data-nota-muestra="">{copy.sampleNote} {copy.challengeNote}</p>
+                <p className="mt-1 text-sm text-[#B7AB9C]" data-nota-navegador="">{copy.browserNote}</p>
               </div>
               {!hayHeroExterno ? <div className="mt-8 md:absolute md:right-8 md:bottom-8 md:mt-0 md:max-w-xs"><Placa obra={portada} lang={ui} /></div> : null}
             </div>
@@ -243,7 +248,7 @@ export function SitioHome({ lang }: { lang: string }) {
                     titulo={episodio.titulo}
                     meta={[episodio.cita, episodio.minutos ? `${episodio.minutos} min` : ""].filter(Boolean).join(" · ")}
                     accion={(
-                      <Link href={`/${lang}/oir/${episodio.id}`} aria-label={`${copy.playLabel}: ${episodio.titulo}`} className="sala-boton absolute bottom-3 left-3 z-10 inline-flex size-12 items-center justify-center rounded-full bg-[#100E0C]/85 text-[#F4ECE2] hover:bg-[#2E2924]">
+                      <Link href={`/${lang}/oir/${episodio.id}`} aria-label={`${copy.playLabel}: ${episodio.titulo}`} title={copy.listenFree} className="sala-boton absolute bottom-3 left-3 z-10 inline-flex size-12 items-center justify-center rounded-full bg-[#100E0C]/85 text-[#F4ECE2] hover:bg-[#2E2924]">
                         <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
                       </Link>
                     )}
@@ -282,6 +287,8 @@ export function SitioHome({ lang }: { lang: string }) {
                 </span>
               ))}
             </p>
+            <p className="mt-4 text-sm text-[#E7D7C3]">{copy.durationNote} {copy.familyNote}</p>
+            {ceeLinea ? <p className="mt-2 text-sm text-[#B7AB9C]">{ceeLinea}</p> : null}
           </section>
           <section className="mx-auto w-full max-w-xl px-5 py-12 md:px-8">
             <p className="t-rotulo text-[#C9A96E]">{copy.priceFree}</p>
@@ -304,6 +311,7 @@ export function SitioHome({ lang }: { lang: string }) {
               <BadgeTienda href={tiendas?.apple ?? aviso} linea={copy.badgeGet} marca="App Store" pronto={tiendas ? "" : copy.storeSoon} tipo="tienda" />
               <BadgeTienda href={tiendas?.google ?? aviso} linea={copy.badgeGet} marca="Google Play" pronto={tiendas ? "" : copy.storeSoon} tipo="play" />
             </div>
+            <p className="mt-3 max-w-xl text-sm text-[#B7AB9C]">{copy.browserNote}</p>
           </section>
         </main>
       </ProbarAudio>
@@ -403,11 +411,18 @@ export function SitioMembresia({ lang }: { lang: string }) {
   const obra = obraDeEpisodio("gn-05");
   if (!copy || !obra) return null;
   const ui = idiomaUi(lang);
+  const ceeLinea = lineaCee(ui);
   return (
     <>
       <main className="mx-auto grid w-full max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-16">
         <div>
           <PaywallWeb lang={lang} lanzamiento={precioLanzamientoActivo()} />
+          <div className="mx-auto mt-2 grid max-w-xl gap-2 px-5 text-sm text-[#B7AB9C]">
+            <p>{copy.durationNote}</p>
+            <p>{copy.familyNote}</p>
+            <p>{copy.browserNote}</p>
+            {ceeLinea ? <p>{ceeLinea}</p> : null}
+          </div>
         </div>
         <Lienzo src={obraWebp(obra)} obraId={obra.id} alt={obra.titulo[ui]} className="min-h-80 md:min-h-[32rem]">
           <div className="absolute inset-x-0 bottom-0 z-10 p-4">
