@@ -13,6 +13,7 @@ import { baseDeContenido, uriDeObra } from "../entorno";
 import { dark, fonts } from "../theme";
 import { textoErrorAudio, tx } from "../textos";
 import { Boton, Chip } from "../ui/Basicos";
+import { ALTO_FILA_ROTULO, MARGEN_BAJO_ROTULO, MARGEN_SOBRE_ROTULO, altoMaxCarrusel } from "../ui/ahora-layout";
 import { Carrusel } from "../ui/Carrusel";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
@@ -41,6 +42,7 @@ export default function NowPlaying() {
   const base = useContextoCatalogo();
   const [sleepIdx, setSleepIdx] = useState(-1);
   const [verLectura, setVerLectura] = useState(false);
+  const [huecoAlto, setHuecoAlto] = useState(0);
   const textoEpisodio = useTextoEpisodio(library.currentEpisode?.id ?? null, idiomaContenido(lang));
   const pedido = useLocalSearchParams<{ e?: string }>().e;
   useEffect(() => {
@@ -61,8 +63,8 @@ export default function NowPlaying() {
   const hayLectura = textoEpisodio.carga.tipo !== "apagado" && textoEpisodio.carga.tipo !== "cargando";
   const rotuloLectura = textosPanel(lang).titulo;
 
-  // La obra se dimensiona con su proporción; el bloque entero se centra en vertical.
-  const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 470);
+  // El hueco medido manda; hasta que llega, se reserva cabecera, área segura y controles a dos líneas.
+  const maxAlto = huecoAlto > 0 ? huecoAlto : altoMaxCarrusel({ height: ventana.height, top: insets.top, bottom: insets.bottom });
   // Un poco más estrecha que la pantalla: el vecino asoma ~12 px a cada lado (pista del swipe).
   const maxAncho = ventana.width - 2 * (ASOMA + 14);
   const ratio = cargado.info.ratio;
@@ -72,6 +74,10 @@ export default function NowPlaying() {
     const caja = medidasHueco(bucle.aspect, maxAncho + 44, maxAlto / 0.7);
     anchoObra = Math.min(caja.width, maxAncho);
     altoObra = anchoObra === caja.width ? caja.height : caja.height * (anchoObra / caja.width);
+  }
+  if (altoObra > maxAlto) {
+    anchoObra *= maxAlto / altoObra;
+    altoObra = maxAlto;
   }
 
   const previo = vecino(cola.ids, cola.pos, -1, cola.grabado);
@@ -105,17 +111,17 @@ export default function NowPlaying() {
     <View style={{ flex: 1, backgroundColor: c.gallery }}>
       {src ? <Image source={{ uri: uriDeObra(src) }} blurRadius={40} resizeMode="cover" accessibilityElementsHidden style={[StyleSheet.absoluteFill, { opacity: 0.35 }]} /> : null}
       <LinearGradient colors={["rgba(12,11,9,0.2)", "rgba(12,11,9,0.7)", c.gallery]} locations={[0, 0.55, 0.85]} style={StyleSheet.absoluteFill} pointerEvents="none" />
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-        <Pulsable onPress={() => router.back()} label={t.cerrar} hitSlop={8} escala={0.9} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ zIndex: 2, elevation: 16, shadowOpacity: 0, shadowColor: "transparent", paddingTop: insets.top + MARGEN_SOBRE_ROTULO, paddingHorizontal: 12, paddingBottom: MARGEN_BAJO_ROTULO, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Pulsable onPress={() => router.back()} label={t.cerrar} hitSlop={8} escala={0.9} style={{ width: 48, height: ALTO_FILA_ROTULO, alignItems: "center", justifyContent: "center" }}>
           <Icono nombre="abajo" size={30} color={c.ink} />
         </Pulsable>
-        <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13, letterSpacing: 1.4, textTransform: "uppercase" }}>{t.ahora}</Text>
-        <Pulsable onPress={() => router.push("/creditos")} label={t.creditos} hitSlop={8} escala={0.9} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13, lineHeight: 18, letterSpacing: 1.4, textTransform: "uppercase" }}>{t.ahora}</Text>
+        <Pulsable onPress={() => router.push("/creditos")} label={t.creditos} hitSlop={8} escala={0.9} style={{ width: 48, height: ALTO_FILA_ROTULO, alignItems: "center", justifyContent: "center" }}>
           <Icono nombre="info" size={24} color={c.muted} />
         </Pulsable>
       </View>
 
-      <View style={{ flex: 1, justifyContent: "center", gap: 16, paddingBottom: insets.bottom + 12 }}>
+      <View style={{ flex: 1, paddingBottom: insets.bottom + 12, overflow: "hidden" }}>
         {hayLectura && verLectura ? (
           <View style={{ flex: 1, minHeight: 220, marginHorizontal: 12, borderRadius: 18, overflow: "hidden" }}>
             <PanelTextoApp
@@ -130,6 +136,13 @@ export default function NowPlaying() {
             />
           </View>
         ) : (
+        <View
+          onLayout={(e) => {
+            const alto = Math.round(e.nativeEvent.layout.height);
+            setHuecoAlto((prev) => (Math.abs(prev - alto) > 1 ? alto : prev));
+          }}
+          style={{ flex: 1, minHeight: 80, justifyContent: "center", overflow: "hidden" }}
+        >
         <Carrusel
           n={ids.length}
           indice={centro}
@@ -167,8 +180,10 @@ export default function NowPlaying() {
             );
           }}
         />
+        </View>
         )}
 
+        <View style={{ gap: 16 }}>
         <View style={{ paddingHorizontal: 24, gap: 4 }}>
           <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 }}>{cargado.info.titulo}</Text>
           <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}</Text>
@@ -225,6 +240,7 @@ export default function NowPlaying() {
             </View>
           </>
         )}
+        </View>
         {verLectura ? null : (
         <ScrollView style={{ flexGrow: 0, maxHeight: 190 }}>
           <LibrosDelEpisodio episodioId={episode.id} />
