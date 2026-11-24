@@ -109,6 +109,8 @@ type MobileLibrary = {
   reintentar: () => void;
   toggle: () => void;
   seekBy: (delta: number) => void;
+  /** Salta a un segundo de la línea de tiempo del episodio. */
+  seek: (seconds: number) => void;
   restart: () => void;
   setRate: (rate: PlaybackRate) => void;
   setSleep: (minutes: SleepMinutes | null) => void;
@@ -701,6 +703,7 @@ export function MobileProvider({ children }: { children: React.ReactNode }) {
       else if (!renovarRef.current(true)) playlist.play();
     },
     seekBy: (delta) => seekGlobal(globalTime + delta),
+    seek: (seconds) => seekGlobal(seconds),
     restart: () => seekGlobal(0),
     setRate: (rate) => {
       playlist.playbackRate = rate;

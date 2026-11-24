@@ -1,4 +1,4 @@
-import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt } from "@audite/domain";
+import { PLAYBACK_RATES, SLEEP_CHOICES, frameAt, idiomaContenido, textosPanel } from "@audite/domain";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -22,6 +22,9 @@ import { useTema } from "../ui/tema";
 import { ProgressBar } from "../ui/ProgressBar";
 import { useCola } from "../ui/useCola";
 import { useContextoCatalogo, useEpisodioCargado } from "../ui/useHoy";
+import { supabaseApp } from "../auth";
+import { PanelTextoApp } from "../panel-texto";
+import { cargarTexto, type CargaTexto } from "../texto";
 
 const c = dark;
 /** Píxeles del cuadro vecino que asoman a cada lado del carrusel. */
@@ -37,6 +40,8 @@ export default function NowPlaying() {
   const cola = useCola();
   const base = useContextoCatalogo();
   const [sleepIdx, setSleepIdx] = useState(-1);
+  const [verLectura, setVerLectura] = useState(false);
+  const textoEpisodio = useTextoEpisodio(library.currentEpisode?.id ?? null, idiomaContenido(lang));
   const pedido = useLocalSearchParams<{ e?: string }>().e;
   useEffect(() => {
     if (pedido && pedido !== library.currentEpisode?.id && library.hydrated) library.playEpisode(pedido);
@@ -53,6 +58,8 @@ export default function NowPlaying() {
   const alt = `${artwork?.title[lang] ?? ""}. ${artwork?.artist[lang] ?? ""}`.trim();
   const hayTexto = library.catalog.captions.length > 0;
   const cuando = library.settings.captions && frame.captionText ? frame.captionText : "";
+  const hayLectura = textoEpisodio.carga.tipo !== "apagado" && textoEpisodio.carga.tipo !== "cargando";
+  const rotuloLectura = textosPanel(lang).titulo;
 
   // La obra se dimensiona con su proporción; el bloque entero se centra en vertical.
   const maxAlto = Math.max(200, ventana.height - insets.top - insets.bottom - 470);
@@ -109,6 +116,20 @@ export default function NowPlaying() {
       </View>
 
       <View style={{ flex: 1, justifyContent: "center", gap: 16, paddingBottom: insets.bottom + 12 }}>
+        {hayLectura && verLectura ? (
+          <View style={{ flex: 1, minHeight: 220, marginHorizontal: 12, borderRadius: 18, overflow: "hidden" }}>
+            <PanelTextoApp
+              carga={textoEpisodio.carga}
+              uiLocale={lang}
+              tiempo={library.globalTime}
+              onSaltar={library.seek}
+              reducirMovimiento={library.settings.reduceMotion}
+              onEntrar={() => { library.setPendiente(episode.id); router.push("/cuenta"); }}
+              onSuscribir={() => router.push("/suscripcion")}
+              onReintentar={textoEpisodio.reintentar}
+            />
+          </View>
+        ) : (
         <Carrusel
           n={ids.length}
           indice={centro}
@@ -146,6 +167,7 @@ export default function NowPlaying() {
             );
           }}
         />
+        )}
 
         <View style={{ paddingHorizontal: 24, gap: 4 }}>
           <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 }}>{cargado.info.titulo}</Text>
@@ -198,14 +220,41 @@ export default function NowPlaying() {
             <View style={{ flexDirection: "row", justifyContent: "center", gap: 10 }}>
               <Chip c={c} icono="velocidad" texto={`${library.settings.rate}×`} onPress={ciclarVelocidad} />
               <Chip c={c} icono="luna" texto={sueno} activo={library.sleepLabel != null} onPress={ciclarSueno} />
+              {hayLectura ? <Chip c={c} icono="libro" texto={rotuloLectura} activo={verLectura} onPress={() => setVerLectura((valor) => !valor)} /> : null}
               {hayTexto ? <Chip c={c} icono="texto" texto={t.texto} activo={library.settings.captions} onPress={() => library.updateSettings({ captions: !library.settings.captions })} /> : null}
             </View>
           </>
         )}
+        {verLectura ? null : (
         <ScrollView style={{ flexGrow: 0, maxHeight: 190 }}>
           <LibrosDelEpisodio episodioId={episode.id} />
         </ScrollView>
+        )}
       </View>
     </View>
   );
+}
+
+/** Pide el texto a la API con el token de la sesión. Con la función apagada en el servidor, queda en "apagado". */
+function useTextoEpisodio(id: string | null, idioma: "es" | "en"): { carga: CargaTexto; reintentar: () => void } {
+  const [carga, setCarga] = useState<CargaTexto>({ tipo: "cargando" });
+  const [intento, setIntento] = useState(0);
+  useEffect(() => {
+    if (!id) return;
+    let vivo = true;
+    setCarga({ tipo: "cargando" });
+    void (async () => {
+      const sesion = await supabaseApp()?.auth.getSession();
+      const token = sesion?.data.session?.access_token ?? null;
+      const base = process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123";
+      const resultado = await cargarTexto({ base, id, idioma, token });
+      if (vivo) setCarga(resultado);
+    })().catch(() => {
+      if (vivo) setCarga({ tipo: "error" });
+    });
+    return () => {
+      vivo = false;
+    };
+  }, [id, idioma, intento]);
+  return { carga, reintentar: () => setIntento((valor) => valor + 1) };
 }
