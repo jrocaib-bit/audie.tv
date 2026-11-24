@@ -3,7 +3,7 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statS
 import os from "node:os";
 import path from "node:path";
 import type { Manifiesto } from "@audite/domain";
-import { construirCatalogo, volcarCatalogo } from "./app-catalog";
+import { construirCatalogo, fichasManifiesto, volcarCatalogo } from "./app-catalog";
 import { archivosReferenciados, informeDisponibilidad, leerManifiesto, type ErrorManifiesto } from "./manifiesto";
 
 export type InformeSync = {
@@ -112,8 +112,10 @@ export function sincronizar(entrada: string, destino: string): InformeSync {
   writeFileSync(path.join(destino, "03_identidad/disponibles.json"), `${JSON.stringify(disponibles, null, 2)}\n`);
 
   const manifiesto = JSON.parse(readFileSync(path.join(destino, "01_canon/manifiesto.json"), "utf8")) as Manifiesto;
-  const catalogo = construirCatalogo(manifiesto, destino, "/canon");
-  volcarCatalogo(catalogo, destino);
+  const listaAudio = path.join(destino, "..", "audio_listo.json");
+  const audio = existsSync(listaAudio) ? JSON.parse(readFileSync(listaAudio, "utf8")) as import("./audio-listo").AudioListo : null;
+  const catalogo = construirCatalogo(manifiesto, destino, "/canon", audio);
+  volcarCatalogo(catalogo, destino, fichasManifiesto(manifiesto));
   const informe = informeDisponibilidad(manifiesto, (ruta) => existsSync(path.join(destino, ruta)));
   if (temporal) rmSync(temporal, { recursive: true, force: true });
   return { ok: faltan.length === 0, origen, copiados, faltan, reproducibles: informe.reproducibles, errores: [] };

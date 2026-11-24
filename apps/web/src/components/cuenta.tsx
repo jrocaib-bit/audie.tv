@@ -17,17 +17,17 @@ export function Cuenta({ lang }: { lang: string }) {
   if (!sesion) {
     return (
       <section className="mt-2">
-        <h2 className="kicker px-1 text-muted">{copy.cuenta}</h2>
-        <Link href={`/${lang}/entrar`} className="neo-card mt-2 flex min-h-12 items-center px-4">{copy.entrar}</Link>
+        <h2 className="t-rotulo px-1 text-[#B7AB9C]">{copy.cuenta}</h2>
+        <Link href={`/${lang}/entrar`} className="mt-2 flex min-h-12 items-center rounded-2xl border border-[#2E2924] bg-[#1B1815] px-4 text-[#F4ECE2]">{copy.entrar}</Link>
       </section>
     );
   }
 
   return (
     <section className="mt-2">
-      <h2 className="kicker px-1 text-muted">{copy.cuenta}</h2>
-      <div className="neo-card mt-2 divide-y divide-border">
-        {sesion.email ? <p className="px-4 py-3 text-sm text-muted">{sesion.email}</p> : null}
+      <h2 className="t-rotulo px-1 text-[#B7AB9C]">{copy.cuenta}</h2>
+      <div className="mt-2 divide-y divide-[#2E2924] rounded-2xl border border-[#2E2924] bg-[#1B1815] text-[#F4ECE2]">
+        {sesion.email ? <p className="px-4 py-3 text-sm text-[#B7AB9C]">{sesion.email}</p> : null}
         <button type="button" className="flex min-h-12 w-full items-center px-4 text-left" onClick={() => void cerrarWeb().then(() => setSesion(null))}>
           {copy.salir}
         </button>

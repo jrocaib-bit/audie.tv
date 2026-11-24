@@ -1,6 +1,7 @@
 "use client";
 
 import { elegirPortadaHoy, portadaDeReto } from "@audite/content/obras-creditos";
+import { Lienzo } from "@/components/sala/lienzo";
 import { COLOR_HEX, diaLiturgico, pasoDelDia, referenciaPaso, retosDelDia } from "@audite/domain";
 import Link from "next/link";
 import { RETOS } from "@/lib/retos";
@@ -25,8 +26,7 @@ export function HoyFranja({ lang }: { lang: string }) {
             <span className="font-display text-3xl leading-none">{dia.nombre[ui]}</span>
           </span>
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={portada.src} alt="" className="aspect-[16/9] w-full object-cover md:aspect-square md:w-72 md:shrink-0" />
+          <Lienzo src={portada.src} className="aspect-[16/9] w-full md:aspect-square md:w-72 md:shrink-0" />
         )}
         <div className="px-5 py-6 md:min-w-0 md:flex-1 md:px-0 md:py-0">
           <p className="text-sm text-[#C9A96E]">{copy.hoy}</p>

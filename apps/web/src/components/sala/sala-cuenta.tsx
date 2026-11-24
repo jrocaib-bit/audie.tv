@@ -1,0 +1,356 @@
+"use client";
+
+import { PRECIO, textosAlta } from "@audite/domain";
+import Link from "next/link";
+import { Fragment, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { sesionWeb, tokenWeb } from "@/lib/auth-web";
+import { datosVistaSala, type Adelanto, type RecorridoVista, type RespuestaSala, type VistaSala } from "@/lib/sala-cuenta";
+import type { ContextoSala } from "@/lib/sala-contexto";
+import { fondoMascara, geometriaMascara } from "@/lib/sala-mascara";
+import { BotonProbar } from "@/components/probar";
+import { botonOroVariantes } from "./boton-oro";
+import { Comparativa } from "./comparativa";
+import { ContextoReportaje } from "./contexto-reportaje";
+import { etiquetaActivo, etiquetaCamara, indiceActivo, opacidadBloque, poseDeBloque, transformaPaso, type Caja } from "@/lib/sala-scroll";
+
+export type MockSala = "sin" | "gratis" | "premium";
+
+const CORTE = {
+  es: {
+    titulo: "El recorrido sigue aquí",
+    texto: `Hazte premium para seguir paso a paso por la obra, con su zoom y sus textos. ${PRECIO.anio.replace(",00", "")} al año o ${PRECIO.mes} al mes, con ${PRECIO.pruebaDias} días de prueba gratis.`,
+    premium: "Prueba 7 días gratis",
+    comprobando: "Comprobando tu acceso…",
+  },
+  en: {
+    titulo: "The walk-through continues here",
+    texto: `Go premium to follow the work step by step, with its zoom and texts. ${PRECIO.anio.replace(",00", "")} a year or ${PRECIO.mes} a month, with a ${PRECIO.pruebaDias}-day free trial.`,
+    premium: "Try 7 days free",
+    comprobando: "Checking your access…",
+  },
+};
+const OIR = { es: "Escuchar el episodio", en: "Listen to the episode" };
+const FRAGMENTO = { es: "Oír un fragmento", en: "Hear a short passage" };
+/** Un fragmento, no el episodio: la reproducción se detiene a los 45 s. */
+const LIMITE_FRAGMENTO = 45;
+const CARGANDO = { es: "Cargando el recorrido…", en: "Loading the walk-through…" };
+const FALLO = { es: "No pudimos comprobar tu acceso. Vuelve a intentarlo en un momento.", en: "We couldn't check your access. Please try again in a moment." };
+
+/**
+ * Visor de La sala: encuadre object-cover, siempre lleno. La obra entera va a tamaño cover dentro de un nodo que se
+ * transforma (solo transform) y `overflow: hidden` está solo en el visor exterior. `paso` mueve la cámara.
+ */
+function VisorObra({ src, obraId, alt, paso, reducido, className, mascaras, children }: { src: string; obraId?: string; alt: string; paso: RecorridoVista["pasos"][number] | null; reducido: boolean; className: string; mascaras?: { pasos: RecorridoVista["pasos"]; activo: number }; children?: ReactNode }) {
+  const [aspecto, setAspecto] = useState<number | null>(null);
+  const [caja, setCaja] = useState<Caja>({ w: 390, h: 400 });
+  const [movil, setMovil] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!src) return;
+    const img = new window.Image();
+    img.onload = () => img.naturalHeight && setAspecto(img.naturalWidth / img.naturalHeight);
+    img.src = src;
+  }, [src]);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const medir = () => {
+      const r = el.getBoundingClientRect();
+      if (r.width && r.height) setCaja({ w: r.width, h: r.height });
+      setMovil(window.innerWidth < 768);
+    };
+    medir();
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", medir);
+      return () => window.removeEventListener("resize", medir);
+    }
+    const ro = new ResizeObserver(medir);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const { ancho, alto, ...pose } = transformaPaso(paso, aspecto, caja, movil);
+  // Máscara de iluminación: una capa estática por paso (degradado radial fijo); solo se funde con opacity. Nunca con movimiento reducido.
+  const capas = mascaras && !reducido ? mascaras.pasos : [];
+  return (
+    <div ref={ref} className={`relative overflow-hidden bg-[#0C0B09] ${className}`} data-obra={obraId} data-zoom={paso && !reducido ? paso.zoom : 1} data-mascara={capas.length && mascaras && mascaras.activo >= 0 ? `paso-${mascaras.activo + 1}` : "ninguna"} data-visor>
+      <div className="absolute left-0 top-0 will-change-transform" style={{ width: ancho, height: alto, ...pose, transition: reducido ? "none" : "transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1)" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} fetchPriority="high" loading="eager" decoding="sync" className="sala-obra h-full w-full object-cover" />
+      </div>
+      {capas.map((p, i) => (
+        <div key={i} aria-hidden="true" data-capa-mascara={i + 1} className="pointer-events-none absolute inset-0" style={{ backgroundImage: fondoMascara(geometriaMascara(p, aspecto, caja, movil)), opacity: mascaras?.activo === i ? 1 : 0, transition: "opacity 750ms ease" }} />
+      ))}
+      {children}
+    </div>
+  );
+}
+
+function Tarjeta({ children }: { children: ReactNode }) {
+  return <div className="max-w-prose rounded-2xl border border-[#2E2924] bg-[#1B1815] p-5 min-[480px]:p-6 md:p-7">{children}</div>;
+}
+
+function Apertura({ a }: { a: Adelanto }) {
+  return (
+    <>
+      <h2 className="font-display text-[1.625rem] md:text-2xl">{a.titulo}</h2>
+      <p className="mt-3 max-w-prose text-[1.1875rem] leading-[1.55] text-[#F4ECE2] md:text-lg md:leading-relaxed md:text-[#F4ECE2]/90">{a.texto}</p>
+    </>
+  );
+}
+
+/** Punto de corte: llamada a premium; «Entrar» solo sin sesión. `verificando`: hay sesión y aún no se sabe el acceso. */
+export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo = false }: { lang: "es" | "en"; vista: Exclude<VistaSala, "premium">; hrefEntrar: string; verificando?: boolean; fallo?: boolean }) {
+  const c = CORTE[lang];
+  const copy = textosAlta(lang);
+  return (
+    <section data-corte data-candado aria-busy={verificando} className="mt-3 max-w-prose rounded-3xl border border-[#C9A96E]/60 bg-[#1B1815] p-5 md:mt-8 md:p-6">
+      <h2 className="font-display text-xl">{c.titulo}</h2>
+      {fallo ? <p role="status" className="mt-2 text-[#F4ECE2]/85">{FALLO[lang]}</p> : null}
+      <p className="mt-2 text-[1.0625rem] leading-[1.55] text-[#F4ECE2] md:text-base md:leading-relaxed md:text-[#F4ECE2]/90">{c.texto}</p>
+      {verificando ? (
+        <p role="status" className="mt-4 text-base text-[#D2C6B6]">{c.comprobando}</p>
+      ) : (
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href={`/${lang}/membresia`} data-cta="premium" className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{c.premium}</Link>
+          {vista === "sin-sesion" ? (
+            <Link href={hrefEntrar} data-cta="entrar" className="inline-flex min-h-12 items-center rounded-full border border-[#C9A96E] px-6 text-[#C9A96E]">{copy.entrar}</Link>
+          ) : null}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function prefiereMenosMovimiento(inicial: boolean): boolean {
+  return typeof window.matchMedia === "function" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : inicial;
+}
+
+function suscribirMenosMovimiento(avisar: () => void) {
+  if (typeof window.matchMedia !== "function") return () => {};
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener?.("change", avisar);
+  return () => mq.removeEventListener?.("change", avisar);
+}
+
+function useMenosMovimiento(inicial: boolean) {
+  return useSyncExternalStore(suscribirMenosMovimiento, () => prefiereMenosMovimiento(inicial), () => inicial);
+}
+
+function bloquesDe(raiz: HTMLElement | null): HTMLElement[] {
+  return raiz ? [...raiz.querySelectorAll<HTMLElement>("[data-bloque]")] : [];
+}
+
+/** Relato con scroll (solo premium): párrafos que aparecen uno a uno y cámara que encuadra el paso en foco. */
+export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contexto, placa, reducido: reducidoInicial = false, vista = "premium" }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; contexto?: ContextoSala | null; placa?: ReactNode; reducido?: boolean; vista?: "premium" | "abierta" }) {
+  const reducido = useMenosMovimiento(reducidoInicial);
+  const [activo, setActivo] = useState(0);
+  const [reveladas, setReveladas] = useState<ReadonlySet<number>>(new Set([0]));
+  const visor = useRef<HTMLDivElement>(null);
+  const columna = useRef<HTMLDivElement>(null);
+  const total = datos.pasos.length;
+  const [cab, setCab] = useState(0);
+  const [movil, setMovil] = useState(false);
+
+  // El visor sticky en móvil cuelga bajo la cabecera sticky del sitio: se mide su alto.
+  useEffect(() => {
+    const medir = () => {
+      setCab(Math.round(document.querySelector<HTMLElement>("[data-cabecera]")?.getBoundingClientRect().height ?? 0));
+      setMovil(window.innerWidth < 768);
+    };
+    medir();
+    window.addEventListener("resize", medir);
+    return () => window.removeEventListener("resize", medir);
+  }, []);
+
+  useEffect(() => {
+    if (reducido) return;
+    const marcar = (i: number) => setReveladas((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
+    if (typeof IntersectionObserver === "undefined") {
+      for (let i = 0; i <= total + 1; i++) marcar(i);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entradas) => entradas.forEach((e) => e.isIntersecting && marcar(Number((e.target as HTMLElement).dataset.indice))),
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.12 },
+    );
+    bloquesDe(columna.current).forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [reducido, total]);
+
+  useEffect(() => {
+    if (reducido) return;
+    let cuadro = 0;
+    const calcular = () => {
+      cuadro = 0;
+      const vh = window.innerHeight;
+      // Móvil: el visor es sticky arriba y el texto pasa por debajo; la franja de texto empieza en su borde inferior.
+      const base = window.innerWidth < 768 ? (visor.current?.getBoundingClientRect().bottom ?? 0) : 0;
+      // Línea de foco cerca del borde superior de la franja de texto: el paso se activa cuando su título entra.
+      const linea = base + (vh - base) * (base ? 0.3 : 0.4);
+      const titulos = bloquesDe(columna.current).map((el) => (el.querySelector("h2, h3") ?? el).getBoundingClientRect().top);
+      setActivo(indiceActivo(titulos, linea));
+    };
+    const pide = () => {
+      if (!cuadro) cuadro = requestAnimationFrame(calcular);
+    };
+    calcular();
+    window.addEventListener("scroll", pide, { passive: true });
+    window.addEventListener("resize", pide);
+    return () => {
+      window.removeEventListener("scroll", pide);
+      window.removeEventListener("resize", pide);
+      if (cuadro) cancelAnimationFrame(cuadro);
+    };
+  }, [reducido, total]);
+
+  const indice = reducido ? 0 : activo;
+  const paso = reducido ? null : poseDeBloque(indice, datos.pasos);
+  const estilo = (i: number) => {
+    const op = opacidadBloque({ revelado: reveladas.has(i), activo: indice === i }, reducido, movil);
+    // Móvil: sin fundidos ni desplazamiento. Escritorio: solo la entrada (corta); luego 100 %.
+    return reducido ? undefined : { opacity: op, transform: op === 0 ? "translateY(14px)" : "none", transition: movil ? "none" : "opacity 350ms ease, transform 350ms ease" };
+  };
+  // Cada bloque ocupa la franja de texto visible (móvil: pantalla − cabecera − visor), un paso por franja.
+  const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_62svh))] flex-col justify-center py-4 md:min-h-[78svh] md:py-8";
+  const enPaso = indice >= 1 && indice <= total;
+  return (
+    <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista={vista} data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
+      <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <div ref={visor} className="sticky top-[var(--cab)] z-20 max-md:border-b max-md:border-[#C9A96E]/40 md:top-0 md:z-10 md:h-svh md:self-start">
+          <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[62svh] md:h-svh" mascaras={{ pasos: datos.pasos, activo: enPaso ? indice - 1 : -1 }}>
+            {enPaso ? (
+              <p data-contador aria-hidden="true" className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-[#100E0C]/80 px-3 py-1 text-sm tabular-nums text-[#E0C48A] md:right-5 md:bottom-5">{indice} / {total}</p>
+            ) : null}
+          </VisorObra>
+        </div>
+        <div ref={columna} className="relative bg-[#0C0B09] px-5 pb-[30svh] min-[480px]:px-6 md:px-10">
+          <h1 className="font-display t-h1 pt-8 md:pt-[12svh]">{titulo}</h1>
+          <article data-apertura data-indice={0} data-bloque className={clase} style={estilo(0)}>
+            <Tarjeta>
+              <Apertura a={datos.apertura} />
+            </Tarjeta>
+          </article>
+          <ContextoReportaje contexto={contexto} lang={lang} pantalla />
+          {datos.pasos.map((p, i) => (
+            <Fragment key={i}>
+              <article data-paso={i + 1} data-indice={i + 1} data-bloque className={clase} style={estilo(i + 1)}>
+                <Tarjeta>
+                  <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
+                  <h3 className="mt-2 font-display text-[1.375rem] md:text-xl">{p.titulo}</h3>
+                  <p className="mt-2 max-w-prose text-[1.1875rem] leading-[1.55] text-[#F4ECE2] md:text-lg md:leading-relaxed md:text-[#F4ECE2]/90">{p.texto}</p>
+                </Tarjeta>
+              </article>
+              {datos.comparativa?.trasPaso === i + 1 ? <Comparativa datos={datos.comparativa} /> : null}
+            </Fragment>
+          ))}
+          <article data-cierre data-indice={total + 1} data-bloque className={clase} style={estilo(total + 1)}>
+            <Tarjeta>
+              <Apertura a={datos.cierre} />
+            </Tarjeta>
+          </article>
+          <div data-final className="mt-6 grid gap-6 border-t border-[#2E2924] pt-8">
+            {placa ? <div className="max-w-sm">{placa}</div> : null}
+            <div data-fragmento>
+              <BotonProbar ficha={{ id, titulo, limite: LIMITE_FRAGMENTO }} etiqueta={FRAGMENTO[lang]} className={botonOroVariantes({ variante: "fantasma" })} />
+            </div>
+            <Link href={`/${lang}/oir/${id}`} data-cta="escuchar" className="inline-flex min-h-14 w-fit items-center gap-3 rounded-full bg-[#C9A96E] px-8 text-lg text-[#100E0C]">
+              {OIR[lang]}
+              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path d="M5 12h14m-5-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+const SESION_MOCK = { sin: null, gratis: { userId: "mock" }, premium: { userId: "mock" } } as const;
+
+/**
+ * La sala en tres estados. Sin sesión y cuenta gratuita: obra, título y apertura (adelanto público) más el corte.
+ * Premium: relato con scroll. El estado lo decide el SERVIDOR (`acceso` de /api/sala/[id]); aquí nunca se asume premium.
+ * `sesionMock` solo se usa fuera de producción (capturas).
+ */
+export function SalaCuenta({
+  lang,
+  id,
+  src,
+  obraId,
+  alt,
+  titulo,
+  adelanto,
+  contexto,
+  placa,
+  sesionMock,
+  recorridoInicial,
+}: {
+  lang: "es" | "en";
+  id: string;
+  src: string;
+  obraId?: string;
+  alt: string;
+  titulo: string;
+  adelanto?: Adelanto;
+  contexto?: ContextoSala | null;
+  placa?: ReactNode;
+  sesionMock?: MockSala;
+  recorridoInicial?: RespuestaSala;
+}) {
+  const mock = sesionMock !== undefined;
+  const [sesion, setSesion] = useState<{ userId: string } | null | undefined>(mock ? SESION_MOCK[sesionMock] : undefined);
+  const [respuesta, setRespuesta] = useState<RespuestaSala | null>(recorridoInicial ?? null);
+  const [fallo, setFallo] = useState(false);
+  useEffect(() => {
+    if (mock) return;
+    void sesionWeb().then(setSesion).catch(() => setSesion(null));
+  }, [mock]);
+  const userId = sesion?.userId;
+  useEffect(() => {
+    if (sesion === undefined && !mock) return;
+    let vivo = true;
+    void (async () => {
+      try {
+        const cabeceras: Record<string, string> = {};
+        if (mock) cabeceras["x-sala-mock"] = sesionMock;
+        else if (userId) {
+          const token = await tokenWeb();
+          if (token) cabeceras.Authorization = `Bearer ${token}`;
+        }
+        const r = await fetch(`/api/sala/${encodeURIComponent(id)}?lang=${lang}`, { headers: cabeceras, cache: "no-store" });
+        if (!r.ok) throw new Error("carga");
+        const json = (await r.json()) as RespuestaSala;
+        if (vivo) {
+          setRespuesta(json);
+          setFallo(false);
+        }
+      } catch {
+        if (vivo && !recorridoInicial) setFallo(true);
+      }
+    })();
+    return () => {
+      vivo = false;
+    };
+  }, [userId, id, lang, mock, sesionMock, sesion, recorridoInicial]);
+
+  const { vista, hrefEntrar } = datosVistaSala(sesion, id, lang, respuesta?.acceso === "abierta" ? "premium" : respuesta?.acceso);
+  if (respuesta?.acceso === "abierta" || (vista === "premium" && respuesta?.acceso === "premium")) {
+    return <RelatoScroll lang={lang} id={id} src={src} obraId={obraId} alt={alt} titulo={titulo} datos={respuesta} contexto={contexto} placa={placa} vista={respuesta.acceso === "abierta" ? "abierta" : "premium"} />;
+  }
+  const apertura = respuesta?.apertura ?? adelanto;
+  const verificando = !!userId && !respuesta && !fallo;
+  return (
+    <main className="bg-[#0C0B09] pb-28 text-[#F4ECE2]" data-vista={vista}>
+      <VisorObra src={src} obraId={obraId} alt={alt} paso={null} reducido className="h-[56svh] md:h-[68svh]" />
+      <div className="mx-auto w-full max-w-3xl px-5 pt-4 md:px-8 md:pt-8">
+        <h1 className="font-display t-h1 max-md:!text-[1.75rem]">{titulo}</h1>
+        {apertura ? (
+          <div data-apertura className="mt-3 md:mt-4">
+            <Apertura a={apertura} />
+          </div>
+        ) : null}
+        <ContextoReportaje contexto={contexto} lang={lang} />
+        <CorteSala lang={lang} vista={vista === "premium" ? "gratuito" : vista} hrefEntrar={hrefEntrar} verificando={verificando} fallo={fallo} />
+      </div>
+    </main>
+  );
+}

@@ -11,6 +11,7 @@ const tabs = [
   { href: "/", label: "navListen" },
   { href: "/camino", label: "navPath" },
   { href: "/biblioteca", label: "navLibrary" },
+  { href: "/libros", label: "navBooks" },
   { href: "/ajustes", label: "navSettings" },
 ] as const;
 
@@ -47,17 +48,21 @@ function Shell() {
         <Stack.Screen name="notas" />
         <Stack.Screen name="referencias" />
         <Stack.Screen name="leer" />
+        <Stack.Screen name="libros" options={{ title: "Libros" }} />
+        <Stack.Screen name="libros/[slug]" options={{ title: "Libros" }} />
+        <Stack.Screen name="libros/[slug]/leer" options={{ title: "Libros" }} />
         <Stack.Screen name="entrar" options={{ headerShown: false }} />
         <Stack.Screen name="suscripcion" options={{ headerShown: false }} />
         <Stack.Screen name="eliminar-cuenta" options={{ headerShown: false }} />
         <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
         <Stack.Screen name="ahora" options={{ headerShown: false }} />
         <Stack.Screen name="catalogo" options={{ headerShown: false }} />
+        <Stack.Screen name="reto-adviento" options={{ title: t(locale, "navPath") }} />
       </Stack>
       {immersive ? null : (
         <View style={{ flexDirection: "row", borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.bg }}>
           {tabs.map((tab) => {
-            const current = tab.href === "/" ? path === "/" : path === tab.href;
+            const current = tab.href === "/" ? path === "/" : path === tab.href || (tab.href === "/libros" && path.startsWith("/libros/"));
             return (
               <Pressable
                 key={tab.href}

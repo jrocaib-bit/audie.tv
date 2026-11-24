@@ -40,6 +40,8 @@ import {
   type SleepMinutes,
 } from "@audite/domain";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { destinoSiFalla } from "@/lib/audio-acceso";
+import { supabaseWeb } from "@/lib/auth-web";
 
 type LibraryValue = {
   catalog: AppCatalog;
@@ -80,6 +82,24 @@ function readStored(key: string): unknown {
   } catch {
     return null;
   }
+}
+
+async function urlDeSegmento(ruta: string, redirigir: boolean): Promise<{ url: string; expira: number } | null> {
+  if (!ruta.startsWith("/api/audio/")) return { url: ruta, expira: 0 };
+  const sesion = await supabaseWeb()?.auth.getSession();
+  const token = sesion?.data.session?.access_token;
+  const headers = new Headers();
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+  const respuesta = await fetch(ruta, { headers, cache: "no-store" });
+  if (!respuesta.ok) {
+    const lang = document.documentElement.lang === "en" ? "en" : "es";
+    const destino = destinoSiFalla(respuesta.status, lang);
+    if (redirigir && destino) window.location.assign(destino);
+    return null;
+  }
+  const dato = await respuesta.json() as { url?: string; expira?: number };
+  if (!dato.url) return null;
+  return { url: dato.url, expira: dato.expira ?? Date.now() + 3_600_000 };
 }
 
 function wrap(element: HTMLAudioElement): AudioPort {
@@ -189,22 +209,51 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
   }, []);
 
   const configure = useCallback(
-    (episodeId: string, fromStart: boolean, enSegundo?: number) => {
+    async (episodeId: string, fromStart: boolean, enSegundo?: number) => {
       const episode = episodeById(catalog, episodeId);
       const engine = engineRef.current;
       if (!episode || !engine) return false;
       const resume = enSegundo != null ? Math.max(0, enSegundo) : fromStart ? 0 : resumePosition(progressRef.current.episodes[episodeId], episode.durationSeconds);
       const rate = playerRef.current.rate;
+      const firmadas = [];
+      for (const segment of episode.segments) {
+        const firmada = await urlDeSegmento(segment.publicPath, true);
+        if (!firmada) return false;
+        firmadas.push({ segment, firmada });
+      }
+      const [primero, segundo] = audioRefs.current;
+      const inicial = firmadas[0];
+      if (primero && inicial) {
+        primero.dataset.audioRuta = inicial.segment.publicPath;
+        primero.dataset.expira = String(inicial.firmada.expira);
+        primero.dataset.reintentos = "0";
+      }
       engine.configure(
-        episode.segments.map((segment) => ({
+        firmadas.map(({ segment, firmada }) => ({
           id: segment.id,
-          url: segment.publicPath,
+          url: firmada.url,
           startSeconds: segment.startSeconds,
           durationSeconds: segment.durationSeconds,
         })),
         resume,
         rate,
       );
+      if (episode.segments.length === 1 && segundo) {
+        const idsPlay = playableIds(catalog);
+        const siguienteId = idsPlay[idsPlay.indexOf(episodeId) + 1];
+        const siguiente = siguienteId ? episodeById(catalog, siguienteId) : null;
+        const ruta = siguiente?.segments[0]?.publicPath ?? "";
+        if (ruta.startsWith("/api/audio/")) {
+          const precarga = await urlDeSegmento(ruta, false);
+          if (precarga) {
+            segundo.dataset.audioRuta = ruta;
+            segundo.dataset.expira = String(precarga.expira);
+            segundo.dataset.assignedSrc = precarga.url;
+            segundo.src = precarga.url;
+            segundo.preload = "auto";
+          }
+        }
+      }
       setPlayer((current) =>
         playerReducer(current, {
           type: "load",
@@ -241,22 +290,26 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
       }
       const current = playerRef.current;
       if (current.episodeId === id && current.status !== "idle" && current.status !== "error") return;
-      configure(id, false);
+      void configure(id, false);
     },
     [configure],
   );
 
   const playEpisode = useCallback(
     (id: string, fromStart = false, enSegundo?: number) => {
-      if (!engineRef.current) {
-        pending.current = { id, fromStart, autoplay: true, enSegundo };
-        return;
-      }
-      const current = playerRef.current;
-      const same = enSegundo == null && current.episodeId === id && !fromStart && current.status !== "error" && current.status !== "idle";
-      if (!same) configure(id, fromStart, enSegundo);
-      else if (current.status === "ended") engineRef.current.seek(0, false);
-      playWhenReady();
+      void (async () => {
+        if (!engineRef.current) {
+          pending.current = { id, fromStart, autoplay: true, enSegundo };
+          return;
+        }
+        const current = playerRef.current;
+        const same = enSegundo == null && current.episodeId === id && !fromStart && current.status !== "error" && current.status !== "idle";
+        if (!same) {
+          const listo = await configure(id, fromStart, enSegundo);
+          if (!listo) return;
+        } else if (current.status === "ended") engineRef.current.seek(0, false);
+        playWhenReady();
+      })();
     },
     [configure, playWhenReady],
   );
@@ -446,6 +499,44 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
     return () => window.removeEventListener("keydown", onKey);
   }, [seekBy, toggle]);
 
+  const renovar = (element: HTMLAudioElement) => {
+    const ruta = element.dataset.audioRuta;
+    if (!ruta) return;
+    const hechos = Number(element.dataset.reintentos ?? "0");
+    if (hechos >= 1) {
+      reportError(new Error("audio"));
+      return;
+    }
+    element.dataset.reintentos = String(hechos + 1);
+    const segundo = element.currentTime;
+    void urlDeSegmento(ruta, true).then((firmada) => {
+      if (!firmada) return;
+      element.dataset.expira = String(firmada.expira);
+      element.dataset.assignedSrc = firmada.url;
+      element.src = firmada.url;
+      const aplicar = () => {
+        try {
+          element.currentTime = segundo;
+        } catch {
+          /* The browser applies this once metadata arrives. */
+        }
+        if (playerRef.current.status === "playing") void element.play().catch(reportError);
+      };
+      if (element.readyState >= 1) aplicar();
+      else element.addEventListener("loadedmetadata", aplicar, { once: true });
+    });
+  };
+
+  const alFallar = (element: HTMLAudioElement) => {
+    if (!element.dataset.assignedSrc) return;
+    const caducada = Number(element.dataset.expira) > 0 && Date.now() > Number(element.dataset.expira);
+    if (element.dataset.audioRuta && (element.currentTime > 0 || caducada)) {
+      renovar(element);
+      return;
+    }
+    reportError(new Error("audio"));
+  };
+
   const onEnded = (index: 0 | 1) => {
     const result = engineRef.current?.handleEnded(index);
     if (!result || result.kind === "ignored") return;
@@ -556,21 +647,17 @@ export function LibraryProvider({ catalog, children }: { catalog: AppCatalog; ch
         ref={rememberFirst}
         className="audio-keep"
         preload="auto"
+        controlsList="nodownload"
         onEnded={() => onEnded(0)}
-        onError={(event) => {
-          if (!event.currentTarget.dataset.assignedSrc) return;
-          reportError(new Error("audio"));
-        }}
+        onError={(event) => alFallar(event.currentTarget)}
       />
       <audio
         ref={rememberSecond}
         className="audio-keep"
         preload="auto"
+        controlsList="nodownload"
         onEnded={() => onEnded(1)}
-        onError={(event) => {
-          if (!event.currentTarget.dataset.assignedSrc) return;
-          reportError(new Error("audio"));
-        }}
+        onError={(event) => alFallar(event.currentTarget)}
       />
     </LibraryContext.Provider>
   );

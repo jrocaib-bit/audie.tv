@@ -23,6 +23,7 @@ export type Episode = {
   durationSeconds: number;
   segments: CatalogSegment[];
   summary: Bilingual;
+  origen?: "remoto";
   titulo?: { es: string | null; en: string | null } | null;
   tituloCorto?: { es: string | null; en: string | null } | null;
   etiqueta?: { es: string | null; en: string | null } | null;

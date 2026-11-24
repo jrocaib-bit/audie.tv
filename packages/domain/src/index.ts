@@ -127,9 +127,16 @@ export {
   idiomaResuelto,
   type Idioma,
 } from "./idioma";
-export { PRECIO } from "./precio";
+export { alternarDiaReto, leerProgresoRetos, type ProgresoReto, type ResultadoMarcaReto } from "./retos-progreso";
+export * from "./libros";
+export * from "./libros-cliente";
+export * from "./libros-ficha";
+export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,
+  clasificarTrafico,
+  crearSumideroSupabase,
+  filaRetoUsuario,
   decidirEscucha,
   eliminarCuenta,
   esEvento,
@@ -144,7 +151,10 @@ export {
   propsFormulario,
   plataformaCliente,
   utmDeBusqueda,
+  type ClaseTrafico,
+  type ClienteMedicion,
   type ContextoMedicion,
+  type FalloMedicion,
   type Evento,
   type FilaEvento,
   type FilaReto,
@@ -155,6 +165,7 @@ export {
 export { pruebaSocial } from "./prueba-social";
 export { lineaIdiomas } from "./idiomas-linea";
 export { textosAlta, type TextosAlta } from "./alta-ui";
+export { accionReto, destinoTrasEntrar, hrefEntrarConNext, hrefEntrarParaReto, hrefEntrarParaLibros, hrefEntrarParaSala, rutaInternaSegura, rutaRetoSegura, rutaVueltaSegura, type AccionReto } from "./retos-cuenta";
 export {
   AUTH_URLS,
   PROVEEDORES_ALTA,
@@ -273,3 +284,56 @@ export {
   type PreferenciaDescarga,
   type Red,
 } from "./descargas";
+export {
+  SECCIONES_CANONICAS,
+  TESTAMENTOS,
+  UNIONES_DE_EDICION,
+  construirIndice,
+  destinosDeCapitulo,
+  episodioDelLibro,
+  hrefDeCapitulo,
+  libroCoincide,
+  librosDelIndice,
+  nombreDeCapitulo,
+  rotuloTramo,
+  tramoDeCapitulos,
+  type CapituloIndice,
+  type EnlaceCapitulo,
+  type EpisodioIndice,
+  type IndiceBiblia,
+  type LibroIndice,
+  type ResumenIndice,
+  type SeccionCanonica,
+  type SeccionId,
+  type SeccionIndice,
+  type SinRangoExplicito,
+  type TestamentoId,
+  type TestamentoIndice,
+  type TextoBilingue,
+  type UnionCapitulo,
+} from "./indice-biblia";
+export {
+  CLAVE_TEXTO_MODO,
+  CLAVE_TEXTO_TAMANO,
+  ID_TEXTO,
+  PALETA_TEXTO,
+  PAUSA_DESPLAZAMIENTO_MS,
+  TAMANOS_TEXTO,
+  TAMANO_INICIAL,
+  UMBRAL_SINCRONIA,
+  estadoDeRespuesta,
+  estaSincronizado,
+  idTextoValido,
+  leerModo,
+  leerTamano,
+  leerTextoEpisodio,
+  marcasDeTiempo,
+  pasoTamano,
+  textosPanel,
+  versiculoActual,
+  type EstadoTexto,
+  type MarcaTiempo,
+  type ModoTexto,
+  type TextoEpisodio,
+  type VersiculoPanel,
+} from "./texto-panel";

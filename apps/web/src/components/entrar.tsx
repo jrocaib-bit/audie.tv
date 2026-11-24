@@ -3,13 +3,14 @@
 import { esIdioma, textosAlta } from "@audite/domain";
 import { obraDeEpisodio } from "@audite/content/obras";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/brand";
 import { BotonApple, BotonGoogle } from "@/components/botones-alta";
 import { ObraFoto } from "@/components/placa";
 import { entrarCorreo, entrarOAuth } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
-import { correoValido } from "@audite/domain";
+import { correoValido, rutaVueltaSegura } from "@audite/domain";
+import { CLAVE_VUELTA } from "@/lib/vuelta-entrar";
 
 export function Entrar({ lang, google = false }: { lang: string; google?: boolean }) {
   const copy = textosAlta(lang);
@@ -18,11 +19,20 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState("");
   const [marketing, setMarketing] = useState(false);
+  useEffect(() => {
+    // Vuelta tras entrar: solo rutas internas de reto, de La sala o de libros (sin open redirect). Sobrevive al OAuth y al enlace por correo.
+    const next = rutaVueltaSegura(new URLSearchParams(window.location.search).get("next"));
+    try {
+      if (next) localStorage.setItem(CLAVE_VUELTA, next);
+    } catch {
+      // Sin almacenamiento: se vuelve a /escuchar.
+    }
+  }, []);
 
   return (
     <main className="relative min-h-dvh bg-[#100E0C] text-[#F4ECE2]">
       <div className="absolute inset-x-0 top-0 h-[52svh] overflow-hidden">
-        {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+        {obra ? <ObraFoto obra={obra} priority className="h-full w-full" /> : null}
         <div className="absolute inset-0 bg-gradient-to-b from-[#100E0C]/25 via-[#100E0C]/55 to-[#100E0C]" />
       </div>
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-md flex-col px-6 pt-16 pb-8">
@@ -31,14 +41,14 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
         <div className="mt-auto grid gap-3 pt-16">
           <label className="flex min-h-11 items-center gap-3 text-sm text-[#B7AB9C]">
             <input type="checkbox" checked={marketing} onChange={(event) => { setMarketing(event.target.checked); localStorage.setItem("audite.marketing.v1", event.target.checked ? "1" : "0"); }} />
-            Recibir correos de Audite
+            {ui === "en" ? "Receive Audite emails" : "Recibir correos de Audite"}
           </label>
           <BotonApple etiqueta={copy.apple} onClick={() => { localStorage.setItem("audite.marketing.v1", marketing ? "1" : "0"); medir("signup_started", { proveedor: "apple" }); medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_apple", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "apple", opt_in_correo: marketing }); void entrarOAuth("apple").catch(() => setEstado("")); }} />
           {google ? <BotonGoogle etiqueta={copy.google} onClick={() => { medir("signup_started", { proveedor: "google" }); medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_google", ubicacion: "entrar", idioma: lang, plataforma: "web", metodo: "google", opt_in_correo: marketing }); void entrarOAuth("google").catch(() => setEstado("")); }} /> : null}
           <div className="flex items-center gap-3 py-1 text-sm text-[#B7AB9C]">
-            <span className="h-px flex-1 bg-[#F4ECE2]/25" />
+            <span className="h-px flex-1 bg-[#2E2924]" />
             {copy.o}
-            <span className="h-px flex-1 bg-[#F4ECE2]/25" />
+            <span className="h-px flex-1 bg-[#2E2924]" />
           </div>
           <form
             className="grid gap-3"
@@ -59,9 +69,9 @@ export function Entrar({ lang, google = false }: { lang: string; google?: boolea
               aria-label={copy.correo}
               placeholder={copy.correo}
               onChange={(event) => setCorreo(event.target.value)}
-              className="h-12 rounded-[6px] border border-[#F4ECE2]/30 bg-transparent px-4"
+              className="h-12 rounded-full border border-[#2E2924] bg-[#1B1815] px-5 focus:border-[#E0C48A] focus:outline-none"
             />
-            <button type="submit" className="inline-flex h-12 items-center justify-center rounded-[6px] border border-[#F4ECE2]/40">
+            <button type="submit" className="inline-flex h-12 items-center justify-center rounded-full border border-[#E0C48A] text-[#E0C48A] hover:bg-[#E0C48A]/10">
               {copy.enviar}
             </button>
           </form>

@@ -1,0 +1,338 @@
+{
+  "id": "profecias-pasion",
+  "tiempo": "semana-santa",
+  "slug": {
+    "es": "profecias-pasion",
+    "en": "passion-prophecies"
+  },
+  "titulo": {
+    "es": "Profecías de la Pasión",
+    "en": "Prophecies of the Passion"
+  },
+  "explica": {
+    "es": "Ocho días, del Domingo de Ramos al Domingo de Pascua. Cada jornada abre una escena de la Pasión y deja oír, junto a ella, las palabras que Israel guardó durante siglos: un rey humilde, un siervo que padece, un justo que no deja de confiar. Te invitamos a escuchar cómo esas promesas se cumplen en Jesús, desde la entrada en Jerusalén hasta la mañana de la Resurrección.",
+    "en": "Eight days, from Palm Sunday to Easter Sunday. Each day opens a scene of the Passion and lets us hear, beside it, the words Israel kept for centuries: a humble king, a suffering servant, a just man who does not stop trusting. We invite you to listen as those promises are fulfilled in Jesus, from the entry into Jerusalem to the morning of the Resurrection."
+  },
+  "fijo": true,
+  "portada": "",
+  "sinCuadro": true,
+  "dias": [
+    {
+      "id": "pp-01",
+      "dia": 1,
+      "fecha": "2027-03-21",
+      "dia_liturgico": {
+        "es": "Domingo de Ramos",
+        "en": "Palm Sunday"
+      },
+      "titulo": {
+        "es": "Viene tu rey",
+        "en": "Your king is coming"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 9,9–10",
+          "cumplimiento": "Mt 21,1–17"
+        },
+        {
+          "profecia": "Sal 118,19–29",
+          "cumplimiento": "Mt 21,33–46"
+        },
+        {
+          "profecia": "Is 53,1–3",
+          "cumplimiento": "Jn 12,37–41"
+        }
+      ],
+      "episodios_relacionados": [
+        "is-15",
+        "jn-07",
+        "mt-09",
+        "sal-020",
+        "zac-02"
+      ],
+      "duracion_estimada_s": 660,
+      "descripcion": {
+        "es": "Es Domingo de Ramos, y Jesús entra en Jerusalén. No llega como los reyes de este mundo, sino humilde, montado como la gente sencilla, y la ciudad se parte entre quienes lo aclaman y quienes ya lo rechazan. Escucha a Zacarías y a un salmo de fiesta, y cómo los evangelios reconocen en él al rey de la paz y al siervo que aún no han querido ver.",
+        "en": "It is Palm Sunday, and Jesus enters Jerusalem. He does not arrive as the kings of this world do, but humbly, riding as ordinary people ride, and the city splits between those who acclaim him and those who already reject him. Listen to Zechariah and a psalm of feast, and how the gospels recognize in him the king of peace and the servant they have not yet wanted to see."
+      }
+    },
+    {
+      "id": "pp-02",
+      "dia": 2,
+      "fecha": "2027-03-22",
+      "dia_liturgico": {
+        "es": "Lunes Santo",
+        "en": "Monday of Holy Week"
+      },
+      "titulo": {
+        "es": "Treinta monedas de plata",
+        "en": "Thirty pieces of silver"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 11,4–14",
+          "cumplimiento": "Mt 26,1–16"
+        },
+        {
+          "profecia": "Jr 18,1–6; 32,6–15",
+          "cumplimiento": "Mt 27,3–10"
+        }
+      ],
+      "episodios_relacionados": [
+        "jer-09",
+        "jer-15",
+        "mt-12",
+        "mt-13",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 629,
+      "descripcion": {
+        "es": "El Lunes Santo da un giro amargo: uno de los Doce entrega a su Maestro por el precio de un esclavo, treinta monedas de plata. Siglos antes, un profeta recibe un salario irrisorio y lo arroja al templo; un alfarero y un campo comprado en días de ruina hablan aún de esperanza. Escucha cómo ese trato se cierra antes de que caiga la noche.",
+        "en": "Holy Monday takes a bitter turn: one of the Twelve hands over his Master for the price of a slave, thirty pieces of silver. Centuries earlier, a prophet is paid a paltry wage and throws it into the temple; a potter and a field bought in days of ruin still speak of hope. Listen as that bargain is sealed before night falls."
+      }
+    },
+    {
+      "id": "pp-03",
+      "dia": 3,
+      "fecha": "2027-03-23",
+      "dia_liturgico": {
+        "es": "Martes Santo",
+        "en": "Tuesday of Holy Week"
+      },
+      "titulo": {
+        "es": "El que compartía mi pan",
+        "en": "The one who shared my bread"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 41,2–14",
+          "cumplimiento": "Mt 26,17–25; Jn 13,1–30"
+        },
+        {
+          "profecia": "Is 53,12",
+          "cumplimiento": "Lc 22,35–38"
+        }
+      ],
+      "episodios_relacionados": [
+        "is-15",
+        "jn-08",
+        "lc-14",
+        "mt-12",
+        "sal-006"
+      ],
+      "duracion_estimada_s": 625,
+      "descripcion": {
+        "es": "Es Martes Santo, y la historia se sienta a la mesa. En un salmo antiguo, al herido no solo le cercan los enemigos: le duele que el amigo de confianza, el que compartía su pan, se vuelva contra él. Jesús lo anuncia en la cena, lava los pies a los suyos, y cuando uno sale, ya es de noche.",
+        "en": "It is Holy Tuesday, and the story sits down at the table. In an ancient psalm, the wounded man is not only surrounded by enemies: it hurts him that the trusted friend, the one who shared his bread, turns against him. Jesus announces it at the supper, washes the feet of his own, and when one of them goes out, it is already night."
+      }
+    },
+    {
+      "id": "pp-04",
+      "dia": 4,
+      "fecha": "2027-03-24",
+      "dia_liturgico": {
+        "es": "Miércoles Santo",
+        "en": "Wednesday of Holy Week"
+      },
+      "titulo": {
+        "es": "Hiere al pastor",
+        "en": "Strike the shepherd"
+      },
+      "profecias": [
+        {
+          "profecia": "Za 13,7–9",
+          "cumplimiento": "Mt 26,30–56"
+        },
+        {
+          "profecia": "Is 50,4–11",
+          "cumplimiento": "Mc 14,53–65"
+        }
+      ],
+      "episodios_relacionados": [
+        "is-15",
+        "mc-07",
+        "mt-12",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 615,
+      "descripcion": {
+        "es": "En Getsemaní, Jesús acepta el cáliz y queda solo: el pastor es herido y los suyos se dispersan. Un canto antiguo habla de quien, madrugada tras madrugada, ofrece la espalda a los golpes y no esconde el rostro. Escucha la oración en el huerto, el prendimiento y el juicio, cuando lo ultrajan y lo condenan, y de madrugada lo llevan ante el gobernador.",
+        "en": "In Gethsemane, Jesus accepts the cup and is left alone: the shepherd is struck and his own scatter. An ancient song speaks of one who, morning after morning, offers his back to the blows and does not hide his face. Listen to the prayer in the garden, the arrest and the trial, when they mock him and condemn him, and at dawn they take him to the governor."
+      }
+    },
+    {
+      "id": "pp-05",
+      "dia": 5,
+      "fecha": "2027-03-25",
+      "dia_liturgico": {
+        "es": "Jueves Santo",
+        "en": "Maundy Thursday"
+      },
+      "titulo": {
+        "es": "Como cordero llevado al matadero",
+        "en": "Like a lamb led to the slaughter"
+      },
+      "profecias": [
+        {
+          "profecia": "Is 52,13–15; 53,1–6",
+          "cumplimiento": "Jn 19,1–16"
+        },
+        {
+          "profecia": "Is 53,7–8; Jr 11,18–20",
+          "cumplimiento": "Mc 15,1–20"
+        },
+        {
+          "profecia": "Sab 2,12–20",
+          "cumplimiento": "Mt 27,15–26"
+        }
+      ],
+      "episodios_relacionados": [
+        "is-15",
+        "jer-06",
+        "jn-10",
+        "mc-08",
+        "mt-13",
+        "sab-01"
+      ],
+      "duracion_estimada_s": 753,
+      "descripcion": {
+        "es": "Ante Pilato, el Siervo aparece desfigurado, con la corona de espinas, y no abre la boca, como un cordero llevado al matadero. Una voz más tardía imagina el plan contra el justo, porque se llama hijo de Dios; la muchedumbre pide a otro y exige la cruz. Escucha ese juicio, y cómo la Iglesia oye, en el grito más grave, no una maldición, sino la sangre derramada por todos.",
+        "en": "Before Pilate, the Servant appears disfigured, wearing a crown of thorns, and he does not open his mouth, like a lamb led to the slaughter. A later voice imagines the plot against the just man, because he calls himself a son of God; the crowd asks for another and demands the cross. Listen to that trial, and how the Church hears, in the gravest cry, not a curse, but blood poured out for all."
+      }
+    },
+    {
+      "id": "pp-06",
+      "dia": 6,
+      "fecha": "2027-03-26",
+      "dia_liturgico": {
+        "es": "Viernes Santo",
+        "en": "Good Friday"
+      },
+      "titulo": {
+        "es": "Dios mío, ¿por qué me has abandonado?",
+        "en": "My God, why have you forsaken me?"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 22,2–32",
+          "cumplimiento": "Jn 19,16–24; Mt 27,39–46"
+        },
+        {
+          "profecia": "Is 53,9–12",
+          "cumplimiento": "Lc 23,32–43"
+        },
+        {
+          "profecia": "Sal 69,20–22",
+          "cumplimiento": "Jn 19,25–30"
+        },
+        {
+          "profecia": "Am 8,9–10",
+          "cumplimiento": "Mt 27,39–46"
+        }
+      ],
+      "episodios_relacionados": [
+        "am-03",
+        "is-15",
+        "jn-10",
+        "lc-15",
+        "mt-13",
+        "sal-003",
+        "sal-011"
+      ],
+      "duracion_estimada_s": 784,
+      "descripcion": {
+        "es": "Es Viernes Santo, y Jesús camina hacia la cruz. Un salmo entero empieza con un grito de angustia que es oración, no desesperación, y termina en alabanza: las manos taladradas, la ropa repartida, las burlas. A mediodía la tierra se oscurece, como había anunciado un profeta, y entre dos condenados pide perdón por los que lo clavan. Escucha ese salmo y las últimas horas, hasta que entrega el espíritu.",
+        "en": "It is Good Friday, and Jesus walks toward the cross. A whole psalm begins with a cry of anguish that is prayer, not despair, and ends in praise: the pierced hands, the divided clothes, the mockery. At noon the land grows dark, as a prophet had announced, and between two condemned men he asks forgiveness for those who nail him. Listen to that psalm and the last hours, until he yields up his spirit."
+      }
+    },
+    {
+      "id": "pp-07",
+      "dia": 7,
+      "fecha": "2027-03-27",
+      "dia_liturgico": {
+        "es": "Sábado Santo",
+        "en": "Holy Saturday"
+      },
+      "titulo": {
+        "es": "Mirarán al que traspasaron",
+        "en": "They will look on the one they pierced"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 31,2–6",
+          "cumplimiento": "Lc 23,44–56"
+        },
+        {
+          "profecia": "Dt 21,22–23",
+          "cumplimiento": "Jn 19,31–42"
+        },
+        {
+          "profecia": "Ex 12,43–47; Sal 34,16–23; Za 12,10–14; 13,1",
+          "cumplimiento": "Jn 19,31–42"
+        },
+        {
+          "profecia": "Gn 22,1–18"
+        }
+      ],
+      "episodios_relacionados": [
+        "dt-10",
+        "ex-05",
+        "gn-08",
+        "jn-10",
+        "lc-15",
+        "sal-004",
+        "sal-005",
+        "zac-03"
+      ],
+      "duracion_estimada_s": 785,
+      "descripcion": {
+        "es": "Jesús ha muerto, y el Sábado Santo guarda silencio junto al sepulcro. Un salmo de confianza está en sus labios al expirar; al pie de la cruz se juntan la ley del cordero y la promesa de mirar al que fue traspasado. Esta noche la Iglesia lee a Abraham y a su hijo amado, devuelto con vida. Escucha esa figura, mientras el Señor espera el tercer día.",
+        "en": "Jesus has died, and Holy Saturday keeps silence beside the tomb. A psalm of trust is on his lips as he expires; at the foot of the cross the law of the lamb meets the promise that they will look on the one who was pierced. Tonight the Church also reads of Abraham and his beloved son, given back alive. Listen to that figure, while the Lord waits for the third day."
+      }
+    },
+    {
+      "id": "pp-08",
+      "dia": 8,
+      "fecha": "2027-03-28",
+      "dia_liturgico": {
+        "es": "Domingo de Pascua",
+        "en": "Easter Sunday"
+      },
+      "titulo": {
+        "es": "Al tercer día",
+        "en": "On the third day"
+      },
+      "profecias": [
+        {
+          "profecia": "Sal 16,1–11",
+          "cumplimiento": "Hch 2,22–36"
+        },
+        {
+          "profecia": "Os 6,1–3",
+          "cumplimiento": "Lc 24,13–35.44–48"
+        },
+        {
+          "profecia": "Jon 2,1–11",
+          "cumplimiento": "Mt 12,38–40"
+        }
+      ],
+      "episodios_relacionados": [
+        "hch-01",
+        "jon-01",
+        "lc-15",
+        "mt-05",
+        "os-02",
+        "sal-002"
+      ],
+      "duracion_estimada_s": 762,
+      "descripcion": {
+        "es": "Es Domingo de Pascua, el tercer día. Un salmo promete que Dios no dejará a su fiel entre los muertos; Pedro lo anuncia, y una esperanza antigua habla de resurgir al tercer día, como Jonás volvió del abismo. El Resucitado camina con dos discípulos hacia Emaús y les abre las Escrituras. Escucha el final de estos ocho días, ahora contado por él.",
+        "en": "It is Easter Sunday, the third day. A psalm promises that God will not leave his faithful one among the dead; Peter proclaims it, and an ancient hope speaks of rising on the third day, as Jonah returned from the abyss. The Risen One walks with two disciples toward Emmaus and opens the Scriptures to them. Listen to the end of these eight days, now told by him."
+      }
+    }
+  ],
+  "insignia": {
+    "es": "Cordero",
+    "en": "Lamb"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { idiomaContenido, enlaceProfundo, nombreCorto, playableEpisodes } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { useLibrary } from "@/components/library";
 
@@ -20,8 +21,7 @@ export function CompartirV2() {
       <h1 className="font-display self-start text-4xl leading-none">{es ? "Compartir" : "Share"}</h1>
       <article className="relative mt-4 aspect-[9/16] w-[min(100%,20rem)] overflow-hidden rounded-3xl bg-[#100E0C] text-[#F4ECE2]">
         {obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <Lienzo src={obraWebp(obra)} obraId={obra.id} className="absolute inset-0" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-5">

@@ -1,6 +1,7 @@
 "use client";
 
 import { COLOR_HEX, diaLiturgico, formatClock, nombreCorto, playableEpisodes, t } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -11,13 +12,20 @@ import { useLibrary } from "@/components/library";
 import { fechaDeCuando } from "@/lib/cuando";
 import { medir } from "@/lib/medicion";
 import { irAlReproductor } from "@/lib/movimiento";
-import { esRutaPublica } from "@/sitio/i18n";
+import { esRutaPublica, rutaDeInicio } from "@/sitio/i18n";
 
 const links = [
   { href: "/escuchar", es: "Inicio", en: "Home" },
   { href: "/buscar", es: "Buscar", en: "Search" },
   { href: "/biblioteca", es: "Biblioteca", en: "Library" },
+  // Los libros viven en la web pública. El idioma de la ruta lo pone `hrefDe`.
+  { href: "/libros", es: "Libros", en: "Books" },
 ];
+
+/** `/libros` es una ruta pública con idioma: `/es/libros`. */
+function hrefDe(href: string, locale: string): string {
+  return href === "/libros" ? `${rutaDeInicio(locale)}/libros` : href;
+}
 
 function active(pathname: string, href: string): boolean {
   if (href === "/escuchar") return pathname === "/" || pathname === "/escuchar";
@@ -30,7 +38,7 @@ export function SiteHeader() {
   const locale = settings.uiLocale;
   if (pathname === "/ahora" || esRutaPublica(pathname)) return null;
   return (
-    <header className="sticky top-0 z-40 hidden border-b border-border bg-background/85 backdrop-blur md:block">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <a
         href="#contenido"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:bg-card focus:px-3 focus:py-2"
@@ -38,7 +46,7 @@ export function SiteHeader() {
         {t(locale, "skip")}
       </a>
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-3">
-        <Link href="/escuchar" className="flex items-center gap-2.5 text-foreground">
+        <Link href={rutaDeInicio(locale)} className="flex items-center gap-2.5 text-foreground" aria-label="Audite">
           <Mark />
           <Wordmark locale={locale} />
         </Link>
@@ -48,7 +56,7 @@ export function SiteHeader() {
             return (
               <Link
                 key={link.href}
-                href={link.href}
+                href={hrefDe(link.href, locale)}
                 aria-current={current ? "page" : undefined}
                 className={`inline-flex min-h-11 items-center rounded-full px-3 text-sm ${current ? "bg-foreground text-background" : "text-muted"}`}
               >
@@ -57,6 +65,7 @@ export function SiteHeader() {
             );
           })}
         </nav>
+        <Link href={rutaDeInicio(locale)} className="inline-flex min-h-11 items-center text-sm text-muted">← audite.tv</Link>
       </div>
     </header>
   );
@@ -76,14 +85,14 @@ export function TabBar() {
   return (
     <nav
       aria-label={t(locale, "wordmark")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-3xl border border-border bg-background/80 py-1 backdrop-blur-md md:hidden"
     >
       {links.map((link) => {
         const current = active(pathname, link.href);
         return (
           <Link
             key={link.href}
-            href={link.href}
+            href={hrefDe(link.href, locale)}
             aria-current={current ? "page" : undefined}
             className={`audite-pulso flex min-h-12 flex-col items-center justify-center gap-1 text-[11px] ${current ? "text-foreground" : "text-muted"}`}
           >
@@ -123,8 +132,7 @@ export function MiniPlayer() {
         </span>
         <Link href="/ahora" className="audite-pulso flex min-h-11 min-w-0 flex-1 items-center gap-3" aria-label={t(locale, "openNow")} onClick={(event) => { event.preventDefault(); irAlReproductor(router.push); }}>
           {obraDeEpisodio(episode?.id ?? "gn-01") ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} alt="" className="audite-portada size-11 shrink-0 rounded-2xl object-cover" />
+            <Lienzo src={obraWebp(obraDeEpisodio(episode?.id ?? "gn-01")!)} className="audite-portada size-11 shrink-0 rounded-2xl" />
           ) : (
             <span className="size-11 shrink-0 rounded-2xl bg-[#0C0B09]" />
           )}
@@ -186,12 +194,30 @@ export function SiteFooter() {
   );
 }
 
+export function SalidaSitio() {
+  const pathname = usePathname();
+  const { settings } = useLibrary();
+  const oculta = pathname === "/ahora" || pathname === "/anio" || pathname === "/coche" || pathname === "/compartir";
+  if (!oculta || esRutaPublica(pathname)) return null;
+  const href = rutaDeInicio(settings.uiLocale);
+  return (
+    <div className="flex items-center justify-between gap-3 px-4 py-2">
+      <Link href={href} className="inline-flex min-h-11 items-center gap-2" aria-label="Audite">
+        <Mark />
+        <Wordmark locale={settings.uiLocale} className="h-5 w-auto" />
+      </Link>
+      <Link href={href} className="inline-flex min-h-11 items-center text-sm text-muted">← audite.tv</Link>
+    </div>
+  );
+}
+
 export function AppFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { reduceMotion } = useLibrary();
   return (
     <div className="flex min-h-full flex-col">
       <SiteHeader />
+      <SalidaSitio />
       <div key={pathname} className={reduceMotion ? "flex-1" : "audite-fundido flex-1"}>{children}</div>
       <SiteFooter />
     </div>

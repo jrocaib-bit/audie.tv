@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: "Audite", template: "%s · Audite" },
     description: "La Biblia, de principio a fin.",
     robots: debeNoindex(host) ? { index: false, follow: false } : { index: true, follow: true },
-    openGraph: { title: "Audite", description: "La Biblia, de principio a fin.", images: [`${base}/obras/reto-adviento_o1-16x9.webp`] },
+    openGraph: { title: "Audite", description: "La Biblia, de principio a fin.", images: [`${base}/obras/reto-adviento_o2-16x9.webp`] },
     icons: {
     icon: [
       { url: "/marca/favicon.ico" },
@@ -35,14 +35,15 @@ const themeScript = `try{var s=JSON.parse(localStorage.getItem("audite.settings.
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const catalogoCompleto = loadAppCatalog();
-  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [] };
+  const catalog = { ...catalogoCompleto, rangos: [], pendientes: [], fuenteTexto: { es: null, en: null } };
   const lang = (await headers()).get("x-audite-lang") || "es";
   const gazpacho = existsSync(path.join(process.cwd(), "public/fonts/gazpacho/faces.css"));
   return (
-    <html lang={lang} className="h-full" data-demo={process.env.AUDITE_DEMO === "1" ? "1" : undefined} suppressHydrationWarning>
+    <html lang={lang} className="h-full" data-demo={process.env.AUDITE_DEMO === "1" ? "1" : undefined} data-gazpacho={gazpacho ? "1" : undefined} suppressHydrationWarning>
       <body className="min-h-full bg-background font-sans text-foreground antialiased">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <style>{`body{margin:0;background:#100e0c;color:#f4ece2}:root[data-theme="light"] body{background:#f3ecdf;color:#161310}`}</style>
+        {gazpacho ? <link rel="preload" href="/fonts/gazpacho/Gazpacho-Heavy.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /> : null}
         {gazpacho ? <link rel="stylesheet" href="/fonts/gazpacho/faces.css" /> : null}
         <Plausible />
         <LibraryProvider catalog={catalog}>

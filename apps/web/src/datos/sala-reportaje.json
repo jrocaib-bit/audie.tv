@@ -1,0 +1,4275 @@
+{
+  "gn-01": {
+    "cita": {
+      "es": "Una tabla redonda de nogal, pequeña, hecha para mirarse de cerca.",
+      "en": "A small round walnut panel, made to be looked at from close to."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1535. Herry de Patenir queda inscrito como maestro libre en el gremio de pintores de Amberes.",
+        "en": "1535. Herry de Patenir is entered as a free master in the Antwerp painters' guild."
+      },
+      {
+        "es": "Hacia 1541. Se pinta el tondo de nogal, una tabla redonda de unos cuarenta y seis centímetros.",
+        "en": "Around 1541. The walnut tondo is painted, a round panel of about forty-six centimetres."
+      },
+      {
+        "es": "1882. La tabla sale a la venta en Ámsterdam, catalogada entonces como un Brueghel de terciopelo.",
+        "en": "1882. The panel is sold in Amsterdam, then catalogued as a work of Velvet Brueghel."
+      },
+      {
+        "es": "1963. Pasa a La Haya en un préstamo de larga duración.",
+        "en": "1963. It goes to The Hague on a long loan."
+      },
+      {
+        "es": "2004. La tabla viaja a Maastricht, de nuevo en préstamo.",
+        "en": "2004. The panel travels to Maastricht, again on loan."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, hacia 1540. El taller trabaja en la ciudad del gremio.",
+          "en": "Antwerp, around 1540. The workshop works in the city of the guild."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1882. La venta pública abre la vida moderna de la tabla.",
+          "en": "Amsterdam, 1882. The public sale opens the modern life of the panel."
+        }
+      },
+      {
+        "id": "la-haya",
+        "lat": 52.08,
+        "lon": 4.3,
+        "nombre": {
+          "es": "La Haya",
+          "en": "The Hague"
+        },
+        "pie": {
+          "es": "La Haya, de 1963 a 1997. La tabla permanece en préstamo.",
+          "en": "The Hague, from 1963 to 1997. The panel remains on loan."
+        }
+      },
+      {
+        "id": "maastricht",
+        "lat": 50.85,
+        "lon": 5.69,
+        "nombre": {
+          "es": "Maastricht",
+          "en": "Maastricht"
+        },
+        "pie": {
+          "es": "Maastricht, desde 2004. La obra se contempla hoy en préstamo.",
+          "en": "Maastricht, since 2004. The work is seen today on loan."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.22,
+      0.2,
+      0.18,
+      0.2
+    ],
+    "comparativa": {
+      "trasPaso": 5,
+      "entrada": {
+        "es": "Bles toma de Durero, invertidas, la caída y la expulsión.",
+        "en": "Bles takes the Fall and the Expulsion from Dürer, and reverses both scenes."
+      },
+      "creditos": {
+        "es": "Grabados cedidos en CC0 por la National Gallery of Art de Washington, vía Wikimedia Commons.",
+        "en": "Woodcuts released under CC0 by the National Gallery of Art, Washington, via Wikimedia Commons."
+      },
+      "imagenes": [
+        {
+          "src": "/sala/comparativas/gn-01/durero-caida.webp",
+          "ancho": 1000,
+          "alto": 1316,
+          "alt": {
+            "es": "Grabado de Durero: Adán y Eva ante el árbol",
+            "en": "Dürer woodcut: Adam and Eve at the tree"
+          },
+          "pie": {
+            "es": "Alberto Durero. La caída, de la Pequeña Pasión, hacia 1510.",
+            "en": "Albrecht Dürer. The Fall of Man, from the Small Passion, around 1510."
+          }
+        },
+        {
+          "src": "/sala/comparativas/gn-01/durero-expulsion.webp",
+          "ancho": 1000,
+          "alto": 1273,
+          "alt": {
+            "es": "Grabado de Durero: la expulsión del paraíso",
+            "en": "Dürer woodcut: the expulsion from Paradise"
+          },
+          "pie": {
+            "es": "Alberto Durero. La expulsión del paraíso, de la Pequeña Pasión, 1510.",
+            "en": "Albrecht Dürer. The Expulsion from Paradise, from the Small Passion, 1510."
+          }
+        }
+      ]
+    }
+  },
+  "gn-02": {
+    "cita": {
+      "es": "Giovanni di Paolo pinta en Siena una tabla de medio metro con la creación del mundo y la salida de Adán y Eva.",
+      "en": "In Siena, Giovanni di Paolo paints a half-metre panel with the creation of the world and Adam and Eve leaving the garden."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1445. Una fuente del siglo XVIII fecha en este año el retablo de la capilla Guelfi, en la iglesia de San Domenico de Siena, con una predela de Juicio Final, Diluvio y Creación del mundo.",
+        "en": "1445. An eighteenth-century source dates the Guelfi chapel altarpiece in the church of San Domenico in Siena to this year, with a predella of Last Judgment, Flood and Creation of the world."
+      },
+      {
+        "es": "1906. La tabla del Paraíso, de la misma predela, ingresa en Nueva York.",
+        "en": "1906. The panel of Paradise, from the same predella, enters a collection in New York."
+      },
+      {
+        "es": "1975. La Creación y Expulsión figura en Nueva York con línea de crédito de este año.",
+        "en": "1975. The Creation and Expulsion appears in New York with a credit line of this year."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "siena",
+        "lat": 43.32,
+        "lon": 11.33,
+        "nombre": {
+          "es": "Siena",
+          "en": "Siena"
+        },
+        "pie": {
+          "es": "Siena, 1445. Giovanni di Paolo pinta la predela de un retablo para la capilla Guelfi de San Domenico.",
+          "en": "Siena, 1445. Giovanni di Paolo paints the predella of an altarpiece for the Guelfi chapel in San Domenico."
+        }
+      },
+      {
+        "id": "florencia",
+        "lat": 43.77,
+        "lon": 11.26,
+        "nombre": {
+          "es": "Florencia",
+          "en": "Florence"
+        },
+        "pie": {
+          "es": "Florencia. Las tablas grandes del retablo desmontado se conservan hoy aquí.",
+          "en": "Florence. The large panels of the dismantled altarpiece are kept here today."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.26,
+      0.18,
+      0.18,
+      0.24
+    ],
+    "comparativa": {
+      "trasPaso": 4,
+      "entrada": {
+        "es": "La misma predela guarda, al lado, el jardín del Paraíso.",
+        "en": "The same predella holds, next to it, the garden of Paradise."
+      },
+      "creditos": {
+        "es": "Imagen cedida en CC0 por The Metropolitan Museum of Art, Nueva York, vía Wikimedia Commons.",
+        "en": "Image released under CC0 by The Metropolitan Museum of Art, New York, via Wikimedia Commons."
+      },
+      "imagenes": [
+        {
+          "src": "/sala/comparativas/gn-02/paraiso.webp",
+          "alt": {
+            "es": "Tabla de Giovanni di Paolo: bienaventurados en un jardín florido",
+            "en": "Panel by Giovanni di Paolo: the blessed in a flowery garden"
+          },
+          "pie": {
+            "es": "Giovanni di Paolo. El paraíso, de la predela de los Guelfi, 1445.",
+            "en": "Giovanni di Paolo. Paradise, from the Guelfi predella, 1445."
+          },
+          "ancho": 870,
+          "alto": 1000
+        }
+      ]
+    }
+  },
+  "gn-03": {
+    "cita": {
+      "es": "Jan Brueghel el Viejo pinta en Amberes una tabla de más de ochenta centímetros con la entrada de los animales en el arca.",
+      "en": "In Antwerp, Jan Brueghel the Elder paints a panel more than eighty centimetres wide with the animals entering the ark."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1609. Jan Brueghel el Viejo pasa a ser pintor de los archiduques Alberto e Isabel.",
+        "en": "1609. Jan Brueghel the Elder becomes painter to Archdukes Albert and Isabella."
+      },
+      {
+        "es": "1613. Pinta en Amberes la tabla de la entrada de los animales en el arca.",
+        "en": "1613. He paints the panel of the animals entering the ark in Antwerp."
+      },
+      {
+        "es": "1992. La tabla pasa a Los Ángeles.",
+        "en": "1992. The panel moves to Los Angeles."
+      },
+      {
+        "es": "2006. La tabla figura en una exposición sobre Rubens y Brueghel.",
+        "en": "2006. The panel is shown in an exhibition on Rubens and Brueghel."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1613. Brueghel pinta la tabla con pincel fino.",
+          "en": "Antwerp, 1613. Brueghel paints the panel with a fine brush."
+        }
+      },
+      {
+        "id": "bruselas",
+        "lat": 50.85,
+        "lon": 4.35,
+        "nombre": {
+          "es": "Bruselas",
+          "en": "Brussels"
+        },
+        "pie": {
+          "es": "Bruselas. Los archiduques mantienen una casa de fieras con animales exóticos.",
+          "en": "Brussels. The archdukes keep a menagerie of exotic animals."
+        }
+      }
+    ],
+    "radios": [
+      0.23,
+      0.21,
+      0.2,
+      0.22,
+      0.23
+    ]
+  },
+  "gn-04": {
+    "cita": {
+      "es": "Prenner graba en Viena, sobre cobre de veintidós centímetros, la torre de Babel que Bruegel firmó en 1563.",
+      "en": "In Vienna, Prenner engraves on a twenty-two centimetre copper plate the Tower of Babel that Bruegel signed in 1563."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1563. Pieter Bruegel firma la pintura de la torre de Babel.",
+        "en": "1563. Pieter Bruegel signs the painting of the Tower of Babel."
+      },
+      {
+        "es": "Hacia 1728. Prenner se establece en Viena e inicia con Frans van Stampart una serie de estampas de pinturas de la colección imperial.",
+        "en": "Around 1728. Prenner settles in Vienna and starts, with Frans van Stampart, a series of prints after paintings of the imperial collection."
+      },
+      {
+        "es": "1919. Un ejemplar de la estampa pasa a Nueva York por donación.",
+        "en": "1919. A copy of the print passes to New York as a gift."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "viena",
+        "lat": 48.21,
+        "lon": 16.37,
+        "nombre": {
+          "es": "Viena",
+          "en": "Vienna"
+        },
+        "pie": {
+          "es": "Viena, hacia 1728. Prenner trabaja en estampas de pinturas de la colección imperial.",
+          "en": "Vienna, around 1728. Prenner works on prints after paintings of the imperial collection."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.25,
+      0.19,
+      0.21,
+      0.26
+    ]
+  },
+  "gn-05": {
+    "cita": {
+      "es": "Rubens prepara en Amberes un modelo en tabla para un tapiz de unos seis metros de ancho sobre Abrán y Melquisedec.",
+      "en": "In Antwerp, Rubens prepares a panel model for a tapestry about six metres wide showing Abram and Melchizedek."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1625. La infanta Isabel Clara Eugenia encarga a Rubens los diseños de una serie de veinte tapices para un convento de Madrid.",
+        "en": "Around 1625. Infanta Isabella Clara Eugenia commissions from Rubens the designs for a series of twenty tapestries for a convent in Madrid."
+      },
+      {
+        "es": "Hacia 1626. Rubens pinta en Amberes el modelo en tabla del encuentro de Abraham y Melquisedec.",
+        "en": "Around 1626. Rubens paints in Antwerp the panel model of the meeting of Abraham and Melchizedek."
+      },
+      {
+        "es": "1626. El tapiz de este tema, de unos 490 por 600 centímetros, figura con fechas de tejido hasta 1633 en Bruselas.",
+        "en": "1626. The tapestry of this subject, about 490 by 600 centimetres, carries weaving dates up to 1633 in Brussels."
+      },
+      {
+        "es": "1825. Una venta en Londres incluye la tabla, que luego pasa a coleccionistas británicos.",
+        "en": "1825. A sale in London includes the panel, which later passes to British collectors."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, hacia 1626. Rubens trabaja con un taller numeroso en el modelo del tapiz.",
+          "en": "Antwerp, around 1626. Rubens works with a large workshop on the tapestry model."
+        }
+      },
+      {
+        "id": "bruselas",
+        "lat": 50.85,
+        "lon": 4.35,
+        "nombre": {
+          "es": "Bruselas",
+          "en": "Brussels"
+        },
+        "pie": {
+          "es": "Bruselas. Talleres de tejedores tejen la serie de tapices.",
+          "en": "Brussels. Weaving workshops produce the tapestry series."
+        }
+      },
+      {
+        "id": "madrid",
+        "lat": 40.42,
+        "lon": -3.7,
+        "nombre": {
+          "es": "Madrid",
+          "en": "Madrid"
+        },
+        "pie": {
+          "es": "Madrid. Los tapices se conservan en el convento al que la infanta los destinó.",
+          "en": "Madrid. The tapestries are kept in the convent for which the infanta intended them."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.18,
+      0.19,
+      0.2,
+      0.24,
+      0.21
+    ]
+  },
+  "gn-06": {
+    "cita": {
+      "es": "Swanevelt graba al aguafuerte la visita a Abraham como un paisaje de figuras pequeñas, hecho para circular en papel.",
+      "en": "Swanevelt etches the visit to Abraham as a landscape of small figures, made to circulate on paper."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1629. Swanevelt se instala en Roma, donde ingresa en los Bentvueghels con el apodo heremiet.",
+        "en": "Around 1629. Swanevelt settles in Rome, where he joins the Bentvueghels under the nickname heremiet."
+      },
+      {
+        "es": "1641. Vuelve a París.",
+        "en": "1641. He returns to Paris."
+      },
+      {
+        "es": "Antes de 1655. La plancha, firmada en Roma, se publica en París con privilegio real.",
+        "en": "Before 1655. The plate, signed in Rome, is published in Paris with a royal privilege."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, de 1629 a 1641. Swanevelt vive aquí y firma la plancha.",
+          "en": "Rome, 1629 to 1641. Swanevelt lives here and signs the plate."
+        }
+      },
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París. Pierre Mariette I edita la estampa en la calle Saint-Jacques.",
+          "en": "Paris. Pierre Mariette I publishes the print on the rue Saint-Jacques."
+        }
+      }
+    ],
+    "radios": [
+      0.22,
+      0.19,
+      0.23,
+      0.19,
+      0.25
+    ]
+  },
+  "gn-07": {
+    "cita": {
+      "es": "Dürer pinta en Núremberg una tabla de unos cincuenta por cuarenta centímetros con la Virgen en una cara y la huida de Lot en la otra.",
+      "en": "In Nuremberg, Dürer paints a panel of about fifty by forty centimetres with the Virgin on one side and the flight of Lot on the other."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1494. Dürer viaja a Venecia, donde permanece hasta 1495.",
+        "en": "1494. Dürer travels to Venice, where he stays until 1495."
+      },
+      {
+        "es": "Hacia 1497. Pinta en Núremberg la tabla con la Virgen y los escudos de dos familias en un lado y la huida de Lot en el otro.",
+        "en": "Around 1497. He paints in Nuremberg the panel with the Virgin and the arms of two families on one side and the flight of Lot on the other."
+      },
+      {
+        "es": "1498. Publica las xilografías del Apocalipsis.",
+        "en": "1498. He publishes the Apocalypse woodcuts."
+      },
+      {
+        "es": "1952. La tabla ingresa en Washington.",
+        "en": "1952. The panel enters a collection in Washington."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "venecia",
+        "lat": 45.44,
+        "lon": 12.32,
+        "nombre": {
+          "es": "Venecia",
+          "en": "Venice"
+        },
+        "pie": {
+          "es": "Venecia, 1494. Dürer viaja a la ciudad y permanece hasta 1495.",
+          "en": "Venice, 1494. Dürer travels to the city and stays until 1495."
+        }
+      },
+      {
+        "id": "nuremberg",
+        "lat": 49.45,
+        "lon": 11.08,
+        "nombre": {
+          "es": "Núremberg",
+          "en": "Nuremberg"
+        },
+        "pie": {
+          "es": "Núremberg, hacia 1497. Dürer pinta la tabla con el taller propio.",
+          "en": "Nuremberg, around 1497. Dürer paints the panel in his own workshop."
+        }
+      }
+    ],
+    "radios": [
+      0.23,
+      0.26,
+      0.18,
+      0.2,
+      0.19,
+      0.22
+    ],
+    "comparativa": {
+      "trasPaso": 6,
+      "entrada": {
+        "es": "En la otra cara de la misma tabla, Durero pinta a la Virgen con el Niño.",
+        "en": "On the other face of the same panel, Dürer paints the Virgin and Child."
+      },
+      "creditos": {
+        "es": "Imagen cedida en CC0 por la National Gallery of Art de Washington.",
+        "en": "Image released under CC0 by the National Gallery of Art, Washington."
+      },
+      "imagenes": [
+        {
+          "src": "/sala/comparativas/gn-07/madonna-haller.webp",
+          "alt": {
+            "es": "Pintura de Durero: la Virgen sostiene al Niño ante un paisaje",
+            "en": "Painting by Dürer: the Virgin holds the Child before a landscape"
+          },
+          "pie": {
+            "es": "Alberto Durero. La Virgen con el Niño, anverso de la misma tabla, hacia 1496 a 1499.",
+            "en": "Albrecht Dürer. The Virgin and Child, obverse of the same panel, around 1496 to 1499."
+          },
+          "ancho": 798,
+          "alto": 1000
+        }
+      ]
+    }
+  },
+  "gn-08": {
+    "cita": {
+      "es": "Giovanni Domenico Tiepolo llena en Venecia un lienzo de 39 por 53 centímetros con el ángel que detiene el cuchillo de Abraham.",
+      "en": "In Venice, Giovanni Domenico Tiepolo fills a canvas of 39 by 53 centimetres with the angel stopping Abraham's knife."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1750. Domenico trabaja con su padre Giambattista en Würzburgo hasta 1753.",
+        "en": "1750. Domenico starts working with his father Giambattista in Würzburg, until 1753."
+      },
+      {
+        "es": "Entre 1754 y 1756. El catálogo data el lienzo, pintado en Venecia.",
+        "en": "Between 1754 and 1756. The catalogue dates the canvas, painted in Venice."
+      },
+      {
+        "es": "1871. El lienzo ingresa en Nueva York por compra.",
+        "en": "1871. The canvas enters a collection in New York by purchase."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "wurzburgo",
+        "lat": 49.79,
+        "lon": 9.95,
+        "nombre": {
+          "es": "Würzburgo",
+          "en": "Würzburg"
+        },
+        "pie": {
+          "es": "Würzburgo, de 1750 a 1753. Domenico trabaja con su padre en la Residenz.",
+          "en": "Würzburg, 1750 to 1753. Domenico works with his father at the Residenz."
+        }
+      },
+      {
+        "id": "venecia",
+        "lat": 45.44,
+        "lon": 12.32,
+        "nombre": {
+          "es": "Venecia",
+          "en": "Venice"
+        },
+        "pie": {
+          "es": "Venecia, mediados de la década de 1750. Domenico pinta el lienzo.",
+          "en": "Venice, mid-1750s. Domenico paints the canvas."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.21,
+      0.19,
+      0.22
+    ]
+  },
+  "gn-09": {
+    "cita": {
+      "es": "Claude Lorrain graba en Roma una plancha de cobre de doce centímetros de alto con Rebeca y el siervo de Abrahán.",
+      "en": "In Rome, Claude Lorrain engraves a copper plate twelve centimetres high with Rebecca and Abraham's servant."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1627. Claude se establece en Roma, según una fuente.",
+        "en": "Around 1627. Claude settles in Rome, according to one source."
+      },
+      {
+        "es": "1633. Ingresa en la Accademia di San Luca.",
+        "en": "1633. He joins the Accademia di San Luca."
+      },
+      {
+        "es": "Hacia 1638. Graba la plancha de Rebeca y Eliezer, que alcanza siete estados.",
+        "en": "Around 1638. He engraves the plate of Rebecca and Eliezer, which reaches seven states."
+      },
+      {
+        "es": "1926. Un ejemplar de la estampa ingresa en Nueva York.",
+        "en": "1926. A copy of the print enters a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, hacia 1638. Claude graba aquí la plancha de Rebeca y Eliezer.",
+          "en": "Rome, around 1638. Claude etches the plate of Rebecca and Eliezer here."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.19,
+      0.21,
+      0.25
+    ]
+  },
+  "gn-10": {
+    "cita": {
+      "es": "Un lienzo de 124 por 161 centímetros copia un diseño de Moreelse con Esaú vendiendo su primogenitura.",
+      "en": "A canvas of 124 by 161 centimetres copies a design by Moreelse showing Esau selling his birthright."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1609. Willem van Swanenburgh II graba el diseño de Moreelse, con la inscripción de inventor y este año. El lienzo es una copia posterior de mano desconocida.",
+        "en": "1609. Willem van Swanenburgh II engraves Moreelse's design, with an inscription naming him inventor and this year. The canvas is a later copy by an unknown hand."
+      },
+      {
+        "es": "Hacia 1611. Moreelse es primer decano del gremio de pintores de Utrecht.",
+        "en": "Around 1611. Moreelse is first dean of the painters' guild of Utrecht."
+      },
+      {
+        "es": "1942. El lienzo llega a Ámsterdam por legado.",
+        "en": "1942. The canvas arrives in Amsterdam as a bequest."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "utrecht",
+        "lat": 52.09,
+        "lon": 5.12,
+        "nombre": {
+          "es": "Utrecht",
+          "en": "Utrecht"
+        },
+        "pie": {
+          "es": "Utrecht, 1609. Moreelse firma como inventor el diseño que Swanenburgh graba.",
+          "en": "Utrecht, 1609. Moreelse signs as inventor the design that Swanenburgh engraves."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1942. El lienzo llega por legado de O. A. Peters.",
+          "en": "Amsterdam, 1942. The canvas arrives as a bequest from O. A. Peters."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.22,
+      0.19,
+      0.21
+    ],
+    "comparativa": {
+      "trasPaso": 5,
+      "entrada": {
+        "es": "El grabado de 1609 conserva el diseño de Moreelse que la tela sigue.",
+        "en": "The 1609 engraving preserves Moreelse's design, which the canvas follows."
+      },
+      "creditos": {
+        "es": "Grabado cedido en CC0 por el Rijksmuseum, Ámsterdam.",
+        "en": "Engraving released under CC0 by the Rijksmuseum, Amsterdam."
+      },
+      "imagenes": [
+        {
+          "src": "/sala/comparativas/gn-10/swanenburgh.webp",
+          "alt": {
+            "es": "Grabado de Swanenburgh: Esaú y Jacob ante un plato, según Moreelse",
+            "en": "Swanenburgh engraving: Esau and Jacob before a dish, after Moreelse"
+          },
+          "pie": {
+            "es": "Willem van Swanenburgh, según Paulus Moreelse. Esaú vende su primogenitura, 1609.",
+            "en": "Willem van Swanenburgh, after Paulus Moreelse. Esau sells his birthright, 1609."
+          },
+          "ancho": 1000,
+          "alto": 762
+        }
+      ]
+    }
+  },
+  "gn-11": {
+    "cita": {
+      "es": "Ary de Vois pinta en Leiden una tabla de 22 por 29,5 centímetros con el sueño de Jacob.",
+      "en": "In Leiden, Ary de Vois paints a panel of 22 by 29.5 centimetres with Jacob's dream."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1653. De Vois ingresa en el gremio de San Lucas de Leiden.",
+        "en": "1653. De Vois joins the guild of St Luke in Leiden."
+      },
+      {
+        "es": "1662. Es decano del gremio hasta 1664.",
+        "en": "1662. He serves as dean of the guild until 1664."
+      },
+      {
+        "es": "Entre 1660 y 1680. Se sitúa la pintura de la tabla del sueño de Jacob.",
+        "en": "Between 1660 and 1680. The panel of Jacob's dream is placed in these years."
+      },
+      {
+        "es": "1880. La tabla llega a Ámsterdam por legado.",
+        "en": "1880. The panel arrives in Amsterdam as a bequest."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "leiden",
+        "lat": 52.16,
+        "lon": 4.49,
+        "nombre": {
+          "es": "Leiden",
+          "en": "Leiden"
+        },
+        "pie": {
+          "es": "Leiden, entre 1660 y 1680. De Vois pinta la tabla, maestro establecido y cargo del gremio.",
+          "en": "Leiden, between 1660 and 1680. De Vois paints the panel as an established master and guild officer."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1880. La tabla llega por legado.",
+          "en": "Amsterdam, 1880. The panel arrives as a bequest."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.23,
+      0.17,
+      0.17,
+      0.21
+    ]
+  },
+  "gn-12": {
+    "cita": {
+      "es": "Una tabla de roble de cuarenta por sesenta centímetros que cabe sobre una mesa.",
+      "en": "An oak panel of forty by sixty centimetres that fits on a table."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1638. Moeyaert pinta en Ámsterdam esta tabla de roble de formato pequeño.",
+        "en": "Around 1638. Moeyaert paints this small oak panel in Amsterdam."
+      },
+      {
+        "es": "1888. La tabla se vende en subasta en Ámsterdam por 300 florines.",
+        "en": "1888. The panel is sold at auction in Amsterdam for 300 guilders."
+      },
+      {
+        "es": "1889. Ingresa en una colección pública de Ámsterdam, que la compra por 350 florines.",
+        "en": "1889. It enters a public collection in Amsterdam, which buys it for 350 guilders."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, hacia 1638. Moeyaert vive en la ciudad desde niño y pinta aquí la tabla.",
+          "en": "Amsterdam, around 1638. Moeyaert has lived in the city since childhood and paints the panel here."
+        }
+      }
+    ],
+    "radios": [
+      0.22,
+      0.19,
+      0.22,
+      0.22,
+      0.19
+    ]
+  },
+  "gn-13": {
+    "cita": {
+      "es": "Sesenta láminas del tamaño de una mano para contar el Génesis, con dos líneas de pie en neerlandés.",
+      "en": "Sixty plates the size of a hand tell the book of Genesis, each with two lines of Dutch beneath."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1612. Crispijn de Passe se establece en Utrecht y se fecha entonces la serie de sesenta láminas.",
+        "en": "Around 1612. Crispijn de Passe settles in Utrecht, and the series of sixty plates dates from then."
+      },
+      {
+        "es": "1613. Passe figura como vecino reconocido de Utrecht.",
+        "en": "1613. Passe is recorded as a recognized resident of Utrecht."
+      },
+      {
+        "es": "Entre 1700 y 1750. Isaac Greve imprime en Ámsterdam esta tirada tardía.",
+        "en": "Between 1700 and 1750. Isaac Greve prints this late run in Amsterdam."
+      },
+      {
+        "es": "1922. Una colección pública de Ámsterdam adquiere la lámina.",
+        "en": "1922. A public collection in Amsterdam acquires the plate."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "colonia",
+        "lat": 50.94,
+        "lon": 6.96,
+        "nombre": {
+          "es": "Colonia",
+          "en": "Cologne"
+        },
+        "pie": {
+          "es": "Colonia, hacia 1589. Passe funda allí su taller y editorial.",
+          "en": "Cologne, around 1589. Passe founds his workshop and publishing house there."
+        }
+      },
+      {
+        "id": "utrecht",
+        "lat": 52.09,
+        "lon": 5.12,
+        "nombre": {
+          "es": "Utrecht",
+          "en": "Utrecht"
+        },
+        "pie": {
+          "es": "Utrecht, hacia 1612. Passe empieza negocio en la ciudad.",
+          "en": "Utrecht, around 1612. Passe starts a business in the city."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, entre 1700 y 1750. Isaac Greve realiza esta tirada.",
+          "en": "Amsterdam, between 1700 and 1750. Isaac Greve makes this impression."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.21,
+      0.22,
+      0.23,
+      0.21,
+      0.23
+    ]
+  },
+  "gn-14": {
+    "cita": {
+      "es": "Un lienzo de gran tamaño con dos figuras casi a tamaño natural y una pincelada cada vez más suelta.",
+      "en": "A large canvas with two nearly life-size figures and an ever looser brushstroke."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1658. Se vende la casa de Rembrandt en la Breestraat de Ámsterdam.",
+        "en": "1658. Rembrandt's house on the Breestraat in Amsterdam is sold."
+      },
+      {
+        "es": "Hacia 1659. Rembrandt pinta en Ámsterdam el lienzo de Jacob junto al Jaboc.",
+        "en": "Around 1659. Rembrandt paints the canvas of Jacob at the Jabbok in Amsterdam."
+      },
+      {
+        "es": "1821. El lienzo llega a Berlín con la colección del comerciante Edward Solly.",
+        "en": "1821. The canvas reaches Berlin with the collection of the dealer Edward Solly."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, hacia 1659. Rembrandt pinta aquí el lienzo.",
+          "en": "Amsterdam, around 1659. Rembrandt paints the canvas here."
+        }
+      },
+      {
+        "id": "berlin",
+        "lat": 52.52,
+        "lon": 13.4,
+        "nombre": {
+          "es": "Berlín",
+          "en": "Berlin"
+        },
+        "pie": {
+          "es": "Berlín, 1821. El lienzo entra en la ciudad con la colección de Edward Solly.",
+          "en": "Berlin, 1821. The canvas enters the city with the collection of Edward Solly."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.19,
+      0.19,
+      0.23
+    ]
+  },
+  "gn-15": {
+    "cita": {
+      "es": "Una hoja apaisada de unos veinticuatro centímetros con la bendición de Betel, de una serie para el impresor Plantino.",
+      "en": "A landscape-format sheet about twenty-four centimetres wide showing the blessing at Bethel, from a series for the printer Plantin."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1572. Pieter van der Borcht huye del saqueo de Malinas y llega a Amberes.",
+        "en": "1572. Pieter van der Borcht flees the sack of Mechelen and arrives in Antwerp."
+      },
+      {
+        "es": "1583. El impresor Plantino se instala en Leiden.",
+        "en": "1583. The printer Plantin settles in Leiden."
+      },
+      {
+        "es": "Hacia 1592. La serie pequeña se publica en Leiden, según una fuente.",
+        "en": "Around 1592. The small series is published in Leiden, according to one source."
+      },
+      {
+        "es": "1613. Michiel Colijn reimprime las planchas en Ámsterdam.",
+        "en": "1613. Michiel Colijn reprints the plates in Amsterdam."
+      },
+      {
+        "es": "1878. Una colección pública de Ámsterdam compra la hoja.",
+        "en": "1878. A public collection in Amsterdam buys the sheet."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1572. Van der Borcht llega y trabaja para el impresor Plantino.",
+          "en": "Antwerp, 1572. Van der Borcht arrives and works for the printer Plantin."
+        }
+      },
+      {
+        "id": "leiden",
+        "lat": 52.16,
+        "lon": 4.49,
+        "nombre": {
+          "es": "Leiden",
+          "en": "Leiden"
+        },
+        "pie": {
+          "es": "Leiden, hacia 1592. La edición de la serie se asocia con esta ciudad.",
+          "en": "Leiden, around 1592. The edition of the series is associated with this city."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1613. Michiel Colijn reimprime las planchas.",
+          "en": "Amsterdam, 1613. Michiel Colijn reprints the plates."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.2,
+      0.2,
+      0.25,
+      0.25
+    ]
+  },
+  "gn-16": {
+    "cita": {
+      "es": "Un boceto en grisalla sobre papel, firmado y fechado en 1633, con una sola luz y pocos tonos pardos.",
+      "en": "A grisaille sketch on paper, signed and dated 1633, with a single light and a handful of brown tones."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1633. Rembrandt firma y fecha el boceto en Leiden o Ámsterdam.",
+        "en": "1633. Rembrandt signs and dates the sketch in Leiden or Amsterdam."
+      },
+      {
+        "es": "1669. El boceto figura en el inventario de bienes de Ferdinand Bol en Ámsterdam.",
+        "en": "1669. The sketch appears in the inventory of Ferdinand Bol's goods in Amsterdam."
+      },
+      {
+        "es": "1756. Se vende en París en la venta del duque de Tallard.",
+        "en": "1756. It is sold in Paris in the sale of the Duke of Tallard."
+      },
+      {
+        "es": "1920. La familia Six lo vende en Ámsterdam.",
+        "en": "1920. The Six family sells it in Amsterdam."
+      },
+      {
+        "es": "1946. Una colección pública de Ámsterdam lo adquiere según el testamento de su último dueño.",
+        "en": "1946. A public collection in Amsterdam acquires it under the will of its last owner."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1633. Lugar posible de ejecución del boceto, junto a Leiden.",
+          "en": "Amsterdam, 1633. One possible place of execution of the sketch, alongside Leiden."
+        }
+      },
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1756. Venta del duque de Tallard.",
+          "en": "Paris, 1756. Sale of the Duke of Tallard."
+        }
+      },
+      {
+        "id": "hillegom",
+        "lat": 52.29,
+        "lon": 4.58,
+        "nombre": {
+          "es": "Hillegom",
+          "en": "Hillegom"
+        },
+        "pie": {
+          "es": "Hillegom, hacia 1836. La familia Six posee el boceto.",
+          "en": "Hillegom, around 1836. The Six family owns the sketch."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.21,
+      0.19,
+      0.21,
+      0.22
+    ]
+  },
+  "gn-17": {
+    "cita": {
+      "es": "Un lienzo apaisado de casi un metro setenta, con solo dos figuras y telas por todo decorado.",
+      "en": "A wide canvas almost a metre and seventy centimetres across, with two figures and fabric as the only scenery."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1630. Guido Reni dirige un taller activo en Bolonia y pinta este lienzo.",
+        "en": "Around 1630. Guido Reni runs an active workshop in Bologna and paints this canvas."
+      },
+      {
+        "es": "1678. Malvasia publica la Felsina pittrice y registra varias pinturas de Reni sobre este tema.",
+        "en": "1678. Malvasia publishes the Felsina pittrice and records several paintings by Reni on this subject."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "bolonia",
+        "lat": 44.49,
+        "lon": 11.34,
+        "nombre": {
+          "es": "Bolonia",
+          "en": "Bologna"
+        },
+        "pie": {
+          "es": "Bolonia, hacia 1630. Reni dirige allí un taller con ayudantes.",
+          "en": "Bologna, around 1630. Reni runs a workshop with assistants there."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.19,
+      0.19,
+      0.23
+    ]
+  },
+  "gn-18": {
+    "cita": {
+      "es": "Témpera sobre lino y una sala de palacio de proporciones italianas para contar la corte de Egipto.",
+      "en": "Distemper on linen and a palace hall of Italian proportions to tell the court of Egypt."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1534. Jörg Breu el Joven asume el taller familiar de Augsburgo.",
+        "en": "1534. Jörg Breu the Younger takes over the family workshop in Augsburg."
+      },
+      {
+        "es": "1537. Muere su padre y Breu sigue al frente del taller.",
+        "en": "1537. His father dies and Breu stays at the head of the workshop."
+      },
+      {
+        "es": "Entre 1534 y 1547. Se fecha en estos años el lienzo atribuido a Breu.",
+        "en": "Between 1534 and 1547. The canvas attributed to Breu is dated to these years."
+      },
+      {
+        "es": "1547. Muere Breu en Augsburgo.",
+        "en": "1547. Breu dies in Augsburg."
+      },
+      {
+        "es": "1889. Henry G. Marquand dona el lienzo a una institución de Nueva York.",
+        "en": "1889. Henry G. Marquand donates the canvas to an institution in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, entre 1534 y 1547. Taller familiar de los Breu.",
+          "en": "Augsburg, between 1534 and 1547. The Breu family workshop."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.23,
+      0.21,
+      0.22
+    ]
+  },
+  "gn-19": {
+    "cita": {
+      "es": "Un gobernador reconoce a sus hermanos, que se postran ante él sin sospecharlo, en una sala holandesa.",
+      "en": "A governor recognizes his brothers, who bow down before him without suspecting it, in a Dutch room."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1632. Jacob Willemsz. de Wet ingresa en el gremio de San Lucas de Haarlem.",
+        "en": "1632. Jacob Willemsz de Wet joins the guild of St. Luke in Haarlem."
+      },
+      {
+        "es": "Década de 1660. De Wet pinta en Haarlem a José vendiendo grano en Egipto.",
+        "en": "The 1660s. De Wet paints Joseph selling grain in Egypt, in Haarlem."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "haarlem",
+        "lat": 52.38,
+        "lon": 4.64,
+        "nombre": {
+          "es": "Haarlem",
+          "en": "Haarlem"
+        },
+        "pie": {
+          "es": "Haarlem, década de 1660. De Wet dirige allí un taller con muchos aprendices.",
+          "en": "Haarlem, the 1660s. De Wet runs a workshop there with many apprentices."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.19,
+      0.19,
+      0.22,
+      0.25
+    ]
+  },
+  "gn-20": {
+    "cita": {
+      "es": "Una pequeña hoja a pluma y tinta, uno de los apuntes de Tissot para su serie sobre el Antiguo Testamento.",
+      "en": "A small sheet in pen and ink, one of Tissot's sketches for his series on the Old Testament."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1896. Tissot vuelve a Tierra Santa para empezar el proyecto del Antiguo Testamento.",
+        "en": "1896. Tissot returns to the Holy Land to begin the Old Testament project."
+      },
+      {
+        "es": "Hacia 1899. Tissot hace este apunte a pluma y tinta para una lámina de la serie.",
+        "en": "Around 1899. Tissot makes this pen and ink sketch for a plate of the series."
+      },
+      {
+        "es": "1902. Tissot muere en Buillon.",
+        "en": "1902. Tissot dies at Buillon."
+      },
+      {
+        "es": "1904. La edición de la serie se publica en París.",
+        "en": "1904. The edition of the series is published in Paris."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1904. Se publica allí la edición de la serie.",
+          "en": "Paris, 1904. The edition of the series is published there."
+        }
+      },
+      {
+        "id": "manchester",
+        "lat": 53.48,
+        "lon": -2.24,
+        "nombre": {
+          "es": "Mánchester",
+          "en": "Manchester"
+        },
+        "pie": {
+          "es": "Mánchester. Un ejemplar único de la edición reúne bocetos originales a pluma de Tissot.",
+          "en": "Manchester. A unique copy of the edition gathers original pen sketches by Tissot."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.18,
+      0.21,
+      0.2,
+      0.21
+    ]
+  },
+  "gn-21": {
+    "cita": {
+      "es": "Una xilografía de poco más de diez centímetros de alto para contar la llegada de un anciano ante el rey de Egipto.",
+      "en": "A woodcut a little over ten centimetres high tells the arrival of an old man before the king of Egypt."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1599. La familia Van Sichem se traslada de Basilea a Ámsterdam.",
+        "en": "1599. The Van Sichem family moves from Basel to Amsterdam."
+      },
+      {
+        "es": "1645. Se tallan los tacos para las ediciones de 1645 y 1646 del editor Paets en Ámsterdam.",
+        "en": "1645. The blocks are cut for the 1645 and 1646 editions of the publisher Paets in Amsterdam."
+      },
+      {
+        "es": "Hacia 1740. Esta hoja se imprime, probablemente, para el Bybels Lusthof de Jan Klooster.",
+        "en": "Around 1740. This sheet is probably printed for Jan Klooster's Bybels Lusthof."
+      },
+      {
+        "es": "1779. Kemink e hijo imprimen en Utrecht la última edición conocida.",
+        "en": "1779. Kemink and son print the last known edition in Utrecht."
+      },
+      {
+        "es": "1936. La hoja entra en una colección pública de Ámsterdam.",
+        "en": "1936. The sheet enters a public collection in Amsterdam."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "basilea",
+        "lat": 47.56,
+        "lon": 7.59,
+        "nombre": {
+          "es": "Basilea",
+          "en": "Basel"
+        },
+        "pie": {
+          "es": "Basilea, 1599. La familia Van Sichem sale de la ciudad hacia Ámsterdam.",
+          "en": "Basel, 1599. The Van Sichem family leaves the city for Amsterdam."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1646. Paets publica las imágenes bíblicas de Van Sichem.",
+          "en": "Amsterdam, 1646. Paets publishes Van Sichem's Bible images."
+        }
+      },
+      {
+        "id": "utrecht",
+        "lat": 52.09,
+        "lon": 5.12,
+        "nombre": {
+          "es": "Utrecht",
+          "en": "Utrecht"
+        },
+        "pie": {
+          "es": "Utrecht, 1779. Kemink e hijo imprimen la última edición conocida.",
+          "en": "Utrecht, 1779. Kemink and son print the last known edition."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.2,
+      0.22,
+      0.21,
+      0.25
+    ]
+  },
+  "gn-22": {
+    "cita": {
+      "es": "Tissot dedica sus últimos años a ilustrar el Antiguo Testamento con cientos de composiciones.",
+      "en": "Tissot spends his last years illustrating the Old Testament in hundreds of compositions."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1896. Tissot empieza la serie del Antiguo Testamento, que ocupa sus últimos años.",
+        "en": "1896. Tissot begins the Old Testament series, which fills his last years."
+      },
+      {
+        "es": "Hacia 1900. Fecha atribuida a este boceto a pluma dentro de la serie.",
+        "en": "Around 1900. Date attributed to this pen sketch within the series."
+      },
+      {
+        "es": "1902. Tissot muere y sus ayudantes completan la mayoría de la serie bajo la dirección del editor Maurice de Brunoff.",
+        "en": "1902. Tissot dies and his assistants complete most of the series under the direction of the publisher Maurice de Brunoff."
+      },
+      {
+        "es": "1904. La edición en dos volúmenes sale en París.",
+        "en": "1904. The two-volume edition appears in Paris."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1904. La edición ilustrada de la Biblia sale en dos volúmenes.",
+          "en": "Paris, 1904. The illustrated Bible appears in two volumes."
+        }
+      },
+      {
+        "id": "manchester",
+        "lat": 53.48,
+        "lon": -2.24,
+        "nombre": {
+          "es": "Mánchester",
+          "en": "Manchester"
+        },
+        "pie": {
+          "es": "Mánchester. Allí se conserva hoy el ejemplar único con los bocetos a pluma.",
+          "en": "Manchester. The unique copy with the pen sketches is kept there today."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.2,
+      0.21,
+      0.21
+    ]
+  },
+  "ex-01": {
+    "cita": {
+      "es": "Domenichino pinta sobre una plancha de cobre del tamaño de un libro abierto.",
+      "en": "Domenichino paints on a sheet of copper about the size of an open book."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1602. Se instala en Roma y se forma en el círculo de los Carracci.",
+        "en": "Around 1602. He settles in Rome and trains in the circle of the Carracci."
+      },
+      {
+        "es": "Entre 1610 y 1616. Domenichino pinta sobre cobre el paisaje con la zarza ardiente.",
+        "en": "Between 1610 and 1616. Domenichino paints the landscape with the burning bush on copper."
+      },
+      {
+        "es": "1976. La pieza pasa a Nueva York como donación.",
+        "en": "1976. The piece goes to New York as a gift."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, hacia 1602. Domenichino se instala en la ciudad, donde la familia Colonna conservó después la pieza.",
+          "en": "Rome, around 1602. Domenichino settles in the city, where the Colonna family later kept the piece."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.18,
+      0.2,
+      0.21,
+      0.25
+    ]
+  },
+  "ex-02": {
+    "cita": {
+      "es": "Un pintor cuyo nombre se perdió da cuerpo a los Dinteville en una tabla de casi dos metros.",
+      "en": "A painter whose name was lost gives the Dinteville family bodies on a panel almost two metres wide."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1537. Se fecha la tabla de los Dinteville, que cuelga en Polisy sobre la chimenea de la cámara del obispo de Auxerre.",
+        "en": "1537. The Dinteville panel is dated. It hangs in Polisy above the fireplace of the bishop of Auxerre's chamber."
+      },
+      {
+        "es": "1728. Un inventario la cita como pareja de Los embajadores de Holbein.",
+        "en": "1728. An inventory lists it as the pair of Holbein's The Ambassadors."
+      },
+      {
+        "es": "1787. Se vende en una subasta atribuida a Holbein, junto con Los embajadores.",
+        "en": "1787. It is sold at auction as a work by Holbein, together with The Ambassadors."
+      },
+      {
+        "es": "1950. Se compra para una colección pública de Nueva York.",
+        "en": "1950. It is bought for a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "polisy",
+        "lat": 48.02,
+        "lon": 4.37,
+        "nombre": {
+          "es": "Polisy",
+          "en": "Polisy"
+        },
+        "pie": {
+          "es": "Polisy. La tabla cuelga sobre la chimenea de la cámara del obispo de Auxerre.",
+          "en": "Polisy. The panel hangs above the fireplace of the bishop of Auxerre's chamber."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.23,
+      0.2,
+      0.21,
+      0.22,
+      0.21
+    ]
+  },
+  "ex-03": {
+    "cita": {
+      "es": "Turner publica por entregas su Liber Studiorum, una serie de láminas ordenadas por géneros de paisaje.",
+      "en": "Turner publishes his Liber Studiorum in installments, a series of prints sorted by kinds of landscape."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1800. Turner envía a la Academia su lienzo sobre las plagas de Egipto, el mayor que había intentado.",
+        "en": "1800. Turner sends the Academy his canvas of the plagues of Egypt, the largest he had attempted."
+      },
+      {
+        "es": "1807. William Beckford vende el lienzo en la subasta de Fonthill.",
+        "en": "1807. William Beckford sells the canvas at the Fonthill sale."
+      },
+      {
+        "es": "1808. Turner publica la lámina en la tercera entrega del Liber Studiorum.",
+        "en": "1808. Turner publishes the print in the third installment of the Liber Studiorum."
+      },
+      {
+        "es": "1954. Un ejemplar de la lámina llega a una colección de Nueva York.",
+        "en": "1954. A copy of the print reaches a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "fonthill",
+        "lat": 51.09,
+        "lon": -2.08,
+        "nombre": {
+          "es": "Fonthill",
+          "en": "Fonthill"
+        },
+        "pie": {
+          "es": "Fonthill, 1807. En la subasta de la casa Beckford se vende el lienzo de Turner.",
+          "en": "Fonthill, 1807. Beckford's sale there disposes of Turner's canvas."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1808. Turner publica la lámina por entregas para suscriptores.",
+          "en": "London, 1808. Turner publishes the print in installments for subscribers."
+        }
+      }
+    ],
+    "radios": [
+      0.26,
+      0.24,
+      0.23,
+      0.2,
+      0.19
+    ]
+  },
+  "ex-04": {
+    "cita": {
+      "es": "Turner reduce a marrón sepia un gran lienzo de 1802 para los suscriptores de su Liber Studiorum.",
+      "en": "Turner reduces a large canvas of 1802 to sepia brown for the subscribers of his Liber Studiorum."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1802. Turner expone en la Academia un gran lienzo de la décima plaga de Egipto.",
+        "en": "1802. Turner exhibits at the Academy a large canvas of the tenth plague of Egypt."
+      },
+      {
+        "es": "Hacia 1806. Se fecha un dibujo preparatorio de la composición.",
+        "en": "Around 1806. A preparatory drawing for the composition is dated to these years."
+      },
+      {
+        "es": "1816. Turner publica la lámina en la parte 12 del Liber Studiorum, con el mezzotinto de William Say.",
+        "en": "1816. Turner publishes the plate in part 12 of the Liber Studiorum, with the mezzotint by William Say."
+      },
+      {
+        "es": "1819. La serie del Liber Studiorum se detiene.",
+        "en": "1819. The Liber Studiorum series comes to a halt."
+      },
+      {
+        "es": "1928. Un ejemplar de la lámina llega a una colección de Nueva York.",
+        "en": "1928. A copy of the plate reaches a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1816. Turner publica la lámina desde su dirección en Queen Anne Street.",
+          "en": "London, 1816. Turner publishes the plate from his address in Queen Anne Street."
+        }
+      }
+    ],
+    "radios": [
+      0.24,
+      0.19,
+      0.18,
+      0.19,
+      0.25
+    ]
+  },
+  "ex-05": {
+    "cita": {
+      "es": "Johann Sadeler pasa a la plancha de cobre un diseño de Marten van Cleve para el editor Gerard de Jode.",
+      "en": "Johann Sadeler transfers to a copper plate a design by Marten van Cleve for the publisher Gerard de Jode."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1579. Sadeler se instala en Colonia, con regresos frecuentes a Amberes.",
+        "en": "Around 1579. Sadeler settles in Cologne, with frequent returns to Antwerp."
+      },
+      {
+        "es": "1585. Gerard de Jode añade series nuevas, entre ellas esta, a la segunda edición de su Thesaurus.",
+        "en": "1585. Gerard de Jode adds new series, this one among them, to the second edition of his Thesaurus."
+      },
+      {
+        "es": "1963. Una impresión de la plancha llega a una colección de Nueva York.",
+        "en": "1963. An impression of the plate reaches a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "colonia",
+        "lat": 50.94,
+        "lon": 6.96,
+        "nombre": {
+          "es": "Colonia",
+          "en": "Cologne"
+        },
+        "pie": {
+          "es": "Colonia, hacia 1579. Sadeler se instala en la ciudad.",
+          "en": "Cologne, around 1579. Sadeler settles in the city."
+        }
+      },
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1585. Gerard de Jode, editor de la ciudad, publica la serie de Moisés en la segunda edición de su Thesaurus.",
+          "en": "Antwerp, 1585. Gerard de Jode, a publisher of the city, issues the Moses series in the second edition of his Thesaurus."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.21,
+      0.23,
+      0.2,
+      0.19
+    ]
+  },
+  "ex-06": {
+    "cita": {
+      "es": "Hans Jordaens III tiene delante una tabla apaisada y se propone meter en ella un pueblo entero.",
+      "en": "Hans Jordaens III faces a wide panel and sets out to fit a whole people in it."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Siglo XVII. Se pinta la tabla apaisada, que se atribuye a Hans Jordaens III, pintor activo en Amberes.",
+        "en": "Seventeenth century. The wide panel is painted. It is attributed to Hans Jordaens III, a painter active in Antwerp."
+      },
+      {
+        "es": "1643. Muere Hans Jordaens III.",
+        "en": "1643. Hans Jordaens III dies."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, siglo XVII. Ciudad donde trabaja el pintor al que se atribuye la tabla.",
+          "en": "Antwerp, seventeenth century. City where the painter credited with the panel works."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.26,
+      0.21,
+      0.2
+    ]
+  },
+  "ex-07": {
+    "cita": {
+      "es": "Aurelio Lomi traza con ocres y marrones el arco de una luneta sobre un lienzo casi cuadrado.",
+      "en": "Aurelio Lomi draws in ochres and browns the arch of a lunette on a nearly square canvas."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1580. Se forma en Florencia con Alessandro Allori y Lodovico Cigoli.",
+        "en": "Around 1580. He trains in Florence with Alessandro Allori and Lodovico Cigoli."
+      },
+      {
+        "es": "1595. Pinta un San Jerónimo para la catedral de Pisa.",
+        "en": "1595. He paints a Saint Jerome for the cathedral of Pisa."
+      },
+      {
+        "es": "1880. El lienzo llega a Nueva York como regalo de Cornelius Vanderbilt.",
+        "en": "1880. The canvas reaches New York as a gift from Cornelius Vanderbilt."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "pisa",
+        "lat": 43.72,
+        "lon": 10.4,
+        "nombre": {
+          "es": "Pisa",
+          "en": "Pisa"
+        },
+        "pie": {
+          "es": "Pisa, 1595. Lomi pinta un San Jerónimo para la catedral de la ciudad.",
+          "en": "Pisa, 1595. Lomi paints a Saint Jerome for the city's cathedral."
+        }
+      },
+      {
+        "id": "florencia",
+        "lat": 43.77,
+        "lon": 11.26,
+        "nombre": {
+          "es": "Florencia",
+          "en": "Florence"
+        },
+        "pie": {
+          "es": "Florencia, hacia 1580. Lomi se forma con Alessandro Allori y Lodovico Cigoli.",
+          "en": "Florence, around 1580. Lomi trains with Alessandro Allori and Lodovico Cigoli."
+        }
+      },
+      {
+        "id": "genova",
+        "lat": 44.41,
+        "lon": 8.93,
+        "nombre": {
+          "es": "Génova",
+          "en": "Genoa"
+        },
+        "pie": {
+          "es": "Génova. Lomi pinta también en esta ciudad.",
+          "en": "Genoa. Lomi paints in this city too."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.21,
+      0.19,
+      0.2,
+      0.21,
+      0.21
+    ]
+  },
+  "ex-08": {
+    "cita": {
+      "es": "Abraham Bloemaert abre taller en Utrecht y es decano del gremio donde se inscriben los pintores.",
+      "en": "Abraham Bloemaert opens a workshop in Utrecht and is dean of the guild that enrolls the painters."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1581. Bloemaert pasa unos tres años en París y trabaja con Hieronymus Francken.",
+        "en": "Around 1581. Bloemaert spends about three years in Paris and works with Hieronymus Francken."
+      },
+      {
+        "es": "1591. Su padre es nombrado arquitecto municipal de Ámsterdam y Abraham se va con él.",
+        "en": "1591. His father is appointed city architect of Amsterdam and Abraham goes with him."
+      },
+      {
+        "es": "1594. De vuelta en Utrecht, abre taller y es decano del gremio de los silleros, que agrupa a los pintores.",
+        "en": "1594. Back in Utrecht, he opens a workshop and is dean of the saddlers' guild, which groups the painters."
+      },
+      {
+        "es": "1596. Bloemaert pinta en Utrecht Moisés golpea la roca.",
+        "en": "1596. Bloemaert paints Moses Striking the Rock in Utrecht."
+      },
+      {
+        "es": "1972. La obra llega a una colección de Nueva York por compra.",
+        "en": "1972. The work reaches a collection in New York by purchase."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, hacia 1581. Bloemaert trabaja con Hieronymus Francken.",
+          "en": "Paris, around 1581. Bloemaert works with Hieronymus Francken."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1591. Bloemaert se traslada con su padre, arquitecto municipal.",
+          "en": "Amsterdam, 1591. Bloemaert moves with his father, the city architect."
+        }
+      },
+      {
+        "id": "utrecht",
+        "lat": 52.09,
+        "lon": 5.12,
+        "nombre": {
+          "es": "Utrecht",
+          "en": "Utrecht"
+        },
+        "pie": {
+          "es": "Utrecht, 1596. Bloemaert fecha allí el lienzo con Moisés golpeando la roca.",
+          "en": "Utrecht, 1596. Bloemaert dates the canvas of Moses striking the rock there."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.21,
+      0.21,
+      0.23,
+      0.22
+    ]
+  },
+  "ex-09": {
+    "cita": {
+      "es": "Rembrandt pinta a Moisés a tres cuartos, algo mayor que el natural, en un lienzo de unos 168 por 136 centímetros.",
+      "en": "Rembrandt paints Moses in three-quarter length, a little larger than life, on a canvas of about 168 by 136 centimetres."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1656. Rembrandt se declara en quiebra.",
+        "en": "1656. Rembrandt declares bankruptcy."
+      },
+      {
+        "es": "1658. Su casa de Ámsterdam se vende en subasta.",
+        "en": "1658. His house in Amsterdam is sold at auction."
+      },
+      {
+        "es": "1659. Rembrandt firma y fecha en Ámsterdam su Moisés con las tablas de la Ley.",
+        "en": "1659. Rembrandt signs and dates his Moses with the Tablets of the Law in Amsterdam."
+      },
+      {
+        "es": "1763. Federico II de Prusia adquiere el lienzo, según una fuente.",
+        "en": "1763. Frederick II of Prussia acquires the canvas, according to one source."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1659. Rembrandt firma y fecha el lienzo.",
+          "en": "Amsterdam, 1659. Rembrandt signs and dates the canvas."
+        }
+      },
+      {
+        "id": "berlin",
+        "lat": 52.52,
+        "lon": 13.4,
+        "nombre": {
+          "es": "Berlín",
+          "en": "Berlin"
+        },
+        "pie": {
+          "es": "Berlín. Allí se conserva hoy el lienzo.",
+          "en": "Berlin. The canvas is kept there today."
+        }
+      }
+    ],
+    "radios": [
+      0.23,
+      0.19,
+      0.18,
+      0.21,
+      0.25
+    ]
+  },
+  "ex-10": {
+    "cita": {
+      "es": "Doré dibuja directamente sobre tacos de madera para una Biblia en folio que edita Alfred Mame.",
+      "en": "Doré draws straight onto wooden blocks for a folio Bible published by Alfred Mame."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1865. La primera edición de la Biblia de Mame sale el 1 de diciembre, con 3.200 ejemplares y 228 grabados.",
+        "en": "1865. The first edition of the Mame Bible comes out on 1 December, with 3,200 copies and 228 engravings."
+      },
+      {
+        "es": "1866. La segunda edición, con 312 composiciones, queda como versión definitiva.",
+        "en": "1866. The second edition, with 312 compositions, becomes the definitive version."
+      },
+      {
+        "es": "1874. La obra se reedita, y de nuevo en 1882.",
+        "en": "1874. The work is reissued, and again in 1882."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "tours",
+        "lat": 47.39,
+        "lon": 0.69,
+        "nombre": {
+          "es": "Tours",
+          "en": "Tours"
+        },
+        "pie": {
+          "es": "Tours, 1865. Los talleres de Mame producen el libro completo.",
+          "en": "Tours, 1865. Mame's workshops produce the whole book."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres. Cassell publica a la vez la edición inglesa.",
+          "en": "London. Cassell publishes the English edition at the same time."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.19,
+      0.2,
+      0.21,
+      0.22
+    ]
+  },
+  "ex-11": {
+    "cita": {
+      "es": "Un tabernáculo de cobre dorado con esmalte excavado, hecho en Limoges hacia 1200.",
+      "en": "A tabernacle of gilded copper with champlevé enamel, made in Limoges around 1200."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1200. Un taller de Limoges hace la pieza en cobre dorado y esmalte.",
+        "en": "Around 1200. A Limoges workshop makes the piece in gilded copper and enamel."
+      },
+      {
+        "es": "1941. Tras pasar por el coleccionista George Blumenthal, entra en una colección pública de Nueva York.",
+        "en": "1941. After passing through the collector George Blumenthal, it enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "limoges",
+        "lat": 45.83,
+        "lon": 1.26,
+        "nombre": {
+          "es": "Limoges",
+          "en": "Limoges"
+        },
+        "pie": {
+          "es": "Limoges, hacia 1200-1210. Taller de orfebres y esmaltadores.",
+          "en": "Limoges, around 1200-1210. Workshop of goldsmiths and enamellers."
+        }
+      },
+      {
+        "id": "praga",
+        "lat": 50.08,
+        "lon": 14.42,
+        "nombre": {
+          "es": "Praga",
+          "en": "Prague"
+        },
+        "pie": {
+          "es": "Praga, siglo XIX. Hallada en la plaza Bethlehem.",
+          "en": "Prague, nineteenth century. Found in Bethlehem Square."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.2,
+      0.21,
+      0.23,
+      0.23
+    ]
+  },
+  "ex-12": {
+    "cita": {
+      "es": "Aarón, sentado y casi a la medida de una persona, tallado en piedra caliza en Noyon hacia 1170.",
+      "en": "Aaron, seated and almost life-sized, carved in limestone at Noyon around 1170."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1170. Se talla en piedra caliza la figura de Aarón, que adornaba la catedral de Noyon.",
+        "en": "Around 1170. The limestone figure of Aaron is carved, and it adorned the cathedral of Noyon."
+      },
+      {
+        "es": "1921. Michael Dreicer lega la estatua y el ingreso se registra en 1922.",
+        "en": "1921. Michael Dreicer bequeaths the statue and the entry is recorded in 1922."
+      },
+      {
+        "es": "1922. La estatua se instala en Nueva York junto a un Moisés de la misma catedral.",
+        "en": "1922. The statue is placed in New York beside a Moses from the same cathedral."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "noyon",
+        "lat": 49.58,
+        "lon": 3.0,
+        "nombre": {
+          "es": "Noyon",
+          "en": "Noyon"
+        },
+        "pie": {
+          "es": "Noyon, hacia 1170. La figura adornaba la catedral junto a un Moisés.",
+          "en": "Noyon, around 1170. The figure adorned the cathedral together with a Moses."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.21,
+      0.19,
+      0.2,
+      0.24
+    ]
+  },
+  "ex-14": {
+    "cita": {
+      "es": "Estampa a buril de Jean-Baptiste de Poilly, vendida en la rue Saint-Jacques de París con privilegio del rey.",
+      "en": "A burin print by Jean-Baptiste de Poilly, sold on the rue Saint-Jacques in Paris under the king's privilege."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1633. Nicolas Poussin pinta en Roma el original.",
+        "en": "Around 1633. Nicolas Poussin paints the original in Rome."
+      },
+      {
+        "es": "1634. La pintura figura en Turín, en la colección de Amedeo dal Pozzo, hasta 1644.",
+        "en": "1634. The painting is recorded in Turin, in the collection of Amedeo dal Pozzo, until 1644."
+      },
+      {
+        "es": "Antes de 1728. Poilly graba y edita en París la estampa.",
+        "en": "Before 1728. Poilly engraves and publishes the print in Paris."
+      },
+      {
+        "es": "1741. La pintura se compra en París para Sir Jacob de Bouverie.",
+        "en": "1741. The painting is bought in Paris for Sir Jacob de Bouverie."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, hacia 1633-1634. Poussin pinta el original.",
+          "en": "Rome, around 1633-1634. Poussin paints the original."
+        }
+      },
+      {
+        "id": "turin",
+        "lat": 45.07,
+        "lon": 7.69,
+        "nombre": {
+          "es": "Turín",
+          "en": "Turin"
+        },
+        "pie": {
+          "es": "Turín, 1634-1644. La pintura figura en inventarios de dal Pozzo.",
+          "en": "Turin, 1634-1644. The painting appears in dal Pozzo inventories."
+        }
+      },
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, hacia 1700-1728. Poilly vende la estampa en la rue Saint-Jacques.",
+          "en": "Paris, around 1700-1728. Poilly sells the print on the rue Saint-Jacques."
+        }
+      }
+    ],
+    "radios": [
+      0.22,
+      0.2,
+      0.17,
+      0.21,
+      0.21
+    ]
+  },
+  "ex-15": {
+    "cita": {
+      "es": "Aguafuerte de 27 centímetros de ancho que reúne en una cinta estrecha dos momentos del Sinaí.",
+      "en": "An etching 27 centimetres wide that gathers two moments from Sinai on a narrow band."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1650 y 1670. Pietro Santi Bartoli graba en Roma la estampa según una composición de Rafael.",
+        "en": "Between 1650 and 1670. Pietro Santi Bartoli engraves the print in Rome after a composition by Raphael."
+      },
+      {
+        "es": "1959. Un ejemplar llega a Nueva York como regalo.",
+        "en": "1959. A copy reaches New York as a gift."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, entre 1650 y 1670. Giovanni Giacomo De Rossi publica la serie de 15 planchas.",
+          "en": "Rome, between 1650 and 1670. Giovanni Giacomo De Rossi publishes the series of 15 plates."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.22,
+      0.21,
+      0.2
+    ]
+  },
+  "ex-16": {
+    "cita": {
+      "es": "Franz Xaver Habermann dibuja en Augsburgo un sagrario de iglesia en una hoja de aguafuerte.",
+      "en": "Franz Xaver Habermann draws a church tabernacle in Augsburg on a sheet of etching."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1750 y 1756. Martin Engelbrecht publica la hoja en Augsburgo.",
+        "en": "Between 1750 and 1756. Martin Engelbrecht publishes the sheet in Augsburg."
+      },
+      {
+        "es": "1796. Muere Habermann en Augsburgo.",
+        "en": "1796. Habermann dies in Augsburg."
+      },
+      {
+        "es": "2014. La hoja ingresa en una colección pública de Nueva York.",
+        "en": "2014. The sheet enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, hacia 1750-1756. Engelbrecht publica la serie del tabernáculo.",
+          "en": "Augsburg, around 1750-1756. Engelbrecht publishes the tabernacle series."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.23,
+      0.22,
+      0.23,
+      0.22
+    ]
+  },
+  "ex-17": {
+    "cita": {
+      "es": "Habermann dibuja altares, cartelas y chimeneas en Augsburgo, y esta plancha propone un tabernáculo de altar.",
+      "en": "Habermann draws altars, cartouches and fireplaces in Augsburg, and this plate offers an altar tabernacle."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1750 y 1756. Habermann y Engelbrecht publican la hoja en Augsburgo.",
+        "en": "Between 1750 and 1756. Habermann and Engelbrecht publish the sheet in Augsburg."
+      },
+      {
+        "es": "2014. La hoja entra en una colección pública de Nueva York.",
+        "en": "2014. The sheet enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, hacia 1750-1756. Centro de la estampa de ornamento rococó.",
+          "en": "Augsburg, around 1750-1756. Centre of rococo ornament prints."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.21,
+      0.23,
+      0.22,
+      0.19
+    ]
+  },
+  "ex-18": {
+    "cita": {
+      "es": "Habermann dibuja en Augsburgo los altares que otros tallarán, y Engelbrecht los pasa a la plancha de cobre.",
+      "en": "Habermann draws in Augsburg the altars that others will carve, and Engelbrecht turns them into copper plates."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1750 y 1756. Engelbrecht publica la hoja en Augsburgo.",
+        "en": "Between 1750 and 1756. Engelbrecht publishes the sheet in Augsburg."
+      },
+      {
+        "es": "1796. Muere Habermann en Augsburgo.",
+        "en": "1796. Habermann dies in Augsburg."
+      },
+      {
+        "es": "2014. La hoja ingresa en una colección pública de Nueva York.",
+        "en": "2014. The sheet enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, hacia 1750-1756. Engelbrecht publica la hoja.",
+          "en": "Augsburg, around 1750-1756. Engelbrecht publishes the sheet."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.23,
+      0.19,
+      0.22,
+      0.2,
+      0.28
+    ]
+  },
+  "lv-01": {
+    "cita": {
+      "es": "Una puerta pequeña de piedra gris, custodiada por dos ángeles, hecha para empotrarse en el muro de una iglesia.",
+      "en": "A small door of grey stone, watched over by two angels, made to be set into a church wall."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1485 y 1499. Se talla la pieza en piedra caliza gris.",
+        "en": "Between 1485 and 1499. The piece is carved in grey limestone."
+      },
+      {
+        "es": "1949. Entra en una colección pública de Nueva York por regalo de dos hermanos.",
+        "en": "1949. It enters a public collection in New York as a gift from two brothers."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "italia-central",
+        "lat": 43.0,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Italia central",
+          "en": "Central Italy"
+        },
+        "pie": {
+          "es": "Italia central, entre 1485 y 1499. Origen probable de la pieza.",
+          "en": "Central Italy, between 1485 and 1499. Probable origin of the piece."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.19,
+      0.19,
+      0.21
+    ]
+  },
+  "lv-02": {
+    "cita": {
+      "es": "Una pequeña arquitectura de nogal con pilastras, cornisa y dos grifos, tallada en Italia hacia 1530.",
+      "en": "A small walnut architecture with pilasters, a cornice and two griffins, carved in Italy around 1530."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1530. Se talla en nogal el marco en forma de tabernáculo, posiblemente en el taller de los del Tasso.",
+        "en": "Around 1530. The tabernacle-shaped frame is carved in walnut, possibly in the del Tasso workshop."
+      },
+      {
+        "es": "1975. Ingresa en Nueva York con la colección de un banquero.",
+        "en": "1975. It enters a New York public collection with a banker's collection."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "italia",
+        "lat": 42.5,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Italia",
+          "en": "Italy"
+        },
+        "pie": {
+          "es": "Italia, hacia 1530. Marco de nogal con dorado parcial.",
+          "en": "Italy, around 1530. Walnut frame with partial gilding."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.19,
+      0.26,
+      0.23,
+      0.2,
+      0.17
+    ]
+  },
+  "lv-03": {
+    "cita": {
+      "es": "Habermann dibuja ornamentos para el editor Martin Engelbrecht, en series de láminas pensadas como modelos para artesanos.",
+      "en": "Habermann draws ornament for the publisher Martin Engelbrecht, in series of plates meant as models for craftsmen."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1750 y 1756. Habermann dibuja en Augsburgo la lámina del tabernáculo para el editor Martin Engelbrecht, que la imprime.",
+        "en": "Between 1750 and 1756. Habermann draws the tabernacle plate in Augsburg for the publisher Martin Engelbrecht, who prints it."
+      },
+      {
+        "es": "2014. La lámina entra por compra en una colección pública de Nueva York.",
+        "en": "2014. The plate enters a public collection in New York by purchase."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, hacia 1750-56. Habermann dibuja la lámina y Engelbrecht la edita.",
+          "en": "Augsburg, around 1750-56. Habermann draws the plate and Engelbrecht publishes it."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.21,
+      0.23,
+      0.2,
+      0.22
+    ]
+  },
+  "lv-04": {
+    "cita": {
+      "es": "Galle graba una hoja de unos 25 por 19 centímetros para una serie sobre los siete sacramentos.",
+      "en": "Galle engraves a sheet of about 25 by 19 centimetres for a series on the seven sacraments."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1557. Empieza a trabajar en Amberes para el editor Hieronymus Cock.",
+        "en": "1557. He begins working in Antwerp for the publisher Hieronymus Cock."
+      },
+      {
+        "es": "1571. Galle es ciudadano de Amberes.",
+        "en": "1571. Galle is a citizen of Antwerp."
+      },
+      {
+        "es": "1576. Galle graba en Amberes la hoja del sacramento del Orden.",
+        "en": "1576. Galle engraves in Antwerp the sheet of the sacrament of Holy Orders."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1576. Galle dirige un taller de estampas y graba la hoja del Orden.",
+          "en": "Antwerp, 1576. Galle runs a print workshop and engraves the sheet of Holy Orders."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.22,
+      0.21,
+      0.21,
+      0.19
+    ]
+  },
+  "lv-05": {
+    "cita": {
+      "es": "Una tabla de unos cuarenta y cuatro centímetros, pintada con témpera sobre fondo de oro.",
+      "en": "A panel about forty-four centimetres high, painted in tempera on a gold ground."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Siglo XV. Un pintor bizantino de nombre desconocido pinta la tabla con témpera sobre fondo de oro.",
+        "en": "Fifteenth century. A Byzantine painter whose name is lost paints the panel in tempera on a gold ground."
+      },
+      {
+        "es": "1931. La tabla pasa por legado a una colección de Nueva York.",
+        "en": "1931. The panel passes by bequest to a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "jerusalen",
+        "lat": 31.78,
+        "lon": 35.23,
+        "nombre": {
+          "es": "Jerusalén",
+          "en": "Jerusalem"
+        },
+        "pie": {
+          "es": "Jerusalén. Lugar del Templo adonde los padres llevan al niño.",
+          "en": "Jerusalem. The place of the Temple where the parents bring the child."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.19,
+      0.21,
+      0.2,
+      0.2
+    ]
+  },
+  "lv-06": {
+    "cita": {
+      "es": "Dos monjes a la entrada de una gruta, bajo árboles tan densos que parecen un bosque.",
+      "en": "Two monks at the mouth of a cave, under trees so dense they look like a forest."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1797. Boissieu graba en Lyon, con 61 años, la hoja de los monjes en el desierto.",
+        "en": "1797. At 61, Boissieu engraves in Lyon the sheet of the monks in the desert."
+      },
+      {
+        "es": "1967. La estampa ingresa por compra en una colección de Nueva York.",
+        "en": "1967. The print enters a collection in New York by purchase."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "lyon",
+        "lat": 45.76,
+        "lon": 4.84,
+        "nombre": {
+          "es": "Lyon",
+          "en": "Lyon"
+        },
+        "pie": {
+          "es": "Lyon, 1797. Boissieu graba aquí la hoja con punta de acero sobre cobre.",
+          "en": "Lyon, 1797. Boissieu engraves the sheet here with a steel point on copper."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.2,
+      0.2,
+      0.19,
+      0.23
+    ]
+  },
+  "lv-07": {
+    "cita": {
+      "es": "Füssli dibuja con pluma y aguada el centro de cada imagen, y Preissler las orlas.",
+      "en": "Füssli draws the center of each image in pen and wash, and Preissler the borders."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1697. Füssli dirige en Zúrich un taller de aguafuertes con negocio editorial.",
+        "en": "1697. Füssli runs an etching workshop with a publishing house in Zurich."
+      },
+      {
+        "es": "Hacia 1730. Füssli dibuja en Zúrich la hoja de la purificación para la Biblia ilustrada de Scheuchzer.",
+        "en": "Around 1730. Füssli draws in Zurich the sheet of the cleansing for Scheuchzer's illustrated Bible."
+      },
+      {
+        "es": "1731. Sale el primero de los cuatro volúmenes de la obra de Scheuchzer, impresos hasta 1735 en Augsburgo y Ulm.",
+        "en": "1731. The first of the four volumes of Scheuchzer's work appears, printed until 1735 in Augsburg and Ulm."
+      },
+      {
+        "es": "2008. El dibujo ingresa en una colección de Nueva York.",
+        "en": "2008. The drawing enters a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "zurich",
+        "lat": 47.37,
+        "lon": 8.54,
+        "nombre": {
+          "es": "Zúrich",
+          "en": "Zurich"
+        },
+        "pie": {
+          "es": "Zúrich, hacia 1730. Füssli dibuja aquí el centro de la lámina.",
+          "en": "Zurich, around 1730. Füssli draws the center of the plate here."
+        }
+      },
+      {
+        "id": "augsburgo",
+        "lat": 48.37,
+        "lon": 10.9,
+        "nombre": {
+          "es": "Augsburgo",
+          "en": "Augsburg"
+        },
+        "pie": {
+          "es": "Augsburgo, de 1731 a 1735. Lugar de impresión de la obra.",
+          "en": "Augsburg, 1731 to 1735. One of the places where the work is printed."
+        }
+      },
+      {
+        "id": "ulm",
+        "lat": 48.4,
+        "lon": 9.99,
+        "nombre": {
+          "es": "Ulm",
+          "en": "Ulm"
+        },
+        "pie": {
+          "es": "Ulm, de 1731 a 1735. Lugar de impresión de la obra.",
+          "en": "Ulm, 1731 to 1735. One of the places where the work is printed."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.2,
+      0.21,
+      0.21,
+      0.23
+    ]
+  },
+  "lv-08": {
+    "cita": {
+      "es": "Una hoja de noventa centímetros de ancho, toda en grises, que traslada a plancha el macho cabrío de Holman Hunt.",
+      "en": "A sheet ninety centimetres wide, all in greys, that turns Holman Hunt's goat into a plate."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1854. Holman Hunt viaja a Tierra Santa y empieza a pintar el macho cabrío junto al mar Muerto.",
+        "en": "1854. Holman Hunt travels to the Holy Land and begins painting the goat beside the Dead Sea."
+      },
+      {
+        "es": "1856. El cuadro se expone en Londres.",
+        "en": "1856. The painting is exhibited in London."
+      },
+      {
+        "es": "1861. Charles Henry Mottram graba en Londres la estampa para el editor Henry Graves.",
+        "en": "1861. Charles Henry Mottram engraves the print in London for the publisher Henry Graves."
+      },
+      {
+        "es": "2019. La estampa pasa por legado a una colección de Nueva York.",
+        "en": "2019. The print passes by bequest to a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "mar-muerto",
+        "lat": 31.5,
+        "lon": 35.5,
+        "nombre": {
+          "es": "Mar Muerto",
+          "en": "Dead Sea"
+        },
+        "pie": {
+          "es": "Mar Muerto, 1854. Hunt empieza a pintar aquí el macho cabrío.",
+          "en": "Dead Sea, 1854. Hunt begins painting the goat here."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1861. Graves edita la estampa grabada por Mottram.",
+          "en": "London, 1861. Graves publishes the print engraved by Mottram."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.22,
+      0.21,
+      0.19,
+      0.19
+    ]
+  },
+  "lv-09": {
+    "cita": {
+      "es": "En una tabla de 73 centímetros de ancho, Dios muestra a Moisés la tierra prometida.",
+      "en": "On a panel 73 centimetres wide, God shows Moses the promised land."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1772. West es nombrado pintor de historia del rey Jorge III.",
+        "en": "1772. West becomes history painter to King George III."
+      },
+      {
+        "es": "1801. West firma y fecha en Londres la tabla de Moisés ante la tierra prometida.",
+        "en": "1801. West signs and dates in London the panel of Moses before the promised land."
+      },
+      {
+        "es": "1969. La tabla ingresa por donación en una colección de Nueva York.",
+        "en": "1969. The panel enters a collection in New York as a gift."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1801. West firma aquí la tabla.",
+          "en": "London, 1801. West signs the panel here."
+        }
+      },
+      {
+        "id": "windsor",
+        "lat": 51.48,
+        "lon": -0.6,
+        "nombre": {
+          "es": "Windsor",
+          "en": "Windsor"
+        },
+        "pie": {
+          "es": "Windsor. Lugar de la capilla de la religión revelada que soñaba el rey.",
+          "en": "Windsor. The place of the chapel of revealed religion the king dreamed of."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.2,
+      0.19,
+      0.2,
+      0.22
+    ]
+  },
+  "lv-10": {
+    "cita": {
+      "es": "La figura mide casi dos metros y se hizo para mirarse desde abajo, en un templo de pueblo.",
+      "en": "The figure stands almost two metres tall and was made to be seen from below, in a village church."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1350 y 1375. Un tallista y un pintor dorador hacen en Italia central la figura de san Nicolás en madera de álamo.",
+        "en": "Between 1350 and 1375. A carver and a gilder-painter make the figure of Saint Nicholas in poplar wood in central Italy."
+      },
+      {
+        "es": "1913. El escultor estadounidense George Grey Barnard posee ya la figura desde antes de este año.",
+        "en": "1913. The American sculptor George Grey Barnard already owns the figure by this year."
+      },
+      {
+        "es": "1925. La figura entra en una colección de Nueva York.",
+        "en": "1925. The figure enters a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "monticchio",
+        "lat": 42.28,
+        "lon": 13.5,
+        "nombre": {
+          "es": "Monticchio",
+          "en": "Monticchio"
+        },
+        "pie": {
+          "es": "Monticchio, cerca de L'Aquila. Iglesia dedicada a san Nicolás, de donde procede la figura.",
+          "en": "Monticchio, near L'Aquila. Church dedicated to Saint Nicholas, where the figure comes from."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.18,
+      0.19,
+      0.19,
+      0.23
+    ]
+  },
+  "lv-11": {
+    "cita": {
+      "es": "Israel Lattes forja en plata un plato de Pascua de 43 centímetros de diámetro.",
+      "en": "Israel Lattes forges in silver a Passover plate 43 centimetres across."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1824. El platero Israel Lattes forja en Turín el plato de Pascua en plata repujada y grabada.",
+        "en": "1824. The silversmith Israel Lattes forges in Turin the Passover plate in embossed and engraved silver."
+      },
+      {
+        "es": "2024. El plato ingresa por compra en una colección de Nueva York.",
+        "en": "2024. The plate enters a collection in New York by purchase."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "turin",
+        "lat": 45.07,
+        "lon": 7.69,
+        "nombre": {
+          "es": "Turín",
+          "en": "Turin"
+        },
+        "pie": {
+          "es": "Turín, 1824. Lattes trabaja la plata en una ciudad con gueto desde 1679.",
+          "en": "Turin, 1824. Lattes works silver in a city with a ghetto since 1679."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.21,
+      0.26,
+      0.22,
+      0.22
+    ]
+  },
+  "lv-12": {
+    "cita": {
+      "es": "Aarón de pie, con los panes en el brazo y una jarra al lado, en tiza roja y pincel.",
+      "en": "Aaron standing, with the loaves on his arm and a jug at his side, in red chalk and brush."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1650 y 1700. Un dibujante de nombre desconocido dibuja a Aarón con tiza roja y pincel.",
+        "en": "Between 1650 and 1700. A draughtsman whose name is lost draws Aaron in red chalk and brush."
+      },
+      {
+        "es": "1965. El dibujo se compra para una colección de Ámsterdam.",
+        "en": "1965. The drawing is purchased for a collection in Amsterdam."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1965. Compra del dibujo para una colección de la ciudad.",
+          "en": "Amsterdam, 1965. Purchase of the drawing for a collection in the city."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.21,
+      0.21,
+      0.22,
+      0.22
+    ]
+  },
+  "is-01": {
+    "cita": {
+      "es": "Valentin Bousch vidria las ventanas del coro de Flavigny-sur-Moselle entre 1531 y 1533.",
+      "en": "Valentin Bousch glazes the choir windows of Flavigny-sur-Moselle between 1531 and 1533."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1520. Valentin Bousch es contratado para establecer taller en Metz.",
+        "en": "1520. Valentin Bousch is hired to set up a workshop in Metz."
+      },
+      {
+        "es": "1525. Wary de Lucy empieza a reconstruir la iglesia del priorato de Flavigny-sur-Moselle y termina en 1530.",
+        "en": "1525. Wary de Lucy begins to rebuild the church of the priory of Flavigny-sur-Moselle and finishes in 1530."
+      },
+      {
+        "es": "1531. Wary de Lucy encarga a Bousch las vidrieras del coro.",
+        "en": "1531. Wary de Lucy commissions the choir windows from Bousch."
+      },
+      {
+        "es": "1533. Fecha del medallón circular de Isaías, gemelo del de Moisés.",
+        "en": "1533. Date of the round medallion of Isaiah, twin of the one of Moses."
+      },
+      {
+        "es": "1917. Los medallones de Isaías y de Moisés entran en Nueva York.",
+        "en": "1917. The roundels of Isaiah and Moses enter a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "metz",
+        "lat": 49.12,
+        "lon": 6.18,
+        "nombre": {
+          "es": "Metz",
+          "en": "Metz"
+        },
+        "pie": {
+          "es": "Metz, 1520. Bousch es contratado para establecer taller en la ciudad.",
+          "en": "Metz, 1520. Bousch is hired to set up a workshop in the city."
+        }
+      },
+      {
+        "id": "flavigny-sur-moselle",
+        "lat": 48.59,
+        "lon": 6.2,
+        "nombre": {
+          "es": "Flavigny-sur-Moselle",
+          "en": "Flavigny-sur-Moselle"
+        },
+        "pie": {
+          "es": "Flavigny-sur-Moselle, 1531. Wary de Lucy encarga las vidrieras del coro del priorato.",
+          "en": "Flavigny-sur-Moselle, 1531. Wary de Lucy commissions the windows for the priory choir."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.19,
+      0.21,
+      0.2
+    ]
+  },
+  "is-02": {
+    "cita": {
+      "es": "Un vidriero de nombre perdido levanta a Isaías en una franja de ventana muy alta y estrecha.",
+      "en": "A glazier whose name was lost raises Isaiah in a very tall, narrow strip of window."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1260 y 1270. Un taller del norte de Francia hace la grisalla que después rodea la figura.",
+        "en": "Between 1260 and 1270. A workshop in northern France makes the grisaille that later frames the figure."
+      },
+      {
+        "es": "Hacia 1325. Un taller francés hace la figura de Isaías en vidrio de color y pintura vitrificable.",
+        "en": "Around 1325. A French workshop makes the figure of Isaiah in colored glass and glass paint."
+      },
+      {
+        "es": "1928. La figura entra en la colección pública de Nueva York.",
+        "en": "1928. The figure enters the public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "valle-del-loira",
+        "lat": 47.4,
+        "lon": 0.7,
+        "nombre": {
+          "es": "Valle del Loira",
+          "en": "Loire Valley"
+        },
+        "pie": {
+          "es": "Valle del Loira, hacia 1325. Origen que apuntan las fuentes para la figura.",
+          "en": "Loire Valley, around 1325. The origin the sources suggest for the figure."
+        }
+      },
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París. Ciudad del coleccionista Michel Acézat, anterior dueño conocido de la figura.",
+          "en": "Paris. City of the collector Michel Acézat, earlier known owner of the figure."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.18,
+      0.22,
+      0.21,
+      0.19
+    ]
+  },
+  "is-03": {
+    "cita": {
+      "es": "Una Natividad de noche sobre tabla vertical al óleo, pintada en la estela de Jan Joest de Kalkar.",
+      "en": "A night Nativity on an upright oil panel, painted in the wake of Jan Joest of Kalkar."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1505. Jan Joest pinta el políptico del altar mayor de San Nicolás de Kalkar.",
+        "en": "Around 1505. Jan Joest paints the polyptych of the high altar of Saint Nicholas in Kalkar."
+      },
+      {
+        "es": "Hacia 1515. Un seguidor de Joest pinta esta Natividad nocturna al óleo sobre tabla.",
+        "en": "Around 1515. A follower of Joest paints this night Nativity in oil on panel."
+      },
+      {
+        "es": "1982. La tabla llega a Nueva York con la donación de Jack y Belle Linsky.",
+        "en": "1982. The panel arrives in New York with the gift of Jack and Belle Linsky."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "kalkar",
+        "lat": 51.74,
+        "lon": 6.29,
+        "nombre": {
+          "es": "Kalkar",
+          "en": "Kalkar"
+        },
+        "pie": {
+          "es": "Kalkar, hacia 1505. Jan Joest pinta allí el políptico del altar mayor de San Nicolás.",
+          "en": "Kalkar, around 1505. Jan Joest paints the high altar polyptych of Saint Nicholas there."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "is-04": {
+    "cita": {
+      "es": "Un cuadrado de vidrio de veintitrés centímetros con un rey dentro de un aro, parte de una ventana de Jesé.",
+      "en": "A square of glass twenty-three centimetres wide with a king inside a ring, part of a Jesse window."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1260 y 1270. Un vidriero alemán hace el panel del rey en vidrio de color y pintura vítrea.",
+        "en": "Between 1260 and 1270. A German glazier makes the panel of the king in coloured glass and glass paint."
+      },
+      {
+        "es": "2000. El panel entra en una colección pública de Nueva York.",
+        "en": "2000. The panel enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "wurzen",
+        "lat": 51.37,
+        "lon": 12.74,
+        "nombre": {
+          "es": "Wurzen",
+          "en": "Wurzen"
+        },
+        "pie": {
+          "es": "Wurzen. Iglesia que el catálogo propone como origen de la ventana.",
+          "en": "Wurzen. Church that the catalogue proposes as the origin of the window."
+        }
+      },
+      {
+        "id": "falkenstein",
+        "lat": 51.67,
+        "lon": 11.39,
+        "nombre": {
+          "es": "Falkenstein",
+          "en": "Falkenstein"
+        },
+        "pie": {
+          "es": "Falkenstein, en el Harz. Cuatro paneles de la misma ventana siguen instalados en el castillo.",
+          "en": "Falkenstein, in the Harz. Four panels of the same window remain installed in the castle."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.2,
+      0.19,
+      0.23,
+      0.22
+    ]
+  },
+  "is-07": {
+    "cita": {
+      "es": "David Roberts dibuja Jerusalén desde la ladera del monte de los Olivos el 5 de abril de 1839.",
+      "en": "David Roberts draws Jerusalem from the slope of the Mount of Olives on April 5, 1839."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1838. David Roberts emprende su gran viaje a Oriente con cuadernos de dibujo.",
+        "en": "1838. David Roberts sets out on his great journey to the East with sketchbooks."
+      },
+      {
+        "es": "1839. Roberts llega a Jerusalén por la Pascua y fecha la hoja el 5 de abril.",
+        "en": "1839. Roberts reaches Jerusalem at Easter and dates the sheet April 5."
+      },
+      {
+        "es": "1842. F. G. Moon empieza a publicar en Londres los dibujos como estampas por suscripción.",
+        "en": "1842. F. G. Moon begins to publish the drawings in London as prints by subscription."
+      },
+      {
+        "es": "1927. Esta estampa entra en una colección pública estadounidense.",
+        "en": "1927. This print enters a public collection in the United States."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "jerusalen",
+        "lat": 31.78,
+        "lon": 35.24,
+        "nombre": {
+          "es": "Jerusalén",
+          "en": "Jerusalem"
+        },
+        "pie": {
+          "es": "Jerusalén, 1839. Roberts dibuja la ciudad el 5 de abril desde el monte de los Olivos.",
+          "en": "Jerusalem, 1839. Roberts draws the city on April 5 from the Mount of Olives."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1842. F. G. Moon empieza a publicar la serie de estampas.",
+          "en": "London, 1842. F. G. Moon begins to publish the series of prints."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.22,
+      0.2,
+      0.21,
+      0.23
+    ]
+  },
+  "is-09": {
+    "cita": {
+      "es": "Una hoja de David Roberts muestra los pozos de Moisés en el desierto de Tih, apuntados el 12 de febrero de 1839.",
+      "en": "A sheet by David Roberts shows the Wells of Moses in the Tih desert, drawn on February 12, 1839."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1838. David Roberts inicia un viaje de unos once meses por Egipto, el Sinaí y Tierra Santa.",
+        "en": "1838. David Roberts begins a journey of about eleven months through Egypt, Sinai and the Holy Land."
+      },
+      {
+        "es": "1839. La hoja lleva la inscripción del 12 de febrero, en pleno desierto de Tih.",
+        "en": "1839. The sheet bears the inscription of February 12, in the middle of the Tih desert."
+      },
+      {
+        "es": "1842. La serie empieza a salir en folio con litografías de Louis Haghe.",
+        "en": "1842. The series begins to appear in folio with lithographs by Louis Haghe."
+      },
+      {
+        "es": "1927. La lámina entra en una colección pública estadounidense.",
+        "en": "1927. The print enters a public collection in the United States."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "el-cairo",
+        "lat": 30.04,
+        "lon": 31.24,
+        "nombre": {
+          "es": "El Cairo",
+          "en": "Cairo"
+        },
+        "pie": {
+          "es": "El Cairo, 1839. Roberts sale en febrero hacia Suez, el Sinaí y Jerusalén.",
+          "en": "Cairo, 1839. Roberts leaves in February for Suez, Sinai and Jerusalem."
+        }
+      },
+      {
+        "id": "ayun-musa",
+        "lat": 29.87,
+        "lon": 32.65,
+        "nombre": {
+          "es": "Ayun Musa",
+          "en": "Ayun Musa"
+        },
+        "pie": {
+          "es": "Ayun Musa, 1839. Roberts apunta los pozos de Moisés el 12 de febrero.",
+          "en": "Ayun Musa, 1839. Roberts draws the Wells of Moses on February 12."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.22,
+      0.2,
+      0.2,
+      0.19
+    ]
+  },
+  "is-11": {
+    "cita": {
+      "es": "Gustave Doré dibuja sobre madera las escenas de una Biblia en folio para el editor Alfred Mame.",
+      "en": "Gustave Doré draws on wood the scenes of a folio Bible for the publisher Alfred Mame."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1862 y 1865. Doré dibuja el profeta sobre madera y Héliodore-Joseph Pisan talla el taco.",
+        "en": "Between 1862 and 1865. Doré draws the prophet on wood and Héliodore-Joseph Pisan cuts the block."
+      },
+      {
+        "es": "1866. La Biblia en folio de Alfred Mame sale a la vez en Tours y en Londres, y ese mismo año aparece una segunda edición reelaborada.",
+        "en": "1866. Alfred Mame's folio Bible comes out in Tours and London at once, and a reworked second edition follows the same year."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "tours",
+        "lat": 47.39,
+        "lon": 0.69,
+        "nombre": {
+          "es": "Tours",
+          "en": "Tours"
+        },
+        "pie": {
+          "es": "Tours, 1866. El editor Alfred Mame publica la Biblia en folio de Doré.",
+          "en": "Tours, 1866. The publisher Alfred Mame issues Doré's folio Bible."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1866. La edición inglesa sale a la vez que la de Tours.",
+          "en": "London, 1866. The English edition appears at the same time as the one in Tours."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.23,
+      0.23,
+      0.21
+    ]
+  },
+  "is-12": {
+    "cita": {
+      "es": "Maerten de Vos dibuja la escena y Antonie Wierix la talla con buril en una plancha de cobre.",
+      "en": "Maerten de Vos draws the scene and Antonie Wierix cuts it with a burin into a copper plate."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1585. Antonie Wierix graba en Amberes la plancha sobre diseño de Maerten de Vos.",
+        "en": "Around 1585. Antonie Wierix engraves the plate in Antwerp after a design by Maerten de Vos."
+      },
+      {
+        "es": "1639. Claes Jansz. Visscher tira de nuevo la plancha en Ámsterdam, en el Theatrum Biblicum.",
+        "en": "1639. Claes Jansz. Visscher prints the plate again in Amsterdam, in the Theatrum Biblicum."
+      },
+      {
+        "es": "1904. Una colección pública de Ámsterdam compra la hoja el 25 de enero.",
+        "en": "1904. A public collection in Amsterdam buys the sheet on January 25."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, hacia 1585. Wierix graba la plancha sobre diseño de Maerten de Vos.",
+          "en": "Antwerp, around 1585. Wierix engraves the plate after a design by Maerten de Vos."
+        }
+      },
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, 1639. Visscher tira la plancha en el Theatrum Biblicum.",
+          "en": "Amsterdam, 1639. Visscher prints the plate in the Theatrum Biblicum."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.19,
+      0.22,
+      0.23
+    ]
+  },
+  "is-14": {
+    "cita": {
+      "es": "Una tabla del tamaño de un libro pequeño, de unos 25 por 18 centímetros, con una madre que sostiene y señala a su hijo.",
+      "en": "A panel the size of a small book, about 25 by 18 centimetres, showing a mother who holds her son and points to him."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1914. Según una inscripción en cirílico del reverso, el hieromonje ruso Savatie saca el icono del monasterio de Santa Catalina del Sinaí.",
+        "en": "1914. According to a Cyrillic inscription on the back, the Russian hieromonk Savatie takes the icon out of Saint Catherine's Monastery at Sinai."
+      },
+      {
+        "es": "2020. El icono se vende y entra en una colección pública de Nueva York.",
+        "en": "2020. The icon is sold and enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "sinai",
+        "lat": 28.56,
+        "lon": 33.98,
+        "nombre": {
+          "es": "Sinaí",
+          "en": "Sinai"
+        },
+        "pie": {
+          "es": "Sinaí. Entorno probable de hechura en el siglo XIII, según el catálogo.",
+          "en": "Sinai. Probable setting of its making in the thirteenth century, according to the catalogue."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.19,
+      0.2,
+      0.22
+    ]
+  },
+  "is-15": {
+    "cita": {
+      "es": "Andrea Solario pinta a Cristo de pie sobre una tabla de más de dos metros de altura, hacia 1524.",
+      "en": "Andrea Solario paints a standing Christ on a panel more than two metres high, around 1524."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1507. El cardenal Georges d'Amboise llama a Solario a Francia para decorar la capilla de Gaillon.",
+        "en": "1507. Cardinal Georges d'Amboise calls Solario to France to decorate the chapel of Gaillon."
+      },
+      {
+        "es": "Hacia 1524. Solario pinta Cristo bendiciendo, óleo sobre tabla de 203,8 por 130,8 centímetros.",
+        "en": "Around 1524. Solario paints Christ Blessing, oil on a panel of 203.8 by 130.8 centimetres."
+      },
+      {
+        "es": "1524. Solario muere en Milán.",
+        "en": "1524. Solario dies in Milan."
+      },
+      {
+        "es": "1922. La tabla pasa a una colección pública de Nueva York por donación de Ernest G. Stillman.",
+        "en": "1922. The panel passes to a public collection in New York as a gift of Ernest G. Stillman."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "gaillon",
+        "lat": 49.16,
+        "lon": 1.34,
+        "nombre": {
+          "es": "Gaillon",
+          "en": "Gaillon"
+        },
+        "pie": {
+          "es": "Gaillon, 1507. Solario es llamado a decorar la capilla del castillo.",
+          "en": "Gaillon, 1507. Solario is called to decorate the castle chapel."
+        }
+      },
+      {
+        "id": "milan",
+        "lat": 45.46,
+        "lon": 9.19,
+        "nombre": {
+          "es": "Milán",
+          "en": "Milan"
+        },
+        "pie": {
+          "es": "Milán, hacia 1524. Solario pinta allí Cristo bendiciendo y muere ese año.",
+          "en": "Milan, around 1524. Solario paints Christ Blessing there and dies that year."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.19,
+      0.19,
+      0.23,
+      0.21
+    ]
+  },
+  "is-16": {
+    "cita": {
+      "es": "Segna di Buonaventura pinta en Siena un Cristo bendiciendo en una tabla apuntada de unos cuarenta centímetros.",
+      "en": "Segna di Buonaventura paints in Siena a Christ blessing on a pointed panel about forty centimetres tall."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1298. Segna di Buonaventura figura ya como pintor documentado en Siena.",
+        "en": "1298. Segna di Buonaventura is already on record as a painter in Siena."
+      },
+      {
+        "es": "Hacia 1311. Pinta la tabla en temple y oro como remate de un retablo de altar.",
+        "en": "Around 1311. He paints the panel in tempera and gold as the crowning piece of an altarpiece."
+      },
+      {
+        "es": "1965. La tabla entra por legado en una colección pública de Nueva York.",
+        "en": "1965. The panel enters a public collection in New York by bequest."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "siena",
+        "lat": 43.32,
+        "lon": 11.33,
+        "nombre": {
+          "es": "Siena",
+          "en": "Siena"
+        },
+        "pie": {
+          "es": "Siena, hacia 1311. Se pinta el remate apuntado de un retablo, hecho para verse desde abajo.",
+          "en": "Siena, around 1311. The pointed crown of an altarpiece is painted, made to be seen from below."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.23,
+      0.19,
+      0.2,
+      0.25
+    ]
+  },
+  "is-17": {
+    "cita": {
+      "es": "Hollar graba en Londres, en 1660, una vista de Jerusalén sobre una hoja de más de un metro de ancho.",
+      "en": "Hollar engraves in London, in 1660, a view of Jerusalem on a sheet more than a metre wide."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1596. Sale en Roma el primer volumen con la reconstrucción de Jerusalén de Villalpando, modelo de la hoja.",
+        "en": "1596. The first volume with Villalpando's reconstruction of Jerusalem, the model for the sheet, appears in Rome."
+      },
+      {
+        "es": "1644. Wenceslaus Hollar, nacido en Praga en 1607, pasa a Amberes.",
+        "en": "1644. Wenceslaus Hollar, born in Prague in 1607, moves to Antwerp."
+      },
+      {
+        "es": "1660. Hollar graba en Londres el aguafuerte de Jerusalén y fecha la hoja.",
+        "en": "1660. Hollar etches the view of Jerusalem in London and dates the sheet."
+      },
+      {
+        "es": "1920. La hoja entra en una colección pública de Nueva York.",
+        "en": "1920. The sheet enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "roma",
+        "lat": 41.9,
+        "lon": 12.5,
+        "nombre": {
+          "es": "Roma",
+          "en": "Rome"
+        },
+        "pie": {
+          "es": "Roma, 1596. Se publica el primer volumen con la reconstrucción que sirve de modelo.",
+          "en": "Rome, 1596. The first volume with the reconstruction that serves as the model is published."
+        }
+      },
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1644. Hollar vive allí tras su paso por la guerra civil inglesa.",
+          "en": "Antwerp, 1644. Hollar settles there after the English civil war."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1660. Hollar trabaja como grabador para editores y libreros.",
+          "en": "London, 1660. Hollar works as an engraver for publishers and booksellers."
+        }
+      }
+    ],
+    "radios": [
+      0.22,
+      0.23,
+      0.25,
+      0.22,
+      0.24
+    ]
+  },
+  "is-18": {
+    "cita": {
+      "es": "Un platero imperial de Constantinopla repuja una lámina de plata con David ungido en un disco de veintiséis centímetros.",
+      "en": "An imperial silversmith in Constantinople hammers a sheet of silver with the anointing of David on a disc twenty-six centimetres wide."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 629. Un taller imperial de Constantinopla hace el plato de plata con sellos de control.",
+        "en": "Around 629. An imperial workshop in Constantinople makes the silver plate with control stamps."
+      },
+      {
+        "es": "1902. Unos jornaleros hallan la serie de platos en Karavas, al norte de Chipre.",
+        "en": "1902. Labourers find the series of plates at Karavas, in northern Cyprus."
+      },
+      {
+        "es": "1917. Los herederos del coleccionista que lo adquirió en París donan el plato a una colección de Nueva York.",
+        "en": "1917. The heirs of the collector who acquired it in Paris donate the plate to a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "constantinopla",
+        "lat": 41.01,
+        "lon": 28.98,
+        "nombre": {
+          "es": "Constantinopla",
+          "en": "Constantinople"
+        },
+        "pie": {
+          "es": "Constantinopla, hacia 629. Un taller imperial de platería produce el plato.",
+          "en": "Constantinople, around 629. An imperial silver workshop produces the plate."
+        }
+      },
+      {
+        "id": "karavas",
+        "lat": 35.34,
+        "lon": 33.19,
+        "nombre": {
+          "es": "Karavas, Chipre",
+          "en": "Karavas, Cyprus"
+        },
+        "pie": {
+          "es": "Karavas, 1902. La serie aparece entre unas ruinas al norte de la isla.",
+          "en": "Karavas, 1902. The series turns up among ruins in the north of the island."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.19,
+      0.24,
+      0.23
+    ],
+    "comparativa": {
+      "trasPaso": 5,
+      "entrada": {
+        "es": "El mismo taller de Constantinopla labró, en la misma serie, la caza del león y la entrega de las armas.",
+        "en": "The same Constantinopolitan workshop made, in the same series, the slaying of the lion and the delivery of the arms."
+      },
+      "creditos": {
+        "es": "Imágenes cedidas en CC0 por The Metropolitan Museum of Art, Nueva York, vía Wikimedia Commons.",
+        "en": "Images released under CC0 by The Metropolitan Museum of Art, New York, via Wikimedia Commons."
+      },
+      "imagenes": [
+        {
+          "src": "/sala/comparativas/is-18/david-leon.webp",
+          "alt": {
+            "es": "Plato de plata: David lucha con un león",
+            "en": "Silver plate: David fights a lion"
+          },
+          "pie": {
+            "es": "Taller de Constantinopla. David da muerte a un león, de la serie de David, 629 a 630.",
+            "en": "Constantinople workshop. David slays a lion, from the David series, 629 to 630."
+          },
+          "ancho": 1000,
+          "alto": 1000
+        },
+        {
+          "src": "/sala/comparativas/is-18/david-armas.webp",
+          "alt": {
+            "es": "Plato de plata: David recibe las armas de Saúl",
+            "en": "Silver plate: David receives Saul's arms"
+          },
+          "pie": {
+            "es": "Taller de Constantinopla. David recibe las armas, de la serie de David, 629 a 630.",
+            "en": "Constantinople workshop. David receives the arms, from the David series, 629 to 630."
+          },
+          "ancho": 1000,
+          "alto": 1000
+        }
+      ]
+    }
+  },
+  "is-19": {
+    "cita": {
+      "es": "Un mosaico en miniatura de teselas asentadas en cera sobre una tablilla de once centímetros.",
+      "en": "A miniature mosaic of tiny tesserae set in wax on a panel eleven centimetres tall."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1261. Constantinopla vuelve a manos bizantinas bajo la dinastía Paleóloga.",
+        "en": "1261. Constantinople returns to Byzantine hands under the Palaiologan dynasty."
+      },
+      {
+        "es": "Entre 1300 y 1325. Un taller probablemente de Constantinopla hace el icono.",
+        "en": "Between 1300 and 1325. A workshop, probably in Constantinople, makes the icon."
+      },
+      {
+        "es": "2008. El icono se dona a una colección de Nueva York.",
+        "en": "2008. The icon is donated to a collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "constantinopla",
+        "lat": 41.01,
+        "lon": 28.98,
+        "nombre": {
+          "es": "Constantinopla",
+          "en": "Constantinople"
+        },
+        "pie": {
+          "es": "Constantinopla, entre 1300 y 1325. Origen probable del mosaico portátil.",
+          "en": "Constantinople, between 1300 and 1325. Probable origin of the portable mosaic."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.19,
+      0.19,
+      0.22,
+      0.23
+    ]
+  },
+  "mt-01": {
+    "cita": {
+      "es": "Giotto vuelve a Florencia en octubre de 1320, y a su taller se atribuyen siete escenas de la vida de Cristo.",
+      "en": "Giotto returns to Florence in October 1320, and his workshop is credited with seven scenes from the life of Christ."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1320. Se data en Florencia esta escena, la primera de una serie de siete sobre la vida de Cristo.",
+        "en": "Around 1320. This scene, the first of a series of seven on the life of Christ, is dated to Florence."
+      },
+      {
+        "es": "1805. Tres escenas de la serie llegan a Múnich, y otras llegan allí en 1813.",
+        "en": "1805. Three scenes of the series arrive in Munich, and others follow there in 1813."
+      },
+      {
+        "es": "1839. La tabla se vende en Londres junto con otras escenas.",
+        "en": "1839. The panel is sold in London together with other scenes."
+      },
+      {
+        "es": "1911. La tabla entra en una colección pública de Nueva York.",
+        "en": "1911. The panel enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "florencia",
+        "lat": 43.77,
+        "lon": 11.26,
+        "nombre": {
+          "es": "Florencia",
+          "en": "Florence"
+        },
+        "pie": {
+          "es": "Florencia, hacia 1320. Se data aquí la serie de siete escenas, a la que corresponde esta tabla.",
+          "en": "Florence, around 1320. The series of seven scenes, to which this panel belongs, is dated here."
+        }
+      },
+      {
+        "id": "munich",
+        "lat": 48.14,
+        "lon": 11.58,
+        "nombre": {
+          "es": "Múnich",
+          "en": "Munich"
+        },
+        "pie": {
+          "es": "Múnich, entre 1805 y 1813. Tres escenas de la serie ingresan allí.",
+          "en": "Munich, between 1805 and 1813. Three scenes of the series enter the city."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1839. Se venden cuatro escenas de la serie.",
+          "en": "London, 1839. Four scenes of the series are sold."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.18,
+      0.21,
+      0.21,
+      0.21
+    ]
+  },
+  "mt-02": {
+    "cita": {
+      "es": "Piero della Francesca pinta el bautismo de Jesús para una iglesia de San Juan de Sansepolcro, su pueblo natal.",
+      "en": "Piero della Francesca paints the baptism of Jesus for a church of St John in Sansepolcro, his hometown."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1437 y 1445. Piero pinta en Sansepolcro el bautismo de Cristo.",
+        "en": "Between 1437 and 1445. Piero paints the baptism of Christ in Sansepolcro."
+      },
+      {
+        "es": "1808. Se suprime el priorato y el retablo pasa a la sacristía de la catedral de Sansepolcro.",
+        "en": "1808. The priory is suppressed and the altarpiece moves to the sacristy of the cathedral of Sansepolcro."
+      },
+      {
+        "es": "1859. Un agente compra la tabla al obispo y al cabildo de Sansepolcro en nombre de un coleccionista.",
+        "en": "1859. An agent buys the panel from the bishop and chapter of Sansepolcro on behalf of a collector."
+      },
+      {
+        "es": "1861. La tabla se compra en una venta de Londres y queda en una colección pública de la ciudad.",
+        "en": "1861. The panel is bought at a sale in London and stays in a public collection in the city."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "sansepolcro",
+        "lat": 43.57,
+        "lon": 12.14,
+        "nombre": {
+          "es": "Sansepolcro",
+          "en": "Sansepolcro"
+        },
+        "pie": {
+          "es": "Sansepolcro, entre 1437 y 1445. Se pinta la tabla para una iglesia de San Juan Bautista.",
+          "en": "Sansepolcro, between 1437 and 1445. The panel is painted for a church of St John the Baptist."
+        }
+      },
+      {
+        "id": "londres",
+        "lat": 51.51,
+        "lon": -0.13,
+        "nombre": {
+          "es": "Londres",
+          "en": "London"
+        },
+        "pie": {
+          "es": "Londres, 1861. La tabla se adquiere en una venta el 13 de abril.",
+          "en": "London, 1861. The panel is acquired at a sale on 13 April."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.2,
+      0.22,
+      0.21
+    ]
+  },
+  "mt-03": {
+    "cita": {
+      "es": "Jan Brueghel pinta en 1598 sobre cobre una multitud que escucha a un predicador del tamaño de una uña.",
+      "en": "In 1598 Jan Brueghel paints on copper a crowd listening to a preacher the size of a fingernail."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1597. Jan Brueghel se inscribe en el gremio de san Lucas de Amberes.",
+        "en": "Around 1597. Jan Brueghel joins the guild of St Luke in Antwerp."
+      },
+      {
+        "es": "1598. Brueghel firma y data el sermón de la montaña, óleo sobre cobre de unos 27 por 37 centímetros.",
+        "en": "1598. Brueghel signs and dates the sermon on the mount, an oil on copper about 27 by 37 centimetres."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1598. Brueghel pinta sobre cobre una pieza para mirar de cerca.",
+          "en": "Antwerp, 1598. Brueghel paints on copper a piece made for close viewing."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.2,
+      0.21,
+      0.23,
+      0.25
+    ]
+  },
+  "mt-04": {
+    "cita": {
+      "es": "Un dibujante francés anónimo del siglo XVII traza en pluma, pincel y tiza roja a un centurión de rodillas ante Jesús.",
+      "en": "An anonymous French draftsman of the seventeenth century draws in pen, brush and red chalk a centurion kneeling before Jesus."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Siglo XVII. Un dibujante francés de nombre desconocido dibuja la hoja con pluma, pincel y tiza roja.",
+        "en": "Seventeenth century. A French draughtsman whose name is lost draws the sheet in pen, brush and red chalk."
+      },
+      {
+        "es": "1971. La hoja llega por legado a una colección de Nueva York.",
+        "en": "1971. The sheet reaches a collection in New York by bequest."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1648. Bourdon, a quien se atribuyó la hoja, figura entre los doce miembros fundadores de la Academia.",
+          "en": "Paris, 1648. Bourdon, to whom the sheet was once attributed, is among the twelve founding members of the Academy."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.23,
+      0.2,
+      0.23
+    ]
+  },
+  "mt-05": {
+    "cita": {
+      "es": "Léonard Gaultier talla con el buril una serie de escenas del Nuevo Testamento en láminas de unos seis centímetros.",
+      "en": "Léonard Gaultier cuts with the burin a series of New Testament scenes on sheets about six centimetres wide."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Entre 1576 y 1580. Gaultier graba la plancha de la curación en sábado.",
+        "en": "Between 1576 and 1580. Gaultier engraves the plate of the healing on the Sabbath."
+      },
+      {
+        "es": "1641. Gaultier muere en París.",
+        "en": "1641. Gaultier dies in Paris."
+      },
+      {
+        "es": "1964. La hoja entra en una colección de Washington.",
+        "en": "1964. The sheet enters a collection in Washington."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "maguncia",
+        "lat": 49.99,
+        "lon": 8.27,
+        "nombre": {
+          "es": "Maguncia",
+          "en": "Mainz"
+        },
+        "pie": {
+          "es": "Maguncia, hacia 1561. Nace Gaultier, según repertorios antiguos.",
+          "en": "Mainz, around 1561. Gaultier is born, according to older reference works."
+        }
+      },
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1641. Muere Gaultier tras una larga carrera de grabador.",
+          "en": "Paris, 1641. Gaultier dies after a long career as an engraver."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.19,
+      0.2,
+      0.19,
+      0.21
+    ]
+  },
+  "mt-06": {
+    "cita": {
+      "es": "Philips Galle publica en Amberes en 1574 cuatro estampas sobre el sembrador, una por cada suelo.",
+      "en": "Philips Galle publishes in Antwerp in 1574 four prints on the sower, one for each soil."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1570. Galle se traslada a Amberes y dirige la imprenta de Hieronymus Cock.",
+        "en": "Around 1570. Galle moves to Antwerp and runs the press of Hieronymus Cock."
+      },
+      {
+        "es": "1574. Galle publica en Amberes las cuatro estampas del sembrador según diseños de Gerard van Groeningen.",
+        "en": "1574. Galle publishes in Antwerp the four prints of the sower after designs by Gerard van Groeningen."
+      },
+      {
+        "es": "2023. La serie completa pasa a una colección pública de Ohio.",
+        "en": "2023. The complete series passes to a public collection in Ohio."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amberes",
+        "lat": 51.22,
+        "lon": 4.4,
+        "nombre": {
+          "es": "Amberes",
+          "en": "Antwerp"
+        },
+        "pie": {
+          "es": "Amberes, 1574. Galle publica las cuatro planchas del sembrador, con la fecha inscrita.",
+          "en": "Antwerp, 1574. Galle publishes the four plates of the sower, with the date inscribed."
+        }
+      }
+    ],
+    "radios": [
+      0.19,
+      0.19,
+      0.21,
+      0.2,
+      0.2,
+      0.23
+    ]
+  },
+  "mt-07": {
+    "cita": {
+      "es": "Lorenzo Monaco pinta sobre pergamino una gran S de azul y oro, probablemente para un libro de coro.",
+      "en": "Lorenzo Monaco paints a large S of blue and gold on parchment, in all likelihood for a choir book."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1395. Lorenzo Monaco pinta en Florencia la letra inicial historiada sobre pergamino.",
+        "en": "Around 1395. Lorenzo Monaco paints the historiated initial on parchment in Florence."
+      },
+      {
+        "es": "1955. La hoja, recortada de un libro de coro, está en manos de un coleccionista de Pensilvania.",
+        "en": "1955. The leaf, cut from a choir book, belongs to a collector in Pennsylvania."
+      },
+      {
+        "es": "1958. La hoja pasa por donación a Washington.",
+        "en": "1958. The leaf passes to Washington as a donation."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "florencia",
+        "lat": 43.77,
+        "lon": 11.26,
+        "nombre": {
+          "es": "Florencia",
+          "en": "Florence"
+        },
+        "pie": {
+          "es": "Florencia, hacia 1395 a 1400. Lorenzo Monaco trabaja como pintor e iluminador ligado a la comunidad camaldulense.",
+          "en": "Florence, around 1395 to 1400. Lorenzo Monaco works as a painter and illuminator tied to the Camaldolese community."
+        }
+      }
+    ],
+    "radios": [
+      0.23,
+      0.19,
+      0.18,
+      0.17,
+      0.22,
+      0.23
+    ]
+  },
+  "mt-08": {
+    "cita": {
+      "es": "Lucas Cranach el Joven trabaja en el taller familiar una tabla de haya de 16,5 por 22 centímetros.",
+      "en": "Lucas Cranach the Younger works in the family workshop on a beech panel measuring 16.5 by 22 centimetres."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1545. Lucas Cranach el Joven pinta en Wittenberg una tabla de haya de pequeño formato.",
+        "en": "Around 1545. Lucas Cranach the Younger paints a small beech panel in Wittenberg."
+      },
+      {
+        "es": "1920. La tabla consta registrada en Nueva York.",
+        "en": "1920. The panel is recorded in New York."
+      },
+      {
+        "es": "1982. La tabla ingresa en una colección pública de Nueva York junto con otras obras de un coleccionista.",
+        "en": "1982. The panel enters a public collection in New York together with other works from a private collector."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "wittenberg",
+        "lat": 51.87,
+        "lon": 12.65,
+        "nombre": {
+          "es": "Wittenberg",
+          "en": "Wittenberg"
+        },
+        "pie": {
+          "es": "Wittenberg, hacia 1545. Lucas Cranach el Joven trabaja en el taller familiar.",
+          "en": "Wittenberg, around 1545. Lucas Cranach the Younger works in the family workshop."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.19,
+      0.19,
+      0.2,
+      0.21
+    ]
+  },
+  "mt-09": {
+    "cita": {
+      "es": "Durero prepara treinta y seis xilografías de la Pasión en formato de cuarto pequeño para un libro propio.",
+      "en": "Dürer prepares thirty-six woodcuts of the Passion in small quarto format for a book of his own."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1510. Durero trabaja en Núremberg las xilografías de la Pasión pequeña.",
+        "en": "Around 1510. Dürer works on the woodcuts of the Small Passion in Nuremberg."
+      },
+      {
+        "es": "1511. La serie se completa y se publica en Núremberg como libro con versos latinos de Chelidonius.",
+        "en": "1511. The series is completed and published in Nuremberg as a book with Latin verses by Chelidonius."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "nuremberg",
+        "lat": 49.45,
+        "lon": 11.08,
+        "nombre": {
+          "es": "Núremberg",
+          "en": "Nuremberg"
+        },
+        "pie": {
+          "es": "Núremberg, 1511. Durero publica la Pasión pequeña como libro de 38 hojas en cuarto.",
+          "en": "Nuremberg, 1511. Dürer publishes the Small Passion as a 38-leaf quarto book."
+        }
+      }
+    ],
+    "radios": [
+      0.25,
+      0.19,
+      0.19,
+      0.21,
+      0.23,
+      0.21
+    ]
+  },
+  "mt-10": {
+    "cita": {
+      "es": "Rembrandt graba El tributo al César en una plancha de 73 por 103 milímetros.",
+      "en": "Rembrandt etches The Tribute Money on a plate measuring 73 by 103 millimetres."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1634. Rembrandt entra en el gremio de San Lucas y se casa con Saskia.",
+        "en": "1634. Rembrandt joins the guild of St Luke and marries Saskia."
+      },
+      {
+        "es": "Hacia 1635. Rembrandt hace en Ámsterdam la estampa de pequeño formato.",
+        "en": "Around 1635. Rembrandt makes the small print in Amsterdam."
+      },
+      {
+        "es": "1941. Esta impresión llega como regalo a una colección de Ohio.",
+        "en": "1941. This impression arrives in Ohio as a gift to a collection."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "amsterdam",
+        "lat": 52.37,
+        "lon": 4.9,
+        "nombre": {
+          "es": "Ámsterdam",
+          "en": "Amsterdam"
+        },
+        "pie": {
+          "es": "Ámsterdam, hacia 1634. Rembrandt vive en casa del marchante Hendrick Uylenburgh.",
+          "en": "Amsterdam, around 1634. Rembrandt lives in the house of the dealer Hendrick Uylenburgh."
+        }
+      }
+    ],
+    "radios": [
+      0.2,
+      0.19,
+      0.21,
+      0.21,
+      0.22,
+      0.19
+    ]
+  },
+  "mt-11": {
+    "cita": {
+      "es": "Abraham Bosse firma como inventor y grabador una serie de siete planchas sobre las obras de misericordia.",
+      "en": "Abraham Bosse signs as designer and etcher a series of seven plates on the acts of mercy."
+    },
+    "lineaTiempo": [
+      {
+        "es": "1635. Abraham Bosse graba en París la serie de siete planchas, editada por Jean Leblond con privilegio del rey.",
+        "en": "1635. Abraham Bosse etches the series of seven plates in Paris, issued by Jean Leblond with the king's privilege."
+      },
+      {
+        "es": "1951. Esta estampa ingresa en una colección pública de Nueva York.",
+        "en": "1951. This print enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "paris",
+        "lat": 48.86,
+        "lon": 2.35,
+        "nombre": {
+          "es": "París",
+          "en": "Paris"
+        },
+        "pie": {
+          "es": "París, 1635. Bosse graba siete planchas sobre las obras de misericordia.",
+          "en": "Paris, 1635. Bosse signs the series for buyers in the city."
+        }
+      }
+    ],
+    "radios": [
+      0.18,
+      0.22,
+      0.2,
+      0.21,
+      0.23
+    ]
+  },
+  "lc-01": {
+    "cita": {
+      "es": "Botticelli pinta una Anunciación sobre una tabla de poco más de treinta centímetros de ancho.",
+      "en": "Botticelli paints an Annunciation on a panel barely thirty centimetres wide."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1490. Botticelli pinta en Florencia la Anunciación como imagen de devoción privada.",
+        "en": "Around 1490. Botticelli paints the Annunciation in Florence as an image for private devotion."
+      },
+      {
+        "es": "1905. La tabla sale de Italia en julio.",
+        "en": "1905. The panel leaves Italy in July."
+      },
+      {
+        "es": "1906. La tabla está en Berlín, en manos de un coleccionista.",
+        "en": "1906. The panel is in Berlin, in the hands of a collector."
+      },
+      {
+        "es": "1928. En la venta de Berlín la compran dos marchantes para un coleccionista de Nueva York.",
+        "en": "1928. At the Berlin sale two dealers buy it for a collector from New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "florencia",
+        "lat": 43.77,
+        "lon": 11.26,
+        "nombre": {
+          "es": "Florencia",
+          "en": "Florence"
+        },
+        "pie": {
+          "es": "Florencia, hacia 1490. Botticelli dirige su propio taller.",
+          "en": "Florence, around 1490. Botticelli runs his own workshop."
+        }
+      },
+      {
+        "id": "berlin",
+        "lat": 52.52,
+        "lon": 13.4,
+        "nombre": {
+          "es": "Berlín",
+          "en": "Berlin"
+        },
+        "pie": {
+          "es": "Berlín, 1906. La tabla pasa a un coleccionista de la ciudad.",
+          "en": "Berlin, 1906. The panel passes to a collector in the city."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.23,
+      0.19,
+      0.25,
+      0.19
+    ]
+  },
+  "lc-02": {
+    "cita": {
+      "es": "El Greco pinta la noche de Belén en un lienzo vertical de tamaño mediano y casi todo en sombra.",
+      "en": "El Greco paints the night at Bethlehem on a mid-sized vertical canvas that is almost entirely in shadow."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1605. El Greco pinta en Toledo esta Adoración de los pastores de formato mediano.",
+        "en": "Around 1605. El Greco paints this mid-sized Adoration of the Shepherds in Toledo."
+      },
+      {
+        "es": "1612. Se firma con su hijo Jorge Manuel el acuerdo para la capilla toledana con la versión mayor del mismo tema.",
+        "en": "1612. The agreement for the Toledo chapel with the larger version of the same subject is signed with his son Jorge Manuel."
+      },
+      {
+        "es": "1905. El lienzo ingresa en una colección pública de Nueva York.",
+        "en": "1905. The canvas enters a public collection in New York."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "toledo",
+        "lat": 39.86,
+        "lon": -4.02,
+        "nombre": {
+          "es": "Toledo",
+          "en": "Toledo"
+        },
+        "pie": {
+          "es": "Toledo, hacia 1605. El Greco trabaja con su hijo Jorge Manuel en un taller activo.",
+          "en": "Toledo, around 1605. El Greco works with his son Jorge Manuel in an active workshop."
+        }
+      }
+    ],
+    "radios": [
+      0.22,
+      0.21,
+      0.18,
+      0.22,
+      0.2
+    ]
+  },
+  "jn-01": {
+    "cita": {
+      "es": "Crespi pinta Las bodas de Caná sobre un lienzo de casi dos metros por dos y medio.",
+      "en": "Crespi paints The Wedding at Cana on a canvas nearly two metres by two and a half."
+    },
+    "lineaTiempo": [
+      {
+        "es": "Hacia 1681. Carlo Cignani invita a Crespi a su academia del desnudo en Bolonia.",
+        "en": "Around 1681. Carlo Cignani invites Crespi to his life-drawing academy in Bologna."
+      },
+      {
+        "es": "1686. Cignani se traslada a Forlì y Crespi trabaja por su cuenta.",
+        "en": "1686. Cignani moves to Forlì and Crespi works on his own."
+      },
+      {
+        "es": "Hacia 1686. Crespi pinta Las bodas de Caná sobre lienzo de 188 por 248 centímetros.",
+        "en": "Around 1686. Crespi paints The Wedding at Cana on a canvas of 188 by 248 centimetres."
+      },
+      {
+        "es": "1956. El lienzo ingresa en una colección de Chicago.",
+        "en": "1956. The canvas enters a collection in Chicago."
+      }
+    ],
+    "mapa": [
+      {
+        "id": "bolonia",
+        "lat": 44.49,
+        "lon": 11.34,
+        "nombre": {
+          "es": "Bolonia",
+          "en": "Bologna"
+        },
+        "pie": {
+          "es": "Bolonia, hacia 1686. Crespi empieza a tener taller propio.",
+          "en": "Bologna, around 1686. Crespi begins to have a workshop of his own."
+        }
+      },
+      {
+        "id": "forli",
+        "lat": 44.22,
+        "lon": 12.04,
+        "nombre": {
+          "es": "Forlì",
+          "en": "Forlì"
+        },
+        "pie": {
+          "es": "Forlì, 1686. Carlo Cignani se traslada a la ciudad.",
+          "en": "Forlì, 1686. Carlo Cignani moves to the city."
+        }
+      }
+    ],
+    "radios": [
+      0.21,
+      0.21,
+      0.22,
+      0.22,
+      0.25,
+      0.22
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "coleccion": "Colección de prueba",
+  "autor": "Autor de prueba",
+  "variante": "X",
+  "volumenes": [
+    {
+      "volumen": 2,
+      "id": "completo-sin-texto",
+      "libro": "Libro segundo",
+      "titulo": "Segundo de prueba",
+      "subtitulo": "Un subtítulo inventado",
+      "rotulo": "SEGUNDO · VOL. 2",
+      "color": "#8C4A34",
+      "sinopsis": "Una sinopsis inventada de dos frases. La segunda frase también es de prueba.",
+      "credito_obra": "Autor inventado, Obra inventada, 1500–1510; sala 3. Dominio público.",
+      "borrador": false,
+      "episodios_total": 4,
+      "episodios_destacados": [{ "episodio_id": "ep-02", "etiqueta": "Segundo 1–2", "titulo": "Primer episodio de prueba" }]
+    },
+    {
+      "volumen": 1,
+      "id": "libro-prueba",
+      "libro": "Libro primero",
+      "titulo": "Primero de prueba",
+      "subtitulo": "Otro subtítulo inventado",
+      "rotulo": "PRIMERO · VOL. 1",
+      "color": "#805F36",
+      "sinopsis": "Una sinopsis inventada. Nada de esto es contenido real.",
+      "credito_obra": "Autor inventado, Obra inventada, 1600. Dominio público.",
+      "borrador": false,
+      "episodios_total": 2,
+      "episodios_destacados": [
+        { "episodio_id": "ep-01", "etiqueta": "Primero 1–2", "titulo": "Episodio uno" },
+        { "episodio_id": "ep-03", "etiqueta": "Primero 3", "titulo": "Episodio tres" }
+      ]
+    },
+    {
+      "volumen": 3,
+      "id": "en-borrador",
+      "libro": "Libro tercero",
+      "titulo": "Tercero de prueba",
+      "subtitulo": "Subtítulo de borrador",
+      "rotulo": "TERCERO · VOL. 3",
+      "color": "#243028",
+      "sinopsis": "Sinopsis de un borrador inventado.",
+      "credito_obra": "Autor inventado, 1700. Dominio público.",
+      "borrador": true,
+      "episodios_total": 0,
+      "episodios_destacados": []
+    }
+  ]
+}

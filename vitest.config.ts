@@ -5,6 +5,7 @@ export default defineConfig({
   resolve: {
     dedupe: ["react", "react-dom"],
     alias: {
+      "server-only": path.resolve(__dirname, "apps/web/src/test/server-only.ts"),
       "@": path.resolve(__dirname, "apps/web/src"),
     },
   },

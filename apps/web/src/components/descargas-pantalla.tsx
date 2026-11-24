@@ -73,7 +73,7 @@ export function DescargasPantalla() {
   const [red, setRed] = useState<Red>("wifi");
   const [alcance, setAlcance] = useState<AlcanceDescarga>("episodio");
   const [aviso, setAviso] = useState("");
-  const episodios: EpisodioDescargable[] = catalog.episodes.map((episodio) => ({
+  const episodios: EpisodioDescargable[] = catalog.episodes.filter((episodio) => !episodio.segments.some((segmento) => segmento.publicPath.startsWith("/api/audio/"))).map((episodio) => ({
     id: episodio.id,
     bookId: episodio.bookId,
     titulo: episodio.tituloCorto?.[idiomaContenido(locale)] || episodio.title,

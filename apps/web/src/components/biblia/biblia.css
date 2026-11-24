@@ -1,0 +1,30 @@
+/* Retícula de capítulos del índice. Una clase en la lista y no en cada uno de los 1328 enlaces. */
+.biblia-capitulos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr));
+  gap: 0.375rem;
+}
+
+.biblia-capitulos > li > a {
+  display: flex;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: #2e2924;
+  color: #f4ece2;
+  font-variant-numeric: tabular-nums;
+}
+
+.biblia-capitulos > li > a[data-unido] {
+  background: transparent;
+  border: 1px dashed #e0c48a;
+  color: #e0c48a;
+}
+
+.biblia-capitulos > li > a:hover,
+.biblia-capitulos > li > a[data-unido]:hover {
+  background: #e0c48a;
+  color: #100e0c;
+}

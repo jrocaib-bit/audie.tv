@@ -1,6 +1,6 @@
 "use client";
 
-import { PRECIO } from "@audite/domain";
+import { PRECIO, etiquetaDeLanzamiento, letraDeLanzamiento } from "@audite/domain";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { enviarLanzamiento, marcaFormulario } from "@/lib/formularios/acciones";
@@ -54,6 +54,8 @@ export function Planes({ lang, cta, riesgo }: { lang: string; cta: string; riesg
         </div>
         <Link href={`/${lang}/suscripcion`} onClick={() => medir("cta_click", { cta: "prueba", lugar: "planes" })} className="mt-8 inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{cta}</Link>
         <p className="mt-3 text-base text-[#B7AB9C]">{riesgo}</p>
+        {etiquetaDeLanzamiento(lang === "en" ? "en" : "es") ? <p className="mt-3 text-sm text-[#C9A96E]">{etiquetaDeLanzamiento(lang === "en" ? "en" : "es")}</p> : null}
+        {letraDeLanzamiento(lang === "en" ? "en" : "es") ? <p className="mt-2 text-sm text-[#B7AB9C]">{letraDeLanzamiento(lang === "en" ? "en" : "es")}</p> : null}
       </article>
     </div>
   );

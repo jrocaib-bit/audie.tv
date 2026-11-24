@@ -1,6 +1,7 @@
 "use client";
 
 import { SALTO_SEGUNDOS, citaEnCurso, formatClock, metadatosReproduccion, nombreCorto, PLAYBACK_RATES, t, type Episode, type MetadatosReproduccion, type PlaybackRate, type UiLocale } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraDeEpisodio, obraWebp, obrasVisibles, rotuloObra } from "@audite/content/obras";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -91,7 +92,7 @@ export function Reproductor({
       <div className="relative z-10 min-h-0 flex-1 overflow-y-auto">
       <div className="mx-4 mt-2 overflow-hidden rounded-3xl border border-white/10 bg-[#0C0B09]">
         <div className="relative h-52">
-          {obra ? <ObraFoto obra={obra} priority className="h-full w-full object-cover" /> : null}
+          {obra ? <ObraFoto obra={obra} priority className="h-full w-full" /> : null}
           <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] to-transparent" />
         </div>
       </div>
@@ -186,8 +187,7 @@ export function TarjetaBloqueo({ meta, sonando, locale }: { meta: MetadatosRepro
       <figcaption className="kicker text-[#C9A96E]">{locale === "en" ? "Lock screen" : "Pantalla bloqueada"}</figcaption>
       <div className="mt-3 flex items-center gap-3">
         {meta.caratula ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={meta.caratula} alt="" className="size-16 shrink-0 rounded-2xl object-cover" />
+          <Lienzo src={meta.caratula} className="size-16 shrink-0 rounded-2xl" />
         ) : (
           <span className="size-16 shrink-0 rounded-2xl bg-[#0C0B09]" />
         )}

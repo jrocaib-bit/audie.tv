@@ -1,16 +1,20 @@
 "use client";
 
-import { idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { accionReto, hrefEntrarParaReto, idiomaContenido, COLOR_HEX, diaLiturgico, fraccionReto, hrefDePasoAdviento, inicioDelPasaje, racha, referenciaPaso, type Reto } from "@audite/domain";
+import { Lienzo } from "@/components/sala/lienzo";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
+import { BucleCuadro } from "@/components/bucle-cuadro";
+import { HuecoAdvientoO1 } from "@/components/hueco-adviento-o1";
+import { bucleDeEpisodio, bucleDeReto } from "@/lib/bucles";
 import { portadaDeReto } from "@audite/content/obras-creditos";
 import { RETOS } from "@/lib/retos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { sesionWeb } from "@/lib/auth-web";
 import { medir } from "@/lib/medicion";
 import { useLibrary } from "@/components/library";
 import { fechaDeCuando, isoLocal } from "@/lib/cuando";
-import { Candado } from "@/components/v2/fichas";
 import { leerRetos, marcarDia, suscribirRetos } from "@/components/v2/retos-local";
 
 const vacio = leerRetos();
@@ -36,7 +40,10 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
   const antesDeAdviento = reto.id === "adviento-isaias" && hoy < "2026-11-29";
   const marcaDia = antesDeAdviento ? (es ? "Empieza el 29 de noviembre" : "Starts 29 November") : `${es ? "Día" : "Day"} ${siguiente}`;
   const propia = portadaDeReto(reto.id);
-  const obra = propia ? null : portada(reto.obra) ?? portada(reto.pasos[0]?.obra ?? null);
+  const idObra = propia ? null : reto.obra || reto.pasos[0]?.obra || null;
+  const obra = propia ? null : portada(idObra) ?? portada(reto.pasos[0]?.obra ?? null);
+  const bucle = propia ? bucleDeReto(reto.id, propia.id) : idObra ? bucleDeEpisodio(idObra) : null;
+  const posterBucle = bucle?.poster || (propia ? propia.src.vertical : obra ? obraWebp(obra) : "");
   const mismo = dia.tiempo === reto.tiempo || (dia.tiempo === "triduo" && reto.tiempo === "semana-santa");
   const base = reto.tiempo === "adviento" || reto.tiempo === "cuaresma" ? "morado" : reto.tiempo === "semana-santa" ? "rojo" : reto.tiempo === "ordinario" ? "verde" : "blanco";
   const color = COLOR_HEX[mismo ? dia.color : base];
@@ -45,23 +52,38 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
   const pasoSiguiente = reto.pasos.find((paso) => paso.dia === siguiente) ?? reto.pasos[0];
   const fichaPlay = pasoSiguiente?.episodio ? library.catalog.episodes.find((episodio) => episodio.id === pasoSiguiente.episodio) : undefined;
   const segundoPlay = fichaPlay && pasoSiguiente ? inicioDelPasaje(fichaPlay.tiempos, pasoSiguiente.capitulo, pasoSiguiente.versiculo, pasoSiguiente.versiculoFin) : null;
-  const playHref = fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`;
-  const otros = RETOS.filter((item) => item.id !== reto.id);
+  const [conCuenta, setConCuenta] = useState(reto.id !== "adviento-isaias");
   useEffect(() => {
-    medir("challenge_started", { reto_id: reto.id });
+    if (reto.id !== "adviento-isaias") return;
+    void sesionWeb().then((sesion) => setConCuenta(Boolean(sesion)));
   }, [reto.id]);
+  const destino = (href: string) => reto.id === "adviento-isaias" ? hrefDePasoAdviento(conCuenta, href, hrefEntrarParaReto("es", `/reto/${reto.id}`)) : href;
+  const playHref = destino(fichaPlay ? `/ahora?e=${fichaPlay.id}${segundoPlay != null ? `&t=${segundoPlay}` : ""}` : `#dia-${siguiente}`);
+  const otros = RETOS.filter((item) => item.id !== reto.id);
+  // Los retos exigen cuenta: sin sesión no se mide ni se guarda nada, solo se va a entrar.
+  const [sesion, setSesion] = useState<boolean | null>(null);
+  useEffect(() => {
+    void sesionWeb().then((actual) => setSesion(Boolean(actual)));
+  }, []);
+  const accion = sesion === null ? null : accionReto(sesion, "es", `/reto/${reto.id}`);
+  const yaEmpezado = estado.hechos.length > 0;
+  useEffect(() => {
+    if (sesion && yaEmpezado) medir("challenge_started", { reto_id: reto.id });
+  }, [sesion, yaEmpezado, reto.id]);
 
   return (
     <main id="contenido" className="app-clear bg-[#100E0C] text-[#F4ECE2]">
       <section className="relative min-h-[78svh] overflow-hidden bg-[#100E0C]">
-        {propia || obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {bucle && posterBucle ? (
+          <BucleCuadro bucle={{ ...bucle, poster: posterBucle, alt: bucle.alt }} priority />
+        ) : propia || obra ? (
+          <Lienzo src={propia ? propia.src.vertical : obraWebp(obra ?? obrasVisibles()[0]!)} priority className="absolute inset-0" />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/50 to-[#100E0C]/15" />
         <div className="relative z-10 flex min-h-[78svh] flex-col justify-end px-5 pb-8">
           {tituloServidor ? null : <h1 className="font-display max-w-4xl text-5xl leading-[0.92] text-[#F4ECE2] md:text-7xl">{reto.titulo[ui]}</h1>}
           <p className="mt-4 text-base text-[#F4ECE2]">{({ adviento: es ? "Adviento" : "Advent", navidad: es ? "Navidad" : "Christmas", ordinario: es ? "Tiempo ordinario" : "Ordinary Time", cuaresma: es ? "Cuaresma" : "Lent", "semana-santa": es ? "Semana Santa" : "Holy Week", pascua: es ? "Pascua" : "Easter", triduo: es ? "Triduo" : "Triduum" } as Record<string, string>)[reto.tiempo] ?? reto.tiempo} · {marcaDia} · {minutos} min</p>
+          {reto.id === "adviento-isaias" && !conCuenta ? <p className="mt-4 max-w-xl text-[#F4ECE2]">{es ? "Es gratis. Hace falta una cuenta: regístrate o inicia sesión. No se pide suscripción ni prueba." : "It is free. You need an account: sign up or sign in. There is no subscription and no trial."}</p> : null}
           <Link href={playHref} className="mt-6 inline-flex size-16 items-center justify-center rounded-full bg-[#C9A96E] text-[#100E0C]" aria-label={es ? "Oír" : "Play"}>
             <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
           </Link>
@@ -74,8 +96,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
           return (
             <Link key={item.id} href={`/reto/${item.id}`} className="w-36 shrink-0 snap-start">
               {poster ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={poster.src.cuadrado} alt="" className="aspect-square w-full object-cover" />
+                <Lienzo src={poster.src.cuadrado} className="aspect-square w-full" />
               ) : <span className="block aspect-square bg-[#1B1815]" />}
               <span className="mt-2 block font-display text-sm leading-tight">{titulo}</span>
             </Link>
@@ -98,22 +119,33 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
           <span className="block h-full" style={{ width: `${avance.total ? (avance.hechos / avance.total) * 100 : 0}%`, background: color }} />
         </div>
         <p className="mt-2 text-sm text-muted">{dias} {es ? "días" : "days"}</p>
-        <button type="button" className="mt-3 flex min-h-14 w-full items-center justify-center rounded-full bg-acento font-display text-xl text-acento-ink" onClick={() => document.getElementById(`dia-${siguiente}`)?.scrollIntoView({ behavior: "smooth", block: "center" })}>
-          {avance.hechos === 0 ? (es ? "Empezar" : "Start") : `${es ? "Seguir" : "Continue"} · ${es ? "Día" : "Day"} ${siguiente}`}
-        </button>
+        {(() => {
+          const clase = "mt-3 flex min-h-14 w-full items-center justify-center rounded-full bg-acento font-display text-xl text-acento-ink";
+          const etiqueta = avance.hechos === 0 ? (es ? "Empezar" : "Start") : `${es ? "Seguir" : "Continue"} · ${es ? "Día" : "Day"} ${siguiente}`;
+          if (!accion) return <span className={`${clase} pointer-events-none opacity-70`} aria-disabled="true">{etiqueta}</span>;
+          if (accion.tipo === "entrar") return <Link href={accion.href} className={clase}>{etiqueta}</Link>;
+          return (
+            <button type="button" className={clase} onClick={() => {
+              if (avance.hechos === 0) medir("challenge_started", { reto_id: reto.id });
+              document.getElementById(`dia-${siguiente}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+            }}>
+              {etiqueta}
+            </button>
+          );
+        })()}
+        {reto.id === "adviento-isaias" ? <HuecoAdvientoO1 lang={ui} /> : null}
         <ul className="mt-5">
           {reto.pasos.map((paso) => {
             const hecho = estado.hechos.includes(paso.dia);
             const mini = portada(paso.obra);
             const ficha = paso.episodio ? library.catalog.episodes.find((episodio) => episodio.id === paso.episodio) : undefined;
             const segundo = ficha ? inicioDelPasaje(ficha.tiempos, paso.capitulo, paso.versiculo, paso.versiculoFin) : null;
-            const oir = ficha ? `/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}` : null;
+            const oir = ficha ? destino(`/ahora?e=${ficha.id}${segundo != null ? `&t=${segundo}` : ""}`) : null;
             const cuerpo = (
               <>
-                <span className="size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
+                <span className="relative size-14 shrink-0 overflow-hidden rounded-md bg-[#1B1815]">
                   {mini ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={obraWebp(mini)} alt="" className="h-full w-full object-cover" />
+                    <Lienzo src={obraWebp(mini)} className="absolute inset-0" />
                   ) : null}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -125,15 +157,18 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
                     <svg viewBox="0 0 24 24" className="size-5"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
                   </span>
                 ) : (
-                  <span className="inline-flex size-11 shrink-0 items-center justify-center text-muted" aria-label={es ? "Pronto" : "Soon"}>
-                    <Candado />
-                  </span>
+                  <span className="shrink-0 text-xs text-muted">{es ? "Pronto" : "Soon"}</span>
                 )}
               </>
             );
             return (
               <li id={`dia-${paso.dia}`} key={paso.dia} className="flex items-center gap-3 border-b border-border py-3">
                 {oir ? <Link href={oir} aria-label={paso.titulo[idiomaContenido(locale)]} className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</Link> : <span className="flex min-w-0 flex-1 items-center gap-3">{cuerpo}</span>}
+                {!accion ? (
+                  <span aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border opacity-70" />
+                ) : accion.tipo === "entrar" ? (
+                  <Link href={accion.href} aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border" />
+                ) : (
                 <button type="button" aria-label={hecho ? (es ? "Hecho" : "Done") : (es ? "Marcar" : "Mark")} className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full border ${hecho ? "border-transparent text-[#100E0C]" : "border-border"}`} style={hecho ? { background: color } : undefined} onClick={() => {
                   const estaba = estado.hechos.includes(paso.dia);
                   marcarDia(reto.id, paso.dia, hoy);
@@ -143,6 +178,7 @@ export function RetoV2({ reto, tituloServidor = false }: { reto: Reto; tituloSer
                 }}>
                   {hecho ? "✓" : ""}
                 </button>
+                )}
               </li>
             );
           })}

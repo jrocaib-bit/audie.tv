@@ -24,7 +24,7 @@ export function robotsPara(host: string): string {
 
 export const IDIOMAS_PUBLICADOS = ["es"] as const;
 
-const RUTAS_IDIOMA = ["", "/membresia", "/ayuda", "/contacto", "/app", "/privacidad", "/aviso-legal", "/entrar", "/condiciones"] as const;
+const RUTAS_IDIOMA = ["", "/biblia", "/membresia", "/ayuda", "/contacto", "/app", "/retos", "/libros", "/privacidad", "/aviso-legal", "/entrar", "/condiciones"] as const;
 const RETOS_PUBLICADOS = ["adviento-isaias", "navidad-infancia"] as const;
 
 export function muestraNovedades(ruta: string, lang: string): boolean {
@@ -44,6 +44,11 @@ export function entradasSitemap(base = origenSitio()): string[] {
   }
   for (const id of RETOS_PUBLICADOS) urls.add(`${base}/reto/${id}`);
   return [...urls];
+}
+
+/** Landings de libros con lectura, en los idiomas publicados. Los borradores no entran. */
+export function entradasSitemapLibros(ids: readonly string[], base = origenSitio()): string[] {
+  return IDIOMAS_PUBLICADOS.flatMap((lang) => ids.map((id) => `${base}/${lang}/libros/${id}`));
 }
 
 export function rutaDeSitemapExiste(url: string, appDir = APP_DIR): boolean {

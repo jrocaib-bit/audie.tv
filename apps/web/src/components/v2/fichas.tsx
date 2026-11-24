@@ -1,6 +1,8 @@
 "use client";
 
-import { obraDeEpisodio, obraWebp, obrasVisibles, type ObraVisible } from "@audite/content/obras";
+import { esPortadaProvisional, obraDeEpisodio, obraWebp, obrasVisibles, type ObraVisible } from "@audite/content/obras";
+import { Lienzo } from "@/components/sala/lienzo";
+import { PortadaMarca } from "@/components/portada-marca";
 import Link from "next/link";
 
 const PALETA = ["#1C3328", "#3A2418", "#2C3348", "#4A2C3A", "#1E3A34", "#5A4632", "#243044", "#3D2B1F", "#1F2A24", "#3A2A18", "#2A3330", "#4A3828"];
@@ -40,19 +42,17 @@ export function obrasPara(clave: string, cantidad: number): ObraVisible[] {
 }
 
 export function Arte({ episodioId, className = "" }: { episodioId: string | null; className?: string }) {
+  if (episodioId && esPortadaProvisional(episodioId)) return <PortadaMarca episodioId={episodioId} className={className} />;
   const obra = (episodioId ? obraDeEpisodio(episodioId) : null) ?? obrasPara(episodioId || "audite", 1)[0] ?? null;
-  if (!obra) return <span className={`block bg-[#1B1815] ${className}`} />;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" className={`block object-cover ${className}`} />
-  );
+  if (!obra || esPortadaProvisional(obra.episodio)) {
+    return obra ? <PortadaMarca episodioId={obra.episodio} className={className} /> : <span className={`block bg-[#1B1815] ${className}`} />;
+  }
+  return <Lienzo src={obraWebp(obra)} obraId={obra.id} className={`block ${className}`} />;
 }
 
 function Foto({ obra, className = "" }: { obra: ObraVisible; className?: string }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={obraWebp(obra)} alt="" className={`block h-full w-full object-cover ${className}`} />
-  );
+  if (esPortadaProvisional(obra.episodio)) return <PortadaMarca episodioId={obra.episodio} className={className} />;
+  return <Lienzo src={obraWebp(obra)} obraId={obra.id} className={`block h-full w-full ${className}`} />;
 }
 
 export function Candado() {
@@ -86,8 +86,7 @@ export function TarjetaDia({ href, titulo, subtitulo, clave, filete, calendario,
     <div className="relative mx-4 mt-5">
       <Link href={href} className={`relative block overflow-hidden rounded-2xl ${poster ? "mx-auto aspect-[9/16] w-[min(100%,calc((100dvh-16rem)*9/16))]" : "h-44"}`} style={{ background: color }}>
         {poster ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <Lienzo src={poster} className="absolute inset-0" />
         ) : obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
         <span className="absolute inset-0 bg-gradient-to-t from-[#100E0C] via-[#100E0C]/45 to-transparent" />
         <span className="absolute inset-x-0 top-0 h-1.5 shadow-[0_1px_0_rgba(16,14,12,0.35)]" style={{ background: color }} />
@@ -149,14 +148,9 @@ export function TarjetaCuadro({
     <Link href={href} className={`${lleno ? "w-full" : "tarjeta-par shrink-0 snap-start"}`}>
       <span className="relative block aspect-square overflow-hidden rounded-2xl" style={{ background: color }}>
         {obra ? <Foto obra={obra} className="absolute inset-0" /> : null}
-        {pronto ? (
-          <span className="absolute top-2 right-2 inline-flex size-7 items-center justify-center rounded-full bg-[#100E0C]/75 text-[#F4ECE2]">
-            <Candado />
-            <span className="sr-only">{prontoTexto}</span>
-          </span>
-        ) : null}
       </span>
-      <span className={`mt-2 block text-center font-display leading-none whitespace-nowrap ${claseTitulo(titulo, false)}`}>{titulo}</span>
+      <span className="mt-2 line-clamp-2 block text-center font-display text-sm leading-tight">{titulo}</span>
+      {pronto ? <span className="sr-only">{prontoTexto}</span> : null}
     </Link>
   );
 }

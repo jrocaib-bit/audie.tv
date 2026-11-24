@@ -10,10 +10,13 @@
     "./media": "./src/media-path.ts",
     "./build": "./src/build-catalog.ts",
     "./manifiesto": "./src/manifiesto.ts",
+    "./resumen-estilo": "./src/resumen-estilo.ts",
     "./app-catalog": "./src/app-catalog.ts",
+    "./audio-listo": "./src/audio-listo.ts",
     "./sync": "./src/sync.ts",
     "./obras": "./src/obras-visibles.ts",
-    "./obras-creditos": "./src/obras.ts"
+    "./obras-creditos": "./src/obras.ts",
+    "./indice-capitulos": "./src/indice-capitulos.ts"
   },
   "dependencies": {
     "@audite/domain": "0.1.0",

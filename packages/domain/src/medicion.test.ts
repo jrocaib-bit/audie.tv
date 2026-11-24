@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, plataformaCliente, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
+import { clasificarTrafico, crearSumideroSupabase, decidirEscucha, eliminarCuenta, esEvento, eventosDePaywall, filaPreferenciaCorreo, limpiarPropiedades, plataformaCliente, prepararMedicion, propsFormulario, scriptPlausible, track, utmDeBusqueda, type ContextoMedicion, type PropsFormulario } from "./medicion";
 
 const ctx: ContextoMedicion = {
   platform: "web",
@@ -73,20 +73,69 @@ describe("medición", () => {
     expect(evento).toHaveBeenCalledOnce();
   });
 
-  it("prepara el upsert de reto_progreso solo con sesión", () => {
+  it("prepara el progreso del reto con sesión: día completado y inscripción", () => {
     const conSesion = prepararMedicion("challenge_day_completed", { reto_id: "navidad-infancia", dia: 3, episode_id: "lc-02" }, ctx, new Date("2026-12-27T10:00:00Z"));
     expect(conSesion.progreso).toEqual({
       user_id: ctx.user_id,
+      session_id: "sesion-1",
       reto_id: "navidad-infancia",
       dia: 3,
       fecha_local: "2026-12-27",
       completed_at: "2026-12-27T10:00:00.000Z",
       episode_id: "lc-02",
     });
-    const anonimo = prepararMedicion("challenge_day_completed", { reto_id: "navidad-infancia", dia: 3, episode_id: "lc-02" }, { ...ctx, user_id: null });
-    expect(anonimo.progreso).toBeNull();
-    expect(anonimo.evento.platform).toBe("web");
-    expect(anonimo.evento.session_id).toBe("sesion-1");
+    const inicio = prepararMedicion("challenge_started", { reto_id: "adviento-isaias" }, ctx, new Date("2026-11-29T10:00:00Z"));
+    expect(inicio.progreso).toMatchObject({ user_id: ctx.user_id, reto_id: "adviento-isaias", dia: 0, completed_at: null });
+  });
+
+  it("el anónimo también deja progreso, identificado solo por su sesión", () => {
+    const anon = { ...ctx, user_id: null };
+    const inicio = prepararMedicion("challenge_started", { reto_id: "adviento-isaias" }, anon);
+    expect(inicio.progreso).toMatchObject({ user_id: null, session_id: "sesion-1", dia: 0 });
+    const dia = prepararMedicion("challenge_day_completed", { reto_id: "navidad-infancia", dia: 3, episode_id: "lc-02" }, anon);
+    expect(dia.progreso).toMatchObject({ user_id: null, session_id: "sesion-1", dia: 3 });
+    expect(dia.evento.platform).toBe("web");
+    expect(prepararMedicion("challenge_day_completed", { reto_id: "x", dia: 0, episode_id: "" }, anon).progreso).toBeNull();
+  });
+
+  it("el sumidero usa upsert con sesión y RPC sin ella, y propaga el error de supabase", async () => {
+    const llamadas: unknown[][] = [];
+    const cliente = (error: { code: string } | null) => ({
+      from: (t: string) => ({
+        insert: async (f: unknown) => { llamadas.push(["insert", t, f]); return { error }; },
+        upsert: async (f: unknown, o: unknown) => { llamadas.push(["upsert", t, f, o]); return { error }; },
+      }),
+      rpc: async (n: string, a: unknown) => { llamadas.push(["rpc", n, a]); return { error }; },
+    });
+    const fila = prepararMedicion("challenge_started", { reto_id: "adviento-isaias" }, ctx).progreso!;
+    await crearSumideroSupabase(cliente(null)).progreso!(fila);
+    expect(llamadas[0]).toEqual(["upsert", "reto_progreso", expect.not.objectContaining({ session_id: expect.anything() }), { onConflict: "user_id,reto_id,dia", ignoreDuplicates: true }]);
+    const anon = prepararMedicion("challenge_day_completed", { reto_id: "r", dia: 2, episode_id: "e" }, { ...ctx, user_id: null }).progreso!;
+    await crearSumideroSupabase(cliente(null)).progreso!(anon);
+    expect(llamadas[1]).toEqual(["rpc", "registrar_reto_anonimo", { p_session_id: "sesion-1", p_reto_id: "r", p_dia: 2, p_episode_id: "e" }]);
+    await expect(crearSumideroSupabase(cliente({ code: "42501" })).progreso!(fila)).rejects.toMatchObject({ code: "42501" });
+  });
+
+  it("track avisa de los fallos sin datos personales", async () => {
+    const fallos: unknown[] = [];
+    const sumidero = { evento: async () => { throw Object.assign(new Error("a@b.c"), { code: "42501" }); }, progreso: () => { throw new Error("x"); } };
+    track("challenge_started", { reto_id: "r" }, ctx, sumidero, new Date(), (f) => fallos.push(f));
+    await new Promise((r) => setTimeout(r, 0));
+    expect(fallos).toEqual([{ donde: "progreso", evento: "challenge_started", codigo: "Error" }, { donde: "evento", evento: "challenge_started", codigo: "42501" }]);
+  });
+
+  it("marca tráfico interno y de bots sin guardar email ni user-agent", () => {
+    expect(clasificarTrafico({ email: "TVaudite@gmail.com" })).toBe("interno");
+    expect(clasificarTrafico({ email: "otra@persona.test" })).toBeNull();
+    expect(clasificarTrafico({ email: "otra@persona.test", correosInternos: ["otra@persona.test"] })).toBe("interno");
+    expect(clasificarTrafico({ userAgent: "Mozilla/5.0 HeadlessChrome/120" })).toBe("headless");
+    expect(clasificarTrafico({ userAgent: "Mozilla/5.0 (compatible; Googlebot/2.1)" })).toBe("bot");
+    expect(clasificarTrafico({ userAgent: "Mozilla/5.0 (iPhone) Safari/604" })).toBeNull();
+    const p = prepararMedicion("challenge_started", { reto_id: "r" }, { ...ctx, trafico: "bot" });
+    expect(p.evento.properties).toMatchObject({ is_internal: false, trafico: "bot" });
+    expect(p.progreso).toBeNull();
+    expect(prepararMedicion("page_view", { path: "/" }, { ...ctx, trafico: "interno" }).evento.properties).toMatchObject({ is_internal: true, trafico: "interno" });
+    expect(prepararMedicion("page_view", { path: "/" }, ctx).evento.properties).toEqual({ path: "/" });
   });
 
   it("marca el 25, el 50 y el 75 una sola vez", () => {
@@ -156,5 +205,17 @@ describe("migración de medición", () => {
     expect(borrado).toContain("revoke all on function public.delete_my_account() from public");
     expect(borrado).toContain("revoke all on function public.delete_my_account() from anon");
     expect(borrado).toContain("grant execute on function public.delete_my_account() to authenticated");
+  });
+});
+
+describe("migración de inscripción de retos", () => {
+  const sql = readFileSync(new URL("../../../supabase/migrations/20261123100000_reto_progreso_inscripcion_anonima.sql", import.meta.url), "utf8");
+  it("abre dia 0 y deja al anónimo solo escribir por RPC", () => {
+    expect(sql.startsWith("-- Preparada, no aplicada en producción.")).toBe(true);
+    expect(sql).toContain("check (dia >= 0)");
+    expect(sql).toContain("revoke all on table public.reto_progreso_anonimo from public, anon, authenticated");
+    expect(sql).not.toMatch(/grant (select|insert|update)[^;]*reto_progreso_anonimo/);
+    expect(sql).toContain("security definer");
+    expect(sql).toContain("set search_path = ''");
   });
 });

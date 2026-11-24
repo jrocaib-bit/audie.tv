@@ -1,0 +1,136 @@
+/* Lector de libros. Serif de sistema para el cuerpo. La interfaz sigue con Inter y las clases del sitio. */
+.lector {
+  --lector-tam: 19px;
+  --lector-fondo: #100e0c;
+  --lector-tinta: #f4ece2;
+  --lector-suave: #b7ab9c;
+  --lector-linea: #2e2924;
+  --lector-acento: #c9a96e;
+  --lector-tarjeta: #1b1815;
+  --lector-marca: rgb(201 169 110 / 0.28);
+  background: var(--lector-fondo);
+  color: var(--lector-tinta);
+}
+
+.lector[data-tema="dia"] {
+  --lector-fondo: #f3ecdf;
+  --lector-tinta: #161310;
+  --lector-suave: #5e564c;
+  --lector-linea: #d9ccb8;
+  --lector-acento: #7a5a26;
+  --lector-tarjeta: #faf6ef;
+  --lector-marca: rgb(138 100 50 / 0.26);
+}
+
+.lector[data-tam="sm"] { --lector-tam: 17px; }
+.lector[data-tam="md"] { --lector-tam: 19px; }
+.lector[data-tam="lg"] { --lector-tam: 21px; }
+.lector[data-tam="xl"] { --lector-tam: 24px; }
+
+.lector-cuerpo,
+.lector-cuerpo * {
+  font-family: Georgia, Palatino, "Palatino Linotype", "Times New Roman", serif;
+}
+
+.lector-cuerpo {
+  max-width: 65ch;
+  font-size: var(--lector-tam);
+  line-height: 1.78;
+  text-align: left;
+  hyphens: manual;
+}
+
+.lector-cuerpo p,
+.lector-cuerpo .lector-pasaje,
+.lector-cuerpo .lector-subtitulo {
+  margin: 0;
+}
+
+.lector-bloque {
+  position: relative;
+  margin-top: 1.1em;
+  padding: 0 0.35em;
+  margin-left: -0.35em;
+  border-radius: 4px;
+  scroll-margin-top: 96px;
+}
+
+.lector-bloque[data-activo="1"] {
+  background: color-mix(in srgb, var(--lector-acento) 9%, transparent);
+}
+
+.lector-pasaje {
+  font-style: italic;
+  color: var(--lector-suave);
+  font-size: 0.95em;
+}
+
+.lector-subtitulo {
+  margin-top: 1.8em;
+  font-size: 1.08em;
+  font-weight: 700;
+}
+
+.lector-subrayado {
+  background: var(--lector-marca);
+  color: inherit;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.lector .ref-biblica {
+  color: var(--lector-acento);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.lector-marcador {
+  position: absolute;
+  left: -1.1em;
+  top: 0.35em;
+  width: 0.55em;
+  height: 0.9em;
+  background: var(--lector-acento);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
+}
+
+.lector-nota {
+  margin: 0.4em 0 0;
+  padding: 0.55em 0.9em;
+  border-left: 2px solid var(--lector-acento);
+  background: var(--lector-tarjeta);
+  font-size: 0.82em;
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}
+
+.lector-nota time {
+  display: block;
+  color: var(--lector-suave);
+  font-size: 0.85em;
+}
+
+.lector ::selection {
+  background: var(--lector-marca);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lector-aparece {
+    animation: lector-aparece 320ms ease-out both;
+  }
+  .lector-cajon {
+    animation: lector-sube 220ms ease-out both;
+  }
+}
+
+@keyframes lector-aparece {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lector-sube {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}

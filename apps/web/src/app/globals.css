@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./movimiento.css";
+@import "./sala.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -115,9 +117,19 @@ body {
   font-weight: 500;
 }
 
+html[data-gazpacho] {
+  --audite-font-display: "Gazpacho", Georgia, serif;
+}
+
+html[data-gazpacho] .font-display,
+html[data-gazpacho] .font-display-regular,
+html[data-gazpacho] .cifra {
+  font-synthesis: none;
+}
+
 .font-display {
   font-family: var(--audite-font-display);
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: -0.03em;
 }
 
@@ -129,7 +141,7 @@ body {
 
 .cifra {
   font-family: var(--audite-font-display);
-  font-weight: 800;
+  font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
   line-height: 1;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Lienzo } from "@/components/sala/lienzo";
 import { leerLibro } from "@audite/content/app-catalog";
 import { obraWebp, obrasVisibles } from "@audite/content/obras";
 import { TEMAS } from "@audite/domain";
@@ -24,8 +25,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <main className="min-h-full bg-[#100E0C] text-[#F4ECE2]">
       <div className="relative h-72 overflow-hidden" style={{ background: tema.color }}>
         {obra ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={obraWebp(obra)} alt="" className="h-full w-full object-cover" />
+          <Lienzo src={obraWebp(obra)} className="absolute inset-0" />
         ) : null}
         <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, transparent 20%, ${tema.color} 100%)` }} />
         <h1 className="font-display absolute right-5 bottom-5 left-5 text-[clamp(2.1rem,10vw,3.25rem)] leading-none whitespace-nowrap">{tema.titulo[ui]}</h1>

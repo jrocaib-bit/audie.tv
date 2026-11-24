@@ -1,0 +1,58 @@
+{
+  "actualizado": "2026-11-24",
+  "libros": [
+    {
+      "id": "libro-prueba",
+      "orden": 1,
+      "titulo": "Libro de prueba",
+      "subtitulo": "Un volumen inventado para los tests",
+      "libro_biblico": "Génesis",
+      "libro_id": "gn",
+      "estado": "completo",
+      "palabras": 120,
+      "ruta_local": "/ruta/interna/que/no-debe-salir/",
+      "drive": { "url": "https://drive.example/no-debe-salir" },
+      "amazon_paperback_url": "https://www.amazon.es/dp/PRUEBA0001",
+      "amazon_kindle_url": "https://www.amazon.es/dp/PRUEBAKINDLE",
+      "estructura_capitulos": [
+        { "tipo": "prologo", "numero": null, "titulo": "Prólogo de prueba", "rotulo": "Prólogo" },
+        { "tipo": "capitulo", "numero": 1, "titulo": "Capítulo de prueba", "rotulo": "Capítulo 1" },
+        { "tipo": "epilogo", "numero": null, "titulo": "Epílogo de prueba", "rotulo": "Epílogo" }
+      ],
+      "episodios_del_libro_comentado": [
+        { "episodio_id": "gn-01", "etiqueta": "Génesis 1–2", "titulo": "En el principio" }
+      ],
+      "episodios_cruzados": [
+        { "episodio_id": "jn-01", "etiqueta": "Juan 1–2", "titulo": "El Verbo se hizo carne" }
+      ]
+    },
+    {
+      "id": "completo-sin-texto",
+      "orden": 2,
+      "titulo": "Completo sin texto",
+      "subtitulo": "Un volumen cuyo texto aún no está convertido",
+      "libro_biblico": "Juan",
+      "libro_id": "jn",
+      "estado": "completo",
+      "palabras": 90,
+      "estructura_capitulos": [
+        { "tipo": "prologo", "numero": null, "titulo": "Entrada", "rotulo": "Prólogo" },
+        { "tipo": "capitulo", "numero": 1, "titulo": "Primera parte", "rotulo": "Capítulo 1" }
+      ],
+      "episodios_del_libro_comentado": [{ "episodio_id": "jn-01", "etiqueta": "Juan 1–2", "titulo": "El Verbo se hizo carne" }],
+      "episodios_cruzados": [{ "episodio_id": "gn-01", "etiqueta": "Génesis 1–2", "titulo": "En el principio" }]
+    },
+    {
+      "id": "en-borrador",
+      "orden": 3,
+      "titulo": "En borrador",
+      "subtitulo": "Un volumen en preparación",
+      "libro_biblico": "Rut",
+      "libro_id": "gn",
+      "estado": "borrador",
+      "estructura_capitulos": [{ "tipo": "prologo", "numero": null, "titulo": "Entrada", "rotulo": "Prólogo" }],
+      "episodios_del_libro_comentado": [],
+      "episodios_cruzados": [{ "episodio_id": "gn-01", "etiqueta": "Génesis 1–2", "titulo": "En el principio" }]
+    }
+  ]
+}

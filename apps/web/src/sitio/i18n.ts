@@ -34,6 +34,10 @@ export function copiaSitio(lang: string): SitioCopy | null {
   return salida;
 }
 
+export function rutaDeInicio(locale: string): string {
+  return (idiomasPublicos as readonly string[]).includes(locale) ? `/${locale}` : "/es";
+}
+
 export function esRutaPublica(pathname: string): boolean {
   return idiomasPublicos.some((idioma) => pathname === `/${idioma}` || pathname.startsWith(`/${idioma}/`));
 }

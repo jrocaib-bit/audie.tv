@@ -3,7 +3,7 @@
 import { idiomaContenido, PERSONAJES, TEMAS, playableEpisodes } from "@audite/domain";
 import Link from "next/link";
 import { useLibrary } from "@/components/library";
-import { Arte, Candado } from "@/components/v2/fichas";
+import { Arte } from "@/components/v2/fichas";
 
 export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "personaje"; id: string; filas?: { id: string; etiqueta: string }[] }) {
   const { catalog, settings } = useLibrary();
@@ -32,7 +32,7 @@ export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "pe
           <Link href={`/ahora?e=${destino}`} aria-label={es ? "Oír" : "Play"} className="inline-flex size-14 items-center justify-center rounded-full bg-acento text-acento-ink">
             <svg viewBox="0 0 24 24" className="size-7" aria-hidden="true"><path fill="currentColor" d="M8 4.5v15l12-7.5z" /></svg>
           </Link>
-        ) : <span className="inline-flex size-14 items-center justify-center rounded-full border border-border"><Candado /></span>}
+        ) : <span className="inline-flex h-14 items-center rounded-full border border-border px-4 text-sm">{es ? "Pronto" : "Soon"}</span>}
         {aleatorio && destino ? (
           <Link href={`/ahora?e=${destino}&azar=1`} aria-label={es ? "Aleatorio" : "Shuffle"} className="inline-flex size-11 items-center justify-center rounded-full border border-border">
             <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.7" d="M4 7h3l4 10h3m6 0-2.5-3M4 17h3l2-5m9-5 2.5 3L20 7" /></svg>
@@ -47,7 +47,7 @@ export function FichaV2({ tipo, id, filas = [] }: { tipo: "libro" | "tema" | "pe
           return (
             <li key={episodeId} className="flex min-h-14 items-center justify-between gap-3 border-b border-border">
               <Link href={listo ? `/ahora?e=${episodeId}` : `/libro/${libroId}`} className="font-display min-w-0 truncate text-xl">{etiqueta}</Link>
-              {listo ? null : <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted"><Candado />{es ? "Pronto" : "Soon"}</span>}
+              {listo ? null : <span className="shrink-0 text-xs text-muted">{es ? "Pronto" : "Soon"}</span>}
             </li>
           );
         })}

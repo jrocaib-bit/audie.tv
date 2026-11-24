@@ -1,0 +1,13 @@
+{
+  "criterio": "sha256, inventario y título ES normalizado + autor; las portadas reto-* cuentan como usos. Se comparan las 516 principales y las 4 obras de portada.",
+  "creditos": "audite.creditos/1.27",
+  "generado_creditos": "2026-11-11T14:17:00+01:00",
+  "coincide_con_identidad": true,
+  "pendientes": [],
+  "n_pendientes": 0,
+  "n_grupos": 0,
+  "otras_repeticiones": [],
+  "portadas_sin_coincidencia": true,
+  "grupos": [],
+  "nota": "v1.27: sin repeticiones"
+}
