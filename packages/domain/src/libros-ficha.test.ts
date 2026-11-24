@@ -22,3 +22,14 @@ describe("textos de la estantería", () => {
     expect(archivoPortada("cubierta", 1, "webp")).toBe("cubierta-01-480.webp");
   });
 });
+
+describe("enlace a la ficha del libro y pestaña", () => {
+  it("las cadenas no llevan raya ni punto y coma y existen en los dos idiomas", async () => {
+    const { ETIQUETA_VER_LIBRO } = await import("./libros-ficha");
+    const { t } = await import("./messages");
+    expect(ETIQUETA_VER_LIBRO).toBe("Ver el libro");
+    for (const cadena of [ETIQUETA_VER_LIBRO, t("es", "navBooks"), t("en", "navBooks")]) expect(cadena).not.toMatch(/[;—–]/);
+    expect(t("es", "navBooks")).toBe("Libros");
+    expect(t("en", "navBooks")).toBe("Books");
+  });
+});

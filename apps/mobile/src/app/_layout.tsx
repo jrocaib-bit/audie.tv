@@ -11,6 +11,7 @@ const tabs = [
   { href: "/", label: "navListen" },
   { href: "/camino", label: "navPath" },
   { href: "/biblioteca", label: "navLibrary" },
+  { href: "/libros", label: "navBooks" },
   { href: "/ajustes", label: "navSettings" },
 ] as const;
 
@@ -61,7 +62,7 @@ function Shell() {
       {immersive ? null : (
         <View style={{ flexDirection: "row", borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.bg }}>
           {tabs.map((tab) => {
-            const current = tab.href === "/" ? path === "/" : path === tab.href;
+            const current = tab.href === "/" ? path === "/" : path === tab.href || (tab.href === "/libros" && path.startsWith("/libros/"));
             return (
               <Pressable
                 key={tab.href}
