@@ -27,13 +27,18 @@ const limita = (v: number, min: number, max: number) => Math.min(max, Math.max(m
  * se limita a [caja − tamaño·zoom, 0] para que nunca asome el fondo: si no se puede centrar, gana el visor lleno.
  * Sin paso (apertura, cierre): cover centrado, zoom 1.
  */
-export function transformaPaso(paso: PasoCamara | null, aspecto: number | null, caja: Caja, movil = false): { transform: string; transformOrigin: string; ancho: number; alto: number } {
+export function poseNumerica(paso: PasoCamara | null, aspecto: number | null, caja: Caja, movil = false): { tx: number; ty: number; z: number; w: number; h: number } {
   const { w, h } = tamanoCover(aspecto, caja);
   const z = paso ? zoomAplicado(paso.zoom, movil) : 1;
   const x = paso ? paso.x : 0.5;
   const y = paso ? paso.y : 0.5;
   const tx = limita(caja.w / 2 - x * w * z, caja.w - w * z, 0);
   const ty = limita(caja.h / 2 - y * h * z, caja.h - h * z, 0);
+  return { tx, ty, z, w, h };
+}
+
+export function transformaPaso(paso: PasoCamara | null, aspecto: number | null, caja: Caja, movil = false): { transform: string; transformOrigin: string; ancho: number; alto: number } {
+  const { tx, ty, z, w, h } = poseNumerica(paso, aspecto, caja, movil);
   return { transform: `translate(${tx}px, ${ty}px) scale(${z})`, transformOrigin: "0 0", ancho: w, alto: h };
 }
 

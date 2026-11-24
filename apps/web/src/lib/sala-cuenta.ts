@@ -1,5 +1,6 @@
 /** Candado de cuenta de La sala (seguro para el cliente): tipos y vista. No importa textos narrativos; esos viven en un módulo solo de servidor. */
 import { hrefEntrarParaSala } from "@audite/domain";
+import type { ComparativaSala } from "./sala-contexto";
 
 export type SesionMinima = { userId: string } | null | undefined;
 /** Tres estados de acceso: sin sesión, cuenta gratuita y premium (suscripción activa o en prueba). */
@@ -11,8 +12,11 @@ export type RecorridoSala = { apertura: { titulo: Bilingue; texto: Bilingue }; p
 /** Recorrido ya resuelto a un idioma. */
 export type RecorridoVista = {
   apertura: { titulo: string; texto: string };
-  pasos: { x: number; y: number; zoom: number; titulo: string; texto: string }[];
+  /** `radio`: foco de la máscara (fracción del lado menor del visor); opcional, por defecto se deriva del zoom. */
+  pasos: { x: number; y: number; zoom: number; radio?: number; titulo: string; texto: string }[];
   cierre: { titulo: string; texto: string };
+  /** Material extra solo premium (comparativa); ausente si la obra no lo tiene. */
+  comparativa?: ComparativaSala;
 };
 
 /** Adelanto público: la apertura resuelta a un idioma. Es lo único que reciben sin sesión y las cuentas gratuitas. */
