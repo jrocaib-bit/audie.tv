@@ -63,6 +63,7 @@ function Shell() {
         <Stack.Screen name="leer" options={cabecera} />
         <Stack.Screen name="creditos" options={cabecera} />
         <Stack.Screen name="reto/[id]" options={cabecera} />
+        <Stack.Screen name="biblia" options={cabecera} />
         <Stack.Screen name="libros/[slug]" options={cabecera} />
         <Stack.Screen name="libros/[slug]/leer" options={cabecera} />
         <Stack.Screen name="bienvenida" options={{ contentStyle: { backgroundColor: "#0C0B09" }, animation: "fade" }} />

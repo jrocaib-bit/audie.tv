@@ -1,4 +1,4 @@
-import { booksOnTheWay, episodiosDeLibro, rotuloEpisodio, type PendingEpisode } from "@audite/domain";
+import { booksOnTheWay, episodiosDeLibro, rotuloEpisodio, t as mensaje, type PendingEpisode } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
@@ -21,6 +21,7 @@ import { useReproducir } from "../ui/useReproducir";
 export default function Biblioteca() {
   const { c, lang, library } = useTema();
   const t = tx(lang);
+  const m = { bibleLink: mensaje(lang, "bibleLink"), bibleIntro: mensaje(lang, "bibleIntro") };
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const ctx = useContextoCatalogo();
@@ -66,6 +67,10 @@ export default function Biblioteca() {
           <Pulsable onPress={() => router.push("/libros")} label="Libros" escala={0.985} style={{ marginHorizontal: 20, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 16, justifyContent: "center", gap: 2, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
             <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>Libros</Text>
             <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>Comentarios a la Escritura, con adelanto gratis.</Text>
+          </Pulsable>
+          <Pulsable onPress={() => router.push("/biblia")} label={m.bibleLink} escala={0.985} style={{ marginHorizontal: 20, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 16, justifyContent: "center", gap: 2, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
+            <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>{m.bibleLink}</Text>
+            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{m.bibleIntro}</Text>
           </Pulsable>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}>
             {libros.map((libro) => (
