@@ -86,14 +86,14 @@ function VisorObra({ src, obraId, alt, paso, reducido, className, mascaras, chil
 }
 
 function Tarjeta({ children }: { children: ReactNode }) {
-  return <div className="max-w-prose rounded-2xl border border-[#2E2924] bg-[#1B1815] p-5 md:p-7">{children}</div>;
+  return <div className="max-w-prose rounded-2xl border border-[#2E2924] bg-[#1B1815] p-5 min-[480px]:p-6 md:p-7">{children}</div>;
 }
 
 function Apertura({ a }: { a: Adelanto }) {
   return (
     <>
-      <h2 className="font-display text-2xl">{a.titulo}</h2>
-      <p className="mt-3 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{a.texto}</p>
+      <h2 className="font-display text-[1.625rem] md:text-2xl">{a.titulo}</h2>
+      <p className="mt-3 max-w-prose text-[1.1875rem] leading-[1.55] text-[#F4ECE2] md:text-lg md:leading-relaxed md:text-[#F4ECE2]/90">{a.texto}</p>
     </>
   );
 }
@@ -106,9 +106,9 @@ export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo 
     <section data-corte data-candado aria-busy={verificando} className="mt-3 max-w-prose rounded-3xl border border-[#C9A96E]/60 bg-[#1B1815] p-5 md:mt-8 md:p-6">
       <h2 className="font-display text-xl">{c.titulo}</h2>
       {fallo ? <p role="status" className="mt-2 text-[#F4ECE2]/85">{FALLO[lang]}</p> : null}
-      <p className="mt-2 text-base leading-relaxed text-[#F4ECE2]/90">{c.texto}</p>
+      <p className="mt-2 text-[1.0625rem] leading-[1.55] text-[#F4ECE2] md:text-base md:leading-relaxed md:text-[#F4ECE2]/90">{c.texto}</p>
       {verificando ? (
-        <p role="status" className="mt-4 text-[#B7AB9C]">{c.comprobando}</p>
+        <p role="status" className="mt-4 text-base text-[#D2C6B6]">{c.comprobando}</p>
       ) : (
         <div className="mt-4 flex flex-wrap gap-3">
           <Link href={`/${lang}/membresia`} data-cta="premium" className="inline-flex min-h-12 items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{c.premium}</Link>
@@ -130,10 +130,14 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   const visor = useRef<HTMLDivElement>(null);
   const total = datos.pasos.length;
   const [cab, setCab] = useState(0);
+  const [movil, setMovil] = useState(false);
 
   // El visor sticky en móvil cuelga bajo la cabecera sticky del sitio: se mide su alto.
   useEffect(() => {
-    const medir = () => setCab(Math.round(document.querySelector<HTMLElement>("[data-cabecera]")?.getBoundingClientRect().height ?? 0));
+    const medir = () => {
+      setCab(Math.round(document.querySelector<HTMLElement>("[data-cabecera]")?.getBoundingClientRect().height ?? 0));
+      setMovil(window.innerWidth < 768);
+    };
     medir();
     window.addEventListener("resize", medir);
     return () => window.removeEventListener("resize", medir);
@@ -195,8 +199,9 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   const indice = reducido ? 0 : activo;
   const paso = reducido ? null : poseDeBloque(indice, datos.pasos);
   const estilo = (i: number) => {
-    const op = opacidadBloque({ revelado: reveladas.has(i), activo: indice === i }, reducido);
-    return reducido ? undefined : { opacity: op, transform: op === 0 ? "translateY(14px)" : "none", transition: "opacity 700ms ease, transform 700ms ease" };
+    const op = opacidadBloque({ revelado: reveladas.has(i), activo: indice === i }, reducido, movil);
+    // Móvil: sin fundidos ni desplazamiento. Escritorio: solo la entrada (corta); luego 100 %.
+    return reducido ? undefined : { opacity: op, transform: op === 0 ? "translateY(14px)" : "none", transition: movil ? "none" : "opacity 350ms ease, transform 350ms ease" };
   };
   // Cada bloque ocupa la franja de texto visible (móvil: pantalla − cabecera − visor), un paso por franja.
   const clase = "flex min-h-[max(30svh,calc(100svh_-_var(--cab,76px)_-_62svh))] flex-col justify-center py-4 md:min-h-[78svh] md:py-8";
@@ -207,15 +212,15 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   return (
     <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
       <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div ref={visor} className="sticky top-[var(--cab)] z-20 md:top-0 md:z-10 md:h-svh md:self-start">
+        <div ref={visor} className="sticky top-[var(--cab)] z-20 max-md:border-b max-md:border-[#C9A96E]/40 md:top-0 md:z-10 md:h-svh md:self-start">
           <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[62svh] md:h-svh" mascaras={{ pasos: datos.pasos, activo: enPaso ? indice - 1 : -1 }}>
             {enPaso ? (
               <p data-contador aria-hidden="true" className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-[#100E0C]/80 px-3 py-1 text-sm tabular-nums text-[#E0C48A] md:right-5 md:bottom-5">{indice} / {total}</p>
             ) : null}
           </VisorObra>
         </div>
-        <div className="relative -mt-5 rounded-t-3xl bg-[#0C0B09] px-4 pb-[30svh] shadow-[0_-14px_24px_rgba(0,0,0,0.55)] md:mt-0 md:rounded-none md:shadow-none md:px-10">
-          <h1 className="font-display t-h1 pt-6 md:pt-[12svh]">{titulo}</h1>
+        <div className="relative bg-[#0C0B09] px-5 pb-[30svh] min-[480px]:px-6 md:px-10">
+          <h1 className="font-display t-h1 pt-8 md:pt-[12svh]">{titulo}</h1>
           <article data-apertura data-indice={0} data-bloque ref={ref(0)} className={clase} style={estilo(0)}>
             <Tarjeta>
               <Apertura a={datos.apertura} />
@@ -227,8 +232,8 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
               <article data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>
                 <Tarjeta>
                   <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
-                  <h3 className="mt-2 font-display text-xl">{p.titulo}</h3>
-                  <p className="mt-2 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{p.texto}</p>
+                  <h3 className="mt-2 font-display text-[1.375rem] md:text-xl">{p.titulo}</h3>
+                  <p className="mt-2 max-w-prose text-[1.1875rem] leading-[1.55] text-[#F4ECE2] md:text-lg md:leading-relaxed md:text-[#F4ECE2]/90">{p.texto}</p>
                 </Tarjeta>
               </article>
               {datos.comparativa?.trasPaso === i + 1 ? <Comparativa datos={datos.comparativa} /> : null}

@@ -80,9 +80,12 @@ export function etiquetaActivo(indice: number, totalPasos: number): string {
   return b.tipo === "paso" ? String(b.n) : b.tipo;
 }
 
-/** Opacidad de un bloque: sin revelar 0; activo 1; ya leído 0.55; con movimiento reducido siempre 1. */
-export function opacidadBloque(estado: { revelado: boolean; activo: boolean }, reducido: boolean): number {
-  if (reducido) return 1;
-  if (estado.activo) return 1;
-  return estado.revelado ? 0.55 : 0;
+/**
+ * Opacidad de un bloque. Un bloque nunca queda a media tinta mientras se puede leer: activo o ya revelado = 1.
+ * Escritorio: solo el fundido de entrada (sin revelar 0). Móvil y movimiento reducido: siempre 1 (sin fundidos).
+ * El foco (qué paso está activo) lo marcan la cámara y la máscara, no la opacidad del texto.
+ */
+export function opacidadBloque(estado: { revelado: boolean; activo: boolean }, reducido: boolean, movil = false): number {
+  if (reducido || movil) return 1;
+  return estado.activo || estado.revelado ? 1 : 0;
 }

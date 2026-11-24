@@ -16,11 +16,11 @@ export function Comparativa({ datos }: { datos?: ComparativaSala | null }) {
           <figure key={i.src} className="grid gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={i.src} alt={i.alt} width={i.ancho} height={i.alto} loading="lazy" decoding="async" className="h-auto w-full rounded-md bg-[#1B1815]" />
-            <figcaption className="text-base leading-snug text-[#E7D7C3]">{i.pie}</figcaption>
+            <figcaption className="text-[1.0625rem] leading-[1.55] text-[#E7D7C3] md:text-base md:leading-snug">{i.pie}</figcaption>
           </figure>
         ))}
       </div>
-      <p data-creditos className="text-sm leading-snug text-[#B7AB9C]">{datos.creditos}</p>
+      <p data-creditos className="text-base leading-[1.55] text-[#C9BDAD] md:text-sm md:leading-snug md:text-[#B7AB9C]">{datos.creditos}</p>
     </section>
   );
 }

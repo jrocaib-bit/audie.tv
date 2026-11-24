@@ -113,7 +113,11 @@ describe("bloques del relato", () => {
   });
   it("opacidad: oculto, leído, activo; reducido siempre 1", () => {
     expect(opacidadBloque({ revelado: false, activo: false }, false)).toBe(0);
-    expect(opacidadBloque({ revelado: true, activo: false }, false)).toBeLessThan(1);
+    // un bloque revelado no activo NO se queda a media tinta en la zona de lectura
+    expect(opacidadBloque({ revelado: true, activo: false }, false)).toBe(1);
+    expect(opacidadBloque({ revelado: true, activo: false }, false, true)).toBe(1);
+    // móvil: sin fundidos, ni siquiera sin revelar
+    expect(opacidadBloque({ revelado: false, activo: false }, false, true)).toBe(1);
     expect(opacidadBloque({ revelado: true, activo: true }, false)).toBe(1);
     expect(opacidadBloque({ revelado: false, activo: false }, true)).toBe(1);
   });

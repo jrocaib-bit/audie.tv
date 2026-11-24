@@ -3,9 +3,9 @@ import { siluetaEuropa } from "@/lib/sala-mapa-europa";
 
 /**
  * Móvil, relato premium: la sección se pinta POR ENCIMA del visor sticky (z-25 > z-20) y POR DEBAJO de la cabecera (.cabecera es z-30). La columna de texto no crea contexto de apilamiento,
- * a ancho completo (sale del px-4 de la columna), fondo opaco y alto de pantalla bajo la cabecera. En md no cambia nada.
+ * a ancho completo (sale del padding lateral de la columna (px-5 / px-6)), fondo opaco y alto de pantalla bajo la cabecera. En md no cambia nada.
  */
-export const PANTALLA_MOVIL = "max-md:relative max-md:z-[25] max-md:-mx-4 max-md:min-h-[calc(100svh-var(--cab,76px))] max-md:content-center max-md:bg-[#0C0B09] max-md:px-4 max-md:py-6";
+export const PANTALLA_MOVIL = "max-md:relative max-md:z-[25] max-md:-mx-5 min-[480px]:max-md:-mx-6 max-md:min-h-[calc(100svh-var(--cab,76px))] max-md:content-center max-md:bg-[#0C0B09] max-md:px-5 min-[480px]:max-md:px-6 max-md:py-6";
 
 const ROTULOS = {
   es: { mapa: "Dónde estuvo", tiempo: "Su historia", mapaDe: "Mapa con" },
@@ -15,7 +15,7 @@ const ROTULOS = {
 /** Cita grande tomada de la apertura. */
 export function CitaGrande({ texto }: { texto: string }) {
   return (
-    <blockquote data-cita className="my-2 border-l-2 border-[#C9A96E] pl-5 font-display text-[1.75rem] leading-[1.2] text-[#F4ECE2] md:text-4xl">
+    <blockquote data-cita className="my-2 border-l-2 border-[#C9A96E] pl-5 font-display text-[1.75rem] leading-[1.35] text-[#F4ECE2] md:text-4xl md:leading-[1.2]">
       {texto}
     </blockquote>
   );
@@ -69,10 +69,10 @@ export function MapaSala({ puntos, lang, pantalla = false }: { puntos: PuntoMapa
           );
         })}
       </svg>
-      <ol className="grid gap-2 text-base leading-snug text-[#F4ECE2]/90">
+      <ol className="grid gap-3 text-[1.0625rem] leading-[1.55] text-[#F4ECE2] md:gap-2 md:text-base md:leading-snug md:text-[#F4ECE2]/90">
         {puntos.map((p, i) => (
           <li key={p.id} className="flex gap-3">
-            <span aria-hidden="true" className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-[#C9A96E] text-xs font-bold text-[#100E0C]">{i + 1}</span>
+            <span aria-hidden="true" className="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-[#C9A96E] text-sm font-bold text-[#100E0C] md:text-xs">{i + 1}</span>
             <span>{p.pie}</span>
           </li>
         ))}
@@ -93,7 +93,7 @@ export function LineaTiempo({ lineas, lang, pantalla = false }: { lineas: string
             <li key={l} className="relative">
               <span aria-hidden="true" className="absolute top-2 -left-[1.9rem] size-2.5 rounded-full bg-[#C9A96E]" />
               {anio ? <p className="font-display text-2xl text-[#C9A96E]">{anio}</p> : null}
-              <p className="text-base leading-snug text-[#F4ECE2]/90">{resto}</p>
+              <p className="text-[1.0625rem] leading-[1.55] text-[#F4ECE2] md:text-base md:leading-snug md:text-[#F4ECE2]/90">{resto}</p>
             </li>
           );
         })}
