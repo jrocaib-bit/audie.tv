@@ -2,11 +2,14 @@
 
 import { PRECIO, textosAlta } from "@audite/domain";
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { sesionWeb, tokenWeb } from "@/lib/auth-web";
 import { datosVistaSala, type Adelanto, type RecorridoVista, type RespuestaSala, type VistaSala } from "@/lib/sala-cuenta";
 import type { ContextoSala } from "@/lib/sala-contexto";
 import { fondoMascara, geometriaMascara } from "@/lib/sala-mascara";
+import { BotonProbar } from "@/components/probar";
+import { botonOroVariantes } from "./boton-oro";
+import { Comparativa } from "./comparativa";
 import { ContextoReportaje } from "./contexto-reportaje";
 import { etiquetaActivo, etiquetaCamara, indiceActivo, opacidadBloque, poseDeBloque, transformaPaso, type Caja } from "@/lib/sala-scroll";
 
@@ -27,6 +30,9 @@ const CORTE = {
   },
 };
 const OIR = { es: "Escuchar el episodio", en: "Listen to the episode" };
+const FRAGMENTO = { es: "Oír un fragmento", en: "Hear a short passage" };
+/** Un fragmento, no el episodio: la reproducción se detiene a los 45 s. */
+const LIMITE_FRAGMENTO = 45;
 const CARGANDO = { es: "Cargando el recorrido…", en: "Loading the walk-through…" };
 const FALLO = { es: "No pudimos comprobar tu acceso. Vuelve a intentarlo en un momento.", en: "We couldn't check your access. Please try again in a moment." };
 
@@ -217,22 +223,31 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
           </article>
           <ContextoReportaje contexto={contexto} lang={lang} />
           {datos.pasos.map((p, i) => (
-            <article key={i} data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>
-              <Tarjeta>
-                <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
-                <h3 className="mt-2 font-display text-xl">{p.titulo}</h3>
-                <p className="mt-2 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{p.texto}</p>
-              </Tarjeta>
-            </article>
+            <Fragment key={i}>
+              <article data-paso={i + 1} data-indice={i + 1} data-bloque ref={ref(i + 1)} className={clase} style={estilo(i + 1)}>
+                <Tarjeta>
+                  <p className="font-display text-3xl leading-none text-[#C9A96E]">{i + 1}</p>
+                  <h3 className="mt-2 font-display text-xl">{p.titulo}</h3>
+                  <p className="mt-2 max-w-prose text-lg leading-relaxed text-[#F4ECE2]/90">{p.texto}</p>
+                </Tarjeta>
+              </article>
+              {datos.comparativa?.trasPaso === i + 1 ? <Comparativa datos={datos.comparativa} /> : null}
+            </Fragment>
           ))}
           <article data-cierre data-indice={total + 1} data-bloque ref={ref(total + 1)} className={clase} style={estilo(total + 1)}>
             <Tarjeta>
               <Apertura a={datos.cierre} />
             </Tarjeta>
           </article>
-          <div className="mt-6 grid gap-6">
+          <div data-final className="mt-6 grid gap-6 border-t border-[#2E2924] pt-8">
             {placa ? <div className="max-w-sm">{placa}</div> : null}
-            <Link href={`/${lang}/oir/${id}`} className="inline-flex min-h-12 w-fit items-center rounded-full bg-[#C9A96E] px-6 text-[#100E0C]">{OIR[lang]}</Link>
+            <div data-fragmento>
+              <BotonProbar ficha={{ id, titulo, limite: LIMITE_FRAGMENTO }} etiqueta={FRAGMENTO[lang]} className={botonOroVariantes({ variante: "fantasma" })} />
+            </div>
+            <Link href={`/${lang}/oir/${id}`} data-cta="escuchar" className="inline-flex min-h-14 w-fit items-center gap-3 rounded-full bg-[#C9A96E] px-8 text-lg text-[#100E0C]">
+              {OIR[lang]}
+              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true"><path d="M5 12h14m-5-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.8" /></svg>
+            </Link>
           </div>
         </div>
       </div>

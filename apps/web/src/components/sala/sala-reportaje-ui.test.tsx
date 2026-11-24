@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { SalaPagina } from "@/app/[lang]/sala/sala-pagina";
 import { idsSala, recorridoSala, resolverRecorrido } from "@/lib/sala-recorridos";
-import { contextoSala } from "@/lib/sala-reportaje";
+import { contextoSala, reportajePremium } from "@/lib/sala-reportaje";
 import { RelatoScroll } from "./sala-cuenta";
 
 vi.mock("next/image", () => ({ default: () => null }));
@@ -69,6 +69,26 @@ describe("relato premium con máscara y contexto", () => {
     expect(reducido).toContain('data-mascara="ninguna"');
     expect(reducido).toContain("data-mapa");
     expect(reducido).not.toContain("opacity:0");
+  });
+  it("comparativa tras el paso 5: pies, créditos aparte, lazy, fragmento y cierre hacia el episodio", () => {
+    const { comparativa, radios } = reportajePremium("gn-01", "es");
+    const completo = renderToStaticMarkup(<RelatoScroll lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="T" datos={{ ...datos, pasos: datos.pasos.map((p, i) => ({ ...p, radio: radios[i] })), comparativa: comparativa! }} contexto={contexto} />);
+    expect(completo).toContain("data-comparativa");
+    for (const i of comparativa!.imagenes) {
+      expect(completo).toContain(i.src);
+      expect(completo).toContain(i.pie);
+    }
+    expect(completo).toMatch(/<p data-creditos[^>]*>Grabados cedidos en CC0 por la National Gallery of Art/);
+    expect(completo.indexOf('data-paso="5"')).toBeLessThan(completo.indexOf("data-comparativa"));
+    expect(completo.indexOf("data-comparativa")).toBeLessThan(completo.indexOf("data-cierre"));
+    expect(completo).toContain("data-fragmento");
+    expect(completo).toContain("Oír un fragmento");
+    expect(completo).toContain('data-cta="escuchar"');
+    expect(completo).toContain('href="/es/oir/gn-01"');
+    // La obra solo aparece una vez como imagen del visor; las otras dos son las de la comparativa, lazy.
+    expect((completo.match(/<img/g) ?? []).length).toBe(3);
+    expect((completo.match(/loading="lazy"/g) ?? []).length).toBe(2);
+    expect(html).not.toContain("data-comparativa");
   });
   it("sin contexto no se pinta bloque de contexto", () => {
     const sin = renderToStaticMarkup(<RelatoScroll lang="es" id="x" src="/x.webp" alt="Obra" titulo="T" datos={datos} />);

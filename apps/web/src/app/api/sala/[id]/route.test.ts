@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { recorridoSala } from "@/lib/sala-recorridos";
+import { idsSala, recorridoSala } from "@/lib/sala-recorridos";
+import { reportajePremium } from "@/lib/sala-reportaje";
 
 const doble = vi.hoisted(() => ({
   userError: null as { message: string } | null,
@@ -51,6 +52,13 @@ function sinFuga(cuerpo: string) {
   expect(cuerpo).not.toContain("La fuente de los cuatro caños");
   expect(cuerpo).not.toContain(r.cierre.texto.es.slice(0, 40));
   expect(cuerpo).not.toContain(r.cierre.titulo.es);
+  // La comparativa (pies, entrada, créditos, imágenes) y los radios de la máscara son solo premium.
+  for (const lang of ["es", "en"] as const) {
+    const c = reportajePremium("gn-01", lang).comparativa!;
+    for (const t of [c.entrada, c.creditos, ...c.imagenes.flatMap((i) => [i.pie, i.alt])]) expect(cuerpo).not.toContain(t.replace(/'/g, "\\u0027"));
+    for (const t of [c.entrada, c.creditos, ...c.imagenes.map((i) => i.pie)]) expect(cuerpo).not.toContain(t);
+  }
+  expect(cuerpo).not.toMatch(/Durero|Dürer|durero-|comparativa|"radio"/);
   expect(cuerpo).not.toContain('"pasos"');
   expect(cuerpo).not.toContain('"cierre"');
 }
@@ -119,6 +127,16 @@ describe("ruta de La sala", () => {
     expect(json.cierre.texto).toBe(r.cierre.texto.es);
     const en = await (await pedir("gn-01", { token: "bueno", lang: "en" })).json();
     expect(en.pasos[0].texto).toBe(r.pasos[0]!.texto.en);
+    expect(json.pasos[0].radio).toBe(0.18);
+    expect(json.comparativa.trasPaso).toBe(5);
+    expect(json.comparativa.imagenes).toHaveLength(2);
+    expect(json.comparativa.creditos).toContain("National Gallery of Art");
+    expect(en.comparativa.imagenes[0].pie).toContain("Dürer");
+    const otra = idsSala().find((x) => x !== "gn-01")!;
+    const sinFicha = await (await pedir(otra, { token: "bueno" })).json();
+    expect(sinFicha.acceso).toBe("premium");
+    expect(sinFicha).not.toHaveProperty("comparativa");
+    expect(sinFicha.pasos.every((p: { radio?: number }) => p.radio === undefined)).toBe(true);
     expect(doble.lecturas.every((l) => l.endsWith(":subscription_status:status"))).toBe(true);
   });
 

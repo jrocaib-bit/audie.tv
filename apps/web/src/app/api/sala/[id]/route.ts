@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { esPremium } from "@/lib/es-premium";
 import { adelantoSala, resolverRecorrido } from "@/lib/sala-recorridos";
+import { reportajePremium } from "@/lib/sala-reportaje";
 import type { RespuestaSala } from "@/lib/sala-cuenta";
 
 export const runtime = "nodejs";
@@ -22,7 +23,10 @@ export async function GET(request: Request, contexto: { params: Promise<{ id: st
   const adelanto = (acceso: "sin-sesion" | "gratuito"): Response => respuesta(200, { acceso, apertura } satisfies RespuestaSala);
   const completo = (): Response => {
     const r = resolverRecorrido(id, lang)!;
-    return respuesta(200, { acceso: "premium", ...r } satisfies RespuestaSala);
+    // Radios de la máscara y comparativa: solo premium, nunca en el adelanto.
+    const { radios, comparativa } = reportajePremium(id, lang);
+    const pasos = r.pasos.map((p, i) => (radios[i] ? { ...p, radio: radios[i] } : p));
+    return respuesta(200, { acceso: "premium", ...r, pasos, ...(comparativa ? { comparativa } : {}) } satisfies RespuestaSala);
   };
 
   // Solo fuera de producción: capturas locales con `sesionMock` (no hay token real). En producción se ignora.

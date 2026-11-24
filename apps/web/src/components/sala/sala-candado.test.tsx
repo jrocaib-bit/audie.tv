@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { recorridoSala } from "@/lib/sala-recorridos";
+import { reportajePremium } from "@/lib/sala-reportaje";
 import { SalaPagina } from "@/app/[lang]/sala/sala-pagina";
 import { CorteSala, RelatoScroll, SalaCuenta } from "./sala-cuenta";
 
@@ -15,6 +16,11 @@ const posteriores = [
   r.cierre.texto.es.slice(0, 40),
   r.cierre.titulo.es,
   r.cierre.texto.en.slice(0, 40),
+  // Comparativa con Durero: solo en el relato premium.
+  ...(["es", "en"] as const).flatMap((l) => {
+    const c = reportajePremium("gn-01", l).comparativa!;
+    return [c.entrada, c.creditos, ...c.imagenes.flatMap((i) => [i.pie, i.src])];
+  }),
 ];
 
 describe("La sala sin premium: la apertura sí, nada posterior", () => {
@@ -35,7 +41,7 @@ describe("La sala sin premium: la apertura sí, nada posterior", () => {
   });
 
   it("las props del servidor solo llevan la apertura como adelanto", () => {
-    const el = SalaPagina({ lang: "es", id: "gn-01" });
+    const el = SalaPagina({ lang: "es", id: "gn-01" }).props.children;
     expect(Object.keys(el.props)).not.toContain("recorrido");
     expect(el.props.adelanto).toEqual({ titulo: r.apertura.titulo.es, texto: r.apertura.texto.es });
     const json = JSON.stringify({ ...el.props, placa: undefined });

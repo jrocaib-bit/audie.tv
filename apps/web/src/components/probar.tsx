@@ -3,7 +3,8 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Lienzo } from "@/components/sala/lienzo";
 
-export type FichaPrueba = { id: string; titulo: string };
+/** `limite`: segundos tras los cuales la reproducción se detiene (un fragmento, no el episodio). */
+export type FichaPrueba = { id: string; titulo: string; limite?: number };
 
 type Estado = {
   id: string | null;
@@ -46,7 +47,15 @@ export function ProbarAudio({ children }: { children: ReactNode }) {
         controlsList="nodownload"
         onTimeUpdate={(evento) => {
           const elemento = evento.currentTarget;
-          setFraccion(elemento.duration ? elemento.currentTime / elemento.duration : 0);
+          const limite = actual?.limite;
+          if (limite && elemento.currentTime >= limite) {
+            elemento.pause();
+            elemento.currentTime = 0;
+            setFraccion(0);
+            return;
+          }
+          const total = limite ? Math.min(limite, elemento.duration || limite) : elemento.duration;
+          setFraccion(total ? elemento.currentTime / total : 0);
         }}
         onPlay={() => setSonando(true)}
         onPause={() => setSonando(false)}

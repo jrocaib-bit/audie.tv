@@ -16,16 +16,21 @@ const datos = {
   cierre: { titulo: "C", texto: "Texto cierre" },
 };
 
+const raices: ReturnType<typeof createRoot>[] = [];
+
 function montar(reduce: boolean) {
   window.matchMedia = ((q: string) => ({ matches: reduce && q.includes("reduce"), media: q, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
   const div = document.createElement("div");
   document.body.append(div);
   const root = createRoot(div);
+  raices.push(root);
   act(() => root.render(<RelatoScroll lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="T" datos={datos} />));
   return { div, root };
 }
 
 afterEach(() => {
+  // Desmonta para que el planificador de React no deje trabajo pendiente tras cerrar el entorno.
+  for (const root of raices.splice(0)) act(() => root.unmount());
   document.body.innerHTML = "";
 });
 

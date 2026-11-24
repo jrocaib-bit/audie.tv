@@ -1,6 +1,7 @@
 import { loadAppCatalog } from "@audite/content/app-catalog";
 import { obraDeEpisodio, obraWebp } from "@audite/content/obras";
 import { Placa } from "@/components/placa";
+import { ProbarAudio } from "@/components/probar";
 import { SalaCuenta, type MockSala } from "@/components/sala/sala-cuenta";
 import { adelantoSala } from "@/lib/sala-recorridos";
 import { contextoSala } from "@/lib/sala-reportaje";
@@ -22,17 +23,19 @@ export function SalaPagina({ lang, id, mock }: { lang: string; id: string; mock?
   const episodio = loadAppCatalog().episodes.find((item) => item.id === id);
   const obra = obraDeEpisodio(id);
   return (
-    <SalaCuenta
-      lang={ui}
-      id={id}
-      src={obra ? obraWebp(obra) : ""}
-      obraId={obra?.id}
-      alt={obra?.titulo[ui] ?? ""}
-      titulo={obra?.titulo[ui] ?? episodio?.titulo?.[ui] ?? id}
-      adelanto={adelantoSala(id, ui) ?? undefined}
-      contexto={contextoSala(id, ui)}
-      placa={obra ? <Placa obra={obra} lang={ui} /> : undefined}
-      sesionMock={mockDe(mock)}
-    />
+    <ProbarAudio>
+      <SalaCuenta
+        lang={ui}
+        id={id}
+        src={obra ? obraWebp(obra) : ""}
+        obraId={obra?.id}
+        alt={obra?.titulo[ui] ?? ""}
+        titulo={obra?.titulo[ui] ?? episodio?.titulo?.[ui] ?? id}
+        adelanto={adelantoSala(id, ui) ?? undefined}
+        contexto={contextoSala(id, ui)}
+        placa={obra ? <Placa obra={obra} lang={ui} /> : undefined}
+        sesionMock={mockDe(mock)}
+      />
+    </ProbarAudio>
   );
 }
