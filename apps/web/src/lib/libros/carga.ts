@@ -64,7 +64,7 @@ export function mostrarAmazon(): boolean {
 
 const cache = new Map<string, { mtime: number; dato: unknown }>();
 
-function leerJson(archivo: string): unknown | null {
+export function leerJson(archivo: string): unknown | null {
   try {
     const mtime = statSync(archivo).mtimeMs;
     const guardado = cache.get(archivo);

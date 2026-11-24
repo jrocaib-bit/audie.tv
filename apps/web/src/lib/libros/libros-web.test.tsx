@@ -136,3 +136,36 @@ describe("catálogo y ficha", () => {
     expect(await destino("no-existe-99")).toContain("NEXT_HTTP_ERROR_FALLBACK;404");
   });
 });
+
+
+describe("portada de Libros con estantería", () => {
+  const CON = path.join(FIXTURES, "con-estanteria");
+
+  it("con estanteria.json la página monta la estantería y pasa ?libro= y el mock", async () => {
+    vi.stubEnv("AUDITE_LIBROS_RUTA", CON);
+    const elemento = await PaginaCatalogo({ params: Promise.resolve({ lang: "es" }), searchParams: Promise.resolve({ libro: "libro-prueba", mock: "premium" }) });
+    const html = renderToStaticMarkup(elemento);
+    expect(html).toContain("data-estanteria");
+    expect([...html.matchAll(/data-lomo="/g)]).toHaveLength(3);
+    expect(html).toContain("La Escritura, leída con los Padres");
+    expect(html).not.toContain("data-libro=");
+    const props = JSON.stringify(elemento);
+    expect(props).toContain('"libroInicial":"libro-prueba"');
+    expect(props).toContain('"mock":"premium"');
+  });
+
+  it("en producción el mock se ignora y un ?libro= inválido se descarta", async () => {
+    vi.stubEnv("AUDITE_LIBROS_RUTA", CON);
+    vi.stubEnv("NODE_ENV", "production");
+    const elemento = await PaginaCatalogo({ params: Promise.resolve({ lang: "es" }), searchParams: Promise.resolve({ libro: "../x", mock: "premium" }) });
+    const props = JSON.stringify(elemento);
+    expect(props).toContain('"libroInicial":null');
+    expect(props).toContain('"mock":null');
+  });
+
+  it("sin estanteria.json se mantiene la cuadrícula", async () => {
+    const html = renderToStaticMarkup(await PaginaCatalogo({ params: Promise.resolve({ lang: "es" }), searchParams: Promise.resolve({}) }));
+    expect(html).not.toContain("data-estanteria");
+    expect(html).toContain('href="/es/libros/libro-prueba"');
+  });
+});

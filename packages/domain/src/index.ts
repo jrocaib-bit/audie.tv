@@ -130,6 +130,7 @@ export {
 export { alternarDiaReto, leerProgresoRetos, type ProgresoReto, type ResultadoMarcaReto } from "./retos-progreso";
 export * from "./libros";
 export * from "./libros-cliente";
+export * from "./libros-ficha";
 export { ETIQUETA_LANZAMIENTO, LETRA_LANZAMIENTO, PRECIO, PRECIO_ANUAL_SIGUIENTE, accesosAdviento, accesoPasoAdviento, advientoEnCurso, anualDeLanzamiento, etiquetaDeLanzamiento, hrefDePasoAdviento, letraDeLanzamiento, pideSuscripcion, precioDeSuscripcion, precioLanzamientoActivo, type AccesoPasoAdviento, type TipoAnual } from "./precio";
 export {
   EVENTOS,

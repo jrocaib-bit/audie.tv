@@ -16,6 +16,7 @@ import {
   type VistaLector,
 } from "@audite/domain";
 import { supabaseWeb } from "@/lib/auth-web";
+import { claveLibro } from "@/lib/libros/clave-local";
 import type { PropsLector } from "@/lib/libros/props-lector";
 import { BloqueTexto } from "./bloque";
 import { CorteLibro } from "./corte";
@@ -25,7 +26,6 @@ type Tam = "sm" | "md" | "lg" | "xl";
 type Tema = "noche" | "dia";
 const TAMS: Tam[] = ["sm", "md", "lg", "xl"];
 const CLAVE_AJUSTES = "audite.libros.ajustes.v1";
-const claveLibro = (id: string) => `audite.libros.v1.${id}`;
 
 type Seleccion = { bloque: string; inicio: number; fin: number };
 
