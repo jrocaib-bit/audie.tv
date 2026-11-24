@@ -1,5 +1,5 @@
 -- Sección de libros: catálogo, capítulos, referencias y anotaciones del lector.
--- No está aplicada. No crea cuentas ni cambia la autenticación. No inserta manuscritos.
+-- Aplicada en el proyecto Audite el 24-nov-2026. No crea cuentas ni cambia la autenticación. No inserta manuscritos.
 -- El texto lo cargará un job de ingesta con la service role. El repositorio es público y no lo contiene.
 --
 -- Reglas:
@@ -64,6 +64,7 @@ create table public.libros_referencias (
 
 create index libros_referencias_episodio_idx on public.libros_referencias (episodio_id);
 create index libros_referencias_libro_escritura_idx on public.libros_referencias (libro_id, escritura_libro_id);
+create index libros_referencias_capitulo_idx on public.libros_referencias (capitulo_id);
 
 create table public.libros_progreso (
   user_id uuid not null references public.profiles (id) on delete cascade,
@@ -111,6 +112,12 @@ create table public.libros_notas (
 create index libros_marcadores_usuario_idx on public.libros_marcadores (user_id, libro_id);
 create index libros_subrayados_usuario_idx on public.libros_subrayados (user_id, libro_id);
 create index libros_notas_usuario_idx on public.libros_notas (user_id, libro_id);
+create index libros_capitulos_libro_idx on public.libros_capitulos (libro_id);
+create index libros_progreso_libro_idx on public.libros_progreso (libro_id);
+create index libros_marcadores_libro_idx on public.libros_marcadores (libro_id);
+create index libros_subrayados_libro_idx on public.libros_subrayados (libro_id);
+create index libros_notas_libro_idx on public.libros_notas (libro_id);
+create index libros_notas_subrayado_idx on public.libros_notas (subrayado_id);
 
 alter table public.libros enable row level security;
 alter table public.libros_capitulos enable row level security;
@@ -165,7 +172,7 @@ as $$
       c.es_adelanto
       or exists (
         select 1 from public.subscription_status s
-        where s.user_id = auth.uid() and s.status = 'active'
+        where s.user_id = (select auth.uid()) and s.status = 'active'
       )
     );
 $$;
@@ -174,24 +181,24 @@ revoke all on function public.libros_capitulo_contenido(text, text) from public;
 grant execute on function public.libros_capitulo_contenido(text, text) to anon, authenticated;
 
 -- Anotaciones: cada cual lo suyo.
-create policy "read own libros progreso" on public.libros_progreso for select using (auth.uid() = user_id);
-create policy "insert own libros progreso" on public.libros_progreso for insert with check (auth.uid() = user_id);
-create policy "update own libros progreso" on public.libros_progreso for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "delete own libros progreso" on public.libros_progreso for delete using (auth.uid() = user_id);
+create policy "read own libros progreso" on public.libros_progreso for select to authenticated using ((select auth.uid()) = user_id);
+create policy "insert own libros progreso" on public.libros_progreso for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "update own libros progreso" on public.libros_progreso for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create policy "delete own libros progreso" on public.libros_progreso for delete to authenticated using ((select auth.uid()) = user_id);
 
-create policy "read own libros marcadores" on public.libros_marcadores for select using (auth.uid() = user_id);
-create policy "insert own libros marcadores" on public.libros_marcadores for insert with check (auth.uid() = user_id);
-create policy "delete own libros marcadores" on public.libros_marcadores for delete using (auth.uid() = user_id);
+create policy "read own libros marcadores" on public.libros_marcadores for select to authenticated using ((select auth.uid()) = user_id);
+create policy "insert own libros marcadores" on public.libros_marcadores for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "delete own libros marcadores" on public.libros_marcadores for delete to authenticated using ((select auth.uid()) = user_id);
 
-create policy "read own libros subrayados" on public.libros_subrayados for select using (auth.uid() = user_id);
-create policy "insert own libros subrayados" on public.libros_subrayados for insert with check (auth.uid() = user_id);
-create policy "update own libros subrayados" on public.libros_subrayados for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "delete own libros subrayados" on public.libros_subrayados for delete using (auth.uid() = user_id);
+create policy "read own libros subrayados" on public.libros_subrayados for select to authenticated using ((select auth.uid()) = user_id);
+create policy "insert own libros subrayados" on public.libros_subrayados for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "update own libros subrayados" on public.libros_subrayados for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create policy "delete own libros subrayados" on public.libros_subrayados for delete to authenticated using ((select auth.uid()) = user_id);
 
-create policy "read own libros notas" on public.libros_notas for select using (auth.uid() = user_id);
-create policy "insert own libros notas" on public.libros_notas for insert with check (auth.uid() = user_id);
-create policy "update own libros notas" on public.libros_notas for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "delete own libros notas" on public.libros_notas for delete using (auth.uid() = user_id);
+create policy "read own libros notas" on public.libros_notas for select to authenticated using ((select auth.uid()) = user_id);
+create policy "insert own libros notas" on public.libros_notas for insert to authenticated with check ((select auth.uid()) = user_id);
+create policy "update own libros notas" on public.libros_notas for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+create policy "delete own libros notas" on public.libros_notas for delete to authenticated using ((select auth.uid()) = user_id);
 
 revoke all on table public.libros_progreso, public.libros_marcadores, public.libros_subrayados, public.libros_notas from anon;
 grant select, insert, update, delete on public.libros_progreso, public.libros_marcadores, public.libros_subrayados, public.libros_notas to authenticated;
