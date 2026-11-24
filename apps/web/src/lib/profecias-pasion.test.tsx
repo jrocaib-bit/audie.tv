@@ -111,7 +111,7 @@ describe("Profecías de la Pasión", () => {
     expect(html).toContain("Sal 118,19–29 → Mt 21,33–46");
     expect(html).toContain("Is 53,1–3 → Jn 12,37–41");
     expect(html).toContain("Viene tu rey");
-    expect(html).toContain("Es Domingo de Ramos, y Jesús entra en Jerusalén");
+    expect(html).toContain("Es Domingo de Ramos. Jesús se acerca a Jerusalén");
     expect(html).toContain("Te invitamos a escuchar");
     expect(html).not.toContain("La narración presenta");
     expect(html).not.toContain("se lee tal cual");
@@ -149,7 +149,7 @@ describe("Profecías de la Pasión", () => {
     expect(conectada).not.toContain("data-hueco=\"marca\"");
     const ingles = renderToStaticMarkup(<VistaRetoAnio lang="en" reto={retoDeTemporada("profecias-pasion")!} rangos={[]} />);
     expect(ingles).toContain("Prophecies of the Passion");
-    expect(ingles).toContain("It is Palm Sunday, and Jesus enters Jerusalem");
+    expect(ingles).toContain("It is Palm Sunday. Jesus nears Jerusalem");
     expect(ingles).toContain("We invite you to listen");
     expect(ingles).not.toContain("The narration");
     expect(ingles).toContain("Lamb");
