@@ -3,6 +3,7 @@
  * La lógica (versículo actual, sincronía, preferencias, paleta, textos) vive en @audite/domain.
  */
 import {
+  avisoFuente,
   CLAVE_TEXTO_MODO,
   CLAVE_TEXTO_TAMANO,
   PALETA_TEXTO,
@@ -165,6 +166,7 @@ function Lectura({
   uiLocale: string;
 }) {
   const tx = textosPanel(uiLocale);
+  const aviso = avisoFuente(texto, tx);
   const paleta = PALETA_TEXTO[modo];
   const reducir = useReducirMovimiento(reducirMovimiento);
   const sincronizado = useMemo(() => estaSincronizado(texto.versiculos), [texto]);
@@ -205,6 +207,11 @@ function Lectura({
       {texto.muestra ? (
         <Text accessibilityRole="text" style={{ marginHorizontal: 12, marginTop: 8, padding: 8, borderRadius: 12, borderWidth: 1, borderColor: paleta.numero, color: paleta.tinta, fontWeight: "600", fontSize: 14 }}>
           {tx.muestra}
+        </Text>
+      ) : null}
+      {aviso ? (
+        <Text accessibilityRole="text" testID="aviso-fuente" style={{ marginHorizontal: 12, marginTop: 8, color: paleta.suave, fontSize: 14 }}>
+          {aviso}
         </Text>
       ) : null}
       {sincronizado ? null : <Text style={{ marginHorizontal: 12, marginTop: 8, color: paleta.suave, fontSize: 14 }}>{tx.sinSincronia}</Text>}
@@ -248,9 +255,11 @@ function Lectura({
             </View>
           );
         })}
-        <Text style={{ color: paleta.suave, fontSize: 12, paddingHorizontal: 10, paddingTop: 12 }}>
-          {texto.fuente}. {texto.credito}
-        </Text>
+        {aviso ? null : (
+          <Text style={{ color: paleta.suave, fontSize: 12, paddingHorizontal: 10, paddingTop: 12 }}>
+            {texto.fuente}. {texto.credito}
+          </Text>
+        )}
       </ScrollView>
       {pausado && actual >= 0 ? (
         <Pressable accessibilityRole="button" onPress={reanudar} style={[boton, { backgroundColor: ORO, position: "absolute", bottom: 12, alignSelf: "center", paddingHorizontal: 16 }]}>
