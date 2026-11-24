@@ -2,12 +2,12 @@ import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
-import { tx } from "../textos";
 import { diasParaEmpezar } from "../reto-dias";
 import { ventanaDeReto } from "../temporadas";
+import { tx } from "../textos";
+import { th, llenar } from "../textos-hoy";
 import { localIsoDate } from "@audite/domain";
 import { Entrada } from "../ui/Entrada";
-import { GoalCard, RachaCard } from "../ui/GoalCard";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
@@ -17,118 +17,129 @@ import { ScreenHeader } from "../ui/ScreenHeader";
 import { useTema } from "../ui/tema";
 import { useModeloHoy } from "../ui/useHoy";
 import { useReproducir } from "../ui/useReproducir";
-import type { TarjetaHoy } from "../hoy";
-
-function Carril({ titulo, items, c, onPress, verTodo, onVerTodo }: { titulo: string; items: TarjetaHoy[]; c: ReturnType<typeof useTema>["c"]; onPress: (item: TarjetaHoy) => void; verTodo: string; onVerTodo: () => void }) {
-  if (items.length === 0) return null;
-  return (
-    <View style={{ gap: 12 }}>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-        <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{titulo}</Text>
-        <Pulsable onPress={onVerTodo} label={verTodo} hitSlop={12} escala={0.94} style={{ minHeight: 44, justifyContent: "center" }}>
-          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{verTodo}</Text>
-        </Pulsable>
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }} style={{ marginHorizontal: -20 }}>
-        {items.map((item) => (
-          <Pulsable key={item.id} onPress={() => onPress(item)} label={item.titulo} style={{ width: 148, gap: 8 }}>
-            <ObraMarco src={item.src} style={{ width: 148, height: 112, borderRadius: 20 }} />
-            <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.medium, fontSize: 15 }}>{item.titulo}</Text>
-          </Pulsable>
-        ))}
-      </ScrollView>
-    </View>
-  );
-}
 
 export default function Hoy() {
   const { c, lang, library } = useTema();
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const t = tx(lang);
+  const t = th(lang);
+  const hoyTitulo = tx(lang).hoy;
   const m = useModeloHoy();
   const reproducirId = useReproducir();
   const hero = m.hero;
+  const caminoId = library.settings.caminoActivo || "biblia";
   const faltan = diasParaEmpezar(ventanaDeReto("adviento-isaias").inicio, localIsoDate(new Date()));
 
-  const reproducir = () => {
-    if (!hero?.reproducible) return;
-    if (hero.actual && library.playing) {
-      library.toggle();
-      return;
-    }
-    reproducirId(hero.id, { contexto: { tipo: "camino", id: library.settings.caminoActivo || "biblia" } });
+  const accionHero = () => {
+    if (m.estado !== "listo" || !hero) return router.push("/camino");
+    if (hero.actual && library.playing) return library.toggle();
+    reproducirId(hero.id, { contexto: { tipo: "camino", id: caminoId } });
   };
+
+  const encabezado = (texto: string, accion?: { etiqueta: string; onPress: () => void }) => (
+    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 44 }}>
+      <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22, flexShrink: 1 }}>{texto}</Text>
+      {accion ? (
+        <Pulsable onPress={accion.onPress} label={accion.etiqueta} hitSlop={8} escala={0.94} style={{ minHeight: 44, justifyContent: "center", paddingLeft: 12 }}>
+          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 15, fontWeight: "600" }}>{accion.etiqueta}</Text>
+        </Pulsable>
+      ) : null}
+    </View>
+  );
+
+  const retoTexto =
+    m.adviento.fase === "proximo"
+      ? faltan === 1 ? t.retoEmpiezaUno : llenar(t.retoEmpieza, { n: faltan })
+      : llenar(t.retoDias, { h: m.adviento.hechos, t: m.adviento.total });
+  const retoTitulo = m.adviento.fase === "proximo" ? t.retoProximo : m.adviento.fase === "activo" ? t.retoActivo : t.retoTerminado;
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
-      <ScreenHeader
-        c={c}
-        kicker={m.saludo}
-        titulo={t.hoy}
-      />
-      <View style={{ paddingHorizontal: 20, gap: 20, paddingTop: 8 }}>
-        {hero ? (
-          <Entrada orden={0}>
+      <ScreenHeader c={c} kicker={m.saludo} titulo={hoyTitulo} />
+      <View style={{ paddingHorizontal: 20, gap: 28, paddingTop: 8 }}>
+        <Entrada orden={0} style={{ gap: 4 }}>
+          {m.estado === "completado" || !hero ? (
+            <HeroCard c={c} kicker={`${t.miCamino} · ${m.camino.nombre}`} titulo={t.completoTitulo} aviso={t.completoCuerpo} etiquetaAccion={t.elegirOtro} tipoAccion="camino" onAccion={() => router.push("/camino")} />
+          ) : (
             <HeroCard
               c={c}
               src={hero.src}
-              kicker={hero.retomar ? t.continuar : t.hoy}
-              titulo={hero.titulo}
-              meta={[hero.libro && hero.capitulos ? hero.capitulos : hero.libro, hero.duracion].filter(Boolean).join(" · ")}
-              fraccion={hero.fraccion}
               ratio={hero.ratio}
+              kicker={t.kickerHoy}
+              titulo={hero.titulo}
+              subtitulo={[hero.subtitulo, m.estado === "listo" ? hero.duracion : ""].filter(Boolean).join(" · ")}
+              aviso={m.estado === "sin-audio" ? `${t.sinAudioTitulo}. ${t.sinAudioCuerpo}` : undefined}
+              dia={llenar(t.dia, { n: hero.dia, total: hero.total })}
+              fraccionCamino={m.camino.fraccion}
               jugando={library.playing && hero.actual}
-              proximamente={hero.reproducible ? undefined : t.proximamente}
-              etiquetaPlay={library.playing && hero.actual ? t.pausar : t.escuchar}
-              onPlay={reproducir}
-              onAbrir={() => { if (!hero.reproducible) return router.push("/camino"); if (hero.actual && library.sesion) return router.push("/ahora"); reproducirId(hero.id, { contexto: { tipo: "camino", id: library.settings.caminoActivo || "biblia" } }); }}
+              etiquetaAccion={m.estado === "sin-audio" ? t.elegirOtro : library.playing && hero.actual ? t.pausar : hero.retomar ? t.seguir : t.escuchar}
+              tipoAccion={m.estado === "listo" ? "play" : "camino"}
+              onAccion={accionHero}
             />
-          </Entrada>
-        ) : null}
-
-        <Entrada orden={1} style={{ flexDirection: "row", gap: 12 }}>
-          <RachaCard c={c} etiqueta={t.rachaTitulo} racha={m.racha} dias={t.diasCorto} semana={m.semana} />
-          <GoalCard c={c} nombre={m.camino.nombre} hechos={m.camino.hechos} total={m.camino.total} fraccion={m.camino.fraccion} de={t.de} onAbrir={() => router.push("/camino")} />
+          )}
+          <Pulsable onPress={() => router.push("/camino")} label={`${t.verCamino}. ${m.camino.nombre}`} escala={0.98} style={{ minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 6 }}>
+            <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, flexShrink: 1 }}>{t.miCamino}: {m.camino.nombre}</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4, paddingLeft: 12 }}>
+              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verCamino}</Text>
+              <Icono nombre="chevron" size={14} color={c.accent} />
+            </View>
+          </Pulsable>
         </Entrada>
 
         {m.continuar ? (
-          <Entrada orden={3}>
-            <Pulsable onPress={() => { reproducirId(m.continuar!.id); }} label={m.continuar.titulo} style={{ borderRadius: 24, padding: 16, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-              <ObraMarco src={m.continuar.src} style={{ width: 56, height: 56, borderRadius: 12 }} />
-              <View style={{ flex: 1, gap: 8 }}>
-                <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{m.continuar.titulo}</Text>
+          <Entrada orden={1} style={{ gap: 4 }}>
+            {encabezado(t.continuarTitulo)}
+            <Pulsable
+              onPress={() => reproducirId(m.continuar!.id)}
+              label={`${t.seguir}. ${m.continuar.titulo}`}
+              style={{ borderRadius: 24, padding: 14, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}
+            >
+              <ObraMarco src={m.continuar.src} style={{ width: 60, height: 60, borderRadius: 12 }} />
+              <View style={{ flex: 1, gap: 6 }}>
+                <View>
+                  <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19 }}>{m.continuar.titulo}</Text>
+                  <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{m.continuar.subtitulo}</Text>
+                </View>
                 <ProgressBar fraccion={m.continuar.fraccion} color={c.accent} pista={c.line} alto={4} />
               </View>
-              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+              <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
                 <Icono nombre="play" size={20} color={c.accentInk} />
               </View>
             </Pulsable>
           </Entrada>
         ) : null}
 
-        <Entrada orden={4} style={{ gap: 8 }}>
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.retos}</Text>
-            <Pulsable onPress={() => router.push("/retos")} label={t.verTodo} hitSlop={12} escala={0.94} style={{ minHeight: 44, justifyContent: "center" }}>
-              <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verTodo}</Text>
-            </Pulsable>
-          </View>
-          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={m.adviento.titulo} style={{ borderRadius: 24, padding: 12, flexDirection: "row", alignItems: "center", gap: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <ObraMarco src={m.adviento.src} style={{ width: 108, height: 144, borderRadius: 16 }} />
-            <View style={{ flex: 1, gap: 6 }}>
-              <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 }}>{m.adviento.titulo}</Text>
-              <Text style={{ color: faltan > 0 ? c.accent : c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{faltan > 0 ? (faltan === 1 ? t.faltaUnDia : t.faltanDias.replace("{n}", String(faltan))) : `${m.adviento.hechos} ${t.de} ${m.adviento.total}`}</Text>
-              <ProgressBar fraccion={m.adviento.fraccion} color={c.accent} pista={c.line} alto={5} />
+        <Entrada orden={2} style={{ gap: 4 }}>
+          {encabezado(retoTitulo, { etiqueta: t.todosRetos, onPress: () => router.push("/retos") })}
+          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={`${m.adviento.titulo}. ${retoTexto}`} style={{ borderRadius: 24, padding: 14, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, minHeight: 88 }}>
+            <ObraMarco src={m.adviento.src} style={{ width: 60, height: 60, borderRadius: 12 }} />
+            <View style={{ flex: 1, gap: 4 }}>
+              <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22 }}>{m.adviento.titulo}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{retoTexto}</Text>
+              {m.adviento.fase === "activo" ? <ProgressBar fraccion={m.adviento.fraccion} color={c.accent} pista={c.line} alto={4} /> : null}
             </View>
             <Icono nombre="chevron" size={18} color={c.muted} />
           </Pulsable>
+          <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13, lineHeight: 18, paddingHorizontal: 6, paddingTop: 4 }}>{t.retoNota}</Text>
         </Entrada>
 
-        <Entrada orden={5} style={{ gap: 16, marginTop: 8 }}>
-          <Carril c={c} titulo={t.libros} items={m.explorar.libros} verTodo={t.verTodo} onVerTodo={() => router.push("/biblioteca")} onPress={() => router.push("/biblioteca")} />
-          <Carril c={c} titulo={t.caminos} items={m.explorar.caminos} verTodo={t.verTodo} onVerTodo={() => router.push("/camino")} onPress={() => router.push("/camino")} />
-        </Entrada>
+        {m.historias.length > 0 ? (
+          <Entrada orden={3} style={{ gap: 4 }}>
+            {encabezado(t.historias, { etiqueta: t.verTodas, onPress: () => router.push("/biblioteca") })}
+            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, marginTop: -6, marginBottom: 8 }}>{t.historiasNota}</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 14, paddingHorizontal: 20 }} style={{ marginHorizontal: -20 }}>
+              {m.historias.map((h) => (
+                <Pulsable key={h.id} onPress={() => reproducirId(h.id, { contexto: { tipo: "libro", id: h.id.split("-")[0] ?? "" } })} label={`${h.titulo}. ${h.subtitulo}`} style={{ width: 156, gap: 8 }}>
+                  <ObraMarco src={h.src} style={{ width: 156, height: 118, borderRadius: 18 }} />
+                  <View style={{ gap: 2 }}>
+                    <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 21 }}>{h.titulo}</Text>
+                    <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{h.subtitulo}</Text>
+                  </View>
+                </Pulsable>
+              ))}
+            </ScrollView>
+          </Entrada>
+        ) : null}
       </View>
     </ScrollView>
   );
