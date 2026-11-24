@@ -16,6 +16,8 @@
     "content:sync": "tsx scripts/sync-content.ts",
     "content:fixture": "tsx scripts/materializar-piloto.ts",
     "calendario:export": "tsx scripts/calendario-export.ts",
+    "indice:capitulos": "tsx scripts/indice-capitulos.ts",
+    "indice:comprobar": "tsx scripts/indice-capitulos.ts --comprobar",
     "lint": "npm run lint -w @audite/web"
   },
   "overrides": {
