@@ -22,7 +22,7 @@ export type RecorridoVista = {
 /** Adelanto público: la apertura resuelta a un idioma. Es lo único que reciben sin sesión y las cuentas gratuitas. */
 export type Adelanto = { titulo: string; texto: string };
 /** Cuerpo de `GET /api/sala/[id]`: no premium solo lleva la apertura; premium, el recorrido completo. */
-export type RespuestaSala = { acceso: "sin-sesion" | "gratuito"; apertura: Adelanto } | ({ acceso: "premium" } & RecorridoVista);
+export type RespuestaSala = { acceso: "sin-sesion" | "gratuito"; apertura: Adelanto } | ({ acceso: "premium" | "abierta" } & RecorridoVista);
 
 export const SALA_POR_DEFECTO = "gn-01";
 /**
@@ -34,9 +34,9 @@ export function vistaSala(sesion: SesionMinima, acceso?: VistaSala | null): Vist
   return acceso ?? "gratuito";
 }
 
-/** Ruta de La sala: `/{lang}/sala` para el piloto y `/{lang}/sala/{id}` para el resto. */
+/** Ruta de una obra en La sala. El índice vive en `/{lang}/sala`. */
 export function rutaSala(lang: Idioma, id: string): string {
-  return id === SALA_POR_DEFECTO ? `/${lang}/sala` : `/${lang}/sala/${id}`;
+  return `/${lang}/sala/${id}`;
 }
 
 /** Vista según la sesión y enlace de entrada con `?next=` seguro. Nunca resuelve textos narrativos. */

@@ -5,6 +5,12 @@
   "metaDescription": "La Biblia, de principio a fin.",
   "navHome": "Inicio",
   "navCatalog": "Catálogo",
+  "navSala": "La sala",
+  "navBooks": "Libros",
+  "navMenu": "Menú",
+  "navClose": "Cerrar",
+  "salaTitle": "La sala",
+  "salaIntro": "Cada pieza se mira de cerca: su historia, el lugar por el que ha pasado y, cuando hay imagen libre y relación documentada, una comparativa. Tres recorridos están abiertos para todos. El resto se abre con la suscripción.",
   "navMembership": "Membresía",
   "homeKicker": "Escucha",
   "homeTitle": "La Biblia,\nde principio\na fin.",
@@ -102,5 +108,11 @@
   "browserNote": "Ahora Audite se escucha en el navegador, en el móvil o en el ordenador. La app para iOS y Android, con modo sin conexión, llega pronto.",
   "durationNote": "Los episodios del catálogo duran unos 10 minutos. Los días del reto de Adviento son pasajes de 2 a 4 minutos.",
   "familyNote": "Se puede escuchar en familia y en clase.",
-  "exitSite": "audite.tv"
+  "exitSite": "audite.tv",
+  "salaLede": "Las obras de arte que acompañan cada episodio, contadas como un reportaje.",
+  "salaCtaTrial": "Prueba 7 días gratis",
+  "salaCtaPremium": "Hazte premium",
+  "salaGratis": "Gratis",
+  "salaEscuchando": "La obra de lo que estás escuchando",
+  "salaVerObra": "Ver la obra en La sala"
 }

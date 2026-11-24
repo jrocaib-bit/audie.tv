@@ -1,6 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { obraDeEpisodio } from "@audite/content/obras";
+import { rutaSala } from "@/lib/sala-cuenta";
+import { copiaSitio } from "@/sitio/i18n";
 import { useEffect, useId, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { coincideLibro } from "@/lib/movimiento";
 
@@ -122,12 +125,23 @@ export function BarraPersistente() {
     window.addEventListener("audite-barra", leer);
     return () => window.removeEventListener("audite-barra", leer);
   }, []);
+  const pathname = usePathname() || "/es";
+  const lang = pathname.split("/").find((p) => p.length === 2) === "en" ? "en" : "es";
+  const copy = copiaSitio(lang);
   if (!barra) return null;
+  const obraHref = obraDeEpisodio(barra.id) ? rutaSala(lang, barra.id) : null;
   return (
-    <a href={barra.href} className="barra-fija">
-      <span className="onda" aria-hidden="true"><i /><i /><i /><i /></span>
-      <span className="min-w-0 flex-1 truncate">{barra.titulo}</span>
-      <span className="pista" aria-hidden="true"><span className="avance" /></span>
-    </a>
+    <div className="barra-fija flex items-center gap-3">
+      <a href={barra.href} className="flex min-w-0 flex-1 items-center gap-3">
+        <span className="onda" aria-hidden="true"><i /><i /><i /><i /></span>
+        <span className="min-w-0 flex-1 truncate">{barra.titulo}</span>
+        <span className="pista" aria-hidden="true"><span className="avance" /></span>
+      </a>
+      {obraHref ? (
+        <a href={obraHref} className="shrink-0 text-sm text-[#E0C48A] underline decoration-[#E0C48A]/40 underline-offset-4">
+          {copy?.salaVerObra ?? (lang === "en" ? "The work" : "La obra")}
+        </a>
+      ) : null}
+    </div>
   );
 }

@@ -31,8 +31,8 @@ describe("La sala sin premium: la apertura sí, nada posterior", () => {
   it("SalaPagina en servidor (sin mock, sin sesión y gratuita) incluye la apertura y ni un paso ni el cierre", () => {
     for (const lang of ["es", "en"] as const) {
       for (const mock of [undefined, "sin", "gratis"]) {
-        const html = renderToStaticMarkup(SalaPagina({ lang, id: "gn-01", mock }));
-        expect(html).toContain(r.apertura.titulo[lang]);
+        const html = renderToStaticMarkup(SalaPagina({ lang, id: "gn-02", mock }));
+        expect(html).toContain(recorridoSala("gn-02")!.apertura.titulo[lang]);
         expect(html).toContain("data-apertura");
         for (const t of posteriores) expect(html, `${lang}/${mock}: ${t}`).not.toContain(t);
         expect(html).not.toContain("La fuente de los cuatro caños");
@@ -40,12 +40,19 @@ describe("La sala sin premium: la apertura sí, nada posterior", () => {
     }
   });
 
-  it("las props del servidor solo llevan la apertura como adelanto", () => {
-    const el = SalaPagina({ lang: "es", id: "gn-01" }).props.children;
-    expect(Object.keys(el.props)).not.toContain("recorrido");
-    expect(el.props.adelanto).toEqual({ titulo: r.apertura.titulo.es, texto: r.apertura.texto.es });
+  it("las props del servidor de una obra con corte solo llevan la apertura como adelanto", () => {
+    const r2 = recorridoSala("gn-02")!;
+    const el = SalaPagina({ lang: "es", id: "gn-02" }).props.children;
+    expect(el.props.recorridoInicial).toBeUndefined();
+    expect(el.props.adelanto).toEqual({ titulo: r2.apertura.titulo.es, texto: r2.apertura.texto.es });
     const json = JSON.stringify({ ...el.props, placa: undefined });
     for (const t of posteriores) expect(json).not.toContain(t);
+  });
+
+  it("una obra abierta lleva el recorrido completo en el servidor", () => {
+    const el = SalaPagina({ lang: "es", id: "gn-01" }).props.children;
+    expect(el.props.recorridoInicial.acceso).toBe("abierta");
+    expect(el.props.recorridoInicial.pasos.length).toBe(r.pasos.length);
   });
 
   it("los módulos cliente no importan el JSON ni el módulo servidor", () => {
@@ -62,7 +69,7 @@ describe("La sala sin premium: la apertura sí, nada posterior", () => {
 
 describe("corte de La sala", () => {
   const sin = renderToStaticMarkup(<SalaCuenta lang="es" id="gn-01" src="/x.webp" alt="Obra" titulo="La creación" adelanto={{ titulo: "Apertura", texto: "Texto de apertura." }} sesionMock="sin" />);
-  const gratis = renderToStaticMarkup(<CorteSala lang="es" vista="gratuito" hrefEntrar="/es/entrar?next=%2Fes%2Fsala" />);
+  const gratis = renderToStaticMarkup(<CorteSala lang="es" vista="gratuito" hrefEntrar="/es/entrar?next=%2Fes%2Fsala%2Fgn-01" />);
 
   it("sin sesión: vista, apertura, data-corte, prueba/premium hacia membresía y Entrar con next seguro", () => {
     expect(sin).toContain('data-vista="sin-sesion"');
@@ -72,7 +79,7 @@ describe("corte de La sala", () => {
     expect(sin).toContain("Prueba 7 días gratis");
     expect(sin).toContain('href="/es/membresia"');
     expect(sin).toContain(">Entrar<");
-    expect(sin).toContain("/es/entrar?next=%2Fes%2Fsala");
+    expect(sin).toContain("/es/entrar?next=%2Fes%2Fsala%2Fgn-01");
     expect(sin.indexOf("<h1")).toBeLessThan(sin.indexOf("data-apertura"));
     expect(sin.indexOf("data-apertura")).toBeLessThan(sin.indexOf("data-corte"));
   });

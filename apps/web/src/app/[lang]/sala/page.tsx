@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { SALA_POR_DEFECTO } from "@/lib/sala-cuenta";
-import { SalaPagina } from "./sala-pagina";
+import { SitioSala } from "@/components/sala/sala-indice";
+import { copiaSitio } from "@/sitio/i18n";
 
-export const metadata: Metadata = { title: "La sala" };
-
-export default async function Page({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ mock?: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
-  const { mock } = await searchParams;
-  return <SalaPagina lang={lang} id={SALA_POR_DEFECTO} mock={mock} />;
+  const copy = copiaSitio(lang);
+  return { title: copy ? { absolute: `${copy.salaTitle} · Audite` } : "Audite" };
+}
+
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return <SitioSala lang={lang} />;
 }

@@ -6,6 +6,9 @@ import { Placa } from "@/components/placa";
 import { BotonOro, botonOroVariantes } from "@/components/sala/boton-oro";
 import { Lienzo } from "@/components/sala/lienzo";
 import { copiaSitio } from "@/sitio/i18n";
+import { rutaSala } from "@/lib/sala-cuenta";
+import { idsSala } from "@/lib/sala-recorridos";
+import Link from "next/link";
 
 function buscar(id: string) {
   const catalogo = loadAppCatalog();
@@ -37,6 +40,9 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           <div className="mt-6 flex flex-wrap gap-3">
             <BotonProbar ficha={{ id, titulo }} etiqueta={copy?.playLabel ?? "Escuchar"} className={botonOroVariantes({ variante: "oro" })} />
             <BotonOro asChild variante="fantasma"><a href={`audite://escuchar/${id}?t=${Math.max(0, Math.floor(segundo) || 0)}`}>{copy?.openApp ?? "Abrir en la app"}</a></BotonOro>
+            {idsSala().includes(id) ? (
+              <Link href={rutaSala(ui, id)} className="inline-flex min-h-11 items-center text-[#E0C48A] underline decoration-[#E0C48A]/40 underline-offset-4">{copy?.salaVerObra}</Link>
+            ) : null}
           </div>
           {obra ? <div className="mt-8 max-w-sm"><Placa obra={obra} lang={ui} /></div> : null}
         </div>

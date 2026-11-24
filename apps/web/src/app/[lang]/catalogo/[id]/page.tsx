@@ -11,6 +11,8 @@ import { BotonEscucha } from "@/components/movimiento";
 import { resumenPublico } from "@/lib/resumenes";
 import { copiaSitio, esIdiomaPublico, idiomasPublicos } from "@/sitio/i18n";
 import { origenSitio } from "@/lib/sitio-publico";
+import { rutaSala } from "@/lib/sala-cuenta";
+import { idsSala } from "@/lib/sala-recorridos";
 
 export const dynamicParams = true;
 
@@ -89,7 +91,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         {referencia ? <p className="t-meta mt-3">{referencia}</p> : null}
         <p className="mt-6 max-w-xl text-lg text-[#E7D7C3]">{resumen.texto}</p>
         {listo ? (
-          <div className="mt-6"><BotonEscucha href={`/escuchar?e=${id}`} id={id} titulo={titulo} etiqueta={ui === "en" ? "Listen" : "Escuchar"} /></div>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <BotonEscucha href={`/escuchar?e=${id}`} id={id} titulo={titulo} etiqueta={ui === "en" ? "Listen" : "Escuchar"} />
+            {idsSala().includes(id) ? (
+              <Link href={rutaSala(ui, id)} className="inline-flex min-h-11 items-center text-[#E0C48A] underline decoration-[#E0C48A]/40 underline-offset-4">{copy.salaVerObra}</Link>
+            ) : null}
+          </div>
         ) : (
           <p className="t-rotulo mt-6 text-[#8A8175]">{ui === "en" ? "Coming soon" : "Próximamente"}</p>
         )}

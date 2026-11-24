@@ -122,7 +122,7 @@ export function CorteSala({ lang, vista, hrefEntrar, verificando = false, fallo 
 }
 
 /** Relato con scroll (solo premium): párrafos que aparecen uno a uno y cámara que encuadra el paso en foco. */
-export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contexto, placa, reducido: reducidoInicial = false }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; contexto?: ContextoSala | null; placa?: ReactNode; reducido?: boolean }) {
+export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contexto, placa, reducido: reducidoInicial = false, vista = "premium" }: { lang: "es" | "en"; id: string; src: string; obraId?: string; alt: string; titulo: string; datos: RecorridoVista; contexto?: ContextoSala | null; placa?: ReactNode; reducido?: boolean; vista?: "premium" | "abierta" }) {
   const [reducido, setReducido] = useState(reducidoInicial);
   const [activo, setActivo] = useState(0);
   const [reveladas, setReveladas] = useState<ReadonlySet<number>>(new Set([0]));
@@ -210,7 +210,7 @@ export function RelatoScroll({ lang, id, src, obraId, alt, titulo, datos, contex
   };
   const enPaso = indice >= 1 && indice <= total;
   return (
-    <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista="premium" data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
+    <main className="bg-[#0C0B09] text-[#F4ECE2]" data-vista={vista} data-camara={etiquetaCamara(indice, total)} data-paso-activo={etiquetaActivo(indice, total)} data-reducido={reducido ? "" : undefined} style={{ "--cab": `${cab || 76}px` } as CSSProperties}>
       <div className="md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div ref={visor} className="sticky top-[var(--cab)] z-20 max-md:border-b max-md:border-[#C9A96E]/40 md:top-0 md:z-10 md:h-svh md:self-start">
           <VisorObra src={src} obraId={obraId} alt={alt} paso={paso} reducido={reducido} className="h-[62svh] md:h-svh" mascaras={{ pasos: datos.pasos, activo: enPaso ? indice - 1 : -1 }}>
@@ -278,6 +278,7 @@ export function SalaCuenta({
   contexto,
   placa,
   sesionMock,
+  recorridoInicial,
 }: {
   lang: "es" | "en";
   id: string;
@@ -289,10 +290,11 @@ export function SalaCuenta({
   contexto?: ContextoSala | null;
   placa?: ReactNode;
   sesionMock?: MockSala;
+  recorridoInicial?: RespuestaSala;
 }) {
   const mock = sesionMock !== undefined;
   const [sesion, setSesion] = useState<{ userId: string } | null | undefined>(mock ? SESION_MOCK[sesionMock] : undefined);
-  const [respuesta, setRespuesta] = useState<RespuestaSala | null>(null);
+  const [respuesta, setRespuesta] = useState<RespuestaSala | null>(recorridoInicial ?? null);
   const [fallo, setFallo] = useState(false);
   useEffect(() => {
     if (mock) return;
@@ -300,37 +302,35 @@ export function SalaCuenta({
   }, [mock]);
   const userId = sesion?.userId;
   useEffect(() => {
-    if (!userId) {
-      setRespuesta(null);
-      setFallo(false);
-      return;
-    }
+    if (sesion === undefined && !mock) return;
     let vivo = true;
     void (async () => {
       try {
         const cabeceras: Record<string, string> = {};
         if (mock) cabeceras["x-sala-mock"] = sesionMock;
-        else {
+        else if (userId) {
           const token = await tokenWeb();
-          if (!token) throw new Error("sin-token");
-          cabeceras.Authorization = `Bearer ${token}`;
+          if (token) cabeceras.Authorization = `Bearer ${token}`;
         }
         const r = await fetch(`/api/sala/${encodeURIComponent(id)}?lang=${lang}`, { headers: cabeceras, cache: "no-store" });
         if (!r.ok) throw new Error("carga");
         const json = (await r.json()) as RespuestaSala;
-        if (vivo) setRespuesta(json);
+        if (vivo) {
+          setRespuesta(json);
+          setFallo(false);
+        }
       } catch {
-        if (vivo) setFallo(true);
+        if (vivo && !recorridoInicial) setFallo(true);
       }
     })();
     return () => {
       vivo = false;
     };
-  }, [userId, id, lang, mock, sesionMock]);
+  }, [userId, id, lang, mock, sesionMock, sesion, recorridoInicial]);
 
-  const { vista, hrefEntrar } = datosVistaSala(sesion, id, lang, respuesta?.acceso);
-  if (vista === "premium" && respuesta?.acceso === "premium") {
-    return <RelatoScroll lang={lang} id={id} src={src} obraId={obraId} alt={alt} titulo={titulo} datos={respuesta} contexto={contexto} placa={placa} />;
+  const { vista, hrefEntrar } = datosVistaSala(sesion, id, lang, respuesta?.acceso === "abierta" ? "premium" : respuesta?.acceso);
+  if (respuesta?.acceso === "abierta" || (vista === "premium" && respuesta?.acceso === "premium")) {
+    return <RelatoScroll lang={lang} id={id} src={src} obraId={obraId} alt={alt} titulo={titulo} datos={respuesta} contexto={contexto} placa={placa} vista={respuesta.acceso === "abierta" ? "abierta" : "premium"} />;
   }
   const apertura = respuesta?.apertura ?? adelanto;
   const verificando = !!userId && !respuesta && !fallo;

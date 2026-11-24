@@ -11,9 +11,9 @@ const cierreGn01 = recorridoSala("gn-01")!.cierre.titulo.es;
 
 describe("adelanto con contexto (sin sesión y gratuito)", () => {
   for (const lang of ["es", "en"] as const) {
-    it(`gn-01 ${lang}: cita, mapa SVG y línea de tiempo antes del corte; nada posterior`, () => {
-      const html = renderToStaticMarkup(SalaPagina({ lang, id: "gn-01", mock: "gratis" }));
-      const c = contextoSala("gn-01", lang)!;
+    it(`gn-02 ${lang}: cita, mapa SVG y línea de tiempo antes del corte; nada posterior`, () => {
+      const html = renderToStaticMarkup(SalaPagina({ lang, id: "gn-02", mock: "gratis" }));
+      const c = contextoSala("gn-02", lang)!;
       expect(html).toContain("data-cita");
       expect(html).toContain("data-mapa");
       expect(html).toContain("data-linea-tiempo");
@@ -25,13 +25,13 @@ describe("adelanto con contexto (sin sesión y gratuito)", () => {
       expect(html).not.toContain("data-creditos");
       expect(html).not.toContain("data-fragmento");
       expect(html).not.toMatch(/Durero|Dürer|Escuchar el episodio|Listen to the episode/);
-      expect(html).not.toContain(resolverRecorrido("gn-01", lang)!.cierre.titulo);
+      expect(html).not.toContain(resolverRecorrido("gn-02", lang)!.cierre.titulo);
       expect(html).not.toMatch(/https?:\/\/[^"]*(tile|maps|google|cesium)/i);
       expect(html).not.toContain("<iframe");
     });
   }
   it("otra obra lleva su propio contexto en el adelanto, sin pasos, comparativa ni radios", () => {
-    const otro = idsSala().find((id) => id !== "gn-01")!;
+    const otro = idsSala().find((id) => !["gn-01", "gn-07", "is-18"].includes(id))!;
     const html = renderToStaticMarkup(SalaPagina({ lang: "es", id: otro }));
     const c = contextoSala(otro, "es")!;
     expect(html).toContain("data-apertura");
@@ -42,6 +42,16 @@ describe("adelanto con contexto (sin sesión y gratuito)", () => {
     expect(html).not.toContain(resolverRecorrido(otro, "es")!.pasos[0]!.texto);
     expect(html).not.toContain(resolverRecorrido(otro, "es")!.cierre.titulo);
     expect(html).not.toContain("Durero");
+  });
+});
+
+describe("obras abiertas sin sesión", () => {
+  it("gn-01 llega completo (comparativa y pasos) y con el espacio del visor en el relato", () => {
+    const html = renderToStaticMarkup(SalaPagina({ lang: "es", id: "gn-01", mock: "sin" }));
+    expect(html).toContain('data-vista="abierta"');
+    expect(html).toContain("data-comparativa");
+    expect(html).toContain(resolverRecorrido("gn-01", "es")!.pasos[0]!.titulo);
+    expect(html).toContain("max-md:mb-[62svh]");
   });
 });
 
@@ -80,9 +90,10 @@ describe("relato premium con máscara y contexto", () => {
     expect(completo).not.toContain("max-w-[17rem]");
     expect(completo).toContain("grid-cols-1 items-start gap-5 md:grid-cols-2");
     // El mapa de la apertura no pinta pantalla completa en el adelanto (el visor no es sticky).
-    const adelanto = renderToStaticMarkup(SalaPagina({ lang: "es", id: "gn-01", mock: "gratis" }));
+    const adelanto = renderToStaticMarkup(SalaPagina({ lang: "es", id: "gn-02", mock: "gratis" }));
     expect(adelanto).toContain("data-mapa");
     expect(adelanto).not.toContain("data-pantalla");
+    expect(adelanto).not.toContain("max-md:mb-[62svh]");
   });
   it("la máscara solo anima opacity", () => {
     const capa = html.match(/data-capa-mascara="1"[^>]*style="([^"]*)"/)![1]!;

@@ -74,7 +74,7 @@ describe("recorridos-sala.json", () => {
 describe("vista de La sala por sesión", () => {
   it("sin sesión: vista y next seguro, sin textos", () => {
     for (const s of [null, undefined]) {
-      expect(datosVistaSala(s, "gn-01", "es")).toEqual({ vista: "sin-sesion", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala" });
+      expect(datosVistaSala(s, "gn-01", "es")).toEqual({ vista: "sin-sesion", hrefEntrar: "/es/entrar?next=%2Fes%2Fsala%2Fgn-01" });
       const b = datosVistaSala(s, "gn-02", "es");
       expect(b.hrefEntrar).toBe("/es/entrar?next=%2Fes%2Fsala%2Fgn-02");
       expect(rutaInternaSegura(decodeURIComponent(b.hrefEntrar.split("next=")[1]!))).toBe("/es/sala/gn-02");

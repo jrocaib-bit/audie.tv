@@ -29,6 +29,8 @@ import { EnlaceSoporte } from "@/components/enlace-soporte";
 import { FormularioBoletin } from "@/components/formularios";
 import { marcaFormulario } from "@/lib/formularios/acciones";
 import { copiaSitio, type SitioCopy } from "@/sitio/i18n";
+import { hayIndiceLibros, RUTA_LIBROS } from "@/lib/hay-libros";
+import { NavSitio, type EnlaceNav } from "@/components/sitio-nav";
 
 function idiomaUi(lang: string): "es" | "en" {
   return lang === "en" ? "en" : "es";
@@ -52,25 +54,28 @@ export async function MarcoSitio({ lang, children, sobreObra = false, novedades 
   );
 }
 
+function enlacesPrincipales(lang: string, copy: SitioCopy): EnlaceNav[] {
+  const ui = idiomaUi(lang);
+  const items: EnlaceNav[] = [
+    { href: `/${lang}`, etiqueta: copy.navHome },
+    { href: `/${lang}/catalogo`, etiqueta: copy.navCatalog },
+    { href: `/${lang}/sala`, etiqueta: copy.navSala },
+  ];
+  if (hayIndiceLibros()) items.push({ href: `/${lang}${RUTA_LIBROS}`, etiqueta: copy.navBooks });
+  items.push({ href: `/${lang}/retos`, etiqueta: ui === "en" ? "Challenges" : "Retos" });
+  return items;
+}
+
 export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; copy: SitioCopy; sobreObra?: boolean }) {
   const ui = idiomaUi(lang);
   return (
-    <header data-cabecera="" className={sobreObra ? "cabecera cabecera-obra inset-x-0 top-0 z-20" : "cabecera"}>
+    <header data-cabecera="" className={sobreObra ? "cabecera cabecera-obra relative inset-x-0 top-0 z-20" : "cabecera relative"}>
       <CompactarCabecera />
       <div className="cabecera-interior mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
           <Wordmark locale={ui} tono="blanco" className="h-8 w-auto md:h-9" />
         </Link>
-        <nav className="flex items-center gap-4 text-sm text-[#F4ECE2]">
-          <Link href={`/${lang}`} className="inline-flex min-h-11 items-center">
-            {copy.navHome}
-          </Link>
-          <Link href={`/${lang}/catalogo`} className="inline-flex min-h-11 items-center">
-            {copy.navCatalog}
-          </Link>
-          <Link href={`/${lang}/retos`} className="inline-flex min-h-11 items-center">
-            {ui === "en" ? "Challenges" : "Retos"}
-          </Link>
+        <NavSitio enlaces={enlacesPrincipales(lang, copy)} menu={copy.navMenu} cerrar={copy.navClose}>
           <Link href={`/${lang}/app`} className="hidden min-h-11 items-center md:inline-flex">
             App
           </Link>
@@ -78,7 +83,7 @@ export function SitioHeader({ lang, copy, sobreObra = false }: { lang: string; c
             {etiquetaEntrar(process.env.GOOGLE_LOGIN_ENABLED === "true", copy.ctaSign, copy.ctaGhost)}
           </EnlaceCuenta>
           <SelectorIdioma lang={lang} claro={sobreObra} />
-        </nav>
+        </NavSitio>
       </div>
     </header>
   );
@@ -103,6 +108,8 @@ export async function SitioPie({ lang, novedades = true }: { lang: string; noved
           <p className={titulo}>App</p>
           <Link href={`/${lang}`} className={enlace}>{copy.navHome}</Link>
           <Link href={`/${lang}/catalogo`} className={enlace}>{copy.navCatalog}</Link>
+          <Link href={`/${lang}/sala`} className={enlace}>{copy.navSala}</Link>
+          {hayIndiceLibros() ? <Link href={`/${lang}${RUTA_LIBROS}`} className={enlace}>{copy.navBooks}</Link> : null}
           <Link href={`/${lang}/retos`} className={enlace}>{ui === "en" ? "Challenges" : "Retos"}</Link>
           <Link href={`/${lang}/app`} className={enlace}>App</Link>
         </div>

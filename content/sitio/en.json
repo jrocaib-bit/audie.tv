@@ -5,6 +5,12 @@
   "metaDescription": "The Bible, from beginning to end.",
   "navHome": "Home",
   "navCatalog": "Catalog",
+  "navSala": "The gallery",
+  "navBooks": "Books",
+  "navMenu": "Menu",
+  "navClose": "Close",
+  "salaTitle": "The gallery",
+  "salaIntro": "Each piece is seen up close: its history, the places it has been and, when a free image and a documented relationship exist, a comparison. Three paths are open to everyone. The rest open with a subscription.",
   "navMembership": "Membership",
   "homeKicker": "Listening",
   "homeTitle": "The Bible,\nfrom beginning\nto end.",
@@ -102,5 +108,11 @@
   "browserNote": "Right now Audite plays in your browser, on your phone or on your computer. The iOS and Android app, with offline mode, is coming soon.",
   "durationNote": "Catalog episodes last about 10 minutes. The days of the Advent challenge are passages of 2 to 4 minutes.",
   "familyNote": "You can listen as a family or in class.",
-  "exitSite": "audite.tv"
+  "exitSite": "audite.tv",
+  "salaLede": "The works of art that go with each episode, told as a reportage.",
+  "salaCtaTrial": "Start 7 days free",
+  "salaCtaPremium": "Go premium",
+  "salaGratis": "Free",
+  "salaEscuchando": "The work of what you're listening to",
+  "salaVerObra": "See the work in The gallery"
 }

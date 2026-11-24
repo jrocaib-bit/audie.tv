@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { esPremium } from "@/lib/es-premium";
 import { adelantoSala, resolverRecorrido } from "@/lib/sala-recorridos";
 import { reportajePremium } from "@/lib/sala-reportaje";
+import { esObraSalaAbierta } from "@/lib/sala-abiertas";
 import type { RespuestaSala } from "@/lib/sala-cuenta";
 
 export const runtime = "nodejs";
@@ -12,22 +13,27 @@ function respuesta(estado: number, cuerpo: unknown) {
 }
 
 /**
- * La sala en tres estados. Sin sesión / token inválido / cuenta gratuita: solo el adelanto (apertura).
- * El recorrido completo (pasos y cierre) solo con token verificado Y `esPremium` (subscription_status.status === "active").
+ * La sala en tres estados, con tres obras abiertas para todos (lista en `sala-abiertas`).
+ * En el resto: sin sesión / token inválido / cuenta gratuita, solo el adelanto (apertura).
+ * El recorrido completo (pasos y cierre) solo con token verificado Y `esPremium`, o si la obra está en esa lista.
  */
+
 export async function GET(request: Request, contexto: { params: Promise<{ id: string }> }) {
   const { id } = await contexto.params;
   const lang = new URL(request.url).searchParams.get("lang") === "en" ? "en" : "es";
   const apertura = adelantoSala(id, lang);
   if (!apertura) return respuesta(404, { error: "no-encontrado" });
   const adelanto = (acceso: "sin-sesion" | "gratuito"): Response => respuesta(200, { acceso, apertura } satisfies RespuestaSala);
-  const completo = (): Response => {
+  const completo = (acceso: "premium" | "abierta" = "premium"): Response => {
     const r = resolverRecorrido(id, lang)!;
-    // Radios de la máscara y comparativa: solo premium, nunca en el adelanto.
+    // Radios de la máscara y comparativa: solo en el relato completo, nunca en el adelanto.
     const { radios, comparativa } = reportajePremium(id, lang);
     const pasos = r.pasos.map((p, i) => (radios[i] ? { ...p, radio: radios[i] } : p));
-    return respuesta(200, { acceso: "premium", ...r, pasos, ...(comparativa ? { comparativa } : {}) } satisfies RespuestaSala);
+    return respuesta(200, { acceso, ...r, pasos, ...(comparativa ? { comparativa } : {}) } satisfies RespuestaSala);
   };
+
+  // Tres ejemplos configurables: recorrido completo para todos. El corte del resto no cambia.
+  if (esObraSalaAbierta(id)) return completo("abierta");
 
   // Solo fuera de producción: capturas locales con `sesionMock` (no hay token real). En producción se ignora.
   if (process.env.NODE_ENV !== "production") {
