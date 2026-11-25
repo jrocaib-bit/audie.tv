@@ -3,7 +3,7 @@ import { diasParaEmpezar, indiceDeHoy } from "../reto-dias";
 import { marcadorHoy, tramosDelAnio, fechaCorta, type TarjetaReto, type TiempoLiturgico } from "../temporadas";
 import type { Textos } from "../textos";
 import { fonts } from "../theme";
-import { Boton } from "./Basicos";
+import { Boton, SUPERFICIE } from "./Basicos";
 import { Icono } from "./Icono";
 import { ObraMarco } from "./ObraMarco";
 import { PlacaMarca, monogramaDe } from "./PlacaMarca";
@@ -16,7 +16,7 @@ type Comun = { c: Paleta; t: Textos; reto: TarjetaReto; chip: Chip; hoyIso: stri
 
 export function ChipEstado({ c, texto, activo }: { c: Paleta; texto: string; activo: boolean }) {
   return (
-    <View style={{ alignSelf: "flex-start", paddingHorizontal: 10, minHeight: 26, borderRadius: 13, justifyContent: "center", backgroundColor: activo ? c.accent : "transparent", borderWidth: activo ? 0 : 1, borderColor: c.line }}>
+    <View style={{ alignSelf: "flex-start", paddingHorizontal: 10, minHeight: 26, borderRadius: 13, justifyContent: "center", backgroundColor: activo ? c.accent : SUPERFICIE.suave }}>
       <Text style={{ color: activo ? c.accentInk : c.muted, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700" }}>{texto}</Text>
     </View>
   );
@@ -71,7 +71,7 @@ export function CartelHeroe({ c, t, reto, chip, hoyIso, onPress, botonTexto }: C
   const cuenta = cuentaAtrasDe(t, reto, hoyIso);
   const dia = diaActual(reto);
   return (
-    <View style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, overflow: "hidden" }}>
+    <View style={{ borderRadius: SUPERFICIE.radio, backgroundColor: c.card, overflow: "hidden" }}>
       <Pulsable onPress={onPress} label={reto.titulo} escala={0.99}>
         <View>
           <Portada reto={reto} style={{ height: 280 }} placa={96} />
@@ -100,8 +100,8 @@ export function CartelRail({ c, t, reto, chip, hoyIso, onPress }: Comun) {
   const cuenta = cuentaAtrasDe(t, reto, hoyIso);
   return (
     <Pulsable onPress={onPress} label={`${reto.titulo}. ${chip.texto}`} haptica escala={0.97} style={{ width: ANCHO_RAIL, gap: 8 }}>
-      <View style={{ borderRadius: 20, overflow: "hidden", borderWidth: 1, borderColor: c.line }}>
-        <Portada reto={reto} style={{ width: ANCHO_RAIL - 2, height: ALTO_RAIL }} placa={44} />
+      <View style={{ borderRadius: SUPERFICIE.radioFila, overflow: "hidden", backgroundColor: c.card }}>
+        <Portada reto={reto} style={{ width: ANCHO_RAIL, height: ALTO_RAIL }} placa={44} />
         {reto.estado === "terminado" ? <Sello c={c} texto={t.terminado} /> : null}
       </View>
       <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 22 }}>{reto.titulo}</Text>
@@ -115,8 +115,8 @@ export function CartelCelda({ c, t, reto, chip, hoyIso, onPress, ancho }: Comun 
   const cuenta = cuentaAtrasDe(t, reto, hoyIso);
   return (
     <Pulsable onPress={onPress} label={`${reto.titulo}. ${chip.texto}`} haptica escala={0.97} style={{ width: ancho, gap: 8 }}>
-      <View style={{ borderRadius: 20, overflow: "hidden", borderWidth: 1, borderColor: c.line }}>
-        <Portada reto={reto} style={{ width: ancho - 2, height: Math.round((ancho - 2) * 1.1) }} placa={48} />
+      <View style={{ borderRadius: SUPERFICIE.radioFila, overflow: "hidden", backgroundColor: c.card }}>
+        <Portada reto={reto} style={{ width: ancho, height: Math.round(ancho * 1.1) }} placa={48} />
         {reto.estado === "terminado" ? <Sello c={c} texto={t.terminado} /> : null}
       </View>
       <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 22 }}>{reto.titulo}</Text>

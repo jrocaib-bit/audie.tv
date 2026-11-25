@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Animated, Pressable, Text, View } from "react-native";
 import { fonts } from "../theme";
+import { SUPERFICIE } from "./Basicos";
 import { Icono, type NombreIcono } from "./Icono";
 import { Pulsable } from "./Pulsable";
 import type { Paleta } from "./tema";
@@ -9,8 +10,8 @@ import type { Paleta } from "./tema";
 export function Grupo({ c, titulo, children }: { c: Paleta; titulo?: string; children: React.ReactNode }) {
   return (
     <View style={{ gap: 8 }}>
-      {titulo ? <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13, letterSpacing: 1, textTransform: "uppercase", paddingHorizontal: 4 }}>{titulo}</Text> : null}
-      <View style={{ borderRadius: 24, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, overflow: "hidden" }}>{children}</View>
+      {titulo ? <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase", paddingHorizontal: 6 }}>{titulo}</Text> : null}
+      <View style={{ borderRadius: SUPERFICIE.radioFila, backgroundColor: c.card, overflow: "hidden" }}>{children}</View>
     </View>
   );
 }
@@ -48,7 +49,7 @@ export function Segmentos<T extends string | number>({ c, opciones, valor, onEle
 
 /** Interruptor propio: oro cuando está activo. */
 export function Interruptor({ c, activo, onCambiar, label }: { c: Paleta; activo: boolean; onCambiar: (valor: boolean) => void; label: string }) {
-  const valor = useRef(new Animated.Value(activo ? 1 : 0)).current;
+  const [valor] = useState(() => new Animated.Value(activo ? 1 : 0));
   useEffect(() => {
     Animated.timing(valor, { toValue: activo ? 1 : 0, duration: 180, useNativeDriver: true }).start();
   }, [activo, valor]);
