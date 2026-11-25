@@ -69,7 +69,6 @@ function ctxBase(extra: Partial<CtxHoy> = {}): CtxHoy {
     duraciones: { "gn-01": 524.4 },
     actual: "gn-01",
     grabados: ["gn-01", "gn-02", "jn-01"],
-    pasosAdviento: [{ dia: 1, episodio: "is-01" }, { dia: 2, episodio: "is-02" }],
     ...extra,
   };
 }
@@ -131,7 +130,7 @@ describe("modelo de Hoy", () => {
     const m = modeloHoy(ctxBase({ progress: { episodes: { "gn-02": { positionSeconds: 5, completed: true } }, listenedOn: [] } }));
     expect(m.hero?.id).toBe("gn-01");
     expect(m.historias.map((h) => h.id)).toEqual(["jn-01"]);
-    const pintadas = [m.hero?.src, m.adviento.src, ...m.historias.map((h) => h.src)].filter(Boolean);
+    const pintadas = [m.hero?.src, ...m.historias.map((h) => h.src)].filter(Boolean);
     expect(new Set(pintadas).size).toBe(pintadas.length);
     expect(m.obras).toHaveLength(new Set(m.obras).size);
     const todos = modeloHoy(ctxBase({ grabados: indice.episodes.map((e) => e.id) }));
@@ -139,11 +138,10 @@ describe("modelo de Hoy", () => {
     expect(todos.historias.find((h) => h.id === todos.hero?.id)).toBeUndefined();
   });
 
-  it("el reto de Adviento distingue próximo, activo y terminado", () => {
-    const v = { inicio: "2026-11-29", fin: "2026-12-24" };
-    expect(modeloHoy(ctxBase({ ventanaAdviento: v })).adviento.fase).toBe("proximo");
-    expect(modeloHoy(ctxBase({ ventanaAdviento: v, hoyIso: "2026-12-02" })).adviento.fase).toBe("activo");
-    expect(modeloHoy(ctxBase({ ventanaAdviento: v, hoyIso: "2026-12-30" })).adviento.fase).toBe("terminado");
+  it("no pinta ningún reto por calendario: los retos de Hoy salen solo de lo empezado", () => {
+    const m = modeloHoy(ctxBase({ hoyIso: "2026-12-02" }));
+    expect(Object.keys(m)).not.toContain("adviento");
+    expect(m.obras.some((src) => src.includes("reto-adviento"))).toBe(false);
   });
 
   it("calcula racha y los siete días de la semana", () => {
