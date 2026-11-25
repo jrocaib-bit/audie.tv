@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import { fonts } from "../theme";
+import { SUPERFICIE } from "./Basicos";
 import { Icono } from "./Icono";
 import { ObraMarco } from "./ObraMarco";
 import { ProgressBar } from "./ProgressBar";
@@ -44,10 +45,8 @@ type ActualProps = Base & {
 /** Mi camino: la tarjeta destacada con progreso, siguiente episodio y acción. */
 export function CaminoActualCard({ c, nombre, descripcion, duracion, audio, avance, fraccion, src, siguiente, nota, etiquetaEscuchar, etiquetaVolver, onEscuchar, onVolver }: ActualProps) {
   return (
-    <View style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1.5, borderColor: c.brand, overflow: "hidden" }}>
-      <View style={{ padding: 10, paddingBottom: 0 }}>
-        <ObraMarco src={src} style={{ height: 150, borderRadius: 18 }} />
-      </View>
+    <View style={{ borderRadius: SUPERFICIE.radio, backgroundColor: c.card, overflow: "hidden" }}>
+      <ObraMarco src={src} style={{ height: 170 }} />
       <View style={{ padding: 20, gap: 16 }}>
         <Cabecera c={c} nombre={nombre} descripcion={descripcion} duracion={duracion} />
         <View style={{ gap: 8 }}>
@@ -56,13 +55,13 @@ export function CaminoActualCard({ c, nombre, descripcion, duracion, audio, avan
           <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{audio}</Text>
         </View>
         {siguiente ? (
-          <View style={{ gap: 2, paddingTop: 12, borderTopWidth: 1, borderTopColor: c.line }}>
-            <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" }}>{siguiente.etiqueta}</Text>
+          <View style={{ gap: 2, padding: 14, borderRadius: 18, backgroundColor: SUPERFICIE.suave }}>
+            <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, fontWeight: "600", letterSpacing: 1.2, textTransform: "uppercase" }}>{siguiente.etiqueta}</Text>
             <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 26 }}>{siguiente.titulo}</Text>
             <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15 }}>{siguiente.subtitulo}</Text>
           </View>
         ) : null}
-        {nota ? <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 21, paddingTop: 12, borderTopWidth: 1, borderTopColor: c.line }}>{nota}</Text> : null}
+        {nota ? <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 21, padding: 14, borderRadius: 18, backgroundColor: SUPERFICIE.suave }}>{nota}</Text> : null}
         <View style={{ gap: 4 }}>
           {onEscuchar && etiquetaEscuchar ? (
             <Pulsable onPress={onEscuchar} label={etiquetaEscuchar} haptica escala={0.98} style={{ minHeight: 54, borderRadius: 27, backgroundColor: c.accent, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }}>
@@ -84,10 +83,10 @@ type OpcionProps = Base & { etiquetaElegir: string; onElegir: () => void; /** Si
 /** Otro camino: nombre, duración, una línea de alcance y un botón claro. */
 export function CaminoCard({ c, nombre, descripcion, duracion, audio, avance, fraccion, etiquetaElegir, onElegir, proximamente }: OpcionProps) {
   return (
-    <View style={{ borderRadius: 24, opacity: proximamente ? 0.85 : 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, padding: 18, gap: 14 }}>
+    <View style={{ borderRadius: SUPERFICIE.radioFila, opacity: proximamente ? 0.85 : 1, backgroundColor: c.card, padding: 18, gap: 14 }}>
       <Cabecera c={c} nombre={nombre} descripcion={descripcion} duracion={duracion} />
       {proximamente ? (
-        <View accessible accessibilityLabel={proximamente} style={{ minHeight: 44, borderRadius: 22, borderWidth: 1, borderColor: c.line, alignItems: "center", justifyContent: "center" }}>
+        <View accessible accessibilityLabel={proximamente} style={{ minHeight: 44, borderRadius: 22, backgroundColor: SUPERFICIE.suave, alignItems: "center", justifyContent: "center" }}>
           <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 15, fontWeight: "600" }}>{proximamente}</Text>
         </View>
       ) : (
@@ -101,7 +100,7 @@ export function CaminoCard({ c, nombre, descripcion, duracion, audio, avance, fr
         ) : null}
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{audio}</Text>
       </View>
-      <Pulsable onPress={onElegir} label={`${etiquetaElegir}: ${nombre}`} haptica escala={0.98} style={{ minHeight: 48, borderRadius: 24, borderWidth: 1.5, borderColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+      <Pulsable onPress={onElegir} label={`${etiquetaElegir}: ${nombre}`} haptica escala={0.98} style={{ minHeight: 48, borderRadius: 24, backgroundColor: SUPERFICIE.circulo, alignItems: "center", justifyContent: "center" }}>
         <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 16, fontWeight: "600" }}>{etiquetaElegir}</Text>
       </Pulsable>
         </>

@@ -6,6 +6,27 @@ import type { Paleta } from "./tema";
 
 export const ESPACIO = 8;
 
+/** Superficies de la piel: tarjetas sin borde y fondos suaves para chips e iconos. */
+export const SUPERFICIE = {
+  /** Radio amplio de las tarjetas grandes. */
+  radio: 28,
+  /** Radio de las tarjetas de lista. */
+  radioFila: 22,
+  /** Fondo tenue para chips inactivos y botones secundarios. */
+  suave: "rgba(244, 236, 226, 0.07)",
+  /** Fondo del círculo de iconos, del color de acento. */
+  circulo: "rgba(224, 196, 138, 0.13)",
+} as const;
+
+/** Icono de línea dentro de un círculo suave de acento. */
+export function IconoCirculo({ nombre, c, size = 44 }: { nombre: NombreIcono; c: Paleta; size?: number }) {
+  return (
+    <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: SUPERFICIE.circulo, alignItems: "center", justifyContent: "center" }}>
+      <Icono nombre={nombre} size={Math.round(size * 0.5)} color={c.accent} />
+    </View>
+  );
+}
+
 export function Titulo({ children, c, size = 28 }: { children: React.ReactNode; c: Paleta; size?: number }) {
   return (
     <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: size, lineHeight: size * 1.12 }}>
@@ -49,9 +70,7 @@ export function Chip({ texto, activo, onPress, c, icono, style, proximo, etiquet
           justifyContent: "center",
           gap: proximo ? 0 : 8,
           opacity: proximo ? 0.5 : 1,
-          backgroundColor: activo ? c.accent : c.card,
-          borderWidth: 1,
-          borderColor: activo ? c.accent : c.line,
+          backgroundColor: activo ? c.accent : SUPERFICIE.suave,
         },
         style,
       ]}
@@ -79,9 +98,7 @@ export function Boton({ texto, onPress, c, style, secundario, icono }: { texto: 
           gap: 8,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: secundario ? c.card : c.accent,
-          borderWidth: secundario ? 1 : 0,
-          borderColor: c.line,
+          backgroundColor: secundario ? SUPERFICIE.suave : c.accent,
         },
         style,
       ]}

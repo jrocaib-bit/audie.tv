@@ -3,7 +3,6 @@ import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { cerrarApp } from "../auth";
 import { restaurarNativo } from "../compras/storekit";
 import { URL_CONDICIONES, URL_PRIVACIDAD, restaurarCompras } from "../compras/tienda";
@@ -11,6 +10,7 @@ import { guardarRecordatorio, leerPlan } from "../recordatorio";
 import { HORAS_RECORDATORIO, horaTexto, planDiario } from "../recordatorio-plan";
 import { fonts } from "../theme";
 import { tx } from "../textos";
+import { useHuecoInferior } from "../ui/barra-flotante";
 import { Chip } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { Fila, Grupo, Interruptor, Segmentos } from "../ui/Fila";
@@ -34,7 +34,7 @@ export default function Ajustes() {
   const t = tx(lang);
   const copy = textosAlta(library.settings.uiLocale);
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const cargado = useEpisodioCargado();
   const sesion = library.sesion;
   const [aviso, setAviso] = useState<{ activo: boolean; hora: number }>({ activo: false, hora: 8 });
@@ -52,7 +52,7 @@ export default function Ajustes() {
   const minutos: DailyMinutes[] = [10, 15, 20, 30];
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
       <ScreenHeader
         c={c}
         titulo={t.tabAjustes}

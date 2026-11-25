@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import { fonts } from "../theme";
+import { SUPERFICIE } from "./Basicos";
 import { Icono } from "./Icono";
 import { ObraMarco } from "./ObraMarco";
 import { ProgressBar } from "./ProgressBar";
@@ -31,23 +32,19 @@ export function HeroCard({ c, src, kicker, titulo, subtitulo, dia, fraccionCamin
   const proporcion = Math.max(0.75, Math.min(1.85, ratio));
   const play = tipoAccion === "play";
   return (
-    <View style={{ borderRadius: 28, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, overflow: "hidden" }}>
-      {src ? (
-        <View style={{ padding: 10, paddingBottom: 0 }}>
-          <ObraMarco src={src} style={{ width: "100%", aspectRatio: proporcion, borderRadius: 18 }} />
-        </View>
-      ) : null}
+    <View style={{ borderRadius: SUPERFICIE.radio, backgroundColor: c.card, overflow: "hidden" }}>
+      {src ? <ObraMarco src={src} style={{ width: "100%", aspectRatio: proporcion }} /> : null}
       <View style={{ padding: 20, gap: 14 }}>
         <View style={{ gap: 6 }}>
-          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" }}>{kicker}</Text>
+          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 12, fontWeight: "600", letterSpacing: 1.2, textTransform: "uppercase" }}>{kicker}</Text>
           <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 35 }}>{titulo}</Text>
           {subtitulo ? <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16, lineHeight: 22 }}>{subtitulo}</Text> : null}
           {aviso ? <Text style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 16, lineHeight: 22, marginTop: 4 }}>{aviso}</Text> : null}
         </View>
         {dia ? (
           <View style={{ gap: 8 }} accessible accessibilityLabel={dia}>
-            <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 14 }}>{dia}</Text>
-            <ProgressBar fraccion={fraccionCamino} color={c.accent} pista={c.line} alto={5} />
+            <Text style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 13 }}>{dia}</Text>
+            <ProgressBar fraccion={fraccionCamino} color={c.accent} pista={c.line} alto={4} />
           </View>
         ) : null}
         <Pulsable

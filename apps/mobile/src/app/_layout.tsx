@@ -1,6 +1,8 @@
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack, usePathname, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { pendienteListo } from "../acceso";
 import { Platform, View } from "react-native";
 import { fuenteGazpacho } from "../gazpacho";
@@ -8,6 +10,8 @@ import { MobileProvider } from "../state";
 import { textoErrorAudio, tx } from "../textos";
 import { MiniPlayer } from "../ui/MiniPlayer";
 import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
+import { PESTANAS, pestanaActiva } from "../ui/pestanas";
+import { HuecoInferiorContext, huecoInferior } from "../ui/barra-flotante";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
 import { useEpisodioCargado } from "../ui/useHoy";
@@ -25,14 +29,10 @@ function Shell() {
   const cola = useCola();
   const listoPendiente = pendienteListo(library.pendiente, Boolean(library.sesion));
   const enPestana = RUTAS_PESTANAS.includes(path);
-  const pestanas: PestanaDef[] = [
-    { href: "/", icono: "hoy", etiqueta: t.tabHoy },
-    { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
-    { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
-    { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
-    { href: "/libros", icono: "libro", etiqueta: t.tabLibros },
-    { href: "/sala", icono: "sala", etiqueta: t.tabSala },
-  ];
+  const insets = useSafeAreaInsets();
+  const conMini = debeMostrarMini({ path, cargado: Boolean(cargado) }) && Boolean(cargado);
+  const hueco = huecoInferior({ pestanas: enPestana, mini: conMini, insetInferior: insets.bottom });
+  const pestanas: PestanaDef[] = PESTANAS.map((p) => ({ href: p.href, icono: p.icono, etiqueta: t[p.etiqueta] }));
 
   useEffect(() => {
     if (library.hydrated && !library.settings.bienvenidaHecha && path !== "/bienvenida") router.replace("/bienvenida");
@@ -51,11 +51,39 @@ function Shell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listoPendiente]);
 
+  const mini =
+    conMini && cargado ? (
+      <MiniPlayer
+        c={c}
+        sobrePestanas={enPestana}
+        src={cargado.info.src}
+        titulo={cargado.info.titulo}
+        subtitulo={[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}
+        fraccion={Math.min(1, library.globalTime / Math.max(1, cargado.episodio.durationSeconds))}
+        jugando={library.playing}
+        cargando={library.estadoAudio === "cargando"}
+        error={library.errorAudio ? textoErrorAudio(library.errorAudio, t) : undefined}
+        etiquetaPlay={library.playing ? t.pausar : t.reproducir}
+        onToggle={() => {
+          if (library.playing) library.toggle();
+          else if (!library.sesion) reproducir(cargado.episodio.id);
+          else if (library.errorAudio) library.reintentar();
+          else library.toggle();
+        }}
+        haySiguiente={cola.haySiguiente}
+        onSiguiente={library.siguiente}
+        etiquetaSiguiente={t.siguiente}
+        onAbrir={() => router.push("/ahora")}
+      />
+    ) : null;
+
   const cabecera = { headerShown: true, title: "", headerBackButtonDisplayMode: "minimal" as const, headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerShadowVisible: false };
 
   return (
+    <HuecoInferiorContext.Provider value={enPestana ? hueco : null}>
     <View style={{ flex: 1, backgroundColor: c.bg }}>
-      <View style={{ flex: 1 }}>
+      {/* La sala es un escenario a pantalla completa con su propio paso a paso: termina encima de lo que flota. */}
+      <View style={{ flex: 1, paddingBottom: path === "/sala" ? hueco : 0 }}>
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: Platform.OS === "web" ? "none" : "default" }}>
         <Stack.Screen name="descargas" options={cabecera} />
         <Stack.Screen name="notas" options={cabecera} />
@@ -75,33 +103,20 @@ function Shell() {
         <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
       </View>
-      {debeMostrarMini({ path, cargado: Boolean(cargado) }) && cargado ? (
-        <MiniPlayer
-          c={c}
-          sobrePestanas={enPestana}
-          src={cargado.info.src}
-          titulo={cargado.info.titulo}
-          subtitulo={[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}
-          fraccion={Math.min(1, library.globalTime / Math.max(1, cargado.episodio.durationSeconds))}
-          jugando={library.playing}
-          cargando={library.estadoAudio === "cargando"}
-          error={library.errorAudio ? textoErrorAudio(library.errorAudio, t) : undefined}
-          etiquetaPlay={library.playing ? t.pausar : t.reproducir}
-          onToggle={() => {
-            if (library.playing) library.toggle();
-            else if (!library.sesion) reproducir(cargado.episodio.id);
-            else if (library.errorAudio) library.reintentar();
-            else library.toggle();
-          }}
-          haySiguiente={cola.haySiguiente}
-          onSiguiente={library.siguiente}
-          etiquetaSiguiente={t.siguiente}
-          onAbrir={() => router.push("/ahora")}
-        />
-      ) : null}
-      {enPestana ? <TabBar c={c} pestanas={pestanas} actual={path} onElegir={(href) => router.navigate(href as "/")} /> : null}
+      {enPestana ? (
+        // En las pestañas, el mini reproductor y la píldora flotan sobre el contenido.
+        <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>
+          {/* Velo suave: el contenido se intuye detrás y la píldora conserva el contraste. */}
+          <LinearGradient pointerEvents="none" colors={["rgba(16,14,12,0)", "rgba(16,14,12,0.86)", "rgba(16,14,12,0.96)"]} locations={[0, 0.4, 1]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: hueco + 28 }} />
+          {mini}
+          <TabBar c={c} pestanas={pestanas} actual={pestanaActiva(path)} onElegir={(href) => router.navigate(href as "/")} />
+        </View>
+      ) : (
+        mini
+      )}
       {!library.hydrated ? <View pointerEvents="none" style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: c.bg }} /> : null}
     </View>
+    </HuecoInferiorContext.Provider>
   );
 }
 
