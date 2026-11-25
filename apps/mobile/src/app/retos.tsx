@@ -2,10 +2,10 @@ import { localIsoDate } from "@audite/domain";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fechaCorta, modeloRetos, organizarRetos, ventanaDeReto, type TarjetaReto } from "../temporadas";
 import { fonts } from "../theme";
 import { tx } from "../textos";
+import { useHuecoInferior } from "../ui/barra-flotante";
 import { Entrada } from "../ui/Entrada";
 import { Icono } from "../ui/Icono";
 import { ProgressBar } from "../ui/ProgressBar";
@@ -25,7 +25,7 @@ export default function Retos() {
   const { c, lang, library } = useTema();
   const t = tx(lang);
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const ventana = useWindowDimensions();
   const hoyIso = localIsoDate(new Date());
   const m = useMemo(
@@ -39,7 +39,7 @@ export default function Retos() {
   const comun = (reto: TarjetaReto) => ({ c, t, reto, chip: chipDeReto(reto, lang), hoyIso, onPress: () => abrir(reto) });
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
       <ScreenHeader c={c} titulo={t.tabRetos} />
       <View style={{ gap: 28, paddingTop: 8 }}>
         {org ? (

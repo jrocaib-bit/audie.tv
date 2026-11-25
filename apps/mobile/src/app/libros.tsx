@@ -12,6 +12,7 @@ import { PortadaLibro } from "../libros/portada";
 import { SUBTITULO_LIBROS, TITULO_LIBROS } from "../libros/textos";
 import { useColoresLibros } from "../libros/tema";
 import { ui } from "../theme";
+import { useHuecoInferior } from "../ui/barra-flotante";
 
 /** Lo mínimo de una tarjeta. Sale de la estantería (14 KB) y, si no hay estantería, del catálogo. */
 type Fila = { id: string; slug: string; volumen: number; titulo: string; subtitulo: string; disponibilidad: LibroFicha["disponibilidad"] };
@@ -21,6 +22,7 @@ const deEstanteria = (v: VolumenEstanteria): Fila => ({ id: v.id, slug: v.id, vo
 export default function Libros() {
   const colors = useColoresLibros();
   const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const router = useRouter();
   const { mock } = useLocalSearchParams<{ mock?: string }>();
   const estanteria = useEstanteria();
@@ -43,7 +45,7 @@ export default function Libros() {
       data={filas}
       keyExtractor={(f) => f.id}
       style={{ backgroundColor: colors.bg }}
-      contentContainerStyle={{ paddingBottom: 120 }}
+      contentContainerStyle={{ paddingBottom: 32 + hueco }}
       ListHeaderComponent={
         <View style={{ paddingHorizontal: 22, paddingTop: insets.top + 12, paddingBottom: 12, gap: 12 }}>
           <Text style={[ui.kicker, { color: colors.muted }]}>Libros</Text>

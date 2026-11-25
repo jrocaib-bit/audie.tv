@@ -17,6 +17,16 @@ describe("pestaña Libros de la barra inferior", () => {
     const barra = leer("../ui/TabBar.tsx");
     expect(barra).toContain("flex: 1, minWidth: 0, minHeight: 52");
     expect(barra).toContain("adjustsFontSizeToFit");
+    // La barra es una píldora flotante: separada de los bordes, redondeada, con sombra y con el punto de acento en la activa.
+    expect(barra).toContain("paddingHorizontal: BARRA.margenLateral, paddingBottom: margenInferiorBarra(insets.bottom)");
+    expect(barra).toContain("borderRadius: BARRA.radio");
+    expect(barra).toContain("boxShadow: SOMBRA_FLOTANTE");
+    expect(barra).toContain("backgroundColor: activa ? c.accent");
+    // Flota sobre el contenido junto al mini reproductor, y las pantallas reservan su alto.
+    expect(layout).toContain('<View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>');
+    expect(layout).toContain("<HuecoInferiorContext.Provider value={enPestana ? hueco : null}>");
+    for (const pantalla of ["index", "camino", "retos", "biblioteca", "libros", "ajustes"]) expect(leer(`../app/${pantalla}.tsx`)).toContain("paddingBottom: 32 + hueco");
+    expect(leer("../app/sala.tsx")).toContain("paddingBottom: 18 + hueco");
   });
   it("la ficha de la estantería enlaza a la pantalla de ficha, que existe", () => {
     expect(leer("../app/libros/[slug].tsx")).toContain("export default function FichaLibro");

@@ -1,11 +1,11 @@
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { ScrollView, Text, View, type ScrollViewInstance } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
 import { ordenarPorAudio } from "../caminos";
 import { th, llenar } from "../textos-hoy";
 import { tx } from "../textos";
+import { useHuecoInferior } from "../ui/barra-flotante";
 import { CaminoActualCard, CaminoCard } from "../ui/CaminoCard";
 import { Entrada } from "../ui/Entrada";
 import { Icono } from "../ui/Icono";
@@ -18,7 +18,7 @@ export default function Caminos() {
   const { c, lang, library } = useTema();
   const t = th(lang);
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const caminos = useCaminos();
   const reproducirId = useReproducir();
   const scroll = useRef<ScrollViewInstance>(null);
@@ -42,7 +42,7 @@ export default function Caminos() {
 
   const sig = actual?.siguiente ?? null;
   return (
-    <ScrollView ref={scroll} style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+    <ScrollView ref={scroll} style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
       <ScreenHeader c={c} titulo={tx(lang).tabCaminos} />
       <View style={{ paddingHorizontal: 20, gap: 24, paddingTop: 4 }}>
         <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16, lineHeight: 23 }}>{t.caminosIntro}</Text>

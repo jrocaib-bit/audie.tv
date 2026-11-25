@@ -2,11 +2,11 @@ import { booksOnTheWay, episodiosDeLibro, rotuloEpisodio, t as mensaje, type Pen
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { baseDeContenido } from "../entorno";
 import { infoEpisodio, duracionCorta } from "../hoy";
 import { fonts } from "../theme";
 import { tx } from "../textos";
+import { useHuecoInferior } from "../ui/barra-flotante";
 import { Chip } from "../ui/Basicos";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
@@ -23,7 +23,7 @@ export default function Biblioteca() {
   const t = tx(lang);
   const m = { bibleLink: mensaje(lang, "bibleLink"), bibleIntro: mensaje(lang, "bibleIntro") };
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const ctx = useContextoCatalogo();
   const reproducir = useReproducir();
   const libros = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
@@ -58,7 +58,7 @@ export default function Biblioteca() {
       data={episodios}
       keyExtractor={(episodio) => episodio.id}
       style={{ backgroundColor: c.bg }}
-      contentContainerStyle={{ paddingBottom: 32 + insets.bottom }}
+      contentContainerStyle={{ paddingBottom: 32 + hueco }}
       initialNumToRender={10}
       windowSize={7}
       ListHeaderComponent={

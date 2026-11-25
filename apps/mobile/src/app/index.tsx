@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fonts } from "../theme";
 import { diasParaEmpezar } from "../reto-dias";
 import { ventanaDeReto } from "../temporadas";
 import { tx } from "../textos";
 import { th, llenar } from "../textos-hoy";
 import { localIsoDate } from "@audite/domain";
+import { useHuecoInferior } from "../ui/barra-flotante";
 import { Entrada } from "../ui/Entrada";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
@@ -21,7 +21,7 @@ import { useReproducir } from "../ui/useReproducir";
 export default function Hoy() {
   const { c, lang, library } = useTema();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const hueco = useHuecoInferior();
   const t = th(lang);
   const hoyTitulo = tx(lang).hoy;
   const m = useModeloHoy();
@@ -54,7 +54,7 @@ export default function Hoy() {
   const retoTitulo = m.adviento.fase === "proximo" ? t.retoProximo : m.adviento.fase === "activo" ? t.retoActivo : t.retoTerminado;
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
       <ScreenHeader c={c} kicker={m.saludo} titulo={hoyTitulo} />
       <View style={{ paddingHorizontal: 20, gap: 28, paddingTop: 8 }}>
         <Entrada orden={0} style={{ gap: 4 }}>
