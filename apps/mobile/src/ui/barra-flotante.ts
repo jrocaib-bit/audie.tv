@@ -8,6 +8,10 @@ export const BARRA = {
   radio: 32,
   /** Separación de la píldora respecto a los laterales de la pantalla. */
   margenLateral: 12,
+  /** Ancho de cada pestaña. La píldora mide lo que suman sus pestañas y queda centrada, sin llegar a los bordes. */
+  anchoPestana: 72,
+  /** Relleno lateral dentro de la píldora. */
+  rellenoPildora: 6,
   /** Separación mínima respecto al borde inferior cuando el sistema no reserva margen. */
   margenInferiorMinimo: 14,
   /** Espacio entre el mini reproductor y la píldora. */
@@ -41,4 +45,9 @@ export function useHuecoInferior(): number {
   const hueco = useContext(HuecoInferiorContext);
   const insets = useSafeAreaInsets();
   return hueco ?? insets.bottom;
+}
+
+/** Ancho de la píldora para un número de pestañas: compacta y centrada. */
+export function anchoPildora(pestanas: number): number {
+  return pestanas * BARRA.anchoPestana + 2 * BARRA.rellenoPildora;
 }
