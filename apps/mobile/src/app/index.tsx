@@ -32,7 +32,7 @@ export default function Hoy() {
   const faltan = diasParaEmpezar(ventanaDeReto("adviento-isaias").inicio, localIsoDate(new Date()));
 
   const accionHero = () => {
-    if (m.estado !== "listo" || !hero) return router.push("/camino");
+    if (m.estado !== "listo" || !hero) return router.push("/escuchar/caminos");
     if (hero.actual && library.playing) return library.toggle();
     reproducirId(hero.id, { contexto: { tipo: "camino", id: caminoId } });
   };
@@ -60,7 +60,7 @@ export default function Hoy() {
       <View style={{ paddingHorizontal: 20, gap: 28, paddingTop: 8 }}>
         <Entrada orden={0} style={{ gap: 4 }}>
           {m.estado === "completado" || !hero ? (
-            <HeroCard c={c} kicker={`${t.miCamino} · ${m.camino.nombre}`} titulo={t.completoTitulo} aviso={t.completoCuerpo} etiquetaAccion={t.elegirOtro} tipoAccion="camino" onAccion={() => router.push("/camino")} />
+            <HeroCard c={c} kicker={`${t.miCamino} · ${m.camino.nombre}`} titulo={t.completoTitulo} aviso={t.completoCuerpo} etiquetaAccion={t.elegirOtro} tipoAccion="camino" onAccion={() => router.push("/escuchar/caminos")} />
           ) : (
             <HeroCard
               c={c}
@@ -78,7 +78,7 @@ export default function Hoy() {
               onAccion={accionHero}
             />
           )}
-          <Pulsable onPress={() => router.push("/camino")} label={`${t.verCamino}. ${m.camino.nombre}`} escala={0.98} style={{ minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 6 }}>
+          <Pulsable onPress={() => router.push("/escuchar/caminos")} label={`${t.verCamino}. ${m.camino.nombre}`} escala={0.98} style={{ minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 6 }}>
             <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, flexShrink: 1 }}>{t.miCamino}: {m.camino.nombre}</Text>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 4, paddingLeft: 12 }}>
               <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verCamino}</Text>
@@ -127,7 +127,7 @@ export default function Hoy() {
 
         {m.historias.length > 0 ? (
           <Entrada orden={3} style={{ gap: 4 }}>
-            {encabezado(t.historias, { etiqueta: t.verTodas, onPress: () => router.push("/biblioteca") })}
+            {encabezado(t.historias, { etiqueta: t.verTodas, onPress: () => router.push("/escuchar") })}
             <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, marginTop: -6, marginBottom: 8 }}>{t.historiasNota}</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 14, paddingHorizontal: 20 }} style={{ marginHorizontal: -20 }}>
               {m.historias.map((h) => (

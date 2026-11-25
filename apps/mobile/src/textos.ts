@@ -2,6 +2,7 @@
 const es = {
   tabHoy: "Hoy",
   tabSala: "La sala",
+  tabBiblia: "Biblia",
   tabCaminos: "Caminos",
   tabRetos: "Retos",
   enCurso: "En curso",
@@ -133,6 +134,7 @@ type Textos = typeof es;
 const en: Textos = {
   tabHoy: "Today",
   tabSala: "The gallery",
+  tabBiblia: "Bible",
   tabCaminos: "Paths",
   tabRetos: "Challenges",
   enCurso: "In progress",

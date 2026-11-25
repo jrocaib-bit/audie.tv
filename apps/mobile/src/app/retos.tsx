@@ -77,7 +77,7 @@ export default function Retos() {
         ) : null}
 
         <Entrada orden={4} style={{ paddingHorizontal: 20 }}>
-          <Pulsable onPress={() => router.navigate("/camino")} label={`${t.bibliaEntera}. ${p.hechos} ${t.de} ${p.total}`} haptica style={{ minHeight: 72, borderRadius: SUPERFICIE.radioFila, padding: 16, gap: 12, backgroundColor: c.card }}>
+          <Pulsable onPress={() => router.navigate("/escuchar/caminos")} label={`${t.bibliaEntera}. ${p.hechos} ${t.de} ${p.total}`} haptica style={{ minHeight: 72, borderRadius: SUPERFICIE.radioFila, padding: 16, gap: 12, backgroundColor: c.card }}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
               <IconoCirculo c={c} nombre="caminos" size={40} />
               <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.bibliaEntera}</Text>

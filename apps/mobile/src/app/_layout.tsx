@@ -10,6 +10,7 @@ import { MobileProvider } from "../state";
 import { textoErrorAudio, tx } from "../textos";
 import { MiniPlayer } from "../ui/MiniPlayer";
 import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
+import { PESTANAS, pestanaActiva } from "../ui/pestanas";
 import { HuecoInferiorContext, huecoInferior } from "../ui/barra-flotante";
 import { TabBar, type PestanaDef } from "../ui/TabBar";
 import { useTema } from "../ui/tema";
@@ -31,14 +32,7 @@ function Shell() {
   const insets = useSafeAreaInsets();
   const conMini = debeMostrarMini({ path, cargado: Boolean(cargado) }) && Boolean(cargado);
   const hueco = huecoInferior({ pestanas: enPestana, mini: conMini, insetInferior: insets.bottom });
-  const pestanas: PestanaDef[] = [
-    { href: "/", icono: "hoy", etiqueta: t.tabHoy },
-    { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
-    { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
-    { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
-    { href: "/libros", icono: "libro", etiqueta: t.tabLibros },
-    { href: "/sala", icono: "sala", etiqueta: t.tabSala },
-  ];
+  const pestanas: PestanaDef[] = PESTANAS.map((p) => ({ href: p.href, icono: p.icono, etiqueta: t[p.etiqueta] }));
 
   useEffect(() => {
     if (library.hydrated && !library.settings.bienvenidaHecha && path !== "/bienvenida") router.replace("/bienvenida");
@@ -115,7 +109,7 @@ function Shell() {
           {/* Velo suave: el contenido se intuye detrás y la píldora conserva el contraste. */}
           <LinearGradient pointerEvents="none" colors={["rgba(16,14,12,0)", "rgba(16,14,12,0.86)", "rgba(16,14,12,0.96)"]} locations={[0, 0.4, 1]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: hueco + 28 }} />
           {mini}
-          <TabBar c={c} pestanas={pestanas} actual={path} onElegir={(href) => router.navigate(href as "/")} />
+          <TabBar c={c} pestanas={pestanas} actual={pestanaActiva(path)} onElegir={(href) => router.navigate(href as "/")} />
         </View>
       ) : (
         mini
