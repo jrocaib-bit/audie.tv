@@ -33,6 +33,15 @@ describe("textos de Hoy y Caminos", () => {
     expect(th("en").bloqueContinuar).toBe("Episode in progress");
     expect(llenar(th("es").quitarNombre, { nombre: "Salmos" })).toBe("Quitar Salmos de Hoy");
   });
+  it("trae los textos del menú contextual y de fijar en los dos idiomas", () => {
+    expect(th("es").fijarArriba).toBe("Fijar arriba");
+    expect(th("es").desfijar).toBe("Desfijar");
+    expect(th("es").irLibro).toBe("Ir al libro");
+    expect(th("es").irReto).toBe("Ir al reto");
+    expect(th("en").fijarArriba).toBe("Pin to top");
+    expect(th("en").irReto).toBe("Go to the challenge");
+    expect(llenar(th("es").saleDeHoy, { nombre: "Salmos" })).toBe("Salmos sale de Hoy");
+  });
   it("rellena los huecos", () => {
     expect(llenar(th("es").dia, { n: 5, total: 516 })).toBe("Día 5 de 516");
     expect(llenar(th("en").cambio, { nombre: "Genesis" })).toContain("Genesis");
