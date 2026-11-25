@@ -8,7 +8,7 @@ import { tx } from "../textos";
 import { th, llenar } from "../textos-hoy";
 import { useHuecoInferior } from "../ui/barra-flotante";
 import { Boton, BotonRedondo, SUPERFICIE } from "../ui/Basicos";
-import { FilaEditable, FilaQuitada, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto } from "../ui/HoyEnCurso";
+import { FilaEditable, FilaQuitada, HojaQuitar, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto } from "../ui/HoyEnCurso";
 import { Entrada } from "../ui/Entrada";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
@@ -35,6 +35,7 @@ export default function Hoy() {
   const enCurso = useEnCurso();
   const { preferencias, cambiar } = usePreferenciasHoy();
   const [editando, setEditando] = useState(false);
+  const [aQuitar, setAQuitar] = useState<TarjetaEnCurso | null>(null);
   const { visibles: tarjetasVisibles, quitadas } = repartirEnCurso(enCurso.tarjetas, preferencias);
   const clavesVisibles = tarjetasVisibles.map((x) => x.clave);
   const estadoSeccion = estadoEnCurso(enCurso.tarjetas.length, tarjetasVisibles.length);
@@ -99,9 +100,9 @@ export default function Hoy() {
         {estadoSeccion === "lista"
           ? tarjetasVisibles.map((x) =>
               x.tipo === "libro" ? (
-                <TarjetaLibro key={x.clave} c={c} t={t} libro={x} onPress={() => router.push(`/libros/${x.slug}/leer`)} />
+                <TarjetaLibro key={x.clave} c={c} t={t} libro={x} onPress={() => router.push(`/libros/${x.slug}/leer`)} onOpciones={() => setAQuitar(x)} />
               ) : (
-                <TarjetaReto key={x.clave} c={c} t={t} reto={x} onPress={() => router.push(`/reto/${x.id}`)} />
+                <TarjetaReto key={x.clave} c={c} t={t} reto={x} onPress={() => router.push(`/reto/${x.id}`)} onOpciones={() => setAQuitar(x)} />
               ),
             )
           : enCurso.listo ? (
@@ -263,6 +264,16 @@ export default function Hoy() {
           </View>
         )}
       </View>
+      <HojaQuitar
+        c={c}
+        t={t}
+        tarjeta={aQuitar}
+        onCerrar={() => setAQuitar(null)}
+        onQuitar={(x) => {
+          quitarDeHoy(x);
+          setAQuitar(null);
+        }}
+      />
     </ScrollView>
   );
 }

@@ -1,15 +1,16 @@
-import { Text, View } from "react-native";
-import type { LibroEnCurso, RetoEnCurso } from "../hoy-empezados";
+import { Modal, Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import type { LibroEnCurso, RetoEnCurso, TarjetaEnCurso } from "../hoy-empezados";
 import { PortadaLibro } from "../libros/portada";
 import { llenar, th } from "../textos-hoy";
 import { fonts } from "../theme";
-import { IconoCirculo, SUPERFICIE } from "./Basicos";
+import { Boton, IconoCirculo, SUPERFICIE } from "./Basicos";
 import { Icono, type NombreIcono } from "./Icono";
 import { ObraMarco } from "./ObraMarco";
 import { PlacaMarca, monogramaDe } from "./PlacaMarca";
 import { ProgressBar } from "./ProgressBar";
 import { Pulsable } from "./Pulsable";
-import type { Paleta } from "./tema";
+import { useMovimientoReducido, type Paleta } from "./tema";
 
 type Textos = ReturnType<typeof th>;
 
@@ -154,5 +155,30 @@ export function FilaQuitada({ c, t, nombre, nota, onMostrar }: { c: Paleta; t: T
         <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.volverMostrar}</Text>
       </Pulsable>
     </View>
+  );
+}
+
+/** Hoja breve con «Quitar de Hoy» para una tarjeta de lo empezado. Pulsar fuera o «Cancelar» la cierra. */
+export function HojaQuitar({ c, t, tarjeta, onQuitar, onCerrar }: { c: Paleta; t: Textos; tarjeta: TarjetaEnCurso | null; onQuitar: (tarjeta: TarjetaEnCurso) => void; onCerrar: () => void }) {
+  const reducir = useMovimientoReducido();
+  const inferior = useSafeAreaInsets().bottom;
+  return (
+    <Modal visible={tarjeta !== null} transparent animationType={reducir ? "fade" : "slide"} onRequestClose={onCerrar} accessibilityViewIsModal>
+      <View style={{ flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.55)" }}>
+        <Pressable accessibilityRole="button" accessibilityLabel={t.cerrar} onPress={onCerrar} style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} />
+        {tarjeta ? (
+          <View style={{ backgroundColor: c.card, borderTopLeftRadius: SUPERFICIE.radio, borderTopRightRadius: SUPERFICIE.radio, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 20 + inferior, gap: 14 }}>
+            <View style={{ alignSelf: "center", width: 40, height: 4, borderRadius: 2, backgroundColor: c.line }} />
+            <View style={{ gap: 4 }}>
+              <Text accessibilityRole="header" numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22 }}>{tarjeta.titulo}</Text>
+              <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{tarjeta.tipo === "libro" ? detalleLibro(t, tarjeta) : detalleReto(t, tarjeta)}</Text>
+            </View>
+            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 15, lineHeight: 21 }}>{t.quitarCuerpo}</Text>
+            <Boton c={c} icono="cerrar" texto={t.quitarDeHoy} onPress={() => onQuitar(tarjeta)} />
+            <Boton c={c} secundario texto={t.cancelar} onPress={onCerrar} />
+          </View>
+        ) : null}
+      </View>
+    </Modal>
   );
 }
