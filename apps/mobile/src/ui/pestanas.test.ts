@@ -33,7 +33,7 @@ describe("las cuatro pestañas", () => {
   });
   it("la píldora es compacta: no llega a los bordes a 390 y cada pestaña mide al menos 44", () => {
     const ancho = anchoPildora(PESTANAS.length);
-    expect(ancho).toBeLessThanOrEqual(320);
+    expect(ancho).toBeLessThanOrEqual(280);
     expect(390 - ancho).toBeGreaterThanOrEqual(2 * 40);
     expect(BARRA.anchoPestana).toBeGreaterThanOrEqual(44);
     expect(BARRA.alto).toBeGreaterThanOrEqual(44);

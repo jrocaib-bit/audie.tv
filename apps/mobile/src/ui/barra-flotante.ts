@@ -9,7 +9,7 @@ export const BARRA = {
   /** Separación de la píldora respecto a los laterales de la pantalla. */
   margenLateral: 12,
   /** Ancho de cada pestaña. La píldora mide lo que suman sus pestañas y queda centrada, sin llegar a los bordes. */
-  anchoPestana: 72,
+  anchoPestana: 64,
   /** Relleno lateral dentro de la píldora. */
   rellenoPildora: 6,
   /** Separación mínima respecto al borde inferior cuando el sistema no reserva margen. */
