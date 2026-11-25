@@ -9,6 +9,11 @@ import {
   parseHuella,
   parsePreferenciasHoy,
   puedeMover,
+  desfijar,
+  estaFijado,
+  fijadosPrimero,
+  fijar,
+  moverFijado,
   quitadoDe,
   quitar,
   serializarPreferenciasHoy,
@@ -25,7 +30,7 @@ describe("preferencias de Hoy", () => {
   });
 
   it("una entrada corrupta cae al valor por defecto", () => {
-    for (const malo of [null, undefined, "", "{no", "[1,2]", 7, [], { version: 3, bloques: { orden: ["historias"] } }, { version: "2" }, "null"]) {
+    for (const malo of [null, undefined, "", "{no", "[1,2]", 7, [], { version: 4, bloques: { orden: ["historias"] } }, { version: "2" }, "null"]) {
       expect(parsePreferenciasHoy(malo)).toEqual(PREFERENCIAS_INICIALES);
     }
   });
@@ -88,12 +93,13 @@ describe("preferencias viejas y quitar de Hoy", () => {
     };
     const p = parsePreferenciasHoy(JSON.stringify(v1));
     expect(p).toEqual({
-      version: 2,
+      version: 3,
       bloques: v1.bloques,
       tarjetas: { orden: ["reto:ordinario-salmos", "libro:genesis"] },
       quitados: [{ clave: "libro:genesis", huella: null, en: "" }],
+      fijados: [],
     });
-    expect(JSON.parse(serializarPreferenciasHoy(p)).version).toBe(2);
+    expect(JSON.parse(serializarPreferenciasHoy(p)).version).toBe(3);
     expect(parsePreferenciasHoy(serializarPreferenciasHoy(p))).toEqual(p);
   });
 
@@ -121,5 +127,70 @@ describe("preferencias viejas y quitar de Hoy", () => {
     expect(parseHuella({ tipo: "reto", hechos: 1, episodios: { a: { s: "x", c: 1 }, b: 3 } })).toEqual({ tipo: "reto", hechos: 1, episodios: { a: { s: 0, c: false } }, actualizado: "" });
     const p = parsePreferenciasHoy({ version: 2, quitados: [{ clave: "libro:x", huella: { tipo: "otro" } }, { clave: "libro:x" }, { clave: 4 }, "y"] });
     expect(p.quitados).toEqual([{ clave: "libro:x", huella: null, en: "" }]);
+  });
+});
+
+describe("fijar arriba", () => {
+  const huella: Huella = { tipo: "libro", capituloId: "c2", bloqueId: null, ratio: null, actualizado: "2026-11-24T10:00:00Z" };
+  const visiblesEnOrden = ["libro:genesis", "reto:a", "libro:exodo", "reto:b"];
+
+  it("fija y desfija sin repetir", () => {
+    let p = fijar(PREFERENCIAS_INICIALES, "reto:a");
+    expect(estaFijado(p, "reto:a")).toBe(true);
+    expect(fijar(p, "reto:a")).toBe(p);
+    expect(p.fijados).toEqual(["reto:a"]);
+    p = desfijar(p, "reto:a");
+    expect(estaFijado(p, "reto:a")).toBe(false);
+    expect(p.fijados).toEqual([]);
+    expect(desfijar(p, "reto:a")).toBe(p);
+  });
+
+  it("lo fijado va primero, en el orden en que se fijó, y el resto conserva su orden", () => {
+    let p = fijar(PREFERENCIAS_INICIALES, "reto:b");
+    p = fijar(p, "libro:exodo");
+    expect(fijadosPrimero(visiblesEnOrden, p)).toEqual(["reto:b", "libro:exodo", "libro:genesis", "reto:a"]);
+    expect(fijadosPrimero(visiblesEnOrden, desfijar(p, "reto:b"))).toEqual(["libro:exodo", "libro:genesis", "reto:a", "reto:b"]);
+    expect(fijadosPrimero(["reto:a"], p)).toEqual(["reto:a"]);
+  });
+
+  it("sube y baja entre lo fijado sin salirse de los extremos", () => {
+    let p = fijar(fijar(fijar(PREFERENCIAS_INICIALES, "reto:b"), "libro:exodo"), "libro:viejo");
+    p = moverFijado(["reto:b", "libro:exodo"], p, "libro:exodo", -1);
+    expect(p.fijados).toEqual(["libro:exodo", "reto:b", "libro:viejo"]);
+    expect(moverFijado(["reto:b", "libro:exodo"], p, "libro:exodo", -1)).toBe(p);
+    expect(moverFijado(["reto:b", "libro:exodo"], p, "reto:b", 1)).toBe(p);
+  });
+
+  it("quitar algo fijado lo desfija, y fijar algo quitado lo devuelve a Hoy", () => {
+    let p = fijar(fijar(PREFERENCIAS_INICIALES, "libro:genesis"), "reto:a");
+    p = quitar(p, "libro:genesis", huella, "2026-11-25T09:00:00Z");
+    expect(p.fijados).toEqual(["reto:a"]);
+    expect(quitadoDe(p, "libro:genesis")).toBeDefined();
+    p = fijar(p, "libro:genesis");
+    expect(quitadoDe(p, "libro:genesis")).toBeUndefined();
+    expect(p.fijados).toEqual(["reto:a", "libro:genesis"]);
+  });
+
+  it("los fijados se guardan y se leen en la versión 3", () => {
+    const p = fijar(fijar(PREFERENCIAS_INICIALES, "reto:b"), "libro:exodo");
+    const texto = serializarPreferenciasHoy(p);
+    expect(JSON.parse(texto)).toMatchObject({ version: 3, fijados: ["reto:b", "libro:exodo"] });
+    expect(parsePreferenciasHoy(texto)).toEqual(p);
+    const sucio = parsePreferenciasHoy({ version: 3, fijados: ["reto:b", 4, "reto:b", "libro:x"], quitados: [{ clave: "libro:x" }] });
+    expect(sucio.fijados).toEqual(["reto:b"]);
+    expect(parsePreferenciasHoy({ version: 3, fijados: "reto:b" }).fijados).toEqual([]);
+  });
+
+  it("migra la versión 2 a la 3 sin perder nada y sin fijados", () => {
+    const v2 = {
+      version: 2,
+      bloques: { orden: ["en-curso", "camino"], ocultos: ["historias"] },
+      tarjetas: { orden: ["reto:b", "libro:genesis"] },
+      quitados: [{ clave: "libro:genesis", huella, en: "2026-11-25T09:00:00Z" }],
+      fijados: ["reto:b"],
+    };
+    const p = parsePreferenciasHoy(JSON.stringify(v2));
+    expect(p).toEqual({ version: 3, bloques: v2.bloques, tarjetas: v2.tarjetas, quitados: v2.quitados, fijados: [] });
+    expect(JSON.parse(serializarPreferenciasHoy(p)).version).toBe(3);
   });
 });

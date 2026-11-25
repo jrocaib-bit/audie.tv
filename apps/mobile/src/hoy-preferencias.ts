@@ -5,8 +5,9 @@
  *
  * Bloques: se ocultan y se muestran. Tarjetas de lo empezado: se quitan de Hoy con la huella del avance
  * de ese momento, y vuelven solas cuando el avance real cambia después (ver hoy-empezados.ts).
- * Versión 2 del contenido. La clave conserva el sufijo v1 y el parseo sigue leyendo la versión 1:
- * sus tarjetas ocultas pasan a quitadas sin huella.
+ * Tarjetas fijadas: van primero en «En curso», en el orden en que se fijaron. Quitar una tarjeta la desfija.
+ * Versión 3 del contenido. La clave conserva el sufijo v1 y el parseo sigue leyendo las versiones 1 y 2:
+ * las tarjetas ocultas de la versión 1 pasan a quitadas sin huella y las dos llegan sin fijados.
  */
 
 export const CLAVE_PREFERENCIAS_HOY = "audite.hoy.preferencias.v1";
@@ -28,17 +29,19 @@ export type Huella = HuellaLibro | HuellaReto;
 export type Quitado = { clave: string; huella: Huella | null; en: string };
 
 export type PreferenciasHoy = {
-  version: 2;
+  version: 3;
   /** Bloques estables (BLOQUES_HOY). */
   bloques: ListaOrdenada;
   /** Orden de las tarjetas de lo empezado: `libro:<slug>` y `reto:<id>`. */
   tarjetas: Orden;
   /** Tarjetas quitadas de Hoy, con la huella del avance de ese momento. */
   quitados: Quitado[];
+  /** Tarjetas fijadas arriba de «En curso», en el orden en que se fijaron. */
+  fijados: string[];
 };
 
 export const LISTA_VACIA: ListaOrdenada = { orden: [], ocultos: [] };
-export const PREFERENCIAS_INICIALES: PreferenciasHoy = { version: 2, bloques: LISTA_VACIA, tarjetas: { orden: [] }, quitados: [] };
+export const PREFERENCIAS_INICIALES: PreferenciasHoy = { version: 3, bloques: LISTA_VACIA, tarjetas: { orden: [] }, quitados: [], fijados: [] };
 
 const MAX_IDS = 200;
 const MAX_LARGO = 200;
@@ -110,8 +113,9 @@ function quitados(valor: unknown): Quitado[] {
 }
 
 /**
- * Acepta el texto guardado o el objeto ya leído, de la versión 1 o de la 2.
+ * Acepta el texto guardado o el objeto ya leído, de las versiones 1, 2 o 3, y devuelve siempre la versión 3.
  * Lo que no encaja cae al valor por defecto. Las tarjetas ocultas de la versión 1 pasan a quitadas sin huella.
+ * Las versiones 1 y 2 llegan sin fijados. Un fijado que también está quitado se lee desfijado.
  */
 export function parsePreferenciasHoy(bruto: unknown): PreferenciasHoy {
   let dato: unknown = bruto;
@@ -126,10 +130,12 @@ export function parsePreferenciasHoy(bruto: unknown): PreferenciasHoy {
   const d = dato as Record<string, unknown>;
   if (d.version === 1) {
     const tarjetas = lista(d.tarjetas);
-    return { version: 2, bloques: lista(d.bloques), tarjetas: { orden: tarjetas.orden }, quitados: tarjetas.ocultos.map((clave) => ({ clave, huella: null, en: "" })) };
+    return { version: 3, bloques: lista(d.bloques), tarjetas: { orden: tarjetas.orden }, quitados: tarjetas.ocultos.map((clave) => ({ clave, huella: null, en: "" })), fijados: [] };
   }
-  if (d.version !== 2) return PREFERENCIAS_INICIALES;
-  return { version: 2, bloques: lista(d.bloques), tarjetas: { orden: ids(objeto(d.tarjetas)?.orden) }, quitados: quitados(d.quitados) };
+  if (d.version !== 2 && d.version !== 3) return PREFERENCIAS_INICIALES;
+  const q = quitados(d.quitados);
+  const fijados = d.version === 3 ? ids(d.fijados).filter((clave) => !q.some((x) => x.clave === clave)) : [];
+  return { version: 3, bloques: lista(d.bloques), tarjetas: { orden: ids(objeto(d.tarjetas)?.orden) }, quitados: q, fijados };
 }
 
 export function serializarPreferenciasHoy(p: PreferenciasHoy): string {
@@ -203,10 +209,45 @@ export function quitadoDe(p: PreferenciasHoy, clave: string): Quitado | undefine
   return p.quitados.find((q) => q.clave === clave);
 }
 
-/** Quita una tarjeta de Hoy y guarda la huella de su avance. El progreso no se toca. */
+/** Quita una tarjeta de Hoy y guarda la huella de su avance. Si estaba fijada, la desfija. El progreso no se toca. */
 export function quitar(p: PreferenciasHoy, clave: string, huella: Huella, en: string): PreferenciasHoy {
   const resto = p.quitados.filter((q) => q.clave !== clave);
-  return { ...p, quitados: [...resto, { clave, huella, en }].slice(-MAX_IDS) };
+  return { ...p, quitados: [...resto, { clave, huella, en }].slice(-MAX_IDS), fijados: p.fijados.filter((x) => x !== clave) };
+}
+
+export function estaFijado(p: PreferenciasHoy, clave: string): boolean {
+  return p.fijados.includes(clave);
+}
+
+/** Fija una tarjeta arriba de «En curso», detrás de las que ya estaban fijadas. Si estaba quitada, vuelve a Hoy. */
+export function fijar(p: PreferenciasHoy, clave: string): PreferenciasHoy {
+  if (estaFijado(p, clave)) return p;
+  return { ...p, quitados: p.quitados.filter((q) => q.clave !== clave), fijados: [...p.fijados, clave].slice(-MAX_IDS) };
+}
+
+/** Desfija una tarjeta. Vuelve a su sitio en el orden del usuario. */
+export function desfijar(p: PreferenciasHoy, clave: string): PreferenciasHoy {
+  return estaFijado(p, clave) ? { ...p, fijados: p.fijados.filter((x) => x !== clave) } : p;
+}
+
+/**
+ * Orden de lo que se ve en «En curso»: primero lo fijado, en el orden en que se fijó, y después el resto
+ * en el orden del usuario. Recibe las claves visibles ya ordenadas.
+ */
+export function fijadosPrimero(claves: readonly string[], p: PreferenciasHoy): string[] {
+  const hay = new Set(claves);
+  const arriba = p.fijados.filter((x) => hay.has(x));
+  return [...arriba, ...claves.filter((x) => !arriba.includes(x))];
+}
+
+/** Sube (delta -1) o baja (delta 1) una tarjeta fijada entre las fijadas visibles. */
+export function moverFijado(visiblesFijados: readonly string[], p: PreferenciasHoy, clave: string, delta: -1 | 1): PreferenciasHoy {
+  const orden = p.fijados.filter((x) => visiblesFijados.includes(x));
+  const i = orden.indexOf(clave);
+  const j = i + delta;
+  if (i < 0 || j < 0 || j >= orden.length) return p;
+  [orden[i], orden[j]] = [orden[j]!, orden[i]!];
+  return { ...p, fijados: [...orden, ...p.fijados.filter((x) => !orden.includes(x))] };
 }
 
 /** Vuelve a mostrar una tarjeta quitada. */

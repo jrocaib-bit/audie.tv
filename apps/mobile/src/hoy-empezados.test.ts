@@ -12,7 +12,7 @@ import {
   tarjetasEnCurso,
   type InfoLibro,
 } from "./hoy-empezados";
-import { PREFERENCIAS_INICIALES, parsePreferenciasHoy, quitar, serializarPreferenciasHoy, volverAMostrar, type PreferenciasHoy } from "./hoy-preferencias";
+import { PREFERENCIAS_INICIALES, fijar, parsePreferenciasHoy, quitar, serializarPreferenciasHoy, volverAMostrar, type PreferenciasHoy } from "./hoy-preferencias";
 import { RETOS_APP } from "./retos-app";
 
 const indice = [{ id: "prologo" }, { id: "c1" }, { id: "c2" }, { id: "c3" }];
@@ -214,6 +214,15 @@ describe("quitar de Hoy y reaparecer al avanzar", () => {
     const p = parsePreferenciasHoy(JSON.stringify({ version: 1, tarjetas: { orden: [], ocultos: ["libro:genesis"] } }));
     expect(ver(tarjetasEnCurso(leer("c3", "2027-01-01T10:00:00Z"), []), p).quitadas).toEqual(["libro:genesis"]);
     expect(ver(tarjetasEnCurso(leer("c3", "2027-01-01T10:00:00Z"), []), volverAMostrar(p, "libro:genesis")).visibles).toEqual(["libro:genesis"]);
+  });
+
+  it("lo fijado sale primero en Hoy y, al quitarlo, se desfija y no vuelve arriba al reaparecer", () => {
+    const tarjetas = tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z"), escuchar({ "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T10:00:00Z" } }));
+    const p = fijar(PREFERENCIAS_INICIALES, "reto:a");
+    expect(ver(tarjetas, p).visibles).toEqual(["reto:a", "libro:genesis"]);
+    const quitado = quitar(p, "reto:a", huellaDe(tarjetas.find((x) => x.clave === "reto:a")!), "2026-11-25T09:00:00Z");
+    expect(ver(tarjetas, quitado)).toEqual({ visibles: ["libro:genesis"], quitadas: ["reto:a"] });
+    expect(ver(tarjetas, volverAMostrar(quitado, "reto:a")).visibles).toEqual(["libro:genesis", "reto:a"]);
   });
 
   it("una huella de otro tipo cuenta como avance nuevo", () => {

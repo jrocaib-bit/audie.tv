@@ -8,7 +8,7 @@
  * - Retos: los episodios de cada paso en `library.progress` (audite.progress.v1), como en modeloRetos.
  */
 import type { AnotacionesLibro, ProgresoLibro } from "@audite/domain";
-import { ordenar, quitadoDe, type Huella, type HuellaReto, type PreferenciasHoy, type Quitado } from "./hoy-preferencias";
+import { fijadosPrimero, ordenar, quitadoDe, type Huella, type HuellaReto, type PreferenciasHoy, type Quitado } from "./hoy-preferencias";
 
 /** Prefijo de las anotaciones locales de cada libro. Coincide con `libros/almacen.ts`. */
 export const PREFIJO_LECTURA = "audite.libros.v1.";
@@ -224,7 +224,7 @@ export function sigueQuitada(q: Quitado | undefined, t: TarjetaEnCurso): boolean
 }
 
 /**
- * Reparte lo empezado entre lo que se ve en Hoy y lo quitado, en el orden del usuario.
+ * Reparte lo empezado entre lo que se ve en Hoy y lo quitado, en el orden del usuario y con lo fijado primero.
  * Una tarjeta quitada con avance nuevo vuelve sola a `visibles`.
  */
 export function repartirEnCurso(tarjetas: readonly TarjetaEnCurso[], p: PreferenciasHoy): { visibles: TarjetaEnCurso[]; quitadas: TarjetaEnCurso[] } {
@@ -236,5 +236,6 @@ export function repartirEnCurso(tarjetas: readonly TarjetaEnCurso[], p: Preferen
     if (!t) continue;
     (sigueQuitada(quitadoDe(p, clave), t) ? quitadas : visibles).push(t);
   }
-  return { visibles, quitadas };
+  const orden = fijadosPrimero(visibles.map((t) => t.clave), p);
+  return { visibles: orden.map((clave) => porClave.get(clave)!), quitadas };
 }
