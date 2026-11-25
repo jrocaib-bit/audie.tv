@@ -4,7 +4,8 @@ export type NombreIcono =
   | "hoy" | "caminos" | "retos" | "sala" | "orbita" | "biblioteca" | "ajustes"
   | "play" | "pause" | "atras" | "adelante" | "chevron" | "abajo" | "cerrar" | "info"
   | "llama" | "check" | "candado" | "reloj" | "luna" | "texto" | "usuario" | "campana"
-  | "anterior" | "siguiente" | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro";
+  | "anterior" | "siguiente" | "ondas" | "velocidad" | "idioma" | "descarga" | "estrella" | "ayuda" | "borrar" | "libro" | "arriba" | "ojo" | "oculto" | "mas"
+  | "chincheta" | "sin-chincheta" | "deslizadores";
 
 type Props = { nombre: NombreIcono; size?: number; color: string; trazo?: number; segundos?: number };
 
@@ -55,6 +56,37 @@ export function Icono({ nombre, size = 24, color, trazo = 1.8, segundos = 15 }: 
     case "ondas": dibujo = <Path d="M6 14v5M12 5v14M18 10v9" {...linea} strokeWidth={3} />; break;
     case "chevron": dibujo = <Path d="M9 5.5l6.5 6.5L9 18.5" {...linea} />; break;
     case "abajo": dibujo = <Path d="M5.5 9l6.5 6.5L18.5 9" {...linea} />; break;
+    case "arriba": dibujo = <Path d="M5.5 15l6.5-6.5L18.5 15" {...linea} />; break;
+    case "ojo":
+    case "oculto":
+      dibujo = (
+        <>
+          <Path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" {...linea} />
+          <Circle cx={12} cy={12} r={3} {...linea} />
+          {nombre === "oculto" ? <Path d="M4 4l16 16" {...linea} /> : null}
+        </>
+      );
+      break;
+    case "mas": dibujo = (<><Circle cx={5.5} cy={12} r={1.6} fill={color} /><Circle cx={12} cy={12} r={1.6} fill={color} /><Circle cx={18.5} cy={12} r={1.6} fill={color} /></>); break;
+    case "chincheta":
+    case "sin-chincheta":
+      dibujo = (
+        <>
+          <Path d="M8.500 4h7M9.500 4v5L7 12.500h10L14.500 9V4M12 12.500V20" {...linea} />
+          {nombre === "sin-chincheta" ? <Path d="M4 4l16 16" {...linea} /> : null}
+        </>
+      );
+      break;
+    case "deslizadores":
+      dibujo = (
+        <>
+          <Path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h7M15 18h5" {...linea} />
+          <Circle cx={16} cy={6} r={2} {...linea} />
+          <Circle cx={8} cy={12} r={2} {...linea} />
+          <Circle cx={13} cy={18} r={2} {...linea} />
+        </>
+      );
+      break;
     case "cerrar": dibujo = <Path d="M6 6l12 12M18 6L6 18" {...linea} />; break;
     case "info": dibujo = (<><Circle cx={12} cy={12} r={9} {...linea} /><Path d="M12 11v5.5M12 7.8v.1" {...linea} /></>); break;
     case "llama": dibujo = <Path d="M12 3c.6 3.2 5 5.2 5 10.2a5 5 0 01-10 0c0-2.2 1-3.7 2.2-4.7.1 1.8.9 2.7 1.9 2.9C10.200 8.800 10.600 5.600 12 3z" {...linea} />; break;

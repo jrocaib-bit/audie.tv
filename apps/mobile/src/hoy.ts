@@ -102,9 +102,6 @@ export type CtxHoy = {
   actual: string | null;
   /** Episodios con audio, en el orden del catálogo. El resto no tiene audio todavía. */
   grabados: readonly string[];
-  pasosAdviento: readonly { dia: number; episodio?: string }[];
-  /** Inicio y fin del reto de Adviento. Sin ellos, el reto se trata como activo. */
-  ventanaAdviento?: { inicio: string; fin: string };
 };
 
 export function infoEpisodio(id: string, ctx: Pick<CtxHoy, "lang" | "libros" | "titulos" | "duraciones" | "rangos"> & { etiquetas?: CtxHoy["etiquetas"] }): EpisodioInfo {
@@ -138,8 +135,6 @@ export type HeroHoy = EpisodioInfo & {
 
 export type EstadoHoy = "listo" | "sin-audio" | "completado";
 
-export type RetoHoy = { titulo: string; src: string; hechos: number; total: number; fraccion: number; fase: "proximo" | "activo" | "terminado" };
-
 export type ModeloHoy = {
   saludo: string;
   /** Episodio pendiente del camino elegido. Es null cuando el camino está completo o no tiene episodios. */
@@ -150,14 +145,12 @@ export type ModeloHoy = {
   camino: { id: string; nombre: string; hechos: number; total: number; fraccion: number };
   /** Episodio a medias que no es el de hoy. */
   continuar: (EpisodioInfo & { fraccion: number }) | null;
-  adviento: RetoHoy;
   /** Historias con audio que se pueden empezar ya. */
   historias: EpisodioInfo[];
   /** Todas las obras que se pintan en Hoy, sin repetir. */
   obras: string[];
 };
 
-const ADVIENTO_SRC = "/obras/reto-adviento_o2-1x1.webp";
 const MAX_HISTORIAS = 8;
 
 export function modeloHoy(ctx: CtxHoy): ModeloHoy {
@@ -201,18 +194,6 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
   const medias = mediasId && fraccionDe(mediasId) > 0 ? mediasId : null;
   const continuar = medias ? { ...infoEpisodio(medias, ctx), fraccion: fraccionDe(medias) } : null;
 
-  const pasos = ctx.pasosAdviento;
-  const hechosAdv = pasos.filter((p) => p.episodio && ctx.progress.episodes[p.episodio]?.completed).length;
-  const v = ctx.ventanaAdviento;
-  const adviento: RetoHoy = {
-    titulo: ctx.lang === "en" ? "Advent" : "Adviento",
-    src: ADVIENTO_SRC,
-    hechos: hechosAdv,
-    total: pasos.length,
-    fraccion: pasos.length === 0 ? 0 : hechosAdv / pasos.length,
-    fase: !v ? "activo" : ctx.hoyIso < v.inicio ? "proximo" : ctx.hoyIso > v.fin ? "terminado" : "activo",
-  };
-
   // Historias: episodios con audio aún sin escuchar, sin repetir el de hoy ni el que está a medias.
   const historias: EpisodioInfo[] = [];
   for (const id of ctx.grabados) {
@@ -222,7 +203,6 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
     if (!info.src || usadas.has(info.src) || historias.some((h) => h.src === info.src)) continue;
     historias.push(info);
   }
-  usadas.add(ADVIENTO_SRC);
   for (const h of historias) usadas.add(h.src);
   if (continuar?.src) usadas.add(continuar.src);
 
@@ -234,7 +214,6 @@ export function modeloHoy(ctx: CtxHoy): ModeloHoy {
     racha: racha(ctx.progress.listenedOn, ctx.hoyIso),
     camino: { id: def.id, nombre: def.nombre[ctx.lang], hechos: avance.hechos, total: avance.total, fraccion: avance.fraccion },
     continuar,
-    adviento,
     historias,
     obras: [...usadas],
   };

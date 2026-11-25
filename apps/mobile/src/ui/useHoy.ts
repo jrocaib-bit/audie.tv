@@ -1,12 +1,7 @@
 import { localIsoDate, playableEpisodes } from "@audite/domain";
 import { useMemo } from "react";
-import retosJson from "../../../../content/tiempos/retos.json";
-import { ventanaDeReto } from "../temporadas";
 import { infoEpisodio, modeloHoy, type CtxHoy } from "../hoy";
 import { useTema } from "./tema";
-
-type Paso = { dia: number; episodio?: string };
-const PASOS: Paso[] = ((retosJson.retos as { id: string; pasos: Paso[] }[]).find((r) => r.id === "adviento-isaias")?.pasos ?? []).map((p) => ({ dia: p.dia, episodio: p.episodio }));
 
 export function useContextoCatalogo(): Pick<CtxHoy, "lang" | "libros" | "titulos" | "etiquetas" | "duraciones" | "rangos" | "actual" | "grabados"> {
   const { library, lang } = useTema();
@@ -39,8 +34,6 @@ export function useModeloHoy() {
         hora,
         progress: library.progress,
         caminoId: library.settings.caminoActivo,
-        pasosAdviento: PASOS,
-        ventanaAdviento: ventanaDeReto("adviento-isaias"),
       }),
     [base, hora, hoyIso, library.progress, library.settings.caminoActivo],
   );

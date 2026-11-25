@@ -16,6 +16,32 @@ describe("textos de Hoy y Caminos", () => {
     expect(th("en").proximamente).toBe("Coming soon");
     expect(Object.keys(th("es"))).not.toContain("retoNota");
   });
+  it("trae los textos de Editar Hoy y de lo empezado en los dos idiomas", () => {
+    expect(th("es").editarHoy).toBe("Editar Hoy");
+    expect(th("en").editarHoy).toBe("Edit Today");
+    expect(th("es").vacioTitulo).toBe("Nada empezado todavía");
+    expect(th("en").continuarLectura).toBe("Continue reading");
+    for (const valor of Object.values(th("en"))) expect(valor).not.toMatch(/[;—–]/);
+    expect(llenar(th("es").retoAvance, { n: 3, h: 2, t: 26 })).toBe("Día 3 · 2 de 26 días hechos");
+  });
+  it("trae Quitar de Hoy y la etiqueta Episodio a medias", () => {
+    expect(th("es").quitarDeHoy).toBe("Quitar de Hoy");
+    expect(th("en").quitarDeHoy).toBe("Remove from Today");
+    expect(th("es").quitadoTitulo).toBe("Quitado de Hoy");
+    expect(th("es").volverMostrar).toBe("Volver a mostrar");
+    expect(th("es").bloqueContinuar).toBe("Episodio a medias");
+    expect(th("en").bloqueContinuar).toBe("Episode in progress");
+    expect(llenar(th("es").quitarNombre, { nombre: "Salmos" })).toBe("Quitar Salmos de Hoy");
+  });
+  it("trae los textos del menú contextual y de fijar en los dos idiomas", () => {
+    expect(th("es").fijarArriba).toBe("Fijar arriba");
+    expect(th("es").desfijar).toBe("Desfijar");
+    expect(th("es").irLibro).toBe("Ir al libro");
+    expect(th("es").irReto).toBe("Ir al reto");
+    expect(th("en").fijarArriba).toBe("Pin to top");
+    expect(th("en").irReto).toBe("Go to the challenge");
+    expect(llenar(th("es").saleDeHoy, { nombre: "Salmos" })).toBe("Salmos sale de Hoy");
+  });
   it("rellena los huecos", () => {
     expect(llenar(th("es").dia, { n: 5, total: 516 })).toBe("Día 5 de 516");
     expect(llenar(th("en").cambio, { nombre: "Genesis" })).toContain("Genesis");
