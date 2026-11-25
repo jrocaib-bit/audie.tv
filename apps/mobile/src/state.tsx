@@ -1,5 +1,6 @@
 import indiceJson from "../../../content/canon/catalogo-indice.json";
 import genesisJson from "../../../content/canon/libros/gn.json";
+import resumenesEstilo from "../../../content/catalog/resumenes-estilo.json";
 import {
   STORAGE_KEYS,
   addToPath,
@@ -52,12 +53,18 @@ import { baseDeContenido, uriDeObra } from "./entorno";
 import { setAudioModeAsync, useAudioPlaylist, useAudioPlaylistStatus } from "expo-audio";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AppState } from "react-native";
+import { aplicarEstiloResumenes, type CapaEstilo } from "./resumenes-estilo";
 import { debeReafirmarSesion, MODO_AUDIO, REAFIRMAR_MS } from "./audio-sesion";
 const contentBase = baseDeContenido();
 
 const indice = indiceJson as AppCatalog;
 const genesis = genesisJson as { episodios: AppCatalog["pendientes"] };
-export const catalog: AppCatalog = { ...indice, pendientes: genesis.episodios, rangos: indice.rangos ?? [] };
+export const catalog: AppCatalog = {
+  ...indice,
+  pendientes: genesis.episodios,
+  rangos: indice.rangos ?? [],
+  episodes: aplicarEstiloResumenes(indice.episodes, resumenesEstilo as CapaEstilo),
+};
 
 const reproducibles = playableEpisodes(catalog);
 const episodiosPorId = new Map(reproducibles.map((item) => [item.id, item]));
