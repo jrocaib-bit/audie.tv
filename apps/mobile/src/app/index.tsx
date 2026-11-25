@@ -1,22 +1,25 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { estadoEnCurso, huellaDe, repartirEnCurso, type TarjetaEnCurso } from "../hoy-empezados";
-import { BLOQUES_HOY, PREFERENCIAS_INICIALES, alternarVisible, estaOculto, mover, ordenar, puedeMover, quitar, visibles, volverAMostrar, type BloqueHoy } from "../hoy-preferencias";
+import { opcionesMenu, type OpcionMenu } from "../hoy-menu";
+import { BLOQUES_HOY, PREFERENCIAS_INICIALES, alternarVisible, desfijar, estaFijado, estaOculto, fijar, mover, moverFijado, ordenar, puedeMover, quitar, visibles, volverAMostrar, type BloqueHoy, type PreferenciasHoy } from "../hoy-preferencias";
 import { fonts } from "../theme";
 import { tx } from "../textos";
 import { th, llenar } from "../textos-hoy";
 import { useHuecoInferior } from "../ui/barra-flotante";
 import { Boton, BotonRedondo, SUPERFICIE } from "../ui/Basicos";
-import { FilaEditable, FilaQuitada, HojaQuitar, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto } from "../ui/HoyEnCurso";
+import { AvisoDeshacer, FilaEditable, FilaQuitada, HojaMenu, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto, type MenuHoy } from "../ui/HoyEnCurso";
 import { Entrada } from "../ui/Entrada";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
+import { PlacaMarca, monogramaDe } from "../ui/PlacaMarca";
+import { PortadaLibro } from "../libros/portada";
 import { ProgressBar } from "../ui/ProgressBar";
 import { Pulsable } from "../ui/Pulsable";
 import { ScreenHeader } from "../ui/ScreenHeader";
-import { useTema } from "../ui/tema";
+import { hapticoMenu, useTema } from "../ui/tema";
 import { useEnCurso } from "../ui/useEnCurso";
 import { useModeloHoy } from "../ui/useHoy";
 import { usePreferenciasHoy } from "../ui/usePreferenciasHoy";
@@ -35,13 +38,28 @@ export default function Hoy() {
   const enCurso = useEnCurso();
   const { preferencias, cambiar } = usePreferenciasHoy();
   const [editando, setEditando] = useState(false);
-  const [aQuitar, setAQuitar] = useState<TarjetaEnCurso | null>(null);
+  /** Menú contextual abierto: el de una tarjeta de «En curso» o el del episodio de hoy. */
+  const [menu, setMenu] = useState<{ tipo: "tarjeta"; tarjeta: TarjetaEnCurso } | { tipo: "episodio" } | null>(null);
+  /** Aviso breve tras quitar o fijar, con las preferencias de antes para deshacer. */
+  const [aviso, setAviso] = useState<{ texto: string; previas?: PreferenciasHoy; n: number } | null>(null);
+  useEffect(() => {
+    if (!aviso) return;
+    const reloj = setTimeout(() => setAviso((a) => (a?.n === aviso.n ? null : a)), 5000);
+    return () => clearTimeout(reloj);
+  }, [aviso]);
   const { visibles: tarjetasVisibles, quitadas } = repartirEnCurso(enCurso.tarjetas, preferencias);
   const clavesVisibles = tarjetasVisibles.map((x) => x.clave);
+  const clavesFijadas = clavesVisibles.filter((k) => estaFijado(preferencias, k));
+  const clavesSueltas = clavesVisibles.filter((k) => !estaFijado(preferencias, k));
   const estadoSeccion = estadoEnCurso(enCurso.tarjetas.length, tarjetasVisibles.length);
-  /** Quita la tarjeta de Hoy con la huella de su avance actual. El progreso no se toca. */
+  const avisar = (texto: string, previas?: PreferenciasHoy) => setAviso((a) => ({ texto, previas, n: (a?.n ?? 0) + 1 }));
+  /** Quita la tarjeta de Hoy con la huella de su avance actual. Si estaba fijada, la desfija. El progreso no se toca. */
   const quitarDeHoy = (x: TarjetaEnCurso) => cambiar((p) => quitar(p, x.clave, huellaDe(x), new Date().toISOString()));
   const notaTarjeta = (x: TarjetaEnCurso) => (x.tipo === "libro" ? `${t.libroComentado} · ${detalleLibro(t, x)}` : detalleReto(t, x));
+  const abrirMenu = (siguiente: NonNullable<typeof menu>, larga: boolean) => {
+    if (larga) hapticoMenu();
+    setMenu(siguiente);
+  };
 
   const accionHero = () => {
     if (m.estado !== "listo" || !hero) return router.push("/escuchar/caminos");
@@ -64,7 +82,7 @@ export default function Hoy() {
     camino: (
       <View style={{ gap: 4 }}>
       {m.estado === "completado" || !hero ? (
-        <HeroCard c={c} kicker={`${t.miCamino} · ${m.camino.nombre}`} titulo={t.completoTitulo} aviso={t.completoCuerpo} etiquetaAccion={t.elegirOtro} tipoAccion="camino" onAccion={() => router.push("/escuchar/caminos")} />
+        <HeroCard c={c} kicker={`${t.miCamino} · ${m.camino.nombre}`} titulo={t.completoTitulo} aviso={t.completoCuerpo} etiquetaAccion={t.elegirOtro} tipoAccion="camino" onAccion={() => router.push("/escuchar/caminos")} onMantener={() => abrirMenu({ tipo: "episodio" }, true)} />
       ) : (
         <HeroCard
           c={c}
@@ -80,15 +98,21 @@ export default function Hoy() {
           etiquetaAccion={m.estado === "sin-audio" ? t.elegirOtro : library.playing && hero.actual ? t.pausar : hero.retomar ? t.seguir : t.escuchar}
           tipoAccion={m.estado === "listo" ? "play" : "camino"}
           onAccion={accionHero}
+          onMantener={() => abrirMenu({ tipo: "episodio" }, true)}
         />
       )}
-      <Pulsable onPress={() => router.push("/escuchar/caminos")} label={`${t.verCamino}. ${m.camino.nombre}`} escala={0.98} style={{ minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 6 }}>
-        <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, flexShrink: 1 }}>{t.miCamino}: {m.camino.nombre}</Text>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 4, paddingLeft: 12 }}>
-          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verCamino}</Text>
-          <Icono nombre="chevron" size={14} color={c.accent} />
-        </View>
-      </Pulsable>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Pulsable onPress={() => router.push("/escuchar/caminos")} label={`${t.verCamino}. ${m.camino.nombre}`} escala={0.98} style={{ flex: 1, minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 6 }}>
+          <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, flexShrink: 1 }}>{t.miCamino}: {m.camino.nombre}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, paddingLeft: 12 }}>
+            <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.verCamino}</Text>
+            <Icono nombre="chevron" size={14} color={c.accent} />
+          </View>
+        </Pulsable>
+        <Pulsable onPress={() => abrirMenu({ tipo: "episodio" }, false)} label={t.opcionesEpisodio} escala={0.9} style={{ width: 44, height: 44, alignItems: "center", justifyContent: "center" }}>
+          <Icono nombre="mas" size={20} color={c.muted} />
+        </Pulsable>
+      </View>
       </View>
     ),
     "en-curso": (
@@ -100,9 +124,9 @@ export default function Hoy() {
         {estadoSeccion === "lista"
           ? tarjetasVisibles.map((x) =>
               x.tipo === "libro" ? (
-                <TarjetaLibro key={x.clave} c={c} t={t} libro={x} onPress={() => router.push(`/libros/${x.slug}/leer`)} onOpciones={() => setAQuitar(x)} />
+                <TarjetaLibro key={x.clave} c={c} t={t} libro={x} fijado={estaFijado(preferencias, x.clave)} onPress={() => router.push(`/libros/${x.slug}/leer`)} onOpciones={() => abrirMenu({ tipo: "tarjeta", tarjeta: x }, true)} />
               ) : (
-                <TarjetaReto key={x.clave} c={c} t={t} reto={x} onPress={() => router.push(`/reto/${x.id}`)} onOpciones={() => setAQuitar(x)} />
+                <TarjetaReto key={x.clave} c={c} t={t} reto={x} fijado={estaFijado(preferencias, x.clave)} onPress={() => router.push(`/reto/${x.id}`)} onOpciones={() => abrirMenu({ tipo: "tarjeta", tarjeta: x }, true)} />
               ),
             )
           : enCurso.listo ? (
@@ -194,20 +218,26 @@ export default function Hoy() {
             {b === "en-curso"
               ? tarjetasVisibles.map((x) => {
                   const k = x.clave;
-                  const movT = puedeMover(clavesVisibles, preferencias.tarjetas, k);
+                  // Lo fijado se ordena entre lo fijado y el resto entre el resto: lo fijado va siempre primero.
+                  const fijado = estaFijado(preferencias, k);
+                  const grupo = fijado ? clavesFijadas : clavesSueltas;
+                  const i = grupo.indexOf(k);
+                  const moverT = (delta: -1 | 1) =>
+                    cambiar((p) => (fijado ? moverFijado(clavesFijadas, p, k, delta) : { ...p, tarjetas: mover(clavesSueltas, p.tarjetas, k, delta) }));
                   return (
                     <FilaEditable
                       key={k}
                       c={c}
                       t={t}
                       sangria
+                      fijado={fijado}
                       nombre={x.titulo}
-                      nota={notaTarjeta(x)}
-                      subir={movT.subir}
-                      bajar={movT.bajar}
+                      nota={fijado ? `${t.fijado} · ${notaTarjeta(x)}` : notaTarjeta(x)}
+                      subir={i > 0}
+                      bajar={i >= 0 && i < grupo.length - 1}
                       onQuitar={() => quitarDeHoy(x)}
-                      onSubir={() => cambiar((p) => ({ ...p, tarjetas: mover(clavesVisibles, p.tarjetas, k, -1) }))}
-                      onBajar={() => cambiar((p) => ({ ...p, tarjetas: mover(clavesVisibles, p.tarjetas, k, 1) }))}
+                      onSubir={() => moverT(-1)}
+                      onBajar={() => moverT(1)}
                     />
                   );
                 })
@@ -230,50 +260,123 @@ export default function Hoy() {
     </View>
   );
 
+  /** Arriba a la derecha, como en iOS: los deslizadores abren Editar Hoy y en edición se cambian por «Listo». */
   const botonEditar = (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-      <Pulsable
-        onPress={() => setEditando((e) => !e)}
-        label={editando ? t.listo : t.editarHoy}
-        haptica
-        escala={0.94}
-        style={{ minHeight: 44, minWidth: 44, paddingHorizontal: 16, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: editando ? c.accent : c.card }}
-      >
-        <Text style={{ color: editando ? c.accentInk : c.ink, fontFamily: fonts.medium, fontSize: 15, fontWeight: "600" }}>{editando ? t.listo : t.editar}</Text>
-      </Pulsable>
+      {editando ? (
+        <Pulsable
+          onPress={() => setEditando(false)}
+          label={t.listo}
+          haptica
+          escala={0.94}
+          style={{ minHeight: 44, minWidth: 44, paddingHorizontal: 18, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: c.accent }}
+        >
+          <Text style={{ color: c.accentInk, fontFamily: fonts.medium, fontSize: 15, fontWeight: "700" }}>{t.listo}</Text>
+        </Pulsable>
+      ) : (
+        <BotonRedondo c={c} nombre="deslizadores" label={t.editarHoy} onPress={() => setEditando(true)} />
+      )}
       <BotonRedondo c={c} nombre="usuario" label="Ajustes" onPress={() => router.push("/ajustes")} />
     </View>
   );
 
-  return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
-      <ScreenHeader c={c} kicker={editando ? t.editarHoy : m.saludo} titulo={hoyTitulo} derecha={botonEditar} />
-      <View style={{ paddingHorizontal: 20, gap: 28, paddingTop: 8 }}>
-        {editando ? (
-          editor
-        ) : pintados.length > 0 ? (
-          pintados.map((b, i) => (
-            <Entrada key={b} orden={i}>
-              {bloques[b]}
-            </Entrada>
-          ))
-        ) : (
-          <View style={{ borderRadius: SUPERFICIE.radioFila, padding: 18, gap: 12, backgroundColor: c.card }}>
-            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{t.todoOculto}</Text>
-            <Boton c={c} secundario texto={t.editarHoy} onPress={() => setEditando(true)} style={{ minHeight: 48 }} />
-          </View>
-        )}
-      </View>
-      <HojaQuitar
-        c={c}
-        t={t}
-        tarjeta={aQuitar}
-        onCerrar={() => setAQuitar(null)}
-        onQuitar={(x) => {
+  const tarjetaMenu = menu?.tipo === "tarjeta" ? menu.tarjeta : null;
+  const datosMenu: MenuHoy | null = !menu
+    ? null
+    : tarjetaMenu
+      ? {
+          titulo: tarjetaMenu.titulo,
+          detalle: tarjetaMenu.tipo === "libro" ? `${t.libroComentado} · ${detalleLibro(t, tarjetaMenu)}` : detalleReto(t, tarjetaMenu),
+          imagen:
+            tarjetaMenu.tipo === "libro" ? (
+              tarjetaMenu.volumen ? <PortadaLibro volumen={tarjetaMenu.volumen} titulo={tarjetaMenu.titulo} ancho={38} /> : <Icono nombre="libro" size={28} color={c.accent} />
+            ) : tarjetaMenu.sinObra || !tarjetaMenu.src ? (
+              <PlacaMarca monograma={monogramaDe(tarjetaMenu.titulo)} size={52} style={{ width: 52, height: 52, borderRadius: 12 }} />
+            ) : (
+              <ObraMarco src={tarjetaMenu.src} style={{ width: 52, height: 52, borderRadius: 12 }} />
+            ),
+          opciones: opcionesMenu({ tipo: tarjetaMenu.tipo, fijado: estaFijado(preferencias, tarjetaMenu.clave) }),
+          nota: t.quitarCuerpo,
+        }
+      : {
+          titulo: hero && m.estado !== "completado" ? hero.titulo : t.completoTitulo,
+          detalle: hero && m.estado !== "completado" ? `${t.bloqueCamino} · ${llenar(t.dia, { n: hero.dia, total: hero.total })}` : `${t.miCamino}: ${m.camino.nombre}`,
+          imagen: hero?.src && m.estado !== "completado" ? <ObraMarco src={hero.src} style={{ width: 52, height: 52, borderRadius: 12 }} /> : undefined,
+          opciones: opcionesMenu({ tipo: "episodio" }),
+          nota: t.quitarEpisodioCuerpo,
+        };
+
+  const elegir = (opcion: OpcionMenu) => {
+    const x = tarjetaMenu;
+    setMenu(null);
+    const previas = preferencias;
+    switch (opcion) {
+      case "fijar":
+        if (!x) return;
+        cambiar((p) => fijar(p, x.clave));
+        return avisar(llenar(t.fijadoArriba, { nombre: x.titulo }), previas);
+      case "desfijar":
+        if (x) cambiar((p) => desfijar(p, x.clave));
+        return;
+      case "ir-libro":
+        if (x?.tipo === "libro") router.push(`/libros/${x.slug}/leer`);
+        return;
+      case "ir-reto":
+        if (x?.tipo === "reto") router.push(`/reto/${x.id}`);
+        return;
+      case "ver-camino":
+        return router.push("/escuchar/caminos");
+      case "editar-hoy":
+        return setEditando(true);
+      case "quitar":
+        if (x) {
           quitarDeHoy(x);
-          setAQuitar(null);
-        }}
-      />
-    </ScrollView>
+          return avisar(llenar(t.saleDeHoy, { nombre: x.titulo }), previas);
+        }
+        cambiar((p) => (estaOculto(p.bloques, "camino") ? p : { ...p, bloques: alternarVisible(p.bloques, "camino") }));
+        return avisar(llenar(t.saleDeHoy, { nombre: t.bloqueCamino }), previas);
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: c.bg }}>
+      <ScrollView style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + hueco }} showsVerticalScrollIndicator={false}>
+        <ScreenHeader c={c} kicker={editando ? t.editarHoy : m.saludo} titulo={hoyTitulo} derecha={botonEditar} />
+        <View style={{ paddingHorizontal: 20, gap: 28, paddingTop: 8 }}>
+          {editando ? (
+            editor
+          ) : pintados.length > 0 ? (
+            pintados.map((b, i) => (
+              <Entrada key={b} orden={i}>
+                {bloques[b]}
+              </Entrada>
+            ))
+          ) : (
+            <View style={{ borderRadius: SUPERFICIE.radioFila, padding: 18, gap: 12, backgroundColor: c.card }}>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{t.todoOculto}</Text>
+              <Boton c={c} secundario texto={t.editarHoy} onPress={() => setEditando(true)} style={{ minHeight: 48 }} />
+            </View>
+          )}
+        </View>
+      </ScrollView>
+      {aviso ? (
+        <AvisoDeshacer
+          c={c}
+          t={t}
+          texto={aviso.texto}
+          abajo={hueco + 12}
+          onDeshacer={
+            aviso.previas
+              ? () => {
+                  const previas = aviso.previas!;
+                  cambiar(() => previas);
+                  setAviso(null);
+                }
+              : undefined
+          }
+        />
+      ) : null}
+      <HojaMenu c={c} t={t} menu={datosMenu} onElegir={elegir} onCerrar={() => setMenu(null)} />
+    </View>
   );
 }
