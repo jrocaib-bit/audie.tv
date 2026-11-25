@@ -12,6 +12,7 @@ import { PortadaLibro } from "../libros/portada";
 import { SUBTITULO_LIBROS, TITULO_LIBROS } from "../libros/textos";
 import { useColoresLibros } from "../libros/tema";
 import { ui } from "../theme";
+import { SUPERFICIE } from "../ui/Basicos";
 import { useHuecoInferior } from "../ui/barra-flotante";
 
 /** Lo mínimo de una tarjeta. Sale de la estantería (14 KB) y, si no hay estantería, del catálogo. */
@@ -71,7 +72,7 @@ export default function Libros() {
                 precargarCubierta(item.volumen);
               }}
               onPress={() => router.push(`/libros/${item.slug}` as never)}
-              style={{ flexDirection: "row", gap: 16, marginHorizontal: 22, marginBottom: 14, padding: 14, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.card, opacity: borrador ? 0.7 : 1, minHeight: 64 }}
+              style={{ flexDirection: "row", gap: 16, marginHorizontal: 20, marginBottom: 12, padding: 14, borderRadius: SUPERFICIE.radioFila, backgroundColor: colors.card, opacity: borrador ? 0.7 : 1, minHeight: 64 }}
             >
               <PortadaLibro volumen={item.volumen} titulo={item.titulo} ancho={72} />
               <View style={{ flex: 1, gap: 4, justifyContent: "center" }}>

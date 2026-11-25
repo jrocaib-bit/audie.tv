@@ -6,6 +6,7 @@ import { fechaCorta, modeloRetos, organizarRetos, ventanaDeReto, type TarjetaRet
 import { fonts } from "../theme";
 import { tx } from "../textos";
 import { useHuecoInferior } from "../ui/barra-flotante";
+import { IconoCirculo, SUPERFICIE } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { Icono } from "../ui/Icono";
 import { ProgressBar } from "../ui/ProgressBar";
@@ -76,8 +77,9 @@ export default function Retos() {
         ) : null}
 
         <Entrada orden={4} style={{ paddingHorizontal: 20 }}>
-          <Pulsable onPress={() => router.navigate("/camino")} label={`${t.bibliaEntera}. ${p.hechos} ${t.de} ${p.total}`} haptica style={{ minHeight: 72, borderRadius: 22, padding: 16, gap: 10, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <Pulsable onPress={() => router.navigate("/camino")} label={`${t.bibliaEntera}. ${p.hechos} ${t.de} ${p.total}`} haptica style={{ minHeight: 72, borderRadius: SUPERFICIE.radioFila, padding: 16, gap: 12, backgroundColor: c.card }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+              <IconoCirculo c={c} nombre="caminos" size={40} />
               <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{t.bibliaEntera}</Text>
               <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{p.hechos} {t.de} {p.total}</Text>
               <Icono nombre="chevron" size={18} color={c.muted} />

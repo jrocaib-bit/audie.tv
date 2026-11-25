@@ -7,7 +7,7 @@ import { infoEpisodio, duracionCorta } from "../hoy";
 import { fonts } from "../theme";
 import { tx } from "../textos";
 import { useHuecoInferior } from "../ui/barra-flotante";
-import { Chip } from "../ui/Basicos";
+import { Chip, IconoCirculo, SUPERFICIE } from "../ui/Basicos";
 import { Icono } from "../ui/Icono";
 import { ObraMarco } from "../ui/ObraMarco";
 import { Pulsable } from "../ui/Pulsable";
@@ -64,14 +64,23 @@ export default function Biblioteca() {
       ListHeaderComponent={
         <View style={{ gap: 12, paddingBottom: 12 }}>
           <ScreenHeader c={c} titulo={t.biblioteca} />
-          <Pulsable onPress={() => router.push("/libros")} label="Libros" escala={0.985} style={{ marginHorizontal: 20, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 16, justifyContent: "center", gap: 2, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>Libros</Text>
-            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>Comentarios a la Escritura, con adelanto gratis.</Text>
-          </Pulsable>
-          <Pulsable onPress={() => router.push("/biblia")} label={m.bibleLink} escala={0.985} style={{ marginHorizontal: 20, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 16, justifyContent: "center", gap: 2, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <Text style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>{m.bibleLink}</Text>
-            <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20 }}>{m.bibleIntro}</Text>
-          </Pulsable>
+          {/* Dos accesos en rejilla: tarjetas grandes con icono en círculo y una línea de contexto. */}
+          <View style={{ flexDirection: "row", gap: 12, marginHorizontal: 20 }}>
+            <Pulsable onPress={() => router.push("/libros")} label="Libros" escala={0.97} style={{ flex: 1, minHeight: 148, padding: 16, borderRadius: SUPERFICIE.radio, gap: 12, backgroundColor: c.card }}>
+              <IconoCirculo c={c} nombre="libro" />
+              <View style={{ gap: 4 }}>
+                <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 22 }}>Libros</Text>
+                <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>Comentarios a la Escritura, con adelanto gratis.</Text>
+              </View>
+            </Pulsable>
+            <Pulsable onPress={() => router.push("/biblia")} label={m.bibleLink} escala={0.97} style={{ flex: 1, minHeight: 148, padding: 16, borderRadius: SUPERFICIE.radio, gap: 12, backgroundColor: c.card }}>
+              <IconoCirculo c={c} nombre="biblioteca" />
+              <View style={{ gap: 4 }}>
+                <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 22 }}>{m.bibleLink}</Text>
+                <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 16 }}>{m.bibleIntro}</Text>
+              </View>
+            </Pulsable>
+          </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 20 }}>
             {libros.map((libro) => (
               <Chip key={libro.id} c={c} texto={libro.name[lang] || libro.name.es} activo={libro.id === abierto} onPress={() => setAbierto(libro.id)} />
@@ -87,11 +96,11 @@ export default function Biblioteca() {
         const actual = grabado?.id === ctx.actual;
         const abrir = grabado ? () => { reproducir(grabado.id, { contexto: { tipo: "libro", id: abierto } }); } : undefined;
         return (
-          <Pulsable onPress={abrir} disabled={!abrir} label={titulo} escala={0.985} style={{ marginHorizontal: 20, marginBottom: 10, padding: 10, borderRadius: 20, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}>
-            <ObraMarco src={info.src} style={{ width: 72, height: 72, borderRadius: 14 }} desenfoque={12} />
+          <Pulsable onPress={abrir} disabled={!abrir} label={titulo} escala={0.985} style={{ marginHorizontal: 20, marginBottom: 10, padding: 10, borderRadius: SUPERFICIE.radioFila, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card }}>
+            <ObraMarco src={info.src} style={{ width: 72, height: 72, borderRadius: 16 }} desenfoque={12} />
             <View style={{ flex: 1, gap: 3 }}>
-              <Text numberOfLines={2} style={{ color: actual ? c.accent : c.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 24 }}>{titulo}</Text>
-              <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{[item.capitulos, meta].filter(Boolean).join(" · ")}</Text>
+              <Text numberOfLines={2} style={{ color: actual ? c.accent : c.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 23 }}>{titulo}</Text>
+              <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{[item.capitulos, meta].filter(Boolean).join(" · ")}</Text>
             </View>
             <View style={{ alignItems: "flex-end", gap: 6 }}>
               {actual ? <Icono nombre="ondas" size={22} color={c.accent} /> : null}

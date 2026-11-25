@@ -7,6 +7,7 @@ import { tx } from "../textos";
 import { th, llenar } from "../textos-hoy";
 import { localIsoDate } from "@audite/domain";
 import { useHuecoInferior } from "../ui/barra-flotante";
+import { SUPERFICIE } from "../ui/Basicos";
 import { Entrada } from "../ui/Entrada";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
@@ -92,13 +93,13 @@ export default function Hoy() {
             <Pulsable
               onPress={() => reproducirId(m.continuar!.id)}
               label={`${t.seguir}. ${m.continuar.titulo}`}
-              style={{ borderRadius: 24, padding: 14, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line }}
+              style={{ borderRadius: SUPERFICIE.radioFila, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card }}
             >
-              <ObraMarco src={m.continuar.src} style={{ width: 60, height: 60, borderRadius: 12 }} />
+              <ObraMarco src={m.continuar.src} style={{ width: 64, height: 64, borderRadius: 16 }} />
               <View style={{ flex: 1, gap: 6 }}>
                 <View>
                   <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19 }}>{m.continuar.titulo}</Text>
-                  <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{m.continuar.subtitulo}</Text>
+                  <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{m.continuar.subtitulo}</Text>
                 </View>
                 <ProgressBar fraccion={m.continuar.fraccion} color={c.accent} pista={c.line} alto={4} />
               </View>
@@ -111,14 +112,16 @@ export default function Hoy() {
 
         <Entrada orden={2} style={{ gap: 4 }}>
           {encabezado(retoTitulo, { etiqueta: t.todosRetos, onPress: () => router.push("/retos") })}
-          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={`${m.adviento.titulo}. ${retoTexto}`} style={{ borderRadius: 24, padding: 14, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, minHeight: 88 }}>
-            <ObraMarco src={m.adviento.src} style={{ width: 60, height: 60, borderRadius: 12 }} />
+          <Pulsable onPress={() => router.push("/reto/adviento-isaias")} label={`${m.adviento.titulo}. ${retoTexto}`} style={{ borderRadius: SUPERFICIE.radioFila, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, minHeight: 88 }}>
+            <ObraMarco src={m.adviento.src} style={{ width: 64, height: 64, borderRadius: 16 }} />
             <View style={{ flex: 1, gap: 4 }}>
-              <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22 }}>{m.adviento.titulo}</Text>
-              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{retoTexto}</Text>
+              <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 20 }}>{m.adviento.titulo}</Text>
+              <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{retoTexto}</Text>
               {m.adviento.fase === "activo" ? <ProgressBar fraccion={m.adviento.fraccion} color={c.accent} pista={c.line} alto={4} /> : null}
             </View>
-            <Icono nombre="chevron" size={18} color={c.muted} />
+            <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: SUPERFICIE.suave, alignItems: "center", justifyContent: "center" }}>
+              <Icono nombre="chevron" size={16} color={c.ink} />
+            </View>
           </Pulsable>
         </Entrada>
 
@@ -129,10 +132,10 @@ export default function Hoy() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 14, paddingHorizontal: 20 }} style={{ marginHorizontal: -20 }}>
               {m.historias.map((h) => (
                 <Pulsable key={h.id} onPress={() => reproducirId(h.id, { contexto: { tipo: "libro", id: h.id.split("-")[0] ?? "" } })} label={`${h.titulo}. ${h.subtitulo}`} style={{ width: 156, gap: 8 }}>
-                  <ObraMarco src={h.src} style={{ width: 156, height: 118, borderRadius: 18 }} />
+                  <ObraMarco src={h.src} style={{ width: 156, height: 118, borderRadius: SUPERFICIE.radioFila }} />
                   <View style={{ gap: 2 }}>
                     <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 21 }}>{h.titulo}</Text>
-                    <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 14 }}>{h.subtitulo}</Text>
+                    <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{h.subtitulo}</Text>
                   </View>
                 </Pulsable>
               ))}
