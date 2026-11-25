@@ -13,10 +13,10 @@ import type { Paleta } from "./tema";
 
 type Textos = ReturnType<typeof th>;
 
-/** Fila de lo empezado: obra a la izquierda, título, avance y barra, y la acción en color de acento. */
-function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion, accion }: { c: Paleta; label: string; onPress: () => void; imagen: React.ReactNode; titulo: string; detalle: string; fraccion: number; accion: string }) {
+/** Fila de lo empezado: obra a la izquierda, título, avance y barra, y el botón de seguir en color de acento. */
+function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion }: { c: Paleta; label: string; onPress: () => void; imagen: React.ReactNode; titulo: string; detalle: string; fraccion: number }) {
   return (
-    <Pulsable onPress={onPress} label={label} style={{ borderRadius: SUPERFICIE.radioFila, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, minHeight: 96 }}>
+    <Pulsable onPress={onPress} label={label} style={{ borderRadius: SUPERFICIE.radioFila, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, minHeight: 88 }}>
       {imagen}
       <View style={{ flex: 1, gap: 6 }}>
         <View>
@@ -24,10 +24,9 @@ function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion, acc
           <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{detalle}</Text>
         </View>
         <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={4} />
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
-          <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{accion}</Text>
-          <Icono nombre="chevron" size={13} color={c.accent} />
-        </View>
+      </View>
+      <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+        <Icono nombre="chevron" size={18} color={c.accentInk} trazo={2.4} />
       </View>
     </Pulsable>
   );
@@ -48,11 +47,10 @@ export function TarjetaLibro({ c, t, libro, onPress }: { c: Paleta; t: Textos; l
       c={c}
       label={`${t.continuarLectura}. ${libro.titulo}. ${detalle}`}
       onPress={onPress}
-      imagen={libro.volumen ? <PortadaLibro volumen={libro.volumen} titulo={libro.titulo} ancho={48} /> : <IconoCirculo nombre="libro" c={c} size={64} />}
+      imagen={libro.volumen ? <PortadaLibro volumen={libro.volumen} titulo={libro.titulo} ancho={42} /> : <IconoCirculo nombre="libro" c={c} size={64} />}
       titulo={libro.titulo}
       detalle={detalle}
       fraccion={libro.fraccion}
-      accion={t.continuarLectura}
     />
   );
 }
@@ -63,13 +61,12 @@ export function TarjetaReto({ c, t, reto, onPress }: { c: Paleta; t: Textos; ret
   return (
     <FilaEnCurso
       c={c}
-      label={`${reto.titulo}. ${detalle}`}
+      label={`${t.seguirReto}. ${reto.titulo}. ${detalle}`}
       onPress={onPress}
       imagen={reto.sinObra || !reto.src ? <PlacaMarca monograma={monogramaDe(reto.titulo)} size={64} style={estilo} /> : <ObraMarco src={reto.src} style={estilo} />}
       titulo={reto.titulo}
       detalle={detalle}
       fraccion={reto.fraccion}
-      accion={t.seguirReto}
     />
   );
 }
