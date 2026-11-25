@@ -1,4 +1,4 @@
-import { AUTH_URLS, cargaLocal, planDeMigracion, type Sesion } from "@audite/domain";
+import { AUTH_URLS, cargaLocal, esEnlaceAuth, parsearEnlaceAuth, planDeMigracion, type Sesion } from "@audite/domain";
 import { CLAVE_MARCADORES, parseMarcadores } from "@audite/domain";
 import { STORAGE_KEYS, parseProgress } from "@audite/domain";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -23,6 +23,7 @@ export function supabaseApp(): SupabaseClient | null {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: false,
+      flowType: "pkce",
     },
   });
   return cliente;
@@ -105,4 +106,57 @@ async function migrarApp(userId: string): Promise<void> {
     if (plan.dias.length) await remoto.from("listening_days").upsert(plan.dias.map((day) => ({ user_id: userId, day })));
   }
   await AsyncStorage.setItem(clave, "1");
+}
+
+
+export async function confirmarCodigoApp(email: string, token: string): Promise<Sesion> {
+  const remoto = supabaseApp();
+  if (!remoto) throw new Error("sin-config");
+  const { data, error } = await remoto.auth.verifyOtp({
+    email: email.trim(),
+    token: token.trim(),
+    type: "email",
+  });
+  if (error || !data.user) throw new Error(error?.message ?? "otp");
+  await migrarApp(data.user.id);
+  return { userId: data.user.id, email: data.user.email ?? null, proveedor: "correo" };
+}
+
+/** Intercambia el enlace de acceso (code, token_hash o tokens). No registra el contenido de la URL. */
+export async function aplicarEnlaceAuth(url: string): Promise<Sesion | null> {
+  const remoto = supabaseApp();
+  if (!remoto || !esEnlaceAuth(url)) return null;
+  const carga = parsearEnlaceAuth(url);
+  if (!carga) return null;
+  if (carga.tipo === "code") {
+    const { data, error } = await remoto.auth.exchangeCodeForSession(carga.code);
+    if (error || !data.user) return null;
+    await migrarApp(data.user.id);
+    return { userId: data.user.id, email: data.user.email ?? null, proveedor: "correo" };
+  }
+  if (carga.tipo === "token_hash") {
+    const { data, error } = await remoto.auth.verifyOtp({ token_hash: carga.tokenHash, type: carga.otpType });
+    if (error || !data.user) return null;
+    await migrarApp(data.user.id);
+    return { userId: data.user.id, email: data.user.email ?? null, proveedor: "correo" };
+  }
+  const { data, error } = await remoto.auth.setSession({
+    access_token: carga.accessToken,
+    refresh_token: carga.refreshToken,
+  });
+  if (error || !data.user) return null;
+  await migrarApp(data.user.id);
+  return { userId: data.user.id, email: data.user.email ?? null, proveedor: "correo" };
+}
+
+/** Token de acceso de la sesión actual (Supabase lo renueva si hace falta), o null sin sesión. */
+export async function tokenAcceso(): Promise<string | null> {
+  const remoto = supabaseApp();
+  if (!remoto) return null;
+  try {
+    const { data } = await remoto.auth.getSession();
+    return data.session?.access_token ?? null;
+  } catch {
+    return null;
+  }
 }

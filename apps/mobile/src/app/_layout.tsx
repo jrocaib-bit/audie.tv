@@ -1,83 +1,106 @@
 import { useFonts } from "expo-font";
-import { t } from "@audite/domain";
 import { Stack, usePathname, useRouter } from "expo-router";
-import { Platform, Pressable, Text, View, useColorScheme } from "react-native";
-import { Mark, Wordmark } from "../brand";
+import { useEffect } from "react";
+import { pendienteListo } from "../acceso";
+import { Platform, View } from "react-native";
 import { fuenteGazpacho } from "../gazpacho";
-import { MobileProvider, useMobileLibrary } from "../state";
-import { dark, fonts, light } from "../theme";
-
-const tabs = [
-  { href: "/", label: "navListen" },
-  { href: "/camino", label: "navPath" },
-  { href: "/biblioteca", label: "navLibrary" },
-  { href: "/libros", label: "navBooks" },
-  { href: "/ajustes", label: "navSettings" },
-] as const;
+import { MobileProvider } from "../state";
+import { textoErrorAudio, tx } from "../textos";
+import { MiniPlayer } from "../ui/MiniPlayer";
+import { RUTAS_PESTANAS, debeMostrarMini } from "../ui/mini";
+import { TabBar, type PestanaDef } from "../ui/TabBar";
+import { useTema } from "../ui/tema";
+import { useEpisodioCargado } from "../ui/useHoy";
+import { useCola } from "../ui/useCola";
+import { useAuthEnlace } from "../ui/useAuthEnlace";
+import { useReproducir } from "../ui/useReproducir";
 
 function Shell() {
-  const library = useMobileLibrary();
-  const scheme = useColorScheme();
+  const { c, lang, library } = useTema();
+  const t = tx(lang);
   const path = usePathname();
   const router = useRouter();
-  const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
-  const locale = library.settings.uiLocale;
-  const immersive = path === "/ahora" || path === "/entrar" || path === "/suscripcion" || path === "/eliminar-cuenta";
+  const cargado = useEpisodioCargado();
+  const reproducir = useReproducir();
+  const cola = useCola();
+  const listoPendiente = pendienteListo(library.pendiente, Boolean(library.sesion));
+  const enPestana = RUTAS_PESTANAS.includes(path);
+  const pestanas: PestanaDef[] = [
+    { href: "/", icono: "hoy", etiqueta: t.tabHoy },
+    { href: "/camino", icono: "caminos", etiqueta: t.tabCaminos },
+    { href: "/retos", icono: "retos", etiqueta: t.tabRetos },
+    { href: "/biblioteca", icono: "biblioteca", etiqueta: t.tabBiblioteca },
+    { href: "/libros", icono: "libro", etiqueta: t.tabLibros },
+    { href: "/sala", icono: "sala", etiqueta: t.tabSala },
+  ];
+
+  useEffect(() => {
+    if (library.hydrated && !library.settings.bienvenidaHecha && path !== "/bienvenida") router.replace("/bienvenida");
+  }, [library.hydrated, library.settings.bienvenidaHecha, path, router]);
+
+  // Al aparecer la sesión se cierra la hoja de cuenta y arranca lo que se quiso escuchar.
+  useEffect(() => {
+    if (!listoPendiente) return;
+    library.setPendiente(null);
+    if (path === "/cuenta") router.back();
+    const espera = setTimeout(() => {
+      library.playEpisode(listoPendiente);
+      router.navigate("/ahora");
+    }, 150);
+    return () => clearTimeout(espera);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listoPendiente]);
+
+  const cabecera = { headerShown: true, title: "", headerBackButtonDisplayMode: "minimal" as const, headerStyle: { backgroundColor: c.bg }, headerTintColor: c.ink, headerShadowVisible: false };
+
   return (
-    <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: immersive ? colors.gallery : colors.bg },
-          headerTintColor: immersive ? "#f4ece2" : colors.ink,
-          contentStyle: { backgroundColor: immersive ? colors.gallery : colors.bg },
-          headerShadowVisible: false,
-          headerTitle: () => (
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Mark color={immersive ? "#f4ece2" : colors.ink} paper={immersive ? colors.gallery : colors.bg} />
-              <Wordmark color={immersive ? "#f4ece2" : colors.ink} />
-            </View>
-          ),
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: t(locale, "wordmark") }} />
-        <Stack.Screen name="camino" />
-        <Stack.Screen name="biblioteca" />
-        <Stack.Screen name="ajustes" />
-        <Stack.Screen name="descargas" />
-        <Stack.Screen name="avisos" />
-        <Stack.Screen name="notas" />
-        <Stack.Screen name="referencias" />
-        <Stack.Screen name="leer" />
-        <Stack.Screen name="libros" options={{ title: "Libros" }} />
-        <Stack.Screen name="libros/[slug]" options={{ title: "Libros" }} />
-        <Stack.Screen name="libros/[slug]/leer" options={{ title: "Libros" }} />
-        <Stack.Screen name="entrar" options={{ headerShown: false }} />
-        <Stack.Screen name="suscripcion" options={{ headerShown: false }} />
-        <Stack.Screen name="eliminar-cuenta" options={{ headerShown: false }} />
-        <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
-        <Stack.Screen name="ahora" options={{ headerShown: false }} />
-        <Stack.Screen name="catalogo" options={{ headerShown: false }} />
-        <Stack.Screen name="reto-adviento" options={{ title: t(locale, "navPath") }} />
+    <View style={{ flex: 1, backgroundColor: c.bg }}>
+      <View style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: Platform.OS === "web" ? "none" : "default" }}>
+        <Stack.Screen name="descargas" options={cabecera} />
+        <Stack.Screen name="notas" options={cabecera} />
+        <Stack.Screen name="referencias" options={cabecera} />
+        <Stack.Screen name="leer" options={cabecera} />
+        <Stack.Screen name="creditos" options={cabecera} />
+        <Stack.Screen name="reto/[id]" options={cabecera} />
+        <Stack.Screen name="biblia" options={cabecera} />
+        <Stack.Screen name="libros/[slug]" options={cabecera} />
+        <Stack.Screen name="libros/[slug]/leer" options={cabecera} />
+        <Stack.Screen name="bienvenida" options={{ contentStyle: { backgroundColor: "#0C0B09" }, animation: "fade" }} />
+        <Stack.Screen name="entrar" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
+        <Stack.Screen name="suscripcion" options={{ contentStyle: { backgroundColor: "#100E0C" } }} />
+        <Stack.Screen name="eliminar-cuenta" options={{ contentStyle: { backgroundColor: "#0C0B09" } }} />
+        <Stack.Screen name="cuenta" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
+        <Stack.Screen name="cola" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
+        <Stack.Screen name="ahora" options={{ presentation: "modal", contentStyle: { backgroundColor: "#0C0B09" }, animation: Platform.OS === "web" ? "none" : "slide_from_bottom" }} />
       </Stack>
-      {immersive ? null : (
-        <View style={{ flexDirection: "row", borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.bg }}>
-          {tabs.map((tab) => {
-            const current = tab.href === "/" ? path === "/" : path === tab.href || (tab.href === "/libros" && path.startsWith("/libros/"));
-            return (
-              <Pressable
-                key={tab.href}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: current }}
-                accessibilityLabel={t(locale, tab.label)}
-                onPress={() => router.push(tab.href)}
-                style={{ flex: 1, minHeight: 56, alignItems: "center", justifyContent: "center" }}
-              >
-                <Text style={{ color: current ? colors.ink : colors.muted, fontFamily: fonts.medium, fontSize: 12 }}>{t(locale, tab.label)}</Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      )}
+      </View>
+      {debeMostrarMini({ path, cargado: Boolean(cargado) }) && cargado ? (
+        <MiniPlayer
+          c={c}
+          sobrePestanas={enPestana}
+          src={cargado.info.src}
+          titulo={cargado.info.titulo}
+          subtitulo={[cargado.info.libro, cargado.info.capitulos].filter(Boolean).join(" · ")}
+          fraccion={Math.min(1, library.globalTime / Math.max(1, cargado.episodio.durationSeconds))}
+          jugando={library.playing}
+          cargando={library.estadoAudio === "cargando"}
+          error={library.errorAudio ? textoErrorAudio(library.errorAudio, t) : undefined}
+          etiquetaPlay={library.playing ? t.pausar : t.reproducir}
+          onToggle={() => {
+            if (library.playing) library.toggle();
+            else if (!library.sesion) reproducir(cargado.episodio.id);
+            else if (library.errorAudio) library.reintentar();
+            else library.toggle();
+          }}
+          haySiguiente={cola.haySiguiente}
+          onSiguiente={library.siguiente}
+          etiquetaSiguiente={t.siguiente}
+          onAbrir={() => router.push("/ahora")}
+        />
+      ) : null}
+      {enPestana ? <TabBar c={c} pestanas={pestanas} actual={path} onElegir={(href) => router.navigate(href as "/")} /> : null}
+      {!library.hydrated ? <View pointerEvents="none" style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: c.bg }} /> : null}
     </View>
   );
 }
@@ -90,7 +113,13 @@ export default function Layout() {
   if (!listas) return null;
   return (
     <MobileProvider>
+      <AuthEnlace />
       <Shell />
     </MobileProvider>
   );
+}
+
+function AuthEnlace() {
+  useAuthEnlace();
+  return null;
 }

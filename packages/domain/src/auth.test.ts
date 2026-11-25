@@ -26,6 +26,13 @@ describe("alta", () => {
     expect(textosAlta("es").google).toBe("Continuar con Google");
     expect(textosAlta("en").apple).toBe("Continue with Apple");
     expect(textosAlta("zh").o).toBe("或");
+    for (const idioma of ["es", "en", "it", "pt", "fr", "de", "zh"]) {
+      const copy = textosAlta(idioma);
+      expect(copy.codigo.length).toBeGreaterThan(0);
+      expect(copy.codigoAyuda.length).toBeGreaterThan(0);
+      expect(copy.entrarCodigo.length).toBeGreaterThan(0);
+    }
+    expect(textosAlta("es").codigoAyuda).toContain("6 dígitos");
   });
 
   it("entra con id_token, OAuth y enlace mágico hacia las URLs de Audite", async () => {

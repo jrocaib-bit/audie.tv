@@ -3,14 +3,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput } from "react-native";
 import { useMobileLibrary } from "../state";
-import { dark, light, ui } from "../theme";
+import { dark, ui } from "../theme";
 
 const CLAVE = "audite.marcadores.v1";
 
 export default function Notas() {
   const library = useMobileLibrary();
   const locale = library.settings.uiLocale;
-  const colors = library.settings.theme === "light" ? light : dark;
+  const colors = dark;
   const [datos, setDatos] = useState<Marcadores>(marcadoresVacios);
   const [texto, setTexto] = useState("");
   const episodio = library.catalog.episodes[0]?.id ?? "gn-01";
@@ -28,7 +28,7 @@ export default function Notas() {
       <Pressable onPress={() => void guardar(alternarFavorito(datos, episodio, new Date().toISOString()))} style={[ui.button, { backgroundColor: esFavorito(datos, episodio) ? colors.accent : colors.card }]}>
         <Text style={{ color: esFavorito(datos, episodio) ? colors.accentInk : colors.ink }}>{es ? "Favorito" : "Favorite"} {episodio}</Text>
       </Pressable>
-      <TextInput value={texto} onChangeText={setTexto} placeholder={es ? "Nota del versículo" : "Verse note"} placeholderTextColor={colors.muted} style={{ minHeight: 48, color: colors.ink, borderWidth: 1, borderColor: colors.line, borderRadius: 16, padding: 12 }} />
+      <TextInput value={texto} onChangeText={setTexto} placeholder={es ? "Nota del versículo" : "Verse note"} placeholderTextColor={colors.muted} autoCorrect textContentType="none" autoComplete="off" returnKeyType="done" blurOnSubmit style={{ minHeight: 48, color: colors.ink, borderWidth: 1, borderColor: colors.line, borderRadius: 16, padding: 12 }} />
       <Pressable
         onPress={() => {
           const siguiente = agregarNota(datos, { episodeId: episodio, versiculo: "1:1", texto, segundo: library.globalTime }, new Date().toISOString());

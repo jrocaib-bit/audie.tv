@@ -64,6 +64,20 @@ export function lineasDePaywall(opciones: {
   });
 }
 
+export const URL_CONDICIONES = "https://audite.tv/es/condiciones";
+export const URL_PRIVACIDAD = "https://audite.tv/es/privacidad";
+
+/** Letra que Apple pide junto al precio: periodo, renovación y dónde se cancela. */
+export function textoRenovacion(lang: "es" | "en", plan: Plan, precio: string): string {
+  const limpio = precio.trim() || (plan === "anual" ? PRECIO.anio : PRECIO.mes);
+  if (lang === "en") {
+    const periodo = plan === "anual" ? "year" : "month";
+    return `${limpio} per ${periodo}. Renews unless you cancel at least 24 hours before the period ends. Manage in Settings.`;
+  }
+  const periodo = plan === "anual" ? "año" : "mes";
+  return `${limpio} al ${periodo}. Se renueva salvo que canceles al menos 24 h antes. Gestión en Ajustes.`;
+}
+
 export const TIENDA_DEMO: OfertaStore[] = [
   { id: PRODUCTOS.mensual.apple, displayPrice: "1,99 €", prueba: { modo: "free-trial", unidad: "week", valor: 1 } },
   { id: PRODUCTOS.anual.apple, displayPrice: "8,00 €", prueba: { modo: "free-trial", unidad: "week", valor: 1 } },
@@ -99,4 +113,20 @@ export async function restaurarCompras(
 ): Promise<{ transacciones: Transaccion[]; derecho: { activo: boolean; producto: string | null } }> {
   const transacciones = await tienda.restaurar();
   return { transacciones, derecho: derechoLocal(transacciones, ahora, ids, userId) };
+}
+
+function numeroDePrecio(precio: string): number | null {
+  const m = precio.replace(/\s/g, "").match(/\d+(?:[.,]\d+)?/);
+  if (!m) return null;
+  const n = Number(m[0].replace(",", "."));
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/** Porcentaje que se ahorra con el anual frente a doce meses sueltos (null si no se puede calcular). */
+export function ahorroAnual(mes: string, anio: string): number | null {
+  const m = numeroDePrecio(mes);
+  const a = numeroDePrecio(anio);
+  if (m === null || a === null) return null;
+  const ahorro = Math.round((1 - a / (m * 12)) * 100);
+  return ahorro > 0 ? ahorro : null;
 }

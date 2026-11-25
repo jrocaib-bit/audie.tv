@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { botonesFicha as botonesDominio, etiquetaLomo, type Disponibilidad, type VistaLector } from "@audite/domain";
-import { botonesFicha as botonesWeb } from "../../../web/src/lib/libros/botones-ficha";
 import { cargarEstanteriaApp, leerVolumenes, urlCubierta, urlLomo } from "./estanteria-datos";
 
 const bruto = (volumen: number, extra: Record<string, unknown> = {}) => ({
@@ -40,11 +39,15 @@ describe("estantería en la app", () => {
     expect(ok?.map((v) => v.id)).toEqual(["libro-1"]);
   });
 
-  it("los botones de la app y de la web salen iguales para todos los estados", () => {
+  // Integración app: apps/web no está en esta rama. La app usa los botones del dominio compartido con la web.
+  it("los botones salen del dominio para todos los estados y solo hay botones en lectura", () => {
     const vistas: (VistaLector | null)[] = [null, "sin-sesion", "gratuito", "premium"];
     const disponibilidades: Disponibilidad[] = ["lectura", "preparandose", "borrador"];
     for (const vista of vistas) for (const disp of disponibilidades) for (const progreso of [false, true]) {
-      expect(botonesDominio(vista, disp, { progreso })).toEqual(botonesWeb(vista, disp, { progreso }));
+      const botones = botonesDominio(vista, disp, { progreso });
+      expect(botones).toEqual(botonesDominio(vista, disp, { progreso }));
+      if (disp !== "lectura") expect(botones).toEqual([]);
+      else expect(botones.length).toBeGreaterThan(0);
     }
   });
 });

@@ -8,7 +8,7 @@ export function urlPortadaApp(base: string, archivo: string): string {
 }
 
 export const urlLomo = (base: string, volumen: number) => urlPortadaApp(base, archivoPortada("lomo", volumen, "webp"));
-export const urlCubierta = (base: string, volumen: number) => urlPortadaApp(base, archivoPortada("cubierta", volumen, "webp", 480));
+export const urlCubierta = (base: string, volumen: number, ancho: 480 | 960 = 480) => urlPortadaApp(base, archivoPortada("cubierta", volumen, "webp", ancho));
 
 function texto(valor: unknown): string | null {
   return typeof valor === "string" ? valor : null;

@@ -146,6 +146,21 @@ const es = {
   libraryQuiet: "Lo que aún no está listo permanece en preparación.",
   comingSoon: "En preparación",
   navLabel: "Secciones",
+  bibleLink: "Ver la Biblia en orden",
+  bibleKicker: "Biblia",
+  bibleTitle: "La Biblia en orden",
+  bibleIntro: "Los libros siguen el orden de la Biblia. Abre un libro y elige un capítulo para ir al episodio donde se escucha.",
+  bibleFind: "Buscar un libro",
+  bibleAll: "Todos",
+  bibleChapters: "capítulos",
+  bibleChapter: "capítulo",
+  bibleTrial: "Empieza 7 días gratis",
+  bibleTrialBody: "Siete días gratis para escuchar la Biblia entera, episodio a episodio.",
+  bibleListenIn: "Se escucha en",
+  bibleListenNow: "Escuchar ahora",
+  bibleStartsAt: "Empieza en",
+  bibleSeveral: "Se escucha en varios episodios",
+  bibleTryAnother: "Prueba con otro nombre de libro.",
 };
 
 const en: { [K in keyof typeof es]: string } = {
@@ -299,6 +314,21 @@ const en: { [K in keyof typeof es]: string } = {
   libraryQuiet: "What is not ready yet stays in preparation.",
   comingSoon: "Coming soon",
   navLabel: "Sections",
+  bibleLink: "See the Bible in order",
+  bibleKicker: "Bible",
+  bibleTitle: "The Bible in order",
+  bibleIntro: "The books follow the order of the Bible. Open a book and pick a chapter to go to the episode where you hear it.",
+  bibleFind: "Find a book",
+  bibleAll: "All",
+  bibleChapters: "chapters",
+  bibleChapter: "chapter",
+  bibleTrial: "Start 7 days free",
+  bibleTrialBody: "Seven days free to hear the whole Bible, episode by episode.",
+  bibleListenIn: "You hear it in",
+  bibleListenNow: "Listen now",
+  bibleStartsAt: "Starts at",
+  bibleSeveral: "Heard across several episodes",
+  bibleTryAnother: "Try another book name.",
 };
 
 export const messages = { es, en };

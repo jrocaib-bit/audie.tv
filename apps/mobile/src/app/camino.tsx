@@ -1,49 +1,106 @@
-import { idiomaContenido, booksOnTheWay, episodeById, journeyState, nombreCorto, playableByBook, t } from "@audite/domain";
-import { useMemo } from "react";
-import { FlatList, Text, useColorScheme, View } from "react-native";
-import { useMobileLibrary } from "../state";
-import { dark, fonts, light, ui } from "../theme";
+import { useRouter } from "expo-router";
+import { useRef, useState } from "react";
+import { ScrollView, Text, View, type ScrollViewInstance } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { fonts } from "../theme";
+import { ordenarPorAudio } from "../caminos";
+import { th, llenar } from "../textos-hoy";
+import { tx } from "../textos";
+import { CaminoActualCard, CaminoCard } from "../ui/CaminoCard";
+import { Entrada } from "../ui/Entrada";
+import { Icono } from "../ui/Icono";
+import { ScreenHeader } from "../ui/ScreenHeader";
+import { haptico, useTema } from "../ui/tema";
+import { useCaminos, type CaminoVista } from "../ui/useCaminos";
+import { useReproducir } from "../ui/useReproducir";
 
-export default function PathScreen() {
-  const library = useMobileLibrary();
-  const scheme = useColorScheme();
-  const colors = library.settings.theme === "dark" || (library.settings.theme === "system" && scheme === "dark") ? dark : light;
-  const locale = library.settings.uiLocale;
-  const books = useMemo(() => booksOnTheWay(library.catalog.books), [library.catalog.books]);
-  const byBook = useMemo(() => playableByBook(library.catalog.episodes), [library.catalog.episodes]);
+export default function Caminos() {
+  const { c, lang, library } = useTema();
+  const t = th(lang);
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const caminos = useCaminos();
+  const reproducirId = useReproducir();
+  const scroll = useRef<ScrollViewInstance>(null);
+  const [elegido, setElegido] = useState<string | null>(null);
+  const actual = caminos.find((camino) => camino.activo) ?? caminos[0];
+  const otros = ordenarPorAudio(caminos.filter((camino) => camino !== actual));
+
+  const audioTexto = (camino: CaminoVista) =>
+    camino.audio.estado === "todo" ? t.audioTodo : camino.audio.estado === "parte" ? llenar(t.audioParte, { n: camino.audio.conAudio }) : t.audioNada;
+  const avanceTexto = (camino: CaminoVista, siempre: boolean) =>
+    camino.progreso.hechos > 0 || siempre ? llenar(t.escuchados, { h: camino.progreso.hechos, t: camino.progreso.total }) : "";
+
+  const elegir = (camino: CaminoVista) => {
+    if (camino.audio.estado === "nada") return;
+    haptico();
+    // Solo cambia el camino activo. El avance de cada episodio no se toca.
+    library.updateSettings({ caminoActivo: camino.def.id });
+    setElegido(camino.nombre);
+    scroll.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const sig = actual?.siguiente ?? null;
   return (
-    <FlatList
-      data={books}
-      keyExtractor={(book) => book.id}
-      style={{ backgroundColor: colors.bg }}
-      contentContainerStyle={{ paddingBottom: 120 }}
-      initialNumToRender={18}
-      ListHeaderComponent={
-        <View style={{ paddingHorizontal: 22, paddingTop: 12, gap: 12, marginBottom: 8 }}>
-          <Text style={[ui.kicker, { color: colors.muted }]}>{t(locale, "navPath")}</Text>
-          <Text style={[ui.title, { color: colors.ink }]}>{t(locale, "pathTitle")}</Text>
-          <Text style={[ui.body, { color: colors.muted }]}>{t(locale, "pathIntro")}</Text>
-          {library.path.steps.map((step) => {
-            const item = episodeById(library.catalog, step.episodeId);
-            if (!item) return null;
-            return (
-              <Text key={step.episodeId} style={{ color: colors.ink, fontFamily: fonts.serif, fontSize: 22 }}>
-                {nombreCorto(item, locale)}
-              </Text>
-            );
-          })}
-        </View>
-      }
-      renderItem={({ item }) => {
-        const state = journeyState(item.id, library.path, library.progress, byBook);
-        const label = state === "heard" ? t(locale, "journeyHeard") : state === "ahead" ? t(locale, "journeyAhead") : t(locale, "journeyCurrent");
-        return (
-          <View style={{ marginHorizontal: 22, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line, flexDirection: "row", justifyContent: "space-between", gap: 12 }}>
-            <Text style={{ color: state === "ahead" ? colors.muted : colors.ink, fontFamily: fonts.serif, fontSize: 24, flex: 1 }}>{item.name[idiomaContenido(locale)] || item.name.es}</Text>
-            <Text style={{ color: colors.muted, fontFamily: fonts.sans, fontSize: 13, paddingTop: 8 }}>{label}</Text>
+    <ScrollView ref={scroll} style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ paddingBottom: 32 + insets.bottom }} showsVerticalScrollIndicator={false}>
+      <ScreenHeader c={c} titulo={tx(lang).tabCaminos} />
+      <View style={{ paddingHorizontal: 20, gap: 24, paddingTop: 4 }}>
+        <Text style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 16, lineHeight: 23 }}>{t.caminosIntro}</Text>
+
+        {elegido ? (
+          <View accessibilityLiveRegion="polite" accessible accessibilityLabel={llenar(t.cambio, { nombre: elegido })} style={{ flexDirection: "row", alignItems: "center", gap: 12, padding: 14, borderRadius: 20, backgroundColor: c.card, borderWidth: 1.5, borderColor: c.accent }}>
+            <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+              <Icono nombre="check" size={16} color={c.accentInk} trazo={2.4} />
+            </View>
+            <Text style={{ flex: 1, color: c.ink, fontFamily: fonts.medium, fontSize: 15, lineHeight: 21 }}>{llenar(t.cambio, { nombre: elegido })}</Text>
           </View>
-        );
-      }}
-    />
+        ) : null}
+
+        {actual ? (
+          <Entrada orden={0} style={{ gap: 12 }}>
+            <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22 }}>{t.miCamino}</Text>
+            <CaminoActualCard
+              c={c}
+              src={actual.src}
+              nombre={actual.nombre}
+              descripcion={actual.descripcion}
+              duracion={actual.duracion}
+              audio={audioTexto(actual)}
+              avance={avanceTexto(actual, true)}
+              fraccion={actual.progreso.fraccion}
+              siguiente={sig && sig.reproducible ? { etiqueta: t.siguiente, titulo: sig.titulo, subtitulo: [sig.subtitulo, sig.duracion].filter(Boolean).join(" · ") } : undefined}
+              nota={!sig ? t.caminoCompleto : !sig.reproducible ? `${t.siguiente}: ${sig.titulo}. ${t.siguienteSinAudio}` : undefined}
+              etiquetaEscuchar={sig?.reproducible ? t.escuchar : undefined}
+              onEscuchar={sig?.reproducible ? () => reproducirId(sig.id, { contexto: { tipo: "camino", id: actual.def.id } }) : undefined}
+              etiquetaVolver={t.volverHoy}
+              onVolver={() => {
+                haptico();
+                router.navigate("/");
+              }}
+            />
+          </Entrada>
+        ) : null}
+
+        <View style={{ gap: 12 }}>
+          <Text accessibilityRole="header" style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 22 }}>{t.elegirTitulo}</Text>
+          {otros.map((camino, i) => (
+            <Entrada key={camino.def.id} orden={i + 1}>
+              <CaminoCard
+                c={c}
+                nombre={camino.nombre}
+                descripcion={camino.descripcion}
+                duracion={camino.duracion}
+                audio={audioTexto(camino)}
+                avance={avanceTexto(camino, false)}
+                fraccion={camino.progreso.fraccion}
+                etiquetaElegir={t.elegir}
+                proximamente={camino.audio.estado === "nada" ? t.proximamente : undefined}
+                onElegir={() => elegir(camino)}
+              />
+            </Entrada>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 }
