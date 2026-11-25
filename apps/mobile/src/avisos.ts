@@ -1,7 +1,9 @@
 import { proximosAvisos, type PlanAviso } from "@audite/domain";
 import * as Notifications from "expo-notifications";
+import { Platform } from "react-native";
 
 export async function programarAvisosLocales(plan: PlanAviso, texto: string): Promise<number> {
+  if (Platform.OS === "web") return 0;
   const permiso = await Notifications.getPermissionsAsync();
   const concedido = permiso.granted || (await Notifications.requestPermissionsAsync()).granted;
   await Notifications.cancelAllScheduledNotificationsAsync();

@@ -1,16 +1,35 @@
 {
   "cli": {
     "version": ">= 16.0.0",
-    "appVersionSource": "local"
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "ios": { "simulator": true }
+      "ios": { "simulator": true },
+      "env": { "EAS_PROJECT_ID": "5bdd4443-d992-4072-bb67-6920b260db4e" }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": { "EAS_PROJECT_ID": "5bdd4443-d992-4072-bb67-6920b260db4e" }
+    },
+    "production": {
+      "distribution": "store",
+      "autoIncrement": true,
+      "ios": { "distribution": "store" },
+      "env": { "EAS_PROJECT_ID": "5bdd4443-d992-4072-bb67-6920b260db4e" }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "6833136641",
+        "bundleIdentifier": "tv.audite.app",
+        "ascApiKeyPath": "$ASC_API_KEY_PATH",
+        "ascApiKeyId": "$ASC_API_KEY_ID",
+        "ascApiKeyIssuerId": "$ASC_API_KEY_ISSUER_ID"
+      }
     }
   }
 }

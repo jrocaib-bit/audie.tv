@@ -1,19 +1,27 @@
 import { ETIQUETA_VER_LIBRO, altCubierta, botonesFicha, etiquetaLomo, paletaFicha, type AccionFicha, type MockLibros, type VistaLector, type VolumenEstanteria } from "@audite/domain";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import { AccessibilityInfo, Animated, Easing, Image, Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { AccessibilityInfo, Animated, Easing, Image, Modal, Platform, Pressable, ScrollView, Text, View, useWindowDimensions, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { clienteLibrosApp } from "./cliente";
 import { baseContenido } from "./config";
+import { precargarCubierta, precargarLibro } from "./datos";
 import { urlCubierta, urlLomo } from "./estanteria-datos";
 import { LETRA } from "./estilos";
+import { TEXTO_PISTA, mostrarPista, pistaVista, recordarPista, vaiven } from "./pista";
 import { useColoresLibros } from "./tema";
 import { ui } from "../theme";
 
-const ALTO_LOMO = 300;
-const ANCHO_LOMO = Math.max(24, Math.round((ALTO_LOMO * 120) / 1470));
+export const ALTO_LOMO = 380;
+export const ANCHO_LOMO = Math.round((ALTO_LOMO * 120) / 1470);
+const SEPARACION_LOMOS = 2;
+const MARGEN_LATERAL = 22;
 const ANCHO_CUBIERTA = 170;
 const ALTO_CUBIERTA = ANCHO_CUBIERTA * 1.5;
 const MS_VOLTEO = 450;
+/** Estante claro, a la vista en tema día y noche. */
+export const COLOR_ESTANTE = "#E8E2D8";
+const COLOR_DESLIZADOR = "#B9AE9C";
 
 const LEYENDA = "Los volúmenes 1 a 10 tienen adelanto gratis. Los volúmenes 11 a 16 están en preparación.";
 const FRASE_PREPARACION = "Este volumen se está preparando. Aquí podrás leerlo cuando esté listo.";
@@ -21,24 +29,100 @@ const FRASE_PREPARACION = "Este volumen se está preparando. Aquí podrás leerl
 /** Estantería ligera: lomos en horizontal y una hoja con la ficha. Sin dependencias nuevas. */
 export function EstanteriaApp({ volumenes, mock }: { volumenes: VolumenEstanteria[]; mock: MockLibros | null }) {
   const colors = useColoresLibros();
+  const { width: anchoPantalla } = useWindowDimensions();
   const [abierto, setAbierto] = useState<VolumenEstanteria | null>(null);
+  const [x, setX] = useState(0);
+  const [visible, setVisible] = useState(anchoPantalla);
+  const [vista, setVista] = useState<boolean | null>(null);
+  const [reducido, setReducido] = useState(false);
+  const [balanceo] = useState(() => new Animated.Value(0));
   const base = baseContenido();
+  const contenido = volumenes.length * (ANCHO_LOMO + SEPARACION_LOMOS) - SEPARACION_LOMOS + MARGEN_LATERAL * 2;
+  const paso = ANCHO_LOMO + SEPARACION_LOMOS;
+  const enfocado = Math.max(0, Math.min(volumenes.length - 1, Math.round((x + visible / 2 - MARGEN_LATERAL - ANCHO_LOMO / 2) / paso)));
+  const volumenEnfocado = volumenes[enfocado] ?? volumenes[0];
+  const pista = mostrarPista(vista, volumenes.length > 0);
+  const lomoPista = Math.max(0, volumenes.findIndex((v) => v.disponibilidad === "lectura"));
+
+  useEffect(() => {
+    let vivo = true;
+    void pistaVista(AsyncStorage).then((v) => vivo && setVista(v));
+    void AccessibilityInfo.isReduceMotionEnabled().then((v) => vivo && setReducido(v));
+    return () => {
+      vivo = false;
+    };
+  }, []);
+  // Las portadas de los primeros volúmenes se piden mientras se mira la estantería.
+  useEffect(() => {
+    volumenes.slice(0, 4).forEach((v) => precargarCubierta(v.volumen));
+  }, [volumenes]);
+  // Vaivén de un lomo hasta el primer toque. Con movimiento reducido el lomo queda quieto.
+  useEffect(() => {
+    if (!pista || reducido) return;
+    const pasos = vaiven(false).slice(1).map((destino) => Animated.timing(balanceo, { toValue: destino, duration: 320, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== "web" }));
+    const bucle = Animated.loop(Animated.sequence([Animated.delay(900), ...pasos, Animated.delay(2400)]));
+    bucle.start();
+    return () => {
+      bucle.stop();
+      balanceo.setValue(0);
+    };
+  }, [pista, reducido, balanceo]);
+
+  const tocado = useCallback(() => {
+    if (vista === false) {
+      setVista(true);
+      void recordarPista(AsyncStorage);
+    }
+  }, [vista]);
+  const alDesplazar = (e: NativeSyntheticEvent<NativeScrollEvent>) => setX(e.nativeEvent.contentOffset.x);
+  const alMedir = (e: LayoutChangeEvent) => setVisible(e.nativeEvent.layout.width);
+  const anchoPista = Math.max(0, visible - 28 - 16);
+  const anchoDeslizador = Math.max(36, anchoPista * Math.min(1, visible / contenido));
+  const maxX = Math.max(1, contenido - visible);
+  const posDeslizador = (anchoPista - anchoDeslizador) * Math.max(0, Math.min(1, x / maxX));
+  const hayMas = contenido > visible + 1;
+  const abrir = (v: VolumenEstanteria) => {
+    tocado();
+    setAbierto(v);
+  };
+
   return (
-    <View style={{ marginTop: 8 }}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 22, paddingTop: 14, alignItems: "flex-end", gap: 2 }}>
-        {volumenes.map((v) => (
-          <Pressable
-            key={v.id}
-            accessibilityRole="button"
-            accessibilityLabel={etiquetaLomo(v)}
-            onPress={() => setAbierto(v)}
-            style={{ width: ANCHO_LOMO, height: ALTO_LOMO, minWidth: 24, opacity: v.disponibilidad === "borrador" ? 0.6 : 1 }}
-          >
-            <Image source={{ uri: urlLomo(base, v.volumen) }} accessible={false} style={{ width: "100%", height: "100%" }} resizeMode="contain" />
-          </Pressable>
+    <View style={{ marginTop: 8 }} onLayout={alMedir}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} scrollEventThrottle={32} onScroll={alDesplazar} contentContainerStyle={{ paddingHorizontal: MARGEN_LATERAL, paddingTop: 22, alignItems: "flex-end", gap: SEPARACION_LOMOS }}>
+        {volumenes.map((v, i) => (
+          <Animated.View key={v.id} style={{ transform: [{ translateY: pista && i === lomoPista ? balanceo : 0 }] }}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={etiquetaLomo(v)}
+              onPressIn={() => {
+                precargarLibro(v.id);
+                precargarCubierta(v.volumen);
+              }}
+              onPress={() => abrir(v)}
+              style={{ width: ANCHO_LOMO, height: ALTO_LOMO, opacity: v.disponibilidad === "borrador" ? 0.62 : 1 }}
+            >
+              <Image source={{ uri: urlLomo(base, v.volumen) }} accessible={false} style={{ width: "100%", height: "100%" }} resizeMode="contain" />
+            </Pressable>
+          </Animated.View>
         ))}
       </ScrollView>
-      <View style={{ height: 10, marginHorizontal: 14, backgroundColor: colors.card, borderTopWidth: 1, borderTopColor: colors.line }} />
+      <View style={{ height: 14, marginHorizontal: 14, borderRadius: 7, backgroundColor: COLOR_ESTANTE, shadowColor: "#000", shadowOpacity: 0.22, shadowRadius: 6, shadowOffset: { width: 0, height: 3 }, elevation: 3, justifyContent: "center", paddingHorizontal: 8 }}>
+        {hayMas ? <View accessible={false} style={{ marginLeft: posDeslizador, width: anchoDeslizador, height: 4, borderRadius: 2, backgroundColor: COLOR_DESLIZADOR }} /> : null}
+      </View>
+      {volumenEnfocado ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={etiquetaLomo(volumenEnfocado)}
+          onPress={() => abrir(volumenEnfocado)}
+          style={{ marginTop: 14, marginHorizontal: 22, minHeight: 56, alignItems: "center", justifyContent: "center", gap: 2 }}
+        >
+          <Text style={{ color: colors.muted, fontSize: 12, letterSpacing: 1.6, textTransform: "uppercase" }}>Volumen {volumenEnfocado.volumen} · {volumenEnfocado.libro}</Text>
+          <Text numberOfLines={2} style={{ color: colors.ink, fontFamily: LETRA, fontSize: 22, lineHeight: 26, textAlign: "center" }}>{volumenEnfocado.titulo}</Text>
+        </Pressable>
+      ) : null}
+      {pista ? (
+        <Text accessibilityLiveRegion="polite" style={[ui.body, { color: colors.accent, fontSize: 16, textAlign: "center", marginTop: 6, fontWeight: "600" }]}>{TEXTO_PISTA}</Text>
+      ) : null}
       <Text style={[ui.body, { color: colors.muted, fontSize: 14, textAlign: "center", marginTop: 10, marginHorizontal: 22 }]}>{LEYENDA}</Text>
       {abierto ? <HojaFicha key={abierto.id} v={abierto} mock={mock} onCerrar={() => setAbierto(null)} /> : null}
     </View>
@@ -49,7 +133,7 @@ function HojaFicha({ v, mock, onCerrar }: { v: VolumenEstanteria; mock: MockLibr
   const paleta = paletaFicha(v.color);
   const router = useRouter();
   const base = baseContenido();
-  const giro = useRef(new Animated.Value(0)).current;
+  const [giro] = useState(() => new Animated.Value(0));
   const [reducido, setReducido] = useState(false);
   const [vista, setVista] = useState<VistaLector | null>(null);
 

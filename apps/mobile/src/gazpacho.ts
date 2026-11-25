@@ -14,5 +14,5 @@ try {
   cargada = null;
 }
 
-/** Asset del OTF privado. Si no está en disco, null y la app usa Georgia. */
+/** Asset del OTF privado. Si no está en disco, null y la app usa la serif del sistema. */
 export const fuenteGazpacho: number | string | null = fuente(cargada);

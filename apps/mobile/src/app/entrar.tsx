@@ -6,16 +6,22 @@ import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Platform, Pressable, Text, TextInput, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
+import { confirmarCodigoApp, entrarApple, entrarCorreoApp, entrarGoogle } from "../auth";
+import { uriDeObra } from "../entorno";
+import { ObraMarco } from "../ui/ObraMarco";
+import { tarjetasHoy } from "../hoy";
 import { medir } from "../medicion";
 import { LogoApple, LogoGoogle } from "../marcas";
 import { useMobileLibrary } from "../state";
 import { fonts } from "../theme";
+import { propsCampoCodigo, propsCampoCorreo } from "../ui/campo-correo";
+import { TecladoHoja } from "../ui/TecladoHoja";
 
 const noche = "#100E0C";
 const crema = "#F4ECE2";
 const oro = "#C9A96E";
-const obra = `${process.env.EXPO_PUBLIC_CONTENT_BASE ?? "http://127.0.0.1:43123"}/obras/gn-01_o5-detalle-960.webp`;
+const paraiso = tarjetasHoy("es").libros.find((item) => item.id === "gn-01");
+const obra = paraiso ? uriDeObra(paraiso.src) : "";
 
 const boton = {
   height: 48,
@@ -32,7 +38,9 @@ export default function EntrarScreen() {
   const plataforma = plataformaCliente(Platform.OS);
   const copy = textosAlta(idioma);
   const [correo, setCorreo] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [estado, setEstado] = useState("");
+  const [esperandoCodigo, setEsperandoCodigo] = useState(false);
   const [marketing, setMarketing] = useState(false);
   const ios = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID?.trim() ?? "";
   const web = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? "";
@@ -50,15 +58,35 @@ export default function EntrarScreen() {
     void entrarGoogle(token).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
   }, [respuesta, copy.listo]);
 
+  const enviar = () => {
+    if (!correoValido(correo)) return;
+    medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
+    medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
+    void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
+    void entrarCorreoApp(correo)
+      .then(() => {
+        setEsperandoCodigo(true);
+        setEstado(copy.codigoAyuda);
+      })
+      .catch(() => setEstado(""));
+  };
+  const confirmarCodigo = (valor = codigo) => {
+    const limpio = valor.replace(/\D/g, "").slice(0, 6);
+    if (limpio.length !== 6) return;
+    void confirmarCodigoApp(correo, limpio)
+      .then(() => setEstado(copy.listo))
+      .catch(() => setEstado(copy.codigoError));
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: noche }}>
-      <Image source={{ uri: obra }} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }} resizeMode="cover" />
+      <ObraMarco src={obra} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560, backgroundColor: noche }} />
       <LinearGradient
         colors={["rgba(16,14,12,0.15)", "rgba(16,14,12,0.35)", "rgba(16,14,12,0.72)", noche]}
         locations={[0, 0.42, 0.72, 1]}
         style={{ position: "absolute", top: 0, left: 0, right: 0, height: 560 }}
       />
-      <View style={{ flex: 1, paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, justifyContent: "space-between" }}>
+      <TecladoHoja contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingTop: 64, paddingBottom: 28, justifyContent: "space-between" }}>
         <View>
           <Image source={require("../../assets/marca/audite_wordmark_blanco.png")} style={{ height: 32, width: 148 }} resizeMode="contain" />
           <Text style={{ color: crema, fontFamily: fonts.serif, fontSize: 48, lineHeight: 52, marginTop: 28 }}>{copy.titulo}</Text>
@@ -104,31 +132,54 @@ export default function EntrarScreen() {
           <TextInput
             value={correo}
             onChangeText={setCorreo}
-            autoCapitalize="none"
-            keyboardType="email-address"
+            {...propsCampoCorreo}
+            returnKeyType="send"
+            enablesReturnKeyAutomatically
+            blurOnSubmit
+            onSubmitEditing={enviar}
             placeholder={copy.correo}
             placeholderTextColor="#B7AB9C"
             style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: crema, paddingHorizontal: 16 }}
           />
           <Pressable
-            onPress={() => {
-              if (!correoValido(correo)) return;
-              medir("cta_clicked", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
-              medir("form_submitted", { form_id: "alta_entrar", cta_id: "alta_magic_link", ubicacion: "entrar", idioma, plataforma, metodo: "correo", opt_in_correo: marketing });
-              void AsyncStorage.setItem("audite.marketing.v1", marketing ? "1" : "0");
-              void entrarCorreoApp(correo).then(() => setEstado(copy.listo)).catch(() => setEstado(""));
-            }}
+            onPress={enviar}
             style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.4)", alignItems: "center", justifyContent: "center" }}
           >
             <Text style={{ color: crema, fontSize: 17 }}>{copy.enviar}</Text>
           </Pressable>
+          {esperandoCodigo ? (
+            <>
+              <TextInput
+                value={codigo}
+                onChangeText={(valor) => {
+                  const limpio = valor.replace(/\D/g, "").slice(0, 6);
+                  setCodigo(limpio);
+                  if (limpio.length === 6) confirmarCodigo(limpio);
+                }}
+                {...propsCampoCodigo}
+                returnKeyType="done"
+                enablesReturnKeyAutomatically
+                blurOnSubmit
+                onSubmitEditing={() => confirmarCodigo()}
+                placeholder={copy.codigo}
+                placeholderTextColor="#B7AB9C"
+                style={{ height: 48, borderRadius: 6, borderWidth: 1, borderColor: "rgba(244,236,226,0.3)", color: crema, paddingHorizontal: 16, letterSpacing: 4, textAlign: "center" }}
+              />
+              <Pressable
+                onPress={() => confirmarCodigo()}
+                style={{ height: 48, borderRadius: 6, backgroundColor: oro, alignItems: "center", justifyContent: "center" }}
+              >
+                <Text style={{ color: noche, fontSize: 17 }}>{copy.entrarCodigo}</Text>
+              </Pressable>
+            </>
+          ) : null}
           {estado ? <Text style={{ color: oro, textAlign: "center" }}>{estado}</Text> : null}
           <View style={{ flexDirection: "row", justifyContent: "center", gap: 20 }}>
             <Text style={{ color: "#B7AB9C", minHeight: 44, lineHeight: 44 }} onPress={() => void Linking.openURL("https://audite.tv/es/condiciones")}>{copy.condiciones}</Text>
             <Text style={{ color: "#B7AB9C", minHeight: 44, lineHeight: 44 }} onPress={() => void Linking.openURL("https://audite.tv/es/privacidad")}>{copy.privacidad}</Text>
           </View>
         </View>
-      </View>
+      </TecladoHoja>
     </View>
   );
 }

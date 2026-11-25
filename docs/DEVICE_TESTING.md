@@ -1,6 +1,6 @@
 # Probar Audite en un teléfono
 
-Este borrador no crea cuentas ni lanza compilaciones. Los identificadores `es.audite.pilot` son marcadores de posición. El audio, cuando exista, se pide a la web local.
+El identificador de la app es `tv.audite.app` en iOS y en Android. El audio y el catálogo se piden a `EXPO_PUBLIC_CONTENT_BASE`, que por defecto es `https://audite.tv`.
 
 ## Cuentas que harían falta más adelante
 
@@ -40,9 +40,9 @@ Sustituye esa IP por la de tu máquina. El modo demo (`EXPO_PUBLIC_AUDITE_DEMO=1
 
 ## Build de desarrollo
 
-`eas.json` deja los perfiles `development` y `preview`, solo para uso interno. No ejecutes `eas build` ni `eas submit` hasta tener el proyecto de Expo y, en iOS, el equipo de Apple.
+`eas.json` tiene `development`, `preview` y `production`. El perfil `production` es el de TestFlight (tienda, `autoIncrement`, sin canal porque no hay `expo-updates`). El submit de iOS apunta a la ficha `6833136641` y al bundle `tv.audite.app`. La clave de App Store Connect no va en el repo: `ASC_API_KEY_PATH`, `ASC_API_KEY_ID` y `ASC_API_KEY_ISSUER_ID` se leen al enviar. `EAS_PROJECT_ID` rellena `extra.eas.projectId` si existe. Cada build instala primero la raíz del monorepo con el hook `eas-build-pre-install` (`npm ci --prefix ../..`), porque `apps/mobile` no está en los workspaces.
 
-Cuando existan, el build de desarrollo se instalaría con `eas build --profile development` y se abriría con el cliente de desarrollo, no desde la tienda. El perfil `preview` es interno y no es una ficha pública.
+`development` se abre con el cliente de desarrollo. `preview` es una instalación interna. `production` es el build de tienda que se envía a TestFlight.
 
 ## Lista de comprobación
 

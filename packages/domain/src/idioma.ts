@@ -47,3 +47,36 @@ export function idiomaResuelto(guardado: string | null | undefined, etiquetas: r
 export function idiomaContenido(idioma: string | null | undefined): "es" | "en" {
   return idioma === "en" ? "en" : "es";
 }
+
+/** Interfaz con microcopy propio. El resto de IDIOMAS se muestra como próximamente. */
+export const IDIOMAS_INTERFAZ = ["es", "en"] as const;
+export type IdiomaInterfaz = (typeof IDIOMAS_INTERFAZ)[number];
+
+/**
+ * Idiomas con máster de audio real.
+ * Hoy solo hay ES: audio_listo.json (prefijo …/es) y los 111 másters v2 son `*_es_master`.
+ * No hay EN en el inventario; carpetas EN antiguas eran duplicados del ES.
+ */
+export const IDIOMAS_AUDIO = ["es"] as const;
+export type IdiomaAudio = (typeof IDIOMAS_AUDIO)[number];
+
+export function esIdiomaInterfaz(valor: string | null | undefined): valor is IdiomaInterfaz {
+  return valor === "es" || valor === "en";
+}
+
+export function idiomaInterfazActivo(valor: string | null | undefined): IdiomaInterfaz {
+  return valor === "en" ? "en" : "es";
+}
+
+export function esIdiomaAudio(valor: string | null | undefined): valor is IdiomaAudio {
+  return valor === "es";
+}
+
+export function idiomaAudioActivo(valor: string | null | undefined): IdiomaAudio {
+  return esIdiomaAudio(valor) ? valor : "es";
+}
+
+/** Si el idioma pedido no tiene audio, no se debe reproducir otro en silencio. */
+export function tieneAudioEn(idioma: string | null | undefined, disponibles: readonly string[] = IDIOMAS_AUDIO): boolean {
+  return typeof idioma === "string" && disponibles.includes(idioma);
+}

@@ -1,9 +1,11 @@
+import { baseDeContenido } from "../entorno";
 import { mockValido, type MockLibros, type RecomendacionLibro } from "@audite/domain";
 
 declare const __DEV__: boolean | undefined;
 
+/** La API de libros vive en la web: misma base que el resto del contenido (EXPO_PUBLIC_CONTENT_BASE o audite.tv). */
 export function baseContenido(valor: string | undefined = process.env.EXPO_PUBLIC_CONTENT_BASE): string {
-  return (valor?.trim() || "http://127.0.0.1:43123").replace(/\/$/, "");
+  return baseDeContenido(valor);
 }
 
 export const enDesarrollo = typeof __DEV__ !== "undefined" && __DEV__ === true;

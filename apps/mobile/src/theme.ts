@@ -1,5 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 import { fuenteGazpacho } from "./gazpacho";
+import { familiaSerif } from "./serif";
 
 export const light = {
   bg: "#F3ECDF",
@@ -33,7 +34,7 @@ export const fontTokens = {
 } as const;
 
 const texto = Platform.OS === "ios" ? undefined : fontTokens.secundaria;
-const display = fuenteGazpacho ? fontTokens.display : "Georgia";
+const display = familiaSerif(Boolean(fuenteGazpacho), Platform.OS);
 
 export const fonts = {
   serif: display,
