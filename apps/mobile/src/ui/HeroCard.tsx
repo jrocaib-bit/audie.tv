@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { fonts } from "../theme";
 import { SUPERFICIE } from "./Basicos";
 import { Icono } from "./Icono";
@@ -25,14 +25,16 @@ type Props = {
   /** Con audio es un play. Sin audio es una salida a elegir otro camino. */
   tipoAccion: "play" | "camino";
   onAccion: () => void;
+  /** Pulsación larga en cualquier punto de la tarjeta: abre el menú del episodio. El «…» de fuera es su alternativa accesible. */
+  onMantener?: () => void;
 };
 
 /** La respuesta a «qué escucho hoy»: el episodio pendiente del camino y una acción grande. */
-export function HeroCard({ c, src, kicker, titulo, subtitulo, dia, fraccionCamino = 0, ratio = 16 / 9, aviso, jugando, etiquetaAccion, tipoAccion, onAccion }: Props) {
+export function HeroCard({ c, src, kicker, titulo, subtitulo, dia, fraccionCamino = 0, ratio = 16 / 9, aviso, jugando, etiquetaAccion, tipoAccion, onAccion, onMantener }: Props) {
   const proporcion = Math.max(0.75, Math.min(1.85, ratio));
   const play = tipoAccion === "play";
   return (
-    <View style={{ borderRadius: SUPERFICIE.radio, backgroundColor: c.card, overflow: "hidden" }}>
+    <Pressable accessible={false} onLongPress={onMantener} delayLongPress={450} disabled={!onMantener} style={{ borderRadius: SUPERFICIE.radio, backgroundColor: c.card, overflow: "hidden" }}>
       {src ? <ObraMarco src={src} style={{ width: "100%", aspectRatio: proporcion }} /> : null}
       <View style={{ padding: 20, gap: 14 }}>
         <View style={{ gap: 6 }}>
@@ -58,6 +60,6 @@ export function HeroCard({ c, src, kicker, titulo, subtitulo, dia, fraccionCamin
           <Text style={{ color: play ? c.accentInk : c.accent, fontFamily: fonts.medium, fontSize: 18, fontWeight: "700" }}>{etiquetaAccion}</Text>
         </Pulsable>
       </View>
-    </View>
+    </Pressable>
   );
 }
