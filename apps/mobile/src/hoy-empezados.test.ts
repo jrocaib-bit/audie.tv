@@ -44,6 +44,14 @@ describe("libros empezados", () => {
     expect(avanceLibro({ capitulo_id: "c1", ratio: 7 }, [])).toMatchObject({ total: 0, terminado: false });
   });
 
+  it("la bibliografía no cuenta como capítulo y llegar a ella termina el libro", () => {
+    const real = [{ id: "prologo", tipo: "prologo" }, { id: "capitulo-01", tipo: "capitulo" }, { id: "epilogo", tipo: "epilogo" }, { id: "bibliografia", tipo: "bibliografia" }];
+    expect(avanceLibro({ capitulo_id: "capitulo-01", ratio: null }, real)).toMatchObject({ capitulo: 2, total: 3, terminado: false });
+    expect(avanceLibro({ capitulo_id: "epilogo", ratio: null }, real)).toMatchObject({ capitulo: 3, total: 3, terminado: false });
+    expect(avanceLibro({ capitulo_id: "epilogo", ratio: 0.99 }, real).terminado).toBe(true);
+    expect(avanceLibro({ capitulo_id: "bibliografia", ratio: null }, real)).toEqual({ capitulo: 3, total: 3, fraccion: 1, terminado: true });
+  });
+
   it("lista varios a la vez, ignora terminados, sin progreso y desconocidos, y ordena por la lectura más reciente", () => {
     const lista = librosEnCurso(
       [

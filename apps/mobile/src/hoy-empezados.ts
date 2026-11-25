@@ -35,13 +35,16 @@ export type AvanceLibro = {
 
 /**
  * Avance de un libro según su progreso guardado y su índice.
- * Terminado: el progreso está en el último capítulo del índice con ratio de al menos UMBRAL_FINAL_LIBRO.
- * El lector de la app guarda capítulo y bloque sin ratio. Sin ratio, el capítulo cuenta como a medias
- * y el libro sigue en curso.
+ * Cuentan como lectura todas las entradas del índice menos la bibliografía.
+ * Terminado: el progreso está en la última entrada de lectura con ratio de al menos UMBRAL_FINAL_LIBRO,
+ * o ya ha pasado a la bibliografía. El lector de la app guarda capítulo y bloque sin ratio. Sin ratio,
+ * el capítulo cuenta como a medias y el libro sigue en curso hasta que se pasa a la bibliografía.
  */
-export function avanceLibro(progreso: Pick<ProgresoLibro, "capitulo_id" | "ratio">, indice: readonly { id: string }[]): AvanceLibro {
-  const total = indice.length;
-  const pos = indice.findIndex((e) => e.id === progreso.capitulo_id);
+export function avanceLibro(progreso: Pick<ProgresoLibro, "capitulo_id" | "ratio">, indice: readonly { id: string; tipo?: string }[]): AvanceLibro {
+  const lectura = indice.filter((e) => e.tipo !== "bibliografia");
+  const total = lectura.length;
+  if (total > 0 && indice.some((e) => e.tipo === "bibliografia" && e.id === progreso.capitulo_id)) return { capitulo: total, total, fraccion: 1, terminado: true };
+  const pos = lectura.findIndex((e) => e.id === progreso.capitulo_id);
   if (total === 0 || pos < 0) return { capitulo: 0, total, fraccion: 0, terminado: false };
   const ratio = typeof progreso.ratio === "number" && Number.isFinite(progreso.ratio) ? Math.min(1, Math.max(0, progreso.ratio)) : null;
   const terminado = pos === total - 1 && ratio !== null && ratio >= UMBRAL_FINAL_LIBRO;
@@ -49,7 +52,7 @@ export function avanceLibro(progreso: Pick<ProgresoLibro, "capitulo_id" | "ratio
   return { capitulo: pos + 1, total, fraccion, terminado };
 }
 
-export type InfoLibro = { slug: string; titulo: string; volumen: number | null; indice: readonly { id: string }[] };
+export type InfoLibro = { slug: string; titulo: string; volumen: number | null; indice: readonly { id: string; tipo?: string }[] };
 
 export type LibroEnCurso = AvanceLibro & {
   clave: string;
