@@ -27,8 +27,8 @@ function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion, opc
         {imagen}
         <View style={{ flex: 1, gap: 6 }}>
           <View>
-            <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19 }}>{titulo}</Text>
-            <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{detalle}</Text>
+            <Text numberOfLines={2} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 22 }}>{titulo}</Text>
+            <Text numberOfLines={2} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13, lineHeight: 17, marginTop: 2 }}>{detalle}</Text>
           </View>
           <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={4} />
         </View>
@@ -60,7 +60,7 @@ export function TarjetaLibro({ c, t, libro, onPress, onOpciones }: { c: Paleta; 
       c={c}
       label={`${t.continuarLectura}. ${libro.titulo}. ${detalle}`}
       onPress={onPress}
-      imagen={libro.volumen ? <PortadaLibro volumen={libro.volumen} titulo={libro.titulo} ancho={42} /> : <IconoCirculo nombre="libro" c={c} size={64} />}
+      imagen={libro.volumen ? <PortadaLibro volumen={libro.volumen} titulo={libro.titulo} ancho={42} /> : <IconoCirculo nombre="libro" c={c} size={56} />}
       titulo={libro.titulo}
       detalle={detalle}
       fraccion={libro.fraccion}
@@ -71,13 +71,13 @@ export function TarjetaLibro({ c, t, libro, onPress, onOpciones }: { c: Paleta; 
 
 export function TarjetaReto({ c, t, reto, onPress, onOpciones }: { c: Paleta; t: Textos; reto: RetoEnCurso; onPress: () => void; onOpciones?: () => void }) {
   const detalle = detalleReto(t, reto);
-  const estilo = { width: 64, height: 64, borderRadius: 16 };
+  const estilo = { width: 56, height: 56, borderRadius: 14 };
   return (
     <FilaEnCurso
       c={c}
       label={`${t.seguirReto}. ${reto.titulo}. ${detalle}`}
       onPress={onPress}
-      imagen={reto.sinObra || !reto.src ? <PlacaMarca monograma={monogramaDe(reto.titulo)} size={64} style={estilo} /> : <ObraMarco src={reto.src} style={estilo} />}
+      imagen={reto.sinObra || !reto.src ? <PlacaMarca monograma={monogramaDe(reto.titulo)} size={56} style={estilo} /> : <ObraMarco src={reto.src} style={estilo} />}
       titulo={reto.titulo}
       detalle={detalle}
       fraccion={reto.fraccion}
@@ -149,7 +149,7 @@ export function FilaQuitada({ c, t, nombre, nota, onMostrar }: { c: Paleta; t: T
     <View style={{ flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingLeft: 28, paddingRight: 4, minHeight: 64 }}>
       <View style={{ flex: 1, gap: 2 }}>
         <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 15, opacity: 0.7 }}>{nombre}</Text>
-        <Text numberOfLines={2} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{nota}</Text>
+        <Text numberOfLines={3} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{nota}</Text>
       </View>
       <Pulsable onPress={onMostrar} label={llenar(t.volverMostrarNombre, { nombre })} escala={0.94} style={{ minHeight: 44, paddingHorizontal: 14, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: SUPERFICIE.suave }}>
         <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.volverMostrar}</Text>
