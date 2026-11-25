@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { Animated, Pressable, type AccessibilityRole, type StyleProp, type ViewStyle } from "react-native";
 import { repartirEstilo } from "./estilo";
 import { haptico, useMovimientoReducido } from "./tema";
 
 type Props = {
   onPress?: () => void;
+  /** Pulsación larga. Quien la usa abre un menú y pone la háptica. */
+  onLongPress?: () => void;
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   /** Escala al pulsar. */
@@ -18,8 +20,8 @@ type Props = {
 };
 
 /** Cualquier cosa pulsable: se encoge un poco al tocarla. */
-export function Pulsable({ onPress, children, style, escala = 0.97, haptica = false, role = "button", label, selected, disabled, hitSlop }: Props) {
-  const valor = useRef(new Animated.Value(1)).current;
+export function Pulsable({ onPress, onLongPress, children, style, escala = 0.97, haptica = false, role = "button", label, selected, disabled, hitSlop }: Props) {
+  const [valor] = useState(() => new Animated.Value(1));
   const reducir = useMovimientoReducido();
   const mover = (a: number) => {
     if (reducir) return;
@@ -36,6 +38,10 @@ export function Pulsable({ onPress, children, style, escala = 0.97, haptica = fa
       hitSlop={hitSlop}
       onPressIn={() => mover(escala)}
       onPressOut={() => mover(1)}
+      onLongPress={onLongPress}
+      delayLongPress={onLongPress ? 450 : undefined}
+      accessibilityActions={onLongPress ? [{ name: "longpress" }] : undefined}
+      onAccessibilityAction={onLongPress ? (e) => e.nativeEvent.actionName === "longpress" && onLongPress() : undefined}
       onPress={() => {
         if (haptica) haptico();
         onPress?.();

@@ -38,6 +38,14 @@ export function haptico(): void {
     .catch(() => undefined);
 }
 
+/** Pulso medio al abrir un menú con una pulsación larga, como en iOS. No hace nada en web. */
+export function hapticoMenu(): void {
+  if (Platform.OS === "web") return;
+  void import("expo-haptics")
+    .then((mod) => mod.impactAsync(mod.ImpactFeedbackStyle.Medium))
+    .catch(() => undefined);
+}
+
 /** Pulso de éxito: unirse a un reto o completar un día. No hace nada en web. */
 export function hapticoExito(): void {
   if (Platform.OS === "web") return;
