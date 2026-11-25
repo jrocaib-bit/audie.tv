@@ -19,7 +19,7 @@ import {
   type LibroTexto,
   type TipoCapitulo,
 } from "@audite/domain";
-import { ID_LIBRO, leerJsonLibros, rutaLibros } from "./almacen";
+import { ID_LIBRO, leerJsonLibros, listarTextos, rutaLibros } from "./almacen";
 
 export { ID_LIBRO, rutaLibros };
 const ID_PRUEBA_VOL1 = "gen-antes-de-que-hubiera-manana";
@@ -63,7 +63,7 @@ function episodios(lista: EpisodioBruto[] | undefined): EpisodioDeLibro[] {
 }
 
 /** Ids de capítulo como en el JSON canónico: prologo, capitulo-01, epilogo, bibliografia. */
-function indiceDeEstructura(estructura: CapituloBruto[] | undefined, adelantoHasta: string): EntradaIndice[] {
+export function indiceDeEstructura(estructura: CapituloBruto[] | undefined, adelantoHasta: string): EntradaIndice[] {
   const tipos: TipoCapitulo[] = ["prologo", "capitulo", "epilogo", "bibliografia"];
   const base = (estructura ?? []).flatMap((c, orden) => {
     const tipo = tipos.find((t) => t === c.tipo);
@@ -92,47 +92,75 @@ export async function cargarTexto(id: string): Promise<LibroTexto | null> {
   return null;
 }
 
-export async function cargarCatalogo(): Promise<FichaServidor[]> {
-  const dato = (await leerJsonLibros("libros.json")) as { libros?: LibroBruto[] } | null;
+/** Rutas de texto que cuentan para un id, en el mismo orden que `cargarTexto`. */
+export function rutasDeTexto(id: string): string[] {
+  return [`prueba/${id}.json`, ...(id === ID_PRUEBA_VOL1 ? [`prueba/${ARCHIVO_PRUEBA_VOL1}.json`] : []), `json/${id}.json`];
+}
+
+export function hayTexto(id: string, existentes: Set<string>): boolean {
+  return rutasDeTexto(id).some((r) => existentes.has(r));
+}
+
+/** Ficha sin descargar texto: disponibilidad por existencia e índice por `estructura_capitulos`. */
+export function fichaDeBruto(bruto: LibroBruto, textoLibro: LibroTexto | null, hayArchivo: boolean): FichaServidor {
   const amazon = mostrarAmazon();
-  const brutos = (dato?.libros ?? []).filter((b) => ID_LIBRO.test(texto(b.id)));
-  const textos = await Promise.all(brutos.map((b) => (b.estado === "borrador" ? null : cargarTexto(texto(b.id)))));
-  const fichas = brutos.flatMap((bruto, i): FichaServidor[] => {
-    const id = texto(bruto.id);
-    const borrador = bruto.estado === "borrador";
-    const textoLibro = textos[i] ?? null;
-    const disponibilidad: Disponibilidad = borrador ? "borrador" : textoLibro ? "lectura" : "preparandose";
-    const adelanto = textoLibro ? textoLibro.adelanto_hasta_capitulo_id : "prologo";
-    const estado = bruto.estado === "publicado" ? "publicado" : borrador ? "borrador" : "completo";
-    return [
-      {
-        id,
-        slug: id,
-        volumen: typeof bruto.orden === "number" ? bruto.orden : 0,
-        titulo: texto(bruto.titulo),
-        subtitulo: texto(bruto.subtitulo),
-        idioma: texto(bruto.idioma) || "es",
-        libro_biblico: texto(bruto.libro_biblico),
-        libro_id: texto(bruto.libro_id),
-        estado,
-        disponibilidad,
-        palabras: typeof bruto.palabras === "number" ? bruto.palabras : null,
-        adelanto_hasta_capitulo_id: adelanto,
-        indice: textoLibro ? indiceDe(textoLibro) : indiceDeEstructura(bruto.estructura_capitulos, adelanto ?? "prologo"),
-        audiolibro_estado: "previsto",
-        episodios_del_libro_comentado: episodios(bruto.episodios_del_libro_comentado),
-        episodios_cruzados: episodios(bruto.episodios_cruzados),
-        amazon_paperback_url: amazon && !borrador ? urlAmazonSegura(bruto.amazon_paperback_url) : null,
-        amazon_kindle_url: amazon && !borrador ? urlAmazonSegura(bruto.amazon_kindle_url) : null,
-      },
-    ];
-  });
+  const id = texto(bruto.id);
+  const borrador = bruto.estado === "borrador";
+  const disponibilidad: Disponibilidad = borrador ? "borrador" : hayArchivo || textoLibro ? "lectura" : "preparandose";
+  const adelanto = textoLibro ? textoLibro.adelanto_hasta_capitulo_id : "prologo";
+  const estado = bruto.estado === "publicado" ? "publicado" : borrador ? "borrador" : "completo";
+  return {
+    id,
+    slug: id,
+    volumen: typeof bruto.orden === "number" ? bruto.orden : 0,
+    titulo: texto(bruto.titulo),
+    subtitulo: texto(bruto.subtitulo),
+    idioma: texto(bruto.idioma) || "es",
+    libro_biblico: texto(bruto.libro_biblico),
+    libro_id: texto(bruto.libro_id),
+    estado,
+    disponibilidad,
+    palabras: typeof bruto.palabras === "number" ? bruto.palabras : null,
+    adelanto_hasta_capitulo_id: adelanto,
+    indice: textoLibro ? indiceDe(textoLibro) : indiceDeEstructura(bruto.estructura_capitulos, adelanto ?? "prologo"),
+    audiolibro_estado: "previsto",
+    episodios_del_libro_comentado: episodios(bruto.episodios_del_libro_comentado),
+    episodios_cruzados: episodios(bruto.episodios_cruzados),
+    amazon_paperback_url: amazon && !borrador ? urlAmazonSegura(bruto.amazon_paperback_url) : null,
+    amazon_kindle_url: amazon && !borrador ? urlAmazonSegura(bruto.amazon_kindle_url) : null,
+  };
+}
+
+async function brutosDelCatalogo(): Promise<LibroBruto[]> {
+  const dato = (await leerJsonLibros("libros.json")) as { libros?: LibroBruto[] } | null;
+  return (dato?.libros ?? []).filter((b) => ID_LIBRO.test(texto(b.id)));
+}
+
+function ordenar(fichas: FichaServidor[]): FichaServidor[] {
   // Los volúmenes que se pueden ofrecer, primero. Dentro de cada grupo, por volumen.
   return fichas.sort((a, b) => Number(a.disponibilidad === "borrador") - Number(b.disponibilidad === "borrador") || a.volumen - b.volumen);
 }
 
+/**
+ * Catálogo barato: solo `libros.json` y una comprobación de existencia de los textos.
+ * Si el almacén no puede listar, cae al camino antiguo (descargar cada texto) para no marcar
+ * como «preparándose» un libro que sí existe.
+ */
+export async function cargarCatalogo(): Promise<FichaServidor[]> {
+  const brutos = await brutosDelCatalogo();
+  const existentes = await listarTextos();
+  if (existentes) return ordenar(brutos.map((b) => fichaDeBruto(b, null, b.estado !== "borrador" && hayTexto(texto(b.id), existentes))));
+  const textos = await Promise.all(brutos.map((b) => (b.estado === "borrador" ? null : cargarTexto(texto(b.id)))));
+  return ordenar(brutos.map((b, i) => fichaDeBruto(b, textos[i] ?? null, false)));
+}
+
+/** Ficha exacta de un libro: carga solo el texto de ese libro (índice y adelanto reales). */
 export async function cargarFicha(id: string): Promise<FichaServidor | null> {
-  return (await cargarCatalogo()).find((ficha) => ficha.id === id) ?? null;
+  if (!ID_LIBRO.test(id)) return null;
+  const bruto = (await brutosDelCatalogo()).find((b) => b.id === id);
+  if (!bruto) return null;
+  const textoLibro = bruto.estado === "borrador" ? null : await cargarTexto(id);
+  return fichaDeBruto(bruto, textoLibro, false);
 }
 
 /** Quita lo que solo debe ver la web: nunca sale una URL de Kindle por la API. */

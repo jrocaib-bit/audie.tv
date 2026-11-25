@@ -107,8 +107,8 @@
   height: 40px;
   margin-top: -8px;
   border-radius: 3px;
-  background: linear-gradient(to bottom, #3a342d 0, #2a251f 26px, #17140f 26px, #0c0a08 100%);
-  box-shadow: inset 0 1px 0 rgb(244 236 226 / 0.08);
+  background: #e8e2d8;
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.5), inset 0 -2px 0 rgb(0 0 0 / 0.08);
 }
 
 .est-pista { display: none; }
@@ -132,6 +132,16 @@
     font-size: 0.875rem;
     color: #b7ab9c;
   }
+}
+
+.est-toca {
+  margin: 8px 20px 0;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #e7d7c3;
+}
+@media (max-width: 599px) {
+  .est-toca { margin-top: 6px; }
 }
 
 .est-leyenda {

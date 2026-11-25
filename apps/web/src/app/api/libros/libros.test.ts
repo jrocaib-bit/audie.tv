@@ -75,8 +75,8 @@ describe("API de libros", () => {
   afterEach(() => vi.unstubAllEnvs());
 
   it("catálogo: 3 volúmenes, completos primero, sin rutas ni Kindle ni texto", async () => {
-    const r = await GETCatalogo();
-    expect(r.headers.get("cache-control")).toBe("no-store");
+    const r = await GETCatalogo(new Request("http://a.test/api/libros"));
+    expect(r.headers.get("cache-control")).toBe("public, max-age=60, s-maxage=600, stale-while-revalidate=86400");
     const cuerpo = await r.json() as { libros: { id: string; disponibilidad: string }[]; mostrar_amazon: boolean };
     expect(cuerpo.libros.map((l) => [l.id, l.disponibilidad])).toEqual([["libro-prueba", "lectura"], ["completo-sin-texto", "preparandose"], ["en-borrador", "borrador"]]);
     const texto = JSON.stringify(cuerpo);
@@ -87,11 +87,11 @@ describe("API de libros", () => {
 
   it("Amazon solo sale con el flag afirmativo y nunca el de Kindle", async () => {
     vi.stubEnv("AUDITE_MOSTRAR_AMAZON", "true");
-    const texto = JSON.stringify(await (await GETCatalogo()).json());
+    const texto = JSON.stringify(await (await GETCatalogo(new Request("http://a.test/api/libros"))).json());
     expect(texto).toContain("PRUEBA0001");
     expect(texto).not.toContain("PRUEBAKINDLE");
     vi.stubEnv("AUDITE_MOSTRAR_AMAZON", "quizá");
-    expect(JSON.stringify(await (await GETCatalogo()).json())).not.toContain("PRUEBA0001");
+    expect(JSON.stringify(await (await GETCatalogo(new Request("http://a.test/api/libros"))).json())).not.toContain("PRUEBA0001");
   });
 
   it("ficha: índice completo y solo el prólogo, para cualquiera, incluso premium", async () => {

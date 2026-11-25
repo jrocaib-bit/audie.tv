@@ -101,10 +101,10 @@ describe("el corte premium no cambia entre disco y bucket", () => {
   it("el libro y el catálogo públicos son idénticos", async () => {
     const ctx = { params: Promise.resolve({ id: "libro-prueba" }) };
     origenLocal();
-    const l = [await (await GETLibro(new Request("http://a.test/x"), ctx)).text(), await (await GETCatalogo()).text(), await (await GETEstanteria()).text()];
+    const l = [await (await GETLibro(new Request("http://a.test/x"), ctx)).text(), await (await GETCatalogo(new Request("http://a.test/api/libros"))).text(), await (await GETEstanteria(new Request("http://a.test/api/libros/estanteria"))).text()];
     origenBucket();
     vaciarCacheAlmacen();
-    const b = [await (await GETLibro(new Request("http://a.test/x"), ctx)).text(), await (await GETCatalogo()).text(), await (await GETEstanteria()).text()];
+    const b = [await (await GETLibro(new Request("http://a.test/x"), ctx)).text(), await (await GETCatalogo(new Request("http://a.test/api/libros"))).text(), await (await GETEstanteria(new Request("http://a.test/api/libros/estanteria"))).text()];
     expect(b).toEqual(l);
   });
 });
@@ -115,8 +115,8 @@ describe("las URLs firmadas no salen", () => {
     const ctx = { params: Promise.resolve({ id: "libro-prueba" }) };
     const respuestas = [
       await GETLibro(new Request("http://a.test/x"), ctx),
-      await GETCatalogo(),
-      await GETEstanteria(),
+      await GETCatalogo(new Request("http://a.test/api/libros")),
+      await GETEstanteria(new Request("http://a.test/api/libros/estanteria")),
       await GETPortada(new Request("http://a.test/x"), { params: Promise.resolve({ archivo: "lomo-01.webp" }) }),
     ];
     for (const r of respuestas) {
