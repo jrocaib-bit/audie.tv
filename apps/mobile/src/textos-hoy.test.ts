@@ -16,6 +16,14 @@ describe("textos de Hoy y Caminos", () => {
     expect(th("en").proximamente).toBe("Coming soon");
     expect(Object.keys(th("es"))).not.toContain("retoNota");
   });
+  it("trae los textos de Editar Hoy y de lo empezado en los dos idiomas", () => {
+    expect(th("es").editarHoy).toBe("Editar Hoy");
+    expect(th("en").editarHoy).toBe("Edit Today");
+    expect(th("es").vacioTitulo).toBe("Nada empezado todavía");
+    expect(th("en").continuarLectura).toBe("Continue reading");
+    for (const valor of Object.values(th("en"))) expect(valor).not.toMatch(/[;—–]/);
+    expect(llenar(th("es").retoAvance, { n: 3, h: 2, t: 26 })).toBe("Día 3 · 2 de 26 días hechos");
+  });
   it("rellena los huecos", () => {
     expect(llenar(th("es").dia, { n: 5, total: 516 })).toBe("Día 5 de 516");
     expect(llenar(th("en").cambio, { nombre: "Genesis" })).toContain("Genesis");

@@ -74,9 +74,9 @@ export function grupoDe(id: string): string {
  * Orden completo (visibles y ocultos) de lo disponible. Lo que el usuario ya ordenó mantiene su sitio.
  * Lo nuevo entra detrás del último de su grupo o, si su grupo no aparece, al final.
  */
-export function ordenar(disponibles: readonly string[], lista: ListaOrdenada): string[] {
-  const hay = new Set(disponibles);
-  const salida = lista.orden.filter((id, i) => hay.has(id) && lista.orden.indexOf(id) === i);
+export function ordenar<T extends string>(disponibles: readonly T[], lista: ListaOrdenada): T[] {
+  const hay = new Set<string>(disponibles);
+  const salida = lista.orden.filter((id, i): id is T => hay.has(id) && lista.orden.indexOf(id) === i);
   for (const id of disponibles) {
     if (salida.includes(id)) continue;
     const grupo = grupoDe(id);
@@ -91,7 +91,7 @@ export function ordenar(disponibles: readonly string[], lista: ListaOrdenada): s
 }
 
 /** Lo que se pinta, en orden. Ocultar no borra nada: solo deja de pintarse. */
-export function visibles(disponibles: readonly string[], lista: ListaOrdenada): string[] {
+export function visibles<T extends string>(disponibles: readonly T[], lista: ListaOrdenada): T[] {
   const ocultos = new Set(lista.ocultos);
   return ordenar(disponibles, lista).filter((id) => !ocultos.has(id));
 }
@@ -110,7 +110,7 @@ export function alternarVisible(lista: ListaOrdenada, id: string): ListaOrdenada
  * Conserva al final lo que el usuario ordenó y ahora no está disponible (un libro terminado, por ejemplo).
  */
 export function mover(disponibles: readonly string[], lista: ListaOrdenada, id: string, delta: -1 | 1): ListaOrdenada {
-  const orden = ordenar(disponibles, lista);
+  const orden: string[] = ordenar(disponibles, lista);
   const i = orden.indexOf(id);
   const j = i + delta;
   if (i < 0 || j < 0 || j >= orden.length) return lista;
