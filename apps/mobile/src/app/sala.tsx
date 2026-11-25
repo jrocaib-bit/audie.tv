@@ -28,7 +28,6 @@ import { fonts } from "../theme";
 import { BotonRedondo } from "../ui/Basicos";
 import { EntradaSalaViaje, tiemposViaje } from "../ui/EntradaSalaViaje";
 import { Icono } from "../ui/Icono";
-import { useHuecoInferior } from "../ui/barra-flotante";
 import { Pulsable } from "../ui/Pulsable";
 import { haptico, useMovimientoReducido, useTema } from "../ui/tema";
 import { useContextoCatalogo } from "../ui/useHoy";
@@ -40,7 +39,6 @@ export default function LaSala() {
   const t = tx(lang);
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const hueco = useHuecoInferior();
   const ventana = useWindowDimensions();
   const reducir = useMovimientoReducido();
   const base = useContextoCatalogo();
@@ -103,8 +101,8 @@ export default function LaSala() {
   const clave = claveMapTiles();
   const modoVuelo = decidirVuelo({ clave, reducir, sede: espacioEp.sede, soportado: Platform.OS !== "web", fallido: vueloFallido });
   const planVuelo = useMemo(
-    () => (espacioEp.sede ? planDeVuelo(espacioEp.sede, { margenInferior: hueco + 6 }) : null),
-    [espacioEp.sede, hueco],
+    () => (espacioEp.sede ? planDeVuelo(espacioEp.sede, { margenInferior: insets.bottom + 6 }) : null),
+    [espacioEp.sede, insets.bottom],
   );
   const entradaPermitida = debeMostrarEntradaSala(sesion, reducir);
   const vuelo = useMemo(
@@ -464,7 +462,7 @@ export default function LaSala() {
                 justifyContent: "flex-end",
                 paddingTop: insets.top + 64,
                 paddingHorizontal: 18,
-                paddingBottom: 18 + hueco,
+                paddingBottom: 18,
               }}
             >
               <View
@@ -763,7 +761,6 @@ export default function LaSala() {
           lang={lang}
           saltarLabel={t.saltar}
           topInset={insets.top}
-          bottomInset={hueco}
           reloj={reloj}
           tiempos={tiempos}
           vuelo={vuelo}

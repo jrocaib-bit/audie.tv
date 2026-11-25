@@ -60,8 +60,6 @@ type Props = {
   lang: "es" | "en";
   saltarLabel: string;
   topInset: number;
-  /** Alto de lo que flota abajo (barra de pestañas y mini reproductor). El rótulo queda por encima. */
-  bottomInset?: number;
   reloj: SharedValue<number>;
   tiempos: TiemposViaje;
   onTerminar: () => void;
@@ -75,7 +73,7 @@ type Props = {
  * vídeo pre-renderizado (estrellas + Tierra NASA + satélite Sentinel-2) -> fachada real -> sala.
  * La entrada en la sala (cámara que avanza hacia la obra) la dibuja la pantalla con el mismo reloj.
  */
-export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, bottomInset = 0, reloj, tiempos, onTerminar, vuelo, onVueloFallido }: Props) {
+export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, reloj, tiempos, onTerminar, vuelo, onVueloFallido }: Props) {
   const vivo = Boolean(vuelo);
   const arrancadoVivo = useRef(false);
   const arrancado = useRef(false);
@@ -296,7 +294,7 @@ export function EntradaSalaViaje({ viaje, lugar, lang, saltarLabel, topInset, bo
         </View>
 
         {edificio || ciudad ? (
-          <Animated.View pointerEvents="none" style={[styles.rotulo, { bottom: 104 + bottomInset }, estiloRotulo]}>
+          <Animated.View pointerEvents="none" style={[styles.rotulo, estiloRotulo]}>
             {edificio ? (
               <Text numberOfLines={2} style={styles.rotuloEdificio}>
                 {edificio}

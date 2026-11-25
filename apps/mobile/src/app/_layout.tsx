@@ -1,4 +1,5 @@
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack, usePathname, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -87,7 +88,8 @@ function Shell() {
   return (
     <HuecoInferiorContext.Provider value={enPestana ? hueco : null}>
     <View style={{ flex: 1, backgroundColor: c.bg }}>
-      <View style={{ flex: 1 }}>
+      {/* La sala es un escenario a pantalla completa con su propio paso a paso: termina encima de lo que flota. */}
+      <View style={{ flex: 1, paddingBottom: path === "/sala" ? hueco : 0 }}>
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.bg }, animation: Platform.OS === "web" ? "none" : "default" }}>
         <Stack.Screen name="descargas" options={cabecera} />
         <Stack.Screen name="notas" options={cabecera} />
@@ -110,6 +112,8 @@ function Shell() {
       {enPestana ? (
         // En las pestañas, el mini reproductor y la píldora flotan sobre el contenido.
         <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>
+          {/* Velo suave: el contenido se intuye detrás y la píldora conserva el contraste. */}
+          <LinearGradient pointerEvents="none" colors={["rgba(16,14,12,0)", "rgba(16,14,12,0.86)", "rgba(16,14,12,0.96)"]} locations={[0, 0.4, 1]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: hueco + 28 }} />
           {mini}
           <TabBar c={c} pestanas={pestanas} actual={path} onElegir={(href) => router.navigate(href as "/")} />
         </View>

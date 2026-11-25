@@ -20,7 +20,7 @@ export function MiniPlayer({ c, sobrePestanas = true, src, titulo, subtitulo, fr
         <View style={{ flexDirection: "row", alignItems: "center", gap: 12, padding: 8, paddingRight: 12 }}>
           <ObraMarco src={src} style={{ width: 52, height: 52, borderRadius: 12 }} desenfoque={12} />
           <View style={{ flex: 1 }}>
-            <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 18 }}>{titulo}</Text>
+            <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 17 }}>{titulo}</Text>
             <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{error ?? subtitulo}</Text>
           </View>
           <Pulsable onPress={onToggle} label={etiquetaPlay} haptica escala={0.88} hitSlop={6} style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "#E0C48A", alignItems: "center", justifyContent: "center" }}>

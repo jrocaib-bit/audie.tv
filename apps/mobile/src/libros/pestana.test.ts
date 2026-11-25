@@ -26,7 +26,7 @@ describe("pestaña Libros de la barra inferior", () => {
     expect(layout).toContain('<View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>');
     expect(layout).toContain("<HuecoInferiorContext.Provider value={enPestana ? hueco : null}>");
     for (const pantalla of ["index", "camino", "retos", "biblioteca", "libros", "ajustes"]) expect(leer(`../app/${pantalla}.tsx`)).toContain("paddingBottom: 32 + hueco");
-    expect(leer("../app/sala.tsx")).toContain("paddingBottom: 18 + hueco");
+    expect(layout).toContain('paddingBottom: path === "/sala" ? hueco : 0');
   });
   it("la ficha de la estantería enlaza a la pantalla de ficha, que existe", () => {
     expect(leer("../app/libros/[slug].tsx")).toContain("export default function FichaLibro");
