@@ -1,14 +1,14 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { estadoEnCurso } from "../hoy-empezados";
-import { BLOQUES_HOY, PREFERENCIAS_INICIALES, alternarVisible, estaOculto, mover, ordenar, puedeMover, visibles, type BloqueHoy } from "../hoy-preferencias";
+import { estadoEnCurso, huellaDe, repartirEnCurso, type TarjetaEnCurso } from "../hoy-empezados";
+import { BLOQUES_HOY, PREFERENCIAS_INICIALES, alternarVisible, estaOculto, mover, ordenar, puedeMover, quitar, visibles, volverAMostrar, type BloqueHoy } from "../hoy-preferencias";
 import { fonts } from "../theme";
 import { tx } from "../textos";
 import { th, llenar } from "../textos-hoy";
 import { useHuecoInferior } from "../ui/barra-flotante";
 import { Boton, BotonRedondo, SUPERFICIE } from "../ui/Basicos";
-import { FilaEditable, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto } from "../ui/HoyEnCurso";
+import { FilaEditable, FilaQuitada, TarjetaLibro, TarjetaReto, detalleLibro, detalleReto } from "../ui/HoyEnCurso";
 import { Entrada } from "../ui/Entrada";
 import { HeroCard } from "../ui/HeroCard";
 import { Icono } from "../ui/Icono";
@@ -35,10 +35,12 @@ export default function Hoy() {
   const enCurso = useEnCurso();
   const { preferencias, cambiar } = usePreferenciasHoy();
   const [editando, setEditando] = useState(false);
-  const claves = enCurso.tarjetas.map((x) => x.clave);
-  const porClave = new Map(enCurso.tarjetas.map((x) => [x.clave, x]));
-  const tarjetasVisibles = visibles(claves, preferencias.tarjetas).flatMap((k) => porClave.get(k) ?? []);
+  const { visibles: tarjetasVisibles, quitadas } = repartirEnCurso(enCurso.tarjetas, preferencias);
+  const clavesVisibles = tarjetasVisibles.map((x) => x.clave);
   const estadoSeccion = estadoEnCurso(enCurso.tarjetas.length, tarjetasVisibles.length);
+  /** Quita la tarjeta de Hoy con la huella de su avance actual. El progreso no se toca. */
+  const quitarDeHoy = (x: TarjetaEnCurso) => cambiar((p) => quitar(p, x.clave, huellaDe(x), new Date().toISOString()));
+  const notaTarjeta = (x: TarjetaEnCurso) => (x.tipo === "libro" ? `${t.libroComentado} · ${detalleLibro(t, x)}` : detalleReto(t, x));
 
   const accionHero = () => {
     if (m.estado !== "listo" || !hero) return router.push("/escuchar/caminos");
@@ -189,10 +191,9 @@ export default function Hoy() {
               onBajar={() => cambiar((p) => ({ ...p, bloques: mover(BLOQUES_HOY, p.bloques, b, 1) }))}
             />
             {b === "en-curso"
-              ? ordenar(claves, preferencias.tarjetas).map((k) => {
-                  const x = porClave.get(k);
-                  if (!x) return null;
-                  const movT = puedeMover(claves, preferencias.tarjetas, k);
+              ? tarjetasVisibles.map((x) => {
+                  const k = x.clave;
+                  const movT = puedeMover(clavesVisibles, preferencias.tarjetas, k);
                   return (
                     <FilaEditable
                       key={k}
@@ -200,17 +201,24 @@ export default function Hoy() {
                       t={t}
                       sangria
                       nombre={x.titulo}
-                      nota={x.tipo === "libro" ? `${t.libroComentado} · ${detalleLibro(t, x)}` : detalleReto(t, x)}
-                      oculto={estaOculto(preferencias.tarjetas, k)}
+                      nota={notaTarjeta(x)}
                       subir={movT.subir}
                       bajar={movT.bajar}
-                      onAlternar={() => cambiar((p) => ({ ...p, tarjetas: alternarVisible(p.tarjetas, k) }))}
-                      onSubir={() => cambiar((p) => ({ ...p, tarjetas: mover(claves, p.tarjetas, k, -1) }))}
-                      onBajar={() => cambiar((p) => ({ ...p, tarjetas: mover(claves, p.tarjetas, k, 1) }))}
+                      onQuitar={() => quitarDeHoy(x)}
+                      onSubir={() => cambiar((p) => ({ ...p, tarjetas: mover(clavesVisibles, p.tarjetas, k, -1) }))}
+                      onBajar={() => cambiar((p) => ({ ...p, tarjetas: mover(clavesVisibles, p.tarjetas, k, 1) }))}
                     />
                   );
                 })
               : null}
+            {b === "en-curso" && quitadas.length > 0 ? (
+              <View style={{ marginTop: 6 }}>
+                <Text accessibilityRole="header" style={{ color: c.muted, fontFamily: fonts.medium, fontSize: 12, fontWeight: "700", textTransform: "uppercase", letterSpacing: 1, paddingLeft: 28, paddingTop: 6 }}>{t.quitadoTitulo}</Text>
+                {quitadas.map((x) => (
+                  <FilaQuitada key={x.clave} c={c} t={t} nombre={x.titulo} nota={`${notaTarjeta(x)}. ${t.quitadoNota}`} onMostrar={() => cambiar((p) => volverAMostrar(p, x.clave))} />
+                ))}
+              </View>
+            ) : null}
           </View>
         );
       })}

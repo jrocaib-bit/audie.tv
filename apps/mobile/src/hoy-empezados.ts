@@ -8,6 +8,7 @@
  * - Retos: los episodios de cada paso en `library.progress` (audite.progress.v1), como en modeloRetos.
  */
 import type { AnotacionesLibro, ProgresoLibro } from "@audite/domain";
+import { ordenar, quitadoDe, type Huella, type HuellaReto, type PreferenciasHoy, type Quitado } from "./hoy-preferencias";
 
 /** Prefijo de las anotaciones locales de cada libro. Coincide con `libros/almacen.ts`. */
 export const PREFIJO_LECTURA = "audite.libros.v1.";
@@ -60,6 +61,8 @@ export type LibroEnCurso = AvanceLibro & {
   titulo: string;
   volumen: number | null;
   capituloId: string;
+  bloqueId: string | null;
+  ratio: number | null;
   actualizado: string;
 };
 
@@ -87,7 +90,7 @@ export function librosEnCurso(
     const avance = avanceLibro(progreso, info.indice);
     if (avance.terminado) continue;
     vistos.add(libroId);
-    salida.push({ ...avance, clave: `libro:${libroId}`, slug: info.slug, titulo: info.titulo, volumen: info.volumen, capituloId: progreso.capitulo_id, actualizado: progreso.updated_at });
+    salida.push({ ...avance, clave: `libro:${libroId}`, slug: info.slug, titulo: info.titulo, volumen: info.volumen, capituloId: progreso.capitulo_id, bloqueId: progreso.bloque_id ?? null, ratio: progreso.ratio ?? null, actualizado: progreso.updated_at });
   }
   return salida.sort((a, b) => tiempo(b.actualizado) - tiempo(a.actualizado) || a.slug.localeCompare(b.slug));
 }
@@ -112,6 +115,8 @@ export type RetoEnCurso = {
   dia: number;
   /** Episodio del primer paso pendiente. */
   siguiente: string | null;
+  /** Avance de cada episodio del reto: segundos escuchados y si está completado. */
+  episodios: HuellaReto["episodios"];
   actualizado: string;
 };
 
@@ -133,6 +138,8 @@ export function retosEnCurso(retos: readonly RetoBase[], progress: AvanceEpisodi
     if (hechos >= total) continue;
     const pendiente = reto.pasos.findIndex((p) => !hecho(p.episodio));
     const paso = reto.pasos[pendiente];
+    const avance: HuellaReto["episodios"] = {};
+    for (const e of episodios) avance[e] = { s: Math.max(0, progress.episodes[e]?.positionSeconds ?? 0), c: Boolean(progress.episodes[e]?.completed) };
     const actualizado = episodios.map((e) => progress.episodes[e]?.updatedAt ?? "").reduce((a, b) => (tiempo(b) > tiempo(a) ? b : a), "");
     salida.push({
       clave: `reto:${reto.id}`,
@@ -145,6 +152,7 @@ export function retosEnCurso(retos: readonly RetoBase[], progress: AvanceEpisodi
       fraccion: hechos / total,
       dia: paso?.dia ?? pendiente + 1,
       siguiente: paso?.episodio ?? null,
+      episodios: avance,
       actualizado,
     });
   }
@@ -163,8 +171,70 @@ export function tarjetasEnCurso(libros: readonly LibroEnCurso[], retos: readonly
 
 export type EstadoEnCurso = "lista" | "vacio" | "oculto";
 
-/** «vacio» si no hay nada empezado, «oculto» si lo hay pero el usuario lo ocultó todo. */
+/** «vacio» si no hay nada empezado, «oculto» si lo hay pero el usuario lo quitó todo de Hoy. */
 export function estadoEnCurso(empezados: number, visibles: number): EstadoEnCurso {
   if (empezados === 0) return "vacio";
   return visibles === 0 ? "oculto" : "lista";
+}
+
+// ---------------------------------------------------------------------------
+// Quitar de Hoy
+
+/** La huella del avance de una tarjeta, para guardarla al quitarla de Hoy. */
+export function huellaDe(t: TarjetaEnCurso): Huella {
+  if (t.tipo === "libro") return { tipo: "libro", capituloId: t.capituloId, bloqueId: t.bloqueId, ratio: t.ratio, actualizado: t.actualizado };
+  return { tipo: "reto", hechos: t.hechos, episodios: { ...t.episodios }, actualizado: t.actualizado };
+}
+
+/** La fecha `a` es posterior a `b`. Si ninguna de las dos se puede leer, cuenta como posterior. */
+function posterior(a: string, b: string): boolean {
+  const ta = tiempo(a);
+  const tb = tiempo(b);
+  return ta > tb || (ta === 0 && tb === 0);
+}
+
+/**
+ * Si la tarjeta tiene avance nuevo respecto a la huella guardada al quitarla.
+ * Libro: otro capítulo, bloque o ratio con `updated_at` posterior.
+ * Reto: más pasos hechos, o algún episodio con otros segundos o completado y actividad posterior.
+ */
+export function hayAvanceNuevo(huella: Huella, t: TarjetaEnCurso): boolean {
+  if (huella.tipo !== t.tipo) return true;
+  if (huella.tipo === "libro" && t.tipo === "libro") {
+    const distinto = huella.capituloId !== t.capituloId || huella.bloqueId !== t.bloqueId || huella.ratio !== t.ratio;
+    return distinto && posterior(t.actualizado, huella.actualizado);
+  }
+  if (huella.tipo === "reto" && t.tipo === "reto") {
+    if (t.hechos > huella.hechos) return true;
+    const ids = new Set([...Object.keys(huella.episodios), ...Object.keys(t.episodios)]);
+    const distinto = [...ids].some((id) => {
+      const antes = huella.episodios[id] ?? { s: 0, c: false };
+      const ahora = t.episodios[id] ?? { s: 0, c: false };
+      return antes.s !== ahora.s || antes.c !== ahora.c;
+    });
+    return distinto && posterior(t.actualizado, huella.actualizado);
+  }
+  return false;
+}
+
+/** Una tarjeta sigue quitada si se quitó y no tiene avance nuevo. Sin huella sigue quitada hasta que se vuelva a mostrar. */
+export function sigueQuitada(q: Quitado | undefined, t: TarjetaEnCurso): boolean {
+  if (!q) return false;
+  return q.huella === null || !hayAvanceNuevo(q.huella, t);
+}
+
+/**
+ * Reparte lo empezado entre lo que se ve en Hoy y lo quitado, en el orden del usuario.
+ * Una tarjeta quitada con avance nuevo vuelve sola a `visibles`.
+ */
+export function repartirEnCurso(tarjetas: readonly TarjetaEnCurso[], p: PreferenciasHoy): { visibles: TarjetaEnCurso[]; quitadas: TarjetaEnCurso[] } {
+  const porClave = new Map(tarjetas.map((t) => [t.clave, t]));
+  const visibles: TarjetaEnCurso[] = [];
+  const quitadas: TarjetaEnCurso[] = [];
+  for (const clave of ordenar(tarjetas.map((t) => t.clave), p.tarjetas)) {
+    const t = porClave.get(clave);
+    if (!t) continue;
+    (sigueQuitada(quitadoDe(p, clave), t) ? quitadas : visibles).push(t);
+  }
+  return { visibles, quitadas };
 }

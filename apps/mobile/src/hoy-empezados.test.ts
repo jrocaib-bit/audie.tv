@@ -3,12 +3,16 @@ import {
   UMBRAL_FINAL_LIBRO,
   avanceLibro,
   estadoEnCurso,
+  hayAvanceNuevo,
+  huellaDe,
   libroIdDeClave,
   librosEnCurso,
+  repartirEnCurso,
   retosEnCurso,
   tarjetasEnCurso,
   type InfoLibro,
 } from "./hoy-empezados";
+import { PREFERENCIAS_INICIALES, parsePreferenciasHoy, quitar, serializarPreferenciasHoy, volverAMostrar, type PreferenciasHoy } from "./hoy-preferencias";
 import { RETOS_APP } from "./retos-app";
 
 const indice = [{ id: "prologo" }, { id: "c1" }, { id: "c2" }, { id: "c3" }];
@@ -129,5 +133,91 @@ describe("sección en curso", () => {
     expect(estadoEnCurso(3, 0)).toBe("oculto");
     expect(estadoEnCurso(3, 1)).toBe("lista");
     expect(tarjetasEnCurso([], [])).toEqual([]);
+  });
+});
+
+describe("quitar de Hoy y reaparecer al avanzar", () => {
+  const leer = (capitulo: string, updated_at: string, bloque: string | null = null, ratio: number | null = null) =>
+    librosEnCurso([{ libroId: "genesis", anotaciones: { progreso: { libro_id: "genesis", capitulo_id: capitulo, bloque_id: bloque, ratio, updated_at } } }], infoDe);
+  const reto = { id: "a", titulo: "A", src: "", pasos: [{ dia: 1, episodio: "x-01" }, { dia: 2, episodio: "x-02" }, { dia: 3, episodio: "x-03" }] };
+  const escuchar = (episodes: Record<string, { positionSeconds: number; completed: boolean; updatedAt: string }>) => retosEnCurso([reto], { episodes });
+  const ver = (tarjetas: ReturnType<typeof tarjetasEnCurso>, p: PreferenciasHoy) => {
+    const r = repartirEnCurso(tarjetas, p);
+    return { visibles: r.visibles.map((x) => x.clave), quitadas: r.quitadas.map((x) => x.clave) };
+  };
+  /** Quita cada tarjeta y pasa por el almacenamiento, como hace la app. */
+  const quitarYGuardar = (tarjetas: ReturnType<typeof tarjetasEnCurso>, claves: string[]) => {
+    let p: PreferenciasHoy = PREFERENCIAS_INICIALES;
+    for (const x of tarjetas.filter((t) => claves.includes(t.clave))) p = quitar(p, x.clave, huellaDe(x), "2026-11-25T09:00:00Z");
+    return parsePreferenciasHoy(serializarPreferenciasHoy(p));
+  };
+
+  it("la huella guarda capítulo, bloque, ratio y fecha del libro, y pasos y episodios del reto", () => {
+    const [libro] = tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z", "b3", 0.4), []);
+    expect(huellaDe(libro!)).toEqual({ tipo: "libro", capituloId: "c1", bloqueId: "b3", ratio: 0.4, actualizado: "2026-11-24T10:00:00Z" });
+    const [r] = tarjetasEnCurso([], escuchar({ "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T10:00:00Z" } }));
+    expect(huellaDe(r!)).toEqual({ tipo: "reto", hechos: 1, episodios: { "x-01": { s: 600, c: true }, "x-02": { s: 0, c: false }, "x-03": { s: 0, c: false } }, actualizado: "2026-11-24T10:00:00Z" });
+  });
+
+  it("quitar saca la tarjeta de Hoy, la lleva a lo quitado y no toca el progreso", () => {
+    const libros = leer("c1", "2026-11-24T10:00:00Z", "b3");
+    const retos = escuchar({ "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T11:00:00Z" } });
+    const tarjetas = tarjetasEnCurso(libros, retos);
+    const p = quitarYGuardar(tarjetas, ["libro:genesis"]);
+    expect(ver(tarjetas, p)).toEqual({ visibles: ["reto:a"], quitadas: ["libro:genesis"] });
+    expect(libros[0]).toMatchObject({ capituloId: "c1", bloqueId: "b3", actualizado: "2026-11-24T10:00:00Z" });
+    expect(estadoEnCurso(tarjetas.length, 1)).toBe("lista");
+    const todo = quitarYGuardar(tarjetas, ["libro:genesis", "reto:a"]);
+    expect(ver(tarjetas, todo).visibles).toEqual([]);
+    expect(estadoEnCurso(tarjetas.length, 0)).toBe("oculto");
+  });
+
+  it("sin avance nuevo el libro sigue quitado, aunque se relea el mismo punto o llegue una fecha vieja", () => {
+    const antes = tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z", "b3"), []);
+    const p = quitarYGuardar(antes, ["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z", "b3"), []), p).quitadas).toEqual(["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c1", "2026-11-26T10:00:00Z", "b3"), []), p).quitadas).toEqual(["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c2", "2026-11-20T10:00:00Z"), []), p).quitadas).toEqual(["libro:genesis"]);
+  });
+
+  it("el libro reaparece solo cuando su avance cambia y es más reciente", () => {
+    const p = quitarYGuardar(tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z", "b3"), []), ["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c2", "2026-11-25T10:00:00Z"), []), p)).toEqual({ visibles: ["libro:genesis"], quitadas: [] });
+    expect(ver(tarjetasEnCurso(leer("c1", "2026-11-25T10:00:00Z", "b9"), []), p).visibles).toEqual(["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c1", "2026-11-25T10:00:00Z", "b3", 0.5), []), p).visibles).toEqual(["libro:genesis"]);
+  });
+
+  it("sin avance nuevo el reto sigue quitado", () => {
+    const avance = { "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T10:00:00Z" }, "x-02": { positionSeconds: 90, completed: false, updatedAt: "2026-11-24T11:00:00Z" } };
+    const p = quitarYGuardar(tarjetasEnCurso([], escuchar(avance)), ["reto:a"]);
+    expect(ver(tarjetasEnCurso([], escuchar(avance)), p)).toEqual({ visibles: [], quitadas: ["reto:a"] });
+    const viejo = { ...avance, "x-02": { positionSeconds: 120, completed: false, updatedAt: "2026-11-23T10:00:00Z" } };
+    expect(ver(tarjetasEnCurso([], escuchar(viejo)), p).quitadas).toEqual(["reto:a"]);
+  });
+
+  it("el reto reaparece con un paso más hecho o con más escucha reciente de un episodio suyo", () => {
+    const avance = { "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T10:00:00Z" } };
+    const p = quitarYGuardar(tarjetasEnCurso([], escuchar(avance)), ["reto:a"]);
+    const paso = { ...avance, "x-02": { positionSeconds: 600, completed: true, updatedAt: "2026-11-25T10:00:00Z" } };
+    expect(ver(tarjetasEnCurso([], escuchar(paso)), p)).toEqual({ visibles: ["reto:a"], quitadas: [] });
+    const escucha = { ...avance, "x-02": { positionSeconds: 45, completed: false, updatedAt: "2026-11-25T10:00:00Z" } };
+    expect(ver(tarjetasEnCurso([], escuchar(escucha)), p).visibles).toEqual(["reto:a"]);
+  });
+
+  it("volver a mostrar devuelve la tarjeta a su sitio", () => {
+    const tarjetas = tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z"), escuchar({ "x-01": { positionSeconds: 600, completed: true, updatedAt: "2026-11-24T10:00:00Z" } }));
+    const p = quitarYGuardar(tarjetas, ["libro:genesis"]);
+    expect(ver(tarjetas, volverAMostrar(p, "libro:genesis"))).toEqual({ visibles: ["libro:genesis", "reto:a"], quitadas: [] });
+  });
+
+  it("lo ocultado con la versión 1 sigue quitado sin huella hasta volver a mostrarlo", () => {
+    const p = parsePreferenciasHoy(JSON.stringify({ version: 1, tarjetas: { orden: [], ocultos: ["libro:genesis"] } }));
+    expect(ver(tarjetasEnCurso(leer("c3", "2027-01-01T10:00:00Z"), []), p).quitadas).toEqual(["libro:genesis"]);
+    expect(ver(tarjetasEnCurso(leer("c3", "2027-01-01T10:00:00Z"), []), volverAMostrar(p, "libro:genesis")).visibles).toEqual(["libro:genesis"]);
+  });
+
+  it("una huella de otro tipo cuenta como avance nuevo", () => {
+    const [libro] = tarjetasEnCurso(leer("c1", "2026-11-24T10:00:00Z"), []);
+    expect(hayAvanceNuevo({ tipo: "reto", hechos: 0, episodios: {}, actualizado: "" }, libro!)).toBe(true);
   });
 });

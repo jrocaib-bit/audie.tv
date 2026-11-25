@@ -13,22 +13,34 @@ import type { Paleta } from "./tema";
 
 type Textos = ReturnType<typeof th>;
 
-/** Fila de lo empezado: obra a la izquierda, título, avance y barra, y el botón de seguir en color de acento. */
-function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion }: { c: Paleta; label: string; onPress: () => void; imagen: React.ReactNode; titulo: string; detalle: string; fraccion: number }) {
+type Opciones = { label: string; onPress: () => void };
+
+/**
+ * Fila de lo empezado: obra a la izquierda, título, avance y barra, y el botón de seguir en color de acento.
+ * El botón «…» de la derecha es un hermano de la parte pulsable, para no anidar botones.
+ */
+function FilaEnCurso({ c, label, onPress, imagen, titulo, detalle, fraccion, opciones }: { c: Paleta; label: string; onPress: () => void; imagen: React.ReactNode; titulo: string; detalle: string; fraccion: number; opciones?: Opciones }) {
   return (
-    <Pulsable onPress={onPress} label={label} style={{ borderRadius: SUPERFICIE.radioFila, padding: 12, flexDirection: "row", alignItems: "center", gap: 14, backgroundColor: c.card, minHeight: 88 }}>
-      {imagen}
-      <View style={{ flex: 1, gap: 6 }}>
-        <View>
-          <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19 }}>{titulo}</Text>
-          <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{detalle}</Text>
+    <View style={{ borderRadius: SUPERFICIE.radioFila, flexDirection: "row", alignItems: "center", backgroundColor: c.card, minHeight: 88 }}>
+      <Pulsable onPress={onPress} label={label} style={{ flex: 1, padding: 12, paddingRight: opciones ? 4 : 12, flexDirection: "row", alignItems: "center", gap: 12, minHeight: 88 }}>
+        {imagen}
+        <View style={{ flex: 1, gap: 6 }}>
+          <View>
+            <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.serif, fontSize: 19 }}>{titulo}</Text>
+            <Text numberOfLines={1} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{detalle}</Text>
+          </View>
+          <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={4} />
         </View>
-        <ProgressBar fraccion={fraccion} color={c.accent} pista={c.line} alto={4} />
-      </View>
-      <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
-        <Icono nombre="chevron" size={18} color={c.accentInk} trazo={2.4} />
-      </View>
-    </Pulsable>
+        <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: c.accent, alignItems: "center", justifyContent: "center" }}>
+          <Icono nombre="chevron" size={18} color={c.accentInk} trazo={2.4} />
+        </View>
+      </Pulsable>
+      {opciones ? (
+        <Pulsable onPress={opciones.onPress} label={opciones.label} escala={0.9} style={{ width: 44, height: 88, marginRight: 2, alignItems: "center", justifyContent: "center" }}>
+          <Icono nombre="mas" size={20} color={c.muted} />
+        </Pulsable>
+      ) : null}
+    </View>
   );
 }
 
@@ -40,7 +52,7 @@ export function detalleReto(t: Textos, reto: RetoEnCurso): string {
   return llenar(t.retoAvance, { n: reto.dia, h: reto.hechos, t: reto.total });
 }
 
-export function TarjetaLibro({ c, t, libro, onPress }: { c: Paleta; t: Textos; libro: LibroEnCurso; onPress: () => void }) {
+export function TarjetaLibro({ c, t, libro, onPress, onOpciones }: { c: Paleta; t: Textos; libro: LibroEnCurso; onPress: () => void; onOpciones?: () => void }) {
   const detalle = detalleLibro(t, libro);
   return (
     <FilaEnCurso
@@ -51,11 +63,12 @@ export function TarjetaLibro({ c, t, libro, onPress }: { c: Paleta; t: Textos; l
       titulo={libro.titulo}
       detalle={detalle}
       fraccion={libro.fraccion}
+      opciones={onOpciones ? { label: llenar(t.opciones, { nombre: libro.titulo }), onPress: onOpciones } : undefined}
     />
   );
 }
 
-export function TarjetaReto({ c, t, reto, onPress }: { c: Paleta; t: Textos; reto: RetoEnCurso; onPress: () => void }) {
+export function TarjetaReto({ c, t, reto, onPress, onOpciones }: { c: Paleta; t: Textos; reto: RetoEnCurso; onPress: () => void; onOpciones?: () => void }) {
   const detalle = detalleReto(t, reto);
   const estilo = { width: 64, height: 64, borderRadius: 16 };
   return (
@@ -67,6 +80,7 @@ export function TarjetaReto({ c, t, reto, onPress }: { c: Paleta; t: Textos; ret
       titulo={reto.titulo}
       detalle={detalle}
       fraccion={reto.fraccion}
+      opciones={onOpciones ? { label: llenar(t.opciones, { nombre: reto.titulo }), onPress: onOpciones } : undefined}
     />
   );
 }
@@ -79,16 +93,20 @@ function BotonControl({ c, nombre, label, onPress, disabled, activo }: { c: Pale
   );
 }
 
-/** Fila del modo Editar Hoy: nombre, nota y controles de 44 para mostrar u ocultar, subir y bajar. */
+/**
+ * Fila del modo Editar Hoy: nombre, nota y controles de 44 para subir y bajar.
+ * Los bloques llevan además mostrar u ocultar (onAlternar). Las tarjetas llevan quitar de Hoy (onQuitar).
+ */
 export function FilaEditable({
   c,
   t,
   nombre,
   nota,
-  oculto,
+  oculto = false,
   subir,
   bajar,
   onAlternar,
+  onQuitar,
   onSubir,
   onBajar,
   sangria = false,
@@ -97,10 +115,11 @@ export function FilaEditable({
   t: Textos;
   nombre: string;
   nota?: string;
-  oculto: boolean;
+  oculto?: boolean;
   subir: boolean;
   bajar: boolean;
-  onAlternar: () => void;
+  onAlternar?: () => void;
+  onQuitar?: () => void;
   onSubir: () => void;
   onBajar: () => void;
   sangria?: boolean;
@@ -117,7 +136,23 @@ export function FilaEditable({
       </View>
       <BotonControl c={c} nombre="arriba" label={llenar(t.subir, { nombre })} onPress={onSubir} disabled={!subir} />
       <BotonControl c={c} nombre="abajo" label={llenar(t.bajar, { nombre })} onPress={onBajar} disabled={!bajar} />
-      <BotonControl c={c} nombre={oculto ? "oculto" : "ojo"} label={llenar(oculto ? t.mostrar : t.ocultar, { nombre })} onPress={onAlternar} activo={!oculto} />
+      {onAlternar ? <BotonControl c={c} nombre={oculto ? "oculto" : "ojo"} label={llenar(oculto ? t.mostrar : t.ocultar, { nombre })} onPress={onAlternar} activo={!oculto} /> : null}
+      {onQuitar ? <BotonControl c={c} nombre="cerrar" label={llenar(t.quitarNombre, { nombre })} onPress={onQuitar} /> : null}
+    </View>
+  );
+}
+
+/** Fila de la lista «Quitado de Hoy» del modo Editar Hoy, con «Volver a mostrar». */
+export function FilaQuitada({ c, t, nombre, nota, onMostrar }: { c: Paleta; t: Textos; nombre: string; nota: string; onMostrar: () => void }) {
+  return (
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingLeft: 28, paddingRight: 4, minHeight: 64 }}>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text numberOfLines={1} style={{ color: c.ink, fontFamily: fonts.sans, fontSize: 15, opacity: 0.7 }}>{nombre}</Text>
+        <Text numberOfLines={2} style={{ color: c.muted, fontFamily: fonts.sans, fontSize: 13 }}>{nota}</Text>
+      </View>
+      <Pulsable onPress={onMostrar} label={llenar(t.volverMostrarNombre, { nombre })} escala={0.94} style={{ minHeight: 44, paddingHorizontal: 14, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: SUPERFICIE.suave }}>
+        <Text style={{ color: c.accent, fontFamily: fonts.medium, fontSize: 14, fontWeight: "600" }}>{t.volverMostrar}</Text>
+      </Pulsable>
     </View>
   );
 }

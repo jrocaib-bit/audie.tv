@@ -6,10 +6,15 @@ import {
   alternarVisible,
   mover,
   ordenar,
+  parseHuella,
   parsePreferenciasHoy,
   puedeMover,
+  quitadoDe,
+  quitar,
   serializarPreferenciasHoy,
   visibles,
+  volverAMostrar,
+  type Huella,
   type ListaOrdenada,
 } from "./hoy-preferencias";
 
@@ -20,7 +25,7 @@ describe("preferencias de Hoy", () => {
   });
 
   it("una entrada corrupta cae al valor por defecto", () => {
-    for (const malo of [null, undefined, "", "{no", "[1,2]", 7, [], { version: 2, bloques: { orden: ["historias"] } }, "null"]) {
+    for (const malo of [null, undefined, "", "{no", "[1,2]", 7, [], { version: 3, bloques: { orden: ["historias"] } }, { version: "2" }, "null"]) {
       expect(parsePreferenciasHoy(malo)).toEqual(PREFERENCIAS_INICIALES);
     }
   });
@@ -28,7 +33,8 @@ describe("preferencias de Hoy", () => {
   it("limpia lo que no son identificadores y conserva lo válido", () => {
     const p = parsePreferenciasHoy(JSON.stringify({ version: 1, bloques: { orden: ["historias", 3, "historias", " ", "camino"], ocultos: "x" }, tarjetas: { ocultos: ["reto:a", null] } }));
     expect(p.bloques).toEqual({ orden: ["historias", "camino"], ocultos: [] });
-    expect(p.tarjetas).toEqual({ orden: [], ocultos: ["reto:a"] });
+    expect(p.tarjetas).toEqual({ orden: [] });
+    expect(p.quitados).toEqual([{ clave: "reto:a", huella: null, en: "" }]);
     expect(parsePreferenciasHoy(serializarPreferenciasHoy(p))).toEqual(p);
   });
 
@@ -67,5 +73,53 @@ describe("preferencias de Hoy", () => {
     const movido = mover(["reto:a", "reto:b"], guardado, "reto:b", -1);
     expect(movido.orden).toEqual(["reto:b", "reto:a", "libro:viejo"]);
     expect(movido.ocultos).toEqual(["libro:viejo"]);
+  });
+});
+
+describe("preferencias viejas y quitar de Hoy", () => {
+  const huellaLibro: Huella = { tipo: "libro", capituloId: "c2", bloqueId: "b7", ratio: null, actualizado: "2026-11-24T10:00:00Z" };
+  const huellaReto: Huella = { tipo: "reto", hechos: 2, episodios: { "x-01": { s: 600, c: true }, "x-02": { s: 600, c: true }, "x-03": { s: 30, c: false } }, actualizado: "2026-11-24T10:00:00Z" };
+
+  it("lee la versión 1 guardada: conserva bloques y orden, y sus tarjetas ocultas pasan a quitadas sin huella", () => {
+    const v1 = {
+      version: 1,
+      bloques: { orden: ["en-curso", "camino", "continuar", "historias"], ocultos: ["continuar"] },
+      tarjetas: { orden: ["reto:ordinario-salmos", "libro:genesis"], ocultos: ["libro:genesis"] },
+    };
+    const p = parsePreferenciasHoy(JSON.stringify(v1));
+    expect(p).toEqual({
+      version: 2,
+      bloques: v1.bloques,
+      tarjetas: { orden: ["reto:ordinario-salmos", "libro:genesis"] },
+      quitados: [{ clave: "libro:genesis", huella: null, en: "" }],
+    });
+    expect(JSON.parse(serializarPreferenciasHoy(p)).version).toBe(2);
+    expect(parsePreferenciasHoy(serializarPreferenciasHoy(p))).toEqual(p);
+  });
+
+  it("la versión 1 sin tarjetas ni bloques da listas vacías", () => {
+    expect(parsePreferenciasHoy({ version: 1 })).toEqual(PREFERENCIAS_INICIALES);
+  });
+
+  it("quitar guarda la huella y volver a mostrar la borra", () => {
+    let p = quitar(PREFERENCIAS_INICIALES, "libro:genesis", huellaLibro, "2026-11-25T09:00:00Z");
+    p = quitar(p, "reto:a", huellaReto, "2026-11-25T09:01:00Z");
+    expect(quitadoDe(p, "libro:genesis")).toEqual({ clave: "libro:genesis", huella: huellaLibro, en: "2026-11-25T09:00:00Z" });
+    expect(parsePreferenciasHoy(serializarPreferenciasHoy(p))).toEqual(p);
+    const otra = quitar(p, "libro:genesis", { ...huellaLibro, capituloId: "c3" }, "2026-11-25T10:00:00Z");
+    expect(otra.quitados.map((q) => q.clave)).toEqual(["reto:a", "libro:genesis"]);
+    expect(quitadoDe(otra, "libro:genesis")?.huella).toMatchObject({ capituloId: "c3" });
+    const vuelta = volverAMostrar(p, "libro:genesis");
+    expect(quitadoDe(vuelta, "libro:genesis")).toBeUndefined();
+    expect(vuelta.quitados.map((q) => q.clave)).toEqual(["reto:a"]);
+  });
+
+  it("una huella que no encaja se lee como null y la entrada sigue quitada", () => {
+    expect(parseHuella({ tipo: "libro" })).toBeNull();
+    expect(parseHuella({ tipo: "reto", hechos: -1 })).toBeNull();
+    expect(parseHuella("x")).toBeNull();
+    expect(parseHuella({ tipo: "reto", hechos: 1, episodios: { a: { s: "x", c: 1 }, b: 3 } })).toEqual({ tipo: "reto", hechos: 1, episodios: { a: { s: 0, c: false } }, actualizado: "" });
+    const p = parsePreferenciasHoy({ version: 2, quitados: [{ clave: "libro:x", huella: { tipo: "otro" } }, { clave: "libro:x" }, { clave: 4 }, "y"] });
+    expect(p.quitados).toEqual([{ clave: "libro:x", huella: null, en: "" }]);
   });
 });
